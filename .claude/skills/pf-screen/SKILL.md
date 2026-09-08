@@ -16,45 +16,59 @@ case. Colour and shape are independent, and both have to come from Figma.
 
 | File | What you need from it |
 |---|---|
-| `.claude/skills/people-first/SKILL.md` | Token names, hard rules, component recipes |
-| `.claude/skills/people-first/references/geometry.md` | Measured sizes, padding, radii, type |
-| `.claude/skills/people-first/references/variants.md` | The exact tokens each variant binds |
+| `.claude/skills/people-first/SKILL.md` | Token names, hard rules, the component classes |
+| `docs/components.html` | Every component and variant, rendered — check a class exists |
+| `.claude/skills/people-first/references/variants.md` | Why a variant binds what it does |
+| `.claude/skills/people-first/references/geometry.md` | Measured sizes, only if you go off-library |
 
-Do not infer geometry from the spacing or radius tokens. They are a separate system:
-the radius tokens are 4px and 8px, and **buttons use neither** — they are pills.
+**2. Build the components from the stylesheet, not by hand.** `dist/components.css`
+carries 71 components and 191 variants as ready classes, generated from Figma and
+checked against it. The component is the class, each Figma variant property is a data
+attribute, and the values keep Figma's own spelling:
 
-**2. Pick the components you need and look up their variants.** If the screen has an
-errored field, a hovered row, a selected chip, find that exact variant in
-`variants.md` and use the tokens it names. Variant bindings are often
-counter-intuitive: the Action button's text is `--pf-text-inverted-primary`, not white,
-and that is what keeps it legible in dark mode.
-
-**3. Build with tokens for colour, measured numbers for shape.**
-
-```css
-/* colour: always a token */
-background: var(--pf-bg-secondary-button);
-/* shape: the measured Figma value, as a literal */
-height: 32px; padding: 0 20px; border-radius: 20px;
+```html
+<button class="pf-button" data-type="Action">Approve</button>
+<div class="pf-form-field" data-input-type="Date picker" data-state="Error">
+<td class="pf-table-cell-ag" data-type="Default" data-style="Stripe">
 ```
 
-Both are correct. A token for a shape you guessed is still a guess.
+**Do not hand-write component CSS.** That is what produced the failure at the top of
+this page: a screen whose colours were perfect and whose every shape was invented. The
+class already has the right shape. If you find yourself typing `height: 32px;
+border-radius: 20px` for a button, stop and use `.pf-button`.
 
-**4. Verify before handing over.** Both checks, every time. On a fresh clone run
+Your own CSS covers page layout, `cursor`, `transition`, focus rings, `line-height`,
+and anything drawn *inside* a component. Keep it in one block and label it local — if
+anything in it restates a Figma colour or measurement, that is a bug.
+
+If a component you need is under **Not yet captured** in `docs/components.html`, say so
+rather than approximating it.
+
+**3. Verify before handing over.** All of them, every time. On a fresh clone run
 `npm install` first — the checks drive a real browser and need `playwright-core`:
 
 ```bash
 npm install                                              # once per clone
-node scripts/build-prototype.mjs <src>.html <out>.html   # inlines tokens, fails on raw hex
+node scripts/build-prototype.mjs <src>.html <out>.html   # inlines both stylesheets, fails on raw hex
 node scripts/verify-geometry.mjs <out>.html              # shapes match Figma
 node scripts/verify-rendered.mjs <out>.html              # colours match Figma, both modes
+node scripts/check-icon-fidelity.mjs <out>.html          # every glyph is a real Figma icon
+node scripts/pf-audit.mjs <out>.html                     # on-system, contrast, both modes
 ```
 
-A page that passes one and not the other is not finished. Report the numbers.
+A page that passes one and not the others is not finished. Report the numbers.
+
+**4. Then look at it.** Screenshot the page in light *and* dark and actually read the
+screenshot. On this project the scripts have passed three separate times while the page
+was visibly broken — icons crushed to empty boxes, hollow buttons rendering as filled
+pills, a form laid out sideways. Every one was caught by looking, none by a check.
+Checks cover the axis they measure and nothing else.
 
 ## The five shapes that decide whether it reads as People First
 
-Full detail in `geometry.md`; these carry most of the resemblance:
+**The classes already carry these.** They are here so you can recognise a page that has
+drifted off-library — if a button in front of you is not a pill, something is wrong.
+Full detail in `geometry.md`:
 
 1. **Buttons are pills** — `border-radius: 20px`, height 32px, 13px SemiBold,
    **a leading icon on every one**, 10px gap. Icon-only variants are 32×32 circles.
@@ -67,27 +81,28 @@ Avatars are circles; checkboxes and radios are square with a 4px radius.
 
 ## Icons
 
-Real Figma icons live in `assets/icons/`. Use them rather than drawing your own —
-`assets/icons/tick.svg`, `add-plus.svg`, `close-x-cancel.svg`, `save.svg`, `history.svg`,
-`export.svg`, `search.svg`, `information.svg`, `sort-arrow-ag-grid.svg`.
+**All 293** People First icons are exported to `assets/icons/<name>.svg`. Browse them in
+`docs/icons.html`, look a name up in `tokens/_raw/icons.tsv`, and paste the file's
+contents inline. **Never draw one by hand** — a hand-drawn glyph sitting next to real
+ones is immediately obvious, and `check-icon-fidelity.mjs` will fail the page for it.
 
 They are authored at `viewBox="0 0 36 36"` with `fill="currentColor"`, so they inherit
-text colour and scale to any size:
+their container's colour and scale to any size. Colour them with an **icon** token,
+never a text token:
 
 ```html
 <svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><!-- paths --></svg>
 ```
 
-Only 9 of the 289 Figma icons are extracted so far. If you need one that is missing,
-say so rather than drawing a substitute — a hand-drawn icon next to real ones is
-obvious, and the export is a known follow-on job.
+Ten are deliberately multi-colour — the file-type badges (`pdf`, `csv`, `doc`, `zip`
+and so on), where the badge colour *is* the meaning. Do not recolour those.
 
 ## Artifacts and design canvases
 
 An artifact or `.dc.html` artboard is a standalone page: it **cannot** link to
-`dist/tokens.css`, and a `<link>` fails silently with no error. Inline the whole
-stylesheet into a `<style>` block. `scripts/build-prototype.mjs` does this from a source
-file containing a `/*__TOKENS__*/` placeholder.
+`dist/tokens.css` or `dist/components.css`, and a `<link>` fails silently with no error.
+Inline both into a `<style>` block. `scripts/build-prototype.mjs` does this from a source
+file containing `/*__TOKENS__*/` and `/*__COMPONENTS__*/` placeholders.
 
 Dark mode needs nothing extra — the tokens carry both modes.
 

@@ -12,10 +12,15 @@ packaged so Claude Design — and any HTML/CSS output — generates on-brand UI.
 | `tokens/_raw/` | Verbatim extract from Figma. The evidence trail. |
 | `tokens/design-tokens.json` | 177 tokens in W3C DTCG format. Generated. |
 | `dist/tokens.css` | 365 CSS custom properties, light + dark. Generated. |
-| `.claude/skills/people-first/SKILL.md` | Teaches Claude the system: tokens, recipes, rules. |
+| **`dist/components.css`** | **71 components, 191 variants, as ready classes. Generated.** |
+| `assets/icons/` | All 293 People First icons as individual SVGs. |
+| `docs/components.html` | Every component and variant, light and dark. |
+| `docs/icons.html` | Every icon, browsable. |
+| `.claude/skills/` | Four skills: `people-first`, `pf-screen`, `pf-audit`, `pf-handoff`. |
 | `reference/index.html` | Visual proof sheet — every token rendered, with a dark-mode toggle. |
+| `prototypes/` | Worked example screens, built from the library. |
 | `ds-bundle/` | Preview pages for the claude.ai/design Design System pane. Generated. |
-| `scripts/` | The build pipeline. |
+| `scripts/` | The build pipeline and the checks. |
 
 ## What was extracted
 
@@ -33,24 +38,60 @@ primitive and everything downstream follows, exactly as in Figma.
 ## Build
 
 ```bash
-node scripts/build-tokens.mjs     # tokens/_raw/ -> tokens/design-tokens.json
-node scripts/build-css.mjs        # design-tokens.json -> dist/tokens.css
-node scripts/build-reference.mjs  # -> reference/index.html
-node scripts/check-contrast.mjs   # WCAG AA audit of real component pairings
-node scripts/build-ds-bundle.mjs  # -> ds-bundle/ for the Claude Design System pane
+npm run build     # everything below, in order
+npm run verify    # the six checks, against a built page
+npm run check     # WCAG AA audit of the real component pairings
 ```
 
-Or `npm run build` for all four.
+`build` runs: tokens -> `design-tokens.json` -> `dist/tokens.css`, then the reference
+sheet, the Design System pane bundle, the variant and geometry references, then
+`dist/components.css` and `docs/components.html`.
 
 ## Using it
 
 ```html
-<link rel="stylesheet" href="dist/tokens.css">
+<link rel="stylesheet" href="dist/tokens.css">      <!-- the colours -->
+<link rel="stylesheet" href="dist/components.css">  <!-- the components -->
 <html data-theme="dark">  <!-- or "light", or omit to follow the OS -->
 ```
 
-Then use `var(--pf-*)` tokens only — never raw hex. See the skill for the full
-rules and component recipes.
+Colours are `var(--pf-*)` tokens, never raw hex. Components are classes named
+straight off Figma's variant panel — the component is the class, each variant property
+is a data attribute, and the values keep Figma's own spelling:
+
+```html
+<button class="pf-button" data-type="Action">Save</button>
+<span   class="pf-tags" data-type="Positive">Approved</span>
+<div    class="pf-form-field" data-input-type="Date picker" data-state="Error">
+```
+
+Open `docs/components.html` to see all of them. **Do not hand-write component CSS** —
+the class exists and is checked against Figma; your own CSS is for page layout and
+behaviour. See `.claude/skills/people-first/SKILL.md` for the full rules.
+
+## Checking
+
+Six checks, each covering a different axis, because a green tick on one axis proved
+repeatedly to mean nothing about the others:
+
+```bash
+node scripts/verify-geometry.mjs <page>.html      # shapes match Figma
+node scripts/verify-rendered.mjs <page>.html      # colours match Figma, both modes
+node scripts/check-icon-fidelity.mjs <page>.html  # every glyph is a real Figma icon
+node scripts/pf-audit.mjs <page>.html             # on-system + WCAG contrast
+node scripts/verify-components.mjs                # the whole library vs Figma
+node scripts/check-skill-classes.mjs              # the docs match the stylesheet
+```
+
+`verify-components` takes `--self-test`, which deliberately breaks a value and confirms
+the check catches it rather than reporting a comfortable pass.
+
+The last one is there because documentation fails silently: if the skill tells you to
+write `data-message-type` and the stylesheet keys on something else, nothing errors —
+the component just renders unstyled and looks like your mistake.
+
+None of them replace looking at the page. Three times during this build every check
+passed while the screen was visibly broken.
 
 ## Accessibility
 
@@ -61,5 +102,9 @@ modes.** Two known margins are documented in the skill.
 ## Regenerating after Figma changes
 
 The raw extract in `tokens/_raw/` is the input. Re-extract from Figma into those
-files, then re-run the build. Do not hand-edit `design-tokens.json` or `tokens.css` —
-both are generated and will be overwritten.
+files, then re-run the build. Do not hand-edit `design-tokens.json`, `dist/tokens.css`
+or `dist/components.css` — all three are generated and will be overwritten.
+
+Component colours live in `tokens/_raw/component-variants.tsv` and shapes in
+`tokens/_raw/component-geometry.tsv`; both are measured in Figma, and everything about
+the component library follows from them.

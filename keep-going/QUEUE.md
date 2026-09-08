@@ -193,3 +193,68 @@ Found while working; not acted on, to keep the change pile reviewable.
   behaviour.
 - **`Icon-size-xxxs` is 0px** in Figma — almost certainly unset.
 - **Two text styles share the name** `Desktop text/Button text`.
+
+---
+
+# Run 3 — make the library the default, and close the colour gap
+
+**Why this run exists.** Run 2 built `dist/components.css` and proved it works. But a
+survey at the start of this run found that **no skill, and neither `README.md` nor
+`CLAUDE.md`, mentions it exists**. A fresh session asked for a People First screen would
+read `variants.md`, read `geometry.md`, and hand-write the CSS — which is precisely the
+route that produced the wrong-shapes mistake. The library is only useful if it is the
+thing people are told to reach for.
+
+The second gap is coverage: 71 of 171 components have extracted colours. The missing ones
+are concentrated where real screens need them — Navigation (9 of 26), Cards and panels
+(17 of 32), Forms (7 of 20).
+
+**Starting save point:** commit `212cd18`, clean tree, pushed.
+**Scope fence:** `/home/user/ds` — unchanged.
+
+**Governing skills** (re-read in full immediately before each task):
+- `people-first`, `pf-screen`, `pf-handoff` — project. Governs tasks 12, 15.
+- `skill-creator` — how to write and test a skill. Governs task 12.
+- `figma-use` — Figma MCP resource. Mandatory before any Figma read. Governs tasks 13, 14.
+
+## 12. Tell everyone the library exists — `pending`
+
+Update `people-first`, `pf-screen`, `pf-handoff`, `README.md` and `CLAUDE.md` so the
+component stylesheet is the default route to building a screen, and hand-writing
+component CSS is named as the thing not to do.
+
+**Done when:** someone reading any one of those files learns that `dist/components.css`
+exists, how a class and its variants are written, and that they should not hand-write
+component CSS. Verified by a fresh session, as task 4 was.
+
+**Depends on:** nothing.
+
+## 13. Capture the colours screens actually need — `pending`
+
+Extract variant colour bindings for the unmeasured components on Navigation, Cards and
+panels, Forms and Buttons — the pages a real screen draws from most.
+
+**Done when:** those four pages are fully captured, the stylesheet regenerates with rules
+for them, and `verify-components.mjs` still passes clean.
+
+**Depends on:** nothing. Uses Figma reads.
+
+## 14. Capture the rest — `pending`
+
+Analytics and charts (0 of 14), People (0 of 3), Pages and Layouts (0 of 3), Document
+management (0 of 20).
+
+**Done when:** the "Not yet captured" list in `docs/components.html` is empty, or every
+remaining entry has a recorded reason why it cannot be captured.
+
+**Depends on:** task 13.
+
+## 15. Prove it on a second screen — `pending`
+
+Build one more screen using only the library, to show task 12 actually changed behaviour
+rather than just adding words to a file.
+
+**Done when:** a screen exists that was built from classes only, and passes geometry,
+colour, icon-fidelity, audit and the library check.
+
+**Depends on:** tasks 12 and 13.

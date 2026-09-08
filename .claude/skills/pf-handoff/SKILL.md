@@ -31,6 +31,13 @@ Then map each element to its Figma origin using
 `.claude/skills/people-first/references/variants.md` (which component and variant) and
 `references/geometry.md` (its measured size, padding, radius, type).
 
+**Name the class as well as the component.** Most elements on a People First page are
+already a class in `dist/components.css` — the class name is written straight off the
+Figma variant (`Button` + `Type=Positive` → `.pf-button[data-type="Positive"]`). Giving
+the developer the class turns half the spec from "numbers to retype" into "a stylesheet
+to link", and the numbers stay in the spec as the record of what that class should
+produce.
+
 ## Spec structure
 
 Use this shape. It is ordered the way a developer works: what to build, then what it is
@@ -43,9 +50,13 @@ made of, then what can change, then what to check.
 One paragraph. The user's job, not the UI's structure.
 
 ## Components used
-| Element | Figma component | Variant | Notes |
-|---|---|---|---|
-| Approve button | Button | Type=Positive, State=Default | leading Tick icon |
+| Element | Figma component | Variant | Class to use | Notes |
+|---|---|---|---|---|
+| Approve button | Button | Type=Positive, State=Default | `.pf-button[data-type="Positive"]` | leading Tick icon |
+
+The class column matters: `dist/components.css` already implements these, so a
+developer who uses it inherits the right shape and colour instead of rebuilding them
+from the tables below.
 
 ## Tokens
 | Purpose | Token | Light | Dark |

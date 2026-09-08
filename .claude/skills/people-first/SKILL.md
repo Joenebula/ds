@@ -1,6 +1,6 @@
 ---
 name: people-first
-description: Build UI using the People First Design System (MHR). Use whenever creating or restyling any screen, page, component, artifact, or design canvas that should look like People First — buttons, forms, tables, cards, tags, navigation, charts, dashboards. Provides the colour, typography, spacing and elevation tokens plus component recipes, in light and dark mode.
+description: Build UI using the People First Design System (MHR). Use whenever creating or restyling any screen, page, component, artifact, or design canvas that should look like People First — buttons, forms, tables, cards, tags, navigation, charts, dashboards. Provides the colour, typography, spacing and elevation tokens plus a generated component stylesheet with every Figma component and variant as a ready class, in light and dark mode.
 ---
 
 # People First Design System
@@ -10,30 +10,40 @@ Everything below is generated from that file — not invented.
 
 ## Setup
 
-Link the token stylesheet, then use `var(--pf-*)` everywhere:
+Two stylesheets. Link both:
 
 ```html
-<link rel="stylesheet" href="dist/tokens.css">
+<link rel="stylesheet" href="dist/tokens.css">      <!-- the colours -->
+<link rel="stylesheet" href="dist/components.css">  <!-- the components -->
 ```
 
-For a self-contained artifact or canvas, inline the contents of `dist/tokens.css`
-into a `<style>` block instead. Never paste hex values in place of tokens.
+`tokens.css` gives you `var(--pf-*)`. `components.css` gives you the components
+themselves as ready classes — see **Component classes** below, and reach for it before
+you write any CSS of your own.
+
+For a self-contained artifact or canvas, inline both into a `<style>` block instead.
+Never paste hex values in place of tokens.
 
 ## Hard rules
 
 1. **Never write a raw hex value.** Every colour comes from a `--pf-*` token. If no
    token fits, the design system has no answer — say so rather than inventing one.
-2. **Use semantic tokens, not primitives.** Reach for `--pf-text-primary`, not
+2. **Never hand-write component CSS.** If it is a button, a tag, an input, a table
+   cell, a card, a nav item — the class already exists in `dist/components.css`,
+   generated from Figma. Hand-writing it is how the wrong-shapes mistake happened:
+   the colours were right and every shape was invented. Your own CSS is for page
+   layout and behaviour, not for what a component looks like.
+3. **Use semantic tokens, not primitives.** Reach for `--pf-text-primary`, not
    `--pf-base-grey-slate`. Primitives exist only to feed the semantic layer, and in
    Figma they are deliberately scoped out of every picker. Using them directly
    breaks dark mode, because primitives do not change between modes — semantics do.
-3. **Green is the positive/confirm action. Blue is the default action. Pink is brand, not a button.**
+4. **Green is the positive/confirm action. Blue is the default action. Pink is brand, not a button.**
    This trips people up: the theme colour (`--pf-bg-theme-full`, pink) is for brand
    surfaces and selected states, *not* primary buttons.
-4. **Open Sans only**, weights 400 (Regular) and 600 (SemiBold).
-5. **Dark mode is not optional.** Every semantic token already carries both modes.
+5. **Open Sans only**, weights 400 (Regular) and 600 (SemiBold).
+6. **Dark mode is not optional.** Every semantic token already carries both modes.
    Get this free by using tokens; break it by hardcoding.
-6. **Ignore the `DEPRECATED COLOURS/*` paint styles** in Figma — 46 of the 49 paint
+7. **Ignore the `DEPRECATED COLOURS/*` paint styles** in Figma — 46 of the 49 paint
    styles are marked deprecated. The live colour system is the variables.
 
 ## Colour
@@ -159,17 +169,24 @@ Only these two exist. There is no elevation ramp — do not invent one.
 24 columns @ 1588px · 22 @ 1454px · 18 @ 1320px · 12 @ 784px.
 All use a 20px gutter and 47px column width, centre-aligned.
 
-## Component variants — READ THIS BEFORE PROTOTYPING
+## Component variants — what the classes are made of
+
+> **You do not need to apply any of this by hand.** `dist/components.css` already binds
+> every one of these — see **Component classes** below. This section is the reference
+> for *understanding* or *checking* a binding, and for the axes you can name when asking
+> for a component in a particular state.
 
 `references/variants.md` carries **71 components and 191 variants**, each with the
 exact tokens that variant binds in Figma, already translated to CSS vars.
 
-**Load it whenever a prototype needs a component in a specific state** — an errored
-dropdown, a hovered table row, a selected nav item, a dragged card. Do not guess a
-variant's colours from its name; look it up. The bindings are frequently
-counter-intuitive (the Action button uses `--pf-text-inverted-primary`, not white).
+Read it when you need to know *why* a variant looks the way it does, or to check
+whether the class is doing the right thing. Never guess a variant's colours from its
+name — the bindings are frequently counter-intuitive (the Action button uses
+`--pf-text-inverted-primary`, not white, and that is what keeps it legible in dark mode).
 
-Variant axes you can ask for by name:
+Variant axes as **Figma** defines them. Not all of them were captured — for what the
+stylesheet actually responds to, use the table in **Component classes** below, which is
+taken from the extract. Where the two disagree, the extract is what the CSS does:
 
 | Component | Axes |
 |---|---|
@@ -191,6 +208,10 @@ It exists in Figma only because a Figma frame can't show both at once.
 
 ## Component geometry — the part that makes it LOOK like People First
 
+> **The classes already carry these numbers.** Use `.pf-button` and you get the pill for
+> free. This section exists because the shapes are the thing people get wrong when they
+> go off-library, and because knowing them lets you spot a page that has.
+
 Colour alone does not make a page read as People First. The **shapes** do, and they
 are not derivable from the token scale — the radius tokens (4px, 8px) are for cards
 and inputs, and are NOT what buttons use. Full geometry is in
@@ -207,118 +228,105 @@ and inputs, and are NOT what buttons use. Full geometry is in
 | **Table rows are 58px**, headers 54px, both **13px** | People First tables are airy. 38px rows read as a spreadsheet, not this product. |
 | **Cards**: radius 8px, `padding: 20px`, `gap: 20px`, shadow `0 0 4px` | |
 
-When in doubt, read `references/geometry.md` rather than reaching for a spacing token —
+When in doubt, use the class. If you are working somewhere the stylesheet genuinely
+cannot reach, read `references/geometry.md` rather than reaching for a spacing token —
 component geometry and the spacing scale are separate systems here.
 
-## Component recipes
+## Component classes — use these, do not rewrite them
 
-Geometry below is measured from the Figma components, not inferred.
+`dist/components.css` carries **71 components and 191 variants** as real classes,
+generated from the Figma extracts. This is the part to reach for first. It is
+regenerated by `npm run build` and checked against Figma by
+`node scripts/verify-components.mjs` — so it cannot quietly drift, and anything you
+hand-write instead of using it is unchecked.
 
-### Buttons
+The naming mirrors Figma's variant panel exactly, so what you write matches what a
+designer sees in the right-hand pane:
 
-```css
-.pf-btn {
-  display: inline-flex; align-items: center; gap: 10px;
-  height: 32px; padding: 0 20px;
-  border-radius: 20px;                    /* pill — not a radius token */
-  border: 1px solid transparent;
-  font: var(--pf-font-weight-bold) 13px/1 var(--pf-font-body);
-  cursor: pointer;
-}
-.pf-btn--icon-only { width: 32px; padding: 0; justify-content: center; }
+- the **component** is the class — `Filter chip` → `.pf-filter-chip`
+- each **variant property** is a data attribute — `Type` → `data-type`
+- **values keep Figma's own spelling**, capital letters and all — `Type=Action` →
+  `data-type="Action"`
 
-.pf-btn--action        { background: var(--pf-bg-secondary-button); color: var(--pf-text-inverted-primary); }
-.pf-btn--action:hover  { background: var(--pf-bg-secondary-button-hover); }
-.pf-btn--positive      { background: var(--pf-bg-primary-button); color: var(--pf-text-always-white); }
-.pf-btn--positive:hover{ background: var(--pf-bg-primary-button-hover); }
-.pf-btn--negative      { background: var(--pf-bg-negative-button); color: var(--pf-text-always-white); }
-.pf-btn--negative:hover{ background: var(--pf-bg-negative-button-hover); }
-.pf-btn--hollow        { background: transparent; color: var(--pf-text-primary);
-                         border-color: var(--pf-border-hollow-button); }
-.pf-btn--hollow:hover  { background: var(--pf-button-fill-hollow-hover); }
+```html
+<button class="pf-button" data-type="Action">Save</button>
+<button class="pf-button" data-type="Hollow">Cancel</button>
+<span   class="pf-tags" data-type="Positive">Approved</span>
+<div    class="pf-form-field" data-input-type="Text" data-state="Error">
+<td     class="pf-table-cell-ag" data-type="Default" data-style="Stripe">
 ```
 
-Filter and Sort are Hollow with a funnel / arrows icon.
+States that have a real CSS equivalent are wired to both, so a live control behaves
+correctly on its own **and** a gallery can pin any state to show it at rest:
 
-### Filter chip
-
-```css
-.pf-chip {
-  display: inline-flex; align-items: center; gap: 5px;
-  height: 42px; padding: 10px 20px;
-  border-radius: 999px;                   /* pill */
-  background: var(--pf-bg-primary); color: var(--pf-text-primary);
-  border: 1px solid var(--pf-border-hollow-button);
-  font-size: 16px; letter-spacing: -0.01em;
-}
-.pf-chip[aria-pressed="true"] { border-color: var(--pf-border-theme); color: var(--pf-text-theme);
-                                font-weight: var(--pf-font-weight-bold); gap: 10px; }
-.pf-chip:hover { background: var(--pf-bg-theme); border-color: var(--pf-border-theme);
-                 color: var(--pf-text-theme); }
+```html
+<button class="pf-button" data-type="Action">Hovers by itself</button>
+<button class="pf-button" data-type="Action" data-state="Hover">Pinned hover</button>
 ```
 
-### Tags
+`Hover`, `Disabled` and `Focus` work this way. Every other state is attribute-only.
+`Default` needs no attribute — it is the bare class.
 
-Sentence case. Seven statuses, each with a matched fill / border / content triplet —
-always all three from the same status.
+### The classes you will reach for most
 
-```css
-.pf-tag {
-  display: inline-flex; align-items: center; gap: 5px;
-  height: 28px; padding: 5px 10px;
-  border-radius: var(--pf-radius-small);  /* 4px */
-  border: 1px solid; font-size: 13px;
-  font-weight: var(--pf-font-weight-regular);
-}
-.pf-tag--positive { background: var(--pf-tag-fill-positive);
-                    border-color: var(--pf-tag-border-positive);
-                    color: var(--pf-tag-content-positive); }
-/* ...negative, warning, neutral, info, other, expired */
-```
+Every attribute and value below is taken from the extract, so these are exactly what the
+stylesheet responds to — an attribute spelled any other way silently does nothing.
 
-### Form inputs
+| Figma component | Class | Variant properties |
+|---|---|---|
+| Button | `.pf-button` | `data-type` Action/Positive/Negative/Hollow/Filter/Sort · `data-state` Default/Hover |
+| Filter chip | `.pf-filter-chip` | `data-state` Default/Selected/Hover · `data-active` False/True |
+| Tags | `.pf-tags` | `data-type` Neutral/Positive/Negative/Warning/Expired/Other/Theme |
+| Form field | `.pf-form-field` | `data-input-type` Text/Dropdown/Search/Date picker/Time picker · `data-state` Default/Disabled/Error/Selected |
+| Field | `.pf-field` | `data-right-aligned` No · `data-filled` No/Yes |
+| Checkbox/Radio item | `.pf-checkbox-radio-item` | `data-state` Default/Hover/Disabled/Error/Selected |
+| Toggle | `.pf-toggle` | `data-on` No/Yes · `data-locked` No/Yes |
+| Table header (AG) | `.pf-table-header-ag` | `data-alignment` Left/Right/Checkbox |
+| Table cell (AG) | `.pf-table-cell-ag` | `data-type` Default/Checkbox · `data-style` Default/Stripe/Hover |
+| Table header icons | `.pf-table-header-icons` | `data-variant` Sort/Filter/Context menu · `data-state` Default/Ascending/Descending/Filtered/Active |
+| Navigation item | `.pf-navigation-item` | `data-state` Selected/Unselected/Hover · `data-device` Desktop |
+| Card | `.pf-card` | `data-property-1` Default |
+| Draggable card | `.pf-draggable-card` | `data-state` Default/Hover/Click/Drag/Drop |
+| Toast message | `.pf-toast-message` | `data-message-type` Success/Info/Warning/Error |
+| AI button | `.pf-ai-button` | `data-style` Light mode/Inverted · `data-hover` False/True |
 
-```css
-.pf-input {
-  height: 42px; padding: 10px 10px 10px 20px;
-  border-radius: var(--pf-radius-medium); /* 8px */
-  background: var(--pf-bg-primary); color: var(--pf-text-primary);
-  border: 1px solid var(--pf-border-form-input);
-  font-size: 16px;
-}
-.pf-field { display: flex; flex-direction: column; gap: 5px; }   /* label sits above */
-.pf-input:disabled      { border-color: var(--pf-border-disabled); color: var(--pf-text-disabled); }
-.pf-input[aria-invalid] { border-color: var(--pf-border-negative); }
-.pf-label .required     { color: var(--pf-icon-required-field); }
-```
+Three of these have a shape worth knowing before you use them:
 
-Checkboxes and radios are both **20×20 with a 4px radius** — radios are not circles here.
-Toggle is 55×25, radius 13.
+- **A selected filter chip needs both attributes** — `data-state="Selected"
+  data-active="True"`. Setting the state alone matches nothing.
+- **Toggle, Field and AI button use Figma's Yes/No and True/False**, not the other pair.
+  `data-on="true"` does nothing; `data-on="Yes"` works.
+- **`Card` really does have a property called `Property 1`** in Figma — an unnamed
+  variant axis. `data-property-1="Default"` is the honest translation of it, and the
+  bare `.pf-card` is what you normally want.
 
-### Tables
+`Button` has **no Disabled variant** in the extract, so a disabled button gets no colour
+change from the library. Handle it in your own CSS and say you have.
 
-```css
-.pf-table         { background: var(--pf-table-card); border-collapse: collapse; font-size: 13px; }
-.pf-table th      { height: 54px; padding: 15px; background: var(--pf-table-header-cell);
-                    text-align: left; font-weight: var(--pf-font-weight-bold); }
-.pf-table td      { height: 58px; padding: 10px 15px;
-                    background: var(--pf-table-primary-cell);
-                    border-bottom: 1px solid var(--pf-table-border); }
-.pf-table tr:nth-child(even) td { background: var(--pf-table-stripe-cell); }
-.pf-table tr:hover td           { background: var(--pf-bg-theme); }
-.pf-table-wrap    { border-radius: var(--pf-radius-medium); overflow: hidden; }
-```
+The full list is every `.pf-*` in `dist/components.css`, and every one is rendered in
+`docs/components.html` — open that rather than guessing whether a class exists.
 
-### Cards
+### What the classes deliberately do NOT include
 
-```css
-.pf-card { background: var(--pf-bg-primary);
-           border-radius: var(--pf-radius-medium);   /* 8px */
-           padding: 20px; display: flex; flex-direction: column; gap: 20px;
-           box-shadow: var(--pf-shadow-drop-shadow); }
-```
+Generated CSS only carries what Figma actually measures. These are yours to write, and
+writing them is not a violation of rule 2:
 
-Draggable card is 50px tall with `padding: 10px 15px`; accordion rows are 84px.
+- **page layout** — grids, columns, page padding, where things sit
+- **behaviour** — `cursor`, `transition`, `:focus-visible` rings
+- **line-height** — not captured by the extract
+- **anything drawn inside a component** — the tick glyph inside a checkbox, the knob
+  inside a toggle
+
+Keep that CSS in one block and label it local. If something in it restates a Figma
+value — a colour, a height, a radius — that is a bug, not a local style.
+
+### When a component is not in the library
+
+71 of 171 Figma components have their colours extracted. `docs/components.html` lists
+the rest under **Not yet captured**. If you need one of those, say so rather than
+hand-writing an approximation that looks right to you — an unchecked component is
+exactly what the library exists to prevent.
+
 
 ## Charts
 
