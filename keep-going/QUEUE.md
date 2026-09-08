@@ -73,15 +73,23 @@ build, and the accessibility notes — with no invented values.
 
 **Depends on:** task 2.
 
-## 6. Real People First icons — `partly done` (9 of 289)
+## 6. Real People First icons — `blocked, needs one decision` (9 of 289)
 
 All 289 icon names are captured. The 9 the prototype actually uses are exported as
 real Figma SVG and swapped in (`assets/icons/`, `tokens/_raw/icons.tsv`).
 
-The remaining 280 are a mechanical job: Figma's export tool truncates at 20KB per
-call, which works out at roughly 12 icons per call, so about 24 more calls. Nothing
-hard, just repetitive — better as its own focused run than interleaved with the
-skills work.
+**Two routes, very different cost — pick one:**
+
+**A. One download (minutes).** `download_assets` on the Icons page returns the whole
+page as a SINGLE 2.1MB SVG containing all 289 icons. One curl, split locally, done.
+Blocked only because this session's network policy denies `www.figma.com` — the same
+block that stopped the REST API earlier. Allowing that host in the environment's
+network policy unblocks it. This is by far the better route.
+
+**B. Grind it (hours).** Export through the plugin API in adaptive batches. Verified
+working: ~11 icons per call before the 20KB cap. But the data must pass through the
+conversation TWICE — once returning from Figma, once being written to disk — so it is
+about 25 export calls plus 25 equally large writes. Roughly 50 large operations.
 
 **Done when:** all 289 exist as individual SVGs in `assets/icons/`.
 
@@ -92,8 +100,12 @@ skills work.
 Found while working; not acted on, to keep the change pile reviewable.
 
 - **`Tags` Type=Theme** binds a border token for its text where all six siblings bind a
-  content token. Looks like a Figma mis-binding — worth fixing upstream.
+  content token. **DECIDED 2026-09-08: a gap, not deliberate. Leave as-is for now** —
+  fix upstream in Figma rather than papering over it here. The extract and the skill
+  both already document it, and the prototype uses `--pf-tag-content-info`.
 - **`Toast message` and the AI components** bind fixed colours rather than mode-aware
-  ones, so they will not adapt in dark mode. May be deliberate; may be a gap.
+  ones, so they will not adapt in dark mode. **DECIDED 2026-09-08: a gap, not
+  deliberate. Leave as-is for now** — recorded so nobody implements it as intended
+  behaviour.
 - **`Icon-size-xxxs` is 0px** in Figma — almost certainly unset.
 - **Two text styles share the name** `Desktop text/Button text`.
