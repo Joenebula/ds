@@ -19,8 +19,8 @@ node scripts/pf-audit.mjs <file.html> --json          # machine-readable
 
 Exits non-zero when it finds problems, so it works in CI.
 
-Needs `playwright-core` and the token files, so run it from the design system repo. If
-`playwright-core` is missing: `npm install --no-save playwright-core`.
+Needs `playwright-core` and the token files, so run it from the design system repo.
+On a fresh clone, `npm install` first.
 
 ## What it reports
 

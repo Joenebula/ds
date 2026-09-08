@@ -40,9 +40,11 @@ height: 32px; padding: 0 20px; border-radius: 20px;
 
 Both are correct. A token for a shape you guessed is still a guess.
 
-**4. Verify before handing over.** Both checks, every time:
+**4. Verify before handing over.** Both checks, every time. On a fresh clone run
+`npm install` first — the checks drive a real browser and need `playwright-core`:
 
 ```bash
+npm install                                              # once per clone
 node scripts/build-prototype.mjs <src>.html <out>.html   # inlines tokens, fails on raw hex
 node scripts/verify-geometry.mjs <out>.html              # shapes match Figma
 node scripts/verify-rendered.mjs <out>.html              # colours match Figma, both modes
