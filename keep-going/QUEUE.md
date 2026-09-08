@@ -10,9 +10,9 @@
 - `figma-use` (Figma MCP resource) — mandatory before any Figma read. Governs task 2.
 - `artifact-design` — governs anything published as an artifact.
 
-**Note on pushing:** the keep-going rules say never push during a run. This project's
-setup says push to the working branch. Resolution: commit locally after each task, and
-push only when the run stops and reports — so nothing reaches GitHub unreviewed.
+**Note on pushing:** this project has a stop hook that requires everything committed
+AND pushed. So each finished task is committed and pushed to the working branch —
+one commit per task, same review surface, just more granular.
 
 ---
 
@@ -41,7 +41,7 @@ regenerates, and no component used in the prototype is missing a measurement.
 
 **Depends on:** nothing. Uses Figma reads (~5 calls, well inside the daily limit).
 
-## 3. Design-system audit skill (`pf-audit`) — `pending`
+## 3. Design-system audit skill (`pf-audit`) — `done`
 
 A skill that checks any page against People First and reports what is off-system.
 The underlying script is already written (`scripts/pf-audit.mjs`) but has never been run.
@@ -52,7 +52,7 @@ token, and lists any text failing contrast.
 
 **Depends on:** nothing.
 
-## 4. Screen-building skill (`pf-screen`) — `pending`
+## 4. Screen-building skill (`pf-screen`) — `done`
 
 A skill that builds a People First screen correctly first time — reading the variant
 and geometry references rather than inferring, then running both checks before
@@ -63,7 +63,7 @@ handing over.
 
 **Depends on:** tasks 1 and 2 (it should cite complete geometry and be checkable).
 
-## 5. Developer handoff skill (`pf-handoff`) — `pending`
+## 5. Developer handoff skill (`pf-handoff`) — `done`
 
 A skill that turns a screen into a spec a developer can build from.
 

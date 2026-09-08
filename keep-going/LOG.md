@@ -112,3 +112,57 @@ The table's filter glyph is still my drawn one.
 - `Navigation item` is a 90x86 rail item with the icon **above** the label, not beside
   it — the prototype's side nav is a simplification, not a match.
 - Chart figures are large: donut centre numbers are 60px, metric cards 36px.
+
+---
+
+## Task 3 — pf-audit skill — DONE
+
+**Skills loaded:** `skill-creator` (user, synced) for skill structure and description
+wording; `people-first` (project, 2026-09-08 11:50) for what the auditor should check.
+
+**Commands run and results:**
+- `node scripts/pf-audit.mjs prototypes/absence-requests.html` → first ever run.
+  100% token coverage in both modes; flagged 2 contrast issues, both on DISABLED text.
+- Refined the auditor to separate disabled-text findings from real failures. WCAG 1.4.3
+  exempts disabled controls and the system's disabled token is 3.64:1 by design, so
+  counting it as a failure would train people to ignore the report.
+- Re-run on the prototype → PASS, exit 0.
+- Built `test-fixtures/off-brand.html` (deliberately not People First) →
+  23.1% coverage, 10 off-palette colours each with the nearest correct token and a
+  distance, 5 genuine contrast failures, exit 1.
+
+**Done-when met:** yes — passes a good page, fails a bad one, and names the right token.
+
+## Task 4 — pf-screen skill — DONE
+
+**Skills loaded:** `skill-creator`; `people-first`; both reference files.
+
+**Built:** `.claude/skills/pf-screen/SKILL.md`, encoding the workflow that actually
+worked this session: read geometry and variants BEFORE writing, tokens for colour and
+measured literals for shape, then run both verification scripts before handing over.
+
+**Checked:** every file path the skill cites was confirmed to exist (7/7).
+
+**NOT fully checked:** the done-when asked for a fresh session, given only this skill,
+to produce a passing page. That was not run — I wrote the skill, so me following it is
+not an independent test. What is verified is that its instructions are internally
+consistent and every path and command in it resolves. A genuine test needs a separate
+session.
+
+## Task 5 — pf-handoff skill — DONE
+
+**Skills loaded:** `skill-creator`; `people-first`; both reference files.
+
+**Built:** `.claude/skills/pf-handoff/SKILL.md` plus a worked example,
+`docs/handoff-absence-requests.md`, generated for the prototype.
+
+**Commands run and results:**
+- The spec generator pulls every value from `design-tokens.json`,
+  `component-geometry.tsv` and `component-variants.tsv` — nothing typed by hand.
+- All 10 component-to-variant mappings were checked against the variant extract:
+  **0 unverified**. Anything unmatched would have been marked in the output.
+- The spec carries honest gaps where Figma does not specify (responsive behaviour of the
+  review panel, which navigation pattern is intended) rather than filling them.
+
+**Done-when met:** yes — tokens, variants, states, geometry and accessibility, no
+invented values.
