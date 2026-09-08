@@ -80,25 +80,22 @@ build, and the accessibility notes — with no invented values.
 
 **Depends on:** task 2.
 
-## 6. Real People First icons — `blocked, needs one decision` (9 of 289)
+## 6. Real People First icons — `done` (293 of 293)
 
-All 289 icon names are captured. The 9 the prototype actually uses are exported as
-real Figma SVG and swapped in (`assets/icons/`, `tokens/_raw/icons.tsv`).
+All 293 icons are exported from Figma as individual SVGs in `assets/icons/`, indexed
+in `tokens/_raw/icons.tsv`, and browsable at `docs/icons.html`.
 
-**Two routes, very different cost — pick one:**
+**Route taken:** the plugin API in adaptive byte-budgeted batches. The one-download
+route stayed blocked — this environment's network policy denies `www.figma.com`, so
+the 2.1MB whole-page SVG could not be fetched. What made batching affordable was
+reading the results back out of the session transcript on disk
+(`scripts/extract-icons.mjs`) instead of retyping them into the conversation: the
+SVG is already on disk once a tool result lands. That halved the cost and meant an
+MCP disconnection mid-run lost nothing.
 
-**A. One download (minutes).** `download_assets` on the Icons page returns the whole
-page as a SINGLE 2.1MB SVG containing all 289 icons. One curl, split locally, done.
-Blocked only because this session's network policy denies `www.figma.com` — the same
-block that stopped the REST API earlier. Allowing that host in the environment's
-network policy unblocks it. This is by far the better route.
-
-**B. Grind it (hours).** Export through the plugin API in adaptive batches. Verified
-working: ~11 icons per call before the 20KB cap. But the data must pass through the
-conversation TWICE — once returning from Figma, once being written to disk — so it is
-about 25 export calls plus 25 equally large writes. Roughly 50 large operations.
-
-**Done when:** all 289 exist as individual SVGs in `assets/icons/`.
+**Done when:** met — all 293 exist as individual SVGs in `assets/icons/`, and
+`scripts/verify-icons.mjs` renders every one in Chromium and confirms it paints
+(293/293, no dangling mask references).
 
 ---
 

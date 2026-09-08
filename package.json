@@ -8,7 +8,8 @@
     "build": "node scripts/build-tokens.mjs && node scripts/build-css.mjs && node scripts/build-reference.mjs && node scripts/build-ds-bundle.mjs && node scripts/build-variants-ref.mjs && node scripts/build-geometry-ref.mjs",
     "check": "node scripts/check-contrast.mjs",
     "verify": "node scripts/verify-geometry.mjs prototypes/absence-requests.html && node scripts/verify-rendered.mjs prototypes/absence-requests.html",
-    "audit": "node scripts/pf-audit.mjs"
+    "audit": "node scripts/pf-audit.mjs",
+    "icons": "node scripts/extract-icons.mjs && node scripts/verify-icons.mjs --sheet docs/icons.html"
   },
   "devDependencies": {
     "playwright-core": "^1.49.0"

@@ -208,3 +208,53 @@ The batching route works (adaptive batching verified at ~11 icons per call, no
 truncation) but costs about 25 export calls PLUS 25 equally large writes, because the
 data crosses the conversation twice. Stopped and put the choice to the user rather than
 spending hours on the expensive path when a cheap one exists.
+
+---
+
+## Task 6 — icons — DONE (293 of 293)
+
+**Skills loaded:** `figma-use` (MCP resource) — re-read in full before the export run.
+
+**Route:** the cheap route stayed shut. `download_assets` returns the whole Icons page
+as one 2.1MB SVG, but every asset URL is on `www.figma.com`, which this environment's
+network policy denies (`CONNECT tunnel failed, response 403`, re-confirmed this run).
+So: the plugin API, in adaptive byte-budgeted batches under the 20KB truncation cap.
+
+**What made it affordable.** The expensive half of batching was never the Figma calls —
+it was that each batch had to be retyped into the conversation to be written to disk, so
+~200KB of path data crossed twice. It doesn't: tool results are already persisted to the
+session transcript on disk. `scripts/extract-icons.mjs` reads the batches back out of the
+transcript and writes the files. That removed the second crossing entirely, and made the
+run resilient — when the Figma MCP server disconnected mid-export, **nothing was lost**;
+re-running the extractor recovered all 216 icons captured to that point.
+
+Also: exports were fanned out 6 at a time in a single message rather than sequentially.
+
+**A defect I introduced, and how it surfaced.** The minifier mapped every fill to
+`currentColor` so icons would tint with text. `verify-icons.mjs` passed 293/293 — every
+file rendered. But rendering is not the same as being right: the **screenshot** showed
+ten file-type badges as solid black blocks with the lettering swallowed. Those icons are
+genuinely multi-colour in Figma and the colour IS the information — PDF `#BE2028`,
+spreadsheet `#517A38`, document `#0075BE`, TXT `#3E3E3E`, ZIP `#FC8700`, white lettering
+knocked out. Re-exported all ten with a minifier that maps only the monochrome outline
+(`#656565`) to `currentColor` and leaves everything else alone. Confirmed by eye.
+
+The lesson is the same one this project already learned once with geometry: an automated
+check only covers the axis it looks at. `verify-icons.mjs` proved the files *paint*; only
+looking at them proved they were *correct*. Both were needed.
+
+**Commands run and results:**
+- `node scripts/extract-icons.mjs` → 293 of 293, complete, no gaps.
+- `node scripts/verify-icons.mjs` → 293 of 293 render, 0 broken, no dangling mask refs.
+- `node scripts/verify-geometry.mjs` on both prototypes → 29 match, 0 off (each).
+- `node scripts/verify-rendered.mjs` → 54 colours match, 0 mismatched.
+- `node scripts/pf-audit.mjs` on both prototypes → PASS, 100% coverage both modes.
+
+**Also fixed in passing:** Figma emits document-global mask ids
+(`path-5-inside-1_9598_97877`). Two icons inlined on the same page would collide and one
+would render through the other's mask. The extractor namespaces every id per file.
+
+**Known and deliberate:** `Icon background` (three overlapping blurred circles) is a
+decorative backdrop, not a glyph. Two icons are named `GIF` and two `Transfer` in Figma;
+filenames are deduped with a numeric suffix. One component has a blank name and is
+exported as `unnamed-<id>`.

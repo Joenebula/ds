@@ -16,10 +16,15 @@ const file = process.argv[2] ||
     .map(f => join(dir, f)).sort().pop();
 
 // Every string anywhere in the transcript that looks like a batch header.
+// FROM…    the bulk export.
+// FILETYPE… the ten file-type badges, re-exported with their badge colours
+//           intact after a blanket fill->currentColor flattened them. These
+//           come later in the transcript, so they supersede the flat versions.
 const batches = [];
 const walk = v => {
   if (typeof v === 'string') {
-    if (/^FROM \d+ NEXT \d+ OF \d+ COUNT \d+/.test(v)) batches.push(v);
+    if (/^FROM \d+ NEXT \d+ OF \d+ COUNT \d+/.test(v) ||
+        /^FILETYPE COUNT \d+/.test(v)) batches.push(v);
   } else if (Array.isArray(v)) v.forEach(walk);
   else if (v && typeof v === 'object') Object.values(v).forEach(walk);
 };

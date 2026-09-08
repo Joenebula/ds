@@ -119,6 +119,32 @@ Icon sizes: `--pf-icon-size-xxs` 18 · `-xs` 22 · `-s` 28 · `-m` 36 · `-lg` 4
 The scale is a 5px base. Do not introduce intermediate values — if a gap needs 12px,
 use 10 or 15.
 
+### The icon set
+
+All **293** People First icons are exported from Figma to `assets/icons/<name>.svg`,
+kebab-cased from the Figma name. Browse them at `docs/icons.html`; look up a name in
+`tokens/_raw/icons.tsv`. **Never draw an icon by hand — use these.** A hand-drawn
+substitute is the fastest way to make a screen look not-quite-People-First.
+
+Paste the SVG inline (they are already minified) and size it with CSS:
+
+```css
+.pf-icon { width: var(--pf-icon-size-xs); height: var(--pf-icon-size-xs); }
+```
+
+Every glyph is `fill="currentColor"`, so it takes the colour of its container —
+set that with an **icon** token, never a text token:
+
+```css
+.pf-icon { color: var(--pf-icon-primary); }
+```
+
+Ten icons are the exception and are deliberately multi-colour: the file-type badges
+(`csv` `doc` `gif-2` `jpg` `mp4` `pdf` `png` `txt-file` `xls-file` `zip`). The badge
+carries a fixed colour that *is* the meaning — PDF red, spreadsheet green, document
+blue, ZIP orange — with white lettering knocked out. Their document outline still
+follows `currentColor`. Do not recolour the badge.
+
 ## Elevation
 
 ```css
