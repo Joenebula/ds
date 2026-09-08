@@ -1,0 +1,1212 @@
+<title>People First components</title>
+<link rel="stylesheet" href="../dist/tokens.css">
+<link rel="stylesheet" href="../dist/components.css">
+<style>
+  body { background: var(--pf-bg-secondary); color: var(--pf-text-primary);
+         font-family: var(--pf-font-body); margin: 0; padding: 24px 28px 80px; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  .lede { color: var(--pf-text-secondary); margin: 0 0 24px; max-width: 60ch; font-size: 14px; }
+  h2 { font-size: 15px; margin: 36px 0 4px; padding-bottom: 6px;
+       border-bottom: 1px solid var(--pf-border-primary); }
+  h3 { font-size: 13px; margin: 22px 0 2px; }
+  .meta { color: var(--pf-text-secondary); font-size: 11px; margin: 0 0 10px;
+          font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .row { display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-start;
+         background: var(--pf-bg-primary); border: 1px solid var(--pf-border-primary);
+         border-radius: 8px; padding: 16px; }
+  .spec { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; max-width: 100%; }
+  .spec > .label { color: var(--pf-text-secondary); font-size: 10px;
+                   font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .bar { position: sticky; top: 0; z-index: 5; display: flex; gap: 8px; align-items: center;
+         background: var(--pf-bg-secondary); padding: 10px 0 14px; margin: -24px 0 0; }
+  .bar button { font: inherit; font-size: 12px; padding: 5px 12px; cursor: pointer;
+                border-radius: 999px; border: 1px solid var(--pf-border-primary);
+                background: var(--pf-bg-primary); color: var(--pf-text-primary); }
+  .bar button[aria-pressed="true"] { background: var(--pf-bg-secondary-button);
+                                     color: var(--pf-text-inverted-primary); }
+  .gaps { columns: 3; column-gap: 24px; font-size: 12px; color: var(--pf-text-secondary); }
+  .gaps div { break-inside: avoid; }
+</style>
+<div class="bar">
+  <strong style="font-size:12px">Theme</strong>
+  <button data-theme-set="system" aria-pressed="true">System</button>
+  <button data-theme-set="light" aria-pressed="false">Light</button>
+  <button data-theme-set="dark" aria-pressed="false">Dark</button>
+</div>
+<h1>People First — components</h1>
+<p class="lede">Every component and variant captured from Figma, rendered with the
+generated stylesheet. Each specimen is real <code>dist/components.css</code> — if it looks
+wrong here, it is wrong in the stylesheet. Labels under each specimen are Figma's own
+variant names.</p>
+<h2>AI</h2>
+<h3>AI Assistant</h3>
+<p class="meta">3 variants  ·  .pf-ai-assistant  ·  no geometry measured</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-ai-assistant" data-type="Default">AI Assistant</div>
+    <span class="label">Type=Default</span>
+  </div>
+  <div class="spec">
+    <div class="pf-ai-assistant" data-type="Active chat">AI Assistant</div>
+    <span class="label">Type=Active chat</span>
+  </div>
+  <div class="spec">
+    <div class="pf-ai-assistant" data-type="Expanded">AI Assistant</div>
+    <span class="label">Type=Expanded</span>
+  </div>
+</div>
+<h3>AI banner</h3>
+<p class="meta">1 variant  ·  .pf-ai-banner  ·  auto x 94  ·  horizontal min min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-ai-banner" data-darkmode="False">AI banner</div>
+    <span class="label">Darkmode=False</span>
+  </div>
+</div>
+<h3>AI button</h3>
+<p class="meta">4 variants  ·  .pf-ai-button  ·  146 x 32  ·  horizontal center center</p>
+<div class="row">
+  <div class="spec">
+    <button class="pf-ai-button" data-style="Light mode" data-hover="False">Ask AI</button>
+    <span class="label">Style=Light mode, Hover=False</span>
+  </div>
+  <div class="spec">
+    <button class="pf-ai-button" data-style="Light mode" data-hover="True">Ask AI</button>
+    <span class="label">Style=Light mode, Hover=True</span>
+  </div>
+  <div class="spec">
+    <button class="pf-ai-button" data-style="Inverted" data-hover="False">Ask AI</button>
+    <span class="label">Style=Inverted, Hover=False</span>
+  </div>
+  <div class="spec">
+    <button class="pf-ai-button" data-style="Inverted" data-hover="True">Ask AI</button>
+    <span class="label">Style=Inverted, Hover=True</span>
+  </div>
+</div>
+<h3>AI card modal</h3>
+<p class="meta">1 variant  ·  .pf-ai-card-modal  ·  440 x 505  ·  vertical min min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-ai-card-modal" data-property-1="Default">AI card modal</div>
+    <span class="label">Property 1=Default</span>
+  </div>
+</div>
+<h3>AI message bubble</h3>
+<p class="meta">2 variants  ·  .pf-ai-message-bubble  ·  455 x 149  ·  vertical min min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-ai-message-bubble" data-type="AI chat">AI message bubble</div>
+    <span class="label">Type=AI chat</span>
+  </div>
+  <div class="spec">
+    <div class="pf-ai-message-bubble" data-type="User chat">AI message bubble</div>
+    <span class="label">Type=User chat</span>
+  </div>
+</div>
+<h3>Clickable AI element</h3>
+<p class="meta">2 variants  ·  .pf-clickable-ai-element  ·  382 x 38  ·  horizontal center min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-clickable-ai-element" data-state="default">Clickable AI element</div>
+    <span class="label">State=default</span>
+  </div>
+  <div class="spec">
+    <div class="pf-clickable-ai-element" data-state="Hover">Clickable AI element</div>
+    <span class="label">State=Hover</span>
+  </div>
+</div>
+<h2>Buttons and links</h2>
+<h3>Button</h3>
+<p class="meta">12 variants  ·  .pf-button  ·  auto x 32  ·  horizontal center center</p>
+<div class="row">
+  <div class="spec">
+    <button class="pf-button" data-type="Action" data-state="Default">Save</button>
+    <span class="label">Type=Action, State=Default</span>
+  </div>
+  <div class="spec">
+    <button class="pf-button" data-type="Action" data-state="Hover">Save</button>
+    <span class="label">Type=Action, State=Hover</span>
+  </div>
+  <div class="spec">
+    <button class="pf-button" data-type="Positive" data-state="Default">Save</button>
+    <span class="label">Type=Positive, State=Default</span>
+  </div>
+  <div class="spec">
+    <button class="pf-button" data-type="Positive" data-state="Hover">Save</button>
+    <span class="label">Type=Positive, State=Hover</span>
+  </div>
+  <div class="spec">
+    <button class="pf-button" data-type="Negative" data-state="Default">Save</button>
+    <span class="label">Type=Negative, State=Default</span>
+  </div>
+  <div class="spec">
+    <button class="pf-button" data-type="Negative" data-state="Hover">Save</button>
+    <span class="label">Type=Negative, State=Hover</span>
+  </div>
+  <div class="spec">
+    <button class="pf-button" data-type="Hollow" data-state="Default">Save</button>
+    <span class="label">Type=Hollow, State=Default</span>
+  </div>
+  <div class="spec">
+    <button class="pf-button" data-type="Hollow" data-state="Hover">Save</button>
+    <span class="label">Type=Hollow, State=Hover</span>
+  </div>
+  <div class="spec">
+    <button class="pf-button" data-type="Filter" data-state="Default">Save</button>
+    <span class="label">Type=Filter, State=Default</span>
+  </div>
+  <div class="spec">
+    <button class="pf-button" data-type="Filter" data-state="Hover">Save</button>
+    <span class="label">Type=Filter, State=Hover</span>
+  </div>
+  <div class="spec">
+    <button class="pf-button" data-type="Sort" data-state="Default">Save</button>
+    <span class="label">Type=Sort, State=Default</span>
+  </div>
+  <div class="spec">
+    <button class="pf-button" data-type="Sort" data-state="Hover">Save</button>
+    <span class="label">Type=Sort, State=Hover</span>
+  </div>
+</div>
+<h3>Filter chip</h3>
+<p class="meta">3 variants  ·  .pf-filter-chip  ·  auto x 42  ·  horizontal center center</p>
+<div class="row">
+  <div class="spec">
+    <button class="pf-filter-chip" data-state="Default" data-active="False">Absence type</button>
+    <span class="label">State=Default, Active=False</span>
+  </div>
+  <div class="spec">
+    <button class="pf-filter-chip" data-state="Selected" data-active="True">Absence type</button>
+    <span class="label">State=Selected, Active=True</span>
+  </div>
+  <div class="spec">
+    <button class="pf-filter-chip" data-state="Hover" data-active="False">Absence type</button>
+    <span class="label">State=Hover, Active=False</span>
+  </div>
+</div>
+<h3>Links</h3>
+<p class="meta">4 variants  ·  .pf-links  ·  no geometry measured</p>
+<div class="row">
+  <div class="spec">
+    <a href="#" data-link-type="Primary" data-hover="False" class="pf-links">View details</a>
+    <span class="label">Link type=Primary, Hover=False</span>
+  </div>
+  <div class="spec">
+    <a href="#" data-link-type="Primary" data-hover="True" class="pf-links">View details</a>
+    <span class="label">Link type=Primary, Hover=True</span>
+  </div>
+  <div class="spec">
+    <a href="#" data-link-type="Secondary" data-hover="False" class="pf-links">View details</a>
+    <span class="label">Link type=Secondary, Hover=False</span>
+  </div>
+  <div class="spec">
+    <a href="#" data-link-type="Secondary" data-hover="True" class="pf-links">View details</a>
+    <span class="label">Link type=Secondary, Hover=True</span>
+  </div>
+</div>
+<h2>Cards and panels</h2>
+<h3>Accordion</h3>
+<p class="meta">2 variants  ·  .pf-accordion  ·  auto x 84  ·  horizontal center space_between</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-accordion" data-expanded="False">Accordion</div>
+    <span class="label">Expanded=False</span>
+  </div>
+  <div class="spec">
+    <div class="pf-accordion" data-expanded="True">Accordion</div>
+    <span class="label">Expanded=True</span>
+  </div>
+</div>
+<h3>Card</h3>
+<p class="meta">1 variant  ·  .pf-card  ·  auto  ·  vertical center min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-card" data-property-1="Default">Card</div>
+    <span class="label">Property 1=Default</span>
+  </div>
+</div>
+<h3>Configuration tile</h3>
+<p class="meta">1 variant  ·  .pf-configuration-tile  ·  auto x 260  ·  vertical center center</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-configuration-tile" data-device="Desktop">Configuration tile</div>
+    <span class="label">Device=Desktop</span>
+  </div>
+</div>
+<h3>Content cards</h3>
+<p class="meta">1 variant  ·  .pf-content-cards  ·  auto  ·  vertical min min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-content-cards" data-mobile="false">Content cards</div>
+    <span class="label">Mobile=false</span>
+  </div>
+</div>
+<h3>Draggable card</h3>
+<p class="meta">5 variants  ·  .pf-draggable-card  ·  auto x 50  ·  horizontal center min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-draggable-card" data-state="Default">Draggable card</div>
+    <span class="label">State=Default</span>
+  </div>
+  <div class="spec">
+    <div class="pf-draggable-card" data-state="Hover">Draggable card</div>
+    <span class="label">State=Hover</span>
+  </div>
+  <div class="spec">
+    <div class="pf-draggable-card" data-state="Click">Draggable card</div>
+    <span class="label">State=Click</span>
+  </div>
+  <div class="spec">
+    <div class="pf-draggable-card" data-state="Drag">Draggable card</div>
+    <span class="label">State=Drag</span>
+  </div>
+  <div class="spec">
+    <div class="pf-draggable-card" data-state="Drop">Draggable card</div>
+    <span class="label">State=Drop</span>
+  </div>
+</div>
+<h3>Editable list card</h3>
+<p class="meta">1 variant  ·  .pf-editable-list-card  ·  no geometry measured</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-editable-list-card" data-property-1="Default">Editable list card</div>
+    <span class="label">Property 1=Default</span>
+  </div>
+</div>
+<h3>Layout container (magazine style)</h3>
+<p class="meta">2 variants  ·  .pf-layout-container-magazine-style  ·  no geometry measured</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-layout-container-magazine-style" data-row-colour="False">Layout container (magazine style)</div>
+    <span class="label">Row colour=False</span>
+  </div>
+  <div class="spec">
+    <div class="pf-layout-container-magazine-style" data-row-colour="True">Layout container (magazine style)</div>
+    <span class="label">Row colour=True</span>
+  </div>
+</div>
+<h3>Note</h3>
+<p class="meta">1 variant  ·  .pf-note  ·  no geometry measured</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-note" data-property-1="Default">Note</div>
+    <span class="label">Property 1=Default</span>
+  </div>
+</div>
+<h3>Org chart</h3>
+<p class="meta">3 variants  ·  .pf-org-chart  ·  no geometry measured</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-org-chart" data-type="Org">Org chart</div>
+    <span class="label">Type=Org</span>
+  </div>
+  <div class="spec">
+    <div class="pf-org-chart" data-type="Manager">Org chart</div>
+    <span class="label">Type=Manager</span>
+  </div>
+  <div class="spec">
+    <div class="pf-org-chart" data-type="Reportee">Org chart</div>
+    <span class="label">Type=Reportee</span>
+  </div>
+</div>
+<h3>Settings card</h3>
+<p class="meta">1 variant  ·  .pf-settings-card  ·  auto  ·  vertical min min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-settings-card" data-property-1="Default">Settings card</div>
+    <span class="label">Property 1=Default</span>
+  </div>
+</div>
+<h3>Side filter</h3>
+<p class="meta">1 variant  ·  .pf-side-filter  ·  no geometry measured</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-side-filter" data-mobile="False">Side filter</div>
+    <span class="label">Mobile=False</span>
+  </div>
+</div>
+<h3>Side panel header</h3>
+<p class="meta">1 variant  ·  .pf-side-panel-header  ·  auto x 60  ·  horizontal center max</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-side-panel-header" data-size="Default">Side panel header</div>
+    <span class="label">Size=Default</span>
+  </div>
+</div>
+<h3>Side panel</h3>
+<p class="meta">3 variants  ·  .pf-side-panel  ·  375 wide  ·  vertical min min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-side-panel" data-mobile="No" data-size="Small">Side panel</div>
+    <span class="label">Mobile=No, Size=Small</span>
+  </div>
+  <div class="spec">
+    <div class="pf-side-panel" data-mobile="No" data-size="Medium">Side panel</div>
+    <span class="label">Mobile=No, Size=Medium</span>
+  </div>
+  <div class="spec">
+    <div class="pf-side-panel" data-mobile="No" data-size="Large">Side panel</div>
+    <span class="label">Mobile=No, Size=Large</span>
+  </div>
+</div>
+<h3>Spotlight Card</h3>
+<p class="meta">1 variant  ·  .pf-spotlight-card  ·  no geometry measured</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-spotlight-card" data-horizontal="False">Spotlight Card</div>
+    <span class="label">Horizontal=False</span>
+  </div>
+</div>
+<h3>Sticky footer</h3>
+<p class="meta">2 variants  ·  .pf-sticky-footer  ·  auto x 52  ·  horizontal center min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-sticky-footer" data-default="Default">Sticky footer</div>
+    <span class="label">Default=Default</span>
+  </div>
+  <div class="spec">
+    <div class="pf-sticky-footer" data-default="Stepper">Sticky footer</div>
+    <span class="label">Default=Stepper</span>
+  </div>
+</div>
+<h3>Title panel</h3>
+<p class="meta">1 variant  ·  .pf-title-panel  ·  auto x 135  ·  vertical center center</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-title-panel" data-mobile="false">Title panel</div>
+    <span class="label">Mobile=false</span>
+  </div>
+</div>
+<h3>single layout card</h3>
+<p class="meta">1 variant  ·  .pf-single-layout-card  ·  no geometry measured</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-single-layout-card" data-mobile="false">single layout card</div>
+    <span class="label">Mobile=false</span>
+  </div>
+</div>
+<h2>Controls</h2>
+<h3>Checkbox/Radio item</h3>
+<p class="meta">5 variants  ·  .pf-checkbox-radio-item  ·  auto x 22  ·  horizontal center min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-checkbox-radio-item" data-state="Default">Include leavers</div>
+    <span class="label">State=Default</span>
+  </div>
+  <div class="spec">
+    <div class="pf-checkbox-radio-item" data-state="Hover">Include leavers</div>
+    <span class="label">State=Hover</span>
+  </div>
+  <div class="spec">
+    <div class="pf-checkbox-radio-item" data-state="Disabled">Include leavers</div>
+    <span class="label">State=Disabled</span>
+  </div>
+  <div class="spec">
+    <div class="pf-checkbox-radio-item" data-state="Error">Include leavers</div>
+    <span class="label">State=Error</span>
+  </div>
+  <div class="spec">
+    <div class="pf-checkbox-radio-item" data-state="Selected">Include leavers</div>
+    <span class="label">State=Selected</span>
+  </div>
+</div>
+<h3>Checkbox/Radio list</h3>
+<p class="meta">4 variants  ·  .pf-checkbox-radio-list  ·  194 x auto  ·  vertical min min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-checkbox-radio-list" data-state="Default">Checkbox/Radio list</div>
+    <span class="label">State=Default</span>
+  </div>
+  <div class="spec">
+    <div class="pf-checkbox-radio-list" data-state="Disabled">Checkbox/Radio list</div>
+    <span class="label">State=Disabled</span>
+  </div>
+  <div class="spec">
+    <div class="pf-checkbox-radio-list" data-state="Error">Checkbox/Radio list</div>
+    <span class="label">State=Error</span>
+  </div>
+  <div class="spec">
+    <div class="pf-checkbox-radio-list" data-state="Selected">Checkbox/Radio list</div>
+    <span class="label">State=Selected</span>
+  </div>
+</div>
+<h3>Control</h3>
+<p class="meta">2 variants  ·  .pf-control  ·  20 x 20  ·  vertical center center</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-control" data-radio="No">Control</div>
+    <span class="label">Radio=No</span>
+  </div>
+  <div class="spec">
+    <div class="pf-control" data-radio="Yes">Control</div>
+    <span class="label">Radio=Yes</span>
+  </div>
+</div>
+<h3>Document previewer</h3>
+<p class="meta">3 variants  ·  .pf-document-previewer  ·  375 x 642  ·  vertical min min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-document-previewer" data-device="Mobile">Document previewer</div>
+    <span class="label">Device=Mobile</span>
+  </div>
+  <div class="spec">
+    <div class="pf-document-previewer" data-device="Tablet">Document previewer</div>
+    <span class="label">Device=Tablet</span>
+  </div>
+  <div class="spec">
+    <div class="pf-document-previewer" data-device="Desktop">Document previewer</div>
+    <span class="label">Device=Desktop</span>
+  </div>
+</div>
+<h3>Image picker</h3>
+<p class="meta">1 variant  ·  .pf-image-picker  ·  440 x 220  ·  none</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-image-picker" data-property-1="Default">Image picker</div>
+    <span class="label">Property 1=Default</span>
+  </div>
+</div>
+<h3>Radio card</h3>
+<p class="meta">4 variants  ·  .pf-radio-card  ·  235 x 152  ·  vertical center min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-radio-card" data-state="Enabled" data-selected="No">Radio card</div>
+    <span class="label">State=Enabled, Selected=No</span>
+  </div>
+  <div class="spec">
+    <div class="pf-radio-card" data-state="Enabled" data-selected="Yes">Radio card</div>
+    <span class="label">State=Enabled, Selected=Yes</span>
+  </div>
+  <div class="spec">
+    <div class="pf-radio-card" data-state="Disabled" data-selected="No">Radio card</div>
+    <span class="label">State=Disabled, Selected=No</span>
+  </div>
+  <div class="spec">
+    <div class="pf-radio-card" data-state="Disabled" data-selected="Yes">Radio card</div>
+    <span class="label">State=Disabled, Selected=Yes</span>
+  </div>
+</div>
+<h3>Radio tile</h3>
+<p class="meta">2 variants  ·  .pf-radio-tile  ·  235 x auto  ·  vertical center min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-radio-tile" data-state="Default">Radio tile</div>
+    <span class="label">State=Default</span>
+  </div>
+  <div class="spec">
+    <div class="pf-radio-tile" data-state="Hover">Radio tile</div>
+    <span class="label">State=Hover</span>
+  </div>
+</div>
+<h3>Toggle</h3>
+<p class="meta">4 variants  ·  .pf-toggle  ·  55 x 25  ·  horizontal center space_between</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-toggle" data-on="No" data-locked="No">Toggle</div>
+    <span class="label">On=No, Locked=No</span>
+  </div>
+  <div class="spec">
+    <div class="pf-toggle" data-on="Yes" data-locked="No">Toggle</div>
+    <span class="label">On=Yes, Locked=No</span>
+  </div>
+  <div class="spec">
+    <div class="pf-toggle" data-on="No" data-locked="Yes">Toggle</div>
+    <span class="label">On=No, Locked=Yes</span>
+  </div>
+  <div class="spec">
+    <div class="pf-toggle" data-on="Yes" data-locked="Yes">Toggle</div>
+    <span class="label">On=Yes, Locked=Yes</span>
+  </div>
+</div>
+<h2>Forms</h2>
+<h3>Field</h3>
+<p class="meta">2 variants  ·  .pf-field  ·  300 x 42  ·  horizontal center max</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-field" data-right-aligned="No" data-filled="No">Jane Okafor</div>
+    <span class="label">Right aligned=No, Filled=No</span>
+  </div>
+  <div class="spec">
+    <div class="pf-field" data-right-aligned="No" data-filled="Yes">Jane Okafor</div>
+    <span class="label">Right aligned=No, Filled=Yes</span>
+  </div>
+</div>
+<h3>Form field</h3>
+<p class="meta">14 variants  ·  .pf-form-field  ·  564 x auto  ·  vertical min min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-form-field" data-input-type="Text" data-state="Default">Manager</div>
+    <span class="label">Input type=Text, State=Default</span>
+  </div>
+  <div class="spec">
+    <div class="pf-form-field" data-input-type="Text" data-state="Disabled">Manager</div>
+    <span class="label">Input type=Text, State=Disabled</span>
+  </div>
+  <div class="spec">
+    <div class="pf-form-field" data-input-type="Text" data-state="Error">Manager</div>
+    <span class="label">Input type=Text, State=Error</span>
+  </div>
+  <div class="spec">
+    <div class="pf-form-field" data-input-type="Text" data-state="Selected">Manager</div>
+    <span class="label">Input type=Text, State=Selected</span>
+  </div>
+  <div class="spec">
+    <div class="pf-form-field" data-input-type="Dropdown" data-state="Default">Manager</div>
+    <span class="label">Input type=Dropdown, State=Default</span>
+  </div>
+  <div class="spec">
+    <div class="pf-form-field" data-input-type="Dropdown" data-state="Disabled">Manager</div>
+    <span class="label">Input type=Dropdown, State=Disabled</span>
+  </div>
+  <div class="spec">
+    <div class="pf-form-field" data-input-type="Dropdown" data-state="Error">Manager</div>
+    <span class="label">Input type=Dropdown, State=Error</span>
+  </div>
+  <div class="spec">
+    <div class="pf-form-field" data-input-type="Dropdown" data-state="Selected">Manager</div>
+    <span class="label">Input type=Dropdown, State=Selected</span>
+  </div>
+  <div class="spec">
+    <div class="pf-form-field" data-input-type="Search" data-state="Default">Manager</div>
+    <span class="label">Input type=Search, State=Default</span>
+  </div>
+  <div class="spec">
+    <div class="pf-form-field" data-input-type="Search" data-state="Disabled">Manager</div>
+    <span class="label">Input type=Search, State=Disabled</span>
+  </div>
+  <div class="spec">
+    <div class="pf-form-field" data-input-type="Search" data-state="Error">Manager</div>
+    <span class="label">Input type=Search, State=Error</span>
+  </div>
+  <div class="spec">
+    <div class="pf-form-field" data-input-type="Search" data-state="Selected">Manager</div>
+    <span class="label">Input type=Search, State=Selected</span>
+  </div>
+  <div class="spec">
+    <div class="pf-form-field" data-input-type="Date picker" data-state="Default">Manager</div>
+    <span class="label">Input type=Date picker, State=Default</span>
+  </div>
+  <div class="spec">
+    <div class="pf-form-field" data-input-type="Time picker" data-state="Default">Manager</div>
+    <span class="label">Input type=Time picker, State=Default</span>
+  </div>
+</div>
+<h3>Inline search</h3>
+<p class="meta">2 variants  ·  .pf-inline-search  ·  400 x auto  ·  vertical min min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-inline-search" data-filled="False">Inline search</div>
+    <span class="label">Filled=False</span>
+  </div>
+  <div class="spec">
+    <div class="pf-inline-search" data-filled="True">Inline search</div>
+    <span class="label">Filled=True</span>
+  </div>
+</div>
+<h3>Message box</h3>
+<p class="meta">1 variant  ·  .pf-message-box  ·  auto x 138  ·  vertical min min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-message-box" data-property-1="Default">Add a note for the approver</div>
+    <span class="label">Property 1=Default</span>
+  </div>
+</div>
+<h3>Option</h3>
+<p class="meta">2 variants  ·  .pf-option  ·  250 x auto  ·  horizontal center min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-option" data-selected="No">Annual leave</div>
+    <span class="label">Selected=No</span>
+  </div>
+  <div class="spec">
+    <div class="pf-option" data-selected="Yes">Annual leave</div>
+    <span class="label">Selected=Yes</span>
+  </div>
+</div>
+<h3>Primary search</h3>
+<p class="meta">1 variant  ·  .pf-primary-search  ·  auto x 38  ·  horizontal center min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-primary-search" data-darkmode="False" data-icon-only="False">Search people</div>
+    <span class="label">Darkmode=False, Icon only=False</span>
+  </div>
+</div>
+<h3>Text area</h3>
+<p class="meta">4 variants  ·  .pf-text-area  ·  auto x 213  ·  vertical min min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-text-area" data-type="Standard">Text area</div>
+    <span class="label">Type=Standard</span>
+  </div>
+  <div class="spec">
+    <div class="pf-text-area" data-type="Read only">Text area</div>
+    <span class="label">Type=Read only</span>
+  </div>
+  <div class="spec">
+    <div class="pf-text-area" data-type="Disabled">Text area</div>
+    <span class="label">Type=Disabled</span>
+  </div>
+  <div class="spec">
+    <div class="pf-text-area" data-type="Error">Text area</div>
+    <span class="label">Type=Error</span>
+  </div>
+</div>
+<h2>Navigation</h2>
+<h3>Clock in</h3>
+<p class="meta">2 variants  ·  .pf-clock-in  ·  107 x 32  ·  horizontal center center</p>
+<div class="row">
+  <div class="spec">
+    <button class="pf-clock-in" data-type="Standard">Clock in</button>
+    <span class="label">Type=Standard</span>
+  </div>
+  <div class="spec">
+    <button class="pf-clock-in" data-type="Hover">Clock in</button>
+    <span class="label">Type=Hover</span>
+  </div>
+</div>
+<h3>Config child menu</h3>
+<p class="meta">2 variants  ·  .pf-config-child-menu  ·  no geometry measured</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-config-child-menu" data-type="Child">Config child menu</div>
+    <span class="label">Type=Child</span>
+  </div>
+  <div class="spec">
+    <div class="pf-config-child-menu" data-type="Selected">Config child menu</div>
+    <span class="label">Type=Selected</span>
+  </div>
+</div>
+<h3>Filter tab single</h3>
+<p class="meta">3 variants  ·  .pf-filter-tab-single  ·  224 x 100  ·  vertical min center</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-filter-tab-single" data-selected="False" data-state="Default">Filter tab single</div>
+    <span class="label">Selected=False, State=Default</span>
+  </div>
+  <div class="spec">
+    <div class="pf-filter-tab-single" data-selected="False" data-state="Hover">Filter tab single</div>
+    <span class="label">Selected=False, State=Hover</span>
+  </div>
+  <div class="spec">
+    <div class="pf-filter-tab-single" data-selected="True" data-state="Default">Filter tab single</div>
+    <span class="label">Selected=True, State=Default</span>
+  </div>
+</div>
+<h3>Navigation item</h3>
+<p class="meta">3 variants  ·  .pf-navigation-item  ·  90 x 86  ·  horizontal center center</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-navigation-item" data-state="Selected" data-device="Desktop">People</div>
+    <span class="label">State=Selected, Device=Desktop</span>
+  </div>
+  <div class="spec">
+    <div class="pf-navigation-item" data-state="Unselected" data-device="Desktop">People</div>
+    <span class="label">State=Unselected, Device=Desktop</span>
+  </div>
+  <div class="spec">
+    <div class="pf-navigation-item" data-state="Hover" data-device="Desktop">People</div>
+    <span class="label">State=Hover, Device=Desktop</span>
+  </div>
+</div>
+<h3>Secondary nav</h3>
+<p class="meta">2 variants  ·  .pf-secondary-nav  ·  auto x 43  ·  horizontal center center</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-secondary-nav" data-navigation-type="Chips">Secondary nav</div>
+    <span class="label">Navigation type=Chips</span>
+  </div>
+  <div class="spec">
+    <div class="pf-secondary-nav" data-navigation-type="Page">Secondary nav</div>
+    <span class="label">Navigation type=Page</span>
+  </div>
+</div>
+<h3>Side navigation tab</h3>
+<p class="meta">2 variants  ·  .pf-side-navigation-tab  ·  268 x 48  ·  horizontal center min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-side-navigation-tab" data-selected="false">Absence</div>
+    <span class="label">Selected=false</span>
+  </div>
+  <div class="spec">
+    <div class="pf-side-navigation-tab" data-selected="true">Absence</div>
+    <span class="label">Selected=true</span>
+  </div>
+</div>
+<h3>Side navigation</h3>
+<p class="meta">2 variants  ·  .pf-side-navigation  ·  90 wide  ·  vertical min min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-side-navigation" data-variant="Default">Side navigation</div>
+    <span class="label">Variant=Default</span>
+  </div>
+  <div class="spec">
+    <div class="pf-side-navigation" data-variant="Finance">Side navigation</div>
+    <span class="label">Variant=Finance</span>
+  </div>
+</div>
+<h3>Tab</h3>
+<p class="meta">3 variants  ·  .pf-tab  ·  40 x 34  ·  vertical center min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-tab" data-state="Default">Tab</div>
+    <span class="label">State=Default</span>
+  </div>
+  <div class="spec">
+    <div class="pf-tab" data-state="Hover">Tab</div>
+    <span class="label">State=Hover</span>
+  </div>
+  <div class="spec">
+    <div class="pf-tab" data-state="Selected">Tab</div>
+    <span class="label">State=Selected</span>
+  </div>
+</div>
+<h3>[S] Navigation/main tabs</h3>
+<p class="meta">3 variants  ·  .pf-s-navigation-main-tabs  ·  80 x 40</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-s-navigation-main-tabs" data-status="Unselected">[S] Navigation/main tabs</div>
+    <span class="label">Status=Unselected</span>
+  </div>
+  <div class="spec">
+    <div class="pf-s-navigation-main-tabs" data-status="Hover">[S] Navigation/main tabs</div>
+    <span class="label">Status=Hover</span>
+  </div>
+  <div class="spec">
+    <div class="pf-s-navigation-main-tabs" data-status="Selected">[S] Navigation/main tabs</div>
+    <span class="label">Status=Selected</span>
+  </div>
+</div>
+<h2>System messages</h2>
+<h3>Confirmation modal</h3>
+<p class="meta">3 variants  ·  .pf-confirmation-modal  ·  400 x 413  ·  vertical center min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-confirmation-modal" data-type="Confirmation">Confirmation modal</div>
+    <span class="label">Type=Confirmation</span>
+  </div>
+  <div class="spec">
+    <div class="pf-confirmation-modal" data-type="Success">Confirmation modal</div>
+    <span class="label">Type=Success</span>
+  </div>
+  <div class="spec">
+    <div class="pf-confirmation-modal" data-type="Information">Confirmation modal</div>
+    <span class="label">Type=Information</span>
+  </div>
+</div>
+<h3>Information box</h3>
+<p class="meta">4 variants  ·  .pf-information-box  ·  no geometry measured</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-information-box" data-type="Information">Information box</div>
+    <span class="label">Type=Information</span>
+  </div>
+  <div class="spec">
+    <div class="pf-information-box" data-type="Warning">Information box</div>
+    <span class="label">Type=Warning</span>
+  </div>
+  <div class="spec">
+    <div class="pf-information-box" data-type="Error">Information box</div>
+    <span class="label">Type=Error</span>
+  </div>
+  <div class="spec">
+    <div class="pf-information-box" data-type="Success">Information box</div>
+    <span class="label">Type=Success</span>
+  </div>
+</div>
+<h3>Next actions modal</h3>
+<p class="meta">2 variants  ·  .pf-next-actions-modal  ·  400 x 565  ·  vertical center min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-next-actions-modal" data-type="Warning">Next actions modal</div>
+    <span class="label">Type=Warning</span>
+  </div>
+  <div class="spec">
+    <div class="pf-next-actions-modal" data-type="Success">Next actions modal</div>
+    <span class="label">Type=Success</span>
+  </div>
+</div>
+<h3>Notification card</h3>
+<p class="meta">1 variant  ·  .pf-notification-card  ·  auto x 113  ·  horizontal center min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-notification-card" data-mobile="False">You have 3 approvals waiting</div>
+    <span class="label">Mobile=False</span>
+  </div>
+</div>
+<h3>Status</h3>
+<p class="meta">4 variants  ·  .pf-status  ·  no geometry measured</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-status" data-status-type="Like">Pending</div>
+    <span class="label">Status type=Like</span>
+  </div>
+  <div class="spec">
+    <div class="pf-status" data-status-type="Absence">Pending</div>
+    <span class="label">Status type=Absence</span>
+  </div>
+  <div class="spec">
+    <div class="pf-status" data-status-type="Recognition">Pending</div>
+    <span class="label">Status type=Recognition</span>
+  </div>
+  <div class="spec">
+    <div class="pf-status" data-status-type="Comment">Pending</div>
+    <span class="label">Status type=Comment</span>
+  </div>
+</div>
+<h3>Toast message</h3>
+<p class="meta">4 variants  ·  .pf-toast-message  ·  350 x 114  ·  horizontal center min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-toast-message" data-message-type="Success">Request approved</div>
+    <span class="label">Message type=Success</span>
+  </div>
+  <div class="spec">
+    <div class="pf-toast-message" data-message-type="Info">Request approved</div>
+    <span class="label">Message type=Info</span>
+  </div>
+  <div class="spec">
+    <div class="pf-toast-message" data-message-type="Warning">Request approved</div>
+    <span class="label">Message type=Warning</span>
+  </div>
+  <div class="spec">
+    <div class="pf-toast-message" data-message-type="Error">Request approved</div>
+    <span class="label">Message type=Error</span>
+  </div>
+</div>
+<h2>Tables</h2>
+<h3>AG Filter menus</h3>
+<p class="meta">3 variants  ·  .pf-ag-filter-menus  ·  208 x 252  ·  vertical center min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-ag-filter-menus" data-variant="Multi &amp; search">AG Filter menus</div>
+    <span class="label">Variant=Multi &amp; search</span>
+  </div>
+  <div class="spec">
+    <div class="pf-ag-filter-menus" data-variant="Date">AG Filter menus</div>
+    <span class="label">Variant=Date</span>
+  </div>
+  <div class="spec">
+    <div class="pf-ag-filter-menus" data-variant="Sort">AG Filter menus</div>
+    <span class="label">Variant=Sort</span>
+  </div>
+</div>
+<h3>AG sort item</h3>
+<p class="meta">3 variants  ·  .pf-ag-sort-item  ·  auto x 52  ·  horizontal center min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-ag-sort-item" data-state="Default">AG sort item</div>
+    <span class="label">State=Default</span>
+  </div>
+  <div class="spec">
+    <div class="pf-ag-sort-item" data-state="Hover">AG sort item</div>
+    <span class="label">State=Hover</span>
+  </div>
+  <div class="spec">
+    <div class="pf-ag-sort-item" data-state="Active">AG sort item</div>
+    <span class="label">State=Active</span>
+  </div>
+</div>
+<h3>Footer (AG)</h3>
+<p class="meta">1 variant  ·  .pf-footer-ag  ·  no geometry measured</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-footer-ag" data-mobile="False">Footer (AG)</div>
+    <span class="label">Mobile=False</span>
+  </div>
+</div>
+<h3>Manage columns</h3>
+<p class="meta">1 variant  ·  .pf-manage-columns  ·  no geometry measured</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-manage-columns" data-mobile="False">Manage columns</div>
+    <span class="label">Mobile=False</span>
+  </div>
+</div>
+<h3>Multi-select checkbox</h3>
+<p class="meta">4 variants  ·  .pf-multi-select-checkbox  ·  20 x 20  ·  none</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-multi-select-checkbox" data-state="Default">Multi-select checkbox</div>
+    <span class="label">State=Default</span>
+  </div>
+  <div class="spec">
+    <div class="pf-multi-select-checkbox" data-state="Hover">Multi-select checkbox</div>
+    <span class="label">State=Hover</span>
+  </div>
+  <div class="spec">
+    <div class="pf-multi-select-checkbox" data-state="Selected">Multi-select checkbox</div>
+    <span class="label">State=Selected</span>
+  </div>
+  <div class="spec">
+    <div class="pf-multi-select-checkbox" data-state="Mixed selection">Multi-select checkbox</div>
+    <span class="label">State=Mixed selection</span>
+  </div>
+</div>
+<h3>Selected action banner</h3>
+<p class="meta">1 variant  ·  .pf-selected-action-banner  ·  auto x 48  ·  horizontal center space_between</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-selected-action-banner" data-mobile="False">Selected action banner</div>
+    <span class="label">Mobile=False</span>
+  </div>
+</div>
+<h3>Table (AG)</h3>
+<p class="meta">1 variant  ·  .pf-table-ag  ·  no geometry measured</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-table-ag" data-mobile="False">Table (AG)</div>
+    <span class="label">Mobile=False</span>
+  </div>
+</div>
+<h3>Table action bar</h3>
+<p class="meta">1 variant  ·  .pf-table-action-bar  ·  no geometry measured</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-table-action-bar" data-mobile="False">Table action bar</div>
+    <span class="label">Mobile=False</span>
+  </div>
+</div>
+<h3>Table card (AG)</h3>
+<p class="meta">1 variant  ·  .pf-table-card-ag  ·  —  ·  vertical center min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-table-card-ag" data-mobile="False">Table card (AG)</div>
+    <span class="label">Mobile=False</span>
+  </div>
+</div>
+<h3>Table cell (AG)</h3>
+<p class="meta">6 variants  ·  .pf-table-cell-ag  ·  auto x 58  ·  horizontal center min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-table-cell-ag" data-type="Default" data-style="Default">Jane Okafor</div>
+    <span class="label">Type=Default, Style=Default</span>
+  </div>
+  <div class="spec">
+    <div class="pf-table-cell-ag" data-type="Default" data-style="Stripe">Jane Okafor</div>
+    <span class="label">Type=Default, Style=Stripe</span>
+  </div>
+  <div class="spec">
+    <div class="pf-table-cell-ag" data-type="Default" data-style="Hover">Jane Okafor</div>
+    <span class="label">Type=Default, Style=Hover</span>
+  </div>
+  <div class="spec">
+    <div class="pf-table-cell-ag" data-type="Checkbox" data-style="Default">Jane Okafor</div>
+    <span class="label">Type=Checkbox, Style=Default</span>
+  </div>
+  <div class="spec">
+    <div class="pf-table-cell-ag" data-type="Checkbox" data-style="Stripe">Jane Okafor</div>
+    <span class="label">Type=Checkbox, Style=Stripe</span>
+  </div>
+  <div class="spec">
+    <div class="pf-table-cell-ag" data-type="Checkbox" data-style="Hover">Jane Okafor</div>
+    <span class="label">Type=Checkbox, Style=Hover</span>
+  </div>
+</div>
+<h3>Table header (AG)</h3>
+<p class="meta">3 variants  ·  .pf-table-header-ag  ·  auto x 54  ·  horizontal center space_between</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-table-header-ag" data-alignment="Left">Employee</div>
+    <span class="label">Alignment=Left</span>
+  </div>
+  <div class="spec">
+    <div class="pf-table-header-ag" data-alignment="Right">Employee</div>
+    <span class="label">Alignment=Right</span>
+  </div>
+  <div class="spec">
+    <div class="pf-table-header-ag" data-alignment="Checkbox">Employee</div>
+    <span class="label">Alignment=Checkbox</span>
+  </div>
+</div>
+<h3>Table header icons</h3>
+<p class="meta">5 variants  ·  .pf-table-header-icons  ·  24 x 24  ·  horizontal center center</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-table-header-icons" data-variant="Sort" data-state="Default">Table header icons</div>
+    <span class="label">Variant=Sort, State=Default</span>
+  </div>
+  <div class="spec">
+    <div class="pf-table-header-icons" data-variant="Sort" data-state="Ascending">Table header icons</div>
+    <span class="label">Variant=Sort, State=Ascending</span>
+  </div>
+  <div class="spec">
+    <div class="pf-table-header-icons" data-variant="Sort" data-state="Descending">Table header icons</div>
+    <span class="label">Variant=Sort, State=Descending</span>
+  </div>
+  <div class="spec">
+    <div class="pf-table-header-icons" data-variant="Filter" data-state="Filtered">Table header icons</div>
+    <span class="label">Variant=Filter, State=Filtered</span>
+  </div>
+  <div class="spec">
+    <div class="pf-table-header-icons" data-variant="Context menu" data-state="Active">Table header icons</div>
+    <span class="label">Variant=Context menu, State=Active</span>
+  </div>
+</div>
+<h2>Tags and ratings</h2>
+<h3>Empty section</h3>
+<p class="meta">1 variant  ·  .pf-empty-section  ·  auto x 212  ·  horizontal center min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-empty-section" data-mobile="False">Empty section</div>
+    <span class="label">Mobile=False</span>
+  </div>
+</div>
+<h3>Star rating</h3>
+<p class="meta">2 variants  ·  .pf-star-rating  ·  no geometry measured</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-star-rating" data-rating="0..5" data-state="Default">Star rating</div>
+    <span class="label">Rating=0..5, State=Default</span>
+  </div>
+  <div class="spec">
+    <div class="pf-star-rating" data-rating="0..5" data-state="Hover">Star rating</div>
+    <span class="label">Rating=0..5, State=Hover</span>
+  </div>
+</div>
+<h3>Tags</h3>
+<p class="meta">7 variants  ·  .pf-tags  ·  auto x 28  ·  horizontal center center</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-tags" data-type="Neutral">Approved</div>
+    <span class="label">Type=Neutral</span>
+  </div>
+  <div class="spec">
+    <div class="pf-tags" data-type="Positive">Approved</div>
+    <span class="label">Type=Positive</span>
+  </div>
+  <div class="spec">
+    <div class="pf-tags" data-type="Negative">Approved</div>
+    <span class="label">Type=Negative</span>
+  </div>
+  <div class="spec">
+    <div class="pf-tags" data-type="Warning">Approved</div>
+    <span class="label">Type=Warning</span>
+  </div>
+  <div class="spec">
+    <div class="pf-tags" data-type="Expired">Approved</div>
+    <span class="label">Type=Expired</span>
+  </div>
+  <div class="spec">
+    <div class="pf-tags" data-type="Other">Approved</div>
+    <span class="label">Type=Other</span>
+  </div>
+  <div class="spec">
+    <div class="pf-tags" data-type="Theme">Approved</div>
+    <span class="label">Type=Theme</span>
+  </div>
+</div>
+<h2>Not yet captured</h2>
+<p class="lede">These components exist in Figma but have no variant colours
+extracted, so the stylesheet has no rules for them. Listed so the gaps are visible rather
+than silently missing.</p>
+<div class="gaps">
+  <div>AI link <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
+  <div>Avatar <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
+  <div>Description <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
+  <div>design system header <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
+  <div>Document label spec <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
+  <div>Document order spec <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
+  <div>Dos and don'ts <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
+  <div>Logos <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
+  <div>Project info - Files and Resources <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
+  <div>Project info - Meeting notes <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
+  <div>Project info - Stakeholders and Team <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
+  <div>Project info - Timeframe and schedule <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
+  <div>Project info - UX PRD summary <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
+  <div>Prototype context screen <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
+  <div>Prototype cover page <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
+  <div>Storybook link <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
+  <div>Team member <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
+  <div>Thumbnail <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
+  <div>Thumbnail/Brand logo <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
+  <div>Work item <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
+  <div>Adaptive card <span style="opacity:.6">— AI</span></div>
+  <div>AI Gradient component <span style="opacity:.6">— AI</span></div>
+  <div>Bar <span style="opacity:.6">— Analytics and charts</span></div>
+  <div>Bar chart <span style="opacity:.6">— Analytics and charts, geometry measured</span></div>
+  <div>Bar chart with axis <span style="opacity:.6">— Analytics and charts, geometry measured</span></div>
+  <div>Data variance <span style="opacity:.6">— Analytics and charts, geometry measured</span></div>
+  <div>Data variance alternative <span style="opacity:.6">— Analytics and charts</span></div>
+  <div>Donut chart with ledger <span style="opacity:.6">— Analytics and charts, geometry measured</span></div>
+  <div>Donut pie chart <span style="opacity:.6">— Analytics and charts, geometry measured</span></div>
+  <div>Graph axis <span style="opacity:.6">— Analytics and charts, geometry measured</span></div>
+  <div>Graph legend <span style="opacity:.6">— Analytics and charts, geometry measured</span></div>
+  <div>Hemisphere chart <span style="opacity:.6">— Analytics and charts, geometry measured</span></div>
+  <div>Metric card <span style="opacity:.6">— Analytics and charts, geometry measured</span></div>
+  <div>Percentage bar <span style="opacity:.6">— Analytics and charts, geometry measured</span></div>
+  <div>Square progress bar <span style="opacity:.6">— Analytics and charts, geometry measured</span></div>
+  <div>Table progress bar <span style="opacity:.6">— Analytics and charts, geometry measured</span></div>
+  <div>Action menu <span style="opacity:.6">— Buttons and links</span></div>
+  <div>Action menu button <span style="opacity:.6">— Buttons and links</span></div>
+  <div>Add attachment <span style="opacity:.6">— Buttons and links</span></div>
+  <div>Drop down button <span style="opacity:.6">— Buttons and links</span></div>
+  <div>Mobile key actions <span style="opacity:.6">— Buttons and links</span></div>
+  <div>Tool tip <span style="opacity:.6">— Buttons and links</span></div>
+  <div>Tooltip <span style="opacity:.6">— Buttons and links</span></div>
+  <div>[S] Attachment <span style="opacity:.6">— Cards and panels</span></div>
+  <div>50/50 layout container <span style="opacity:.6">— Cards and panels</span></div>
+  <div>Attachment with person <span style="opacity:.6">— Cards and panels</span></div>
+  <div>Attachments <span style="opacity:.6">— Cards and panels</span></div>
+  <div>Component 1 <span style="opacity:.6">— Cards and panels</span></div>
+  <div>Configuration panel <span style="opacity:.6">— Cards and panels</span></div>
+  <div>Content <span style="opacity:.6">— Cards and panels</span></div>
+  <div>Detail item <span style="opacity:.6">— Cards and panels</span></div>
+  <div>Details <span style="opacity:.6">— Cards and panels</span></div>
+  <div>Floaters <span style="opacity:.6">— Cards and panels</span></div>
+  <div>Footer <span style="opacity:.6">— Cards and panels</span></div>
+  <div>Horizontal scroll <span style="opacity:.6">— Cards and panels</span></div>
+  <div>Layout container tabs <span style="opacity:.6">— Cards and panels</span></div>
+  <div>Layout container title <span style="opacity:.6">— Cards and panels</span></div>
+  <div>Switcher <span style="opacity:.6">— Cards and panels</span></div>
+  <div>Date picker period <span style="opacity:.6">— Controls, geometry measured</span></div>
+  <div>Date range visual <span style="opacity:.6">— Controls, geometry measured</span></div>
+  <div>Slider <span style="opacity:.6">— Controls, geometry measured</span></div>
+  <div>[S] Post content <span style="opacity:.6">— Forms, geometry measured</span></div>
+  <div>[S] Text area <span style="opacity:.6">— Forms, geometry measured</span></div>
+  <div>Browser drop down <span style="opacity:.6">— Forms, geometry measured</span></div>
+  <div>Calendar picker <span style="opacity:.6">— Forms, geometry measured</span></div>
+  <div>Field icons <span style="opacity:.6">— Forms, geometry measured</span></div>
+  <div>Field label <span style="opacity:.6">— Forms, geometry measured</span></div>
+  <div>Map <span style="opacity:.6">— Forms, geometry measured</span></div>
+  <div>Multiselect tag <span style="opacity:.6">— Forms, geometry measured</span></div>
+  <div>People and department drop down <span style="opacity:.6">— Forms, geometry measured</span></div>
+  <div>Required field <span style="opacity:.6">— Forms, geometry measured</span></div>
+  <div>Signature <span style="opacity:.6">— Forms, geometry measured</span></div>
+  <div>Text template format editor  <span style="opacity:.6">— Forms</span></div>
+  <div>Time picker <span style="opacity:.6">— Forms, geometry measured</span></div>
+  <div>[S] Config child menu <span style="opacity:.6">— Navigation</span></div>
+  <div>[S] Main nav context <span style="opacity:.6">— Navigation</span></div>
+  <div>Config menu items <span style="opacity:.6">— Navigation</span></div>
+  <div>Config parent menu <span style="opacity:.6">— Navigation</span></div>
+  <div>Config side menu <span style="opacity:.6">— Navigation</span></div>
+  <div>Counter <span style="opacity:.6">— Navigation</span></div>
+  <div>Default header background <span style="opacity:.6">— Navigation</span></div>
+  <div>Filter tabs <span style="opacity:.6">— Navigation</span></div>
+  <div>Full page navigation <span style="opacity:.6">— Navigation</span></div>
+  <div>Header <span style="opacity:.6">— Navigation, geometry measured</span></div>
+  <div>Header top navigation <span style="opacity:.6">— Navigation</span></div>
+  <div>Menu <span style="opacity:.6">— Navigation</span></div>
+  <div>Mobile bottom navigation <span style="opacity:.6">— Navigation, geometry measured</span></div>
+  <div>Navigation tabs <span style="opacity:.6">— Navigation, geometry measured</span></div>
+  <div>Search home button <span style="opacity:.6">— Navigation</span></div>
+  <div>Side navigation panel <span style="opacity:.6">— Navigation, geometry measured</span></div>
+  <div>Top bar app context <span style="opacity:.6">— Navigation, geometry measured</span></div>
+  <div>Configuration <span style="opacity:.6">— Pages and Layouts</span></div>
+  <div>Form <span style="opacity:.6">— Pages and Layouts</span></div>
+  <div>Menu-search-settings <span style="opacity:.6">— Pages and Layouts</span></div>
+  <div>[S] People <span style="opacity:.6">— People</span></div>
+  <div>People <span style="opacity:.6">— People</span></div>
+  <div>Profile image <span style="opacity:.6">— People, geometry measured</span></div>
+  <div>Notification image <span style="opacity:.6">— System messages, geometry measured</span></div>
+  <div>AG field <span style="opacity:.6">— Tables</span></div>
+  <div>Stars <span style="opacity:.6">— Tags and ratings</span></div>
+</div>
+<script>
+  const btns = [...document.querySelectorAll('[data-theme-set]')];
+  btns.forEach(b => b.addEventListener('click', () => {
+    const v = b.dataset.themeSet;
+    if (v === 'system') document.documentElement.removeAttribute('data-theme');
+    else document.documentElement.setAttribute('data-theme', v);
+    btns.forEach(o => o.setAttribute('aria-pressed', String(o === b)));
+  }));
+</script>

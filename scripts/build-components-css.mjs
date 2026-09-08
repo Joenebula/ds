@@ -181,7 +181,16 @@ for (const [component, rows] of [...byComponent.entries()].sort()) {
   if (geo.length) {
     out.push(`.${base} {`);
     for (const d of geo) out.push(`  ${d};`);
-    if (rows.some(r => r.stroke)) out.push('  border: 1px solid transparent;');
+    // Reset the browser's own control styling. Without this a variant that Figma gives
+    // NO fill — Button Type=Hollow, for example — falls through to the UA's grey
+    // buttonface and renders as a filled pill, which is the opposite of hollow.
+    out.push('  appearance: none;');
+    out.push('  -webkit-appearance: none;');
+    out.push('  background: transparent;');
+    out.push('  margin: 0;');
+    out.push(rows.some(r => r.stroke)
+      ? '  border: 1px solid transparent;'
+      : '  border: 0;');
     out.push('  box-sizing: border-box;');
     out.push('  font-family: var(--pf-font-body);');
     out.push('}');

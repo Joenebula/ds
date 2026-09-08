@@ -372,3 +372,39 @@ silently guessing.
 
 **Not yet checked:** whether a real screen can be built from these classes alone. That is
 task 11, and it is the actual proof.
+
+---
+
+## Task 9 — See every component on one page — DONE
+
+**Skills loaded:** `people-first` (project, 2026-09-08 19:13).
+
+**Built:** `scripts/build-components-gallery.mjs` → `docs/components.html`.
+**9 pages, 71 components, 191 variants**, each rendered with the real generated
+stylesheet, with a System/Light/Dark switch. Every specimen is labelled with Figma's own
+variant string, so the page reads like the Figma variant panel.
+
+This is the answer to the original complaint that only 11 cards were surfaced.
+
+It also lists the **100 components that are NOT captured** — they exist in Figma but have
+no extracted variant colours, so the stylesheet has no rules for them. A gallery that
+quietly omitted the gaps would be worse than no gallery.
+
+**A second bug caught by looking, not by a script.** In dark mode, Button
+`Type=Hollow`, `Type=Filter` and `Type=Sort` in their Default state rendered as
+light-filled pills with near-invisible text — the opposite of hollow. The extract was
+right: those variants genuinely have no fill in Figma. The fault was mine. `.pf-button`
+renders as a `<button>`, and the generated base class never reset the browser's own
+control styling, so "no fill" fell through to the UA's grey buttonface. Fixed by emitting
+an appearance/background/border reset in every component's base rule. Both modes now
+correct: hollow buttons are transparent with a border.
+
+That is now **twice this run** that the automated checks passed while the output was
+visibly wrong, and twice that a screenshot caught it. Task 10 exists to close some of that
+gap, but looking stays part of the job.
+
+**Commands run and results:**
+- `node scripts/build-components-gallery.mjs` → 9 pages, 71 components, 191 variants.
+- Rendered in Chromium and inspected by eye in **both** light and dark:
+  all 12 Button variants, Filter chip, Links correct in each.
+- `npm run build` → clean; both generators are now part of the build.

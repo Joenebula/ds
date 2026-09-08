@@ -27,6 +27,10 @@
   justify-content: flex-start;
   gap: 20px;
   font-size: 12px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -59,6 +63,11 @@
   justify-content: flex-start;
   gap: 20px;
   font-size: 13px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
@@ -105,6 +114,11 @@
   justify-content: flex-start;
   gap: 10px;
   font-size: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
@@ -129,6 +143,10 @@
   gap: 10px;
   font-size: 13px;
   font-weight: var(--pf-font-weight-regular);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -161,6 +179,11 @@
   justify-content: flex-start;
   gap: 10px;
   font-size: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
@@ -181,6 +204,11 @@
   justify-content: flex-start;
   gap: 5px;
   font-size: 12px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
@@ -203,6 +231,10 @@
   align-items: center;
   justify-content: space-between;
   font-size: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -233,6 +265,10 @@
   gap: 10px;
   font-size: 13px;
   font-weight: var(--pf-font-weight-bold);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -307,6 +343,11 @@
   justify-content: flex-start;
   gap: 20px;
   font-size: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
@@ -326,6 +367,11 @@
   justify-content: flex-start;
   gap: 10px;
   font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
@@ -359,6 +405,11 @@
   justify-content: flex-start;
   gap: 5px;
   font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
@@ -391,6 +442,11 @@
   justify-content: flex-start;
   gap: 10px;
   font-size: 13px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
@@ -417,6 +473,10 @@
   justify-content: center;
   gap: 5px;
   font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -455,6 +515,11 @@
   justify-content: center;
   gap: 10px;
   font-size: 24px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
@@ -478,6 +543,10 @@
   gap: 36px;
   font-size: 24px;
   font-weight: var(--pf-font-weight-regular);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -510,6 +579,10 @@
   justify-content: flex-start;
   gap: 20px;
   font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -533,6 +606,10 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -557,6 +634,10 @@
   align-items: flex-start;
   justify-content: flex-start;
   font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -587,6 +668,10 @@
   justify-content: flex-start;
   gap: 20px;
   font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -638,6 +723,11 @@
   gap: 35px;
   font-size: 20px;
   font-weight: var(--pf-font-weight-bold);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
@@ -659,6 +749,10 @@
   justify-content: flex-end;
   gap: 10px;
   font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -688,6 +782,10 @@
   justify-content: center;
   gap: 5px;
   font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -723,6 +821,10 @@
   gap: 5px;
   font-size: 24px;
   font-weight: var(--pf-font-weight-regular);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -763,6 +865,11 @@
   justify-content: flex-start;
   gap: 5px;
   font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
@@ -821,6 +928,10 @@
  */
 .pf-image-picker {
   height: 220px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -856,6 +967,11 @@
   justify-content: flex-start;
   gap: 6px;
   font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
@@ -915,6 +1031,10 @@
   justify-content: flex-start;
   gap: 10px;
   font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -932,6 +1052,10 @@
   width: 20px;
   height: 20px;
   border-radius: 4px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -965,6 +1089,11 @@
   gap: 22px;
   font-size: 13px;
   font-weight: var(--pf-font-weight-bold);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
@@ -997,6 +1126,10 @@
   gap: 30px;
   font-size: 24px;
   font-weight: var(--pf-font-weight-regular);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -1032,6 +1165,10 @@
   gap: 15px;
   font-size: 13px;
   font-weight: var(--pf-font-weight-bold);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -1055,6 +1192,11 @@
   justify-content: flex-start;
   gap: 5px;
   font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
@@ -1095,6 +1237,10 @@
   justify-content: flex-start;
   gap: 10px;
   font-size: 13px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -1120,6 +1266,10 @@
   gap: 10px;
   font-size: 16px;
   font-weight: var(--pf-font-weight-bold);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -1163,6 +1313,10 @@
   gap: 10px;
   font-size: 16px;
   font-weight: var(--pf-font-weight-bold);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -1192,6 +1346,11 @@
   gap: 40px;
   font-size: 16px;
   font-weight: var(--pf-font-weight-bold);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
@@ -1215,6 +1374,11 @@
   align-items: center;
   justify-content: space-between;
   font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
@@ -1236,6 +1400,11 @@
   gap: 10px;
   font-size: 13px;
   font-weight: var(--pf-font-weight-bold);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
@@ -1266,6 +1435,11 @@
   justify-content: flex-start;
   gap: 20px;
   font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
@@ -1286,6 +1460,11 @@
   align-items: flex-start;
   justify-content: flex-start;
   font-size: 13px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
@@ -1310,6 +1489,10 @@
   justify-content: flex-end;
   gap: 10px;
   font-size: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -1330,6 +1513,11 @@
   align-items: flex-start;
   justify-content: flex-start;
   font-size: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
@@ -1395,6 +1583,10 @@
   gap: 20px;
   font-size: 13px;
   font-weight: var(--pf-font-weight-bold);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -1423,6 +1615,11 @@
   justify-content: flex-start;
   gap: 10px;
   font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
@@ -1465,6 +1662,11 @@
   gap: 20px;
   font-size: 16px;
   font-weight: var(--pf-font-weight-bold);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
@@ -1485,6 +1687,10 @@
   justify-content: flex-start;
   gap: 10px;
   font-size: 13px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -1529,6 +1735,10 @@
   gap: 47px;
   font-size: 13px;
   font-weight: var(--pf-font-weight-bold);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -1560,6 +1770,10 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -1595,6 +1809,10 @@
   gap: 5px;
   font-size: 13px;
   font-weight: var(--pf-font-weight-regular);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -1647,6 +1865,11 @@
   justify-content: flex-start;
   gap: 5px;
   font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
@@ -1675,6 +1898,11 @@
   justify-content: center;
   gap: 10px;
   font-size: 18px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
@@ -1697,6 +1925,11 @@
   justify-content: flex-start;
   gap: 15px;
   font-size: 13px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
@@ -1731,6 +1964,10 @@
   align-items: center;
   justify-content: space-between;
   font-size: 13px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
@@ -1765,6 +2002,10 @@
   align-items: center;
   gap: 10px;
   font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);

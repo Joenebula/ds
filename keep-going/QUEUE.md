@@ -142,7 +142,7 @@ component CSS, and that screen still passes the colour, geometry and audit check
 
 **Depends on:** task 7 (so it is generated once against complete measurements).
 
-## 9. See every component on one page — `pending`
+## 9. See every component on one page — `done`
 
 `docs/components.html`: every component, every variant, in light and dark. This is the
 thing that was asked for back when only 11 cards showed up in Claude Design.
