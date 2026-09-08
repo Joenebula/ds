@@ -1,0 +1,96 @@
+Background/Highlight	@Base colours/White Lilac	@Base colours/Blue Oxford	FRAME_FILL+SHAPE_FILL
+Background/Negative	@Base colours/Red Lavender Blush	#c01123	FRAME_FILL+SHAPE_FILL
+Background/Negative Button	@Base colours/Red	@Base colours/Negative Hover	FRAME_FILL+SHAPE_FILL
+Background/Negative Button Hover	@Base colours/Negative Hover	@Base colours/Red Sanguine Brown	FRAME_FILL+SHAPE_FILL
+Background/Neutral	@Base colours/Blue Sky New	@Base colours/Blue Orient	FRAME_FILL+SHAPE_FILL
+Background/Positive	@Base colours/Green Panache	#005711	FRAME_FILL+SHAPE_FILL
+Background/Primary	@Base colours/White	@Base colours/Blue Charade	FRAME_FILL+SHAPE_FILL
+Background/Primary Button	@Base colours/Green	@Base colours/Green	FRAME_FILL+SHAPE_FILL
+Background/Primary Button Hover	@Base colours/Positive Hover	@Base colours/Positive Hover	FRAME_FILL+SHAPE_FILL
+Background/Secondary	@Base colours/Light Ivory	@Base colours/Blue Shark	FRAME_FILL+SHAPE_FILL
+Background/Secondary Button	@Base colours/Blue Dusk	@Base colours/Blue Turquoise	FRAME_FILL+SHAPE_FILL
+Background/Secondary Button Hover	@Base colours/Blue Navy	@Base colours/Blue Sky	FRAME_FILL+SHAPE_FILL
+Background/Tertiary	@Base colours/White Ivory	#282a32	FRAME_FILL+SHAPE_FILL
+Background/Theme	@Base colours/Pale Pink Theme	#2c3844	FRAME_FILL+SHAPE_FILL
+Background/Theme full	@Base colours/Default Pink	@Base colours/Blue Sky	FRAME_FILL+SHAPE_FILL
+Background/Warning	@Base colours/Bronze Gin Fizz	#b65c02	FRAME_FILL+SHAPE_FILL
+Border/Border - Drop shadow	@Base colours/Grey Dolphin	@Base colours/Grey Slate	STROKE_COLOR+EFFECT_COLOR
+Border/Default	@Base colours/Grey Steel	@Base colours/White	STROKE_COLOR
+Border/Disabled	@Base colours/Grey Dolphin	@Base colours/Grey	STROKE_COLOR
+Border/Form input	@Base colours/Grey boulder	@Base colours/Grey boulder	STROKE_COLOR
+Border/Hollow Button	@Base colours/Grey Fog	@Base colours/White	STROKE_COLOR
+Border/Info	@Base colours/Blue Sky	@Base colours/Blue Sky	STROKE_COLOR
+Border/Negative	@Base colours/Red	@Base colours/Vivid Tangerine	STROKE_COLOR
+Border/Positive	@Base colours/Green	@Base colours/Green Leaf	STROKE_COLOR
+Border/Secondary	@Base colours/Grey Dolphin	@Base colours/Grey Dolphin	STROKE_COLOR
+Border/Tertiary	@Base colours/Grey	@Base colours/White	STROKE_COLOR
+Border/Theme	@Base colours/Default Pink	@Base colours/Blue Turquoise	STROKE_COLOR
+Border/Warning	@Base colours/Orange	@Base colours/Orange	STROKE_COLOR
+Buttons/Fills/Hollow hover	#65656533	#65656533	FRAME_FILL+SHAPE_FILL
+Charts/Chart 1	@Base colours/Blue Ocean	@Base colours/Blue Ocean	FRAME_FILL+SHAPE_FILL+STROKE_COLOR
+Charts/Chart 10	@Base colours/Pink Candy	@Base colours/Pink Candy	FRAME_FILL+SHAPE_FILL+STROKE_COLOR
+Charts/Chart 2	@Base colours/Orange	@Base colours/Orange	FRAME_FILL+SHAPE_FILL+STROKE_COLOR
+Charts/Chart 3	@Base colours/Green Leaf	@Base colours/Green Leaf	FRAME_FILL+SHAPE_FILL+STROKE_COLOR
+Charts/Chart 4	@Base colours/Blue Turquoise	@Base colours/Blue Turquoise	FRAME_FILL+SHAPE_FILL+STROKE_COLOR
+Charts/Chart 5	@Base colours/Pineapple	@Base colours/Pineapple	FRAME_FILL+SHAPE_FILL+STROKE_COLOR
+Charts/Chart 6	@Base colours/Light Purple	@Base colours/Light Purple	FRAME_FILL+SHAPE_FILL+STROKE_COLOR
+Charts/Chart 7	@Base colours/Grey Dolphin	@Base colours/Grey Dolphin	FRAME_FILL+SHAPE_FILL+STROKE_COLOR
+Charts/Chart 8	@Theme/Purple Orchid	@Theme/Purple Orchid	FRAME_FILL+SHAPE_FILL+STROKE_COLOR
+Charts/Chart 9	@Base colours/Brown Gold	@Base colours/Brown Gold	FRAME_FILL+SHAPE_FILL+STROKE_COLOR
+Filter menu/Background	#f8f8f8	#2c313c	FRAME_FILL
+Filter menu/Border	#dadbdb	#2c313c	STROKE_COLOR
+Icons/Icon - Always grey slate	@Base colours/Grey Slate	@Base colours/Grey Slate	SHAPE_FILL+STROKE_COLOR
+Icons/Icon - Disabled	@Base colours/Grey	@Base colours/White Ivory	SHAPE_FILL+STROKE_COLOR
+Icons/Icon - Info	@Base colours/Blue Sky	@Base colours/Blue Sky	SHAPE_FILL+STROKE_COLOR
+Icons/Icon - Link	@Base colours/Blue Ocean	@Base colours/Blue Turquoise	SHAPE_FILL+STROKE_COLOR
+Icons/Icon - Negative	@Base colours/Red	@Base colours/Vivid Tangerine	SHAPE_FILL+STROKE_COLOR
+Icons/Icon - Positive	@Base colours/Green	@Base colours/Green Leaf	SHAPE_FILL+STROKE_COLOR
+Icons/Icon - Primary	@Base colours/Grey Slate	@Base colours/White	SHAPE_FILL+STROKE_COLOR
+Icons/Icon - Primary inverted	@Base colours/White	@Base colours/Grey Slate	SHAPE_FILL+STROKE_COLOR
+Icons/Icon - Required field	@Base colours/Red	@Base colours/Blue Turquoise	SHAPE_FILL+STROKE_COLOR
+Icons/Icon - Secondary	@Base colours/Grey Fog	@Base colours/Grey Dolphin	SHAPE_FILL+STROKE_COLOR
+Icons/Icon - Secondary inverted	@Base colours/Grey Dolphin	@Base colours/Grey Fog	SHAPE_FILL+STROKE_COLOR
+Icons/Icon - Theme	@Base colours/Default Pink	@Base colours/Blue Turquoise	SHAPE_FILL+STROKE_COLOR
+Icons/Icon - Warning	@Base colours/Orange	@Base colours/Orange	SHAPE_FILL+STROKE_COLOR
+Org cards/Fills/BG Dark	#bf1d43	@Base colours/Blue Turquoise	FRAME_FILL+SHAPE_FILL+STROKE_COLOR
+Org cards/Fills/BG Light	#fbf4f6	#292f3c	FRAME_FILL+SHAPE_FILL
+Org cards/Fills/BG Main	@Base colours/White	@Base colours/Blue Shark	FRAME_FILL+SHAPE_FILL
+Progress bar/Border	@Border/Default	@Table/Border	STROKE_COLOR
+Table/Border	@Base colours/Grey Dolphin	#1a1a1a	STROKE_COLOR
+Table/Card	@Background/Primary	#2c313c	FRAME_FILL
+Table/Header cell	@Background/Tertiary	#141414	FRAME_FILL
+Table/Primary cell	@Background/Primary	#323441	FRAME_FILL
+Table/Stripe cell	@Background/Secondary	#23252e	FRAME_FILL
+Tags/Borders/Expired	#b9b9b9	#b9b9b9	STROKE_COLOR
+Tags/Borders/Info	#c82f3c	#4e6998	STROKE_COLOR
+Tags/Borders/Negative	#eb7379	#f75158	STROKE_COLOR
+Tags/Borders/Neutral	#82d4ee	#33b5e5	STROKE_COLOR
+Tags/Borders/Other	#bd88f6	#bd88f6	STROKE_COLOR
+Tags/Borders/Positive	#9ad2a1	#14872f	STROKE_COLOR
+Tags/Borders/Warning	#fec57b	#f18d13	STROKE_COLOR
+Tags/Content/Expired	#5d5d5d	@Text/Always White	SHAPE_FILL+TEXT_FILL+STROKE_COLOR
+Tags/Content/Info	#c82f3c	#4e6998	SHAPE_FILL+TEXT_FILL+STROKE_COLOR
+Tags/Content/Negative	#c82f3c	@Text/Always White	SHAPE_FILL+TEXT_FILL+STROKE_COLOR
+Tags/Content/Neutral	#00588e	@Text/Always White	SHAPE_FILL+TEXT_FILL+STROKE_COLOR
+Tags/Content/Other	#583069	@Text/Always White	SHAPE_FILL+TEXT_FILL+STROKE_COLOR
+Tags/Content/Positive	#037625	@Text/Always White	SHAPE_FILL+TEXT_FILL+STROKE_COLOR
+Tags/Content/Warning	#974f0c	@Text/Always White	SHAPE_FILL+TEXT_FILL+STROKE_COLOR
+Tags/Fills/Expired	#f9f9f9	#707070	FRAME_FILL+SHAPE_FILL
+Tags/Fills/Info	@Base colours/White	@Base colours/White	FRAME_FILL+SHAPE_FILL
+Tags/Fills/Negative	@Background/Negative	#c01123	FRAME_FILL+SHAPE_FILL
+Tags/Fills/Neutral	@Background/Neutral	#00588e	FRAME_FILL+SHAPE_FILL
+Tags/Fills/Other	#e7d6ee	#6d4ed1	FRAME_FILL+SHAPE_FILL
+Tags/Fills/Positive	@Background/Positive	#005711	FRAME_FILL+SHAPE_FILL
+Tags/Fills/Warning	@Background/Warning	#b65c02	FRAME_FILL+SHAPE_FILL
+Text/Always White	@Base colours/White	@Base colours/White	TEXT_FILL
+Text/Always grey slate	@Base colours/Grey Slate	@Base colours/Grey Slate	TEXT_FILL
+Text/Disabled	@Base colours/Grey	@Base colours/Grey Dolphin	TEXT_FILL
+Text/Inverted primary	@Base colours/White	@Base colours/Grey Slate	TEXT_FILL
+Text/Inverted secondary	@Base colours/Grey Dolphin	@Base colours/Grey Fog	TEXT_FILL
+Text/Link	@Base colours/Blue Ocean	@Base colours/Blue Turquoise	TEXT_FILL
+Text/Negative	@Base colours/Red	@Base colours/Vivid Tangerine	TEXT_FILL
+Text/Positive	@Base colours/Green	@Base colours/Green Leaf	TEXT_FILL
+Text/Primary	@Base colours/Grey Slate	@Base colours/White	TEXT_FILL
+Text/Secondary	@Base colours/Grey Fog	@Base colours/Grey Dolphin	TEXT_FILL
+Text/Theme	@Base colours/Default Pink	@Base colours/Blue Turquoise	TEXT_FILL
+Text/Warning	@Base colours/Copper	@Base colours/Orange	TEXT_FILL

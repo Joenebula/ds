@@ -1,0 +1,77 @@
+{
+  "dimensions": [
+    { "name": "Icon-size-lg",        "value": 44, "scopes": "WIDTH_HEIGHT" },
+    { "name": "Icon-size-m",         "value": 36, "scopes": "WIDTH_HEIGHT" },
+    { "name": "Icon-size-s",         "value": 28, "scopes": "WIDTH_HEIGHT" },
+    { "name": "Icon-size-xs",        "value": 22, "scopes": "WIDTH_HEIGHT" },
+    { "name": "Icon-size-xxs",       "value": 18, "scopes": "WIDTH_HEIGHT" },
+    { "name": "Icon-size-xxxs",      "value": 0,  "scopes": "ALL_SCOPES" },
+    { "name": "Radius/radius-medium","value": 8,  "scopes": "CORNER_RADIUS" },
+    { "name": "Radius/radius-small", "value": 4,  "scopes": "CORNER_RADIUS" },
+    { "name": "Spacing/sizing-xsmall","value": 5, "scopes": "GAP" },
+    { "name": "Spacing/sizing-small", "value": 10,"scopes": "GAP" },
+    { "name": "Spacing/sizing-medium","value": 15,"scopes": "ALL_SCOPES" },
+    { "name": "Spacing/sizing-large", "value": 20,"scopes": "GAP" },
+    { "name": "Spacing/sizing-xlarge","value": 40,"scopes": "GAP" }
+  ],
+  "typography": [
+    { "name": "Body",           "value": "Open Sans" },
+    { "name": "Headings",       "value": "Open Sans" },
+    { "name": "Size/XL",        "value": 36 },
+    { "name": "Size/L",         "value": 24 },
+    { "name": "Size/M",         "value": 20 },
+    { "name": "Size/S",         "value": 16 },
+    { "name": "Size/XS",        "value": 13 },
+    { "name": "Weight/Regular", "value": "Regular" },
+    { "name": "Weight/Bold",    "value": "SemiBold" }
+  ],
+  "textStyles": [
+    { "name": "Desktop text/XL heading",                     "fontSize": 36, "style": "unresolved", "letterSpacing": 0,  "case": "ORIGINAL" },
+    { "name": "Desktop text/XL heading (light)",             "fontSize": 36, "style": "Light",      "letterSpacing": 0,  "case": "ORIGINAL" },
+    { "name": "Desktop text/Large heading",                  "fontSize": 24, "style": "Regular",    "letterSpacing": 0,  "case": "ORIGINAL", "bound": "Size/L + Weight/Regular + Headings" },
+    { "name": "Desktop text/Large heading (light)",          "fontSize": 24, "style": "unresolved", "letterSpacing": 0,  "case": "ORIGINAL", "description": "This is to be used on large header content" },
+    { "name": "Desktop text/Sub heading",                    "fontSize": 20, "style": "unresolved", "letterSpacing": 0,  "case": "ORIGINAL" },
+    { "name": "Desktop text/Sub heading (semi bold, 600)",   "fontSize": 20, "style": "SemiBold",   "letterSpacing": 0,  "case": "ORIGINAL" },
+    { "name": "Desktop text/Body text",                      "fontSize": 16, "style": "unresolved", "letterSpacing": -1, "case": "ORIGINAL", "bound": "Size/S + Weight/Regular + Body" },
+    { "name": "Desktop text/Body text (semi bold, 600)",     "fontSize": 16, "style": "SemiBold",   "letterSpacing": -1, "case": "ORIGINAL", "bound": "Size/S + Weight/Bold" },
+    { "name": "Desktop text/Body text (italic)",             "fontSize": 16, "style": "Italic",     "letterSpacing": -1, "case": "ORIGINAL" },
+    { "name": "Desktop text/Button text",                    "fontSize": 16, "style": "SemiBold",   "letterSpacing": 0,  "case": "ORIGINAL", "note": "DUPLICATE NAME - 16px sentence case" },
+    { "name": "Desktop text/Label text",                     "fontSize": 13, "style": "unresolved", "letterSpacing": 0,  "case": "ORIGINAL" },
+    { "name": "Desktop text/Label text (semi bold, 600)",    "fontSize": 13, "style": "SemiBold",   "letterSpacing": 0,  "case": "ORIGINAL" },
+    { "name": "Desktop text/Label text (italic)",            "fontSize": 13, "style": "Italic",     "letterSpacing": -1, "case": "ORIGINAL" },
+    { "name": "Desktop text/Button text (uppercase)",        "fontSize": 13, "style": "unresolved", "letterSpacing": 0,  "case": "UPPER", "note": "DUPLICATE NAME in Figma - both named 'Desktop text/Button text'" },
+    { "name": "Desktop text/Tag text",                       "fontSize": 13, "style": "unresolved", "letterSpacing": -1, "case": "UPPER" },
+    { "name": "Mobile text/XXL heading",                     "fontSize": 50, "style": "Medium",     "letterSpacing": 0,  "case": "ORIGINAL" },
+    { "name": "Mobile text/XXL heading (light)",             "fontSize": 50, "style": "unresolved", "letterSpacing": 0,  "case": "ORIGINAL" },
+    { "name": "Mobile text/XL heading",                      "fontSize": 30, "style": "Regular",    "letterSpacing": 0,  "case": "ORIGINAL" },
+    { "name": "Mobile text/XL heading (light)",              "fontSize": 30, "style": "unresolved", "letterSpacing": 0,  "case": "ORIGINAL" },
+    { "name": "Mobile text/Large heading",                   "fontSize": 20, "style": "Regular",    "letterSpacing": 0,  "case": "ORIGINAL" },
+    { "name": "Mobile text/Large heading (light)",           "fontSize": 20, "style": "unresolved", "letterSpacing": 0,  "case": "ORIGINAL" },
+    { "name": "Mobile text/Sub heading",                     "fontSize": 18, "style": "unresolved", "letterSpacing": 0,  "case": "ORIGINAL" },
+    { "name": "Mobile text/Sub heading (bold)",              "fontSize": 18, "style": "SemiBold",   "letterSpacing": 0,  "case": "ORIGINAL" }
+  ],
+  "effectStyles": [
+    { "name": "Drop shadow",         "type": "DROP_SHADOW", "color": "#c1c1c1", "alpha": 1,   "x": 0, "y": 0, "radius": 4, "spread": 0 },
+    { "name": "Modal/Header shadow", "type": "DROP_SHADOW", "color": "#000000", "alpha": 0.1, "x": 0, "y": 4, "radius": 4, "spread": 0 }
+  ],
+  "gridStyles": [
+    { "name": "1588 grid", "columns": 24, "gutter": 20, "sectionSize": 47, "alignment": "CENTER" },
+    { "name": "1454 grid", "columns": 22, "gutter": 20, "sectionSize": 47, "alignment": "CENTER" },
+    { "name": "1320 grid", "columns": 18, "gutter": 20, "sectionSize": 47, "alignment": "CENTER" },
+    { "name": "784 grid",  "columns": 12, "gutter": 20, "sectionSize": 47, "alignment": "CENTER" }
+  ],
+  "gradients": [
+    { "name": "AI gradient", "type": "linear", "stops": [
+      { "pos": 0,     "color": "#007ff3" },
+      { "pos": 0.315, "color": "#a922c1" },
+      { "pos": 0.585, "color": "#ff0098" },
+      { "pos": 1,     "color": "#ff0029" }
+    ]}
+  ],
+  "orphanVariables": [
+    { "name": "Department",      "type": "STRING", "note": "content placeholder, not a design token" },
+    { "name": "Project title",   "type": "STRING", "note": "content placeholder, not a design token" },
+    { "name": "UX designer",     "type": "STRING", "note": "content placeholder, not a design token" },
+    { "name": "Project manager", "type": "STRING", "note": "content placeholder, not a design token" }
+  ]
+}
