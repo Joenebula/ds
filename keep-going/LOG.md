@@ -278,3 +278,46 @@ the kind of thing that makes a screen read as "close, but not ours".
 - `node scripts/check-icon-fidelity.mjs prototypes/absence-requests.src.html`
   → before: 20 of 21, one not a Figma icon. After: **21 of 21**.
 - geometry 29/29, colour 54/54, audit PASS — unchanged by the swap.
+
+---
+
+# Run 2 — make the variants usable
+
+## Task 7 — Measure Forms and Controls — DONE
+
+**Skills loaded:** `figma-use` (Figma MCP resource, re-read in full before the reads).
+`people-first` (project, 2026-09-08 19:13) for where geometry belongs.
+
+**Built:** measured every component on the Forms and Controls pages — 27 new rows, taking
+`tokens/_raw/component-geometry.tsv` from 79 to **106** components. Forms 20 of 21,
+Controls 11 of 11.
+
+**Commands run and results:**
+- 2 read-only Figma calls, fanned out in parallel (one page each, as the skill requires).
+- `node scripts/build-geometry-ref.mjs` → geometry.md, 106 components.
+- `node scripts/verify-geometry.mjs prototypes/absence-requests.html` → **29 match, 0 off**
+  (unchanged by the rename below).
+
+**A naming correction.** Figma calls the input box `Field`. An earlier pass had recorded it
+under my own invented name, `Form field (input)`. Renamed to Figma's name and updated
+`verify-geometry.mjs` to match — the whole point of this extract is that names line up with
+what a designer sees.
+
+**Worth knowing, found while measuring:**
+- `Form field` is the *wrapper* — label + input + helper text — and carries **40 variants**
+  (Input type x State: Text, Dropdown, Search, Date picker, Time picker, each
+  Default/Disabled/Error/Selected). This is the single most useful component for building
+  screens, and it had no geometry recorded at all.
+- `Control` is the checkbox/radio box itself: 20x20, radius 4.
+  `Checkbox/Radio item` is box + label, 22 high, 10px gap, and has 18 variants.
+- `Radio tile` and `Radio card` are 235 wide with 25px side padding and 16px SemiBold —
+  noticeably heavier type than the rest of the form set.
+- `[S] Post content` has 73px of left padding, which is room for an avatar.
+
+**Assumption logged:** the geometry script measures the *first* variant of a set as
+representative. For sets whose variants differ in size (rare here) that under-reports.
+Cheap to revisit — the variant list is already captured per component.
+
+**Correction to an earlier reading:** I first reported that no variant data existed for
+Forms and Controls. That was wrong — I matched the page name with trailing spaces. Variant
+colours were already captured for 15 of these components (47 rows).

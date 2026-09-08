@@ -44,7 +44,7 @@ const CHECKS = [
   { sel: '.chip',       component: 'Filter chip',       height: true, font: true, pill: true },
   { sel: '.tag',        component: 'Tags',              height: true, font: true, radius: true,
     textTransform: 'none' },
-  { sel: '.control',    component: 'Form field (input)', height: true, font: true, radius: true },
+  { sel: '.control',    component: 'Field', height: true, font: true, radius: true },
   { sel: 'thead th',    component: 'Table header (AG)', height: true, font: true },
   { sel: 'tbody td',    component: 'Table cell (AG)',   height: true, font: true },
   { sel: '.dcard',      component: 'Draggable card',    height: true, font: true, radius: true },

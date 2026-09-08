@@ -99,6 +99,82 @@ MCP disconnection mid-run lost nothing.
 
 ---
 
+---
+
+# Run 2 — make the variants usable
+
+**Why this run exists.** Run 1 captured the design system: 177 tokens, 293 icons, the
+colours and shapes of 79 components, and four skills. But the original ask was *"what
+I'm after is being able to use the variants in the prototypes"*, and that is still not
+true. `dist/` contains only `tokens.css`. To use a Button variant today you read
+`variants.md`, read `geometry.md`, and hand-write the CSS — which is exactly how the
+wrong-shapes mistake happened in the first place.
+
+**Starting save point:** commit `c8e0d4c`, clean tree, pushed.
+**Scope fence:** `/home/user/ds` — unchanged.
+
+**Governing skills** (re-read in full immediately before each task):
+- `people-first` — project, modified 2026-09-08 19:13. Governs tasks 8, 9, 11.
+- `figma-use` — Figma MCP resource. Mandatory before any Figma read. Governs task 7.
+- `pf-audit`, `pf-screen` — project. The checks used in task 11.
+
+## 7. Measure the components people actually build with — `done`
+
+Geometry is measured for 79 components, but the gaps are in the ones a real screen needs
+most: **Forms** (3 of 21) and **Controls** (1 of 11) — inputs, dropdowns, checkboxes,
+radios, toggles, date pickers, steppers.
+
+**Done when:** met — Forms 20 of 21, Controls 11 of 11. (The 21st is a second, unrelated
+Figma component also named `Field`; it is recorded as `Field (second component)`.)
+Geometry file now covers **106** components, up from 79. `geometry.md` regenerates.
+
+**Depends on:** nothing. Uses Figma reads.
+
+## 8. A stylesheet you can actually build with — `pending`
+
+Generate `dist/components.css` from the raw extracts, so every captured component and
+variant is a real class: `.pf-btn`, `.pf-btn--hollow`, `.pf-tag--info`, `.pf-input`.
+Colours come from tokens, shapes from the measured geometry. Generated, never hand-typed,
+so it cannot drift from Figma.
+
+**Done when:** a screen can be built using only these classes with no hand-written
+component CSS, and that screen still passes the colour, geometry and audit checks.
+
+**Depends on:** task 7 (so it is generated once against complete measurements).
+
+## 9. See every component on one page — `pending`
+
+`docs/components.html`: every component, every variant, in light and dark. This is the
+thing that was asked for back when only 11 cards showed up in Claude Design.
+
+**Done when:** opening one file shows all captured components with their variants named
+exactly as Figma names them, and it looks right in both light and dark mode.
+
+**Depends on:** task 8.
+
+## 10. Check the stylesheet against Figma — `pending`
+
+A script that renders `components.css` and compares every class against the measured
+geometry and the extracted variant colours — the same idea as `verify-geometry.mjs`, but
+covering the whole library rather than one page.
+
+**Done when:** one command reports pass/fail per component, and correctly fails when a
+value is deliberately broken.
+
+**Depends on:** task 8.
+
+## 11. Rebuild the absence-requests prototype on the stylesheet — `pending`
+
+Proof the library works: strip the hand-written component CSS out of the prototype and
+use the classes instead.
+
+**Done when:** the prototype has no hand-written component CSS, looks the same as before,
+and still passes geometry, colour, icon-fidelity and audit.
+
+**Depends on:** tasks 8 and 10.
+
+---
+
 ## Suggestions (not queued — for you to decide)
 
 Found while working; not acted on, to keep the change pile reviewable.

@@ -17,7 +17,7 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Filter chip** | auto x 42 | 10 20 | 76 | 5 | 16px, ls -1% | PILL. Selected uses SemiBold, gap 10. |
 | **Filter chip (mobile)** | auto x 34 | 8 15 | 76 | 5 | 13px | PILL |
 | **Tags** | auto x 28 | 5 10 | 4 | 5 | 13px Regular | SENTENCE CASE, not uppercase |
-| **Form field (input)** | auto x 42 | 10 10 10 20 | 8 | 10 | 16px | label above, 5px gap |
+| **Field** | 300 x 42 | 10 10 10 20 | 8 | 10 | 16px | the input box itself. Placeholder text is italic, the value is not. 4 variants (Right aligned x Filled). Figma has a second, unrelated component also called Field. |
 | **Primary search** | auto x 38 | 0 10 | 20 | 10 | 13px | PILL |
 | **Option (dropdown row)** | auto x 26 | 2 10 2 20 | 4 | 5 | 16px | tick icon 14x14 |
 | **Text area** | auto x 213 | — | 8 | 5 | 16px | inner frame r8 |
@@ -89,6 +89,33 @@ case, and table rows are far taller than a default table. Look values up here.
 | **AI banner** | auto x 94 | 20 | 8 | 10 | 20px |  |
 | **Clickable AI element** | 382 x 38 | 10 10 10 20 | 8 | 10 | 13px |  |
 | **AI message bubble** | 455 x 149 | 0 | 0 | 5 | 12px |  |
+| **Form field** | 564 x auto | 0 | 0 | 5 | 16px | WRAPPER: label + input + helper text. 40 variants (Input type x State) - Text, Dropdown, Search, Date picker, Time picker x Default, Disabled, Error, Selected |
+| **Required field** | auto x auto | 0 | 0 | 8 | 16px | the asterisk marker |
+| **Field label** | 152 x auto | 0 | 0 | 42 | 16px | label sits above its input, 5px gap |
+| **Field icons** | auto x auto | 0 | 0 | 5 | — | 2 variants |
+| **Option** | 250 x auto | 2 10 2 20 | 4 | 5 | 16px | dropdown list row. 2 variants |
+| **Browser drop down** | 440 x auto | 5 | 8 | 5 | 16px |  |
+| **Inline search** | 400 x auto | 0 | 0 | 6 | 16px | 2 variants |
+| **People and department drop down** | 440 x auto | 10 5 10 10 | 0 | 10 | 16px |  |
+| **Multiselect tag** | auto x auto | 0 | 4 | 0 | 13px | the removable tag inside a multiselect |
+| **[S] Text area** | 300 x 240 | 0 | 8 | 5 | 16px | small variant |
+| **Signature** | auto x auto | 0 | 0 | 0 | 16px |  |
+| **Text template format editor** | 440 x auto | 0 | 0 | 5 | 16px | 2 variants |
+| **[S] Post content** | 520 x auto | 0 20 10 73 | 0 | 2 | 20px | 73px left padding leaves room for an avatar |
+| **Map** | 480 x 200 | — | 8 | — | — | not auto-layout |
+| **Calendar picker** | auto x auto | 0 | 0 | 0 | 16px |  |
+| **Time picker** | auto x auto | 0 | 0 | 0 | 16px |  |
+| **Field (second component)** | auto x auto | 0 | 0 | 2 | 13px | Figma has two components named Field on the Forms page; this is the smaller one |
+| **Radio tile** | 235 x auto | 25 0 | 4 | 10 | 16px SemiBold | 2 variants |
+| **Radio card** | 235 x 152 | 25 0 | 4 | 10 | 16px SemiBold | 4 variants |
+| **Control** | 20 x 20 | 10 | 4 | 10 | — | the checkbox/radio box itself, 20x20 r4. 2 variants |
+| **Checkbox/Radio item** | auto x 22 | 0 | 0 | 10 | 16px | box + label, 10px gap. 18 variants |
+| **Checkbox/Radio list** | 194 x auto | 0 | 0 | 5 | 16px | 5px between items. 4 variants |
+| **Date picker period** | auto x auto | 0 | 0 | 10 | 20px |  |
+| **Date range visual** | 371 x auto | 0 | 0 | 20 | 16px |  |
+| **Image picker** | 440 x 220 | — | 0 | — | — | not auto-layout |
+| **Slider** | 600 x auto | 0 | 0 | 20 | 13px |  |
+| **Document previewer** | 375 x 642 | 0 | 0 | 0 | 16px | 3 variants |
 
 ## Reading these numbers
 
