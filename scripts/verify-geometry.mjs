@@ -39,18 +39,18 @@ const fontSizeOf = c => {
 // `pill: true` means any radius >= half the height counts (Figma stores 20/76/78;
 // CSS 999px is the correct equivalent, so an exact match would be wrong to demand).
 const CHECKS = [
-  { sel: '.btn',        component: 'Button',            height: true, font: true, pill: true },
-  { sel: '.btn--icon',  component: 'Button (icon only)', height: true, width: 32 },
-  { sel: '.chip',       component: 'Filter chip',       height: true, font: true, pill: true },
-  { sel: '.tag',        component: 'Tags',              height: true, font: true, radius: true,
+  { sel: '.pf-button',        component: 'Button',            height: true, font: true, pill: true },
+  { sel: '.pf-button--icon-only',  component: 'Button (icon only)', height: true, width: 32 },
+  { sel: '.pf-filter-chip',       component: 'Filter chip',       height: true, font: true, pill: true },
+  { sel: '.pf-tags',        component: 'Tags',              height: true, font: true, radius: true,
     textTransform: 'none' },
-  { sel: '.control',    component: 'Field', height: true, font: true, radius: true },
+  { sel: '.pf-field',    component: 'Field', height: true, font: true, radius: true },
   { sel: 'thead th',    component: 'Table header (AG)', height: true, font: true },
   { sel: 'tbody td',    component: 'Table cell (AG)',   height: true, font: true },
-  { sel: '.dcard',      component: 'Draggable card',    height: true, font: true, radius: true },
-  { sel: '.toggle',     component: 'Toggle',            height: true, width: 55, radius: true },
-  { sel: '.msbox',      component: 'Multi-select checkbox', height: true, width: 20, radius: true },
-  { sel: '.panel',      component: 'Card',              radius: true },
+  { sel: '.pf-draggable-card',      component: 'Draggable card',    height: true, font: true, radius: true },
+  { sel: '.pf-toggle',     component: 'Toggle',            height: true, width: 55, pill: true },
+  { sel: '.pf-multi-select-checkbox',      component: 'Multi-select checkbox', height: true, width: 20, radius: true },
+  { sel: '.pf-card',      component: 'Card',              radius: true },
 ];
 
 const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });

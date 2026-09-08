@@ -595,7 +595,7 @@
 
 /* Control
  * 2 variants captured. the checkbox/radio box itself, 20x20 r4. 2 variants
- * Figma sets 10px padding on a 20px-tall box; dropped, as the size wins
+ * Figma sets 10px padding on a 20px-tall box, leaving -2px for content; dropped, as the size wins
  */
 .pf-control {
   width: 20px;
@@ -928,6 +928,7 @@
  */
 .pf-image-picker {
   height: 220px;
+  display: inline-block;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -1052,6 +1053,7 @@
   width: 20px;
   height: 20px;
   border-radius: 4px;
+  display: inline-block;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -1759,11 +1761,11 @@
 
 /* Table header icons
  * 5 variants captured
+ * Figma sets 10px padding on a 24px-tall box, leaving 2px for content; dropped, as the size wins
  */
 .pf-table-header-icons {
   width: 24px;
   height: 24px;
-  padding: 10px;
   border-radius: 4px;
   display: inline-flex;
   flex-direction: row;

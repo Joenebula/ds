@@ -434,3 +434,52 @@ plus border (22px) floors the height and silently wins, so the box you get is no
 you drew. The size you see in Figma is authoritative, so the generator now drops padding
 that its own measured height cannot fit, and records why in a comment above the rule.
 This affects any component whose padding exceeds its height, not just this one.
+
+---
+
+## Task 11 — Rebuild the absence-requests prototype on the stylesheet — DONE
+
+**Skills loaded:** `people-first` (project, 2026-09-08 19:13), `pf-audit`, `pf-screen`.
+
+**Built:** `prototypes/absence-requests.src.html` no longer contains hand-written
+component CSS. Markup now names Figma variants directly — `<button class="pf-button"
+data-type="Action">`, `<div class="pf-form-field" data-input-type="Text"
+data-state="Error">`, `<td class="pf-table-cell-ag" data-type="Default"
+data-style="Stripe">`. The file went from 543 lines to 455, and the style block from
+around 380 lines of component CSS to 161 lines of genuinely local rules: page layout,
+cursor, transition, the focus ring, and the tick glyph drawn inside a checkbox. That
+block is marked with a comment saying so — if anything in it restates a Figma value,
+that is a bug.
+
+`scripts/build-prototype.mjs` now inlines both stylesheets (`/*__TOKENS__*/` and
+`/*__COMPONENTS__*/`), so a self-contained prototype still has no external references.
+
+**Commands run and results:**
+- `npm run build` → clean; 71 components, 244 rules, 0 unmapped tokens.
+- `node scripts/build-prototype.mjs prototypes/absence-requests.src.html
+  prototypes/absence-requests.html` → 111 KB, 44 distinct tokens, no raw hex, no raw rgb.
+- `node scripts/verify-geometry.mjs` → **29 of 29 match Figma, 0 off.**
+- `node scripts/verify-rendered.mjs` → **54 rendered colours match, 0 mismatched.**
+- `node scripts/check-icon-fidelity.mjs` → **21 of 21 inline glyphs are real Figma icons.**
+- `node scripts/pf-audit.mjs` → **PASS**, 100% token coverage in both modes. The two
+  low-contrast items it lists are disabled controls, which WCAG 1.4.3 exempts.
+- `node scripts/verify-components.mjs` → **1764 of 1764, 0 off.**
+- Screenshotted at 1400x1100 in light and dark and inspected by eye.
+
+**The third visual-only bug this run.** All five scripts were green while the two table
+header icons rendered as tiny empty outlined boxes. Cause: `.pf-table-header-icons` is
+24x24 in Figma with 10px padding, which leaves a 2px content box and crushes the 11px
+glyph. The padding rule added in task 10 only caught a *negative* content box, so 2px
+slipped through. Generalised it: any padding leaving under 8px for content is treated as
+decorative and dropped, because nothing legible fits below that. Also corrected a
+mislabelled icon in the prototype — a Sort glyph was carrying Filter's variant
+attributes.
+
+**Assumption logged:** table striping is subtle in light mode (`bg-primary` vs
+`bg-secondary`). Checked the bindings rather than adjusting: Figma binds
+`Table/Primary cell` and `Table/Stripe cell`, which resolve to genuinely different values
+in both modes. The subtlety is Figma's, not a broken binding, so it is left alone.
+
+**Not checked:** the prototype is one screen. The 100 components with no extracted
+variant colours are still uncovered by any rendered check — they are listed in
+`docs/components.html` under "Not yet captured" so the gap is visible.

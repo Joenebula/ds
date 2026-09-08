@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;1,400&display=swap">
 <style>
 /*__TOKENS__*/
+/*__COMPONENTS__*/
 
 /* ---------- base ---------- */
 * { box-sizing: border-box; }
@@ -77,174 +78,85 @@ h3 { font-size: var(--pf-font-size-s); font-weight: var(--pf-font-weight-bold); 
 .content { padding: var(--pf-space-large) var(--pf-space-xlarge) var(--pf-space-xlarge); display: flex; flex-direction: column; gap: var(--pf-space-large); }
 @media (max-width: 620px) { .topbar, .content { padding-left: var(--pf-space-large); padding-right: var(--pf-space-large); } }
 
-/* ---------- buttons: Button set, Type × State ---------- */
-/* Figma: Button — h32, pad 0 20, radius 20 (pill), 13px SemiBold, 10px gap, leading icon */
-.btn {
-  display: inline-flex; align-items: center; gap: 10px;
-  height: 32px; padding: 0 20px; border-radius: 20px;
-  font-family: inherit; font-size: 13px; font-weight: var(--pf-font-weight-bold);
-  border: 1px solid transparent; cursor: pointer; line-height: 1; white-space: nowrap;
-  transition: background-color .12s;
-}
-.btn svg { flex: none; }
-.btn--icon { width: 32px; padding: 0; justify-content: center; }
-.btn--action    { background: var(--pf-bg-secondary-button); color: var(--pf-text-inverted-primary); }
-.btn--action:hover, .btn--action.is-hover { background: var(--pf-bg-secondary-button-hover); }
-.btn--positive  { background: var(--pf-bg-primary-button); color: var(--pf-text-always-white); }
-.btn--positive:hover, .btn--positive.is-hover { background: var(--pf-bg-primary-button-hover); }
-.btn--negative  { background: var(--pf-bg-negative-button); color: var(--pf-text-always-white); }
-.btn--negative:hover, .btn--negative.is-hover { background: var(--pf-bg-negative-button-hover); }
-.btn--hollow    { background: transparent; color: var(--pf-text-primary); border-color: var(--pf-border-hollow-button); }
-.btn--hollow:hover, .btn--hollow.is-hover { background: var(--pf-button-fill-hollow-hover); }
-.btn:disabled   { border-color: var(--pf-border-disabled); background: transparent;
-                  color: var(--pf-text-disabled); cursor: not-allowed; }
+/* ---------- local ----------
+   Everything below is either page layout or behaviour the Figma extract does not
+   capture (cursor, transition, focus, the tick glyph inside a checkbox). Every
+   colour and shape now comes from dist/components.css, which is generated from
+   Figma. If something here restates a Figma value, it is a bug.
+   -------------------------------------------------------------------------- */
+.pf-button { cursor: pointer; line-height: 1; white-space: nowrap; transition: background-color .12s; }
+.pf-button svg { flex: none; }
+.pf-button--icon-only { width: 32px; padding: 0; justify-content: center; }
+.pf-button:disabled { border-color: var(--pf-border-disabled); background: transparent;
+                      color: var(--pf-text-disabled); cursor: not-allowed; }
 
-/* ---------- filter chips: Filter chip, State × Active ---------- */
 .chiprow { display: flex; gap: var(--pf-space-small); flex-wrap: wrap; align-items: center; }
-/* Figma: Filter chip — h42, pad 10 20, radius 76 (pill), 16px, ls -1% */
-.chip {
-  display: inline-flex; align-items: center; gap: 5px;
-  height: 42px; padding: 10px 20px; border-radius: 999px;
-  font-family: inherit; font-size: 16px; letter-spacing: -0.01em;
-  background: var(--pf-bg-primary); color: var(--pf-text-primary);
-  border: 1px solid var(--pf-border-hollow-button); cursor: pointer;
-  transition: background-color .12s, border-color .12s, color .12s;
-}
-.chip:hover { background: var(--pf-bg-theme); border-color: var(--pf-border-theme); color: var(--pf-text-theme); }
-.chip[aria-pressed="true"] { border-color: var(--pf-border-theme); color: var(--pf-text-theme); font-weight: var(--pf-font-weight-bold); gap: 10px; }
+.pf-filter-chip { cursor: pointer; transition: background-color .12s, border-color .12s, color .12s; }
+.pf-filter-chip[data-state="Selected"] { font-weight: var(--pf-font-weight-bold); }
 
-/* ---------- tags: Tags, Type × Small ---------- */
-/* Figma: Tags — h28, pad 5 10, radius 4, 13px Regular, SENTENCE CASE (not uppercase) */
-.tag {
-  display: inline-flex; align-items: center; gap: 5px;
-  height: 28px; padding: 5px 10px; border-radius: var(--pf-radius-small);
-  font-size: 13px; font-weight: var(--pf-font-weight-regular);
-  border: 1px solid; white-space: nowrap;
-}
-.tag--positive { background: var(--pf-tag-fill-positive); border-color: var(--pf-tag-border-positive); color: var(--pf-tag-content-positive); }
-.tag--negative { background: var(--pf-tag-fill-negative); border-color: var(--pf-tag-border-negative); color: var(--pf-tag-content-negative); }
-.tag--warning  { background: var(--pf-tag-fill-warning);  border-color: var(--pf-tag-border-warning);  color: var(--pf-tag-content-warning); }
-.tag--neutral  { background: var(--pf-tag-fill-neutral);  border-color: var(--pf-tag-border-neutral);  color: var(--pf-tag-content-neutral); }
-.tag--other    { background: var(--pf-tag-fill-other);    border-color: var(--pf-tag-border-other);    color: var(--pf-tag-content-other); }
-.tag--expired  { background: var(--pf-tag-fill-expired);  border-color: var(--pf-tag-border-expired);  color: var(--pf-tag-content-expired); }
-/* Type=Theme binds Tags/Borders/Info for text in Figma — using Content/Info, see variants.md */
-.tag--theme    { background: var(--pf-tag-fill-info);     border-color: var(--pf-tag-border-info);     color: var(--pf-tag-content-info); }
+.pf-tags { white-space: nowrap; }
 
-/* ---------- table: Table cell (AG), Type × Style ---------- */
-.tablewrap {
-  background: var(--pf-table-card); border: 1px solid var(--pf-table-border);
-  border-radius: var(--pf-radius-medium); overflow: hidden;
-}
+.tablewrap { background: var(--pf-table-card); border: 1px solid var(--pf-table-border);
+             border-radius: var(--pf-radius-medium); overflow: hidden; }
 .tablescroll { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; min-width: 720px; }
-/* Figma: Table header (AG) h54 pad 15 13px SemiBold; Table cell (AG) h58 pad 10 15 13px */
-thead th {
-  background: var(--pf-table-header-cell); color: var(--pf-text-primary);
-  text-align: left; font-size: 13px; font-weight: var(--pf-font-weight-bold);
-  height: 54px; padding: 15px; line-height: 1.2;
-  border-bottom: 1px solid var(--pf-border-default); white-space: nowrap;
-}
-tbody td {
-  height: 58px; padding: 10px 15px; font-size: 13px; line-height: 1.3;
-  border-bottom: 1px solid var(--pf-border-default); vertical-align: middle;
-}
-tbody tr { background: var(--pf-table-primary-cell); }
-tbody tr:nth-child(even) { background: var(--pf-table-stripe-cell); }
-tbody tr:hover { background: var(--pf-bg-theme); }
+/* A table cell treats height as a minimum, so a 20px icon grows the line box past
+   Figma's 54px. line-height is not something the extract captures. */
+thead th { text-align: left; white-space: nowrap; line-height: 1.2;
+           border-bottom: 1px solid var(--pf-border-default); }
+tbody td { line-height: 1.3; vertical-align: middle;
+           border-bottom: 1px solid var(--pf-border-default); }
 tbody tr:last-child td { border-bottom: none; }
 td .name { font-weight: var(--pf-font-weight-bold); }
 td a { color: var(--pf-text-link); }
-/* Table header icons — State=Ascending / Filtered */
-.thicon {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 20px; height: 20px; border-radius: var(--pf-radius-small); margin-left: 6px;
-  vertical-align: middle; color: var(--pf-icon-secondary);
-}
-.thicon.is-active { background: var(--pf-bg-theme); color: var(--pf-icon-theme); }
-/* Multi-select checkbox — State=Default / Selected */
-/* Figma: Multi-select checkbox 20x20 r4 */
-.msbox {
-  width: 20px; height: 20px; border-radius: var(--pf-radius-small); display: inline-block;
-  border: 1.5px solid var(--pf-icon-disabled); background: var(--pf-bg-primary);
-}
-.msbox.is-selected { background: var(--pf-icon-theme); border-color: var(--pf-icon-theme); position: relative; }
-.msbox.is-selected::after {
+.pf-table-header-ag, .pf-table-cell-ag { display: table-cell; }
+.pf-table-header-icons { margin-left: 6px; vertical-align: middle; }
+
+/* the tick inside a selected checkbox is drawn art, not a token */
+.pf-multi-select-checkbox { position: relative; }
+.pf-multi-select-checkbox[data-state="Selected"]::after {
   content: ""; position: absolute; left: 6.5px; top: 2.5px; width: 5px; height: 9px;
   border: solid var(--pf-base-white); border-width: 0 2px 2px 0; transform: rotate(45deg);
 }
 
-/* ---------- panel / cards ---------- */
-/* Figma: Card — radius 8, pad 20, gap 20, shadow 0 0 4px */
-.panel {
-  background: var(--pf-bg-primary); border: 1px solid var(--pf-border-default);
-  border-radius: var(--pf-radius-medium); padding: 20px;
-  display: flex; flex-direction: column; gap: 20px;
-}
-.panel--raised { box-shadow: var(--pf-shadow-drop-shadow); border: none; }
-.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--pf-space-large); align-items: start; }
+.pf-card--raised { box-shadow: var(--pf-shadow-drop-shadow); border: none; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+         gap: var(--pf-space-large); align-items: start; }
 
-/* ---------- form fields: Form field, Input type × State ---------- */
-.field { display: flex; flex-direction: column; gap: 5px; }
-.field > .lbl { font-size: var(--pf-font-size-xs); font-weight: var(--pf-font-weight-bold); }
+.pf-form-field { width: 100%; }
+.pf-form-field > .lbl { font-size: var(--pf-font-size-xs); font-weight: var(--pf-font-weight-bold); }
 .req { color: var(--pf-icon-required-field); }
-/* Figma: Form field input — h42, pad 10 10 10 20, radius 8, 16px */
-.control {
-  font-family: inherit; font-size: 16px; width: 100%; height: 42px;
-  background: var(--pf-bg-primary); color: var(--pf-text-primary);
-  border: 1px solid var(--pf-border-form-input); border-radius: var(--pf-radius-medium);
-  padding: 10px 10px 10px 20px;
-}
-.control::placeholder { color: var(--pf-text-secondary); }
-.field.is-error .lbl,   .field.is-error .hint    { color: var(--pf-text-negative); }
-.field.is-error .control { border-color: var(--pf-border-negative); }
-.field.is-selected .lbl { color: var(--pf-text-link); }
-.field.is-selected .control { border-color: var(--pf-border-info); }
-.field.is-disabled .lbl { color: var(--pf-text-disabled); }
-.field.is-disabled .control { background: var(--pf-bg-secondary); color: var(--pf-text-disabled);
-                              border-color: var(--pf-border-disabled); cursor: not-allowed; }
+.pf-field { width: 100%; }
+.pf-field::placeholder { color: var(--pf-text-secondary); }
+.pf-form-field[data-state="Error"] .lbl, .pf-form-field[data-state="Error"] .hint { color: var(--pf-text-negative); }
+.pf-form-field[data-state="Error"] .pf-field { border-color: var(--pf-border-negative); }
+.pf-form-field[data-state="Selected"] .lbl { color: var(--pf-text-link); }
+.pf-form-field[data-state="Selected"] .pf-field { border-color: var(--pf-border-info); }
+.pf-form-field[data-state="Disabled"] .lbl { color: var(--pf-text-disabled); }
+.pf-form-field[data-state="Disabled"] .pf-field { background: var(--pf-bg-secondary);
+     color: var(--pf-text-disabled); border-color: var(--pf-border-disabled); cursor: not-allowed; }
 .hint { font-size: var(--pf-font-size-xs); color: var(--pf-text-secondary); }
-textarea.control { resize: vertical; height: auto; min-height: 96px; }
-select.control { appearance: none; background-image:
+textarea.pf-field { resize: vertical; height: auto; min-height: 96px; }
+select.pf-field { background-image:
   linear-gradient(45deg, transparent 50%, currentColor 50%),
   linear-gradient(135deg, currentColor 50%, transparent 50%);
   background-position: calc(100% - 17px) 55%, calc(100% - 12px) 55%;
   background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; padding-right: 32px; }
 
-/* Checkbox/Radio item — State=Default|Hover|Disabled|Error|Selected */
-.opt { display: flex; align-items: center; gap: 9px; font-size: var(--pf-font-size-s); }
-.opt .box { width: 20px; height: 20px; border-radius: var(--pf-radius-small); border: 1.5px solid var(--pf-border-form-input); flex: none; }
-.opt.is-selected { color: var(--pf-text-link); }
-.opt.is-selected .box { background: var(--pf-icon-theme); border-color: var(--pf-icon-theme); }
-.opt.is-error { color: var(--pf-text-negative); }
-.opt.is-error .box { border-color: var(--pf-border-negative); }
-.opt.is-disabled { color: var(--pf-text-secondary); }
-.opt.is-disabled .box { border-color: var(--pf-border-disabled); }
+/* the box inside a Checkbox/Radio item is a child, not the component itself */
+.pf-checkbox-radio-item .box { width: 20px; height: 20px; border-radius: var(--pf-radius-small);
+                               border: 1.5px solid var(--pf-border-form-input); flex: none; }
+.pf-checkbox-radio-item[data-state="Selected"] .box { background: var(--pf-icon-theme); border-color: var(--pf-icon-theme); }
+.pf-checkbox-radio-item[data-state="Error"] .box { border-color: var(--pf-border-negative); }
+.pf-checkbox-radio-item[data-state="Disabled"] .box { border-color: var(--pf-border-disabled); }
 
-/* Toggle — On=Yes|No */
-/* Figma: Toggle — 55x25, radius 13 */
-.toggle { width: 55px; height: 25px; border-radius: 13px; background: var(--pf-bg-tertiary);
-          border: 1px solid var(--pf-base-grey-dolphin); position: relative; flex: none; }
-.toggle::after { content: ""; position: absolute; top: 2px; left: 3px; width: 19px; height: 19px;
-                 border-radius: 50%; background: var(--pf-base-white); box-shadow: var(--pf-shadow-drop-shadow); }
-.toggle.is-on { background: var(--pf-bg-primary-button); border-color: transparent; }
-.toggle.is-on::after { left: auto; right: 3px; }
+/* the knob is drawn art, not a token */
+.pf-toggle::after { content: ""; position: absolute; top: 2px; left: 3px; width: 19px; height: 19px;
+                    border-radius: 50%; background: var(--pf-base-white); box-shadow: var(--pf-shadow-drop-shadow); }
+.pf-toggle { position: relative; flex: none; }
+.pf-toggle[data-on="Yes"]::after { left: auto; right: 3px; }
 
-/* Information box — Type=Information|Warning|Error|Success */
-.info { display: flex; gap: var(--pf-space-small); padding: var(--pf-space-small) var(--pf-space-large);
-        border-radius: var(--pf-radius-small); border: 1px solid; align-items: flex-start; }
-.info--information { background: var(--pf-bg-neutral);  border-color: var(--pf-border-info);     color: var(--pf-text-primary); }
-.info--success     { background: var(--pf-bg-positive); border-color: var(--pf-border-positive); color: var(--pf-text-primary); }
-.info--warning     { background: var(--pf-bg-warning);  border-color: var(--pf-border-warning);  color: var(--pf-text-primary); }
-.info--error       { background: var(--pf-bg-negative); border-color: var(--pf-border-negative); color: var(--pf-text-primary); }
-
-/* Draggable card — State=Default|Hover|Click|Drag|Drop */
-/* Figma: Draggable card — h50, pad 10 15, radius 8, 16px */
-.dcard { display: flex; align-items: center; height: 50px; padding: 10px 15px;
-         background: var(--pf-bg-primary); border: 1px solid var(--pf-border-default);
-         border-radius: var(--pf-radius-medium); font-size: 16px; }
-.dcard.s-hover { background: var(--pf-bg-secondary); border-color: var(--pf-border-secondary); }
-.dcard.s-click, .dcard.s-drag { border-color: var(--pf-border-theme); }
-.dcard.s-drop { background: var(--pf-bg-theme); border-color: var(--pf-border-theme); }
+.pf-information-box { align-items: flex-start; }
 
 /* state matrix */
 .matrix { display: flex; flex-direction: column; gap: var(--pf-space-large); }
@@ -283,14 +195,14 @@ svg { display: block; }
         </p>
       </div>
       <div class="chiprow">
-        <button class="btn btn--hollow" type="button"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path fill-rule="evenodd" d="M26.3 14.3C25.86 14.73 25.14 14.73 24.7 14.3L18 7.59L11.3 14.3C10.86 14.73 10.14 14.73 9.7 14.3C9.27 13.86 9.27 13.14 9.7 12.7L17.2 5.2C17.64 4.77 18.36 4.77 18.8 5.2L26.3 12.7C26.73 13.14 26.73 13.86 26.3 14.3Z" fill="currentColor"/><path d="M16.88 24C16.88 24.62 17.38 25.13 18 25.13C18.62 25.13 19.13 24.62 19.13 24L19.13 6C19.13 5.38 18.62 4.88 18 4.88C17.38 4.88 16.88 5.38 16.88 6L16.88 24Z" fill="currentColor"/><path d="M7.13 25.5C7.13 24.88 6.62 24.38 6 24.38C5.38 24.38 4.88 24.88 4.88 25.5V28.5C4.88 29.59 5.31 30.64 6.08 31.42C6.86 32.19 7.91 32.63 9 32.63H27C28.09 32.63 29.14 32.19 29.92 31.42C30.69 30.64 31.13 29.59 31.13 28.5V25.5C31.13 24.88 30.62 24.38 30 24.38C29.38 24.38 28.88 24.88 28.88 25.5V28.5C28.88 29 28.68 29.47 28.33 29.83C27.97 30.18 27.5 30.38 27 30.38H9C8.5 30.38 8.03 30.18 7.67 29.83C7.32 29.47 7.13 29 7.13 28.5V25.5Z" fill="currentColor"/></svg>Export</button>
-        <button class="btn btn--action" type="button"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path d="M29.2 9.7C29.64 9.27 30.36 9.27 30.8 9.7C31.23 10.14 31.23 10.86 30.8 11.3L15.8 26.3C15.36 26.73 14.64 26.73 14.2 26.3L6.7 18.8C6.27 18.36 6.27 17.64 6.7 17.2C7.14 16.77 7.86 16.77 8.3 17.2L15 23.91L29.2 9.7Z" fill="currentColor"/></svg>Approve selected</button>
+        <button class="pf-button" data-type="Hollow" type="button"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path fill-rule="evenodd" d="M26.3 14.3C25.86 14.73 25.14 14.73 24.7 14.3L18 7.59L11.3 14.3C10.86 14.73 10.14 14.73 9.7 14.3C9.27 13.86 9.27 13.14 9.7 12.7L17.2 5.2C17.64 4.77 18.36 4.77 18.8 5.2L26.3 12.7C26.73 13.14 26.73 13.86 26.3 14.3Z" fill="currentColor"/><path d="M16.88 24C16.88 24.62 17.38 25.13 18 25.13C18.62 25.13 19.13 24.62 19.13 24L19.13 6C19.13 5.38 18.62 4.88 18 4.88C17.38 4.88 16.88 5.38 16.88 6L16.88 24Z" fill="currentColor"/><path d="M7.13 25.5C7.13 24.88 6.62 24.38 6 24.38C5.38 24.38 4.88 24.88 4.88 25.5V28.5C4.88 29.59 5.31 30.64 6.08 31.42C6.86 32.19 7.91 32.63 9 32.63H27C28.09 32.63 29.14 32.19 29.92 31.42C30.69 30.64 31.13 29.59 31.13 28.5V25.5C31.13 24.88 30.62 24.38 30 24.38C29.38 24.38 28.88 24.88 28.88 25.5V28.5C28.88 29 28.68 29.47 28.33 29.83C27.97 30.18 27.5 30.38 27 30.38H9C8.5 30.38 8.03 30.18 7.67 29.83C7.32 29.47 7.13 29 7.13 28.5V25.5Z" fill="currentColor"/></svg>Export</button>
+        <button class="pf-button" data-type="Action" type="button"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path d="M29.2 9.7C29.64 9.27 30.36 9.27 30.8 9.7C31.23 10.14 31.23 10.86 30.8 11.3L15.8 26.3C15.36 26.73 14.64 26.73 14.2 26.3L6.7 18.8C6.27 18.36 6.27 17.64 6.7 17.2C7.14 16.77 7.86 16.77 8.3 17.2L15 23.91L29.2 9.7Z" fill="currentColor"/></svg>Approve selected</button>
       </div>
     </header>
 
     <div class="content">
 
-      <div class="info info--information">
+      <div class="pf-information-box" data-type="Information">
         <svg width="18" height="18" viewBox="0 0 36 36" aria-hidden="true"><path fill-rule="evenodd" d="M18 5.63C11.17 5.63 5.63 11.17 5.63 18C5.63 24.83 11.17 30.38 18 30.38C24.83 30.38 30.38 24.83 30.38 18C30.38 11.17 24.83 5.63 18 5.63ZM3.38 18C3.38 9.92 9.92 3.38 18 3.38C26.08 3.38 32.63 9.92 32.63 18C32.63 26.08 26.08 32.63 18 32.63C9.92 32.63 3.38 26.08 3.38 18Z" fill="currentColor"/><path fill-rule="evenodd" d="M18 14.88C18.62 14.88 19.13 15.38 19.13 16V24C19.13 24.62 18.62 25.13 18 25.13C17.38 25.13 16.88 24.62 16.88 24V16C16.88 15.38 17.38 14.88 18 14.88Z" fill="currentColor"/><path fill-rule="evenodd" d="M16.88 11C16.88 10.38 17.38 9.88 18 9.88H18.02C18.64 9.88 19.14 10.38 19.14 11C19.14 11.62 18.64 12.13 18.02 12.13H18C17.38 12.13 16.88 11.62 16.88 11Z" fill="currentColor"/></svg>
         <div><strong>2 requests overlap</strong> with existing approved leave in your team.
         Check cover before approving.</div>
@@ -299,12 +211,12 @@ svg { display: block; }
       <!-- Filters -->
       <div class="chiprow" role="group" aria-label="Filter requests">
         <span class="eyebrow" style="margin-right:4px">Filter</span>
-        <button class="chip" type="button" aria-pressed="true">Pending</button>
-        <button class="chip" type="button" aria-pressed="false">Approved</button>
-        <button class="chip" type="button" aria-pressed="false">Declined</button>
-        <button class="chip" type="button" aria-pressed="false">Annual leave</button>
-        <button class="chip" type="button" aria-pressed="false">Sickness</button>
-        <button class="chip" type="button" aria-pressed="false">TOIL</button>
+        <button class="pf-filter-chip" data-state="Selected" data-active="True" type="button" aria-pressed="true">Pending</button>
+        <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false">Approved</button>
+        <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false">Declined</button>
+        <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false">Annual leave</button>
+        <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false">Sickness</button>
+        <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false">TOIL</button>
       </div>
 
       <!-- Table -->
@@ -317,70 +229,70 @@ svg { display: block; }
           <table>
             <thead>
               <tr>
-                <th style="width:44px"><span class="msbox is-selected" role="img" aria-label="All selected"></span></th>
-                <th>Employee
-                  <span class="thicon is-active" aria-label="Sorted ascending">
+                <th class="pf-table-header-ag" data-alignment="Left" style="width:44px"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="All selected"></span></th>
+                <th class="pf-table-header-ag" data-alignment="Left">Employee
+                  <span class="pf-table-header-icons" data-variant="Sort" data-state="Ascending" aria-label="Sorted ascending">
                     <svg width="12" height="12" viewBox="0 0 36 36" aria-hidden="true"><path d="M7.96 15.43C7.79 15.01 7.88 14.53 8.2 14.2L17.2 5.2C17.64 4.76 18.36 4.76 18.8 5.2L27.8 14.2C28.12 14.53 28.21 15.01 28.04 15.43C27.86 15.85 27.45 16.13 27 16.13L9 16.13C8.55 16.13 8.14 15.85 7.96 15.43ZM24.28 13.88L18 7.59L11.72 13.88L24.28 13.88Z" fill="currentColor"/><path d="M8.2 21.8C7.88 21.47 7.79 20.99 7.96 20.57C8.14 20.15 8.55 19.88 9 19.88L27 19.88C27.45 19.88 27.86 20.15 28.04 20.57C28.21 20.99 28.12 21.47 27.8 21.8L18.8 30.8C18.36 31.24 17.64 31.24 17.2 30.8L8.2 21.8ZM18 28.41L24.28 22.13L11.72 22.13L18 28.41Z" fill="currentColor"/></svg>
                   </span>
                 </th>
-                <th>Type
-                  <span class="thicon is-active" aria-label="Filtered">
+                <th class="pf-table-header-ag" data-alignment="Left">Type
+                  <span class="pf-table-header-icons" data-variant="Filter" data-state="Filtered" aria-label="Filtered">
                     <svg width="11" height="11" aria-hidden="true" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M7.04 6.64C7.02 6.7 7.02 6.77 7.03 6.84C7.03 6.88 7.04 6.92 7.05 6.95L15.3 16.9C15.79 17.49 16.05 18.21 16.05 18.96V28.13L19.47 29.35V18.96C19.47 18.21 19.73 17.49 20.22 16.9L28.47 6.95C28.48 6.92 28.49 6.88 28.49 6.84C28.5 6.77 28.5 6.7 28.48 6.64H7.04ZM28.78 6.64L28.78 6.64L28.78 6.64ZM29.99 7.84C30.14 7.6 30.24 7.32 30.27 7.03C30.31 6.74 30.28 6.45 30.2 6.17C30.11 5.89 29.97 5.64 29.79 5.43C29.68 5.31 29.56 5.21 29.43 5.12C29.24 5 29 4.97 28.77 4.97H6.75C6.52 4.97 6.28 5 6.09 5.12C5.96 5.21 5.84 5.31 5.73 5.43C5.55 5.64 5.41 5.89 5.32 6.17C5.24 6.45 5.21 6.74 5.25 7.03C5.28 7.32 5.38 7.6 5.53 7.84L13.89 17.93C14.13 18.22 14.26 18.58 14.26 18.96V28.13C14.26 28.82 14.72 29.44 15.41 29.69L18.82 30.92C20 31.34 21.26 30.53 21.26 29.35V18.96C21.26 18.58 21.39 18.22 21.63 17.93L29.99 7.84ZM6.74 6.64L6.74 6.64L6.74 6.64Z"/><path fill-rule="evenodd" d="M6.75 5.18C6.54 5.18 6.36 5.22 6.22 5.3C6.11 5.38 6.01 5.47 5.91 5.57C5.75 5.75 5.62 5.98 5.54 6.23C5.47 6.48 5.45 6.74 5.48 7.01C5.51 7.26 5.59 7.51 5.72 7.72L14.07 17.79C14.35 18.13 14.5 18.53 14.5 18.96V28.13C14.5 28.73 14.89 29.27 15.5 29.49L18.91 30.72C19.93 31.08 21.02 30.38 21.02 29.35V18.96C21.02 18.53 21.17 18.13 21.45 17.79L29.8 7.72C29.93 7.51 30.01 7.26 30.04 7.01C30.07 6.74 30.05 6.48 29.98 6.23C29.9 5.98 29.77 5.75 29.61 5.57C29.51 5.47 29.41 5.38 29.3 5.3C29.16 5.22 28.98 5.18 28.77 5.18H6.75ZM5.96 4.95C6.21 4.79 6.5 4.75 6.75 4.75H28.77C29.02 4.75 29.31 4.79 29.56 4.95C29.71 5.04 29.84 5.16 29.96 5.29C30.17 5.52 30.33 5.8 30.42 6.11C30.51 6.42 30.54 6.74 30.5 7.06C30.46 7.37 30.36 7.68 30.19 7.95C30.19 7.96 30.18 7.97 30.18 7.97L21.81 18.06C21.6 18.32 21.49 18.63 21.49 18.96V29.35C21.49 30.68 20.06 31.6 18.74 31.12L15.33 29.9C14.55 29.61 14.03 28.91 14.03 28.13V18.96C14.03 18.63 13.92 18.32 13.71 18.06L5.34 7.97C5.34 7.97 5.33 7.96 5.33 7.95C5.16 7.68 5.06 7.37 5.02 7.06C4.98 6.74 5.01 6.42 5.1 6.11C5.19 5.8 5.35 5.52 5.56 5.29C5.68 5.16 5.81 5.04 5.96 4.95ZM6.89 6.48C6.93 6.45 6.98 6.43 7.04 6.43H28.48C28.54 6.43 28.59 6.45 28.63 6.48C28.67 6.44 28.73 6.42 28.79 6.43L28.79 6.43L28.78 6.43C28.78 6.43 28.77 6.43 28.77 6.43C28.76 6.43 28.76 6.43 28.75 6.43C28.75 6.43 28.74 6.43 28.73 6.43C28.72 6.43 28.71 6.44 28.71 6.44C28.7 6.44 28.68 6.45 28.67 6.45L28.78 6.64L28.79 6.43L28.79 6.43C28.9 6.43 28.98 6.5 29.01 6.6C29.03 6.69 28.98 6.79 28.89 6.83C28.86 6.85 28.84 6.85 28.83 6.86C28.82 6.86 28.81 6.86 28.81 6.86C28.8 6.86 28.79 6.86 28.79 6.86C28.79 6.86 28.78 6.86 28.78 6.86L28.77 6.86L28.77 6.86L28.76 6.86L28.76 6.86C28.75 6.86 28.74 6.86 28.73 6.86C28.73 6.86 28.73 6.86 28.72 6.86C28.72 6.92 28.71 6.97 28.69 7.02C28.68 7.04 28.67 7.06 28.65 7.08L20.4 17.03C19.94 17.58 19.7 18.26 19.7 18.96V29.35C19.7 29.43 19.66 29.49 19.6 29.53C19.53 29.57 19.45 29.58 19.38 29.56L15.97 28.33C15.88 28.3 15.82 28.22 15.82 28.13V18.96C15.82 18.26 15.58 17.58 15.12 17.03L6.87 7.08C6.85 7.06 6.84 7.04 6.83 7.02C6.82 6.97 6.8 6.92 6.8 6.86C6.79 6.86 6.79 6.86 6.79 6.86C6.78 6.86 6.77 6.86 6.76 6.86L6.76 6.86L6.77 6.86C6.77 6.86 6.78 6.86 6.79 6.86C6.79 6.86 6.79 6.86 6.79 6.86C6.78 6.76 6.79 6.67 6.81 6.59C6.82 6.58 6.82 6.57 6.82 6.57L6.74 6.64L6.74 6.64L6.75 6.86L6.75 6.86C6.69 6.86 6.63 6.84 6.58 6.8C6.55 6.77 6.51 6.72 6.51 6.65C6.51 6.57 6.55 6.52 6.57 6.5C6.61 6.46 6.65 6.45 6.65 6.44C6.67 6.44 6.69 6.43 6.69 6.43C6.7 6.43 6.71 6.43 6.71 6.43L6.72 6.43L6.73 6.43L6.73 6.43M6.73 6.43L6.73 6.43C6.79 6.42 6.85 6.44 6.89 6.48M8.34 6.86C7.91 6.86 7.68 7.35 7.95 7.68L15.49 16.77C16 17.39 16.29 18.16 16.29 18.96V27.63C16.29 27.84 16.42 28.03 16.62 28.1L18.56 28.8C18.89 28.91 19.23 28.67 19.23 28.33V18.96C19.23 18.16 19.52 17.39 20.03 16.77L27.57 7.68C27.84 7.35 27.61 6.86 27.18 6.86H8.34Z"/></svg>
                   </span>
                 </th>
-                <th>Dates</th>
+                <th class="pf-table-header-ag" data-alignment="Left">Dates</th>
                 <th class="num">Days</th>
-                <th>Status</th>
+                <th class="pf-table-header-ag" data-alignment="Left">Status</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><span class="msbox is-selected" role="img" aria-label="Selected"></span></td>
-                <td><span class="name">Marcus Farrell</span><br><span class="muted" style="font-size:var(--pf-font-size-xs)">Payroll Analyst</span></td>
-                <td>Annual leave</td>
-                <td>6&ndash;10 Apr 2026</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="Selected"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="name">Marcus Farrell</span><br><span class="muted" style="font-size:var(--pf-font-size-xs)">Payroll Analyst</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default">Annual leave</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default">6&ndash;10 Apr 2026</td>
                 <td class="num">5.0</td>
-                <td><span class="tag tag--warning">Pending</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-tags" data-type="Warning">Pending</span></td>
               </tr>
               <tr>
-                <td><span class="msbox is-selected" role="img" aria-label="Selected"></span></td>
-                <td><span class="name">Livia Franci</span><br><span class="muted" style="font-size:var(--pf-font-size-xs)">Reward Partner</span></td>
-                <td>Sickness</td>
-                <td>18 Mar 2026</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="Selected"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="name">Livia Franci</span><br><span class="muted" style="font-size:var(--pf-font-size-xs)">Reward Partner</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe">Sickness</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe">18 Mar 2026</td>
                 <td class="num">1.0</td>
-                <td><span class="tag tag--negative">Escalated</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-tags" data-type="Negative">Escalated</span></td>
               </tr>
               <tr>
-                <td><span class="msbox" role="img" aria-label="Not selected"></span></td>
-                <td><span class="name">Rayna Calzoni</span><br><span class="muted" style="font-size:var(--pf-font-size-xs)">HR Advisor</span></td>
-                <td>TOIL</td>
-                <td>23&ndash;24 Mar 2026</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="name">Rayna Calzoni</span><br><span class="muted" style="font-size:var(--pf-font-size-xs)">HR Advisor</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default">TOIL</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default">23&ndash;24 Mar 2026</td>
                 <td class="num">1.5</td>
-                <td><span class="tag tag--positive">Approved</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-tags" data-type="Positive">Approved</span></td>
               </tr>
               <tr>
-                <td><span class="msbox" role="img" aria-label="Not selected"></span></td>
-                <td><span class="name">Abram Carter</span><br><span class="muted" style="font-size:var(--pf-font-size-xs)">Finance Lead</span></td>
-                <td>Parental leave</td>
-                <td>1 May &ndash; 24 Jul 2026</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="name">Abram Carter</span><br><span class="muted" style="font-size:var(--pf-font-size-xs)">Finance Lead</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe">Parental leave</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe">1 May &ndash; 24 Jul 2026</td>
                 <td class="num">60.0</td>
-                <td><span class="tag tag--neutral">In review</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-tags" data-type="Neutral">In review</span></td>
               </tr>
               <tr>
-                <td><span class="msbox" role="img" aria-label="Not selected"></span></td>
-                <td><span class="name">Samantha Stevens</span><br><span class="muted" style="font-size:var(--pf-font-size-xs)">Talent Manager</span></td>
-                <td>Unpaid leave</td>
-                <td>12&ndash;13 Feb 2026</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="name">Samantha Stevens</span><br><span class="muted" style="font-size:var(--pf-font-size-xs)">Talent Manager</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default">Unpaid leave</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default">12&ndash;13 Feb 2026</td>
                 <td class="num">2.0</td>
-                <td><span class="tag tag--expired">Lapsed</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-tags" data-type="Expired">Lapsed</span></td>
               </tr>
               <tr>
-                <td><span class="msbox" role="img" aria-label="Not selected"></span></td>
-                <td><span class="name">Cooper Passidini</span><br><span class="muted" style="font-size:var(--pf-font-size-xs)">Onboarding Coordinator</span></td>
-                <td>Study leave</td>
-                <td>29 Apr 2026</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="name">Cooper Passidini</span><br><span class="muted" style="font-size:var(--pf-font-size-xs)">Onboarding Coordinator</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe">Study leave</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe">29 Apr 2026</td>
                 <td class="num">1.0</td>
-                <td><span class="tag tag--other">Deferred</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-tags" data-type="Other">Deferred</span></td>
               </tr>
             </tbody>
           </table>
@@ -389,65 +301,65 @@ svg { display: block; }
 
       <div class="grid2">
         <!-- Form panel -->
-        <section class="panel" aria-labelledby="rev">
+        <section class="pf-card" aria-labelledby="rev">
           <h2 id="rev" style="margin-bottom:var(--pf-space-large)">Review request &mdash; Marcus Farrell</h2>
           <div style="display:flex;flex-direction:column;gap:var(--pf-space-large)">
 
-            <div class="field">
+            <div class="pf-form-field" data-input-type="Text" data-state="Default">
               <span class="lbl">Absence type</span>
-              <select class="control" aria-label="Absence type">
+              <select class="pf-field" data-right-aligned="No" data-filled="No" aria-label="Absence type">
                 <option>Annual leave</option><option>Sickness</option><option>TOIL</option>
               </select>
             </div>
 
-            <div class="field is-error">
+            <div class="pf-form-field" data-input-type="Text" data-state="Error">
               <span class="lbl">Return-to-work date <span class="req" aria-hidden="true">*</span></span>
-              <input class="control" value="04/04/2026" aria-invalid="true" aria-describedby="rtw-err">
+              <input class="pf-field" data-right-aligned="No" data-filled="Yes" value="04/04/2026" aria-invalid="true" aria-describedby="rtw-err">
               <span class="hint" id="rtw-err">Return date falls before the last day of absence</span>
             </div>
 
-            <div class="field is-selected">
+            <div class="pf-form-field" data-input-type="Text" data-state="Selected">
               <span class="lbl">Cover arranged with</span>
-              <input class="control" value="Davina Jones" aria-label="Cover arranged with">
+              <input class="pf-field" data-right-aligned="No" data-filled="Yes" value="Davina Jones" aria-label="Cover arranged with">
               <span class="hint">Line manager will be notified</span>
             </div>
 
-            <div class="field is-disabled">
+            <div class="pf-form-field" data-input-type="Text" data-state="Disabled">
               <span class="lbl">Entitlement remaining</span>
-              <input class="control" value="12.5 days" disabled>
+              <input class="pf-field" data-right-aligned="No" data-filled="Yes" value="12.5 days" disabled>
               <span class="hint">Calculated from the absence policy</span>
             </div>
 
-            <div class="field">
+            <div class="pf-form-field" data-input-type="Text" data-state="Default">
               <span class="lbl">Approver note</span>
-              <textarea class="control" aria-label="Approver note">Cover confirmed with the payroll team for the full period.</textarea>
+              <textarea class="pf-field" data-right-aligned="No" data-filled="No" aria-label="Approver note">Cover confirmed with the payroll team for the full period.</textarea>
             </div>
 
             <hr class="divider">
 
             <div style="display:flex;flex-direction:column;gap:var(--pf-space-small)">
-              <label class="opt is-selected"><span class="box"></span> Notify the employee by email</label>
-              <label class="opt"><span class="box"></span> Add to the team absence calendar</label>
-              <label class="opt is-error"><span class="box"></span> Confirm cover has been arranged</label>
-              <label class="opt is-disabled"><span class="box"></span> Escalate to HR (locked by policy)</label>
+              <label class="pf-checkbox-radio-item" data-state="Selected"><span class="box"></span> Notify the employee by email</label>
+              <label class="pf-checkbox-radio-item" data-state="Default"><span class="box"></span> Add to the team absence calendar</label>
+              <label class="pf-checkbox-radio-item" data-state="Error"><span class="box"></span> Confirm cover has been arranged</label>
+              <label class="pf-checkbox-radio-item" data-state="Disabled"><span class="box"></span> Escalate to HR (locked by policy)</label>
             </div>
 
             <div style="display:flex;align-items:center;gap:var(--pf-space-small)">
-              <span class="toggle is-on" role="img" aria-label="Deduct from entitlement: on"></span>
+              <span class="pf-toggle" data-on="Yes" data-locked="No" role="img" aria-label="Deduct from entitlement: on"></span>
               <span>Deduct from annual entitlement</span>
             </div>
 
             <div class="chiprow" style="margin-top:var(--pf-space-xsmall)">
-              <button class="btn btn--positive" type="button"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path d="M29.2 9.7C29.64 9.27 30.36 9.27 30.8 9.7C31.23 10.14 31.23 10.86 30.8 11.3L15.8 26.3C15.36 26.73 14.64 26.73 14.2 26.3L6.7 18.8C6.27 18.36 6.27 17.64 6.7 17.2C7.14 16.77 7.86 16.77 8.3 17.2L15 23.91L29.2 9.7Z" fill="currentColor"/></svg>Approve</button>
-              <button class="btn btn--negative" type="button"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path fill-rule="evenodd" d="M27.8 8.2C28.23 8.64 28.23 9.36 27.8 9.8L9.8 27.8C9.36 28.23 8.64 28.23 8.2 27.8C7.77 27.36 7.77 26.64 8.2 26.2L26.2 8.2C26.64 7.77 27.36 7.77 27.8 8.2Z" fill="currentColor"/><path fill-rule="evenodd" d="M8.2 8.2C8.64 7.77 9.36 7.77 9.8 8.2L27.8 26.2C28.23 26.64 28.23 27.36 27.8 27.8C27.36 28.23 26.64 28.23 26.2 27.8L8.2 9.8C7.77 9.36 7.77 8.64 8.2 8.2Z" fill="currentColor"/></svg>Decline</button>
-              <button class="btn btn--hollow" type="button"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path fill-rule="evenodd" d="M9 7.13C8.5 7.13 8.03 7.32 7.67 7.67C7.32 8.03 7.13 8.5 7.13 9V27C7.13 27.5 7.32 27.97 7.67 28.33C8.03 28.68 8.5 28.88 9 28.88H27C27.5 28.88 27.97 28.68 28.33 28.33C28.68 27.97 28.88 27.5 28.88 27V12.47L23.53 7.13H9ZM6.08 6.08C6.86 5.31 7.91 4.88 9 4.88H24C24.3 4.88 24.58 4.99 24.8 5.2L30.8 11.2C31.01 11.42 31.13 11.7 31.13 12V27C31.13 28.09 30.69 29.14 29.92 29.92C29.14 30.69 28.09 31.13 27 31.13H9C7.91 31.13 6.86 30.69 6.08 29.92C5.31 29.14 4.88 28.09 4.88 27V9C4.88 7.91 5.31 6.86 6.08 6.08Z" fill="currentColor"/><path fill-rule="evenodd" d="M15.08 18.08C15.86 17.31 16.91 16.88 18 16.88C19.09 16.88 20.14 17.31 20.92 18.08C21.69 18.86 22.13 19.91 22.13 21C22.13 22.09 21.69 23.14 20.92 23.92C20.14 24.69 19.09 25.13 18 25.13C16.91 25.13 15.86 24.69 15.08 23.92C14.31 23.14 13.88 22.09 13.88 21C13.88 19.91 14.31 18.86 15.08 18.08ZM18 19.13C17.5 19.13 17.03 19.32 16.67 19.67C16.32 20.03 16.13 20.5 16.13 21C16.13 21.5 16.32 21.97 16.67 22.33C17.03 22.68 17.5 22.88 18 22.88C18.5 22.88 18.97 22.68 19.33 22.33C19.68 21.97 19.88 21.5 19.88 21C19.88 20.5 19.68 20.03 19.33 19.67C18.97 19.32 18.5 19.13 18 19.13Z" fill="currentColor"/><path fill-rule="evenodd" d="M12 4.88C12.62 4.88 13.13 5.38 13.13 6V10.88H19.88V6C19.88 5.38 20.38 4.88 21 4.88C21.62 4.88 22.13 5.38 22.13 6V12C22.13 12.62 21.62 13.13 21 13.13H12C11.38 13.13 10.88 12.62 10.88 12V6C10.88 5.38 11.38 4.88 12 4.88Z" fill="currentColor"/></svg>Save draft</button>
-              <button class="btn btn--hollow" type="button" disabled><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path fill-rule="evenodd" d="M18 10.88C18.62 10.88 19.13 11.38 19.13 12V17.53L21.8 20.2C22.23 20.64 22.23 21.36 21.8 21.8C21.36 22.23 20.64 22.23 20.2 21.8L17.2 18.8C16.99 18.58 16.88 18.3 16.88 18V12C16.88 11.38 17.38 10.88 18 10.88Z" fill="currentColor"/><path fill-rule="evenodd" d="M26.14 8.54C23.85 6.54 20.9 5.46 17.86 5.49C14.82 5.53 11.9 6.68 9.66 8.73C7.41 10.78 6 13.59 5.69 16.61C5.63 17.23 5.08 17.68 4.46 17.62C3.84 17.56 3.39 17 3.46 16.39C3.82 12.81 5.49 9.5 8.14 7.07C10.79 4.65 14.25 3.29 17.84 3.24C21.43 3.2 24.91 4.49 27.62 6.85C30.33 9.21 32.07 12.49 32.52 16.05C32.96 19.62 32.08 23.22 30.04 26.18C28 29.14 24.94 31.24 21.44 32.08C17.95 32.93 14.27 32.46 11.1 30.76C8.89 29.58 7.04 27.85 5.7 25.77V30C5.7 30.62 5.2 31.13 4.57 31.13C3.95 31.13 3.45 30.62 3.45 30V22.5C3.45 21.88 3.95 21.38 4.57 21.38H5.3C5.32 21.37 5.33 21.37 5.35 21.38H12.08C12.7 21.38 13.2 21.88 13.2 22.5C13.2 23.12 12.7 23.63 12.08 23.63H7.05C8.2 25.8 9.97 27.6 12.16 28.78C14.84 30.21 17.96 30.61 20.91 29.9C23.87 29.18 26.46 27.4 28.19 24.9C29.92 22.4 30.66 19.35 30.28 16.33C29.91 13.32 28.43 10.54 26.14 8.54Z" fill="currentColor"/></svg>Undo</button>
+              <button class="pf-button" data-type="Positive" type="button"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path d="M29.2 9.7C29.64 9.27 30.36 9.27 30.8 9.7C31.23 10.14 31.23 10.86 30.8 11.3L15.8 26.3C15.36 26.73 14.64 26.73 14.2 26.3L6.7 18.8C6.27 18.36 6.27 17.64 6.7 17.2C7.14 16.77 7.86 16.77 8.3 17.2L15 23.91L29.2 9.7Z" fill="currentColor"/></svg>Approve</button>
+              <button class="pf-button" data-type="Negative" type="button"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path fill-rule="evenodd" d="M27.8 8.2C28.23 8.64 28.23 9.36 27.8 9.8L9.8 27.8C9.36 28.23 8.64 28.23 8.2 27.8C7.77 27.36 7.77 26.64 8.2 26.2L26.2 8.2C26.64 7.77 27.36 7.77 27.8 8.2Z" fill="currentColor"/><path fill-rule="evenodd" d="M8.2 8.2C8.64 7.77 9.36 7.77 9.8 8.2L27.8 26.2C28.23 26.64 28.23 27.36 27.8 27.8C27.36 28.23 26.64 28.23 26.2 27.8L8.2 9.8C7.77 9.36 7.77 8.64 8.2 8.2Z" fill="currentColor"/></svg>Decline</button>
+              <button class="pf-button" data-type="Hollow" type="button"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path fill-rule="evenodd" d="M9 7.13C8.5 7.13 8.03 7.32 7.67 7.67C7.32 8.03 7.13 8.5 7.13 9V27C7.13 27.5 7.32 27.97 7.67 28.33C8.03 28.68 8.5 28.88 9 28.88H27C27.5 28.88 27.97 28.68 28.33 28.33C28.68 27.97 28.88 27.5 28.88 27V12.47L23.53 7.13H9ZM6.08 6.08C6.86 5.31 7.91 4.88 9 4.88H24C24.3 4.88 24.58 4.99 24.8 5.2L30.8 11.2C31.01 11.42 31.13 11.7 31.13 12V27C31.13 28.09 30.69 29.14 29.92 29.92C29.14 30.69 28.09 31.13 27 31.13H9C7.91 31.13 6.86 30.69 6.08 29.92C5.31 29.14 4.88 28.09 4.88 27V9C4.88 7.91 5.31 6.86 6.08 6.08Z" fill="currentColor"/><path fill-rule="evenodd" d="M15.08 18.08C15.86 17.31 16.91 16.88 18 16.88C19.09 16.88 20.14 17.31 20.92 18.08C21.69 18.86 22.13 19.91 22.13 21C22.13 22.09 21.69 23.14 20.92 23.92C20.14 24.69 19.09 25.13 18 25.13C16.91 25.13 15.86 24.69 15.08 23.92C14.31 23.14 13.88 22.09 13.88 21C13.88 19.91 14.31 18.86 15.08 18.08ZM18 19.13C17.5 19.13 17.03 19.32 16.67 19.67C16.32 20.03 16.13 20.5 16.13 21C16.13 21.5 16.32 21.97 16.67 22.33C17.03 22.68 17.5 22.88 18 22.88C18.5 22.88 18.97 22.68 19.33 22.33C19.68 21.97 19.88 21.5 19.88 21C19.88 20.5 19.68 20.03 19.33 19.67C18.97 19.32 18.5 19.13 18 19.13Z" fill="currentColor"/><path fill-rule="evenodd" d="M12 4.88C12.62 4.88 13.13 5.38 13.13 6V10.88H19.88V6C19.88 5.38 20.38 4.88 21 4.88C21.62 4.88 22.13 5.38 22.13 6V12C22.13 12.62 21.62 13.13 21 13.13H12C11.38 13.13 10.88 12.62 10.88 12V6C10.88 5.38 11.38 4.88 12 4.88Z" fill="currentColor"/></svg>Save draft</button>
+              <button class="pf-button" data-type="Hollow" type="button" disabled><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path fill-rule="evenodd" d="M18 10.88C18.62 10.88 19.13 11.38 19.13 12V17.53L21.8 20.2C22.23 20.64 22.23 21.36 21.8 21.8C21.36 22.23 20.64 22.23 20.2 21.8L17.2 18.8C16.99 18.58 16.88 18.3 16.88 18V12C16.88 11.38 17.38 10.88 18 10.88Z" fill="currentColor"/><path fill-rule="evenodd" d="M26.14 8.54C23.85 6.54 20.9 5.46 17.86 5.49C14.82 5.53 11.9 6.68 9.66 8.73C7.41 10.78 6 13.59 5.69 16.61C5.63 17.23 5.08 17.68 4.46 17.62C3.84 17.56 3.39 17 3.46 16.39C3.82 12.81 5.49 9.5 8.14 7.07C10.79 4.65 14.25 3.29 17.84 3.24C21.43 3.2 24.91 4.49 27.62 6.85C30.33 9.21 32.07 12.49 32.52 16.05C32.96 19.62 32.08 23.22 30.04 26.18C28 29.14 24.94 31.24 21.44 32.08C17.95 32.93 14.27 32.46 11.1 30.76C8.89 29.58 7.04 27.85 5.7 25.77V30C5.7 30.62 5.2 31.13 4.57 31.13C3.95 31.13 3.45 30.62 3.45 30V22.5C3.45 21.88 3.95 21.38 4.57 21.38H5.3C5.32 21.37 5.33 21.37 5.35 21.38H12.08C12.7 21.38 13.2 21.88 13.2 22.5C13.2 23.12 12.7 23.63 12.08 23.63H7.05C8.2 25.8 9.97 27.6 12.16 28.78C14.84 30.21 17.96 30.61 20.91 29.9C23.87 29.18 26.46 27.4 28.19 24.9C29.92 22.4 30.66 19.35 30.28 16.33C29.91 13.32 28.43 10.54 26.14 8.54Z" fill="currentColor"/></svg>Undo</button>
             </div>
           </div>
         </section>
 
         <!-- State matrix -->
-        <section class="panel panel--raised" aria-labelledby="states">
+        <section class="pf-card pf-card--raised" aria-labelledby="states">
           <h2 id="states">Variant states</h2>
           <p class="muted" style="margin:4px 0 var(--pf-space-large)">
             Hover states rendered statically so both halves of each pair are visible at rest.
@@ -457,23 +369,23 @@ svg { display: block; }
             <div>
               <span class="statelab">Button &mdash; Type &times; State</span>
               <div class="mrow">
-                <div class="cell"><span class="statelab">Default</span><button class="btn btn--action" type="button"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path d="M19.13 7.5C19.13 6.88 18.62 6.38 18 6.38C17.38 6.38 16.88 6.88 16.88 7.5V16.88H7.5C6.88 16.88 6.38 17.38 6.38 18C6.38 18.62 6.88 19.13 7.5 19.13H16.88V28.5C16.88 29.12 17.38 29.63 18 29.63C18.62 29.63 19.13 29.12 19.13 28.5V19.13H28.5C29.12 19.13 29.63 18.62 29.63 18C29.63 17.38 29.12 16.88 28.5 16.88H19.13V7.5Z" fill="currentColor"/></svg>Action</button></div>
-                <div class="cell"><span class="statelab">Hover</span><button class="btn btn--action is-hover" type="button"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path d="M19.13 7.5C19.13 6.88 18.62 6.38 18 6.38C17.38 6.38 16.88 6.88 16.88 7.5V16.88H7.5C6.88 16.88 6.38 17.38 6.38 18C6.38 18.62 6.88 19.13 7.5 19.13H16.88V28.5C16.88 29.12 17.38 29.63 18 29.63C18.62 29.63 19.13 29.12 19.13 28.5V19.13H28.5C29.12 19.13 29.63 18.62 29.63 18C29.63 17.38 29.12 16.88 28.5 16.88H19.13V7.5Z" fill="currentColor"/></svg>Action</button></div>
-                <div class="cell"><span class="statelab">Default</span><button class="btn btn--positive" type="button"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path d="M19.13 7.5C19.13 6.88 18.62 6.38 18 6.38C17.38 6.38 16.88 6.88 16.88 7.5V16.88H7.5C6.88 16.88 6.38 17.38 6.38 18C6.38 18.62 6.88 19.13 7.5 19.13H16.88V28.5C16.88 29.12 17.38 29.63 18 29.63C18.62 29.63 19.13 29.12 19.13 28.5V19.13H28.5C29.12 19.13 29.63 18.62 29.63 18C29.63 17.38 29.12 16.88 28.5 16.88H19.13V7.5Z" fill="currentColor"/></svg>Positive</button></div>
-                <div class="cell"><span class="statelab">Hover</span><button class="btn btn--positive is-hover" type="button"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path d="M19.13 7.5C19.13 6.88 18.62 6.38 18 6.38C17.38 6.38 16.88 6.88 16.88 7.5V16.88H7.5C6.88 16.88 6.38 17.38 6.38 18C6.38 18.62 6.88 19.13 7.5 19.13H16.88V28.5C16.88 29.12 17.38 29.63 18 29.63C18.62 29.63 19.13 29.12 19.13 28.5V19.13H28.5C29.12 19.13 29.63 18.62 29.63 18C29.63 17.38 29.12 16.88 28.5 16.88H19.13V7.5Z" fill="currentColor"/></svg>Positive</button></div>
+                <div class="cell"><span class="statelab">Default</span><button class="pf-button" data-type="Action" type="button"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path d="M19.13 7.5C19.13 6.88 18.62 6.38 18 6.38C17.38 6.38 16.88 6.88 16.88 7.5V16.88H7.5C6.88 16.88 6.38 17.38 6.38 18C6.38 18.62 6.88 19.13 7.5 19.13H16.88V28.5C16.88 29.12 17.38 29.63 18 29.63C18.62 29.63 19.13 29.12 19.13 28.5V19.13H28.5C29.12 19.13 29.63 18.62 29.63 18C29.63 17.38 29.12 16.88 28.5 16.88H19.13V7.5Z" fill="currentColor"/></svg>Action</button></div>
+                <div class="cell"><span class="statelab">Hover</span><button class="pf-button" data-type="Action" data-state="Hover" type="button"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path d="M19.13 7.5C19.13 6.88 18.62 6.38 18 6.38C17.38 6.38 16.88 6.88 16.88 7.5V16.88H7.5C6.88 16.88 6.38 17.38 6.38 18C6.38 18.62 6.88 19.13 7.5 19.13H16.88V28.5C16.88 29.12 17.38 29.63 18 29.63C18.62 29.63 19.13 29.12 19.13 28.5V19.13H28.5C29.12 19.13 29.63 18.62 29.63 18C29.63 17.38 29.12 16.88 28.5 16.88H19.13V7.5Z" fill="currentColor"/></svg>Action</button></div>
+                <div class="cell"><span class="statelab">Default</span><button class="pf-button" data-type="Positive" type="button"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path d="M19.13 7.5C19.13 6.88 18.62 6.38 18 6.38C17.38 6.38 16.88 6.88 16.88 7.5V16.88H7.5C6.88 16.88 6.38 17.38 6.38 18C6.38 18.62 6.88 19.13 7.5 19.13H16.88V28.5C16.88 29.12 17.38 29.63 18 29.63C18.62 29.63 19.13 29.12 19.13 28.5V19.13H28.5C29.12 19.13 29.63 18.62 29.63 18C29.63 17.38 29.12 16.88 28.5 16.88H19.13V7.5Z" fill="currentColor"/></svg>Positive</button></div>
+                <div class="cell"><span class="statelab">Hover</span><button class="pf-button" data-type="Positive" data-state="Hover" type="button"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path d="M19.13 7.5C19.13 6.88 18.62 6.38 18 6.38C17.38 6.38 16.88 6.88 16.88 7.5V16.88H7.5C6.88 16.88 6.38 17.38 6.38 18C6.38 18.62 6.88 19.13 7.5 19.13H16.88V28.5C16.88 29.12 17.38 29.63 18 29.63C18.62 29.63 19.13 29.12 19.13 28.5V19.13H28.5C29.12 19.13 29.63 18.62 29.63 18C29.63 17.38 29.12 16.88 28.5 16.88H19.13V7.5Z" fill="currentColor"/></svg>Positive</button></div>
               </div>
               <div class="mrow" style="margin-top:var(--pf-space-small)">
-                <div class="cell"><span class="statelab">Default</span><button class="btn btn--negative" type="button"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path d="M19.13 7.5C19.13 6.88 18.62 6.38 18 6.38C17.38 6.38 16.88 6.88 16.88 7.5V16.88H7.5C6.88 16.88 6.38 17.38 6.38 18C6.38 18.62 6.88 19.13 7.5 19.13H16.88V28.5C16.88 29.12 17.38 29.63 18 29.63C18.62 29.63 19.13 29.12 19.13 28.5V19.13H28.5C29.12 19.13 29.63 18.62 29.63 18C29.63 17.38 29.12 16.88 28.5 16.88H19.13V7.5Z" fill="currentColor"/></svg>Negative</button></div>
-                <div class="cell"><span class="statelab">Hover</span><button class="btn btn--negative is-hover" type="button"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path d="M19.13 7.5C19.13 6.88 18.62 6.38 18 6.38C17.38 6.38 16.88 6.88 16.88 7.5V16.88H7.5C6.88 16.88 6.38 17.38 6.38 18C6.38 18.62 6.88 19.13 7.5 19.13H16.88V28.5C16.88 29.12 17.38 29.63 18 29.63C18.62 29.63 19.13 29.12 19.13 28.5V19.13H28.5C29.12 19.13 29.63 18.62 29.63 18C29.63 17.38 29.12 16.88 28.5 16.88H19.13V7.5Z" fill="currentColor"/></svg>Negative</button></div>
-                <div class="cell"><span class="statelab">Default</span><button class="btn btn--hollow" type="button"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path d="M19.13 7.5C19.13 6.88 18.62 6.38 18 6.38C17.38 6.38 16.88 6.88 16.88 7.5V16.88H7.5C6.88 16.88 6.38 17.38 6.38 18C6.38 18.62 6.88 19.13 7.5 19.13H16.88V28.5C16.88 29.12 17.38 29.63 18 29.63C18.62 29.63 19.13 29.12 19.13 28.5V19.13H28.5C29.12 19.13 29.63 18.62 29.63 18C29.63 17.38 29.12 16.88 28.5 16.88H19.13V7.5Z" fill="currentColor"/></svg>Hollow</button></div>
-                <div class="cell"><span class="statelab">Hover</span><button class="btn btn--hollow is-hover" type="button"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path d="M19.13 7.5C19.13 6.88 18.62 6.38 18 6.38C17.38 6.38 16.88 6.88 16.88 7.5V16.88H7.5C6.88 16.88 6.38 17.38 6.38 18C6.38 18.62 6.88 19.13 7.5 19.13H16.88V28.5C16.88 29.12 17.38 29.63 18 29.63C18.62 29.63 19.13 29.12 19.13 28.5V19.13H28.5C29.12 19.13 29.63 18.62 29.63 18C29.63 17.38 29.12 16.88 28.5 16.88H19.13V7.5Z" fill="currentColor"/></svg>Hollow</button></div>
+                <div class="cell"><span class="statelab">Default</span><button class="pf-button" data-type="Negative" type="button"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path d="M19.13 7.5C19.13 6.88 18.62 6.38 18 6.38C17.38 6.38 16.88 6.88 16.88 7.5V16.88H7.5C6.88 16.88 6.38 17.38 6.38 18C6.38 18.62 6.88 19.13 7.5 19.13H16.88V28.5C16.88 29.12 17.38 29.63 18 29.63C18.62 29.63 19.13 29.12 19.13 28.5V19.13H28.5C29.12 19.13 29.63 18.62 29.63 18C29.63 17.38 29.12 16.88 28.5 16.88H19.13V7.5Z" fill="currentColor"/></svg>Negative</button></div>
+                <div class="cell"><span class="statelab">Hover</span><button class="pf-button" data-type="Negative" data-state="Hover" type="button"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path d="M19.13 7.5C19.13 6.88 18.62 6.38 18 6.38C17.38 6.38 16.88 6.88 16.88 7.5V16.88H7.5C6.88 16.88 6.38 17.38 6.38 18C6.38 18.62 6.88 19.13 7.5 19.13H16.88V28.5C16.88 29.12 17.38 29.63 18 29.63C18.62 29.63 19.13 29.12 19.13 28.5V19.13H28.5C29.12 19.13 29.63 18.62 29.63 18C29.63 17.38 29.12 16.88 28.5 16.88H19.13V7.5Z" fill="currentColor"/></svg>Negative</button></div>
+                <div class="cell"><span class="statelab">Default</span><button class="pf-button" data-type="Hollow" type="button"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path d="M19.13 7.5C19.13 6.88 18.62 6.38 18 6.38C17.38 6.38 16.88 6.88 16.88 7.5V16.88H7.5C6.88 16.88 6.38 17.38 6.38 18C6.38 18.62 6.88 19.13 7.5 19.13H16.88V28.5C16.88 29.12 17.38 29.63 18 29.63C18.62 29.63 19.13 29.12 19.13 28.5V19.13H28.5C29.12 19.13 29.63 18.62 29.63 18C29.63 17.38 29.12 16.88 28.5 16.88H19.13V7.5Z" fill="currentColor"/></svg>Hollow</button></div>
+                <div class="cell"><span class="statelab">Hover</span><button class="pf-button" data-type="Hollow" data-state="Hover" type="button"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path d="M19.13 7.5C19.13 6.88 18.62 6.38 18 6.38C17.38 6.38 16.88 6.88 16.88 7.5V16.88H7.5C6.88 16.88 6.38 17.38 6.38 18C6.38 18.62 6.88 19.13 7.5 19.13H16.88V28.5C16.88 29.12 17.38 29.63 18 29.63C18.62 29.63 19.13 29.12 19.13 28.5V19.13H28.5C29.12 19.13 29.63 18.62 29.63 18C29.63 17.38 29.12 16.88 28.5 16.88H19.13V7.5Z" fill="currentColor"/></svg>Hollow</button></div>
               </div>
               <div class="mrow" style="margin-top:var(--pf-space-small)">
                 <span class="mlabel">Icon only (32&times;32)</span>
-                <button class="btn btn--icon btn--action" type="button" aria-label="Add"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path d="M19.13 7.5C19.13 6.88 18.62 6.38 18 6.38C17.38 6.38 16.88 6.88 16.88 7.5V16.88H7.5C6.88 16.88 6.38 17.38 6.38 18C6.38 18.62 6.88 19.13 7.5 19.13H16.88V28.5C16.88 29.12 17.38 29.63 18 29.63C18.62 29.63 19.13 29.12 19.13 28.5V19.13H28.5C29.12 19.13 29.63 18.62 29.63 18C29.63 17.38 29.12 16.88 28.5 16.88H19.13V7.5Z" fill="currentColor"/></svg></button>
-                <button class="btn btn--icon btn--positive" type="button" aria-label="Approve"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path d="M29.2 9.7C29.64 9.27 30.36 9.27 30.8 9.7C31.23 10.14 31.23 10.86 30.8 11.3L15.8 26.3C15.36 26.73 14.64 26.73 14.2 26.3L6.7 18.8C6.27 18.36 6.27 17.64 6.7 17.2C7.14 16.77 7.86 16.77 8.3 17.2L15 23.91L29.2 9.7Z" fill="currentColor"/></svg></button>
-                <button class="btn btn--icon btn--negative" type="button" aria-label="Decline"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path fill-rule="evenodd" d="M27.8 8.2C28.23 8.64 28.23 9.36 27.8 9.8L9.8 27.8C9.36 28.23 8.64 28.23 8.2 27.8C7.77 27.36 7.77 26.64 8.2 26.2L26.2 8.2C26.64 7.77 27.36 7.77 27.8 8.2Z" fill="currentColor"/><path fill-rule="evenodd" d="M8.2 8.2C8.64 7.77 9.36 7.77 9.8 8.2L27.8 26.2C28.23 26.64 28.23 27.36 27.8 27.8C27.36 28.23 26.64 28.23 26.2 27.8L8.2 9.8C7.77 9.36 7.77 8.64 8.2 8.2Z" fill="currentColor"/></svg></button>
-                <button class="btn btn--icon btn--hollow" type="button" aria-label="More"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path d="M19.13 7.5C19.13 6.88 18.62 6.38 18 6.38C17.38 6.38 16.88 6.88 16.88 7.5V16.88H7.5C6.88 16.88 6.38 17.38 6.38 18C6.38 18.62 6.88 19.13 7.5 19.13H16.88V28.5C16.88 29.12 17.38 29.63 18 29.63C18.62 29.63 19.13 29.12 19.13 28.5V19.13H28.5C29.12 19.13 29.63 18.62 29.63 18C29.63 17.38 29.12 16.88 28.5 16.88H19.13V7.5Z" fill="currentColor"/></svg></button>
+                <button class="pf-button pf-button--icon-only" data-type="Action" type="button" aria-label="Add"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path d="M19.13 7.5C19.13 6.88 18.62 6.38 18 6.38C17.38 6.38 16.88 6.88 16.88 7.5V16.88H7.5C6.88 16.88 6.38 17.38 6.38 18C6.38 18.62 6.88 19.13 7.5 19.13H16.88V28.5C16.88 29.12 17.38 29.63 18 29.63C18.62 29.63 19.13 29.12 19.13 28.5V19.13H28.5C29.12 19.13 29.63 18.62 29.63 18C29.63 17.38 29.12 16.88 28.5 16.88H19.13V7.5Z" fill="currentColor"/></svg></button>
+                <button class="pf-button pf-button--icon-only" data-type="Positive" type="button" aria-label="Approve"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path d="M29.2 9.7C29.64 9.27 30.36 9.27 30.8 9.7C31.23 10.14 31.23 10.86 30.8 11.3L15.8 26.3C15.36 26.73 14.64 26.73 14.2 26.3L6.7 18.8C6.27 18.36 6.27 17.64 6.7 17.2C7.14 16.77 7.86 16.77 8.3 17.2L15 23.91L29.2 9.7Z" fill="currentColor"/></svg></button>
+                <button class="pf-button pf-button--icon-only" data-type="Negative" type="button" aria-label="Decline"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path fill-rule="evenodd" d="M27.8 8.2C28.23 8.64 28.23 9.36 27.8 9.8L9.8 27.8C9.36 28.23 8.64 28.23 8.2 27.8C7.77 27.36 7.77 26.64 8.2 26.2L26.2 8.2C26.64 7.77 27.36 7.77 27.8 8.2Z" fill="currentColor"/><path fill-rule="evenodd" d="M8.2 8.2C8.64 7.77 9.36 7.77 9.8 8.2L27.8 26.2C28.23 26.64 28.23 27.36 27.8 27.8C27.36 28.23 26.64 28.23 26.2 27.8L8.2 9.8C7.77 9.36 7.77 8.64 8.2 8.2Z" fill="currentColor"/></svg></button>
+                <button class="pf-button pf-button--icon-only" data-type="Hollow" type="button" aria-label="More"><svg width="14" height="14" viewBox="0 0 36 36" aria-hidden="true"><path d="M19.13 7.5C19.13 6.88 18.62 6.38 18 6.38C17.38 6.38 16.88 6.88 16.88 7.5V16.88H7.5C6.88 16.88 6.38 17.38 6.38 18C6.38 18.62 6.88 19.13 7.5 19.13H16.88V28.5C16.88 29.12 17.38 29.63 18 29.63C18.62 29.63 19.13 29.12 19.13 28.5V19.13H28.5C29.12 19.13 29.63 18.62 29.63 18C29.63 17.38 29.12 16.88 28.5 16.88H19.13V7.5Z" fill="currentColor"/></svg></button>
               </div>
             </div>
 
@@ -482,13 +394,13 @@ svg { display: block; }
             <div>
               <span class="statelab">Tags &mdash; all seven types</span>
               <div class="mrow">
-                <span class="tag tag--positive">Positive</span>
-                <span class="tag tag--negative">Negative</span>
-                <span class="tag tag--warning">Warning</span>
-                <span class="tag tag--neutral">Neutral</span>
-                <span class="tag tag--other">Other</span>
-                <span class="tag tag--expired">Expired</span>
-                <span class="tag tag--theme">Theme</span>
+                <span class="pf-tags" data-type="Positive">Positive</span>
+                <span class="pf-tags" data-type="Negative">Negative</span>
+                <span class="pf-tags" data-type="Warning">Warning</span>
+                <span class="pf-tags" data-type="Neutral">Neutral</span>
+                <span class="pf-tags" data-type="Other">Other</span>
+                <span class="pf-tags" data-type="Expired">Expired</span>
+                <span class="pf-tags" data-type="Theme">Theme</span>
               </div>
             </div>
 
@@ -497,10 +409,10 @@ svg { display: block; }
             <div>
               <span class="statelab">Draggable card &mdash; State</span>
               <div class="mrow">
-                <div class="cell"><span class="statelab">Default</span><div class="dcard">Goal</div></div>
-                <div class="cell"><span class="statelab">Hover</span><div class="dcard s-hover">Goal</div></div>
-                <div class="cell"><span class="statelab">Click</span><div class="dcard s-click">Goal</div></div>
-                <div class="cell"><span class="statelab">Drop</span><div class="dcard s-drop">Goal</div></div>
+                <div class="cell"><span class="statelab">Default</span><div class="pf-draggable-card" data-state="Default">Goal</div></div>
+                <div class="cell"><span class="statelab">Hover</span><div class="pf-draggable-card" data-state="Hover">Goal</div></div>
+                <div class="cell"><span class="statelab">Click</span><div class="pf-draggable-card" data-state="Click">Goal</div></div>
+                <div class="cell"><span class="statelab">Drop</span><div class="pf-draggable-card" data-state="Drop">Goal</div></div>
               </div>
             </div>
 
@@ -509,9 +421,9 @@ svg { display: block; }
             <div>
               <span class="statelab">Information box &mdash; Type</span>
               <div style="display:flex;flex-direction:column;gap:var(--pf-space-small)">
-                <div class="info info--success">Absence approved and added to the calendar.</div>
-                <div class="info info--warning">This request overlaps approved leave for Davina Jones.</div>
-                <div class="info info--error">Return-to-work date is before the last day of absence.</div>
+                <div class="pf-information-box" data-type="Success">Absence approved and added to the calendar.</div>
+                <div class="pf-information-box" data-type="Warning">This request overlaps approved leave for Davina Jones.</div>
+                <div class="pf-information-box" data-type="Error">Return-to-work date is before the last day of absence.</div>
               </div>
             </div>
 

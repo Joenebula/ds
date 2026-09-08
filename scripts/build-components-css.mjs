@@ -93,11 +93,13 @@ function geometryDecls(g, notes) {
       : parts.length === 2 ? [parts[0], parts[0]]
       : parts.length === 3 ? [parts[0], parts[2]]
       : [parts[0], parts[2]];
-    // Figma lets a frame carry padding that its own height cannot fit — a 20x20 box
-    // with 10px padding has no content area at all. In CSS that padding would floor
-    // the box at 22px and silently win. The size you see in Figma is authoritative.
-    if (h !== null && pt + pb + 2 >= h) {
-      notes.push(`Figma sets ${g.padding}px padding on a ${h}px-tall box; dropped, as the size wins`);
+    // Figma lets a frame carry padding its own height cannot usefully fit — a 20x20
+    // box with 10px padding has no content area at all, and a 24x24 box with 10px
+    // padding leaves 2px, which crushes the glyph inside it. Below ~8px nothing legible
+    // fits, so treat the padding as decorative: the size you see in Figma is what wins.
+    const contentBox = h === null ? null : h - pt - pb - 2;
+    if (contentBox !== null && contentBox < 8) {
+      notes.push(`Figma sets ${g.padding}px padding on a ${h}px-tall box, leaving ${contentBox}px for content; dropped, as the size wins`);
     } else {
       d.push(`padding: ${g.padding.trim().split(/\s+/).map(v => v === '0' ? '0' : v + 'px').join(' ')}`);
     }
@@ -126,6 +128,10 @@ function geometryDecls(g, notes) {
     // Direction not captured for this component — fall back to a row, and say so.
     d.push('display: inline-flex', 'align-items: center', `gap: ${gap}px`);
     notes.push('layout direction not captured; assumed a row');
+  } else if (w !== null || h !== null) {
+    // No auto-layout, but a fixed size. An inline element ignores width and height,
+    // so the box would silently collapse.
+    d.push('display: inline-block');
   }
 
   const f = (g.font || '').match(/^(\d+)px(?:\s+(\w+))?/);

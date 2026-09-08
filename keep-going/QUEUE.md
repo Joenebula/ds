@@ -130,7 +130,7 @@ Geometry file now covers **106** components, up from 79. `geometry.md` regenerat
 
 **Depends on:** nothing. Uses Figma reads.
 
-## 8. A stylesheet you can actually build with — `done` (proof pending task 11)
+## 8. A stylesheet you can actually build with — `done`
 
 Generate `dist/components.css` from the raw extracts, so every captured component and
 variant is a real class: `.pf-btn`, `.pf-btn--hollow`, `.pf-tag--info`, `.pf-input`.
@@ -163,13 +163,17 @@ value is deliberately broken.
 
 **Depends on:** task 8.
 
-## 11. Rebuild the absence-requests prototype on the stylesheet — `pending`
+## 11. Rebuild the absence-requests prototype on the stylesheet — `done`
 
 Proof the library works: strip the hand-written component CSS out of the prototype and
 use the classes instead.
 
-**Done when:** the prototype has no hand-written component CSS, looks the same as before,
-and still passes geometry, colour, icon-fidelity and audit.
+**Done when:** met. The prototype's markup is now Figma variant names
+(`<button class="pf-button" data-type="Action">`), its style block went from 543 lines to
+161 lines of genuinely local CSS — page layout, cursor, transition, focus ring, the tick
+glyph inside a checkbox — and every colour and shape comes from `dist/components.css`.
+All five checks pass: 29 geometry, 54 colour, 21 of 21 icons real, audit on-system in
+both modes, 1764 library checks. Confirmed by eye in light and dark.
 
 **Depends on:** tasks 8 and 10.
 

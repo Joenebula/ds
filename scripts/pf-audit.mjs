@@ -118,7 +118,7 @@ for (const mode of modes) {
       if (direct && own) {
         const dis = el.disabled === true || el.getAttribute('aria-disabled') === 'true' ||
           /disabled/i.test(el.className || '') ||
-          !!el.closest('[disabled], [aria-disabled="true"], .is-disabled, .field.is-disabled');
+          !!el.closest('[disabled], [aria-disabled="true"], .is-disabled, [data-state="Disabled"]');
         push('color', cs.color, {
           bg: effectiveBg(el),
           fontSize: parseFloat(cs.fontSize),
