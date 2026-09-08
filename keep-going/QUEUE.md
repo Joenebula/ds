@@ -61,6 +61,13 @@ handing over.
 **Done when:** a fresh session given only this skill and "build me a People First
 [screen]" produces a page that passes both the colour check and the new geometry check.
 
+**VERIFIED 2026-09-08.** An independent session (`session_01ApHJSHPoCLvWg5nHYx4qkb`),
+fresh clone, no memory of this work, was asked for a payroll run summary screen with
+NO mention of the skill. It produced `prototypes/payroll-run-summary.html`, which
+scores **29/29 geometry** and **100% token coverage in both modes, no contrast
+failures**. It also used the `.src.html` + build-prototype workflow, which only the
+skill describes — so the skill both triggered from its description and was followed.
+
 **Depends on:** tasks 1 and 2 (it should cite complete geometry and be checkable).
 
 ## 5. Developer handoff skill (`pf-handoff`) — `done`

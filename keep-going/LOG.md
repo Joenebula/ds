@@ -166,3 +166,45 @@ session.
 
 **Done-when met:** yes — tokens, variants, states, geometry and accessibility, no
 invented values.
+
+---
+
+## Task 4 re-check — pf-screen INDEPENDENTLY VERIFIED
+
+The gap flagged earlier ("me following my own skill is not a test") is now closed.
+
+**Method:** spawned a separate Claude Code session on a fresh clone of the branch, with
+a natural request ("build me a payroll run summary screen for People First...") that
+deliberately never mentioned `pf-screen`. That tests description-triggering as well as
+content.
+
+**Result:** it pushed `prototypes/payroll-run-summary.html` to the branch. Checked here
+with the same scripts:
+- `verify-geometry` → **29 match, 0 off**
+- `pf-audit` → **166/166 on-system, 100% coverage both modes, no contrast failures**
+
+It also used the `.src.html` + `build-prototype.mjs` placeholder workflow, which is
+described only in the skill — evidence the skill was actually read, not just that the
+result happened to be fine.
+
+**Bug found and fixed before the test could run:** `playwright-core` was installed with
+`--no-save` and never declared, so a fresh clone could not run any of the three checks.
+Fixed in `7fef260` (declared in devDependencies, verified by wiping node_modules and
+reinstalling). Only a fresh-clone test would have surfaced this.
+
+---
+
+## Task 6 — icons — STOPPED for a decision
+
+Found a route roughly 50x cheaper than batching, and stopped rather than grinding:
+`download_assets` on the Icons page returns the whole page as ONE 2.1MB SVG containing
+all 289 icons. One download, split locally.
+
+It is blocked only by this session's network policy denying `www.figma.com` (verified:
+`connect_rejected` from the egress proxy) — the same block that stopped the REST API
+earlier in this project.
+
+The batching route works (adaptive batching verified at ~11 icons per call, no
+truncation) but costs about 25 export calls PLUS 25 equally large writes, because the
+data crosses the conversation twice. Stopped and put the choice to the user rather than
+spending hours on the expensive path when a cheap one exists.
