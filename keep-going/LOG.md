@@ -258,3 +258,23 @@ would render through the other's mask. The extractor namespaces every id per fil
 decorative backdrop, not a glyph. Two icons are named `GIF` and two `Transfer` in Figma;
 filenames are deduped with a numeric suffix. One component has a blank name and is
 exported as `unnamed-<id>`.
+
+---
+
+## Follow-on — hand-drawn glyphs, and a check for them
+
+With the full set available, the last hand-drawn glyph in the prototype (the table
+header filter funnel, drawn because `Filter` had failed to export earlier) was replaced
+with the real Figma icon.
+
+**Built:** `scripts/check-icon-fidelity.mjs`. It normalises every inline `<svg>` in a
+page against `assets/icons/` and names the ones that aren't real Figma icons. Added to
+`npm run verify`.
+
+This is the third axis. The colour check and the geometry check both passed on a page
+containing a glyph I had drawn myself — neither can see it. A hand-drawn icon is exactly
+the kind of thing that makes a screen read as "close, but not ours".
+
+- `node scripts/check-icon-fidelity.mjs prototypes/absence-requests.src.html`
+  → before: 20 of 21, one not a Figma icon. After: **21 of 21**.
+- geometry 29/29, colour 54/54, audit PASS — unchanged by the swap.
