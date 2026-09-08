@@ -13,6 +13,13 @@
  * Requires dist/tokens.css.
  */
 
+/* 50/50 layout container  (no geometry measured — colours only)
+ * 1 variant captured
+ */
+.pf-50-50-layout-container {
+  color: var(--pf-text-primary);
+}
+
 /* AG Filter menus
  * 3 variants captured
  * Figma draws this 208px wide; treated as layout, not a rule
@@ -250,8 +257,37 @@
   color: var(--pf-text-primary);
 }
 
+/* Action menu button  (no geometry measured — colours only)
+ * 1 variant captured
+ */
+.pf-action-menu-button {
+  color: var(--pf-text-primary);
+}
+
+/* Add attachment  (no geometry measured — colours only)
+ * 1 variant captured
+ */
+.pf-add-attachment {
+  color: var(--pf-text-primary);
+}
+
+/* Attachment with person  (no geometry measured — colours only)
+ * 1 variant captured
+ */
+.pf-attachment-with-person {
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-primary);
+}
+
+/* Attachments  (no geometry measured — colours only)
+ * 1 variant captured
+ */
+.pf-attachments {
+  color: var(--pf-text-primary);
+}
+
 /* Button
- * 12 variants captured. PILL. Leading icon on every variant. Icon-only variant is 32x32 circle.
+ * 18 variants captured. PILL. Leading icon on every variant. Icon-only variant is 32x32 circle.
  * pill
  */
 .pf-button {
@@ -329,6 +365,42 @@
   background: var(--pf-button-fill-hollow-hover);
   border-color: var(--pf-border-hollow-button);
   color: var(--pf-text-primary);
+}
+.pf-button[data-type="Hollow"][data-state="Disabled"],
+.pf-button[data-type="Hollow"]:disabled,
+.pf-button[data-type="Hollow"][aria-disabled="true"] {
+  border-color: var(--pf-border-disabled);
+  color: var(--pf-text-disabled);
+}
+.pf-button[data-type="Filter"][data-state="Disabled"],
+.pf-button[data-type="Filter"]:disabled,
+.pf-button[data-type="Filter"][aria-disabled="true"] {
+  border-color: var(--pf-border-disabled);
+  color: var(--pf-text-disabled);
+}
+.pf-button[data-type="Sort"][data-state="Disabled"],
+.pf-button[data-type="Sort"]:disabled,
+.pf-button[data-type="Sort"][aria-disabled="true"] {
+  border-color: var(--pf-border-disabled);
+  color: var(--pf-text-disabled);
+}
+.pf-button[data-type="Action"][data-state="Disabled"],
+.pf-button[data-type="Action"]:disabled,
+.pf-button[data-type="Action"][aria-disabled="true"] {
+  background: var(--pf-bg-secondary-button);
+  color: var(--pf-text-inverted-primary);
+}
+.pf-button[data-type="Negative"][data-state="Disabled"],
+.pf-button[data-type="Negative"]:disabled,
+.pf-button[data-type="Negative"][aria-disabled="true"] {
+  background: var(--pf-bg-negative-button);
+  color: var(--pf-base-white);
+}
+.pf-button[data-type="Positive"][data-state="Disabled"],
+.pf-button[data-type="Positive"]:disabled,
+.pf-button[data-type="Positive"][aria-disabled="true"] {
+  background: var(--pf-bg-primary-button);
+  color: var(--pf-base-white);
 }
 
 /* Card
@@ -492,7 +564,7 @@
 }
 
 /* Config child menu  (no geometry measured — colours only)
- * 2 variants captured
+ * 3 variants captured
  */
 .pf-config-child-menu[data-type="Child"] {
   color: var(--pf-text-primary);
@@ -500,6 +572,31 @@
 .pf-config-child-menu[data-type="Selected"] {
   background: var(--pf-base-blue-ocean);
   color: var(--pf-text-inverted-primary);
+}
+.pf-config-child-menu[data-type="Child + sub"] {
+  color: var(--pf-text-primary);
+}
+
+/* Config menu items  (no geometry measured — colours only)
+ * 1 variant captured
+ */
+.pf-config-menu-items {
+  color: var(--pf-text-primary);
+}
+
+/* Config parent menu  (no geometry measured — colours only)
+ * 1 variant captured
+ */
+.pf-config-parent-menu {
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-primary);
+}
+
+/* Configuration panel  (no geometry measured — colours only)
+ * 1 variant captured
+ */
+.pf-configuration-panel {
+  color: var(--pf-text-theme);
 }
 
 /* Configuration tile
@@ -623,6 +720,13 @@
   border-color: var(--pf-icon-disabled);
 }
 
+/* Details  (no geometry measured — colours only)
+ * 1 variant captured
+ */
+.pf-details {
+  color: var(--pf-text-primary);
+}
+
 /* Document previewer
  * 3 variants captured. 3 variants
  * Figma draws this 375px wide; treated as layout, not a rule
@@ -702,6 +806,19 @@
   border-color: var(--pf-border-theme);
 }
 
+/* Drop down button  (no geometry measured — colours only)
+ * 2 variants captured
+ */
+.pf-drop-down-button[data-hover="False"] {
+  border-color: var(--pf-border-form-input);
+  color: var(--pf-text-primary);
+}
+.pf-drop-down-button[data-hover="True"] {
+  background: var(--pf-bg-tertiary);
+  border-color: var(--pf-border-form-input);
+  color: var(--pf-text-secondary);
+}
+
 /* Editable list card  (no geometry measured — colours only)
  * 1 variant captured
  */
@@ -736,7 +853,7 @@
 }
 
 /* Field
- * 2 variants captured. the input box itself. Placeholder text is italic, the value is not. 4 variants (Right aligned x Filled). Figma has a second, unrelated component also called Field.
+ * 4 variants captured. the input box itself. Placeholder text is italic, the value is not. 4 variants (Right aligned x Filled). Figma has a second, unrelated component also called Field.
  * Figma draws this 300px wide; treated as layout, not a rule
  */
 .pf-field {
@@ -766,6 +883,16 @@
   background: var(--pf-bg-primary);
   border-color: var(--pf-border-form-input);
   color: var(--pf-text-primary);
+}
+.pf-field[data-right-aligned="Yes"][data-filled="No"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-form-input);
+  color: var(--pf-text-secondary);
+}
+.pf-field[data-right-aligned="Yes"][data-filled="Yes"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-form-input);
+  color: var(--pf-text-secondary);
 }
 
 /* Filter chip
@@ -846,6 +973,13 @@
   color: var(--pf-text-theme);
 }
 
+/* Filter tabs  (no geometry measured — colours only)
+ * 1 variant captured
+ */
+.pf-filter-tabs {
+  color: var(--pf-text-theme);
+}
+
 /* Footer (AG)  (no geometry measured — colours only)
  * 1 variant captured
  */
@@ -922,6 +1056,60 @@
   color: var(--pf-text-primary);
 }
 
+/* Full page navigation  (no geometry measured — colours only)
+ * 3 variants captured
+ */
+.pf-full-page-navigation[data-breakpoint="Desktop"] {
+  color: var(--pf-text-secondary);
+}
+.pf-full-page-navigation[data-breakpoint="Mobile"] {
+  color: var(--pf-base-white);
+}
+.pf-full-page-navigation[data-breakpoint="Tablet"] {
+  color: var(--pf-base-white);
+}
+
+/* Header top navigation  (no geometry measured — colours only)
+ * 3 variants captured
+ */
+.pf-header-top-navigation[data-breakpoint="Desktop"] {
+  color: var(--pf-text-secondary);
+}
+.pf-header-top-navigation[data-breakpoint="Tablet"] {
+  color: var(--pf-base-white);
+}
+.pf-header-top-navigation[data-breakpoint="Mobile"] {
+  color: var(--pf-base-white);
+}
+
+/* Header
+ * 3 variants captured
+ */
+.pf-header {
+  height: 86px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-header[data-breakpoint="Desktop"] {
+  color: var(--pf-text-secondary);
+}
+.pf-header[data-breakpoint="Tablet"] {
+  color: var(--pf-base-white);
+}
+.pf-header[data-breakpoint="Mobile"] {
+  color: var(--pf-base-white);
+}
+
 /* Image picker
  * 1 variant captured. not auto-layout
  * Figma draws this 440px wide; treated as layout, not a rule
@@ -995,6 +1183,20 @@
   color: var(--pf-text-primary);
 }
 
+/* Layout container tabs  (no geometry measured — colours only)
+ * 1 variant captured
+ */
+.pf-layout-container-tabs {
+  color: var(--pf-text-theme);
+}
+
+/* Layout container title  (no geometry measured — colours only)
+ * 1 variant captured
+ */
+.pf-layout-container-title {
+  color: var(--pf-text-primary);
+}
+
 /* Links  (no geometry measured — colours only)
  * 4 variants captured
  */
@@ -1043,6 +1245,29 @@
 .pf-message-box[data-property-1="Default"] {
   background: var(--pf-bg-primary);
   border-color: var(--pf-border-form-input);
+  color: var(--pf-text-secondary);
+}
+
+/* Mobile bottom navigation
+ * 1 variant captured
+ * Figma draws this 375px wide; treated as layout, not a rule
+ */
+.pf-mobile-bottom-navigation {
+  height: 76px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 11px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-mobile-bottom-navigation {
   color: var(--pf-text-secondary);
 }
 
@@ -1110,6 +1335,30 @@
 .pf-navigation-item[data-device="Desktop"][data-state="Hover"],
 .pf-navigation-item[data-device="Desktop"]:hover {
   background: var(--pf-bg-primary);
+  color: var(--pf-text-theme);
+}
+
+/* Navigation tabs
+ * 1 variant captured
+ */
+.pf-navigation-tabs {
+  height: 36px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 40px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-navigation-tabs {
   color: var(--pf-text-theme);
 }
 
@@ -1335,6 +1584,16 @@
   color: var(--pf-text-theme);
 }
 
+/* Search home button  (no geometry measured — colours only)
+ * 2 variants captured
+ */
+.pf-search-home-button[data-mobile="False"] {
+  color: var(--pf-text-secondary);
+}
+.pf-search-home-button[data-mobile="Mobile3"] {
+  color: var(--pf-text-theme);
+}
+
 /* Secondary nav
  * 2 variants captured
  */
@@ -1421,6 +1680,32 @@
 .pf-side-filter[data-mobile="False"] {
   background: var(--pf-bg-primary);
   color: var(--pf-text-primary);
+}
+
+/* Side navigation panel
+ * 1 variant captured
+ * Figma draws this 268px wide; treated as layout, not a rule
+ */
+.pf-side-navigation-panel {
+  height: 416px;
+  padding: 10px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-side-navigation-panel {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-theme);
 }
 
 /* Side navigation tab
@@ -1536,6 +1821,27 @@
   color: var(--pf-text-primary);
 }
 
+/* Signature
+ * 1 variant captured
+ */
+.pf-signature {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-signature {
+  color: var(--pf-text-primary);
+}
+
 /* Spotlight Card  (no geometry measured — colours only)
  * 1 variant captured
  */
@@ -1601,6 +1907,13 @@
 .pf-sticky-footer[data-default="Stepper"] {
   background: var(--pf-bg-primary);
   border-color: var(--pf-border-secondary);
+  color: var(--pf-text-primary);
+}
+
+/* Switcher  (no geometry measured — colours only)
+ * 1 variant captured
+ */
+.pf-switcher {
   color: var(--pf-text-primary);
 }
 
@@ -1888,6 +2201,13 @@
   color: var(--pf-text-negative);
 }
 
+/* Text template format editor   (no geometry measured — colours only)
+ * 1 variant captured
+ */
+.pf-text-template-format-editor {
+  color: var(--pf-text-primary);
+}
+
 /* Title panel
  * 1 variant captured
  */
@@ -1991,6 +2311,45 @@
   background: var(--pf-bg-primary-button);
 }
 
+/* Tool tip  (no geometry measured — colours only)
+ * 1 variant captured
+ */
+.pf-tool-tip {
+  background: var(--pf-bg-tertiary);
+  color: var(--pf-text-primary);
+}
+
+/* Top bar app context
+ * 1 variant captured
+ * Figma draws this 242px wide; treated as layout, not a rule
+ */
+.pf-top-bar-app-context {
+  height: 66px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 24px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-top-bar-app-context {
+  color: var(--pf-base-white);
+}
+
+/* [S] Main nav context  (no geometry measured — colours only)
+ * 1 variant captured
+ */
+.pf-s-main-nav-context {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-theme);
+}
+
 /* [S] Navigation/main tabs
  * 3 variants captured
  * corner radius varies per corner in Figma
@@ -2026,6 +2385,31 @@
   background: var(--pf-bg-primary);
   border-color: var(--pf-border-default);
   color: var(--pf-text-theme);
+}
+
+/* [S] Text area
+ * 1 variant captured. small variant
+ * Figma draws this 300px wide; treated as layout, not a rule
+ */
+.pf-s-text-area {
+  height: 240px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-s-text-area {
+  color: var(--pf-text-primary);
 }
 
 /* single layout card  (no geometry measured — colours only)

@@ -32,6 +32,12 @@ Figma component actually binds.
 | Type=Filter, State=Hover | `var(--pf-button-fill-hollow-hover)` | `var(--pf-border-hollow-button)` | `var(--pf-text-primary)` |
 | Type=Sort, State=Default | — | `var(--pf-border-hollow-button)` | `var(--pf-text-primary)` |
 | Type=Sort, State=Hover | `var(--pf-button-fill-hollow-hover)` | `var(--pf-border-hollow-button)` | `var(--pf-text-primary)` |
+| Type=Hollow, State=Disabled | — | `var(--pf-border-disabled)` | `var(--pf-text-disabled)` |
+| Type=Filter, State=Disabled | — | `var(--pf-border-disabled)` | `var(--pf-text-disabled)` |
+| Type=Sort, State=Disabled | — | `var(--pf-border-disabled)` | `var(--pf-text-disabled)` |
+| Type=Action, State=Disabled | `var(--pf-bg-secondary-button)` | — | `var(--pf-text-inverted-primary)` |
+| Type=Negative, State=Disabled | `var(--pf-bg-negative-button)` | — | `var(--pf-base-white)` |
+| Type=Positive, State=Disabled | `var(--pf-bg-primary-button)` | — | `var(--pf-base-white)` |
 
 ### Links
 
@@ -49,6 +55,31 @@ Figma component actually binds.
 | State=Default, Active=False | `var(--pf-bg-primary)` | `var(--pf-border-hollow-button)` | `var(--pf-text-primary)` |
 | State=Selected, Active=True | `var(--pf-bg-primary)` | `var(--pf-border-theme)` | `var(--pf-text-theme)` |
 | State=Hover, Active=False | `var(--pf-bg-theme)` | `var(--pf-border-theme)` | `var(--pf-text-theme)` |
+
+### Add attachment
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Action menu button
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Tool tip
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | `var(--pf-bg-tertiary)` | — | `var(--pf-text-primary)` |
+
+### Drop down button
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| Hover=False | — | `var(--pf-border-form-input)` | `var(--pf-text-primary)` |
+| Hover=True | `var(--pf-bg-tertiary)` | `var(--pf-border-form-input)` | `var(--pf-text-secondary)` |
 
 ## Forms
 
@@ -77,6 +108,8 @@ Figma component actually binds.
 |---|---|---|---|
 | Right aligned=No, Filled=No | `var(--pf-bg-primary)` | `var(--pf-border-form-input)` | `var(--pf-text-secondary)` |
 | Right aligned=No, Filled=Yes | `var(--pf-bg-primary)` | `var(--pf-border-form-input)` | `var(--pf-text-primary)` |
+| Right aligned=Yes, Filled=No | `var(--pf-bg-primary)` | `var(--pf-border-form-input)` | `var(--pf-text-secondary)` |
+| Right aligned=Yes, Filled=Yes | `var(--pf-bg-primary)` | `var(--pf-border-form-input)` | `var(--pf-text-secondary)` |
 
 ### Text area
 
@@ -112,6 +145,24 @@ Figma component actually binds.
 | Variant | Background | Border | Text |
 |---|---|---|---|
 | Property 1=Default | `var(--pf-bg-primary)` | `var(--pf-border-form-input)` | `var(--pf-text-secondary)` |
+
+### [S] Text area
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Signature
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Text template format editor 
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
 
 ## Controls
 
@@ -396,6 +447,7 @@ Figma component actually binds.
 |---|---|---|---|
 | Type=Child | — | — | `var(--pf-text-primary)` |
 | Type=Selected | `var(--pf-base-blue-ocean)` | — | `var(--pf-text-inverted-primary)` |
+| Type=Child + sub | — | — | `var(--pf-text-primary)` |
 
 ### Clock in
 
@@ -417,6 +469,85 @@ Figma component actually binds.
 |---|---|---|---|
 | Variant=Default | `var(--pf-bg-primary)` | — | `var(--pf-text-secondary)` |
 | Variant=Finance | `var(--pf-bg-primary)` | — | `var(--pf-text-secondary)` |
+
+### Config menu items
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Config parent menu
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | `var(--pf-border-default)` | `var(--pf-text-primary)` |
+
+### Navigation tabs
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-theme)` |
+
+### Header
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| Breakpoint=Desktop | — | — | `var(--pf-text-secondary)` |
+| Breakpoint=Tablet | — | — | `var(--pf-base-white)` |
+| Breakpoint=Mobile | — | — | `var(--pf-base-white)` |
+
+### Mobile bottom navigation
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-secondary)` |
+
+### Header top navigation
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| Breakpoint=Desktop | — | — | `var(--pf-text-secondary)` |
+| Breakpoint=Tablet | — | — | `var(--pf-base-white)` |
+| Breakpoint=Mobile | — | — | `var(--pf-base-white)` |
+
+### [S] Main nav context
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | `var(--pf-bg-primary)` | — | `var(--pf-text-theme)` |
+
+### Top bar app context
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-base-white)` |
+
+### Search home button
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| Mobile=False | — | — | `var(--pf-text-secondary)` |
+| Mobile=Mobile3 | — | — | `var(--pf-text-theme)` |
+
+### Full page navigation
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| Breakpoint=Desktop | — | — | `var(--pf-text-secondary)` |
+| Breakpoint=Mobile | — | — | `var(--pf-base-white)` |
+| Breakpoint=Tablet | — | — | `var(--pf-base-white)` |
+
+### Side navigation panel
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | `var(--pf-bg-primary)` | — | `var(--pf-text-theme)` |
+
+### Filter tabs
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-theme)` |
 
 ## Cards and panels
 
@@ -532,6 +663,54 @@ Figma component actually binds.
 | Variant | Background | Border | Text |
 |---|---|---|---|
 | Mobile=False | `var(--pf-bg-primary)` | — | `var(--pf-text-primary)` |
+
+### Attachments
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Attachment with person
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | `var(--pf-border-default)` | `var(--pf-text-primary)` |
+
+### Configuration panel
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-theme)` |
+
+### Details
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Switcher
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Layout container title
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Layout container tabs
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-theme)` |
+
+### 50/50 layout container
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
 
 ## AI
 

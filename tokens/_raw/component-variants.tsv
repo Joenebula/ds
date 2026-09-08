@@ -190,3 +190,47 @@ AI	Clickable AI element	State=default			Text/Primary
 AI	Clickable AI element	State=Hover			Base colours/Default Pink
 AI	AI message bubble	Type=AI chat			Text/Secondary
 AI	AI message bubble	Type=User chat			Text/Secondary
+Navigation	Config menu items				Text/Primary
+Navigation	Config parent menu			Border/Default	Text/Primary
+Navigation	Navigation tabs				Text/Theme
+Navigation	Header	Breakpoint=Desktop			Text/Secondary
+Navigation	Header	Breakpoint=Tablet			Base colours/White
+Navigation	Header	Breakpoint=Mobile			Base colours/White
+Navigation	Mobile bottom navigation				Text/Secondary
+Navigation	Header top navigation	Breakpoint=Desktop			Text/Secondary
+Navigation	Header top navigation	Breakpoint=Tablet			Base colours/White
+Navigation	Header top navigation	Breakpoint=Mobile			Base colours/White
+Navigation	[S] Main nav context		Background/Primary		Text/Theme
+Navigation	Top bar app context				Base colours/White
+Navigation	Search home button	Mobile=False			Text/Secondary
+Navigation	Search home button	Mobile=Mobile3			Text/Theme
+Navigation	Full page navigation	Breakpoint=Desktop			Text/Secondary
+Navigation	Full page navigation	Breakpoint=Mobile			Base colours/White
+Navigation	Full page navigation	Breakpoint=Tablet			Base colours/White
+Navigation	Side navigation panel		Background/Primary		Text/Theme
+Navigation	Filter tabs				Text/Theme
+Cards and panels	Attachments				Text/Primary
+Cards and panels	Attachment with person			Border/Default	Text/Primary
+Cards and panels	Configuration panel				Text/Theme
+Cards and panels	Details				Text/Primary
+Cards and panels	Switcher				Text/Primary
+Cards and panels	Layout container title				Text/Primary
+Cards and panels	Layout container tabs				Text/Theme
+Cards and panels	50/50 layout container				Text/Primary
+Forms	[S] Text area				Text/Primary
+Forms	Signature				Text/Primary
+Forms	Text template format editor 				Text/Primary
+Buttons and links	Add attachment				Text/Primary
+Buttons and links	Action menu button				Text/Primary
+Buttons and links	Tool tip		Background/Tertiary		Text/Primary
+Buttons and links	Drop down button	Hover=False		Border/Form input	Text/Primary
+Buttons and links	Drop down button	Hover=True	Background/Tertiary	Border/Form input	Text/Secondary
+Navigation	Config child menu	Type=Child + sub			Text/Primary
+Forms	Field	Right aligned=Yes, Filled=No	Background/Primary	Border/Form input	Text/Secondary
+Forms	Field	Right aligned=Yes, Filled=Yes	Background/Primary	Border/Form input	Text/Secondary
+Buttons and links	Button	Type=Hollow, State=Disabled		Border/Disabled	Text/Disabled
+Buttons and links	Button	Type=Filter, State=Disabled		Border/Disabled	Text/Disabled
+Buttons and links	Button	Type=Sort, State=Disabled		Border/Disabled	Text/Disabled
+Buttons and links	Button	Type=Action, State=Disabled	Background/Secondary Button		Text/Inverted primary
+Buttons and links	Button	Type=Negative, State=Disabled	Background/Negative Button		Base colours/White
+Buttons and links	Button	Type=Positive, State=Disabled	Background/Primary Button		Base colours/White

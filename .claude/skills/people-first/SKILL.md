@@ -300,8 +300,12 @@ Three of these have a shape worth knowing before you use them:
   variant axis. `data-property-1="Default"` is the honest translation of it, and the
   bare `.pf-card` is what you normally want.
 
-`Button` has **no Disabled variant** in the extract, so a disabled button gets no colour
-change from the library. Handle it in your own CSS and say you have.
+**A disabled Action, Positive or Negative button looks identical to an enabled one.**
+That is Figma's own binding, not a bug in the library: those three bind exactly the same
+fill and text in `State=Disabled` as in `State=Default`, so only the hollow types
+(Hollow, Filter, Sort) visibly change, to `--pf-border-disabled` / `--pf-text-disabled`.
+If a screen disables a solid button, say so — colour alone will not tell the user, which
+is a real accessibility problem and worth raising against the Figma file.
 
 The full list is every `.pf-*` in `dist/components.css`, and every one is rendered in
 `docs/components.html` — open that rather than guessing whether a class exists.
