@@ -87,7 +87,20 @@ function geometryDecls(g, notes) {
   if (h !== null) d.push(`height: ${h}px`);
 
   if (g.padding && g.padding !== '—' && g.padding !== '0') {
-    d.push(`padding: ${g.padding.trim().split(/\s+/).map(v => v === '0' ? '0' : v + 'px').join(' ')}`);
+    const parts = g.padding.trim().split(/\s+/).map(Number);
+    // top/bottom, expanded from CSS shorthand
+    const [pt, pb] = parts.length === 1 ? [parts[0], parts[0]]
+      : parts.length === 2 ? [parts[0], parts[0]]
+      : parts.length === 3 ? [parts[0], parts[2]]
+      : [parts[0], parts[2]];
+    // Figma lets a frame carry padding that its own height cannot fit — a 20x20 box
+    // with 10px padding has no content area at all. In CSS that padding would floor
+    // the box at 22px and silently win. The size you see in Figma is authoritative.
+    if (h !== null && pt + pb + 2 >= h) {
+      notes.push(`Figma sets ${g.padding}px padding on a ${h}px-tall box; dropped, as the size wins`);
+    } else {
+      d.push(`padding: ${g.padding.trim().split(/\s+/).map(v => v === '0' ? '0' : v + 'px').join(' ')}`);
+    }
   }
 
   const r = num(g.radius);

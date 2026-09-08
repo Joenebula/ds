@@ -595,11 +595,11 @@
 
 /* Control
  * 2 variants captured. the checkbox/radio box itself, 20x20 r4. 2 variants
+ * Figma sets 10px padding on a 20px-tall box; dropped, as the size wins
  */
 .pf-control {
   width: 20px;
   height: 20px;
-  padding: 10px;
   border-radius: 4px;
   display: inline-flex;
   flex-direction: column;

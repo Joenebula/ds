@@ -408,3 +408,29 @@ gap, but looking stays part of the job.
 - Rendered in Chromium and inspected by eye in **both** light and dark:
   all 12 Button variants, Filter chip, Links correct in each.
 - `npm run build` → clean; both generators are now part of the build.
+
+---
+
+## Task 10 — Check the stylesheet against Figma — DONE
+
+**Skills loaded:** `people-first` (project, 2026-09-08 19:13).
+
+**Built:** `scripts/verify-components.mjs`. Renders `dist/components.css` in Chromium and
+compares every class against the extracts — height, radius (with the pill rule), font
+size, flex direction, and the resolved background / text / border colour of every
+variant — in **both light and dark**. `verify-geometry.mjs` does this for one page; this
+does it for the whole library, which is what matters once screens are built from classes.
+
+**Commands run and results:**
+- `node scripts/verify-components.mjs` → **1764 of 1764 checks match Figma, 0 off.**
+- `node scripts/verify-components.mjs --self-test` → deliberately breaks Button's height
+  and radius; **48 failures caught**, so the check demonstrably fails on bad input.
+- Added to `npm run verify`.
+
+**A genuine data conflict it found, and the rule that resolves it.** Four checks failed
+at first: `Control` measured 22px where Figma says 20px. Not a tolerance problem — Figma
+records the box as 20x20 *and* gives it 10px padding. In CSS with `border-box`, padding
+plus border (22px) floors the height and silently wins, so the box you get is not the box
+you drew. The size you see in Figma is authoritative, so the generator now drops padding
+that its own measured height cannot fit, and records why in a comment above the rule.
+This affects any component whose padding exceeds its height, not just this one.

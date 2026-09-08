@@ -152,7 +152,7 @@ exactly as Figma names them, and it looks right in both light and dark mode.
 
 **Depends on:** task 8.
 
-## 10. Check the stylesheet against Figma — `pending`
+## 10. Check the stylesheet against Figma — `done`
 
 A script that renders `components.css` and compares every class against the measured
 geometry and the extracted variant colours — the same idea as `verify-geometry.mjs`, but
