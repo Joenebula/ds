@@ -129,6 +129,36 @@ Only these two exist. There is no elevation ramp — do not invent one.
 24 columns @ 1588px · 22 @ 1454px · 18 @ 1320px · 12 @ 784px.
 All use a 20px gutter and 47px column width, centre-aligned.
 
+## Component variants — READ THIS BEFORE PROTOTYPING
+
+`references/variants.md` carries **71 components and 191 variants**, each with the
+exact tokens that variant binds in Figma, already translated to CSS vars.
+
+**Load it whenever a prototype needs a component in a specific state** — an errored
+dropdown, a hovered table row, a selected nav item, a dragged card. Do not guess a
+variant's colours from its name; look it up. The bindings are frequently
+counter-intuitive (the Action button uses `--pf-text-inverted-primary`, not white).
+
+Variant axes you can ask for by name:
+
+| Component | Axes |
+|---|---|
+| `Button` | Type (Action/Positive/Negative/Hollow/Filter/Sort) × State (Default/Hover/Disabled) × Label |
+| `Form field` | Input type (Text/Dropdown/Search/Date picker/Time picker) × State (Default/Disabled/Error/Selected) × Full width |
+| `Checkbox/Radio item` | State (Default/Hover/Disabled/Error/Selected) × Radio × Filled |
+| `Table cell (AG)` | Type (Default/Checkbox) × Style (Default/Stripe/Hover) |
+| `Table header icons` | Variant (Sort/Filter/Context menu) × State (Default/Hover/Ascending/Descending/Filtered/Active) |
+| `Tags` | Type (7 statuses) × Small |
+| `Navigation item` | State (Selected/Unselected/Hover) × Device |
+| `Draggable card` | State (Default/Hover/Click/Drag/Drop) |
+| `Radio card` | State (Enabled/Disabled) × Selected |
+| `Toggle` | On × Locked |
+| `Star rating` | Rating (0–5) × State × Read only |
+| `AI button` | Style (Light mode/Inverted) × Hover |
+
+Ignore any `Darkmode` variant axis you see — the CSS tokens handle both modes.
+It exists in Figma only because a Figma frame can't show both at once.
+
 ## Component recipes
 
 Taken from the Figma component sets, with the exact tokens those components bind.
