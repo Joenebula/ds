@@ -116,10 +116,14 @@ for (const mode of modes) {
       push('background-color', cs.backgroundColor);
       push('border-color', cs.borderTopColor !== cs.backgroundColor && parseFloat(cs.borderTopWidth) > 0 ? cs.borderTopColor : null);
       if (direct && own) {
+        const dis = el.disabled === true || el.getAttribute('aria-disabled') === 'true' ||
+          /disabled/i.test(el.className || '') ||
+          !!el.closest('[disabled], [aria-disabled="true"], .is-disabled, .field.is-disabled');
         push('color', cs.color, {
           bg: effectiveBg(el),
           fontSize: parseFloat(cs.fontSize),
           fontWeight: cs.fontWeight,
+          disabled: dis,
           sample: own.slice(0, 40)
         });
       }
@@ -129,6 +133,7 @@ for (const mode of modes) {
 
   const offPalette = [];
   const contrastFails = [];
+  const disabledNotes = [];
   let onSystem = 0;
 
   for (const s of samples) {
@@ -147,8 +152,12 @@ for (const mode of modes) {
         const ratio = contrast(rgb, bg);
         const large = s.fontSize >= 24 || (s.fontSize >= 18.66 && +s.fontWeight >= 600);
         const min = large ? 3 : 4.5;
-        if (ratio < min) contrastFails.push({ where: s.path, sample: s.sample, ratio: +ratio.toFixed(2),
-          required: min, fontSize: s.fontSize, fg: s.value, bg: s.bg });
+        if (ratio < min) {
+          const row = { where: s.path, sample: s.sample, ratio: +ratio.toFixed(2),
+            required: min, fontSize: s.fontSize, fg: s.value, bg: s.bg };
+          // WCAG 1.4.3 exempts disabled controls, so these are noted rather than failed.
+          (s.disabled ? disabledNotes : contrastFails).push(row);
+        }
       }
     }
   }
@@ -159,6 +168,7 @@ for (const mode of modes) {
     offPalette: offPalette.slice(0, 40),
     offPaletteTotal: offPalette.length,
     contrastFails,
+    disabledNotes,
     coverage: samples.length ? +(100 * onSystem / (onSystem + offPalette.length)).toFixed(1) : 100
   };
   await ctx.close();
@@ -186,6 +196,10 @@ for (const mode of modes) {
     for (const c of r.contrastFails)
       console.log(`    ${c.ratio}:1 (needs ${c.required}) ${c.where} — "${c.sample}"`);
     problems += r.contrastFails.length;
+  }
+  if (r.disabledNotes.length) {
+    console.log(`\n  low contrast on DISABLED text (${r.disabledNotes.length}) — WCAG exempts these, listed for awareness:`);
+    for (const c of r.disabledNotes) console.log(`    ${c.ratio}:1  ${c.where} — "${c.sample}"`);
   }
   if (!r.offPaletteTotal && !r.contrastFails.length) console.log('  no issues');
 }
