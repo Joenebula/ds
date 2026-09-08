@@ -73,15 +73,17 @@ build, and the accessibility notes — with no invented values.
 
 **Depends on:** task 2.
 
-## 6. Real People First icons — `in progress` (moved up: user asked for exact Figma fidelity)
+## 6. Real People First icons — `partly done` (9 of 289)
 
-The prototype uses icons I drew. People First has 290 real ones in Figma.
+All 289 icon names are captured. The 9 the prototype actually uses are exported as
+real Figma SVG and swapped in (`assets/icons/`, `tokens/_raw/icons.tsv`).
 
-Exporting them is roughly one Figma call each against a 200-per-day limit, so the full
-set is a multi-day job. **This needs a decision from you before it can be queued** —
-see "Your turn" in the run report.
+The remaining 280 are a mechanical job: Figma's export tool truncates at 20KB per
+call, which works out at roughly 12 icons per call, so about 24 more calls. Nothing
+hard, just repetitive — better as its own focused run than interleaved with the
+skills work.
 
-**Depends on:** your choice of scope.
+**Done when:** all 289 exist as individual SVGs in `assets/icons/`.
 
 ---
 

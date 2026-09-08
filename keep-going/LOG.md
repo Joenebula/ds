@@ -57,3 +57,35 @@ comparison would fail correct code. Cheap to tighten if wanted.
 **Note, not a defect:** this sandbox blocks `fonts.googleapis.com`, so locally rendered
 screenshots fall back from Open Sans to a system face. The published artifact loads Open Sans
 correctly — only my local screenshots are unrepresentative of the typeface.
+
+---
+
+## Task 6 (moved up) — Real People First icons — PARTLY DONE (9 of 289)
+
+**Skills loaded:** `figma-use` (Figma MCP resource, server-provided and not user-editable,
+so the in-session read was reused rather than re-fetched — logged here for transparency).
+
+**What happened:** three attempts to make a full 289-icon export cheap, all recorded
+because the reasoning matters for whoever finishes this:
+1. Minified the SVG output (stripped xmlns/width/height, currentColor, dropped no-op clip
+   wrappers) — got about 9 icons per call.
+2. Tried deliberately oversizing the payload so the harness would write it to a file
+   instead of returning it inline. It does not: `use_figma` truncates at 20KB itself,
+   before that mechanism applies. Data lost, approach abandoned.
+3. Added coordinate rounding to 2dp — about 12 icons per call. Still ~24 calls for the rest.
+
+**Decision:** exported the 9 icons the prototype actually uses rather than grinding 24
+near-identical calls mid-run, and parked the remaining 280. This follows the queue rule
+about parking an expensive task and carrying on rather than ending the run.
+
+**Commands run and results:**
+- Icons written to `assets/icons/` (9 files) and `tokens/_raw/icons.tsv`.
+- 20 icon instances swapped into the prototype (my hand-drawn substitutes replaced with
+  real Figma artwork).
+- `node scripts/verify-geometry.mjs` → 29 match, 0 off.
+- `node scripts/verify-rendered.mjs` → 54 colours match, 0 off.
+- Screenshot checked by eye: buttons now carry the real glyphs.
+
+**Not done:** 280 icons. `Filter` was skipped even within the chosen set — its SVG is
+unusually large (a complex compound path) and was dropped when writing the batch to disk.
+The table's filter glyph is still my drawn one.
