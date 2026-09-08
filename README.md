@@ -14,6 +14,7 @@ packaged so Claude Design — and any HTML/CSS output — generates on-brand UI.
 | `dist/tokens.css` | 365 CSS custom properties, light + dark. Generated. |
 | `.claude/skills/people-first/SKILL.md` | Teaches Claude the system: tokens, recipes, rules. |
 | `reference/index.html` | Visual proof sheet — every token rendered, with a dark-mode toggle. |
+| `ds-bundle/` | Preview pages for the claude.ai/design Design System pane. Generated. |
 | `scripts/` | The build pipeline. |
 
 ## What was extracted
@@ -36,6 +37,7 @@ node scripts/build-tokens.mjs     # tokens/_raw/ -> tokens/design-tokens.json
 node scripts/build-css.mjs        # design-tokens.json -> dist/tokens.css
 node scripts/build-reference.mjs  # -> reference/index.html
 node scripts/check-contrast.mjs   # WCAG AA audit of real component pairings
+node scripts/build-ds-bundle.mjs  # -> ds-bundle/ for the Claude Design System pane
 ```
 
 Or `npm run build` for all four.
