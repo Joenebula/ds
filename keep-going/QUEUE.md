@@ -16,7 +16,7 @@ push only when the run stops and reports — so nothing reaches GitHub unreviewe
 
 ---
 
-## 1. Guard against wrong shapes — `pending`
+## 1. Guard against wrong shapes — `done`
 
 Add an automated check that what the browser renders matches the measured Figma
 geometry, the same way colours are already checked.
@@ -73,7 +73,7 @@ build, and the accessibility notes — with no invented values.
 
 **Depends on:** task 2.
 
-## 6. Real People First icons — `blocked, needs your decision`
+## 6. Real People First icons — `in progress` (moved up: user asked for exact Figma fidelity)
 
 The prototype uses icons I drew. People First has 290 real ones in Figma.
 
