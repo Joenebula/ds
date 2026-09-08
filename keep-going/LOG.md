@@ -321,3 +321,54 @@ Cheap to revisit — the variant list is already captured per component.
 **Correction to an earlier reading:** I first reported that no variant data existed for
 Forms and Controls. That was wrong — I matched the page name with trailing spaces. Variant
 colours were already captured for 15 of these components (47 rows).
+
+---
+
+## Task 8 — A stylesheet you can actually build with — DONE (proof pending task 11)
+
+**Skills loaded:** `people-first` (project, 2026-09-08 19:13); `figma-use` (MCP resource)
+for the extra measurement pass below.
+
+**Built:** `scripts/build-components-css.mjs` → `dist/components.css`.
+**71 components, 244 rules, 54 with measured geometry.** Generated from the raw extracts,
+never hand-written, so it cannot drift from Figma without the extract changing.
+
+**How it reads.** Class naming mirrors Figma's variant panel rather than inventing a
+scheme — a component is a class, each variant *property* is a data attribute, and values
+keep Figma's exact spelling:
+
+    <button class="pf-button" data-type="Action">Save</button>
+    <div class="pf-form-field" data-input-type="Dropdown" data-state="Error">
+
+States that have a real CSS equivalent get one *as well as* the attribute, so a live
+control behaves correctly and a gallery can still pin any state:
+
+    .pf-button[data-type="Action"][data-state="Hover"],
+    .pf-button[data-type="Action"]:hover { background: var(--pf-bg-secondary-button-hover); }
+
+**A bug the first draft had, and how it was caught.** Reading the generated output showed
+`.pf-form-field` laid out as a horizontal row. It is a vertical stack — label above input.
+The cause: the geometry extract recorded `gap` but never recorded auto-layout *direction*,
+so a gap of 5 was rendered as a row. Fixed properly rather than patched: measured
+`layoutMode`, `counterAxisAlignItems` and `primaryAxisAlignItems` across all nine
+component pages (9 parallel Figma reads), added a `layout` column to
+`component-geometry.tsv` — now filled for **76 of 106** components — and taught the
+generator to emit `flex-direction`, `align-items` and `justify-content`. Components whose
+direction is not captured fall back to a row *and say so in a comment*, rather than
+silently guessing.
+
+**Commands run and results:**
+- `node scripts/build-components-css.mjs` → 71 components, 244 rules, 0 unmapped tokens.
+- Cross-checked every `var()` in the output against `dist/tokens.css`:
+  **64 distinct tokens referenced, 0 undefined.**
+- `npm run build` → clean; the generator is now part of the build.
+
+**Assumptions logged:**
+- A large fixed width in Figma is the width of the artboard the component was drawn at,
+  not a rule, so width is only carried through for small fixed controls (<=120px).
+  Anything wider is recorded as a comment instead. Easy to change in one place.
+- A component set is measured from its *first* variant. Fine here; would under-report a
+  set whose variants differ in size.
+
+**Not yet checked:** whether a real screen can be built from these classes alone. That is
+task 11, and it is the actual proof.

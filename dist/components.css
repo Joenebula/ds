@@ -1,0 +1,1795 @@
+/* People First — component classes, generated from the Figma extracts.
+ *
+ * DO NOT EDIT. Regenerate with: npm run build
+ * Shapes come from tokens/_raw/component-geometry.tsv (measured in Figma).
+ * Colours come from tokens/_raw/component-variants.tsv (the variant bindings).
+ *
+ * Usage — a component is a class, each Figma variant property is a data
+ * attribute, and values keep Figma's exact spelling:
+ *
+ *   <button class="pf-button" data-type="Action">Save</button>
+ *   <div class="pf-form-field" data-input-type="Dropdown" data-state="Error">
+ *
+ * Requires dist/tokens.css.
+ */
+
+/* AG Filter menus
+ * 3 variants captured
+ * Figma draws this 208px wide; treated as layout, not a rule
+ */
+.pf-ag-filter-menus {
+  height: 252px;
+  padding: 16px;
+  border-radius: 4px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  font-size: 12px;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-ag-filter-menus[data-variant="Multi & search"] {
+  background: var(--pf-filter-menu-background);
+  border-color: var(--pf-filter-menu-border);
+  color: var(--pf-text-disabled);
+}
+.pf-ag-filter-menus[data-variant="Date"] {
+  background: var(--pf-filter-menu-background);
+  border-color: var(--pf-filter-menu-border);
+  color: var(--pf-text-primary);
+}
+.pf-ag-filter-menus[data-variant="Sort"] {
+  background: var(--pf-filter-menu-background);
+  border-color: var(--pf-filter-menu-border);
+  color: var(--pf-text-primary);
+}
+
+/* AG sort item
+ * 3 variants captured
+ */
+.pf-ag-sort-item {
+  height: 52px;
+  padding: 16px 20px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  font-size: 13px;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-ag-sort-item {
+  color: var(--pf-text-primary);
+}
+.pf-ag-sort-item[data-state="Hover"],
+.pf-ag-sort-item:hover {
+  background: var(--pf-bg-theme);
+  color: var(--pf-text-primary);
+}
+.pf-ag-sort-item[data-state="Active"] {
+  background: var(--pf-bg-theme);
+  color: var(--pf-text-primary);
+}
+
+/* AI Assistant  (no geometry measured — colours only)
+ * 3 variants captured
+ */
+.pf-ai-assistant[data-type="Default"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-base-default-pink);
+}
+.pf-ai-assistant[data-type="Active chat"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-default);
+  color: var(--pf-base-default-pink);
+}
+.pf-ai-assistant[data-type="Expanded"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-primary);
+}
+
+/* AI banner
+ * 1 variant captured
+ */
+.pf-ai-banner {
+  height: 94px;
+  padding: 20px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 20px;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-ai-banner[data-darkmode="False"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-primary);
+}
+
+/* AI button
+ * 4 variants captured. PILL
+ * Figma draws this 146px wide; treated as layout, not a rule
+ * pill
+ */
+.pf-ai-button {
+  height: 32px;
+  padding: 3px 15px 3px 10px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-regular);
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-ai-button[data-style="Light mode"][data-hover="False"] {
+  color: var(--pf-text-primary);
+}
+.pf-ai-button[data-style="Light mode"][data-hover="True"] {
+  color: var(--pf-base-white);
+}
+.pf-ai-button[data-style="Inverted"][data-hover="False"] {
+  color: var(--pf-base-default-pink);
+}
+.pf-ai-button[data-style="Inverted"][data-hover="True"] {
+  border-color: var(--pf-base-white);
+  color: var(--pf-base-white);
+}
+
+/* AI card modal
+ * 1 variant captured
+ * Figma draws this 440px wide; treated as layout, not a rule
+ */
+.pf-ai-card-modal {
+  height: 505px;
+  padding: 20px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 20px;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-ai-card-modal[data-property-1="Default"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-primary);
+}
+
+/* AI message bubble
+ * 2 variants captured
+ * Figma draws this 455px wide; treated as layout, not a rule
+ */
+.pf-ai-message-bubble {
+  height: 149px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 12px;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-ai-message-bubble[data-type="AI chat"] {
+  color: var(--pf-text-secondary);
+}
+.pf-ai-message-bubble[data-type="User chat"] {
+  color: var(--pf-text-secondary);
+}
+
+/* Accordion
+ * 2 variants captured
+ */
+.pf-accordion {
+  height: 84px;
+  padding: 20px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 20px;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-accordion[data-expanded="False"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-primary);
+}
+.pf-accordion[data-expanded="True"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-primary);
+}
+
+/* Button
+ * 12 variants captured. PILL. Leading icon on every variant. Icon-only variant is 32x32 circle.
+ * pill
+ */
+.pf-button {
+  height: 32px;
+  padding: 0 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-button[data-type="Action"] {
+  background: var(--pf-bg-secondary-button);
+  color: var(--pf-text-inverted-primary);
+}
+.pf-button[data-type="Action"][data-state="Hover"],
+.pf-button[data-type="Action"]:hover {
+  background: var(--pf-bg-secondary-button-hover);
+  color: var(--pf-text-inverted-primary);
+}
+.pf-button[data-type="Positive"] {
+  background: var(--pf-bg-primary-button);
+  color: var(--pf-base-white);
+}
+.pf-button[data-type="Positive"][data-state="Hover"],
+.pf-button[data-type="Positive"]:hover {
+  background: var(--pf-bg-primary-button-hover);
+  color: var(--pf-base-white);
+}
+.pf-button[data-type="Negative"] {
+  background: var(--pf-bg-negative-button);
+  color: var(--pf-base-white);
+}
+.pf-button[data-type="Negative"][data-state="Hover"],
+.pf-button[data-type="Negative"]:hover {
+  background: var(--pf-bg-negative-button-hover);
+  color: var(--pf-base-white);
+}
+.pf-button[data-type="Hollow"] {
+  border-color: var(--pf-border-hollow-button);
+  color: var(--pf-text-primary);
+}
+.pf-button[data-type="Hollow"][data-state="Hover"],
+.pf-button[data-type="Hollow"]:hover {
+  background: var(--pf-button-fill-hollow-hover);
+  border-color: var(--pf-border-hollow-button);
+  color: var(--pf-text-primary);
+}
+.pf-button[data-type="Filter"] {
+  border-color: var(--pf-border-hollow-button);
+  color: var(--pf-text-primary);
+}
+.pf-button[data-type="Filter"][data-state="Hover"],
+.pf-button[data-type="Filter"]:hover {
+  background: var(--pf-button-fill-hollow-hover);
+  border-color: var(--pf-border-hollow-button);
+  color: var(--pf-text-primary);
+}
+.pf-button[data-type="Sort"] {
+  border-color: var(--pf-border-hollow-button);
+  color: var(--pf-text-primary);
+}
+.pf-button[data-type="Sort"][data-state="Hover"],
+.pf-button[data-type="Sort"]:hover {
+  background: var(--pf-button-fill-hollow-hover);
+  border-color: var(--pf-border-hollow-button);
+  color: var(--pf-text-primary);
+}
+
+/* Card
+ * 1 variant captured. shadow 0 0 4px
+ */
+.pf-card {
+  padding: 20px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  font-size: 20px;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-card[data-property-1="Default"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-primary);
+}
+
+/* Checkbox/Radio item
+ * 5 variants captured. box + label, 10px gap. 18 variants
+ */
+.pf-checkbox-radio-item {
+  height: 22px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-checkbox-radio-item {
+  color: var(--pf-text-primary);
+}
+.pf-checkbox-radio-item[data-state="Hover"],
+.pf-checkbox-radio-item:hover {
+  color: var(--pf-text-link);
+}
+.pf-checkbox-radio-item[data-state="Disabled"],
+.pf-checkbox-radio-item:disabled,
+.pf-checkbox-radio-item[aria-disabled="true"] {
+  color: var(--pf-text-secondary);
+}
+.pf-checkbox-radio-item[data-state="Error"] {
+  color: var(--pf-text-negative);
+}
+.pf-checkbox-radio-item[data-state="Selected"] {
+  color: var(--pf-text-link);
+}
+
+/* Checkbox/Radio list
+ * 4 variants captured. 5px between items. 4 variants
+ * Figma draws this 194px wide; treated as layout, not a rule
+ */
+.pf-checkbox-radio-list {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-checkbox-radio-list {
+  color: var(--pf-text-primary);
+}
+.pf-checkbox-radio-list[data-state="Disabled"],
+.pf-checkbox-radio-list:disabled,
+.pf-checkbox-radio-list[aria-disabled="true"] {
+  color: var(--pf-text-primary);
+}
+.pf-checkbox-radio-list[data-state="Error"] {
+  color: var(--pf-text-negative);
+}
+.pf-checkbox-radio-list[data-state="Selected"] {
+  color: var(--pf-text-link);
+}
+
+/* Clickable AI element
+ * 2 variants captured
+ * Figma draws this 382px wide; treated as layout, not a rule
+ */
+.pf-clickable-ai-element {
+  height: 38px;
+  padding: 10px 10px 10px 20px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-clickable-ai-element {
+  color: var(--pf-text-primary);
+}
+.pf-clickable-ai-element[data-state="Hover"],
+.pf-clickable-ai-element:hover {
+  color: var(--pf-base-default-pink);
+}
+
+/* Clock in
+ * 2 variants captured. PILL
+ * pill
+ */
+.pf-clock-in {
+  width: 107px;
+  height: 32px;
+  padding: 7px 20px 7px 10px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 16px;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-clock-in[data-type="Standard"] {
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-inverted-primary);
+}
+.pf-clock-in[data-type="Hover"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-theme);
+}
+
+/* Config child menu  (no geometry measured — colours only)
+ * 2 variants captured
+ */
+.pf-config-child-menu[data-type="Child"] {
+  color: var(--pf-text-primary);
+}
+.pf-config-child-menu[data-type="Selected"] {
+  background: var(--pf-base-blue-ocean);
+  color: var(--pf-text-inverted-primary);
+}
+
+/* Configuration tile
+ * 1 variant captured. shadow 0 0 4px
+ */
+.pf-configuration-tile {
+  height: 260px;
+  padding: 40px 20px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 24px;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-configuration-tile[data-device="Desktop"] {
+  background: var(--pf-bg-secondary);
+  color: var(--pf-text-primary);
+}
+
+/* Confirmation modal
+ * 3 variants captured
+ * Figma draws this 400px wide; treated as layout, not a rule
+ */
+.pf-confirmation-modal {
+  height: 413px;
+  padding: 60px 10px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 36px;
+  font-size: 24px;
+  font-weight: var(--pf-font-weight-regular);
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-confirmation-modal[data-type="Confirmation"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-primary);
+}
+.pf-confirmation-modal[data-type="Success"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-primary);
+}
+.pf-confirmation-modal[data-type="Information"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-primary);
+}
+
+/* Content cards
+ * 1 variant captured
+ */
+.pf-content-cards {
+  padding: 20px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
+  font-size: 16px;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-content-cards[data-mobile="false"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-primary);
+}
+
+/* Control
+ * 2 variants captured. the checkbox/radio box itself, 20x20 r4. 2 variants
+ */
+.pf-control {
+  width: 20px;
+  height: 20px;
+  padding: 10px;
+  border-radius: 4px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-control[data-radio="No"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-icon-disabled);
+}
+.pf-control[data-radio="Yes"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-icon-disabled);
+}
+
+/* Document previewer
+ * 3 variants captured. 3 variants
+ * Figma draws this 375px wide; treated as layout, not a rule
+ */
+.pf-document-previewer {
+  height: 642px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 16px;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-document-previewer[data-device="Mobile"] {
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-primary);
+}
+.pf-document-previewer[data-device="Tablet"] {
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-primary);
+}
+.pf-document-previewer[data-device="Desktop"] {
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-primary);
+}
+
+/* Draggable card
+ * 5 variants captured
+ */
+.pf-draggable-card {
+  height: 50px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  font-size: 16px;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-draggable-card {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-primary);
+}
+.pf-draggable-card[data-state="Hover"],
+.pf-draggable-card:hover {
+  background: var(--pf-bg-secondary);
+  border-color: var(--pf-border-secondary);
+  color: var(--pf-text-primary);
+}
+.pf-draggable-card[data-state="Click"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-theme);
+  color: var(--pf-text-primary);
+}
+.pf-draggable-card[data-state="Drag"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-theme);
+  color: var(--pf-text-primary);
+}
+.pf-draggable-card[data-state="Drop"] {
+  background: var(--pf-bg-theme);
+  border-color: var(--pf-border-theme);
+}
+
+/* Editable list card  (no geometry measured — colours only)
+ * 1 variant captured
+ */
+.pf-editable-list-card[data-property-1="Default"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-secondary);
+}
+
+/* Empty section
+ * 1 variant captured
+ */
+.pf-empty-section {
+  height: 212px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 35px;
+  font-size: 20px;
+  font-weight: var(--pf-font-weight-bold);
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-empty-section[data-mobile="False"] {
+  color: var(--pf-text-theme);
+}
+
+/* Field
+ * 2 variants captured. the input box itself. Placeholder text is italic, the value is not. 4 variants (Right aligned x Filled). Figma has a second, unrelated component also called Field.
+ * Figma draws this 300px wide; treated as layout, not a rule
+ */
+.pf-field {
+  height: 42px;
+  padding: 10px 10px 10px 20px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  font-size: 16px;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-field[data-right-aligned="No"][data-filled="No"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-form-input);
+  color: var(--pf-text-secondary);
+}
+.pf-field[data-right-aligned="No"][data-filled="Yes"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-form-input);
+  color: var(--pf-text-primary);
+}
+
+/* Filter chip
+ * 3 variants captured. PILL. Selected uses SemiBold, gap 10.
+ * pill
+ */
+.pf-filter-chip {
+  height: 42px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 16px;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-filter-chip[data-active="False"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-hollow-button);
+  color: var(--pf-text-primary);
+}
+.pf-filter-chip[data-active="True"][data-state="Selected"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-theme);
+  color: var(--pf-text-theme);
+}
+.pf-filter-chip[data-active="False"][data-state="Hover"],
+.pf-filter-chip[data-active="False"]:hover {
+  background: var(--pf-bg-theme);
+  border-color: var(--pf-border-theme);
+  color: var(--pf-text-theme);
+}
+
+/* Filter tab single
+ * 3 variants captured
+ * Figma draws this 224px wide; treated as layout, not a rule
+ */
+.pf-filter-tab-single {
+  height: 100px;
+  padding: 20px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+  font-size: 24px;
+  font-weight: var(--pf-font-weight-regular);
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-filter-tab-single[data-selected="False"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-secondary);
+}
+.pf-filter-tab-single[data-selected="False"][data-state="Hover"],
+.pf-filter-tab-single[data-selected="False"]:hover {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-theme);
+}
+.pf-filter-tab-single[data-selected="True"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-theme);
+}
+
+/* Footer (AG)  (no geometry measured — colours only)
+ * 1 variant captured
+ */
+.pf-footer-ag[data-mobile="False"] {
+  background: var(--pf-table-card);
+  color: var(--pf-text-primary);
+}
+
+/* Form field
+ * 14 variants captured. WRAPPER: label + input + helper text. 40 variants (Input type x State) - Text, Dropdown, Search, Date picker, Time picker x Default, Disabled, Error, Selected
+ * Figma draws this 564px wide; treated as layout, not a rule
+ */
+.pf-form-field {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-form-field[data-input-type="Text"] {
+  color: var(--pf-text-primary);
+}
+.pf-form-field[data-input-type="Text"][data-state="Disabled"],
+.pf-form-field[data-input-type="Text"]:disabled,
+.pf-form-field[data-input-type="Text"][aria-disabled="true"] {
+  color: var(--pf-text-primary);
+}
+.pf-form-field[data-input-type="Text"][data-state="Error"] {
+  color: var(--pf-text-negative);
+}
+.pf-form-field[data-input-type="Text"][data-state="Selected"] {
+  color: var(--pf-text-link);
+}
+.pf-form-field[data-input-type="Dropdown"] {
+  color: var(--pf-text-primary);
+}
+.pf-form-field[data-input-type="Dropdown"][data-state="Disabled"],
+.pf-form-field[data-input-type="Dropdown"]:disabled,
+.pf-form-field[data-input-type="Dropdown"][aria-disabled="true"] {
+  color: var(--pf-text-primary);
+}
+.pf-form-field[data-input-type="Dropdown"][data-state="Error"] {
+  color: var(--pf-text-negative);
+}
+.pf-form-field[data-input-type="Dropdown"][data-state="Selected"] {
+  color: var(--pf-text-link);
+}
+.pf-form-field[data-input-type="Search"] {
+  color: var(--pf-text-primary);
+}
+.pf-form-field[data-input-type="Search"][data-state="Disabled"],
+.pf-form-field[data-input-type="Search"]:disabled,
+.pf-form-field[data-input-type="Search"][aria-disabled="true"] {
+  color: var(--pf-text-primary);
+}
+.pf-form-field[data-input-type="Search"][data-state="Error"] {
+  color: var(--pf-text-negative);
+}
+.pf-form-field[data-input-type="Search"][data-state="Selected"] {
+  color: var(--pf-text-link);
+}
+.pf-form-field[data-input-type="Date picker"] {
+  color: var(--pf-text-primary);
+}
+.pf-form-field[data-input-type="Time picker"] {
+  color: var(--pf-text-primary);
+}
+
+/* Image picker
+ * 1 variant captured. not auto-layout
+ * Figma draws this 440px wide; treated as layout, not a rule
+ */
+.pf-image-picker {
+  height: 220px;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-image-picker[data-property-1="Default"] {
+  border-color: var(--pf-border-form-input);
+}
+
+/* Information box  (no geometry measured — colours only)
+ * 4 variants captured
+ */
+.pf-information-box[data-type="Information"] {
+  color: var(--pf-text-primary);
+}
+.pf-information-box[data-type="Warning"] {
+  color: var(--pf-text-primary);
+}
+.pf-information-box[data-type="Error"] {
+  color: var(--pf-text-primary);
+}
+.pf-information-box[data-type="Success"] {
+  color: var(--pf-text-primary);
+}
+
+/* Inline search
+ * 2 variants captured. 2 variants
+ * Figma draws this 400px wide; treated as layout, not a rule
+ */
+.pf-inline-search {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-inline-search[data-filled="False"] {
+  color: var(--pf-text-primary);
+}
+.pf-inline-search[data-filled="True"] {
+  color: var(--pf-text-primary);
+}
+
+/* Layout container (magazine style)  (no geometry measured — colours only)
+ * 2 variants captured
+ */
+.pf-layout-container-magazine-style[data-row-colour="False"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-primary);
+}
+.pf-layout-container-magazine-style[data-row-colour="True"] {
+  background: var(--pf-bg-theme);
+  color: var(--pf-text-primary);
+}
+
+/* Links  (no geometry measured — colours only)
+ * 4 variants captured
+ */
+.pf-links[data-link-type="Primary"][data-hover="False"] {
+  color: var(--pf-text-link);
+}
+.pf-links[data-link-type="Primary"][data-hover="True"] {
+  color: var(--pf-text-link);
+}
+.pf-links[data-link-type="Secondary"][data-hover="False"] {
+  color: var(--pf-text-link);
+}
+.pf-links[data-link-type="Secondary"][data-hover="True"] {
+  color: var(--pf-text-link);
+}
+
+/* Manage columns  (no geometry measured — colours only)
+ * 1 variant captured
+ */
+.pf-manage-columns[data-mobile="False"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-primary);
+}
+
+/* Message box
+ * 1 variant captured
+ */
+.pf-message-box {
+  height: 138px;
+  padding: 15px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-message-box[data-property-1="Default"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-form-input);
+  color: var(--pf-text-secondary);
+}
+
+/* Multi-select checkbox
+ * 4 variants captured
+ */
+.pf-multi-select-checkbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-multi-select-checkbox {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-icon-disabled);
+}
+.pf-multi-select-checkbox[data-state="Hover"],
+.pf-multi-select-checkbox:hover {
+  background: var(--pf-bg-theme);
+  border-color: var(--pf-icon-theme);
+}
+.pf-multi-select-checkbox[data-state="Selected"] {
+  background: var(--pf-icon-theme);
+}
+.pf-multi-select-checkbox[data-state="Mixed selection"] {
+  background: var(--pf-icon-theme);
+}
+
+/* Navigation item
+ * 3 variants captured. rail item, icon above label
+ */
+.pf-navigation-item {
+  width: 90px;
+  height: 86px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-navigation-item[data-device="Desktop"][data-state="Selected"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-theme);
+}
+.pf-navigation-item[data-device="Desktop"][data-state="Unselected"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-secondary);
+}
+.pf-navigation-item[data-device="Desktop"][data-state="Hover"],
+.pf-navigation-item[data-device="Desktop"]:hover {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-theme);
+}
+
+/* Next actions modal
+ * 2 variants captured
+ * Figma draws this 400px wide; treated as layout, not a rule
+ */
+.pf-next-actions-modal {
+  height: 565px;
+  padding: 0 0 30px 0;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 30px;
+  font-size: 24px;
+  font-weight: var(--pf-font-weight-regular);
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-next-actions-modal[data-type="Warning"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-default);
+}
+.pf-next-actions-modal[data-type="Success"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-default);
+}
+
+/* Note  (no geometry measured — colours only)
+ * 1 variant captured
+ */
+.pf-note[data-property-1="Default"] {
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-primary);
+}
+
+/* Notification card
+ * 1 variant captured
+ */
+.pf-notification-card {
+  height: 113px;
+  padding: 15px 20px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 15px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-notification-card[data-mobile="False"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-primary);
+}
+
+/* Option
+ * 2 variants captured. dropdown list row. 2 variants
+ * Figma draws this 250px wide; treated as layout, not a rule
+ */
+.pf-option {
+  padding: 2px 10px 2px 20px;
+  border-radius: 4px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-option[data-selected="No"] {
+  color: var(--pf-text-primary);
+}
+.pf-option[data-selected="Yes"] {
+  color: var(--pf-text-inverted-primary);
+}
+
+/* Org chart  (no geometry measured — colours only)
+ * 3 variants captured
+ */
+.pf-org-chart[data-type="Org"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-primary);
+}
+.pf-org-chart[data-type="Manager"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-primary);
+}
+.pf-org-chart[data-type="Reportee"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-primary);
+}
+
+/* Primary search
+ * 1 variant captured. PILL
+ * pill
+ */
+.pf-primary-search {
+  height: 38px;
+  padding: 0 10px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-primary-search[data-darkmode="False"][data-icon-only="False"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-secondary);
+  color: var(--pf-text-secondary);
+}
+
+/* Radio card
+ * 4 variants captured. 4 variants
+ * Figma draws this 235px wide; treated as layout, not a rule
+ */
+.pf-radio-card {
+  height: 152px;
+  padding: 25px 0;
+  border-radius: 4px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-radio-card[data-selected="No"][data-state="Enabled"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-primary);
+}
+.pf-radio-card[data-selected="Yes"][data-state="Enabled"] {
+  background: var(--pf-bg-theme);
+  border-color: var(--pf-border-theme);
+  color: var(--pf-text-theme);
+}
+.pf-radio-card[data-selected="No"][data-state="Disabled"],
+.pf-radio-card[data-selected="No"]:disabled,
+.pf-radio-card[data-selected="No"][aria-disabled="true"] {
+  background: var(--pf-bg-tertiary);
+  border-color: var(--pf-border-disabled);
+  color: var(--pf-text-disabled);
+}
+.pf-radio-card[data-selected="Yes"][data-state="Disabled"],
+.pf-radio-card[data-selected="Yes"]:disabled,
+.pf-radio-card[data-selected="Yes"][aria-disabled="true"] {
+  background: var(--pf-bg-tertiary);
+  border-color: var(--pf-border-disabled);
+  color: var(--pf-text-disabled);
+}
+
+/* Radio tile
+ * 2 variants captured. 2 variants
+ * Figma draws this 235px wide; treated as layout, not a rule
+ */
+.pf-radio-tile {
+  padding: 25px 0;
+  border-radius: 4px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-radio-tile {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-primary);
+}
+.pf-radio-tile[data-state="Hover"],
+.pf-radio-tile:hover {
+  background: var(--pf-bg-theme);
+  border-color: var(--pf-border-theme);
+  color: var(--pf-text-theme);
+}
+
+/* Secondary nav
+ * 2 variants captured
+ */
+.pf-secondary-nav {
+  height: 43px;
+  padding: 4px 368px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-secondary-nav[data-navigation-type="Chips"] {
+  color: var(--pf-text-theme);
+}
+.pf-secondary-nav[data-navigation-type="Page"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-primary);
+}
+
+/* Selected action banner
+ * 1 variant captured
+ */
+.pf-selected-action-banner {
+  height: 48px;
+  padding: 8px 20px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-selected-action-banner[data-mobile="False"] {
+  background: var(--pf-bg-tertiary);
+  color: var(--pf-text-primary);
+}
+
+/* Settings card
+ * 1 variant captured. shadow 0 1 3px
+ */
+.pf-settings-card {
+  padding: 20px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-settings-card[data-property-1="Default"] {
+  background: var(--pf-bg-secondary);
+  color: var(--pf-text-theme);
+}
+
+/* Side filter  (no geometry measured — colours only)
+ * 1 variant captured
+ */
+.pf-side-filter[data-mobile="False"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-primary);
+}
+
+/* Side navigation tab
+ * 2 variants captured
+ * Figma draws this 268px wide; treated as layout, not a rule
+ */
+.pf-side-navigation-tab {
+  height: 48px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  font-size: 16px;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-side-navigation-tab[data-selected="false"] {
+  color: var(--pf-text-primary);
+}
+.pf-side-navigation-tab[data-selected="true"] {
+  background: var(--pf-bg-theme);
+  color: var(--pf-text-theme);
+}
+
+/* Side navigation
+ * 2 variants captured. collapsed rail
+ */
+.pf-side-navigation {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 13px;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-side-navigation[data-variant="Default"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-secondary);
+}
+.pf-side-navigation[data-variant="Finance"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-secondary);
+}
+
+/* Side panel header
+ * 1 variant captured
+ */
+.pf-side-panel-header {
+  height: 60px;
+  padding: 10px 15px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  font-size: 20px;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-side-panel-header[data-size="Default"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-secondary);
+  color: var(--pf-text-primary);
+}
+
+/* Side panel
+ * 3 variants captured. shadow 0 0 4px
+ * corner radius varies per corner in Figma
+ */
+.pf-side-panel {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 20px;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-side-panel[data-mobile="No"][data-size="Small"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-primary);
+}
+.pf-side-panel[data-mobile="No"][data-size="Medium"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-primary);
+}
+.pf-side-panel[data-mobile="No"][data-size="Large"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-primary);
+}
+
+/* Spotlight Card  (no geometry measured — colours only)
+ * 1 variant captured
+ */
+.pf-spotlight-card[data-horizontal="False"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-primary);
+}
+
+/* Star rating  (no geometry measured — colours only)
+ * 2 variants captured
+ */
+.pf-star-rating[data-rating="0..5"] {
+  color: var(--pf-text-primary);
+}
+.pf-star-rating[data-rating="0..5"][data-state="Hover"],
+.pf-star-rating[data-rating="0..5"]:hover {
+  color: var(--pf-text-primary);
+}
+
+/* Status  (no geometry measured — colours only)
+ * 4 variants captured
+ */
+.pf-status[data-status-type="Like"] {
+  background: var(--pf-icon-info);
+}
+.pf-status[data-status-type="Absence"] {
+  background: var(--pf-icon-warning);
+}
+.pf-status[data-status-type="Recognition"] {
+  background: var(--pf-base-light-purple);
+}
+.pf-status[data-status-type="Comment"] {
+  background: var(--pf-icon-info);
+}
+
+/* Sticky footer
+ * 2 variants captured
+ */
+.pf-sticky-footer {
+  height: 52px;
+  padding: 10px 15px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-sticky-footer[data-default="Default"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-secondary);
+  color: var(--pf-base-white);
+}
+.pf-sticky-footer[data-default="Stepper"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-secondary);
+  color: var(--pf-text-primary);
+}
+
+/* Tab
+ * 3 variants captured
+ */
+.pf-tab {
+  width: 40px;
+  height: 34px;
+  padding: 6px 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-tab {
+  color: var(--pf-text-primary);
+}
+.pf-tab[data-state="Hover"],
+.pf-tab:hover {
+  color: var(--pf-text-theme);
+}
+.pf-tab[data-state="Selected"] {
+  color: var(--pf-text-theme);
+}
+
+/* Table (AG)  (no geometry measured — colours only)
+ * 1 variant captured
+ */
+.pf-table-ag[data-mobile="False"] {
+  border-color: var(--pf-table-border);
+  color: var(--pf-text-primary);
+}
+
+/* Table action bar  (no geometry measured — colours only)
+ * 1 variant captured
+ */
+.pf-table-action-bar[data-mobile="False"] {
+  color: var(--pf-text-theme);
+}
+
+/* Table card (AG)
+ * 1 variant captured
+ */
+.pf-table-card-ag {
+  padding: 20px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-table-card-ag[data-mobile="False"] {
+  background: var(--pf-table-card);
+  color: var(--pf-text-theme);
+}
+
+/* Table cell (AG)
+ * 6 variants captured. rows are TALL
+ */
+.pf-table-cell-ag {
+  height: 58px;
+  padding: 10px 15px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-table-cell-ag[data-type="Default"][data-style="Default"] {
+  background: var(--pf-table-primary-cell);
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-link);
+}
+.pf-table-cell-ag[data-type="Default"][data-style="Stripe"] {
+  background: var(--pf-table-stripe-cell);
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-link);
+}
+.pf-table-cell-ag[data-type="Default"][data-style="Hover"] {
+  background: var(--pf-bg-theme);
+  border-color: var(--pf-border-default);
+}
+.pf-table-cell-ag[data-type="Checkbox"][data-style="Default"] {
+  background: var(--pf-table-primary-cell);
+  border-color: var(--pf-border-default);
+}
+.pf-table-cell-ag[data-type="Checkbox"][data-style="Stripe"] {
+  background: var(--pf-table-stripe-cell);
+  border-color: var(--pf-border-default);
+}
+.pf-table-cell-ag[data-type="Checkbox"][data-style="Hover"] {
+  background: var(--pf-bg-theme);
+  border-color: var(--pf-border-default);
+}
+
+/* Table header (AG)
+ * 3 variants captured
+ */
+.pf-table-header-ag {
+  height: 54px;
+  padding: 15px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 47px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-table-header-ag[data-alignment="Left"] {
+  background: var(--pf-table-header-cell);
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-primary);
+}
+.pf-table-header-ag[data-alignment="Right"] {
+  background: var(--pf-table-header-cell);
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-primary);
+}
+.pf-table-header-ag[data-alignment="Checkbox"] {
+  background: var(--pf-table-header-cell);
+}
+
+/* Table header icons
+ * 5 variants captured
+ */
+.pf-table-header-icons {
+  width: 24px;
+  height: 24px;
+  padding: 10px;
+  border-radius: 4px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-table-header-icons[data-variant="Sort"][data-state="Ascending"] {
+  background: var(--pf-bg-theme);
+  border-color: var(--pf-icon-theme);
+}
+.pf-table-header-icons[data-variant="Sort"][data-state="Descending"] {
+  background: var(--pf-bg-theme);
+  border-color: var(--pf-icon-theme);
+}
+.pf-table-header-icons[data-variant="Filter"][data-state="Filtered"] {
+  background: var(--pf-bg-theme);
+  border-color: var(--pf-icon-theme);
+}
+.pf-table-header-icons[data-variant="Context menu"][data-state="Active"] {
+  background: var(--pf-bg-theme);
+  border-color: var(--pf-icon-theme);
+}
+
+/* Tags
+ * 7 variants captured. SENTENCE CASE, not uppercase
+ */
+.pf-tags {
+  height: 28px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-regular);
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-tags[data-type="Neutral"] {
+  background: var(--pf-tag-fill-neutral);
+  border-color: var(--pf-tag-border-neutral);
+  color: var(--pf-tag-content-neutral);
+}
+.pf-tags[data-type="Positive"] {
+  background: var(--pf-tag-fill-positive);
+  border-color: var(--pf-tag-border-positive);
+  color: var(--pf-tag-content-positive);
+}
+.pf-tags[data-type="Negative"] {
+  background: var(--pf-tag-fill-negative);
+  border-color: var(--pf-tag-border-negative);
+  color: var(--pf-tag-content-negative);
+}
+.pf-tags[data-type="Warning"] {
+  background: var(--pf-tag-fill-warning);
+  border-color: var(--pf-tag-border-warning);
+  color: var(--pf-tag-content-warning);
+}
+.pf-tags[data-type="Expired"] {
+  background: var(--pf-tag-fill-expired);
+  border-color: var(--pf-tag-border-expired);
+  color: var(--pf-tag-content-expired);
+}
+.pf-tags[data-type="Other"] {
+  background: var(--pf-tag-fill-other);
+  border-color: var(--pf-tag-border-other);
+  color: var(--pf-tag-content-other);
+}
+.pf-tags[data-type="Theme"] {
+  background: var(--pf-tag-fill-info);
+  border-color: var(--pf-tag-border-info);
+  color: var(--pf-tag-border-info);
+}
+
+/* Text area
+ * 4 variants captured. inner frame r8
+ */
+.pf-text-area {
+  height: 213px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-text-area[data-type="Standard"] {
+  color: var(--pf-text-primary);
+}
+.pf-text-area[data-type="Read only"] {
+  color: var(--pf-text-primary);
+}
+.pf-text-area[data-type="Disabled"] {
+  color: var(--pf-text-primary);
+}
+.pf-text-area[data-type="Error"] {
+  color: var(--pf-text-negative);
+}
+
+/* Title panel
+ * 1 variant captured
+ */
+.pf-title-panel {
+  height: 135px;
+  padding: 40px 20px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 18px;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-title-panel[data-mobile="false"] {
+  background: var(--pf-bg-tertiary);
+  color: var(--pf-text-primary);
+}
+
+/* Toast message
+ * 4 variants captured. fixed light surface — see dark-mode note
+ * Figma draws this 350px wide; treated as layout, not a rule
+ */
+.pf-toast-message {
+  height: 114px;
+  padding: 30px 0 30px 25px;
+  border-radius: 4px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 15px;
+  font-size: 13px;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-toast-message[data-message-type="Success"] {
+  background: var(--pf-base-white);
+  color: var(--pf-base-grey-slate);
+}
+.pf-toast-message[data-message-type="Info"] {
+  background: var(--pf-base-white);
+  color: var(--pf-base-grey-slate);
+}
+.pf-toast-message[data-message-type="Warning"] {
+  background: var(--pf-base-white);
+  color: var(--pf-base-grey-slate);
+}
+.pf-toast-message[data-message-type="Error"] {
+  background: var(--pf-base-white);
+  color: var(--pf-base-grey-slate);
+}
+
+/* Toggle
+ * 4 variants captured. PILL; knob inset
+ * pill
+ */
+.pf-toggle {
+  width: 55px;
+  height: 25px;
+  padding: 0 7px 0 2px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-toggle[data-on="No"][data-locked="No"] {
+  background: var(--pf-bg-tertiary);
+  border-color: var(--pf-base-grey-dolphin);
+  color: var(--pf-text-secondary);
+}
+.pf-toggle[data-on="Yes"][data-locked="No"] {
+  background: var(--pf-bg-primary-button);
+  color: var(--pf-base-white);
+}
+.pf-toggle[data-on="No"][data-locked="Yes"] {
+  background: var(--pf-bg-tertiary);
+  border-color: var(--pf-base-grey-dolphin);
+}
+.pf-toggle[data-on="Yes"][data-locked="Yes"] {
+  background: var(--pf-bg-primary-button);
+}
+
+/* [S] Navigation/main tabs
+ * 3 variants captured
+ * corner radius varies per corner in Figma
+ * layout direction not captured; assumed a row
+ */
+.pf-s-navigation-main-tabs {
+  width: 80px;
+  height: 40px;
+  padding: 0 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-s-navigation-main-tabs[data-status="Unselected"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-primary);
+}
+.pf-s-navigation-main-tabs[data-status="Hover"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-theme);
+}
+.pf-s-navigation-main-tabs[data-status="Selected"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-theme);
+}
+
+/* single layout card  (no geometry measured — colours only)
+ * 1 variant captured
+ */
+.pf-single-layout-card[data-mobile="false"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-default);
+  color: var(--pf-text-primary);
+}

@@ -130,7 +130,7 @@ Geometry file now covers **106** components, up from 79. `geometry.md` regenerat
 
 **Depends on:** nothing. Uses Figma reads.
 
-## 8. A stylesheet you can actually build with — `pending`
+## 8. A stylesheet you can actually build with — `done` (proof pending task 11)
 
 Generate `dist/components.css` from the raw extracts, so every captured component and
 variant is a real class: `.pf-btn`, `.pf-btn--hollow`, `.pf-tag--info`, `.pf-input`.
