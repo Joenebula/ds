@@ -484,12 +484,16 @@ h3 { font-size: var(--pf-font-size-s); font-weight: var(--pf-font-weight-bold); 
 @media (max-width: 620px) { .topbar, .content { padding-left: var(--pf-space-large); padding-right: var(--pf-space-large); } }
 
 /* ---------- buttons: Button set, Type × State ---------- */
+/* Figma: Button — h32, pad 0 20, radius 20 (pill), 13px SemiBold, 10px gap, leading icon */
 .btn {
-  font-family: inherit; font-size: var(--pf-font-size-s); font-weight: var(--pf-font-weight-bold);
-  padding: var(--pf-space-small) var(--pf-space-large); border-radius: var(--pf-radius-small);
-  border: 1px solid transparent; cursor: pointer; line-height: 1.2;
+  display: inline-flex; align-items: center; gap: 10px;
+  height: 32px; padding: 0 20px; border-radius: 20px;
+  font-family: inherit; font-size: 13px; font-weight: var(--pf-font-weight-bold);
+  border: 1px solid transparent; cursor: pointer; line-height: 1; white-space: nowrap;
   transition: background-color .12s;
 }
+.btn svg { flex: none; }
+.btn--icon { width: 32px; padding: 0; justify-content: center; }
 .btn--action    { background: var(--pf-bg-secondary-button); color: var(--pf-text-inverted-primary); }
 .btn--action:hover, .btn--action.is-hover { background: var(--pf-bg-secondary-button-hover); }
 .btn--positive  { background: var(--pf-bg-primary-button); color: var(--pf-text-always-white); }
@@ -503,21 +507,25 @@ h3 { font-size: var(--pf-font-size-s); font-weight: var(--pf-font-weight-bold); 
 
 /* ---------- filter chips: Filter chip, State × Active ---------- */
 .chiprow { display: flex; gap: var(--pf-space-small); flex-wrap: wrap; align-items: center; }
+/* Figma: Filter chip — h42, pad 10 20, radius 76 (pill), 16px, ls -1% */
 .chip {
-  font-family: inherit; font-size: var(--pf-font-size-xs);
+  display: inline-flex; align-items: center; gap: 5px;
+  height: 42px; padding: 10px 20px; border-radius: 999px;
+  font-family: inherit; font-size: 16px; letter-spacing: -0.01em;
   background: var(--pf-bg-primary); color: var(--pf-text-primary);
-  border: 1px solid var(--pf-border-hollow-button); border-radius: var(--pf-radius-medium);
-  padding: var(--pf-space-xsmall) var(--pf-space-small); cursor: pointer;
+  border: 1px solid var(--pf-border-hollow-button); cursor: pointer;
   transition: background-color .12s, border-color .12s, color .12s;
 }
 .chip:hover { background: var(--pf-bg-theme); border-color: var(--pf-border-theme); color: var(--pf-text-theme); }
-.chip[aria-pressed="true"] { border-color: var(--pf-border-theme); color: var(--pf-text-theme); font-weight: var(--pf-font-weight-bold); }
+.chip[aria-pressed="true"] { border-color: var(--pf-border-theme); color: var(--pf-text-theme); font-weight: var(--pf-font-weight-bold); gap: 10px; }
 
 /* ---------- tags: Tags, Type × Small ---------- */
+/* Figma: Tags — h28, pad 5 10, radius 4, 13px Regular, SENTENCE CASE (not uppercase) */
 .tag {
-  display: inline-block; font-size: var(--pf-font-size-xs); text-transform: uppercase;
-  letter-spacing: -0.01em; border-radius: var(--pf-radius-small);
-  padding: 1px 9px; border: 1px solid; white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 5px;
+  height: 28px; padding: 5px 10px; border-radius: var(--pf-radius-small);
+  font-size: 13px; font-weight: var(--pf-font-weight-regular);
+  border: 1px solid; white-space: nowrap;
 }
 .tag--positive { background: var(--pf-tag-fill-positive); border-color: var(--pf-tag-border-positive); color: var(--pf-tag-content-positive); }
 .tag--negative { background: var(--pf-tag-fill-negative); border-color: var(--pf-tag-border-negative); color: var(--pf-tag-content-negative); }
@@ -535,14 +543,15 @@ h3 { font-size: var(--pf-font-size-s); font-weight: var(--pf-font-weight-bold); 
 }
 .tablescroll { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; min-width: 720px; }
+/* Figma: Table header (AG) h54 pad 15 13px SemiBold; Table cell (AG) h58 pad 10 15 13px */
 thead th {
   background: var(--pf-table-header-cell); color: var(--pf-text-primary);
-  text-align: left; font-size: var(--pf-font-size-xs); font-weight: var(--pf-font-weight-bold);
-  padding: var(--pf-space-small) var(--pf-space-large);
+  text-align: left; font-size: 13px; font-weight: var(--pf-font-weight-bold);
+  height: 54px; padding: 15px;
   border-bottom: 1px solid var(--pf-border-default); white-space: nowrap;
 }
 tbody td {
-  padding: var(--pf-space-small) var(--pf-space-large);
+  height: 58px; padding: 10px 15px; font-size: 13px;
   border-bottom: 1px solid var(--pf-border-default); vertical-align: middle;
 }
 tbody tr { background: var(--pf-table-primary-cell); }
@@ -559,20 +568,23 @@ td a { color: var(--pf-text-link); }
 }
 .thicon.is-active { background: var(--pf-bg-theme); color: var(--pf-icon-theme); }
 /* Multi-select checkbox — State=Default / Selected */
+/* Figma: Multi-select checkbox 20x20 r4 */
 .msbox {
-  width: 16px; height: 16px; border-radius: 3px; display: inline-block;
+  width: 20px; height: 20px; border-radius: var(--pf-radius-small); display: inline-block;
   border: 1.5px solid var(--pf-icon-disabled); background: var(--pf-bg-primary);
 }
 .msbox.is-selected { background: var(--pf-icon-theme); border-color: var(--pf-icon-theme); position: relative; }
 .msbox.is-selected::after {
-  content: ""; position: absolute; left: 4.5px; top: 1px; width: 4px; height: 8px;
+  content: ""; position: absolute; left: 6.5px; top: 2.5px; width: 5px; height: 9px;
   border: solid var(--pf-base-white); border-width: 0 2px 2px 0; transform: rotate(45deg);
 }
 
 /* ---------- panel / cards ---------- */
+/* Figma: Card — radius 8, pad 20, gap 20, shadow 0 0 4px */
 .panel {
   background: var(--pf-bg-primary); border: 1px solid var(--pf-border-default);
-  border-radius: var(--pf-radius-medium); padding: var(--pf-space-large);
+  border-radius: var(--pf-radius-medium); padding: 20px;
+  display: flex; flex-direction: column; gap: 20px;
 }
 .panel--raised { box-shadow: var(--pf-shadow-drop-shadow); border: none; }
 .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--pf-space-large); align-items: start; }
@@ -581,11 +593,12 @@ td a { color: var(--pf-text-link); }
 .field { display: flex; flex-direction: column; gap: 5px; }
 .field > .lbl { font-size: var(--pf-font-size-xs); font-weight: var(--pf-font-weight-bold); }
 .req { color: var(--pf-icon-required-field); }
+/* Figma: Form field input — h42, pad 10 10 10 20, radius 8, 16px */
 .control {
-  font-family: inherit; font-size: var(--pf-font-size-s); width: 100%;
+  font-family: inherit; font-size: 16px; width: 100%; height: 42px;
   background: var(--pf-bg-primary); color: var(--pf-text-primary);
-  border: 1px solid var(--pf-border-form-input); border-radius: var(--pf-radius-small);
-  padding: var(--pf-space-small);
+  border: 1px solid var(--pf-border-form-input); border-radius: var(--pf-radius-medium);
+  padding: 10px 10px 10px 20px;
 }
 .control::placeholder { color: var(--pf-text-secondary); }
 .field.is-error .lbl,   .field.is-error .hint    { color: var(--pf-text-negative); }
@@ -596,7 +609,7 @@ td a { color: var(--pf-text-link); }
 .field.is-disabled .control { background: var(--pf-bg-secondary); color: var(--pf-text-disabled);
                               border-color: var(--pf-border-disabled); cursor: not-allowed; }
 .hint { font-size: var(--pf-font-size-xs); color: var(--pf-text-secondary); }
-textarea.control { resize: vertical; min-height: 74px; }
+textarea.control { resize: vertical; height: auto; min-height: 96px; }
 select.control { appearance: none; background-image:
   linear-gradient(45deg, transparent 50%, currentColor 50%),
   linear-gradient(135deg, currentColor 50%, transparent 50%);
@@ -605,7 +618,7 @@ select.control { appearance: none; background-image:
 
 /* Checkbox/Radio item — State=Default|Hover|Disabled|Error|Selected */
 .opt { display: flex; align-items: center; gap: 9px; font-size: var(--pf-font-size-s); }
-.opt .box { width: 16px; height: 16px; border-radius: 3px; border: 1.5px solid var(--pf-border-form-input); flex: none; }
+.opt .box { width: 20px; height: 20px; border-radius: var(--pf-radius-small); border: 1.5px solid var(--pf-border-form-input); flex: none; }
 .opt.is-selected { color: var(--pf-text-link); }
 .opt.is-selected .box { background: var(--pf-icon-theme); border-color: var(--pf-icon-theme); }
 .opt.is-error { color: var(--pf-text-negative); }
@@ -614,12 +627,13 @@ select.control { appearance: none; background-image:
 .opt.is-disabled .box { border-color: var(--pf-border-disabled); }
 
 /* Toggle — On=Yes|No */
-.toggle { width: 40px; height: 22px; border-radius: 11px; background: var(--pf-bg-tertiary);
+/* Figma: Toggle — 55x25, radius 13 */
+.toggle { width: 55px; height: 25px; border-radius: 13px; background: var(--pf-bg-tertiary);
           border: 1px solid var(--pf-base-grey-dolphin); position: relative; flex: none; }
-.toggle::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px;
+.toggle::after { content: ""; position: absolute; top: 2px; left: 3px; width: 19px; height: 19px;
                  border-radius: 50%; background: var(--pf-base-white); box-shadow: var(--pf-shadow-drop-shadow); }
 .toggle.is-on { background: var(--pf-bg-primary-button); border-color: transparent; }
-.toggle.is-on::after { left: auto; right: 2px; }
+.toggle.is-on::after { left: auto; right: 3px; }
 
 /* Information box — Type=Information|Warning|Error|Success */
 .info { display: flex; gap: var(--pf-space-small); padding: var(--pf-space-small) var(--pf-space-large);
@@ -630,9 +644,10 @@ select.control { appearance: none; background-image:
 .info--error       { background: var(--pf-bg-negative); border-color: var(--pf-border-negative); color: var(--pf-text-primary); }
 
 /* Draggable card — State=Default|Hover|Click|Drag|Drop */
-.dcard { background: var(--pf-bg-primary); border: 1px solid var(--pf-border-default);
-         border-radius: var(--pf-radius-small); padding: var(--pf-space-small) var(--pf-space-large);
-         font-size: var(--pf-font-size-xs); }
+/* Figma: Draggable card — h50, pad 10 15, radius 8, 16px */
+.dcard { display: flex; align-items: center; height: 50px; padding: 10px 15px;
+         background: var(--pf-bg-primary); border: 1px solid var(--pf-border-default);
+         border-radius: var(--pf-radius-medium); font-size: 16px; }
 .dcard.s-hover { background: var(--pf-bg-secondary); border-color: var(--pf-border-secondary); }
 .dcard.s-click, .dcard.s-drag { border-color: var(--pf-border-theme); }
 .dcard.s-drop { background: var(--pf-bg-theme); border-color: var(--pf-border-theme); }
@@ -674,8 +689,8 @@ svg { display: block; }
         </p>
       </div>
       <div class="chiprow">
-        <button class="btn btn--hollow" type="button">Export</button>
-        <button class="btn btn--action" type="button">Approve selected</button>
+        <button class="btn btn--hollow" type="button"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 2v7M4 6.5 7 9.5l3-3M2.5 12h9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>Export</button>
+        <button class="btn btn--action" type="button"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 7.5 5.5 10.5 11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>Approve selected</button>
       </div>
     </header>
 
@@ -829,10 +844,10 @@ svg { display: block; }
             </div>
 
             <div class="chiprow" style="margin-top:var(--pf-space-xsmall)">
-              <button class="btn btn--positive" type="button">Approve</button>
-              <button class="btn btn--negative" type="button">Decline</button>
-              <button class="btn btn--hollow" type="button">Save draft</button>
-              <button class="btn btn--hollow" type="button" disabled>Undo</button>
+              <button class="btn btn--positive" type="button"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 7.5 5.5 10.5 11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>Approve</button>
+              <button class="btn btn--negative" type="button"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3.5 3.5l7 7M10.5 3.5l-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>Decline</button>
+              <button class="btn btn--hollow" type="button"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 2.5h7l2 2v7h-9z M4.5 2.5v3h4v-3M4.5 11.5v-3h5v3" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" fill="none"/></svg>Save draft</button>
+              <button class="btn btn--hollow" type="button" disabled><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3.5 5.5h5.5a2.75 2.75 0 010 5.5H6M3.5 5.5 6 3M3.5 5.5 6 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>Undo</button>
             </div>
           </div>
         </section>
@@ -848,16 +863,23 @@ svg { display: block; }
             <div>
               <span class="statelab">Button &mdash; Type &times; State</span>
               <div class="mrow">
-                <div class="cell"><span class="statelab">Default</span><button class="btn btn--action" type="button">Action</button></div>
-                <div class="cell"><span class="statelab">Hover</span><button class="btn btn--action is-hover" type="button">Action</button></div>
-                <div class="cell"><span class="statelab">Default</span><button class="btn btn--positive" type="button">Positive</button></div>
-                <div class="cell"><span class="statelab">Hover</span><button class="btn btn--positive is-hover" type="button">Positive</button></div>
+                <div class="cell"><span class="statelab">Default</span><button class="btn btn--action" type="button"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>Action</button></div>
+                <div class="cell"><span class="statelab">Hover</span><button class="btn btn--action is-hover" type="button"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>Action</button></div>
+                <div class="cell"><span class="statelab">Default</span><button class="btn btn--positive" type="button"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>Positive</button></div>
+                <div class="cell"><span class="statelab">Hover</span><button class="btn btn--positive is-hover" type="button"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>Positive</button></div>
               </div>
               <div class="mrow" style="margin-top:var(--pf-space-small)">
-                <div class="cell"><span class="statelab">Default</span><button class="btn btn--negative" type="button">Negative</button></div>
-                <div class="cell"><span class="statelab">Hover</span><button class="btn btn--negative is-hover" type="button">Negative</button></div>
-                <div class="cell"><span class="statelab">Default</span><button class="btn btn--hollow" type="button">Hollow</button></div>
-                <div class="cell"><span class="statelab">Hover</span><button class="btn btn--hollow is-hover" type="button">Hollow</button></div>
+                <div class="cell"><span class="statelab">Default</span><button class="btn btn--negative" type="button"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>Negative</button></div>
+                <div class="cell"><span class="statelab">Hover</span><button class="btn btn--negative is-hover" type="button"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>Negative</button></div>
+                <div class="cell"><span class="statelab">Default</span><button class="btn btn--hollow" type="button"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>Hollow</button></div>
+                <div class="cell"><span class="statelab">Hover</span><button class="btn btn--hollow is-hover" type="button"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>Hollow</button></div>
+              </div>
+              <div class="mrow" style="margin-top:var(--pf-space-small)">
+                <span class="mlabel">Icon only (32&times;32)</span>
+                <button class="btn btn--icon btn--action" type="button" aria-label="Add"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg></button>
+                <button class="btn btn--icon btn--positive" type="button" aria-label="Approve"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 7.5 5.5 10.5 11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></button>
+                <button class="btn btn--icon btn--negative" type="button" aria-label="Decline"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3.5 3.5l7 7M10.5 3.5l-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg></button>
+                <button class="btn btn--icon btn--hollow" type="button" aria-label="More"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg></button>
               </div>
             </div>
 

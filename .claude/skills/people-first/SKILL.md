@@ -94,9 +94,13 @@ Open Sans. `--pf-font-body` and `--pf-font-heading` both resolve to it.
 
 Weights: `--pf-font-weight-regular` (400), `--pf-font-weight-bold` (600 SemiBold).
 
-Body and label text use **-1% letter-spacing**; headings use 0. Tag text and the
-small button style are **UPPERCASE**. Mobile headings run larger than desktop
-(50 / 30 / 20 / 18) — that is intentional, not an error.
+Body and label text use **-1% letter-spacing**; headings use 0. Mobile headings run
+larger than desktop (50 / 30 / 20 / 18) — that is intentional, not an error.
+
+Two text styles in Figma are `textCase: UPPER` — `Desktop text/Tag text` and the
+13px `Desktop text/Button text`. **Neither is used by the shipping components**: the
+real `Tags` component renders sentence case with 13px Regular, and buttons use 13px
+SemiBold sentence case. Treat those two styles as legacy and follow the components.
 
 ## Spacing, radius, icons
 
@@ -159,103 +163,136 @@ Variant axes you can ask for by name:
 Ignore any `Darkmode` variant axis you see — the CSS tokens handle both modes.
 It exists in Figma only because a Figma frame can't show both at once.
 
+## Component geometry — the part that makes it LOOK like People First
+
+Colour alone does not make a page read as People First. The **shapes** do, and they
+are not derivable from the token scale — the radius tokens (4px, 8px) are for cards
+and inputs, and are NOT what buttons use. Full geometry is in
+`references/geometry.md`; these are the ones that change the look most:
+
+| Rule | Why it matters |
+|---|---|
+| **Buttons are pills** — `border-radius: 20px`, height **32px**, `padding: 0 20px` | The single most recognisable trait. A 4px-radius button reads as a different product. |
+| **Button text is 13px SemiBold**, not 16px | 16px buttons look oversized and generic. |
+| **Every button carries a leading icon**, 10px gap | Icon-less buttons look unfinished. Icon-only variants are 32×32 circles. |
+| **Filter chips are pills too** — fully rounded, height **42px**, 16px text | Chips are noticeably larger than buttons. |
+| **Tags are sentence case**, radius 4px, height 28px, 13px Regular | They are NOT uppercase. Uppercase tags are the giveaway of a guessed implementation. |
+| **Inputs are 42px tall**, radius **8px**, `padding: 10px 10px 10px 20px` | Note the asymmetric left padding. |
+| **Table rows are 58px**, headers 54px, both **13px** | People First tables are airy. 38px rows read as a spreadsheet, not this product. |
+| **Cards**: radius 8px, `padding: 20px`, `gap: 20px`, shadow `0 0 4px` | |
+
+When in doubt, read `references/geometry.md` rather than reaching for a spacing token —
+component geometry and the spacing scale are separate systems here.
+
 ## Component recipes
 
-Taken from the Figma component sets, with the exact tokens those components bind.
+Geometry below is measured from the Figma components, not inferred.
 
 ### Buttons
 
 ```css
 .pf-btn {
-  font: var(--pf-font-weight-bold) var(--pf-font-size-s)/1.2 var(--pf-font-body);
-  padding: var(--pf-space-small) var(--pf-space-large);
-  border-radius: var(--pf-radius-small);
-  border: none;
+  display: inline-flex; align-items: center; gap: 10px;
+  height: 32px; padding: 0 20px;
+  border-radius: 20px;                    /* pill — not a radius token */
+  border: 1px solid transparent;
+  font: var(--pf-font-weight-bold) 13px/1 var(--pf-font-body);
   cursor: pointer;
 }
-/* Action — the default button */
+.pf-btn--icon-only { width: 32px; padding: 0; justify-content: center; }
+
 .pf-btn--action        { background: var(--pf-bg-secondary-button); color: var(--pf-text-inverted-primary); }
 .pf-btn--action:hover  { background: var(--pf-bg-secondary-button-hover); }
-/* Positive — confirm, save, submit */
 .pf-btn--positive      { background: var(--pf-bg-primary-button); color: var(--pf-text-always-white); }
 .pf-btn--positive:hover{ background: var(--pf-bg-primary-button-hover); }
-/* Negative — delete, destructive */
 .pf-btn--negative      { background: var(--pf-bg-negative-button); color: var(--pf-text-always-white); }
 .pf-btn--negative:hover{ background: var(--pf-bg-negative-button-hover); }
-/* Hollow — secondary, also used for Filter and Sort */
 .pf-btn--hollow        { background: transparent; color: var(--pf-text-primary);
-                         border: 1px solid var(--pf-border-hollow-button); }
+                         border-color: var(--pf-border-hollow-button); }
 .pf-btn--hollow:hover  { background: var(--pf-button-fill-hollow-hover); }
 ```
 
-The Figma `Button` set has `Type` = Action | Negative | Positive | Hollow | Filter | Sort,
-with `State` and `Label` properties. Filter and Sort are Hollow plus an icon.
+Filter and Sort are Hollow with a funnel / arrows icon.
 
 ### Filter chip
 
 ```css
-.pf-chip           { background: var(--pf-bg-primary); color: var(--pf-text-primary);
-                     border: 1px solid var(--pf-border-hollow-button);
-                     border-radius: var(--pf-radius-medium);
-                     padding: var(--pf-space-xsmall) var(--pf-space-small); }
-.pf-chip[aria-pressed="true"] { border-color: var(--pf-border-theme); color: var(--pf-text-theme); }
-.pf-chip:hover     { background: var(--pf-bg-theme); border-color: var(--pf-border-theme);
-                     color: var(--pf-text-theme); }
+.pf-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  height: 42px; padding: 10px 20px;
+  border-radius: 999px;                   /* pill */
+  background: var(--pf-bg-primary); color: var(--pf-text-primary);
+  border: 1px solid var(--pf-border-hollow-button);
+  font-size: 16px; letter-spacing: -0.01em;
+}
+.pf-chip[aria-pressed="true"] { border-color: var(--pf-border-theme); color: var(--pf-text-theme);
+                                font-weight: var(--pf-font-weight-bold); gap: 10px; }
+.pf-chip:hover { background: var(--pf-bg-theme); border-color: var(--pf-border-theme);
+                 color: var(--pf-text-theme); }
 ```
 
 ### Tags
 
-Seven statuses, each with a matched fill / border / content triplet — always use all
-three from the same status, never mix:
-
-`positive` · `negative` · `warning` · `neutral` · `info` · `other` · `expired`
+Sentence case. Seven statuses, each with a matched fill / border / content triplet —
+always all three from the same status.
 
 ```css
-.pf-tag { font-size: var(--pf-font-size-xs); text-transform: uppercase;
-          letter-spacing: -0.01em; border-radius: var(--pf-radius-small);
-          padding: 2px var(--pf-space-small); border: 1px solid; }
+.pf-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  height: 28px; padding: 5px 10px;
+  border-radius: var(--pf-radius-small);  /* 4px */
+  border: 1px solid; font-size: 13px;
+  font-weight: var(--pf-font-weight-regular);
+}
 .pf-tag--positive { background: var(--pf-tag-fill-positive);
                     border-color: var(--pf-tag-border-positive);
                     color: var(--pf-tag-content-positive); }
-/* ...same shape for negative, warning, neutral, info, other, expired */
+/* ...negative, warning, neutral, info, other, expired */
+```
+
+### Form inputs
+
+```css
+.pf-input {
+  height: 42px; padding: 10px 10px 10px 20px;
+  border-radius: var(--pf-radius-medium); /* 8px */
+  background: var(--pf-bg-primary); color: var(--pf-text-primary);
+  border: 1px solid var(--pf-border-form-input);
+  font-size: 16px;
+}
+.pf-field { display: flex; flex-direction: column; gap: 5px; }   /* label sits above */
+.pf-input:disabled      { border-color: var(--pf-border-disabled); color: var(--pf-text-disabled); }
+.pf-input[aria-invalid] { border-color: var(--pf-border-negative); }
+.pf-label .required     { color: var(--pf-icon-required-field); }
+```
+
+Checkboxes and radios are both **20×20 with a 4px radius** — radios are not circles here.
+Toggle is 55×25, radius 13.
+
+### Tables
+
+```css
+.pf-table         { background: var(--pf-table-card); border-collapse: collapse; font-size: 13px; }
+.pf-table th      { height: 54px; padding: 15px; background: var(--pf-table-header-cell);
+                    text-align: left; font-weight: var(--pf-font-weight-bold); }
+.pf-table td      { height: 58px; padding: 10px 15px;
+                    background: var(--pf-table-primary-cell);
+                    border-bottom: 1px solid var(--pf-table-border); }
+.pf-table tr:nth-child(even) td { background: var(--pf-table-stripe-cell); }
+.pf-table tr:hover td           { background: var(--pf-bg-theme); }
+.pf-table-wrap    { border-radius: var(--pf-radius-medium); overflow: hidden; }
 ```
 
 ### Cards
 
 ```css
 .pf-card { background: var(--pf-bg-primary);
-           border-radius: var(--pf-radius-medium);
-           box-shadow: var(--pf-shadow-drop-shadow);
-           padding: var(--pf-space-large); }
+           border-radius: var(--pf-radius-medium);   /* 8px */
+           padding: 20px; display: flex; flex-direction: column; gap: 20px;
+           box-shadow: var(--pf-shadow-drop-shadow); }
 ```
 
-### Tables
-
-```css
-.pf-table                 { background: var(--pf-table-card); border-collapse: collapse; }
-.pf-table th              { background: var(--pf-table-header-cell); text-align: left;
-                            font-weight: var(--pf-font-weight-bold); }
-.pf-table td              { background: var(--pf-table-primary-cell);
-                            border-bottom: 1px solid var(--pf-table-border); }
-.pf-table tr:nth-child(even) td { background: var(--pf-table-stripe-cell); }
-```
-
-Tables have dedicated tokens — do not substitute `--pf-bg-*` for them. In dark mode
-the table surfaces are deliberately darker than the page.
-
-### Form inputs
-
-```css
-.pf-input { background: var(--pf-bg-primary); color: var(--pf-text-primary);
-            border: 1px solid var(--pf-border-form-input);
-            border-radius: var(--pf-radius-small);
-            padding: var(--pf-space-small); font-size: var(--pf-font-size-s); }
-.pf-input:disabled     { border-color: var(--pf-border-disabled); color: var(--pf-text-disabled); }
-.pf-input[aria-invalid] { border-color: var(--pf-border-negative); }
-.pf-label .required     { color: var(--pf-icon-required-field); }
-```
-
-`--pf-border-form-input` is the one border token that is identical in both modes.
+Draggable card is 50px tall with `padding: 10px 15px`; accordion rows are 84px.
 
 ## Charts
 
