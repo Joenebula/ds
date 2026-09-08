@@ -89,3 +89,26 @@ about parking an expensive task and carrying on rather than ending the run.
 **Not done:** 280 icons. `Filter` was skipped even within the chosen set — its SVG is
 unusually large (a complex compound path) and was dropped when writing the batch to disk.
 The table's filter glyph is still my drawn one.
+
+---
+
+## Task 2 — Measure the remaining components — DONE
+
+**Skills loaded:** `figma-use` (MCP resource) for the reads; `people-first` (project,
+2026-09-08 11:50) for where the geometry belongs.
+
+**Built:** measured Navigation, System messages, Analytics and charts, People and AI —
+41 more components, taking `tokens/_raw/component-geometry.tsv` from 38 to 79.
+
+**Commands run and results:**
+- 5 read-only Figma calls, one per page.
+- `node scripts/build-geometry-ref.mjs` → geometry.md regenerated, 79 components.
+- Coverage check → every component the prototype uses now has a measurement.
+
+**Worth knowing, found while measuring:**
+- `Profile image` is a **circle** (93x93, radius 47) — avatars are round even though
+  checkboxes and radios in this system are square.
+- `Clock in` and `AI button` are **pills**, like Button and Filter chip.
+- `Navigation item` is a 90x86 rail item with the icon **above** the label, not beside
+  it — the prototype's side nav is a simplification, not a match.
+- Chart figures are large: donut centre numbers are 60px, metric cards 36px.

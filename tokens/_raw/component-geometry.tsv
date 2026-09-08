@@ -37,3 +37,44 @@ Org chart node	293 x 48	0	8	0	16px	shadow 2 2 4px
 Layout container	auto	30	0	20	20px
 Title panel	auto x 135	40 20	0	10	18px
 Empty section	auto x 212	0	0	35	20px SemiBold
+Notification card	auto x 113	15 20	8	15	13px SemiBold
+Toast message	350 x 114	30 0 30 25	4	15	13px	fixed light surface — see dark-mode note
+Information box (row)	auto x 56	0	0	0	13px
+Confirmation modal	400 x 413	60 10	8	36	24px Regular
+Next actions modal	400 x 565	0 0 30 0	8	30	24px Regular
+Status dot	22 x 22	0	100	0	—	circle
+Notification image	44 x 44	0	0	0	—
+Navigation item	90 x 86	0	0	22	13px SemiBold	rail item, icon above label
+Side navigation	90 wide	0	0	0	13px	collapsed rail
+Side navigation tab	268 x 48	10 15	8	20	16px
+Side navigation panel	268 x 416	10	0	5	16px
+Tab	40 x 34	6 0	0	10	16px
+Navigation tabs	auto x 36	0	0	40	16px SemiBold
+Secondary nav	auto x 43	4 368	0	40	16px SemiBold
+[S] Navigation/main tabs	80 x 40	0 20	mixed	10	16px
+Header	auto x 86	0	0	0	16px
+Mobile bottom navigation	375 x 76	0	0	0	11px
+Clock in	107 x 32	7 20 7 10	20	5	16px	PILL
+Filter tab single	224 x 100	20	0	5	24px Regular
+Top bar app context	242 x 66	0	0	0	24px
+Metric card	392 x 89	20	8	165	36px	big-number tile
+Bar chart	415 x 193	0	0	10	13px
+Bar chart with axis	326 x 221	0	0	0	13px Regular
+Donut pie chart	200 x 200	0	0	0	60px Medium	centre figure is 60px
+Donut chart with ledger	329 x 200	0	0	21	60px
+Hemisphere chart	200 x 146	0	0	5	13px
+Graph legend	auto x 33	0	0	5	24px Regular
+Graph axis	492 x 232	0	0	10	13px
+Square progress bar	177 x 34	0	0	10	13px
+Table progress bar	246 x 14	0	0	5	13px
+Percentage bar	343 x 37	0	0	5	13px
+Data variance	41 x 45	0	0	0	13px
+Profile image	93 x 93	0	47	0	—	CIRCLE
+People (avatar)	91 x 91	0	0	0	—
+People (row)	380 x 40	0	0	10	16px
+People (card)	166 x 91	0	0	0	13px
+AI card modal	440 x 505	20	8	10	20px
+AI button	146 x 32	3 15 3 10	55	10	13px Regular	PILL
+AI banner	auto x 94	20	8	10	20px
+Clickable AI element	382 x 38	10 10 10 20	8	10	13px
+AI message bubble	455 x 149	0	0	5	12px

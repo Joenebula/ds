@@ -30,7 +30,7 @@ value is deliberately broken.
 
 **Depends on:** nothing.
 
-## 2. Measure the remaining components — `pending`
+## 2. Measure the remaining components — `done`
 
 Geometry is measured for 38 components across Buttons, Forms, Controls, Tables, Tags
 and Cards. Still unmeasured: Navigation, System messages, Analytics and charts, People,
