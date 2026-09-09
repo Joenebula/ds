@@ -33,5 +33,12 @@ for (const g of glyphs) {
   unknown.push(d.slice(0, 60));
 }
 for (const d of unknown) console.log(`not a Figma icon:  ${d}...`);
+// A page with no glyphs at all is not a pass, it is a check that found nothing to check.
+// Pointing this at a .src.html whose icons are still <!--pf-icon:--> references would
+// otherwise report a comfortable "0 of 0" — run it on the BUILT page.
+if (!glyphs.length) {
+  console.log('no inline <svg> found — if this is a .src.html, run it on the built page instead');
+  process.exit(2);
+}
 console.log(`\n${matched} of ${glyphs.length} inline glyphs are real Figma icons, ${unknown.length} are not`);
 process.exit(unknown.length ? 1 : 0);

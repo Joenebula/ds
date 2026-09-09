@@ -171,7 +171,20 @@ kebab-cased from the Figma name. Browse them at `docs/icons.html`; look up a nam
 `tokens/_raw/icons.tsv`. **Never draw an icon by hand — use these.** A hand-drawn
 substitute is the fastest way to make a screen look not-quite-People-First.
 
-Paste the SVG inline (they are already minified) and size it with CSS:
+**Reference an icon rather than pasting it.** In a `.src.html` built through
+`scripts/build-prototype.mjs`, write:
+
+```html
+<!--pf-icon:tick-->        <!-- 18px, the xxs icon size -->
+<!--pf-icon:export 14-->   <!-- an explicit pixel size -->
+```
+
+The build expands that to the real file's markup, so the output is ordinary inline SVG
+and works in a standalone artifact. A name that does not exist **fails the build** rather
+than leaving a silent gap. Look names up in `docs/icons.html`.
+
+Where you cannot use the build, paste the SVG inline (they are already minified) and size
+it with CSS:
 
 ```css
 .pf-icon { width: var(--pf-icon-size-xs); height: var(--pf-icon-size-xs); }

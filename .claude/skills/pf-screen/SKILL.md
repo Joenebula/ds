@@ -82,9 +82,19 @@ Avatars are circles; checkboxes and radios are square with a 4px radius.
 ## Icons
 
 **All 293** People First icons are exported to `assets/icons/<name>.svg`. Browse them in
-`docs/icons.html`, look a name up in `tokens/_raw/icons.tsv`, and paste the file's
-contents inline. **Never draw one by hand** — a hand-drawn glyph sitting next to real
-ones is immediately obvious, and `check-icon-fidelity.mjs` will fail the page for it.
+`docs/icons.html`. **Never draw one by hand** — a hand-drawn glyph next to real ones is
+immediately obvious, and `check-icon-fidelity.mjs` will fail the page for it.
+
+Reference an icon rather than pasting its markup; the build expands it:
+
+```html
+<!--pf-icon:tick-->        <!-- 18px default -->
+<!--pf-icon:export 14-->   <!-- explicit size -->
+```
+
+A name that does not exist fails the build. Run `check-icon-fidelity.mjs` on the **built**
+page, not the source — the source has references, not glyphs, and the check will tell you
+so rather than reporting a hollow pass.
 
 They are authored at `viewBox="0 0 36 36"` with `fill="currentColor"`, so they inherit
 their container's colour and scale to any size. Colour them with an **icon** token,
