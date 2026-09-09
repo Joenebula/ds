@@ -79,9 +79,12 @@ for (const c of inventory) {
 // ---- render -----------------------------------------------------------------
 const out = [];
 out.push('<title>People First components</title>');
-out.push(`<link rel="stylesheet" href="../dist/tokens.css">`);
-out.push(`<link rel="stylesheet" href="../dist/components.css">`);
-out.push(`<link rel="stylesheet" href="../dist/type.css">`);
+// Inline the stylesheets rather than linking them. A <link> to ../dist only resolves
+// when the file is opened from inside the repo — anywhere else (a browser preview, an
+// attachment, someone you sent it to) the page renders unstyled with no error at all,
+// which is the worst way for a design system gallery to fail.
+for (const f of ['dist/tokens.css', 'dist/components.css', 'dist/type.css'])
+  out.push(`<style>/* ${f} */\n${readFileSync(f, 'utf8')}</style>`);
 out.push(`<style>
   body { background: var(--pf-bg-secondary); color: var(--pf-text-primary);
          font-family: var(--pf-font-body); margin: 0; padding: 24px 28px 80px; }
