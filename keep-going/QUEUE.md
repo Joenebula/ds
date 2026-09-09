@@ -217,44 +217,62 @@ are concentrated where real screens need them — Navigation (9 of 26), Cards an
 - `skill-creator` — how to write and test a skill. Governs task 12.
 - `figma-use` — Figma MCP resource. Mandatory before any Figma read. Governs tasks 13, 14.
 
-## 12. Tell everyone the library exists — `pending`
+## 12. Tell everyone the library exists — `done`
 
 Update `people-first`, `pf-screen`, `pf-handoff`, `README.md` and `CLAUDE.md` so the
 component stylesheet is the default route to building a screen, and hand-writing
 component CSS is named as the thing not to do.
 
-**Done when:** someone reading any one of those files learns that `dist/components.css`
-exists, how a class and its variants are written, and that they should not hand-write
-component CSS. Verified by a fresh session, as task 4 was.
+**Done when:** met, and **VERIFIED 2026-09-09** the way task 4 was. An independent
+session (`session_01U3GTrXXs1Wn1aoHh3hVMEk`), fresh clone, no memory of this work, was
+asked for a timesheet approvals screen with no mention of the library. It built the whole
+screen from library classes — 15 of them, 175+ uses — with Figma's exact variant spelling
+in the data attributes, including the subtle two-attribute rule for a selected filter chip
+(`data-state="Selected" data-active="False"`). Its own style block contains one shape
+declaration, and that one is page layout (aligning a label to a 42px input), not a
+component. Its screen passes 29 geometry, 54 colour, 43 of 43 icons and the audit.
+
+Before this change the same session would have read the recipes and hand-written
+`.pf-btn--action`, which the library does not define.
 
 **Depends on:** nothing.
 
-## 13. Capture the colours screens actually need — `pending`
+## 13. Capture the colours screens actually need — `done`
 
 Extract variant colour bindings for the unmeasured components on Navigation, Cards and
 panels, Forms and Buttons — the pages a real screen draws from most.
 
-**Done when:** those four pages are fully captured, the stylesheet regenerates with rules
-for them, and `verify-components.mjs` still passes clean.
+**Done when:** met. Navigation, Cards and panels, Forms and Buttons captured; the library
+went from 71 components / 191 variants to 98 / 235, and `verify-components.mjs` passes.
 
 **Depends on:** nothing. Uses Figma reads.
 
-## 14. Capture the rest — `pending`
+## 14. Capture the rest — `done`
 
 Analytics and charts (0 of 14), People (0 of 3), Pages and Layouts (0 of 3), Document
 management (0 of 20).
 
-**Done when:** the "Not yet captured" list in `docs/components.html` is empty, or every
-remaining entry has a recorded reason why it cannot be captured.
+**Done when:** met by the second half. The library now holds **139 of 172** components and
+283 variants, and each of the **33** that remain has a recorded reason, written to
+`tokens/_raw/uncaptured-reasons.tsv` and shown in `docs/components.html` grouped by reason:
+20 are on the documentation page, 11 bind no colour variable anywhere in Figma, 1 is an
+unnamed Figma leftover, and 1 is `People`, whose variants are one per fictional employee.
+
+This also found a real gap in the extraction method: it only ever walked `COMPONENT_SET`s,
+so 18 components that have no variants had never been read at all.
 
 **Depends on:** task 13.
 
-## 15. Prove it on a second screen — `pending`
+## 15. Prove it on a second screen — `done`
 
 Build one more screen using only the library, to show task 12 actually changed behaviour
 rather than just adding words to a file.
 
-**Done when:** a screen exists that was built from classes only, and passes geometry,
-colour, icon-fidelity, audit and the library check.
+**Done when:** met, and more convincingly than planned. Rather than building it myself —
+which would have proved only that I can follow my own documentation — the screen was built
+by the independent verification session from task 12:
+`prototypes/timesheet-approvals.html`, a team timesheet approvals view. It is built from
+classes only and passes all the checks. A screen I wrote would not have tested whether the
+documentation works on someone who has not read this conversation.
 
 **Depends on:** tasks 12 and 13.

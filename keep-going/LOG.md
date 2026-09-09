@@ -483,3 +483,127 @@ in both modes. The subtlety is Figma's, not a broken binding, so it is left alon
 **Not checked:** the prototype is one screen. The 100 components with no extracted
 variant colours are still uncovered by any rendered check — they are listed in
 `docs/components.html` under "Not yet captured" so the gap is visible.
+
+---
+
+# Run 3 — make the library the default, and close the colour gap
+
+## Task 12 — Tell everyone the library exists — DONE
+
+**Skills loaded:** `people-first`, `pf-screen`, `pf-handoff` (project, all re-read in full
+at the start of this task).
+
+**Why this was the first task of the run.** A survey at the start found that nothing
+pointed anyone at the component library built in Run 2 — not the skills, not `README.md`,
+not `CLAUDE.md`. Worse, the `people-first` skill still taught hand-written recipes under
+class names the library does not define (`.pf-btn--action`, where the library ships
+`.pf-button` with `data-type="Action"`). A fresh session would have followed the skill,
+written its own component CSS, and walked straight back into the wrong-shapes bug the
+library exists to prevent. The library was, in effect, invisible.
+
+**Changed:** the recipes section of `people-first` replaced with the real classes and how
+the naming maps to Figma's variant panel; a new hard rule against hand-writing component
+CSS; the variant and geometry sections reframed as reference rather than instructions.
+`pf-screen` now builds from classes and lists all the checks. `pf-handoff` names the class
+alongside the component and variant. `README.md` and `CLAUDE.md` updated.
+
+**A stale claim that would have actively misled.** `pf-screen` said *"Only 9 of the 289
+Figma icons are extracted so far. If you need one that is missing, say so rather than
+drawing a substitute."* All 293 have been extracted since Run 1. A session reading that
+would have refused to use icons it had.
+
+**Commands run and results:**
+- `node scripts/check-skill-classes.mjs` → **15 classes, 78 real variants, 0 problems.**
+- Self-test: renamed a documented class in the skill → **5 failures caught**; restored.
+- `npm run verify` → all six green.
+
+**VERIFIED by an independent session, the way task 4 was.**
+`session_01U3GTrXXs1Wn1aoHh3hVMEk`, fresh clone, no memory of this work, asked for a
+timesheet approvals screen with no mention of the library. It built the entire screen from
+library classes — 15 of them, 175+ uses — with Figma's exact variant spelling, including
+the subtle two-attribute rule for a selected filter chip. Its own style block holds one
+shape declaration, and that one is page layout, not a component. Its screen scores 29
+geometry, 54 colour, 43 of 43 icons, audit PASS.
+
+**A new check, because writing the class table by hand went wrong immediately.** Four of
+the fifteen rows had the wrong attribute on the first pass — `Toast message` keys on
+`data-message-type`, not `data-type`; `Table header (AG)` has an `Alignment` axis I had
+recorded as having none. Wrong documentation of this kind fails **silently**: the
+attribute matches nothing, the component renders unstyled, and nothing reports an error.
+So `scripts/check-skill-classes.mjs` now renders every documented class and attribute and
+asserts it selects a real rule. `pf-audit` also joined `npm run verify`, which had claimed
+to run it and did not.
+
+## Task 13 — Capture the colours screens actually need — DONE
+
+**Skills loaded:** `figma-use` (Figma MCP resource, re-read in full before the first read).
+
+Extracted the variant colour bindings for Navigation, Cards and panels, Forms, and Buttons
+and links. Library: 71 components / 191 variants → 98 / 235.
+
+**Built:** `scripts/extract-variants.mjs`, which reads the Figma batches back out of the
+session transcript rather than having 300+ rows retyped into the conversation — the same
+trick as the icon export, and it again meant the repeated Figma MCP disconnections during
+this run cost nothing: every landed read was already durable on disk.
+
+**Two decisions in it worth knowing:**
+
+*Redundant axes are collapsed.* Figma variant sets carry axes with nothing to do with
+colour — Darkmode, Mobile, Full width, Label. Carried through literally they would force
+`data-full-width="Yes"` on every input before it took any style at all. An axis is dropped
+when doing so leaves no contradiction. That rule reproduces, and now explains, the
+convention the earlier hand extraction had followed without stating.
+
+*Merging is conservative.* The new Button rows carry a `Label` axis the captured rows do
+not. Importing them wholesale would have left `.pf-button[data-type="Action"]` matching
+nothing and silently unstyled every button on the existing screen. A component already
+captured is only extended by rows whose axes match; everything else is reported.
+
+**Finding recorded rather than papered over:** a disabled Action, Positive or Negative
+button binds exactly the same fill and text as its enabled state, so it is visually
+identical. Only the hollow types change. That is an accessibility problem in the Figma
+file; it is now documented in the skill rather than hidden by the library.
+
+## Task 14 — Capture the rest — DONE
+
+Read the remaining pages. Library: 98 → **139 of 172 components**, 283 variants.
+
+**A real gap in my own method, not in Figma.** The extraction only ever walked
+`COMPONENT_SET`s, so 18 components that have no variants had never been read at all. They
+were sitting in the "not captured" list looking like Figma had nothing to give.
+
+**Every one of the 33 that remain now has a recorded reason** — written to
+`tokens/_raw/uncaptured-reasons.tsv` and shown in `docs/components.html` grouped by reason:
+20 on the documentation page, 11 that bind no colour variable anywhere in Figma, 1 unnamed
+Figma leftover, 1 whose variants are one per fictional employee. A gallery that lists gaps
+without saying why invites the reader to assume they are oversights; most are deliberate.
+
+**Two bugs found and fixed:**
+- A page read twice — first its variant sets, later only its plain components — had the
+  second read silently *replace* the first, discarding what the first found. Batches now
+  merge per row.
+- Whole-page exclusion reasons only covered components a read happened to touch. They now
+  come from the inventory.
+
+**Also added a count check.** Three files quoted "71 components and 191 variants". That
+number had been wrong since the previous commit and nothing would have caught it.
+`check-skill-classes.mjs` now verifies every such count against the extract. Self-tested by
+bumping one: caught.
+
+## Task 15 — Prove it on a second screen — DONE
+
+Met by the task 12 verification session rather than by me. Building the screen myself would
+have proved only that I can follow my own documentation; what needed testing was whether
+the documentation works on someone who has not read this conversation.
+`prototypes/timesheet-approvals.html` is the result, and it passes every check.
+
+**A fourth look-at-it moment, which this time found nothing.** The screenshot appeared to
+show the side panel's helper text clipped by its button row. Rather than "fixing" it I
+measured: `overlapped: false` — the text sits below the fold inside the panel's own scroll
+area, which is correct. The apparent clipping was an artefact of a full-page screenshot
+against a `100vh` sticky panel. Worth recording that looking also produces false alarms,
+and that the answer is to measure rather than to trust either the eye or the check.
+
+**Not checked:** the two skills changed in task 12 that no fresh session exercised —
+`pf-handoff` and `pf-audit` were edited but only `people-first` and `pf-screen` were proven
+by the verification run.
