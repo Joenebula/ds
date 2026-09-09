@@ -357,3 +357,54 @@ names real classes and no invented values, and an audit that correctly reports t
 of a page — both without being told how.
 
 **Depends on:** tasks 16 and 17 (so the skills are verified in their finished state).
+
+---
+
+# Run 5 — the original ask, and a screen nobody was checking
+
+**Why this run exists.** A survey after Run 4 found two things.
+
+1. **`ds-bundle/` — the Claude Design pane — is four runs out of date.** It was generated
+   on day one from the tokens alone, and `scripts/build-ds-bundle.mjs` reads *none* of the
+   component, variant, geometry or text-style extracts. Getting the system into Claude
+   Design was the original ask of this whole project; what is in there now predates the
+   139-component library, the type layer and the icons entirely.
+2. **`prototypes/payroll-run-summary.html` scores 4 of 13 geometry checks.** It was built
+   by an independent session before the library existed, hand-writes its component CSS,
+   and now contradicts every rule the skills state. It sat there unnoticed because
+   `npm run verify` only ever checks the absence screen.
+
+The second is the more instructive: the checks are only as good as what they are pointed
+at, and a screen that no check covers will drift silently — which is the same failure as
+a check that cannot fail, found twice in Run 4.
+
+**Starting save point:** commit `0cf0bfa`, clean tree, pushed.
+**Scope fence:** `/home/user/ds` — unchanged.
+
+**Governing skills:** `people-first`, `pf-screen`, `pf-audit` (project); `skill-creator`
+for any skill change.
+
+## 20. Check every screen, not one — `pending`
+
+**Done when:** `npm run verify` runs the geometry, colour, icon and audit checks against
+every prototype in `prototypes/`, adding new ones automatically rather than by a list
+someone has to remember to update. A screen that drifts fails the build.
+
+**Depends on:** nothing.
+
+## 21. Rebuild the payroll screen on the library — `pending`
+
+**Done when:** `prototypes/payroll-run-summary.html` has no hand-written component or type
+CSS, uses the classes and the icon references, and passes every check the absence screen
+passes. It is an example in the repo; leaving it off-library teaches the wrong thing to
+whoever opens it next.
+
+**Depends on:** task 20 (so the check that proves it is in place first).
+
+## 22. Regenerate the Claude Design bundle from the real library — `pending`
+
+**Done when:** the bundle is generated from the same extracts as everything else, covers
+the components, variants, type and icons that actually exist rather than six hand-picked
+token pages, and each page renders standalone. No hand-maintained list of what to include.
+
+**Depends on:** nothing, but best done after 20 and 21 so it ships the corrected screens.

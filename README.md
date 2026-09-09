@@ -77,14 +77,16 @@ Seven checks, each covering a different axis, because a green tick on one axis p
 repeatedly to mean nothing about the others:
 
 ```bash
-node scripts/verify-geometry.mjs <page>.html      # shapes match Figma
-node scripts/verify-rendered.mjs <page>.html      # colours match Figma, both modes
-node scripts/check-icon-fidelity.mjs <page>.html  # every glyph is a real Figma icon
-node scripts/pf-audit.mjs <page>.html             # on-system + WCAG contrast
+node scripts/verify-screens.mjs                    # EVERY built screen: shape, colour,
+                                                  # icons and on-system, in both modes
 node scripts/verify-components.mjs                # the whole library vs Figma
 node scripts/verify-type.mjs                      # the type classes match Figma
 node scripts/check-skill-classes.mjs              # the docs match the stylesheet
 ```
+
+`verify-screens` discovers screens from `prototypes/` rather than from a list. A screen
+sat in this repo failing 9 of 13 geometry checks for a whole run because the command
+named one favourite page; a check is only as good as what it is pointed at.
 
 `verify-components` takes `--self-test`, which deliberately breaks a value and confirms
 the check catches it rather than reporting a comfortable pass.

@@ -60,7 +60,8 @@ component library and the example screens against Figma.
 
 ## Checking any screen
 
-`npm run verify` runs seven checks, each on a different axis. They are not
+`npm run verify` checks every screen in `prototypes/` on four axes, plus the component
+library, the type layer and the docs, each on a different axis. They are not
 interchangeable — on this project every one of them has passed while the page was
 visibly wrong on an axis it does not measure. **Always screenshot the result in light
 and dark and look at it** before saying a screen is done.
