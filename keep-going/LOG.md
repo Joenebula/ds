@@ -691,3 +691,51 @@ page is clipped by the newly-measured fixed heights; screens read by eye in both
 **Not checked:** the icon reference syntax only works through `build-prototype.mjs`. A
 hand-written artifact that never runs the build still has to paste SVG, and the skill
 says so rather than implying otherwise.
+
+---
+
+# Run 5 — the original ask, and a screen nobody was checking
+
+## Task 19 — Verify the two untested skills — DONE
+
+`session_01TR1QxeyroynT2mcedatDgx`, fresh clone, produced
+`docs/handoff-timesheet-approvals.md` (668 lines) without being told how. Checked
+mechanically: every class and token it cites exists, bar `.pf-button--icon-only`, which it
+flags under **"Gaps in the extract you must fill"** with the CSS a developer needs, beside
+an **"Open questions"** section. That is pf-handoff's rule — never invent a value — being
+followed by someone who had never seen this conversation.
+
+**`pf-audit` was overclaiming.** It printed `PASS — page is on-system` for
+`payroll-run-summary`: a page that fails geometry, colour-binding and icon checks and uses
+none of the component library. The script only ever looked at colour and contrast. It now
+says what it checked and what it did not.
+
+## Task 20 — Check every screen, not one — DONE
+
+`scripts/verify-screens.mjs`, discovering screens from `prototypes/` rather than a list.
+It immediately reported what a single-screen command had hidden: absence and timesheet
+pass all four axes, payroll fails three. Same failure as Run 4's two, from the other
+direction — there a check could not fail; here a working check was aimed at one page in
+three.
+
+## Task 22 — Regenerate the Claude Design bundle — DONE
+
+The Design System pane is the surface designs are generated FROM, and the original point
+of this project. It was built on day one from tokens alone and never revisited — the
+generator read none of the component, variant, geometry or text-style extracts.
+
+**And it was wrong, not just old.** Its hand-written buttons carried
+`border-radius: var(--pf-radius-small)` — 4px — on a system whose buttons are pills, with
+no height and 16px text. The wrong-shapes failure this project was built to fix, sitting
+where it propagates into everything made with the pane.
+
+Now generated: 12 pages, one per Figma page, every captured component and variant rendered
+with the real stylesheet, plus a Type card. An Action button in the pane measures 999px
+radius, 32px tall, 13px SemiBold.
+
+Two more found while there: every page inlined the whole 95 KB stylesheet (now only its
+own rules, 2291 KB → 1109 KB), and the generator never cleared its output, so three pages
+from the old set were still on disk for the pane to index.
+
+**Not checked:** the pane itself. I can confirm the pages render correctly in a browser,
+but not how claude.ai/design indexes or displays them — that needs someone to open it.

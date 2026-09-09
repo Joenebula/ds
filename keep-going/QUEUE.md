@@ -413,10 +413,17 @@ whoever opens it next.
 
 **Depends on:** task 20 (so the check that proves it is in place first).
 
-## 22. Regenerate the Claude Design bundle from the real library — `pending`
+## 22. Regenerate the Claude Design bundle from the real library — `done`
 
-**Done when:** the bundle is generated from the same extracts as everything else, covers
-the components, variants, type and icons that actually exist rather than six hand-picked
-token pages, and each page renders standalone. No hand-maintained list of what to include.
+**Done when:** met. 12 component pages, one per Figma page, generated from the extracts;
+plus a Type classes card. **It was not merely stale — it was wrong.** Its hand-written
+buttons used `border-radius: var(--pf-radius-small)` (4px) on a system whose buttons are
+pills, with no height and 16px text: the wrong-shapes failure this project exists to fix,
+in the one place that propagates it into everything generated from the pane. An Action
+button there is now 999px radius, 32px tall, 13px SemiBold.
+
+Also: pages inlined the whole 95 KB stylesheet each (now only their own rules, 2291 KB →
+1109 KB), and the generator never cleared its output, so three pages from the old
+hand-written set were still on disk for the pane to index.
 
 **Depends on:** nothing, but best done after 20 and 21 so it ships the corrected screens.
