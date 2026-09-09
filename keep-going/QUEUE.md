@@ -347,14 +347,26 @@ now treats an empty page as an error, and `npm run verify` runs it on the built 
 
 **Depends on:** nothing.
 
-## 19. Verify the two untested skills — `in progress`
+## 19. Verify the two untested skills — `done`
 
 Run 3 changed `pf-handoff` and `pf-audit` but no fresh session exercised either. They are
 currently claims, not verified behaviour.
 
-**Done when:** an independent session, given only a screen, produces a handoff spec that
-names real classes and no invented values, and an audit that correctly reports the state
-of a page — both without being told how.
+**Done when:** met, with a finding.
+
+`session_01TR1QxeyroynT2mcedatDgx`, fresh clone, produced
+`docs/handoff-timesheet-approvals.md` (668 lines) without being told how. Checked
+mechanically: every class and token it cites exists, except `.pf-button--icon-only`,
+which it flags under **"Gaps in the extract you must fill"** with the CSS a developer
+needs, and it carries an **"Open questions"** section for what is genuinely unspecified.
+That is the skill's own rule — never invent a value — being followed.
+
+**`pf-audit` was overclaiming.** It printed `PASS — page is on-system` for
+`payroll-run-summary`, a page that simultaneously fails the geometry, colour-binding and
+icon checks and uses none of the component library. The script only ever looked at colour
+and contrast; "on-system" reads as "follows the design system". It now states what it
+checked and points at `npm run verify` for the rest. A check that overstates its own scope
+is the same failure as one that cannot fail.
 
 **Depends on:** tasks 16 and 17 (so the skills are verified in their finished state).
 
@@ -384,11 +396,11 @@ a check that cannot fail, found twice in Run 4.
 **Governing skills:** `people-first`, `pf-screen`, `pf-audit` (project); `skill-creator`
 for any skill change.
 
-## 20. Check every screen, not one — `pending`
+## 20. Check every screen, not one — `done`
 
-**Done when:** `npm run verify` runs the geometry, colour, icon and audit checks against
-every prototype in `prototypes/`, adding new ones automatically rather than by a list
-someone has to remember to update. A screen that drifts fails the build.
+**Done when:** met — `scripts/verify-screens.mjs`, discovering screens from the directory.
+It immediately reported what a single-screen command had hidden: absence and timesheet
+pass all four axes, payroll fails three.
 
 **Depends on:** nothing.
 

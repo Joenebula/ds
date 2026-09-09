@@ -203,5 +203,14 @@ for (const mode of modes) {
   }
   if (!r.offPaletteTotal && !r.contrastFails.length) console.log('  no issues');
 }
-console.log(`\n${problems === 0 ? 'PASS — page is on-system' : problems + ' issue(s) found'}`);
+// Say what was actually checked. "on-system" reads as "follows the design system", and
+// this script only looks at colour and contrast — payroll-run-summary passed this cleanly
+// while failing the shape, icon and library checks, which is exactly the kind of green
+// tick that has misled this project before.
+console.log(`\n${problems === 0
+  ? 'PASS — every colour on this page resolves to a People First token, and contrast is AA'
+  : problems + ' issue(s) found'}`);
+console.log('       This checks COLOUR and CONTRAST only. It does not check shape, type,');
+console.log('       icons, or whether the page uses the component library at all —');
+console.log('       run `npm run verify` for those.');
 process.exit(problems ? 1 : 0);
