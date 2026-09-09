@@ -116,6 +116,61 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Image picker** | 440 x 220 | — | 0 | — | — | NONE |
 | **Slider** | 600 x auto | 0 | 0 | 20 | 13px | VERTICAL MIN CENTER |
 | **Document previewer** | 375 x 642 | 0 | 0 | 0 | 16px | VERTICAL MIN MIN |
+| **Attachments** | 440 x auto | — | — | — | 13px SemiBold | HORIZONTAL MIN MIN |
+| **Attachment with person** | 440 x auto | — | 8 | — | 13px | VERTICAL CENTER MIN |
+| **Note** | 440 x auto | — | 8 | — | 13px | VERTICAL CENTER MIN |
+| **Editable list card** | auto x auto | — | 4 | — | 13px | HORIZONTAL MIN MIN |
+| **Org chart** | 293 x auto | — | 8 | — | 16px | HORIZONTAL CENTER MIN |
+| **Configuration panel** | 1600 x auto | — | mixed | — | 20px | VERTICAL CENTER MIN |
+| **Side filter** | 400 x 885 | — | mixed | — | 20px | VERTICAL CENTER MIN |
+| **Spotlight Card** | 375 x auto | 0 0 10 0 | 8 | 10 | 13px | VERTICAL MIN MIN |
+| **Details** | 355 x auto | — | — | 10 | 13px | HORIZONTAL MIN MIN |
+| **Switcher** | auto x auto | — | — | 10 | 16px | HORIZONTAL CENTER MIN |
+| **Layout container (magazine style)** | 1600 x auto | 30 | — | 20 | 20px | VERTICAL MIN MIN |
+| **Layout container title** | 1160 x auto | — | — | 464 | 20px | HORIZONTAL CENTER SPACE_BETWEEN |
+| **Layout container tabs** | 1160 x auto | — | — | 204 | 16px SemiBold | HORIZONTAL CENTER SPACE_BETWEEN |
+| **single layout card** | 800 x auto | 30 | — | 20 | 20px | VERTICAL CENTER MIN |
+| **50/50 layout container** | 1600 x auto | — | — | — | 20px | HORIZONTAL MIN MIN |
+| **[S] Attachment** | 440 x auto | 10 20 | 8 | — | 13px SemiBold | HORIZONTAL CENTER MIN |
+| **Footer** | 375 x auto | 0 10 | — | 10 | 13px Regular | VERTICAL MIN MIN |
+| **Content** | 375 x auto | — | — | 10 | 13px | VERTICAL MIN MIN |
+| **Detail item** | 162 x auto | — | — | 5 | 13px | HORIZONTAL MIN MIN |
+| **Config child menu** | auto x auto | — | — | — | 16px | VERTICAL MIN MIN |
+| **Config menu items** | auto x auto | — | — | — | 16px | VERTICAL MIN MIN |
+| **Config parent menu** | auto x auto | 5 20 5 0 | — | 5 | 16px | HORIZONTAL CENTER MIN |
+| **Header top navigation** | 1834 x auto | — | — | — | 16px | VERTICAL MIN MIN |
+| **[S] Main nav context** | 947 x 44 | — | — | — | 16px SemiBold | HORIZONTAL MAX CENTER |
+| **Search home button** | 150 x 32 | — | — | — | 16px |  |
+| **Full page navigation** | 1920 x 1080 | — | — | — | 13px | HORIZONTAL MIN MIN |
+| **Filter tabs** | 1600 x auto | — | — | — | 24px SemiBold | HORIZONTAL MIN MIN |
+| **Config side menu** | 325 x 980 | — | 8 | — | 16px | VERTICAL MIN MIN |
+| **[S] Config child menu** | auto x auto | 10 0 0 11 | — | 10 | 16px | VERTICAL MIN MIN |
+| **Counter** | 20 x 20 | 0 4 | 38 | 10 | 11px SemiBold | VERTICAL CENTER CENTER |
+| **Links** | auto x auto | — | — | 5 | 16px | HORIZONTAL CENTER MIN |
+| **Add attachment** | 440 x auto | — | — | 20 | 13px SemiBold | VERTICAL CENTER MIN |
+| **Action menu button** | auto x auto | — | — | — | 16px | HORIZONTAL CENTER CENTER |
+| **Tool tip** | auto x auto | 10 | 4 | — | 13px | VERTICAL MIN MIN |
+| **Drop down button** | 192 x auto | 7 10 7 20 | 48 | — | 13px Regular | HORIZONTAL CENTER MIN |
+| **Repeating group** | auto x auto | — | — | 20 | 16px Italic | VERTICAL MIN MIN |
+| **Action menu** | 199 x auto | 4 5 | 4 | — | 13px | VERTICAL MIN MIN |
+| **Manage columns** | 520 x auto | — | — | — | 20px | VERTICAL MIN MIN |
+| **Footer (AG)** | 1560 x auto | — | — | — | 13px | VERTICAL MIN MIN |
+| **Table action bar** | 1654 x auto | — | — | 20 | 16px SemiBold | VERTICAL MIN CENTER |
+| **AG field** | 140 x 43 | 2 4 | 8 | 10 | 12px | VERTICAL CENTER CENTER |
+| **Table (AG)** | 1705 x auto | — | 8 | — | 13px SemiBold | VERTICAL MIN MIN |
+| **Status** | 22 x 22 | — | 100 | — | — |  |
+| **Information box** | 440 x 56 | — | — | — | 13px | HORIZONTAL MIN MIN |
+| **Star rating** | auto x auto | — | — | — | 13px | VERTICAL CENTER CENTER |
+| **AI Assistant** | 1628 x auto | — | — | — | 20px | HORIZONTAL CENTER SPACE_BETWEEN |
+| **Adaptive card** | 478 x auto | — | — | 5 | 12px | VERTICAL MIN MIN |
+| **AI Gradient component** | 408 x 408 | — | — | — | 24px SemiBold |  |
+| **Configuration** | 1600 x 809 | — | 8 | — | 24px |  |
+| **Form** | 355 x auto | 20 10 | 8 | 30 | 18px | VERTICAL CENTER MIN |
+| **Menu-search-settings** | 1920 x 1080 | 20 | — | 30 | 24px | VERTICAL CENTER MIN |
+| **Bar** | 29 x 90 | — | — | 5 | 13px | VERTICAL CENTER MIN |
+| **Data variance alternative** | auto x auto | — | — | 5 | 20px | HORIZONTAL CENTER MIN |
+| **[S] People** | 380 x auto | — | — | 10 | 16px | HORIZONTAL CENTER CENTER |
+| **Text template format editor ** | 440 x auto | — | — | 5 | 16px | VERTICAL MIN MIN |
 
 ## Reading these numbers
 

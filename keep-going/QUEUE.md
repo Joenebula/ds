@@ -276,3 +276,73 @@ classes only and passes all the checks. A screen I wrote would not have tested w
 documentation works on someone who has not read this conversation.
 
 **Depends on:** tasks 12 and 13.
+
+---
+
+# Run 4 — finish the layers that are still half-built
+
+**Why this run exists.** "Keep building the whole system." Two structural holes remain
+after Run 3, and both are the kind that a screen-builder hits immediately:
+
+1. **55 of the 139 captured components have colours but no measured shape.** They are
+   half-captured: the stylesheet gives them a background and no height, padding or radius.
+   That is the exact split — right colours, invented shapes — that this project already
+   shipped once and built two checks to prevent.
+2. **There is no typography layer at all.** Figma has 23 text styles; the library has
+   none of them. Every screen still hand-writes `font-size`, `font-weight` and
+   `letter-spacing`, which is hand-written component CSS by another name. The extract
+   also has no line-height, which is why every screen so far has needed a local
+   `line-height` rule — a Figma value being restated by hand on every page.
+
+**Starting save point:** commit `faf38ae`, clean tree, pushed.
+**Scope fence:** `/home/user/ds` — unchanged.
+
+**Governing skills** (re-read in full immediately before each task):
+- `figma-use` — Figma MCP resource. Mandatory before any Figma read. Governs 16, 17.
+- `people-first`, `pf-screen` — project. Govern 17, 18, 19.
+- `skill-creator` — governs any skill change.
+
+## 16. Measure the 55 half-captured components — `pending`
+
+**Done when:** every component that has colours in the library also has its size, padding,
+radius, gap, font and layout measured — or is recorded, with a reason, as one that cannot
+be measured. `verify-components.mjs` still passes.
+
+**Depends on:** nothing. Uses Figma reads.
+
+## 17. A typography layer — `pending`
+
+Generate type classes from Figma's 23 text styles, so a heading is a class rather than
+three hand-written declarations. Re-extract the text styles to pick up **line-height**,
+which the current extract does not carry and which every screen has therefore been
+restating by hand.
+
+**Done when:** `dist/components.css` (or a sibling) carries a class per Figma text style
+with size, weight, letter-spacing and line-height; the skill documents them; the existing
+screens use them; and a check verifies each class against the extract the way
+`verify-components.mjs` does for components.
+
+**Depends on:** nothing.
+
+## 18. Make icons usable without pasting SVG — `pending`
+
+All 293 icons exist as files, but using one means opening the file and pasting its markup
+inline. That is friction on every single use, and friction is what makes someone draw
+their own instead.
+
+**Done when:** there is one documented way to place an icon that does not involve reading
+a file by hand, it works in a standalone artifact (which cannot link to local files), and
+`check-icon-fidelity.mjs` still recognises the result as a real Figma icon.
+
+**Depends on:** nothing.
+
+## 19. Verify the two untested skills — `pending`
+
+Run 3 changed `pf-handoff` and `pf-audit` but no fresh session exercised either. They are
+currently claims, not verified behaviour.
+
+**Done when:** an independent session, given only a screen, produces a handoff spec that
+names real classes and no invented values, and an audit that correctly reports the state
+of a page — both without being told how.
+
+**Depends on:** tasks 16 and 17 (so the skills are verified in their finished state).

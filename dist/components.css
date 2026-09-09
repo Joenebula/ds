@@ -13,9 +13,24 @@
  * Requires dist/tokens.css.
  */
 
-/* 50/50 layout container  (no geometry measured — colours only)
+/* 50/50 layout container
  * 1 variant captured
+ * Figma draws this 1600px wide; treated as layout, not a rule
  */
+.pf-50-50-layout-container {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-50-50-layout-container {
   color: var(--pf-text-primary);
 }
@@ -58,9 +73,28 @@
   color: var(--pf-text-primary);
 }
 
-/* AG field  (no geometry measured — colours only)
+/* AG field
  * 2 variants captured
+ * Figma draws this 140px wide; treated as layout, not a rule
  */
+.pf-ag-field {
+  height: 43px;
+  padding: 2px 4px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 12px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-ag-field[data-state="Selected"] {
   border-color: var(--pf-icon-primary);
   color: var(--pf-text-disabled);
@@ -104,9 +138,24 @@
   color: var(--pf-text-primary);
 }
 
-/* AI Assistant  (no geometry measured — colours only)
+/* AI Assistant
  * 3 variants captured
+ * Figma draws this 1628px wide; treated as layout, not a rule
  */
+.pf-ai-assistant {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-ai-assistant[data-type="Default"] {
   background: var(--pf-bg-primary);
   color: var(--pf-base-default-pink);
@@ -121,9 +170,24 @@
   color: var(--pf-text-primary);
 }
 
-/* AI Gradient component  (no geometry measured — colours only)
+/* AI Gradient component
  * 1 variant captured
+ * Figma draws this 408px wide; treated as layout, not a rule
+ * Figma draws this 408px tall; emitted as a minimum, since content decides the real height
  */
+.pf-ai-gradient-component {
+  min-height: 408px;
+  display: inline-block;
+  font-size: 24px;
+  font-weight: var(--pf-font-weight-bold);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-ai-gradient-component {
   color: var(--pf-text-primary);
 }
@@ -195,9 +259,10 @@
 /* AI card modal
  * 1 variant captured
  * Figma draws this 440px wide; treated as layout, not a rule
+ * Figma draws this 505px tall; emitted as a minimum, since content decides the real height
  */
 .pf-ai-card-modal {
-  height: 505px;
+  min-height: 505px;
   padding: 20px;
   border-radius: 8px;
   display: inline-flex;
@@ -277,46 +342,142 @@
   color: var(--pf-text-primary);
 }
 
-/* Action menu button  (no geometry measured — colours only)
+/* Action menu button
  * 1 variant captured
  */
+.pf-action-menu-button {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-action-menu-button {
   color: var(--pf-text-primary);
 }
 
-/* Action menu  (no geometry measured — colours only)
+/* Action menu
  * 1 variant captured
+ * Figma draws this 199px wide; treated as layout, not a rule
  */
+.pf-action-menu {
+  padding: 4px 5px;
+  border-radius: 4px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 13px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-action-menu {
   background: var(--pf-bg-primary);
   color: var(--pf-text-primary);
 }
 
-/* Adaptive card  (no geometry measured — colours only)
+/* Adaptive card
  * 1 variant captured
+ * Figma draws this 478px wide; treated as layout, not a rule
  */
+.pf-adaptive-card {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 12px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-adaptive-card {
   color: var(--pf-text-secondary);
 }
 
-/* Add attachment  (no geometry measured — colours only)
+/* Add attachment
  * 1 variant captured
+ * Figma draws this 440px wide; treated as layout, not a rule
  */
+.pf-add-attachment {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-add-attachment {
   color: var(--pf-text-primary);
 }
 
-/* Attachment with person  (no geometry measured — colours only)
+/* Attachment with person
  * 1 variant captured
+ * Figma draws this 440px wide; treated as layout, not a rule
  */
+.pf-attachment-with-person {
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 13px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-attachment-with-person {
   border-color: var(--pf-border-default);
   color: var(--pf-text-primary);
 }
 
-/* Attachments  (no geometry measured — colours only)
+/* Attachments
  * 1 variant captured
+ * Figma draws this 440px wide; treated as layout, not a rule
  */
+.pf-attachments {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-attachments {
   color: var(--pf-text-primary);
 }
@@ -365,9 +526,26 @@
   color: var(--pf-text-primary);
 }
 
-/* Bar  (no geometry measured — colours only)
+/* Bar
  * 1 variant captured
  */
+.pf-bar {
+  width: 29px;
+  height: 90px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 13px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-bar {
   color: var(--pf-text-primary);
 }
@@ -696,9 +874,23 @@
   color: var(--pf-text-theme);
 }
 
-/* Config child menu  (no geometry measured — colours only)
+/* Config child menu
  * 3 variants captured
  */
+.pf-config-child-menu {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-config-child-menu[data-type="Child"] {
   color: var(--pf-text-primary);
 }
@@ -710,32 +902,95 @@
   color: var(--pf-text-primary);
 }
 
-/* Config menu items  (no geometry measured — colours only)
+/* Config menu items
  * 1 variant captured
  */
+.pf-config-menu-items {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-config-menu-items {
   color: var(--pf-text-primary);
 }
 
-/* Config parent menu  (no geometry measured — colours only)
+/* Config parent menu
  * 1 variant captured
  */
+.pf-config-parent-menu {
+  padding: 5px 20px 5px 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-config-parent-menu {
   border-color: var(--pf-border-default);
   color: var(--pf-text-primary);
 }
 
-/* Config side menu  (no geometry measured — colours only)
+/* Config side menu
  * 1 variant captured
+ * Figma draws this 325px wide; treated as layout, not a rule
+ * Figma draws this 980px tall — the artboard it sits on, not a rule; dropped
  */
+.pf-config-side-menu {
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-config-side-menu {
   background: var(--pf-bg-primary);
   color: var(--pf-text-primary);
 }
 
-/* Configuration panel  (no geometry measured — colours only)
+/* Configuration panel
  * 1 variant captured
+ * Figma draws this 1600px wide; treated as layout, not a rule
+ * corner radius varies per corner in Figma
  */
+.pf-configuration-panel {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-configuration-panel {
   color: var(--pf-text-theme);
 }
@@ -766,9 +1021,23 @@
   color: var(--pf-text-primary);
 }
 
-/* Configuration  (no geometry measured — colours only)
+/* Configuration
  * 1 variant captured
+ * Figma draws this 1600px wide; treated as layout, not a rule
+ * Figma draws this 809px tall — the artboard it sits on, not a rule; dropped
  */
+.pf-configuration {
+  border-radius: 8px;
+  display: inline-block;
+  font-size: 24px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-configuration {
   color: var(--pf-text-primary);
 }
@@ -776,9 +1045,10 @@
 /* Confirmation modal
  * 3 variants captured
  * Figma draws this 400px wide; treated as layout, not a rule
+ * Figma draws this 413px tall; emitted as a minimum, since content decides the real height
  */
 .pf-confirmation-modal {
-  height: 413px;
+  min-height: 413px;
   padding: 60px 10px;
   border-radius: 8px;
   display: inline-flex;
@@ -838,9 +1108,25 @@
   color: var(--pf-text-primary);
 }
 
-/* Content  (no geometry measured — colours only)
+/* Content
  * 1 variant captured
+ * Figma draws this 375px wide; treated as layout, not a rule
  */
+.pf-content {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-content {
   color: var(--pf-text-primary);
 }
@@ -875,17 +1161,53 @@
   border-color: var(--pf-icon-disabled);
 }
 
-/* Counter  (no geometry measured — colours only)
+/* Counter
  * 1 variant captured
+ * pill
  */
+.pf-counter {
+  width: 20px;
+  height: 20px;
+  padding: 0 4px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: var(--pf-font-weight-bold);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-counter {
   background: var(--pf-icon-theme);
   color: var(--pf-text-inverted-primary);
 }
 
-/* Data variance alternative  (no geometry measured — colours only)
+/* Data variance alternative
  * 1 variant captured
  */
+.pf-data-variance-alternative {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-data-variance-alternative {
   color: var(--pf-text-primary);
 }
@@ -955,16 +1277,48 @@
   color: var(--pf-text-primary);
 }
 
-/* Detail item  (no geometry measured — colours only)
+/* Detail item
  * 1 variant captured
+ * Figma draws this 162px wide; treated as layout, not a rule
  */
+.pf-detail-item {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 13px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-detail-item {
   color: var(--pf-text-primary);
 }
 
-/* Details  (no geometry measured — colours only)
+/* Details
  * 1 variant captured
+ * Figma draws this 355px wide; treated as layout, not a rule
  */
+.pf-details {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-details {
   color: var(--pf-text-primary);
 }
@@ -972,9 +1326,10 @@
 /* Document previewer
  * 3 variants captured. 3 variants
  * Figma draws this 375px wide; treated as layout, not a rule
+ * Figma draws this 642px tall; emitted as a minimum, since content decides the real height
  */
 .pf-document-previewer {
-  height: 642px;
+  min-height: 642px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1091,9 +1446,27 @@
   border-color: var(--pf-border-theme);
 }
 
-/* Drop down button  (no geometry measured — colours only)
+/* Drop down button
  * 2 variants captured
+ * Figma draws this 192px wide; treated as layout, not a rule
  */
+.pf-drop-down-button {
+  padding: 7px 10px 7px 20px;
+  border-radius: 48px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-regular);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-drop-down-button[data-hover="False"] {
   border-color: var(--pf-border-form-input);
   color: var(--pf-text-primary);
@@ -1104,9 +1477,24 @@
   color: var(--pf-text-secondary);
 }
 
-/* Editable list card  (no geometry measured — colours only)
+/* Editable list card
  * 1 variant captured
  */
+.pf-editable-list-card {
+  border-radius: 4px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 13px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-editable-list-card[data-property-1="Default"] {
   background: var(--pf-bg-primary);
   border-color: var(--pf-border-default);
@@ -1281,24 +1669,73 @@
   color: var(--pf-text-theme);
 }
 
-/* Filter tabs  (no geometry measured — colours only)
+/* Filter tabs
  * 1 variant captured
+ * Figma draws this 1600px wide; treated as layout, not a rule
  */
+.pf-filter-tabs {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 24px;
+  font-weight: var(--pf-font-weight-bold);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-filter-tabs {
   color: var(--pf-text-theme);
 }
 
-/* Footer (AG)  (no geometry measured — colours only)
+/* Footer (AG)
  * 1 variant captured
+ * Figma draws this 1560px wide; treated as layout, not a rule
  */
+.pf-footer-ag {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 13px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-footer-ag[data-mobile="False"] {
   background: var(--pf-table-card);
   color: var(--pf-text-primary);
 }
 
-/* Footer  (no geometry measured — colours only)
+/* Footer
  * 1 variant captured
+ * Figma draws this 375px wide; treated as layout, not a rule
  */
+.pf-footer {
+  padding: 0 10px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-regular);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-footer {
   color: var(--pf-tag-content-negative);
 }
@@ -1371,17 +1808,51 @@
   color: var(--pf-text-primary);
 }
 
-/* Form  (no geometry measured — colours only)
+/* Form
  * 1 variant captured
+ * Figma draws this 355px wide; treated as layout, not a rule
  */
+.pf-form {
+  padding: 20px 10px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 30px;
+  font-size: 18px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-form {
   background: var(--pf-bg-primary);
   color: var(--pf-text-primary);
 }
 
-/* Full page navigation  (no geometry measured — colours only)
+/* Full page navigation
  * 3 variants captured
+ * Figma draws this 1920px wide; treated as layout, not a rule
+ * Figma draws this 1080px tall — the artboard it sits on, not a rule; dropped
  */
+.pf-full-page-navigation {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 13px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-full-page-navigation[data-breakpoint="Desktop"] {
   color: var(--pf-text-secondary);
 }
@@ -1438,9 +1909,24 @@
   color: var(--pf-text-primary);
 }
 
-/* Header top navigation  (no geometry measured — colours only)
+/* Header top navigation
  * 3 variants captured
+ * Figma draws this 1834px wide; treated as layout, not a rule
  */
+.pf-header-top-navigation {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-header-top-navigation[data-breakpoint="Desktop"] {
   color: var(--pf-text-secondary);
 }
@@ -1521,9 +2007,25 @@
   border-color: var(--pf-border-form-input);
 }
 
-/* Information box  (no geometry measured — colours only)
+/* Information box
  * 4 variants captured
+ * Figma draws this 440px wide; treated as layout, not a rule
  */
+.pf-information-box {
+  height: 56px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 13px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-information-box[data-type="Information"] {
   color: var(--pf-text-primary);
 }
@@ -1563,9 +2065,26 @@
   color: var(--pf-text-primary);
 }
 
-/* Layout container (magazine style)  (no geometry measured — colours only)
+/* Layout container (magazine style)
  * 2 variants captured
+ * Figma draws this 1600px wide; treated as layout, not a rule
  */
+.pf-layout-container-magazine-style {
+  padding: 30px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
+  font-size: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-layout-container-magazine-style[data-row-colour="False"] {
   background: var(--pf-bg-primary);
   color: var(--pf-text-primary);
@@ -1575,23 +2094,71 @@
   color: var(--pf-text-primary);
 }
 
-/* Layout container tabs  (no geometry measured — colours only)
+/* Layout container tabs
  * 1 variant captured
+ * Figma draws this 1160px wide; treated as layout, not a rule
  */
+.pf-layout-container-tabs {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 204px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-layout-container-tabs {
   color: var(--pf-text-theme);
 }
 
-/* Layout container title  (no geometry measured — colours only)
+/* Layout container title
  * 1 variant captured
+ * Figma draws this 1160px wide; treated as layout, not a rule
  */
+.pf-layout-container-title {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 464px;
+  font-size: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-layout-container-title {
   color: var(--pf-text-primary);
 }
 
-/* Links  (no geometry measured — colours only)
+/* Links
  * 4 variants captured
  */
+.pf-links {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-links[data-link-type="Primary"][data-hover="False"] {
   color: var(--pf-text-link);
 }
@@ -1605,17 +2172,50 @@
   color: var(--pf-text-link);
 }
 
-/* Manage columns  (no geometry measured — colours only)
+/* Manage columns
  * 1 variant captured
+ * Figma draws this 520px wide; treated as layout, not a rule
  */
+.pf-manage-columns {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-manage-columns[data-mobile="False"] {
   background: var(--pf-bg-primary);
   color: var(--pf-text-primary);
 }
 
-/* Menu-search-settings  (no geometry measured — colours only)
+/* Menu-search-settings
  * 3 variants captured
+ * Figma draws this 1920px wide; treated as layout, not a rule
+ * Figma draws this 1080px tall — the artboard it sits on, not a rule; dropped
  */
+.pf-menu-search-settings {
+  padding: 20px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 30px;
+  font-size: 24px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-menu-search-settings[data-page="Menu"] {
   background: var(--pf-bg-secondary);
   color: var(--pf-text-theme);
@@ -1822,9 +2422,10 @@
 /* Next actions modal
  * 2 variants captured
  * Figma draws this 400px wide; treated as layout, not a rule
+ * Figma draws this 565px tall; emitted as a minimum, since content decides the real height
  */
 .pf-next-actions-modal {
-  height: 565px;
+  min-height: 565px;
   padding: 0 0 30px 0;
   border-radius: 8px;
   display: inline-flex;
@@ -1851,9 +2452,25 @@
   border-color: var(--pf-border-default);
 }
 
-/* Note  (no geometry measured — colours only)
+/* Note
  * 1 variant captured
+ * Figma draws this 440px wide; treated as layout, not a rule
  */
+.pf-note {
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 13px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-note[data-property-1="Default"] {
   border-color: var(--pf-border-default);
   color: var(--pf-text-primary);
@@ -1915,9 +2532,25 @@
   color: var(--pf-text-inverted-primary);
 }
 
-/* Org chart  (no geometry measured — colours only)
+/* Org chart
  * 3 variants captured
+ * Figma draws this 293px wide; treated as layout, not a rule
  */
+.pf-org-chart {
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-org-chart[data-type="Org"] {
   background: var(--pf-bg-primary);
   color: var(--pf-text-primary);
@@ -2089,9 +2722,24 @@
   color: var(--pf-text-theme);
 }
 
-/* Repeating group  (no geometry measured — colours only)
+/* Repeating group
  * 1 variant captured
  */
+.pf-repeating-group {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
+  font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-repeating-group {
   /* unmapped Figma token: Grey-slate */
 }
@@ -2118,9 +2766,22 @@
   color: var(--pf-text-primary);
 }
 
-/* Search home button  (no geometry measured — colours only)
+/* Search home button
  * 2 variants captured
+ * Figma draws this 150px wide; treated as layout, not a rule
  */
+.pf-search-home-button {
+  height: 32px;
+  display: inline-block;
+  font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-search-home-button[data-mobile="False"] {
   color: var(--pf-text-secondary);
 }
@@ -2208,9 +2869,26 @@
   color: var(--pf-text-theme);
 }
 
-/* Side filter  (no geometry measured — colours only)
+/* Side filter
  * 1 variant captured
+ * Figma draws this 400px wide; treated as layout, not a rule
+ * Figma draws this 885px tall — the artboard it sits on, not a rule; dropped
+ * corner radius varies per corner in Figma
  */
+.pf-side-filter {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-side-filter[data-mobile="False"] {
   background: var(--pf-bg-primary);
   color: var(--pf-text-primary);
@@ -2219,9 +2897,10 @@
 /* Side navigation panel
  * 1 variant captured
  * Figma draws this 268px wide; treated as layout, not a rule
+ * Figma draws this 416px tall; emitted as a minimum, since content decides the real height
  */
 .pf-side-navigation-panel {
-  height: 416px;
+  min-height: 416px;
   padding: 10px;
   display: inline-flex;
   flex-direction: column;
@@ -2399,9 +3078,27 @@
   color: var(--pf-text-primary);
 }
 
-/* Spotlight Card  (no geometry measured — colours only)
+/* Spotlight Card
  * 1 variant captured
+ * Figma draws this 375px wide; treated as layout, not a rule
  */
+.pf-spotlight-card {
+  padding: 0 0 10px 0;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-spotlight-card[data-horizontal="False"] {
   background: var(--pf-bg-primary);
   border-color: var(--pf-border-default);
@@ -2431,9 +3128,23 @@
   color: var(--pf-text-primary);
 }
 
-/* Star rating  (no geometry measured — colours only)
+/* Star rating
  * 2 variants captured
  */
+.pf-star-rating {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-star-rating[data-rating="0..5"] {
   color: var(--pf-text-primary);
 }
@@ -2442,9 +3153,23 @@
   color: var(--pf-text-primary);
 }
 
-/* Status  (no geometry measured — colours only)
+/* Status
  * 4 variants captured
+ * pill
  */
+.pf-status {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  display: inline-block;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-status[data-status-type="Like"] {
   background: var(--pf-icon-info);
 }
@@ -2490,9 +3215,24 @@
   color: var(--pf-text-primary);
 }
 
-/* Switcher  (no geometry measured — colours only)
+/* Switcher
  * 1 variant captured
  */
+.pf-switcher {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-switcher {
   color: var(--pf-text-primary);
 }
@@ -2529,17 +3269,51 @@
   color: var(--pf-text-theme);
 }
 
-/* Table (AG)  (no geometry measured — colours only)
+/* Table (AG)
  * 1 variant captured
+ * Figma draws this 1705px wide; treated as layout, not a rule
  */
+.pf-table-ag {
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-table-ag[data-mobile="False"] {
   border-color: var(--pf-table-border);
   color: var(--pf-text-primary);
 }
 
-/* Table action bar  (no geometry measured — colours only)
+/* Table action bar
  * 1 variant captured
+ * Figma draws this 1654px wide; treated as layout, not a rule
  */
+.pf-table-action-bar {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-table-action-bar[data-mobile="False"] {
   color: var(--pf-text-theme);
 }
@@ -2804,9 +3578,25 @@
   color: var(--pf-text-negative);
 }
 
-/* Text template format editor   (no geometry measured — colours only)
+/* Text template format editor 
  * 1 variant captured
+ * Figma draws this 440px wide; treated as layout, not a rule
  */
+.pf-text-template-format-editor {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-text-template-format-editor {
   color: var(--pf-text-primary);
 }
@@ -2935,9 +3725,25 @@
   background: var(--pf-bg-primary-button);
 }
 
-/* Tool tip  (no geometry measured — colours only)
+/* Tool tip
  * 1 variant captured
  */
+.pf-tool-tip {
+  padding: 10px;
+  border-radius: 4px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 13px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-tool-tip {
   background: var(--pf-bg-tertiary);
   color: var(--pf-text-primary);
@@ -2966,24 +3772,75 @@
   color: var(--pf-base-white);
 }
 
-/* [S] Attachment  (no geometry measured — colours only)
+/* [S] Attachment
  * 1 variant captured
+ * Figma draws this 440px wide; treated as layout, not a rule
  */
+.pf-s-attachment {
+  padding: 10px 20px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-s-attachment {
   border-color: var(--pf-border-secondary);
   color: var(--pf-text-primary);
 }
 
-/* [S] Config child menu  (no geometry measured — colours only)
+/* [S] Config child menu
  * 1 variant captured
  */
+.pf-s-config-child-menu {
+  padding: 10px 0 0 11px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-s-config-child-menu {
   color: var(--pf-text-primary);
 }
 
-/* [S] Main nav context  (no geometry measured — colours only)
+/* [S] Main nav context
  * 1 variant captured
+ * Figma draws this 947px wide; treated as layout, not a rule
  */
+.pf-s-main-nav-context {
+  height: 44px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-s-main-nav-context {
   background: var(--pf-bg-primary);
   color: var(--pf-text-theme);
@@ -3026,9 +3883,25 @@
   color: var(--pf-text-theme);
 }
 
-/* [S] People  (no geometry measured — colours only)
+/* [S] People
  * 5 variants captured
+ * Figma draws this 380px wide; treated as layout, not a rule
  */
+.pf-s-people {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-s-people[data-property-1="Inline"] {
   color: var(--pf-text-primary);
 }
@@ -3094,9 +3967,26 @@
   color: var(--pf-text-primary);
 }
 
-/* single layout card  (no geometry measured — colours only)
+/* single layout card
  * 1 variant captured
+ * Figma draws this 800px wide; treated as layout, not a rule
  */
+.pf-single-layout-card {
+  padding: 30px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  font-size: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
 .pf-single-layout-card[data-mobile="false"] {
   background: var(--pf-bg-primary);
   border-color: var(--pf-border-default);

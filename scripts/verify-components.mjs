@@ -57,7 +57,12 @@ variants.forEach((r, i) => {
     id, component: r.component, variant: r.variant,
     html: `<div class="${base}" id="${id}"${attrs}>x</div>`,
     expect: {
-      height: h,
+      // Mirror the generator's three height tiers (see build-components-css.mjs): a
+      // control's height is exact, a panel's is a floor, and an artboard's is not a rule
+      // at all. Asserting the raw Figma number for all three would fail the checker on
+      // values the generator is deliberately, and correctly, not emitting.
+      height: h !== null && h <= 260 ? h : null,
+      minHeight: h !== null && h > 260 && h <= 700 ? h : null,
       radiusPill: h !== null && radius !== null && radius >= h / 2 - 1,
       radius: radius !== null && !(h !== null && radius >= h / 2 - 1) && radius > 0 ? radius : null,
       fontSize: fontPx ? +fontPx[1] : null,
@@ -98,6 +103,7 @@ for (const theme of ['light', 'dark']) {
         height: Math.round(el.getBoundingClientRect().height),
         radius: parseFloat(cs.borderTopLeftRadius),
         fontSize: parseFloat(cs.fontSize),
+        minHeight: cs.minHeight,
         flexDirection: cs.flexDirection,
         bg: cs.backgroundColor,
         color: cs.color,
@@ -121,6 +127,7 @@ for (const theme of ['light', 'dark']) {
     const e = s.expect;
 
     if (e.height !== null) add('height', e.height + 'px', f.height + 'px', Math.abs(f.height - e.height) <= 1);
+    if (e.minHeight !== null) add('min-height', e.minHeight + 'px', f.minHeight, f.minHeight === e.minHeight + 'px');
     if (e.radiusPill) add('radius (pill)', '>= half height', f.radius + 'px', f.radius >= f.height / 2 - 1);
     else if (e.radius !== null) add('radius', e.radius + 'px', f.radius + 'px', Math.abs(f.radius - e.radius) <= 1);
     if (e.fontSize !== null) add('font-size', e.fontSize + 'px', f.fontSize + 'px', Math.abs(f.fontSize - e.fontSize) <= 0.5);

@@ -84,7 +84,22 @@ function geometryDecls(g, notes) {
   // rule — only carry width through for genuinely small fixed controls.
   if (w !== null && w <= 120) d.push(`width: ${w}px`);
   else if (w !== null) notes.push(`Figma draws this ${w}px wide; treated as layout, not a rule`);
-  if (h !== null) d.push(`height: ${h}px`);
+
+  // Height needs the same judgement, and it is not one threshold but three, because the
+  // number means something different at each scale:
+  //   up to 260px  a control, row or tile — the height IS the design (a 32px button, a
+  //                58px table row). Emit it.
+  //   to 700px     a panel or modal. Figma draws it at one content length; a real one
+  //                grows. Emit as a floor so the measurement survives without capping it.
+  //   above that   the artboard the component was drawn on (1080 is a screen, not a
+  //                component). Emitting it would force a page-tall box. Drop and say so.
+  if (h !== null && h <= 260) d.push(`height: ${h}px`);
+  else if (h !== null && h <= 700) {
+    d.push(`min-height: ${h}px`);
+    notes.push(`Figma draws this ${h}px tall; emitted as a minimum, since content decides the real height`);
+  } else if (h !== null) {
+    notes.push(`Figma draws this ${h}px tall — the artboard it sits on, not a rule; dropped`);
+  }
 
   if (g.padding && g.padding !== '—' && g.padding !== '0') {
     const parts = g.padding.trim().split(/\s+/).map(Number);
