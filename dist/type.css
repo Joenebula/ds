@@ -1,0 +1,199 @@
+/* People First — type classes, generated from the Figma text styles.
+ *
+ * DO NOT EDIT. Regenerate with: npm run build
+ * Source: tokens/_raw/text-styles.tsv (read from Figma).
+ *
+ *   <h1 class="pf-text-xl-heading">Absence requests</h1>
+ *   <span class="pf-text-label">Return-to-work date</span>
+ *
+ * Colour is NOT set here — pair a type class with a --pf-text-* token, so the
+ * same size can be primary, secondary or negative text.
+ *
+ * LINE HEIGHT: every one of the 23 styles is set to Figma's automatic line
+ * height, so `normal` is the faithful value and is what these classes emit.
+ * Any specific line-height on a People First screen is an invention, not a
+ * Figma value — this was being hand-written on screens before it was checked.
+ */
+
+/* Desktop text/XL heading  — NO WEIGHT SET IN FIGMA; inherits */
+.pf-text-xl-heading {
+  font-size: 36px;
+  line-height: normal;
+  font-family: var(--pf-font-body);
+}
+
+/* Desktop text/XL heading (light)  — Light is outside the system's stated 400/600 weights */
+.pf-text-xl-heading-light {
+  font-size: 36px;
+  font-weight: 300;
+  line-height: normal;
+  font-family: var(--pf-font-body);
+}
+
+/* Desktop text/Large heading */
+.pf-text-large-heading {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: normal;
+  font-family: var(--pf-font-body);
+}
+
+/* Desktop text/Large heading (light)  — NO WEIGHT SET IN FIGMA; inherits */
+.pf-text-large-heading-light {
+  font-size: 24px;
+  line-height: normal;
+  font-family: var(--pf-font-body);
+}
+
+/* Desktop text/Sub heading  — NO WEIGHT SET IN FIGMA; inherits */
+.pf-text-sub-heading {
+  font-size: 20px;
+  line-height: normal;
+  font-family: var(--pf-font-body);
+}
+
+/* Desktop text/Sub heading (semi bold, 600) */
+.pf-text-sub-heading-semibold {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: normal;
+  font-family: var(--pf-font-body);
+}
+
+/* Desktop text/Body text */
+.pf-text-body-text {
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: normal;
+  font-family: var(--pf-font-body);
+}
+
+/* Desktop text/Body text (semi bold, 600) */
+.pf-text-body-text-semibold {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: normal;
+  font-family: var(--pf-font-body);
+}
+
+/* Desktop text/Body text (italic) */
+.pf-text-body-text-italic {
+  font-size: 16px;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.01em;
+  line-height: normal;
+  font-family: var(--pf-font-body);
+}
+
+/* Desktop text/Button text */
+.pf-text-button-text {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  font-family: var(--pf-font-body);
+}
+
+/* Desktop text/Label text  — NO WEIGHT SET IN FIGMA; inherits */
+.pf-text-label-text {
+  font-size: 13px;
+  line-height: normal;
+  font-family: var(--pf-font-body);
+}
+
+/* Desktop text/Label text (semi bold, 600) */
+.pf-text-label-text-semibold {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: normal;
+  font-family: var(--pf-font-body);
+}
+
+/* Desktop text/Label text (italic) */
+.pf-text-label-text-italic {
+  font-size: 13px;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.01em;
+  line-height: normal;
+  font-family: var(--pf-font-body);
+}
+
+/* Desktop text/Button text  — NO WEIGHT SET IN FIGMA; inherits */
+.pf-text-button-text-uppercase {
+  font-size: 13px;
+  text-transform: uppercase;
+  line-height: normal;
+  font-family: var(--pf-font-body);
+}
+
+/* Desktop text/Tag text  — NO WEIGHT SET IN FIGMA; inherits */
+.pf-text-tag-text {
+  font-size: 13px;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  line-height: normal;
+  font-family: var(--pf-font-body);
+}
+
+/* Mobile text/XXL heading  — Medium is outside the system's stated 400/600 weights */
+.pf-text-mobile-xxl-heading {
+  font-size: 50px;
+  font-weight: 500;
+  line-height: normal;
+  font-family: var(--pf-font-body);
+}
+
+/* Mobile text/XXL heading (light)  — NO WEIGHT SET IN FIGMA; inherits */
+.pf-text-mobile-xxl-heading-light {
+  font-size: 50px;
+  line-height: normal;
+  font-family: var(--pf-font-body);
+}
+
+/* Mobile text/XL heading */
+.pf-text-mobile-xl-heading {
+  font-size: 30px;
+  font-weight: 400;
+  line-height: normal;
+  font-family: var(--pf-font-body);
+}
+
+/* Mobile text/XL heading (light)  — NO WEIGHT SET IN FIGMA; inherits */
+.pf-text-mobile-xl-heading-light {
+  font-size: 30px;
+  line-height: normal;
+  font-family: var(--pf-font-body);
+}
+
+/* Mobile text/Large heading */
+.pf-text-mobile-large-heading {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: normal;
+  font-family: var(--pf-font-body);
+}
+
+/* Mobile text/Large heading (light)  — NO WEIGHT SET IN FIGMA; inherits */
+.pf-text-mobile-large-heading-light {
+  font-size: 20px;
+  line-height: normal;
+  font-family: var(--pf-font-body);
+}
+
+/* Mobile text/Sub heading  — NO WEIGHT SET IN FIGMA; inherits */
+.pf-text-mobile-sub-heading {
+  font-size: 18px;
+  line-height: normal;
+  font-family: var(--pf-font-body);
+}
+
+/* Mobile text/Sub heading (bold) */
+.pf-text-mobile-sub-heading-semibold {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: normal;
+  font-family: var(--pf-font-body);
+}

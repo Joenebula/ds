@@ -13,6 +13,7 @@ packaged so Claude Design — and any HTML/CSS output — generates on-brand UI.
 | `tokens/design-tokens.json` | 177 tokens in W3C DTCG format. Generated. |
 | `dist/tokens.css` | 365 CSS custom properties, light + dark. Generated. |
 | **`dist/components.css`** | **139 components, 283 variants, as ready classes. Generated.** |
+| **`dist/type.css`** | **23 type classes, one per Figma text style. Generated.** |
 | `assets/icons/` | All 293 People First icons as individual SVGs. |
 | `docs/components.html` | Every component and variant, light and dark. |
 | `docs/icons.html` | Every icon, browsable. |
@@ -39,7 +40,7 @@ primitive and everything downstream follows, exactly as in Figma.
 
 ```bash
 npm run build     # everything below, in order
-npm run verify    # the six checks, against a built page
+npm run verify    # the seven checks, against a built page
 npm run check     # WCAG AA audit of the real component pairings
 ```
 
@@ -52,6 +53,7 @@ sheet, the Design System pane bundle, the variant and geometry references, then
 ```html
 <link rel="stylesheet" href="dist/tokens.css">      <!-- the colours -->
 <link rel="stylesheet" href="dist/components.css">  <!-- the components -->
+<link rel="stylesheet" href="dist/type.css">        <!-- the type -->
 <html data-theme="dark">  <!-- or "light", or omit to follow the OS -->
 ```
 
@@ -71,7 +73,7 @@ behaviour. See `.claude/skills/people-first/SKILL.md` for the full rules.
 
 ## Checking
 
-Six checks, each covering a different axis, because a green tick on one axis proved
+Seven checks, each covering a different axis, because a green tick on one axis proved
 repeatedly to mean nothing about the others:
 
 ```bash
@@ -80,6 +82,7 @@ node scripts/verify-rendered.mjs <page>.html      # colours match Figma, both mo
 node scripts/check-icon-fidelity.mjs <page>.html  # every glyph is a real Figma icon
 node scripts/pf-audit.mjs <page>.html             # on-system + WCAG contrast
 node scripts/verify-components.mjs                # the whole library vs Figma
+node scripts/verify-type.mjs                      # the type classes match Figma
 node scripts/check-skill-classes.mjs              # the docs match the stylesheet
 ```
 

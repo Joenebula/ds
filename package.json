@@ -5,9 +5,9 @@
   "description": "People First design tokens extracted from Figma, for Claude Design and web output",
   "type": "module",
   "scripts": {
-    "build": "node scripts/build-tokens.mjs && node scripts/build-css.mjs && node scripts/build-reference.mjs && node scripts/build-ds-bundle.mjs && node scripts/build-variants-ref.mjs && node scripts/build-geometry-ref.mjs && node scripts/build-components-css.mjs && node scripts/build-components-gallery.mjs",
+    "build": "node scripts/build-tokens.mjs && node scripts/build-css.mjs && node scripts/build-reference.mjs && node scripts/build-ds-bundle.mjs && node scripts/build-variants-ref.mjs && node scripts/build-geometry-ref.mjs && node scripts/build-components-css.mjs && node scripts/build-type-css.mjs && node scripts/build-components-gallery.mjs",
     "check": "node scripts/check-contrast.mjs",
-    "verify": "node scripts/verify-geometry.mjs prototypes/absence-requests.html && node scripts/verify-rendered.mjs prototypes/absence-requests.html && node scripts/check-icon-fidelity.mjs prototypes/absence-requests.src.html && node scripts/pf-audit.mjs prototypes/absence-requests.html && node scripts/verify-components.mjs && node scripts/check-skill-classes.mjs",
+    "verify": "node scripts/verify-geometry.mjs prototypes/absence-requests.html && node scripts/verify-rendered.mjs prototypes/absence-requests.html && node scripts/check-icon-fidelity.mjs prototypes/absence-requests.src.html && node scripts/pf-audit.mjs prototypes/absence-requests.html && node scripts/verify-components.mjs && node scripts/verify-type.mjs && node scripts/check-skill-classes.mjs",
     "audit": "node scripts/pf-audit.mjs",
     "icons": "node scripts/extract-icons.mjs && node scripts/verify-icons.mjs --sheet docs/icons.html"
   },

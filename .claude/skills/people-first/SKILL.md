@@ -1,6 +1,6 @@
 ---
 name: people-first
-description: Build UI using the People First Design System (MHR). Use whenever creating or restyling any screen, page, component, artifact, or design canvas that should look like People First — buttons, forms, tables, cards, tags, navigation, charts, dashboards. Provides the colour, typography, spacing and elevation tokens plus a generated component stylesheet with every Figma component and variant as a ready class, in light and dark mode.
+description: Build UI using the People First Design System (MHR). Use whenever creating or restyling any screen, page, component, artifact, or design canvas that should look like People First — buttons, forms, tables, cards, tags, navigation, charts, dashboards. Provides the colour, typography, spacing and elevation tokens plus generated stylesheets giving every Figma component, variant and text style as a ready class, in light and dark mode.
 ---
 
 # People First Design System
@@ -10,29 +10,32 @@ Everything below is generated from that file — not invented.
 
 ## Setup
 
-Two stylesheets. Link both:
+Three stylesheets. Link all three:
 
 ```html
 <link rel="stylesheet" href="dist/tokens.css">      <!-- the colours -->
 <link rel="stylesheet" href="dist/components.css">  <!-- the components -->
+<link rel="stylesheet" href="dist/type.css">        <!-- the type -->
 ```
 
 `tokens.css` gives you `var(--pf-*)`. `components.css` gives you the components
 themselves as ready classes — see **Component classes** below, and reach for it before
-you write any CSS of your own.
+you write any CSS of your own. `type.css` gives you a class per Figma text style, so a
+heading is a class rather than three hand-written declarations.
 
-For a self-contained artifact or canvas, inline both into a `<style>` block instead.
+For a self-contained artifact or canvas, inline all three into a `<style>` block instead.
 Never paste hex values in place of tokens.
 
 ## Hard rules
 
 1. **Never write a raw hex value.** Every colour comes from a `--pf-*` token. If no
    token fits, the design system has no answer — say so rather than inventing one.
-2. **Never hand-write component CSS.** If it is a button, a tag, an input, a table
-   cell, a card, a nav item — the class already exists in `dist/components.css`,
-   generated from Figma. Hand-writing it is how the wrong-shapes mistake happened:
-   the colours were right and every shape was invented. Your own CSS is for page
-   layout and behaviour, not for what a component looks like.
+2. **Never hand-write component or type CSS.** If it is a button, a tag, an input, a
+   table cell, a card, a nav item, the class is in `dist/components.css`; if it is a
+   heading, body copy or a label, the class is in `dist/type.css`. Both are generated
+   from Figma. Hand-writing either is how the wrong-shapes mistake happened: the colours
+   were right and every shape was invented. Your own CSS is for page layout and
+   behaviour, not for what a component looks like or how big its text is.
 3. **Use semantic tokens, not primitives.** Reach for `--pf-text-primary`, not
    `--pf-base-grey-slate`. Primitives exist only to feed the semantic layer, and in
    Figma they are deliberately scoped out of every picker. Using them directly
@@ -103,6 +106,38 @@ Open Sans. `--pf-font-body` and `--pf-font-heading` both resolve to it.
 | `--pf-font-size-xs` | 13 | Labels, tags |
 
 Weights: `--pf-font-weight-regular` (400), `--pf-font-weight-bold` (600 SemiBold).
+
+### Type classes — use these rather than setting size and weight by hand
+
+`dist/type.css` carries a class per Figma text style, checked against the extract by
+`scripts/verify-type.mjs`:
+
+```html
+<h1 class="pf-text-xl-heading">Absence requests</h1>
+<h2 class="pf-text-large-heading">Review request</h2>
+<p  class="pf-text-body-text">Cover confirmed with the payroll team.</p>
+<span class="pf-text-label-text-semibold">Return-to-work date</span>
+```
+
+Desktop is the default and drops Figma's prefix; the mobile ramp keeps it
+(`.pf-text-mobile-xl-heading`). A class sets size, weight, letter-spacing, case and
+line-height — **not colour**. Pair it with a `--pf-text-*` token, so the same size can be
+primary, secondary or negative text.
+
+**Line height is `normal`, and that is the Figma value.** All 23 text styles are set to
+automatic line height. A specific `line-height` on a People First screen is invented —
+this project had `1.2` and `1.3` hand-written into a table before anyone checked, and
+the geometry check passes without them.
+
+Two things the extract found that are worth flagging rather than working around:
+
+- **Ten of the 23 styles have no weight set in Figma** at all — neither a font style nor
+  a bound variable. Among them: `XL heading`, `Sub heading`, `Label text`, `Tag text`.
+  Their classes deliberately set no `font-weight` and inherit. Four are the `(light)`
+  variants, whose names promise a weight the style does not carry.
+- **`Light` (300) and `Medium` (500) appear in the text styles** but no shipping
+  component uses them, and they sit outside this system's stated 400/600. The classes
+  exist and are marked in the CSS; prefer the 400/600 pair.
 
 Body and label text use **-1% letter-spacing**; headings use 0. Mobile headings run
 larger than desktop (50 / 30 / 20 / 18) — that is intentional, not an error.

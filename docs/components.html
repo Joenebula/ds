@@ -1,6 +1,7 @@
 <title>People First components</title>
 <link rel="stylesheet" href="../dist/tokens.css">
 <link rel="stylesheet" href="../dist/components.css">
+<link rel="stylesheet" href="../dist/type.css">
 <style>
   body { background: var(--pf-bg-secondary); color: var(--pf-text-primary);
          font-family: var(--pf-font-body); margin: 0; padding: 24px 28px 80px; }
@@ -38,6 +39,106 @@
 generated stylesheet. Each specimen is real <code>dist/components.css</code> — if it looks
 wrong here, it is wrong in the stylesheet. Labels under each specimen are Figma's own
 variant names.</p>
+<h2>Type</h2>
+<p class="lede">23 classes, one per Figma text style, in
+  <code>dist/type.css</code>. Colour is deliberately not set — pair a type class with a
+  <code>--pf-text-*</code> token. Every style uses Figma's automatic line height, so
+  <code>normal</code> is the faithful value; a specific line-height on a People First
+  screen is an invention.</p>
+<div class="row" style="flex-direction:column;align-items:stretch;gap:14px">
+  <div class="spec" style="gap:2px">
+    <span class="pf-text-xl-heading">XL heading</span>
+    <span class="label">.pf-text-xl-heading  ·  36px  ·  no weight set in Figma</span>
+  </div>
+  <div class="spec" style="gap:2px">
+    <span class="pf-text-xl-heading-light">XL heading (light)</span>
+    <span class="label">.pf-text-xl-heading-light  ·  36px  ·  Light</span>
+  </div>
+  <div class="spec" style="gap:2px">
+    <span class="pf-text-large-heading">Large heading</span>
+    <span class="label">.pf-text-large-heading  ·  24px  ·  Regular</span>
+  </div>
+  <div class="spec" style="gap:2px">
+    <span class="pf-text-large-heading-light">Large heading (light)</span>
+    <span class="label">.pf-text-large-heading-light  ·  24px  ·  no weight set in Figma</span>
+  </div>
+  <div class="spec" style="gap:2px">
+    <span class="pf-text-sub-heading">Sub heading</span>
+    <span class="label">.pf-text-sub-heading  ·  20px  ·  no weight set in Figma</span>
+  </div>
+  <div class="spec" style="gap:2px">
+    <span class="pf-text-sub-heading-semibold">Sub heading (semi bold, 600)</span>
+    <span class="label">.pf-text-sub-heading-semibold  ·  20px  ·  SemiBold</span>
+  </div>
+  <div class="spec" style="gap:2px">
+    <span class="pf-text-body-text">Body text</span>
+    <span class="label">.pf-text-body-text  ·  16px  ·  Regular  ·  -1%</span>
+  </div>
+  <div class="spec" style="gap:2px">
+    <span class="pf-text-body-text-semibold">Body text (semi bold, 600)</span>
+    <span class="label">.pf-text-body-text-semibold  ·  16px  ·  SemiBold  ·  -1%</span>
+  </div>
+  <div class="spec" style="gap:2px">
+    <span class="pf-text-body-text-italic">Body text (italic)</span>
+    <span class="label">.pf-text-body-text-italic  ·  16px  ·  Italic  ·  -1%</span>
+  </div>
+  <div class="spec" style="gap:2px">
+    <span class="pf-text-button-text">Button text</span>
+    <span class="label">.pf-text-button-text  ·  16px  ·  SemiBold</span>
+  </div>
+  <div class="spec" style="gap:2px">
+    <span class="pf-text-label-text">Label text</span>
+    <span class="label">.pf-text-label-text  ·  13px  ·  no weight set in Figma</span>
+  </div>
+  <div class="spec" style="gap:2px">
+    <span class="pf-text-label-text-semibold">Label text (semi bold, 600)</span>
+    <span class="label">.pf-text-label-text-semibold  ·  13px  ·  SemiBold</span>
+  </div>
+  <div class="spec" style="gap:2px">
+    <span class="pf-text-label-text-italic">Label text (italic)</span>
+    <span class="label">.pf-text-label-text-italic  ·  13px  ·  Italic  ·  -1%</span>
+  </div>
+  <div class="spec" style="gap:2px">
+    <span class="pf-text-button-text-uppercase">Button text</span>
+    <span class="label">.pf-text-button-text-uppercase  ·  13px  ·  no weight set in Figma  ·  uppercase</span>
+  </div>
+  <div class="spec" style="gap:2px">
+    <span class="pf-text-tag-text">Tag text</span>
+    <span class="label">.pf-text-tag-text  ·  13px  ·  no weight set in Figma  ·  -1%  ·  uppercase</span>
+  </div>
+  <div class="spec" style="gap:2px">
+    <span class="pf-text-mobile-xxl-heading">XXL heading</span>
+    <span class="label">.pf-text-mobile-xxl-heading  ·  50px  ·  Medium</span>
+  </div>
+  <div class="spec" style="gap:2px">
+    <span class="pf-text-mobile-xxl-heading-light">XXL heading (light)</span>
+    <span class="label">.pf-text-mobile-xxl-heading-light  ·  50px  ·  no weight set in Figma</span>
+  </div>
+  <div class="spec" style="gap:2px">
+    <span class="pf-text-mobile-xl-heading">XL heading</span>
+    <span class="label">.pf-text-mobile-xl-heading  ·  30px  ·  Regular</span>
+  </div>
+  <div class="spec" style="gap:2px">
+    <span class="pf-text-mobile-xl-heading-light">XL heading (light)</span>
+    <span class="label">.pf-text-mobile-xl-heading-light  ·  30px  ·  no weight set in Figma</span>
+  </div>
+  <div class="spec" style="gap:2px">
+    <span class="pf-text-mobile-large-heading">Large heading</span>
+    <span class="label">.pf-text-mobile-large-heading  ·  20px  ·  Regular</span>
+  </div>
+  <div class="spec" style="gap:2px">
+    <span class="pf-text-mobile-large-heading-light">Large heading (light)</span>
+    <span class="label">.pf-text-mobile-large-heading-light  ·  20px  ·  no weight set in Figma</span>
+  </div>
+  <div class="spec" style="gap:2px">
+    <span class="pf-text-mobile-sub-heading">Sub heading</span>
+    <span class="label">.pf-text-mobile-sub-heading  ·  18px  ·  no weight set in Figma</span>
+  </div>
+  <div class="spec" style="gap:2px">
+    <span class="pf-text-mobile-sub-heading-semibold">Sub heading (bold)</span>
+    <span class="label">.pf-text-mobile-sub-heading-semibold  ·  18px  ·  SemiBold</span>
+  </div>
+</div>
 <h2>AI</h2>
 <h3>AI Assistant</h3>
 <p class="meta">3 variants  ·  .pf-ai-assistant  ·  1628 x auto  ·  horizontal center space_between</p>

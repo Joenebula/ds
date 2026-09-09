@@ -18,6 +18,12 @@ const tsv = (p) => {
 const geometry = new Map(tsv('tokens/_raw/component-geometry.tsv').map(r => [r.component, r]));
 const variants = tsv('tokens/_raw/component-variants.tsv');
 const inventory = JSON.parse(readFileSync('tokens/_raw/components.json', 'utf8'));
+let textStyles = [];
+try {
+  const [h, ...ls] = readFileSync('tokens/_raw/text-styles.tsv', 'utf8').trim().split('\n');
+  const k = h.split('\t');
+  textStyles = ls.map(l => Object.fromEntries(l.split('\t').map((v, i) => [k[i], v ?? ''])));
+} catch { /* type layer not extracted yet */ }
 // Why each missing component is missing. A gallery that lists gaps without saying why
 // invites the reader to assume they are oversights; most of them are deliberate.
 let uncapturedWhy = new Map();
@@ -75,6 +81,7 @@ const out = [];
 out.push('<title>People First components</title>');
 out.push(`<link rel="stylesheet" href="../dist/tokens.css">`);
 out.push(`<link rel="stylesheet" href="../dist/components.css">`);
+out.push(`<link rel="stylesheet" href="../dist/type.css">`);
 out.push(`<style>
   body { background: var(--pf-bg-secondary); color: var(--pf-text-primary);
          font-family: var(--pf-font-body); margin: 0; padding: 24px 28px 80px; }
@@ -115,6 +122,31 @@ out.push(`<p class="lede">Every component and variant captured from Figma, rende
 generated stylesheet. Each specimen is real <code>dist/components.css</code> — if it looks
 wrong here, it is wrong in the stylesheet. Labels under each specimen are Figma's own
 variant names.</p>`);
+
+// The type layer first: it is the thing every screen touches, and until recently every
+// screen hand-wrote it.
+if (textStyles.length) {
+  const typeClasses = [...readFileSync('dist/type.css', 'utf8')
+    .matchAll(/^\.(pf-text-[a-z0-9-]+) \{/gm)].map(m => m[1]);
+  out.push('<h2>Type</h2>');
+  out.push(`<p class="lede">${textStyles.length} classes, one per Figma text style, in
+  <code>dist/type.css</code>. Colour is deliberately not set — pair a type class with a
+  <code>--pf-text-*</code> token. Every style uses Figma's automatic line height, so
+  <code>normal</code> is the faithful value; a specific line-height on a People First
+  screen is an invention.</p>`);
+  out.push('<div class="row" style="flex-direction:column;align-items:stretch;gap:14px">');
+  textStyles.forEach((t, i) => {
+    const cls = typeClasses[i] || '';
+    out.push('  <div class="spec" style="gap:2px">');
+    out.push(`    <span class="${cls}">${esc(t.name.replace(/^\w+ text\//, ''))}</span>`);
+    out.push(`    <span class="label">.${esc(cls)}  ·  ${esc(t.size)}px${
+      t.weight ? '  ·  ' + esc(t.weight) : '  ·  no weight set in Figma'}${
+      t.letterSpacing !== '0%' ? '  ·  ' + esc(t.letterSpacing) : ''}${
+      t.textCase === 'UPPER' ? '  ·  uppercase' : ''}</span>`);
+    out.push('  </div>');
+  });
+  out.push('</div>');
+}
 
 for (const [page, comps] of [...byPage.entries()].sort()) {
   out.push(`<h2>${esc(page)}</h2>`);

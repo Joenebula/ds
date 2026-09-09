@@ -1,14 +1,16 @@
 #!/usr/bin/env node
-// Inlines dist/tokens.css and dist/components.css into a prototype .src.html and
-// verifies token discipline.
+// Inlines dist/tokens.css, dist/components.css and dist/type.css into a prototype
+// .src.html and verifies token discipline.
 import { readFileSync, writeFileSync } from 'node:fs';
 const src = process.argv[2], out = process.argv[3];
 const tokens = readFileSync('dist/tokens.css', 'utf8');
 const components = readFileSync('dist/components.css', 'utf8');
+const type = readFileSync('dist/type.css', 'utf8');
 let html = readFileSync(src, 'utf8');
 if (!html.includes('/*__TOKENS__*/')) { console.error('no /*__TOKENS__*/ placeholder'); process.exit(1); }
 html = html.replace('/*__TOKENS__*/', tokens);
 if (html.includes('/*__COMPONENTS__*/')) html = html.replace('/*__COMPONENTS__*/', components);
+if (html.includes('/*__TYPE__*/')) html = html.replace('/*__TYPE__*/', type);
 writeFileSync(out, html);
 
 // ---- verification ----
