@@ -245,6 +245,20 @@ for (const [component, rows] of [...byComponent.entries()].sort()) {
   componentCount++;
 }
 
+// ---- element fix-ups --------------------------------------------------------
+// Figma measures a table cell as an auto-layout frame, so the generator emits
+// `display: inline-flex` for it. That is right for a standalone specimen and wrong on a
+// real <td>: it stops the element being a table cell, the browser wraps it in an
+// anonymous one, and the cell's contents stack. It survived on a screen whose cells hold
+// a single value and broke visibly on one whose cells hold three, which is exactly the
+// kind of bug no check catches — the colours and the measured height are still correct.
+out.push('/* Element fix-ups — a component used AS a table cell must stay a table cell. */');
+out.push('td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {');
+out.push('  display: table-cell;');
+out.push('  vertical-align: middle;');
+out.push('}');
+out.push('');
+
 mkdirSync('dist', { recursive: true });
 writeFileSync('dist/components.css', out.join('\n'));
 

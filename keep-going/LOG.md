@@ -739,3 +739,32 @@ from the old set were still on disk for the pane to index.
 
 **Not checked:** the pane itself. I can confirm the pages render correctly in a browser,
 but not how claude.ai/design indexes or displays them — that needs someone to open it.
+
+## Task 21 — Rebuild the payroll screen on the library — DONE
+
+771 lines of pre-library markup moved onto the classes: 54 hand-written component rules
+removed, 23 hand-built sprite glyphs replaced with real icon references, table striping
+restored on alternate rows. 4 of 13 geometry checks to 29 of 29, and all three screens now
+pass all four axes.
+
+**Every check passed while the page was visibly wrecked — the fourth time here.** The
+table cells were stacking their contents vertically. Figma measures a table cell as an
+auto-layout frame, so the generator emitted `display: inline-flex`; on a real `<td>` that
+stops the element being a table cell and the browser wraps it in an anonymous one. It had
+survived unnoticed on a screen whose cells hold a single value and broke on one whose
+cells hold three. Fixed in the generator with an element fix-up, so both screens benefit.
+
+**I picked the wrong component for the sidebar.** Figma's `Navigation item` is a 90x86
+rail item with the icon above the label. The sidebar row is `Side navigation tab`, 268x48,
+horizontal. Both screens now use the right one, and the colour check names it.
+
+**A table cell's height is a minimum, not a value.** Figma's 58px row with 10px padding
+and a 1px border leaves 36px of content box; two lines of 13px text need 37.6px, so the
+cell grows and no stylesheet can prevent it. Asserting an exact height was asserting
+something the box model does not guarantee — the geometry check now asserts the floor for
+table cells.
+
+Also caught while there: my own `<td>` regex mangled `<thead>` into `<th ...ead>`, the same
+mistake as Run 2; and `verify-rendered` treated a component simply not present on a page as
+a failure, which is wrong now that it runs against every screen — absent bindings are
+skipped and reported, but a page where NOTHING matched still fails.

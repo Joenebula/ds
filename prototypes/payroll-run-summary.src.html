@@ -9,6 +9,19 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
 /*__TOKENS__*/
+/*__COMPONENTS__*/
+/*__TYPE__*/
+
+/* ---------- local ----------
+   Page layout and behaviour only. Every component shape and colour on this page now
+   comes from dist/components.css, and every type size from dist/type.css, both
+   generated from Figma. If anything below restates a Figma value, it is a bug.
+
+   One exception, and it is a gap not a style: Figma measures `Button (icon only)` as a
+   32x32 circle but binds it no colours, so the generator emits no class for it. The rule
+   below supplies the shape only; the colour still comes from .pf-button's variant. */
+.pf-button--icon-only { width: 32px; padding: 0; justify-content: center; }
+
 
 /* ---------- base ---------- */
 * { box-sizing: border-box; }
@@ -59,15 +72,15 @@ svg { display: block; }
 }
 
 /* Navigation item — State=Selected|Unselected|Hover, Device=Desktop */
-.nav-item {
+.pf-side-navigation-tab { text-decoration: none;
   display: flex; align-items: center; gap: var(--pf-space-small);
   padding: var(--pf-space-small) var(--pf-space-large);
   background: var(--pf-bg-primary); color: var(--pf-text-secondary);
   text-decoration: none; font-size: var(--pf-font-size-s);
   border-left: 3px solid transparent; transition: color .12s, border-color .12s;
 }
-.nav-item:hover { color: var(--pf-text-theme); }
-.nav-item[aria-current="page"] { color: var(--pf-text-theme); border-left-color: var(--pf-border-theme); font-weight: var(--pf-font-weight-bold); }
+.pf-side-navigation-tab:hover { color: var(--pf-text-theme); }
+.pf-side-navigation-tab[data-selected="true"] { color: var(--pf-text-theme); border-left-color: var(--pf-border-theme); font-weight: var(--pf-font-weight-bold); }
 
 /* ---------- header ---------- */
 .topbar {
@@ -88,36 +101,11 @@ svg { display: block; }
   border: 1px solid transparent; cursor: pointer; line-height: 1; white-space: nowrap;
   transition: background-color .12s;
 }
-.btn svg { flex: none; }
-.btn--icon { width: 32px; padding: 0; justify-content: center; }
-.btn--action    { background: var(--pf-bg-secondary-button); color: var(--pf-text-inverted-primary); }
-.btn--action:hover, .btn--action.is-hover { background: var(--pf-bg-secondary-button-hover); }
-.btn--positive  { background: var(--pf-bg-primary-button); color: var(--pf-text-always-white); }
-.btn--positive:hover, .btn--positive.is-hover { background: var(--pf-bg-primary-button-hover); }
-.btn--negative  { background: var(--pf-bg-negative-button); color: var(--pf-text-always-white); }
-.btn--negative:hover, .btn--negative.is-hover { background: var(--pf-bg-negative-button-hover); }
-.btn--hollow    { background: transparent; color: var(--pf-text-primary); border-color: var(--pf-border-hollow-button); }
-.btn--hollow:hover, .btn--hollow.is-hover { background: var(--pf-button-fill-hollow-hover); }
-.btn:disabled   { border-color: var(--pf-border-disabled); background: transparent;
-                  color: var(--pf-text-disabled); cursor: not-allowed; }
 .btnrow { display: flex; gap: var(--pf-space-small); flex-wrap: wrap; align-items: center; }
 
 /* ---------- filter chips: Filter chip, State × Active ---------- */
 /* Figma: Filter chip — h42, pad 10 20, radius 76 (pill), 16px, ls -1% */
 .chiprow { display: flex; gap: var(--pf-space-small); flex-wrap: wrap; align-items: center; }
-.chip {
-  display: inline-flex; align-items: center; gap: 5px;
-  height: 42px; padding: 10px 20px; border-radius: 999px;
-  font-family: inherit; font-size: 16px; letter-spacing: -0.01em;
-  background: var(--pf-bg-primary); color: var(--pf-text-primary);
-  border: 1px solid var(--pf-border-hollow-button); cursor: pointer;
-  transition: background-color .12s, border-color .12s, color .12s;
-}
-.chip:hover { background: var(--pf-bg-theme); border-color: var(--pf-border-theme); color: var(--pf-text-theme); }
-.chip[aria-pressed="true"] { border-color: var(--pf-border-theme); color: var(--pf-text-theme);
-                             font-weight: var(--pf-font-weight-bold); gap: 10px; }
-.chip .count { color: var(--pf-text-secondary); font-weight: var(--pf-font-weight-regular); }
-.chip[aria-pressed="true"] .count { color: var(--pf-text-theme); }
 
 /* ---------- tags: Tags, Type ---------- */
 /* Figma: Tags — h28, pad 5 10, radius 4, 13px Regular, SENTENCE CASE (not uppercase) */
@@ -127,12 +115,6 @@ svg { display: block; }
   font-size: 13px; font-weight: var(--pf-font-weight-regular);
   border: 1px solid; white-space: nowrap;
 }
-.tag--positive { background: var(--pf-tag-fill-positive); border-color: var(--pf-tag-border-positive); color: var(--pf-tag-content-positive); }
-.tag--negative { background: var(--pf-tag-fill-negative); border-color: var(--pf-tag-border-negative); color: var(--pf-tag-content-negative); }
-.tag--warning  { background: var(--pf-tag-fill-warning);  border-color: var(--pf-tag-border-warning);  color: var(--pf-tag-content-warning); }
-.tag--neutral  { background: var(--pf-tag-fill-neutral);  border-color: var(--pf-tag-border-neutral);  color: var(--pf-tag-content-neutral); }
-.tag--other    { background: var(--pf-tag-fill-other);    border-color: var(--pf-tag-border-other);    color: var(--pf-tag-content-other); }
-.tag--expired  { background: var(--pf-tag-fill-expired);  border-color: var(--pf-tag-border-expired);  color: var(--pf-tag-content-expired); }
 /* Type=Theme binds Tags/Borders/Info for text in Figma — using Content/Info, see variants.md */
 .tag--theme    { background: var(--pf-tag-fill-info);     border-color: var(--pf-tag-border-info);     color: var(--pf-tag-content-info); }
 
@@ -143,26 +125,14 @@ svg { display: block; }
   border-radius: var(--pf-radius-medium); padding: 20px;
   display: flex; flex-direction: column; gap: 20px;
 }
-.panel--raised { box-shadow: var(--pf-shadow-drop-shadow); border: none; }
 
 /* ---------- summary figures: Metric card ---------- */
 /* Figma: Metric card — 392x89, pad 20, radius 8, 36px figure */
 .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--pf-space-large); }
-.metric { min-height: 89px; gap: var(--pf-space-small); justify-content: space-between; }
-.metric .figure {
-  font-size: var(--pf-font-size-xl); line-height: 1.05; letter-spacing: 0;
-  font-weight: var(--pf-font-weight-regular); font-variant-numeric: tabular-nums;
-}
-.metric .figure--warning { color: var(--pf-text-warning); }
-.metric .sub { font-size: var(--pf-font-size-xs); color: var(--pf-text-secondary); }
 
 /* ---------- information box ---------- */
 .info { display: flex; gap: var(--pf-space-small); padding: var(--pf-space-small) var(--pf-space-large);
         border-radius: var(--pf-radius-small); border: 1px solid; align-items: flex-start; }
-.info--information { background: var(--pf-bg-neutral);  border-color: var(--pf-border-info);     color: var(--pf-text-primary); }
-.info--success     { background: var(--pf-bg-positive); border-color: var(--pf-border-positive); color: var(--pf-text-primary); }
-.info--warning     { background: var(--pf-bg-warning);  border-color: var(--pf-border-warning);  color: var(--pf-text-primary); }
-.info--error       { background: var(--pf-bg-negative); border-color: var(--pf-border-negative); color: var(--pf-text-primary); }
 
 /* ---------- filter bar ---------- */
 .filterbar { display: flex; flex-direction: column; gap: var(--pf-space-medium); }
@@ -187,7 +157,6 @@ svg { display: block; }
   border-radius: var(--pf-radius-medium); overflow: hidden;
 }
 .tablescroll { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; min-width: 900px; table-layout: fixed; }
 /* Figma: Table header (AG) h54 pad 15 13px SemiBold; Table cell (AG) h58 pad 10 15 13px */
 thead th {
   background: var(--pf-table-header-cell); color: var(--pf-text-primary);
@@ -196,10 +165,6 @@ thead th {
   border-bottom: 1px solid var(--pf-border-default); white-space: nowrap;
 }
 th.num, td.num { text-align: right; white-space: nowrap; }
-tbody td {
-  height: 58px; padding: 10px 15px; font-size: 13px; line-height: 1.3;
-  border-bottom: 1px solid var(--pf-border-default); vertical-align: middle;
-}
 tbody tr { background: var(--pf-table-primary-cell); }
 tbody tr:nth-child(even) { background: var(--pf-table-stripe-cell); }
 tbody tr:hover { background: var(--pf-bg-theme); }
@@ -223,21 +188,11 @@ th.col-status { width: 152px; }
   width: 20px; height: 20px; border-radius: var(--pf-radius-small); margin-left: 6px;
   vertical-align: middle; color: var(--pf-icon-secondary);
 }
-.thicon.is-active { background: var(--pf-bg-theme); color: var(--pf-icon-theme); }
 /* Multi-select checkbox — State=Default / Selected. Figma: 20x20 r4 */
 .msbox {
   width: 20px; height: 20px; border-radius: var(--pf-radius-small); display: inline-block;
   border: 1.5px solid var(--pf-icon-disabled); background: var(--pf-bg-primary);
 }
-.msbox.is-selected { background: var(--pf-icon-theme); border-color: var(--pf-icon-theme); position: relative; }
-.msbox.is-selected::after {
-  content: ""; position: absolute; left: 6.5px; top: 2.5px; width: 5px; height: 9px;
-  border: solid var(--pf-base-white); border-width: 0 2px 2px 0; transform: rotate(45deg);
-}
-.tablefoot { display: flex; justify-content: space-between; align-items: center; gap: var(--pf-space-small);
-             padding: var(--pf-space-medium); background: var(--pf-table-card);
-             border-top: 1px solid var(--pf-table-border); font-size: var(--pf-font-size-xs);
-             color: var(--pf-text-secondary); flex-wrap: wrap; }
 
 /* ---------- avatar: Profile image (circle) ---------- */
 .avatar {
@@ -246,7 +201,6 @@ th.col-status { width: 152px; }
   display: inline-flex; align-items: center; justify-content: center;
   font-size: var(--pf-font-size-xs); font-weight: var(--pf-font-weight-bold); letter-spacing: 0;
 }
-.avatar--lg { width: 56px; height: 56px; font-size: var(--pf-font-size-m); }
 
 /* ---------- side panel ---------- */
 /* Figma: Side panel 375 wide, shadow 0 0 4px; header h60 pad 10 15 20px; sticky footer h52 pad 10 15 */
@@ -255,19 +209,8 @@ th.col-status { width: 152px; }
   background: var(--pf-bg-primary); box-shadow: var(--pf-shadow-drop-shadow);
   display: flex; flex-direction: column;
 }
-.sp-head {
-  height: 60px; padding: 10px 15px; display: flex; align-items: center; gap: 10px;
-  border-bottom: 1px solid var(--pf-border-secondary);
-  background: var(--pf-bg-primary); font-size: var(--pf-font-size-m); flex: none;
-}
-.sp-head .grow { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sp-body { flex: 1; overflow-y: auto; padding: var(--pf-space-large);
            display: flex; flex-direction: column; gap: var(--pf-space-large); }
-.sp-foot {
-  height: 52px; padding: 10px 15px; display: flex; align-items: center; gap: var(--pf-space-large);
-  border-top: 1px solid var(--pf-border-secondary); background: var(--pf-bg-primary);
-  font-size: 13px; font-weight: var(--pf-font-weight-bold); flex: none;
-}
 .sp-person { display: flex; align-items: center; gap: var(--pf-space-medium); }
 .sp-sec { display: flex; flex-direction: column; gap: var(--pf-space-small); }
 .sp-sec > .hdr { display: flex; align-items: center; justify-content: space-between; gap: var(--pf-space-small); }
@@ -280,14 +223,9 @@ th.col-status { width: 152px; }
          height: 50px; padding: 10px 15px; font-size: 16px;
          background: var(--pf-bg-primary); border: 1px solid var(--pf-border-default);
          border-radius: var(--pf-radius-medium); }
-.dcard .amt { font-variant-numeric: tabular-nums; white-space: nowrap; }
-.dcard.s-hover { background: var(--pf-bg-secondary); border-color: var(--pf-border-secondary); }
-.dcard.s-click, .dcard.s-drag { border-color: var(--pf-border-theme); }
-.dcard.s-drop { background: var(--pf-bg-theme); border-color: var(--pf-border-theme); }
 
 /* ---------- form fields: Form field, Input type × State ---------- */
 .field { display: flex; flex-direction: column; gap: 5px; }
-.field > .lbl { font-size: var(--pf-font-size-xs); font-weight: var(--pf-font-weight-bold); }
 .req { color: var(--pf-icon-required-field); }
 /* Figma: Form field input — h42, pad 10 10 10 20, radius 8, 16px */
 .control {
@@ -296,11 +234,6 @@ th.col-status { width: 152px; }
   border: 1px solid var(--pf-border-form-input); border-radius: var(--pf-radius-medium);
   padding: 10px 10px 10px 20px;
 }
-.control::placeholder { color: var(--pf-text-secondary); }
-.field.is-error .lbl, .field.is-error .hint { color: var(--pf-text-negative); }
-.field.is-error .control { border-color: var(--pf-border-negative); }
-.field.is-selected .lbl { color: var(--pf-text-link); }
-.field.is-selected .control { border-color: var(--pf-border-info); }
 .hint { font-size: var(--pf-font-size-xs); color: var(--pf-text-secondary); }
 textarea.control { resize: vertical; height: auto; min-height: 84px; }
 select.control { appearance: none; background-image:
@@ -312,10 +245,6 @@ select.control { appearance: none; background-image:
 /* Toggle — On=Yes|No. Figma: 55x25, radius 13 */
 .toggle { width: 55px; height: 25px; border-radius: 13px; background: var(--pf-bg-tertiary);
           border: 1px solid var(--pf-base-grey-dolphin); position: relative; flex: none; }
-.toggle::after { content: ""; position: absolute; top: 2px; left: 3px; width: 19px; height: 19px;
-                 border-radius: 50%; background: var(--pf-base-white); box-shadow: var(--pf-shadow-drop-shadow); }
-.toggle.is-on { background: var(--pf-bg-primary-button); border-color: transparent; }
-.toggle.is-on::after { left: auto; right: 3px; }
 
 /* ---------- variant reference block ---------- */
 .matrix { display: flex; flex-direction: column; gap: var(--pf-space-large); }
@@ -338,22 +267,12 @@ select.control { appearance: none; background-image:
 }
 @media (max-width: 620px) {
   .topbar, .content { padding-left: var(--pf-space-large); padding-right: var(--pf-space-large); }
-}
-</style>
+}</style>
 </head>
 <body>
 
 <!-- Figma icon set (assets/icons) — authored at 36x36 with fill=currentColor -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
-<symbol id="i-tick" viewBox="0 0 36 36"><path d="M29.2 9.7C29.64 9.27 30.36 9.27 30.8 9.7C31.23 10.14 31.23 10.86 30.8 11.3L15.8 26.3C15.36 26.73 14.64 26.73 14.2 26.3L6.7 18.8C6.27 18.36 6.27 17.64 6.7 17.2C7.14 16.77 7.86 16.77 8.3 17.2L15 23.91L29.2 9.7Z" fill="currentColor"/></symbol>
-<symbol id="i-plus" viewBox="0 0 36 36"><path d="M19.13 7.5C19.13 6.88 18.62 6.38 18 6.38C17.38 6.38 16.88 6.88 16.88 7.5V16.88H7.5C6.88 16.88 6.38 17.38 6.38 18C6.38 18.62 6.88 19.13 7.5 19.13H16.88V28.5C16.88 29.12 17.38 29.63 18 29.63C18.62 29.63 19.13 29.12 19.13 28.5V19.13H28.5C29.12 19.13 29.63 18.62 29.63 18C29.63 17.38 29.12 16.88 28.5 16.88H19.13V7.5Z" fill="currentColor"/></symbol>
-<symbol id="i-close" viewBox="0 0 36 36"><path fill-rule="evenodd" d="M27.8 8.2C28.23 8.64 28.23 9.36 27.8 9.8L9.8 27.8C9.36 28.23 8.64 28.23 8.2 27.8C7.77 27.36 7.77 26.64 8.2 26.2L26.2 8.2C26.64 7.77 27.36 7.77 27.8 8.2Z" fill="currentColor"/><path fill-rule="evenodd" d="M8.2 8.2C8.64 7.77 9.36 7.77 9.8 8.2L27.8 26.2C28.23 26.64 28.23 27.36 27.8 27.8C27.36 28.23 26.64 28.23 26.2 27.8L8.2 9.8C7.77 9.36 7.77 8.64 8.2 8.2Z" fill="currentColor"/></symbol>
-<symbol id="i-save" viewBox="0 0 36 36"><path fill-rule="evenodd" d="M9 7.13C8.5 7.13 8.03 7.32 7.67 7.67C7.32 8.03 7.13 8.5 7.13 9V27C7.13 27.5 7.32 27.97 7.67 28.33C8.03 28.68 8.5 28.88 9 28.88H27C27.5 28.88 27.97 28.68 28.33 28.33C28.68 27.97 28.88 27.5 28.88 27V12.47L23.53 7.13H9ZM6.08 6.08C6.86 5.31 7.91 4.88 9 4.88H24C24.3 4.88 24.58 4.99 24.8 5.2L30.8 11.2C31.01 11.42 31.13 11.7 31.13 12V27C31.13 28.09 30.69 29.14 29.92 29.92C29.14 30.69 28.09 31.13 27 31.13H9C7.91 31.13 6.86 30.69 6.08 29.92C5.31 29.14 4.88 28.09 4.88 27V9C4.88 7.91 5.31 6.86 6.08 6.08Z" fill="currentColor"/><path fill-rule="evenodd" d="M15.08 18.08C15.86 17.31 16.91 16.88 18 16.88C19.09 16.88 20.14 17.31 20.92 18.08C21.69 18.86 22.13 19.91 22.13 21C22.13 22.09 21.69 23.14 20.92 23.92C20.14 24.69 19.09 25.13 18 25.13C16.91 25.13 15.86 24.69 15.08 23.92C14.31 23.14 13.88 22.09 13.88 21C13.88 19.91 14.31 18.86 15.08 18.08ZM18 19.13C17.5 19.13 17.03 19.32 16.67 19.67C16.32 20.03 16.13 20.5 16.13 21C16.13 21.5 16.32 21.97 16.67 22.33C17.03 22.68 17.5 22.88 18 22.88C18.5 22.88 18.97 22.68 19.33 22.33C19.68 21.97 19.88 21.5 19.88 21C19.88 20.5 19.68 20.03 19.33 19.67C18.97 19.32 18.5 19.13 18 19.13Z" fill="currentColor"/><path fill-rule="evenodd" d="M12 4.88C12.62 4.88 13.13 5.38 13.13 6V10.88H19.88V6C19.88 5.38 20.38 4.88 21 4.88C21.62 4.88 22.13 5.38 22.13 6V12C22.13 12.62 21.62 13.13 21 13.13H12C11.38 13.13 10.88 12.62 10.88 12V6C10.88 5.38 11.38 4.88 12 4.88Z" fill="currentColor"/></symbol>
-<symbol id="i-history" viewBox="0 0 36 36"><path fill-rule="evenodd" d="M18 10.88C18.62 10.88 19.13 11.38 19.13 12V17.53L21.8 20.2C22.23 20.64 22.23 21.36 21.8 21.8C21.36 22.23 20.64 22.23 20.2 21.8L17.2 18.8C16.99 18.58 16.88 18.3 16.88 18V12C16.88 11.38 17.38 10.88 18 10.88Z" fill="currentColor"/><path fill-rule="evenodd" d="M26.14 8.54C23.85 6.54 20.9 5.46 17.86 5.49C14.82 5.53 11.9 6.68 9.66 8.73C7.41 10.78 6 13.59 5.69 16.61C5.63 17.23 5.08 17.68 4.46 17.62C3.84 17.56 3.39 17 3.46 16.39C3.82 12.81 5.49 9.5 8.14 7.07C10.79 4.65 14.25 3.29 17.84 3.24C21.43 3.2 24.91 4.49 27.62 6.85C30.33 9.21 32.07 12.49 32.52 16.05C32.96 19.62 32.08 23.22 30.04 26.18C28 29.14 24.94 31.24 21.44 32.08C17.95 32.93 14.27 32.46 11.1 30.76C8.89 29.58 7.04 27.85 5.7 25.77V30C5.7 30.62 5.2 31.13 4.57 31.13C3.95 31.13 3.45 30.62 3.45 30V22.5C3.45 21.88 3.95 21.38 4.57 21.38H5.3C5.32 21.37 5.33 21.37 5.35 21.38H12.08C12.7 21.38 13.2 21.88 13.2 22.5C13.2 23.12 12.7 23.63 12.08 23.63H7.05C8.2 25.8 9.97 27.6 12.16 28.78C14.84 30.21 17.96 30.61 20.91 29.9C23.87 29.18 26.46 27.4 28.19 24.9C29.92 22.4 30.66 19.35 30.28 16.33C29.91 13.32 28.43 10.54 26.14 8.54Z" fill="currentColor"/></symbol>
-<symbol id="i-export" viewBox="0 0 36 36"><path fill-rule="evenodd" d="M26.3 14.3C25.86 14.73 25.14 14.73 24.7 14.3L18 7.59L11.3 14.3C10.86 14.73 10.14 14.73 9.7 14.3C9.27 13.86 9.27 13.14 9.7 12.7L17.2 5.2C17.64 4.77 18.36 4.77 18.8 5.2L26.3 12.7C26.73 13.14 26.73 13.86 26.3 14.3Z" fill="currentColor"/><path d="M16.88 24C16.88 24.62 17.38 25.13 18 25.13C18.62 25.13 19.13 24.62 19.13 24L19.13 6C19.13 5.38 18.62 4.88 18 4.88C17.38 4.88 16.88 5.38 16.88 6L16.88 24Z" fill="currentColor"/><path d="M7.13 25.5C7.13 24.88 6.62 24.38 6 24.38C5.38 24.38 4.88 24.88 4.88 25.5V28.5C4.88 29.59 5.31 30.64 6.08 31.42C6.86 32.19 7.91 32.63 9 32.63H27C28.09 32.63 29.14 32.19 29.92 31.42C30.69 30.64 31.13 29.59 31.13 28.5V25.5C31.13 24.88 30.62 24.38 30 24.38C29.38 24.38 28.88 24.88 28.88 25.5V28.5C28.88 29 28.68 29.47 28.33 29.83C27.97 30.18 27.5 30.38 27 30.38H9C8.5 30.38 8.03 30.18 7.67 29.83C7.32 29.47 7.13 29 7.13 28.5V25.5Z" fill="currentColor"/></symbol>
-<symbol id="i-search" viewBox="0 0 36 36"><path fill-rule="evenodd" d="M15 3.38C8.58 3.38 3.38 8.58 3.38 15C3.38 21.42 8.58 26.63 15 26.63C17.81 26.63 20.38 25.63 22.39 23.98L30.7 32.3C31.14 32.73 31.86 32.73 32.3 32.3C32.73 31.86 32.73 31.14 32.3 30.7L23.98 22.39C25.63 20.38 26.63 17.81 26.63 15C26.63 8.58 21.42 3.38 15 3.38ZM5.63 15C5.63 9.82 9.82 5.63 15 5.63C20.18 5.63 24.38 9.82 24.38 15C24.38 20.18 20.18 24.38 15 24.38C9.82 24.38 5.63 20.18 5.63 15Z" fill="currentColor"/></symbol>
-<symbol id="i-info" viewBox="0 0 36 36"><path fill-rule="evenodd" d="M18 5.63C11.17 5.63 5.63 11.17 5.63 18C5.63 24.83 11.17 30.38 18 30.38C24.83 30.38 30.38 24.83 30.38 18C30.38 11.17 24.83 5.63 18 5.63ZM3.38 18C3.38 9.92 9.92 3.38 18 3.38C26.08 3.38 32.63 9.92 32.63 18C32.63 26.08 26.08 32.63 18 32.63C9.92 32.63 3.38 26.08 3.38 18Z" fill="currentColor"/><path fill-rule="evenodd" d="M18 14.88C18.62 14.88 19.13 15.38 19.13 16V24C19.13 24.62 18.62 25.13 18 25.13C17.38 25.13 16.88 24.62 16.88 24V16C16.88 15.38 17.38 14.88 18 14.88Z" fill="currentColor"/><path fill-rule="evenodd" d="M16.88 11C16.88 10.38 17.38 9.88 18 9.88H18.02C18.64 9.88 19.14 10.38 19.14 11C19.14 11.62 18.64 12.13 18.02 12.13H18C17.38 12.13 16.88 11.62 16.88 11Z" fill="currentColor"/></symbol>
-<symbol id="i-sort" viewBox="0 0 36 36"><path d="M7.96 15.43C7.79 15.01 7.88 14.53 8.2 14.2L17.2 5.2C17.64 4.76 18.36 4.76 18.8 5.2L27.8 14.2C28.12 14.53 28.21 15.01 28.04 15.43C27.86 15.85 27.45 16.13 27 16.13L9 16.13C8.55 16.13 8.14 15.85 7.96 15.43ZM24.28 13.88L18 7.59L11.72 13.88L24.28 13.88Z" fill="currentColor"/><path d="M8.2 21.8C7.88 21.47 7.79 20.99 7.96 20.57C8.14 20.15 8.55 19.88 9 19.88L27 19.88C27.45 19.88 27.86 20.15 28.04 20.57C28.21 20.99 28.12 21.47 27.8 21.8L18.8 30.8C18.36 31.24 17.64 31.24 17.2 30.8L8.2 21.8ZM18 28.41L24.28 22.13L11.72 22.13L18 28.41Z" fill="currentColor"/></symbol>
 </defs></svg>
 
 <div class="app">
@@ -361,14 +280,14 @@ select.control { appearance: none; background-image:
   <!-- Side navigation -->
   <nav class="side" aria-label="Main">
     <div class="brand"><span class="mark"></span> People First</div>
-    <a class="nav-item" href="#">Dashboard</a>
-    <a class="nav-item" href="#">My team</a>
-    <a class="nav-item" href="#">Absence</a>
-    <a class="nav-item" href="#">Timesheets</a>
-    <a class="nav-item" href="#" aria-current="page">Payroll</a>
-    <a class="nav-item" href="#">Recruitment</a>
-    <a class="nav-item" href="#">Learning</a>
-    <a class="nav-item" href="#">Reports</a>
+    <a class="pf-side-navigation-tab" data-selected="false" href="#">Dashboard</a>
+    <a class="pf-side-navigation-tab" data-selected="false" href="#">My team</a>
+    <a class="pf-side-navigation-tab" data-selected="false" href="#">Absence</a>
+    <a class="pf-side-navigation-tab" data-selected="false" href="#">Timesheets</a>
+    <a class="pf-side-navigation-tab" data-selected="true" href="#" aria-current="page">Payroll</a>
+    <a class="pf-side-navigation-tab" data-selected="false" href="#">Recruitment</a>
+    <a class="pf-side-navigation-tab" data-selected="false" href="#">Learning</a>
+    <a class="pf-side-navigation-tab" data-selected="false" href="#">Reports</a>
   </nav>
 
   <div class="main">
@@ -384,9 +303,9 @@ select.control { appearance: none; background-image:
         </p>
       </div>
       <div class="btnrow">
-        <button class="btn btn--hollow" type="button"><svg width="14" height="14" aria-hidden="true"><use href="#i-history"/></svg>Audit history</button>
-        <button class="btn btn--hollow" type="button"><svg width="14" height="14" aria-hidden="true"><use href="#i-export"/></svg>Export</button>
-        <button class="btn btn--positive" type="button"><svg width="14" height="14" aria-hidden="true"><use href="#i-tick"/></svg>Approve pay run</button>
+        <button class="pf-button" data-type="Hollow" type="button"><!--pf-icon:history 14-->Audit history</button>
+        <button class="pf-button" data-type="Hollow" type="button"><!--pf-icon:export 14-->Export</button>
+        <button class="pf-button" data-type="Positive" type="button"><!--pf-icon:tick 14-->Approve pay run</button>
       </div>
     </header>
 
@@ -416,8 +335,8 @@ select.control { appearance: none; background-image:
         </div>
       </section>
 
-      <div class="info info--warning">
-        <svg width="18" height="18" aria-hidden="true"><use href="#i-info"/></svg>
+      <div class="pf-information-box" data-type="Warning">
+        <!--pf-icon:information-->
         <div><strong>3 employees have validation errors.</strong> Missing or invalid bank details
         will stop the FPS being accepted. Resolve these before approving the run.</div>
       </div>
@@ -425,38 +344,38 @@ select.control { appearance: none; background-image:
       <!-- Filters -->
       <section class="filterbar" aria-label="Filter employees">
         <div class="line" role="group" aria-label="Pay status">
-          <button class="chip" type="button" aria-pressed="true">All <span class="count">248</span></button>
-          <button class="chip" type="button" aria-pressed="false">Needs review <span class="count">12</span></button>
-          <button class="chip" type="button" aria-pressed="false">Approved <span class="count">214</span></button>
-          <button class="chip" type="button" aria-pressed="false">Changed this period <span class="count">31</span></button>
-          <button class="chip" type="button" aria-pressed="false">New starters <span class="count">5</span></button>
-          <button class="chip" type="button" aria-pressed="false">Leavers <span class="count">2</span></button>
+          <button class="pf-filter-chip" data-state="Selected" data-active="True" type="button" aria-pressed="true">All <span class="count">248</span></button>
+          <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false">Needs review <span class="count">12</span></button>
+          <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false">Approved <span class="count">214</span></button>
+          <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false">Changed this period <span class="count">31</span></button>
+          <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false">New starters <span class="count">5</span></button>
+          <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false">Leavers <span class="count">2</span></button>
         </div>
         <div class="line">
           <div class="searchwrap">
-            <span class="icn"><svg width="16" height="16" aria-hidden="true"><use href="#i-search"/></svg></span>
-            <input class="control" type="search" aria-label="Search employees" placeholder="Search name or payroll number">
+            <span class="icn"><!--pf-icon:search 16--></span>
+            <input class="pf-field" data-right-aligned="No" data-filled="No" type="search" aria-label="Search employees" placeholder="Search name or payroll number">
           </div>
-          <select class="control" aria-label="Department" style="width:auto;min-width:180px">
+          <select class="pf-field" data-right-aligned="No" data-filled="No" aria-label="Department" style="width:auto;min-width:180px">
             <option>All departments</option>
             <option>Finance</option><option>Operations</option><option>People</option>
             <option>Technology</option><option>Retail</option><option>Logistics</option>
           </select>
-          <select class="control" aria-label="Pay group" style="width:auto;min-width:160px">
+          <select class="pf-field" data-right-aligned="No" data-filled="No" aria-label="Pay group" style="width:auto;min-width:160px">
             <option>All pay groups</option>
             <option>Monthly salaried</option><option>Weekly hourly</option>
           </select>
-          <button class="btn btn--hollow" type="button"><svg width="14" height="14" aria-hidden="true"><use href="#i-sort"/></svg>Sort</button>
-          <label class="togglelab"><span class="toggle" role="switch" aria-checked="false" tabindex="0"></span> Show only exceptions</label>
+          <button class="pf-button" data-type="Hollow" type="button"><!--pf-icon:sort-arrow-ag-grid 14-->Sort</button>
+          <label class="togglelab"><span class="pf-toggle" data-on="No" data-locked="No" role="switch" aria-checked="false" tabindex="0"></span> Show only exceptions</label>
         </div>
       </section>
 
       <!-- Selected action banner -->
-      <div class="selbanner">
+      <div class="pf-selected-action-banner" data-darkmode="False" data-mobile="False">
         <span><strong>3 employees</strong> selected</span>
         <div class="btnrow" style="margin-left:auto">
-          <button class="btn btn--action" type="button"><svg width="14" height="14" aria-hidden="true"><use href="#i-tick"/></svg>Approve selected</button>
-          <button class="btn btn--negative" type="button"><svg width="14" height="14" aria-hidden="true"><use href="#i-close"/></svg>Put on hold</button>
+          <button class="pf-button" data-type="Action" type="button"><!--pf-icon:tick 14-->Approve selected</button>
+          <button class="pf-button" data-type="Negative" type="button"><!--pf-icon:close-x-cancel 14-->Put on hold</button>
         </div>
       </div>
 
@@ -469,9 +388,9 @@ select.control { appearance: none; background-image:
             </caption>
             <thead>
               <tr>
-                <th class="col-sel"><span class="msbox is-selected" role="img" aria-label="All on this page selected"></span></th>
+                <th class="col-sel"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="All on this page selected"></span></th>
                 <th class="col-emp">Employee
-                  <span class="thicon is-active" aria-label="Sorted ascending"><svg width="12" height="12" aria-hidden="true"><use href="#i-sort"/></svg></span>
+                  <span class="pf-table-header-icons" data-variant="Sort" data-state="Ascending" aria-label="Sorted ascending"><!--pf-icon:sort-arrow-ag-grid 12--></span>
                 </th>
                 <th class="col-dep">Department</th>
                 <th class="num col-gross">Gross pay</th>
@@ -483,104 +402,104 @@ select.control { appearance: none; background-image:
             </thead>
             <tbody>
               <tr>
-                <td><span class="msbox" role="img" aria-label="Not selected"></span></td>
-                <td><span class="name">Aisha Bello</span><span class="sub">Software Engineer &middot; 100482</span></td>
-                <td>Technology</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="name">Aisha Bello</span><span class="sub">Software Engineer &middot; 100482</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default">Technology</td>
                 <td class="num">5,416.67</td>
                 <td class="num">1,702.55</td>
                 <td class="num">3,714.12</td>
                 <td class="num muted">&mdash;</td>
-                <td><span class="tag tag--positive">Approved</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-tags" data-type="Positive">Approved</span></td>
               </tr>
               <tr>
-                <td><span class="msbox" role="img" aria-label="Not selected"></span></td>
-                <td><span class="name">Danny Okonkwo</span><span class="sub">Customer Adviser &middot; 100517</span></td>
-                <td>Service</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="name">Danny Okonkwo</span><span class="sub">Customer Adviser &middot; 100517</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe">Service</td>
                 <td class="num">1,983.33</td>
                 <td class="num">402.77</td>
                 <td class="num">1,580.56</td>
                 <td class="num">&minus;&pound;241.10</td>
-                <td><span class="tag tag--other">Query raised</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-tags" data-type="Other">Query raised</span></td>
               </tr>
               <tr>
-                <td><span class="msbox is-selected" role="img" aria-label="Selected"></span></td>
-                <td><span class="name">Elin Prydderch</span><span class="sub">Store Manager &middot; 100238</span></td>
-                <td>Retail</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="Selected"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="name">Elin Prydderch</span><span class="sub">Store Manager &middot; 100238</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default">Retail</td>
                 <td class="num">3,541.67</td>
                 <td class="num">1,006.44</td>
                 <td class="num">2,535.23</td>
                 <td class="num">+&pound;95.00</td>
-                <td><span class="tag tag--positive">Approved</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-tags" data-type="Positive">Approved</span></td>
               </tr>
               <tr>
-                <td><span class="msbox" role="img" aria-label="Not selected"></span></td>
-                <td><span class="name">Grace Ellery</span><span class="sub">Marketing Executive &middot; 100611</span></td>
-                <td>Marketing</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="name">Grace Ellery</span><span class="sub">Marketing Executive &middot; 100611</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe">Marketing</td>
                 <td class="num">2,916.67</td>
                 <td class="num">774.30</td>
                 <td class="num">2,142.37</td>
                 <td class="num muted">&mdash;</td>
-                <td><span class="tag tag--neutral">Not started</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-tags" data-type="Neutral">Not started</span></td>
               </tr>
               <tr>
-                <td><span class="msbox" role="img" aria-label="Not selected"></span></td>
-                <td><span class="name">Marcus Farrell</span><span class="sub">HR Adviser &middot; 100094</span></td>
-                <td>People</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="name">Marcus Farrell</span><span class="sub">HR Adviser &middot; 100094</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default">People</td>
                 <td class="num">3,166.67</td>
                 <td class="num">878.02</td>
                 <td class="num">2,288.65</td>
                 <td class="num muted">&mdash;</td>
-                <td><span class="tag tag--positive">Approved</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-tags" data-type="Positive">Approved</span></td>
               </tr>
               <tr>
-                <td><span class="msbox is-selected" role="img" aria-label="Selected"></span></td>
-                <td><span class="name">Nadia Hussain</span><span class="sub">Nurse Practitioner &middot; 100355</span></td>
-                <td>Clinical</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="Selected"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="name">Nadia Hussain</span><span class="sub">Nurse Practitioner &middot; 100355</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe">Clinical</td>
                 <td class="num">1,875.00</td>
                 <td class="num">421.08</td>
                 <td class="num">1,453.92</td>
                 <td class="num">&minus;&pound;1,875.00</td>
-                <td><span class="tag tag--expired">Leaver</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-tags" data-type="Expired">Leaver</span></td>
               </tr>
               <tr class="is-open" aria-selected="true">
-                <td><span class="msbox is-selected" role="img" aria-label="Selected"></span></td>
-                <td><span class="name">Tomasz Kowalczyk</span><span class="sub">Delivery Driver &middot; 100729</span></td>
-                <td>Logistics</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="Selected"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="name">Tomasz Kowalczyk</span><span class="sub">Delivery Driver &middot; 100729</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default">Logistics</td>
                 <td class="num">2,600.00</td>
                 <td class="num">631.09</td>
                 <td class="num">1,968.91</td>
                 <td class="num">+&pound;454.40</td>
-                <td><span class="tag tag--negative">Failed validation</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-tags" data-type="Negative">Failed validation</span></td>
               </tr>
               <tr>
-                <td><span class="msbox" role="img" aria-label="Not selected"></span></td>
-                <td><span class="name">Owen Whitlock</span><span class="sub">Warehouse Operative &middot; 100803</span></td>
-                <td>Operations</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="name">Owen Whitlock</span><span class="sub">Warehouse Operative &middot; 100803</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe">Operations</td>
                 <td class="num">2,145.60</td>
                 <td class="num">512.18</td>
                 <td class="num">1,633.42</td>
                 <td class="num">+&pound;318.40</td>
-                <td><span class="tag tag--warning">Needs review</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-tags" data-type="Warning">Needs review</span></td>
               </tr>
               <tr>
-                <td><span class="msbox" role="img" aria-label="Not selected"></span></td>
-                <td><span class="name">Priya Raghunathan</span><span class="sub">Payroll Analyst &middot; 100011</span></td>
-                <td>Finance</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="name">Priya Raghunathan</span><span class="sub">Payroll Analyst &middot; 100011</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default">Finance</td>
                 <td class="num">4,208.33</td>
                 <td class="num">1,236.94</td>
                 <td class="num">2,971.39</td>
                 <td class="num muted">&mdash;</td>
-                <td><span class="tag tag--positive">Approved</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-tags" data-type="Positive">Approved</span></td>
               </tr>
               <tr>
-                <td><span class="msbox" role="img" aria-label="Not selected"></span></td>
-                <td><span class="name">Samuel Adeyemi</span><span class="sub">Finance Business Partner &middot; 100147</span></td>
-                <td>Finance</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="name">Samuel Adeyemi</span><span class="sub">Finance Business Partner &middot; 100147</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe">Finance</td>
                 <td class="num">4,791.67</td>
                 <td class="num">1,509.88</td>
                 <td class="num">3,281.79</td>
                 <td class="num muted">&mdash;</td>
-                <td><span class="tag tag--warning">Needs review</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-tags" data-type="Warning">Needs review</span></td>
               </tr>
             </tbody>
           </table>
@@ -592,7 +511,7 @@ select.control { appearance: none; background-image:
       </div>
 
       <!-- Variant reference — verification surface, not part of the screen -->
-      <section class="panel panel--raised" aria-labelledby="states">
+      <section class="pf-card" aria-labelledby="states">
         <h2 id="states">Variant states</h2>
         <p class="muted small" style="margin:-12px 0 0">
           Reference block for <code>verify-geometry</code> and <code>verify-rendered</code>. Hover states are
@@ -604,15 +523,15 @@ select.control { appearance: none; background-image:
           <div>
             <span class="statelab">Button &mdash; Type &times; State</span>
             <div class="mrow">
-              <div class="cell"><span class="statelab">Action</span><button class="btn btn--action" type="button"><svg width="14" height="14" aria-hidden="true"><use href="#i-plus"/></svg>Action</button></div>
-              <div class="cell"><span class="statelab">Hover</span><button class="btn btn--action is-hover" type="button"><svg width="14" height="14" aria-hidden="true"><use href="#i-plus"/></svg>Action</button></div>
-              <div class="cell"><span class="statelab">Positive</span><button class="btn btn--positive" type="button"><svg width="14" height="14" aria-hidden="true"><use href="#i-tick"/></svg>Positive</button></div>
-              <div class="cell"><span class="statelab">Hover</span><button class="btn btn--positive is-hover" type="button"><svg width="14" height="14" aria-hidden="true"><use href="#i-tick"/></svg>Positive</button></div>
-              <div class="cell"><span class="statelab">Negative</span><button class="btn btn--negative" type="button"><svg width="14" height="14" aria-hidden="true"><use href="#i-close"/></svg>Negative</button></div>
-              <div class="cell"><span class="statelab">Hover</span><button class="btn btn--negative is-hover" type="button"><svg width="14" height="14" aria-hidden="true"><use href="#i-close"/></svg>Negative</button></div>
-              <div class="cell"><span class="statelab">Hollow</span><button class="btn btn--hollow" type="button"><svg width="14" height="14" aria-hidden="true"><use href="#i-save"/></svg>Hollow</button></div>
-              <div class="cell"><span class="statelab">Hover</span><button class="btn btn--hollow is-hover" type="button"><svg width="14" height="14" aria-hidden="true"><use href="#i-save"/></svg>Hollow</button></div>
-              <div class="cell"><span class="statelab">Disabled</span><button class="btn btn--hollow" type="button" disabled><svg width="14" height="14" aria-hidden="true"><use href="#i-history"/></svg>Undo</button></div>
+              <div class="cell"><span class="statelab">Action</span><button class="pf-button" data-type="Action" type="button"><!--pf-icon:add-plus 14-->Action</button></div>
+              <div class="cell"><span class="statelab">Hover</span><button class="pf-button" data-type="Action" data-state="Hover" type="button"><!--pf-icon:add-plus 14-->Action</button></div>
+              <div class="cell"><span class="statelab">Positive</span><button class="pf-button" data-type="Positive" type="button"><!--pf-icon:tick 14-->Positive</button></div>
+              <div class="cell"><span class="statelab">Hover</span><button class="pf-button" data-type="Positive" data-state="Hover" type="button"><!--pf-icon:tick 14-->Positive</button></div>
+              <div class="cell"><span class="statelab">Negative</span><button class="pf-button" data-type="Negative" type="button"><!--pf-icon:close-x-cancel 14-->Negative</button></div>
+              <div class="cell"><span class="statelab">Hover</span><button class="pf-button" data-type="Negative" data-state="Hover" type="button"><!--pf-icon:close-x-cancel 14-->Negative</button></div>
+              <div class="cell"><span class="statelab">Hollow</span><button class="pf-button" data-type="Hollow" type="button"><!--pf-icon:save 14-->Hollow</button></div>
+              <div class="cell"><span class="statelab">Hover</span><button class="pf-button" data-type="Hollow" data-state="Hover" type="button"><!--pf-icon:save 14-->Hollow</button></div>
+              <div class="cell"><span class="statelab">Disabled</span><button class="pf-button" data-type="Hollow" type="button" disabled><!--pf-icon:history 14-->Undo</button></div>
             </div>
           </div>
 
@@ -621,13 +540,13 @@ select.control { appearance: none; background-image:
           <div>
             <span class="statelab">Tags &mdash; all seven types</span>
             <div class="mrow">
-              <span class="tag tag--positive">Approved</span>
-              <span class="tag tag--negative">Failed validation</span>
-              <span class="tag tag--warning">Needs review</span>
-              <span class="tag tag--neutral">Not started</span>
-              <span class="tag tag--other">Query raised</span>
-              <span class="tag tag--expired">Leaver</span>
-              <span class="tag tag--theme">Theme</span>
+              <span class="pf-tags" data-type="Positive">Approved</span>
+              <span class="pf-tags" data-type="Negative">Failed validation</span>
+              <span class="pf-tags" data-type="Warning">Needs review</span>
+              <span class="pf-tags" data-type="Neutral">Not started</span>
+              <span class="pf-tags" data-type="Other">Query raised</span>
+              <span class="pf-tags" data-type="Expired">Leaver</span>
+              <span class="pf-tags" data-type="Theme">Theme</span>
             </div>
           </div>
 
@@ -636,10 +555,10 @@ select.control { appearance: none; background-image:
           <div>
             <span class="statelab">Draggable card &mdash; State (pay-element row geometry)</span>
             <div class="mrow">
-              <div class="cell"><span class="statelab">Default</span><div class="dcard" style="width:180px">Overtime</div></div>
-              <div class="cell"><span class="statelab">Hover</span><div class="dcard s-hover" style="width:180px">Overtime</div></div>
-              <div class="cell"><span class="statelab">Click</span><div class="dcard s-click" style="width:180px">Overtime</div></div>
-              <div class="cell"><span class="statelab">Drop</span><div class="dcard s-drop" style="width:180px">Overtime</div></div>
+              <div class="cell"><span class="statelab">Default</span><div class="pf-draggable-card" data-state="Default" style="width:180px">Overtime</div></div>
+              <div class="cell"><span class="statelab">Hover</span><div class="pf-draggable-card" data-state="Hover" style="width:180px">Overtime</div></div>
+              <div class="cell"><span class="statelab">Click</span><div class="pf-draggable-card" data-state="Click" style="width:180px">Overtime</div></div>
+              <div class="cell"><span class="statelab">Drop</span><div class="pf-draggable-card" data-state="Drop" style="width:180px">Overtime</div></div>
             </div>
           </div>
 
@@ -648,9 +567,9 @@ select.control { appearance: none; background-image:
           <div>
             <span class="statelab">Information box &mdash; Type</span>
             <div style="display:flex;flex-direction:column;gap:var(--pf-space-small)">
-              <div class="info info--success">Pay run approved and locked for editing.</div>
-              <div class="info info--information">Pension contributions recalculated after the 06/09 rate change.</div>
-              <div class="info info--error">Sort code fails the modulus check for account 100729.</div>
+              <div class="pf-information-box" data-type="Success">Pay run approved and locked for editing.</div>
+              <div class="pf-information-box" data-type="Information">Pension contributions recalculated after the 06/09 rate change.</div>
+              <div class="pf-information-box" data-type="Error">Sort code fails the modulus check for account 100729.</div>
             </div>
           </div>
 
@@ -681,7 +600,7 @@ select.control { appearance: none; background-image:
   <aside class="sidepanel" aria-labelledby="sp-title">
     <div class="sp-head">
       <span class="grow" id="sp-title">Tomasz Kowalczyk</span>
-      <button class="btn btn--icon btn--hollow" type="button" aria-label="Close panel"><svg width="14" height="14" aria-hidden="true"><use href="#i-close"/></svg></button>
+      <button class="pf-button pf-button--icon-only" data-type="Hollow" type="button" aria-label="Close panel"><!--pf-icon:close-x-cancel 14--></button>
     </div>
 
     <div class="sp-body">
@@ -696,12 +615,12 @@ select.control { appearance: none; background-image:
       </div>
 
       <div class="mrow">
-        <span class="tag tag--negative">Failed validation</span>
-        <span class="tag tag--warning">Overtime above average</span>
+        <span class="pf-tags" data-type="Negative">Failed validation</span>
+        <span class="pf-tags" data-type="Warning">Overtime above average</span>
       </div>
 
-      <div class="info info--error">
-        <svg width="18" height="18" aria-hidden="true"><use href="#i-info"/></svg>
+      <div class="pf-information-box" data-type="Error">
+        <!--pf-icon:information-->
         <div class="small">Sort code fails the modulus check. Correct it before this run is submitted.</div>
       </div>
 
@@ -709,19 +628,19 @@ select.control { appearance: none; background-image:
       <div class="sp-sec">
         <div class="hdr">
           <h3>Payments</h3>
-          <button class="btn btn--hollow" type="button"><svg width="14" height="14" aria-hidden="true"><use href="#i-plus"/></svg>Add</button>
+          <button class="pf-button" data-type="Hollow" type="button"><!--pf-icon:add-plus 14-->Add</button>
         </div>
-        <div class="dcard"><span>Basic salary</span><span class="amt">&pound;2,145.60</span></div>
-        <div class="dcard"><span>Overtime &middot; 18.5 hrs</span><span class="amt">&pound;454.40</span></div>
+        <div class="pf-draggable-card" data-state="Default"><span>Basic salary</span><span class="amt">&pound;2,145.60</span></div>
+        <div class="pf-draggable-card" data-state="Default"><span>Overtime &middot; 18.5 hrs</span><span class="amt">&pound;454.40</span></div>
         <div class="sp-total"><span class="small muted">Gross pay</span><span class="amt">&pound;2,600.00</span></div>
       </div>
 
       <!-- Deductions -->
       <div class="sp-sec">
         <h3>Deductions</h3>
-        <div class="dcard"><span>PAYE</span><span class="amt">&pound;331.80</span></div>
-        <div class="dcard"><span>National Insurance</span><span class="amt">&pound;168.29</span></div>
-        <div class="dcard"><span>Pension &middot; 5%</span><span class="amt">&pound;131.00</span></div>
+        <div class="pf-draggable-card" data-state="Default"><span>PAYE</span><span class="amt">&pound;331.80</span></div>
+        <div class="pf-draggable-card" data-state="Default"><span>National Insurance</span><span class="amt">&pound;168.29</span></div>
+        <div class="pf-draggable-card" data-state="Default"><span>Pension &middot; 5%</span><span class="amt">&pound;131.00</span></div>
         <div class="sp-total"><span class="small muted">Total deductions</span><span class="amt">&pound;631.09</span></div>
       </div>
 
@@ -734,24 +653,24 @@ select.control { appearance: none; background-image:
       <div class="sp-sec" style="gap:var(--pf-space-medium)">
         <h3>Payment details</h3>
 
-        <div class="field is-selected">
+        <div class="pf-form-field" data-input-type="Text" data-state="Selected">
           <label class="lbl" for="sp-method">Pay method</label>
-          <select class="control" id="sp-method">
+          <select class="pf-field" data-right-aligned="No" data-filled="No" id="sp-method">
             <option>BACS &mdash; 3 working days</option>
             <option>Faster Payment</option>
             <option>Cheque</option>
           </select>
         </div>
 
-        <div class="field is-error">
+        <div class="pf-form-field" data-input-type="Text" data-state="Error">
           <label class="lbl" for="sp-sort">Sort code <span class="req">*</span></label>
-          <input class="control" id="sp-sort" value="20-99-0" aria-invalid="true" aria-describedby="sp-sort-hint">
+          <input class="pf-field" data-right-aligned="No" data-filled="No" id="sp-sort" value="20-99-0" aria-invalid="true" aria-describedby="sp-sort-hint">
           <span class="hint" id="sp-sort-hint">Enter 6 digits. This sort code fails the modulus check.</span>
         </div>
 
-        <div class="field">
+        <div class="pf-form-field" data-input-type="Text" data-state="Default">
           <label class="lbl" for="sp-note">Note for payroll</label>
-          <textarea class="control" id="sp-note" placeholder="Visible to payroll administrators only"></textarea>
+          <textarea class="pf-field" data-right-aligned="No" data-filled="No" id="sp-note" placeholder="Visible to payroll administrators only"></textarea>
         </div>
       </div>
 
@@ -761,8 +680,8 @@ select.control { appearance: none; background-image:
     </div>
 
     <div class="sp-foot">
-      <button class="btn btn--positive" type="button" disabled><svg width="14" height="14" aria-hidden="true"><use href="#i-tick"/></svg>Approve pay</button>
-      <button class="btn btn--negative" type="button"><svg width="14" height="14" aria-hidden="true"><use href="#i-close"/></svg>Raise query</button>
+      <button class="pf-button" data-type="Positive" type="button" disabled><!--pf-icon:tick 14-->Approve pay</button>
+      <button class="pf-button" data-type="Negative" type="button"><!--pf-icon:close-x-cancel 14-->Raise query</button>
     </div>
   </aside>
 

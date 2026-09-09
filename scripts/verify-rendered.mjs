@@ -67,7 +67,9 @@ const CHECKS = [
   [".pf-form-field[data-state='Error'] .lbl",     'color',          'Form field', 'Input type=Text, State=Error', 5],
   [".pf-form-field[data-state='Selected'] .lbl",  'color',          'Form field', 'Input type=Text, State=Selected', 5],
   [".pf-filter-chip[data-state='Selected']",'color',         'Filter chip', 'State=Selected, Active=True', 5],
-  ['.nav-item[aria-current="page"]','color',     'Navigation item', 'State=Selected, Device=Desktop', 5],
+  // The sidebar row is `Side navigation tab` (268x48, horizontal). `Navigation item` is a
+  // 90x86 rail item with the icon ABOVE the label — a different component entirely.
+  [".pf-side-navigation-tab[data-selected='true']", 'color', 'Side navigation tab', 'Selected=true', 5],
 ];
 
 const file = 'file://' + resolve(process.argv[2]);
@@ -101,6 +103,16 @@ for (const mode of ['light', 'dark']) {
 }
 await browser.close();
 
-console.log(`\n${pass} rendered colours match Figma, ${fail} mismatched`);
-if (failures.length) { console.log('\nFAILURES:'); failures.forEach(f => console.log('  ' + f)); }
-process.exit(fail ? 1 : 0);
+// A component that simply is not on this page is not a mismatch — every screen uses a
+// different subset. But a page where NOTHING was found is not a pass either; that is the
+// same hollow result check-icon-fidelity was giving on a page with no glyphs.
+const absent = failures.filter(f => /not in DOM/.test(f));
+const wrong = failures.filter(f => !/not in DOM/.test(f));
+if (wrong.length) { console.log('\nFAILURES:'); wrong.forEach(f => console.log('  ' + f)); }
+if (absent.length) console.log(`\n${absent.length} binding(s) not on this page — skipped`);
+console.log(`\n${pass} rendered colours match Figma, ${wrong.length} mismatched`);
+if (pass === 0) {
+  console.log('nothing was checked — this page uses none of the bindings, which is not a pass');
+  process.exit(2);
+}
+process.exit(wrong.length ? 1 : 0);

@@ -4402,6 +4402,12 @@
   border-color: var(--pf-border-default);
   color: var(--pf-text-primary);
 }
+
+/* Element fix-ups — a component used AS a table cell must stay a table cell. */
+td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
+  display: table-cell;
+  vertical-align: middle;
+}
 </style>
 <style>/* dist/type.css */
 /* People First — type classes, generated from the Figma text styles.

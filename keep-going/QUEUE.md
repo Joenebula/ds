@@ -404,12 +404,27 @@ pass all four axes, payroll fails three.
 
 **Depends on:** nothing.
 
-## 21. Rebuild the payroll screen on the library — `pending`
+## 21. Rebuild the payroll screen on the library — `done`
 
-**Done when:** `prototypes/payroll-run-summary.html` has no hand-written component or type
-CSS, uses the classes and the icon references, and passes every check the absence screen
-passes. It is an example in the repo; leaving it off-library teaches the wrong thing to
-whoever opens it next.
+**Done when:** met — 4 of 13 to **29 geometry, 54 colour, 24 of 24 icons, audit clean**,
+and all three screens now pass all four axes. 54 hand-written component rules removed, 23
+hand-built sprite glyphs replaced with real icon references.
+
+**All four checks passed while the page was visibly wrecked** — the fourth time in this
+project. The table cells were stacking their contents vertically. Cause: Figma measures a
+table cell as an auto-layout frame, so the library emitted `display: inline-flex`, which
+stops a `<td>` being a table cell. It had survived unnoticed on a screen whose cells hold
+one value and broke on one whose cells hold three. Fixed in the generator, so both screens
+benefit.
+
+Two more things this turned up:
+- **I had picked the wrong component for the sidebar.** Figma's `Navigation item` is a
+  90x86 rail item with the icon above the label; the sidebar row is `Side navigation tab`
+  (268x48, horizontal). Both screens now use the right one.
+- **A `<td>`'s `height` is a minimum in CSS**, not a fixed value — content that needs more
+  room grows and no stylesheet can stop it. Figma's 58px row with 10px padding and a 1px
+  border leaves 36px, which two lines of 13px text exceed. The geometry check now asserts
+  the floor for table cells rather than an exact height it cannot guarantee.
 
 **Depends on:** task 20 (so the check that proves it is in place first).
 

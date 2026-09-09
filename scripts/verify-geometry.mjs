@@ -45,8 +45,13 @@ const CHECKS = [
   { sel: '.pf-tags',        component: 'Tags',              height: true, font: true, radius: true,
     textTransform: 'none' },
   { sel: '.pf-field',    component: 'Field', height: true, font: true, radius: true },
-  { sel: 'thead th',    component: 'Table header (AG)', height: true, font: true },
-  { sel: 'tbody td',    component: 'Table cell (AG)',   height: true, font: true },
+  // CSS treats `height` on a table cell as a MINIMUM — a cell whose content needs more
+  // room grows, and no stylesheet can stop it. Figma's 58px row with 10px padding and a
+  // 1px border leaves 36px, which two lines of 13px text (37.6px) exceed. Asserting an
+  // exact height here would be asserting something the box model does not guarantee, so
+  // these two check the floor.
+  { sel: 'thead th',    component: 'Table header (AG)', minHeight: true, font: true },
+  { sel: 'tbody td',    component: 'Table cell (AG)',   minHeight: true, font: true },
   { sel: '.pf-draggable-card',      component: 'Draggable card',    height: true, font: true, radius: true },
   { sel: '.pf-toggle',     component: 'Toggle',            height: true, width: 55, pill: true },
   { sel: '.pf-multi-select-checkbox',      component: 'Multi-select checkbox', height: true, width: 20, radius: true },
@@ -83,6 +88,11 @@ for (const c of CHECKS) {
   if (c.height) {
     const want = heightOf(c.component);
     if (want !== null) add('height', want + 'px', m.height + 'px', Math.abs(m.height - want) <= 1);
+  }
+  if (c.minHeight) {
+    const want = heightOf(c.component);
+    if (want !== null)
+      add('height (min)', `>= ${want}px`, m.height + 'px', m.height >= want - 1);
   }
   if (c.width) add('width', c.width + 'px', m.width + 'px', Math.abs(m.width - c.width) <= 1);
   if (c.font) {
