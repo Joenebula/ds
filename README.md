@@ -20,7 +20,7 @@ packaged so Claude Design — and any HTML/CSS output — generates on-brand UI.
 | `.claude/skills/` | Four skills: `people-first`, `pf-screen`, `pf-audit`, `pf-handoff`. |
 | `reference/index.html` | Visual proof sheet — every token rendered, with a dark-mode toggle. |
 | `prototypes/` | Worked example screens, built from the library. |
-| `ds-bundle/` | Preview pages for the claude.ai/design Design System pane. Generated. |
+| `ds-bundle/` | Standalone preview pages, one per Figma page. Generated. **Not** wired to claude.ai/design — see the note in `scripts/build-ds-bundle.mjs`. |
 | `scripts/` | The build pipeline and the checks. |
 
 ## What was extracted
@@ -45,7 +45,7 @@ npm run check     # WCAG AA audit of the real component pairings
 ```
 
 `build` runs: tokens -> `design-tokens.json` -> `dist/tokens.css`, then the reference
-sheet, the Design System pane bundle, the variant and geometry references, then
+sheet, the standalone preview bundle, the variant and geometry references, then
 `dist/components.css` and `docs/components.html`.
 
 ## Using it

@@ -1,7 +1,12 @@
 #!/usr/bin/env node
-// Builds ds-bundle/ — self-contained preview pages for the claude.ai/design
-// Design System pane. Each carries a first-line @dsCard marker so the pane
-// indexes it. Tokens are inlined because the pane renders these standalone.
+// Builds ds-bundle/ — self-contained preview pages for the design system.
+//
+// HONEST STATUS, because this file used to claim otherwise: these pages are NOT
+// connected to the Design systems list in claude.ai/design. The `@dsCard` marker below
+// was invented when this script was first written and is not a documented format that
+// anything is known to read. Nothing uploads these files anywhere; they are standalone
+// HTML in this repo. Treat them as a browsable reference — which they are, and a correct
+// one — until someone establishes how that list is actually populated.
 import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync } from 'node:fs';
 
 const t = JSON.parse(readFileSync('tokens/design-tokens.json', 'utf8'));
