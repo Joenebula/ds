@@ -24,6 +24,15 @@ try {
   const k = h.split('\t');
   textStyles = ls.map(l => Object.fromEntries(l.split('\t').map((v, i) => [k[i], v ?? ''])));
 } catch { /* type layer not extracted yet */ }
+// Axes Figma defines that the colour extract collapsed. Shown per component so a reader
+// does not mistake "one row here" for "Figma has no states for this".
+let collapsed = new Map();
+try {
+  for (const r of tsv('tokens/_raw/collapsed-axes.tsv')) {
+    if (!collapsed.has(r.component)) collapsed.set(r.component, []);
+    collapsed.get(r.component).push(r);
+  }
+} catch { /* not generated yet */ }
 // Why each missing component is missing. A gallery that lists gaps without saying why
 // invites the reader to assume they are oversights; most of them are deliberate.
 let uncapturedWhy = new Map();
@@ -164,6 +173,32 @@ for (const [page, comps] of [...byPage.entries()].sort()) {
     if (g) bits.push(g.size); else bits.push('no geometry measured');
     if (g && g.layout) bits.push(g.layout.toLowerCase());
     out.push(`<p class="meta">${esc(bits.join('  ·  '))}</p>`);
+    const co = collapsed.get(component);
+    if (co) {
+      const state = co.filter(x => x.kind === 'state');
+      const ctx = co.filter(x => x.kind === 'context');
+      const say = [];
+      if (state.length) say.push(`Figma also varies this by <strong>${
+        state.map(x => esc(x.axis) + ' (' + esc(x.values) + ')').join(', ')}</strong> — every value binds the same colours, so it is one rule here`);
+      // Say why each one was dropped, accurately. "The tokens handle it" is true of
+      // Darkmode and of nothing else; Label is about whether the component has text.
+      const WHY = {
+        darkmode: 'the tokens already carry both modes',
+        'dark mode': 'the tokens already carry both modes',
+        mobile: 'a stylesheet is not breakpoint-scoped',
+        breakpoint: 'a stylesheet is not breakpoint-scoped',
+        device: 'a stylesheet is not breakpoint-scoped',
+        size: 'a stylesheet is not breakpoint-scoped',
+        label: 'it controls whether the component has text, not how it looks',
+        'icon only': 'it controls what is inside, not how it looks',
+        'full width': 'width is the page\u2019s decision, not the component\u2019s',
+        'right aligned': 'alignment is the page\u2019s decision',
+        alignment: 'alignment is the page\u2019s decision',
+      };
+      for (const x of ctx)
+        say.push(`${esc(x.axis)} dropped \u2014 ${WHY[x.axis.toLowerCase()] || 'it does not change how the component looks'}`);
+      out.push(`<p class="meta" style="opacity:.75">${say.join('.  ')}</p>`);
+    }
 
     out.push('<div class="row">');
     for (const r of rows) {

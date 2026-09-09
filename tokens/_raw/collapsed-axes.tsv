@@ -1,0 +1,59 @@
+component	axis	values	kind
+50/50 layout container	Row colour	false/true	state
+50/50 layout container	Mobile	false/true	context
+AI Assistant	Mobile	True/False	context
+AI Gradient component	Property 1	Frame 62710147/Frame 62710148/Variant3	state
+AI banner	mobile	True/False	context
+AI button	Mobile	False/True	context
+Accordion	Mobile	False/True	context
+Action menu button	Circle	true/false	state
+Adaptive card	Mobile	False/True	context
+Attachments	Actions	Remove/Context menu	state
+Bar chart with axis	Breakpoint	Desktop/Mobile	context
+Bar chart	Breakpoint	Desktop/Mobile	context
+Bar	Label	Horizontal/Vertical	context
+Button	Label	No/Yes	context
+Checkbox/Radio item	Radio	No/Yes	state
+Checkbox/Radio item	Filled	No/Yes	state
+Config parent menu	open	false/true	state
+Confirmation modal	Mobile	false/True	context
+Data variance	Data change	Up/Down/No change	state
+Date picker period	Type	Date/Record	state
+Details	Layout	Horizontal/Vertical	state
+Donut chart with ledger	Mobile	True/False	context
+Donut pie chart	Segments	2/1/3/4	state
+Donut pie chart	Icon	False/True	state
+Filter chip	Mobile	False/True	context
+Filter tab single	Breakpoint	Desktop/Tablet/Mobile	context
+Filter tabs	Breakpoints	Desktop/Tablet/Mobile	state
+Form field	Full width	Yes/No	context
+Form	Mobile	False/True	context
+Full page navigation	Darkmode	False/True	context
+Graph axis	Breakpoint	Mobile/Desktop	context
+Graph legend	Mobile	True/False	context
+Graph legend	Key type	Donut graph/Line graph	state
+Header top navigation	Darkmode	True/False	context
+Header top navigation	Levels of navigation	0/1/2	context
+Hemisphere chart	Status	None/Negative/Warning/Neutral/Positive	state
+Layout container (magazine style)	Mobile	False/True	context
+Links	Icon position	Right/Left	state
+Metric card	Mobile	True/False	context
+Mobile bottom navigation	Darkmode	False/True	context
+Mobile bottom navigation	Breakpoint	Tablet/Mobile	context
+Navigation tabs	Mobile	No/Yes	context
+Percentage bar	Percentage	0/25/50/75/100	state
+Secondary nav	Mobile	True/False	context
+Side navigation	Darkmode	True/False	context
+Spotlight Card	Mobile	False/True	context
+Square progress bar	Variant	Default/Inline/Bottom label	state
+Square progress bar	Progress	0%/25%/50%/75%/100%	state
+Star rating	Read only	No/Yes	state
+Table progress bar	Completion	0%/25%/50%/75%/100%	state
+Table progress bar	Dark cell background	No/Yes	state
+Tags	Small	No/Yes	state
+Text template format editor 	Type	Modal/Correspondence	state
+Top bar app context	Area	Administration/Insights/Recruitment/Goals/Payroll/Audit/Available jobs/Learning/Onboarding/HRM/General ledger/Accounts payable/Accounts receivable/Taxes/News/Data explorer/Case Management/Absence	context
+Top bar app context	Mobile	False/True	context
+[S] Main nav context	Mobile	False/True	context
+[S] Navigation/main tabs	Mobile	True/False	context
+[S] People	Mobile	False/True	context
