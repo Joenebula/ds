@@ -22,7 +22,7 @@ case. Colour and shape are independent, and both have to come from Figma.
 | `.claude/skills/people-first/references/geometry.md` | Measured sizes, only if you go off-library |
 
 **2. Build the components from the stylesheet, not by hand.** `dist/components.css`
-carries 71 components and 191 variants as ready classes, generated from Figma and
+carries 139 components and 283 variants as ready classes, generated from Figma and
 checked against it. The component is the class, each Figma variant property is a data
 attribute, and the values keep Figma's own spelling:
 
@@ -41,8 +41,8 @@ Your own CSS covers page layout, `cursor`, `transition`, focus rings, `line-heig
 and anything drawn *inside* a component. Keep it in one block and label it local — if
 anything in it restates a Figma colour or measurement, that is a bug.
 
-If a component you need is under **Not yet captured** in `docs/components.html`, say so
-rather than approximating it.
+If a component you need is under **Not in the library** in `docs/components.html`, say so
+rather than approximating it — that section names each one and why it is missing.
 
 **3. Verify before handing over.** All of them, every time. On a fresh clone run
 `npm install` first — the checks drive a real browser and need `playwright-core`:

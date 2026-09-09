@@ -18,6 +18,12 @@ const tsv = (p) => {
 const geometry = new Map(tsv('tokens/_raw/component-geometry.tsv').map(r => [r.component, r]));
 const variants = tsv('tokens/_raw/component-variants.tsv');
 const inventory = JSON.parse(readFileSync('tokens/_raw/components.json', 'utf8'));
+// Why each missing component is missing. A gallery that lists gaps without saying why
+// invites the reader to assume they are oversights; most of them are deliberate.
+let uncapturedWhy = new Map();
+try {
+  uncapturedWhy = new Map(tsv('tokens/_raw/uncaptured-reasons.tsv').map(r => [r.component, r.reason]));
+} catch { /* not extracted yet */ }
 
 const kebab = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -59,7 +65,8 @@ for (const c of inventory) {
   const page = (c.pageName || '').trim();
   if (page === 'Icons' || page.startsWith('📚') || page.startsWith('🎨')) continue;
   if (!captured.has(c.name) && !uncaptured.some(u => u.name === c.name)) {
-    uncaptured.push({ name: c.name, page, geometry: geometry.has(c.name) });
+    uncaptured.push({ name: c.name, page, geometry: geometry.has(c.name),
+                      why: uncapturedWhy.get(c.name) || '' });
   }
 }
 
@@ -138,15 +145,26 @@ for (const [page, comps] of [...byPage.entries()].sort()) {
   }
 }
 
-out.push('<h2>Not yet captured</h2>');
-out.push(`<p class="lede">These components exist in Figma but have no variant colours
-extracted, so the stylesheet has no rules for them. Listed so the gaps are visible rather
-than silently missing.</p>`);
-out.push('<div class="gaps">');
-for (const u of uncaptured.sort((a, b) => a.page.localeCompare(b.page) || a.name.localeCompare(b.name))) {
-  out.push(`  <div>${esc(u.name)} <span style="opacity:.6">— ${esc(u.page)}${u.geometry ? ', geometry measured' : ''}</span></div>`);
+out.push('<h2>Not in the library</h2>');
+out.push(`<p class="lede">These components exist in Figma but have no rules in the
+stylesheet, each for a stated reason. Listed with the reason so the gaps are visible and
+so nobody has to guess whether one is an oversight — most are deliberate.</p>`);
+
+// Grouped by reason rather than by page: the reason is the useful axis here. "Binds no
+// colour variable" is a finding about the Figma file; "documentation page" is a decision.
+const byReason = new Map();
+for (const u of uncaptured) {
+  const key = u.why || 'no reason recorded — this is a bug in the extraction, not a decision';
+  if (!byReason.has(key)) byReason.set(key, []);
+  byReason.get(key).push(u);
 }
-out.push('</div>');
+for (const [reason, items] of [...byReason.entries()].sort((a, b) => b[1].length - a[1].length)) {
+  out.push(`<h3 style="margin-top:20px">${esc(items.length)} — ${esc(reason)}</h3>`);
+  out.push('<div class="gaps">');
+  for (const u of items.sort((a, b) => a.page.localeCompare(b.page) || a.name.localeCompare(b.name)))
+    out.push(`  <div>${esc(u.name)} <span style="opacity:.6">— ${esc(u.page)}${u.geometry ? ', geometry measured' : ''}</span></div>`);
+  out.push('</div>');
+}
 
 out.push(`<script>
   const btns = [...document.querySelectorAll('[data-theme-set]')];

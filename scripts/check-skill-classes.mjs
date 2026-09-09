@@ -77,6 +77,19 @@ cases.forEach((c, i) => {
     problems.push(`${c.component} — ${c.variant}: binds colours in Figma but only the base rule matches`);
 });
 
+// Counts quoted in prose go stale the moment the extract grows, and a stale count is a
+// quiet lie about how much of Figma is covered. Check them the same way as everything else.
+const nComponents = new Set(variants.map(r => r.component)).size;
+const nVariants = variants.length;
+for (const f of ['.claude/skills/people-first/SKILL.md', '.claude/skills/pf-screen/SKILL.md', 'README.md']) {
+  let text;
+  try { text = readFileSync(f, 'utf8'); } catch { continue; }
+  for (const m of text.matchAll(/(\d+) components(?:,| and) (\d+) variants/g)) {
+    if (+m[1] !== nComponents || +m[2] !== nVariants)
+      problems.push(`${f}: says "${m[0]}", the extract has ${nComponents} components and ${nVariants} variants`);
+  }
+}
+
 for (const p of problems) console.log('FAIL ' + p);
 console.log(`\n${documented.size} classes documented, ${cases.length} real variants checked, ${problems.length} problems`);
 process.exit(problems.length ? 1 : 0);

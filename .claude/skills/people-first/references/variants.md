@@ -81,6 +81,18 @@ Figma component actually binds.
 | Hover=False | — | `var(--pf-border-form-input)` | `var(--pf-text-primary)` |
 | Hover=True | `var(--pf-bg-tertiary)` | `var(--pf-border-form-input)` | `var(--pf-text-secondary)` |
 
+### Repeating group
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `Grey-slate` ⚠️ |
+
+### Action menu
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | `var(--pf-bg-primary)` | — | `var(--pf-text-primary)` |
+
 ## Forms
 
 ### Form field
@@ -164,6 +176,54 @@ Figma component actually binds.
 |---|---|---|---|
 |  | — | — | `var(--pf-text-primary)` |
 
+### Required field
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Field label
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Browser drop down
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | `var(--pf-bg-secondary)` | — | `var(--pf-text-always-white)` |
+
+### People and department drop down
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | `var(--pf-bg-primary)` | — | `var(--pf-base-white)` |
+
+### Multiselect tag
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | `var(--pf-base-blue-ocean)` | — | `var(--pf-base-white)` |
+
+### [S] Post content
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Calendar picker
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-base-white)` |
+
+### Time picker
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-base-white)` |
+
 ## Controls
 
 ### Toggle
@@ -230,6 +290,24 @@ Figma component actually binds.
 | Device=Mobile | — | `var(--pf-border-default)` | `var(--pf-text-primary)` |
 | Device=Tablet | — | `var(--pf-border-default)` | `var(--pf-text-primary)` |
 | Device=Desktop | — | `var(--pf-border-default)` | `var(--pf-text-primary)` |
+
+### Date picker period
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Date range visual
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Slider
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
 
 ## Tables
 
@@ -322,6 +400,13 @@ Figma component actually binds.
 | Variant | Background | Border | Text |
 |---|---|---|---|
 | Mobile=False | — | — | `var(--pf-text-theme)` |
+
+### AG field
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| State=Selected | — | `var(--pf-icon-primary)` | `var(--pf-text-disabled)` |
+| State=Unselected | `var(--pf-bg-primary)` | `var(--pf-filter-menu-border)` | `var(--pf-text-disabled)` |
 
 ## Tags and ratings
 
@@ -549,6 +634,24 @@ Figma component actually binds.
 |---|---|---|---|
 |  | — | — | `var(--pf-text-theme)` |
 
+### Config side menu
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | `var(--pf-bg-primary)` | — | `var(--pf-text-primary)` |
+
+### [S] Config child menu
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Counter
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | `var(--pf-icon-theme)` | — | `var(--pf-text-inverted-primary)` |
+
 ## Cards and panels
 
 ### Draggable card
@@ -712,6 +815,30 @@ Figma component actually binds.
 |---|---|---|---|
 |  | — | — | `var(--pf-text-primary)` |
 
+### [S] Attachment
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | `var(--pf-border-secondary)` | `var(--pf-text-primary)` |
+
+### Footer
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-tag-content-negative)` |
+
+### Content
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Detail item
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
 ## AI
 
 ### AI button
@@ -756,6 +883,138 @@ Figma component actually binds.
 |---|---|---|---|
 | Type=AI chat | — | — | `var(--pf-text-secondary)` |
 | Type=User chat | — | — | `var(--pf-text-secondary)` |
+
+### Adaptive card
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-secondary)` |
+
+### AI Gradient component
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+## Analytics and charts
+
+### Bar
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Bar chart
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Bar chart with axis
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Donut pie chart
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Donut chart with ledger
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Hemisphere chart
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Data variance
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Metric card
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | `var(--pf-bg-tertiary)` | — | `var(--pf-text-primary)` |
+
+### Data variance alternative
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Graph legend
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Graph axis
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Square progress bar
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Table progress bar
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Percentage bar
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+## People
+
+### [S] People
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| Property 1=Inline | — | — | `var(--pf-text-primary)` |
+| Property 1=Header | — | — | `var(--pf-text-inverted-primary)` |
+| Property 1=Small card | — | — | `var(--pf-text-primary)` |
+| Property 1=Large card | — | — | `var(--pf-text-primary)` |
+| Property 1=Table | — | — | `var(--pf-text-primary)` |
+
+## Pages and Layouts
+
+### Configuration
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-primary)` |
+
+### Form
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | `var(--pf-bg-primary)` | — | `var(--pf-text-primary)` |
+
+### Menu-search-settings
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| Page=Menu | `var(--pf-bg-secondary)` | — | `var(--pf-text-theme)` |
+| Page=Search | `var(--pf-bg-secondary)` | — | `var(--pf-text-primary)` |
+| Page=Settings | `var(--pf-bg-secondary)` | — | `var(--pf-text-primary)` |
 
 ## Notes and quirks
 

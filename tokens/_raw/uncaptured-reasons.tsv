@@ -1,0 +1,40 @@
+component	page	reason
+AI link	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
+Avatar	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
+Component 1	Cards and panels	carries a Figma default name — an unnamed component, not part of the system
+Default header background	Navigation	no variant binds a colour variable in Figma — nothing to put in a stylesheet
+Description	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
+design system header	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
+Document label spec	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
+Document order spec	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
+Dos and don'ts	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
+Field icons	Forms	no variant binds a colour variable in Figma — nothing to put in a stylesheet
+Floaters	Cards and panels	no variant binds a colour variable in Figma — nothing to put in a stylesheet
+Header	📚 WIKI	on a documentation page — describes the design system rather than being part of it
+Horizontal scroll	Cards and panels	no variant binds a colour variable in Figma — nothing to put in a stylesheet
+iTrent logo	🎨 STYLE GUIDE	on a documentation page — describes the design system rather than being part of it
+Logos	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
+Map	Forms	no variant binds a colour variable in Figma — nothing to put in a stylesheet
+Menu	Navigation	no variant binds a colour variable in Figma — nothing to put in a stylesheet
+MHR logo	🎨 STYLE GUIDE	on a documentation page — describes the design system rather than being part of it
+Mobile key actions	Buttons and links	no variant binds a colour variable in Figma — nothing to put in a stylesheet
+Notification image	System messages	no variant binds a colour variable in Figma — nothing to put in a stylesheet
+People	People	its variants are sample content (one per fictional employee), not design
+People first logo	🎨 STYLE GUIDE	on a documentation page — describes the design system rather than being part of it
+Profile image	People	no variant binds a colour variable in Figma — nothing to put in a stylesheet
+Project info - Files and Resources	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
+Project info - Meeting notes	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
+Project info - Stakeholders and Team	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
+Project info - Timeframe and schedule	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
+Project info - UX PRD summary	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
+Prototype context screen	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
+Prototype cover page	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
+Skeleton state	🎨 STYLE GUIDE	on a documentation page — describes the design system rather than being part of it
+Stars	Tags and ratings	no variant binds a colour variable in Figma — nothing to put in a stylesheet
+Storybook link	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
+Team member	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
+Thumbnail	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
+Thumbnail/Brand logo	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
+Tooltip	Buttons and links	no variant binds a colour variable in Figma — nothing to put in a stylesheet
+Wiki menu	📚 WIKI	on a documentation page — describes the design system rather than being part of it
+Work item	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it

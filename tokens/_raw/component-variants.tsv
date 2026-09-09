@@ -234,3 +234,51 @@ Buttons and links	Button	Type=Sort, State=Disabled		Border/Disabled	Text/Disable
 Buttons and links	Button	Type=Action, State=Disabled	Background/Secondary Button		Text/Inverted primary
 Buttons and links	Button	Type=Negative, State=Disabled	Background/Negative Button		Base colours/White
 Buttons and links	Button	Type=Positive, State=Disabled	Background/Primary Button		Base colours/White
+Analytics and charts	Bar				Text/Primary
+Analytics and charts	Bar chart				Text/Primary
+Analytics and charts	Bar chart with axis				Text/Primary
+Analytics and charts	Donut pie chart				Text/Primary
+Analytics and charts	Donut chart with ledger				Text/Primary
+Analytics and charts	Hemisphere chart				Text/Primary
+Analytics and charts	Data variance				Text/Primary
+Analytics and charts	Metric card		Background/Tertiary		Text/Primary
+Analytics and charts	Data variance alternative				Text/Primary
+Analytics and charts	Graph legend				Text/Primary
+Analytics and charts	Graph axis				Text/Primary
+Analytics and charts	Square progress bar				Text/Primary
+Analytics and charts	Table progress bar				Text/Primary
+Analytics and charts	Percentage bar				Text/Primary
+People	[S] People	Property 1=Inline			Text/Primary
+People	[S] People	Property 1=Header			Text/Inverted primary
+People	[S] People	Property 1=Small card			Text/Primary
+People	[S] People	Property 1=Large card			Text/Primary
+People	[S] People	Property 1=Table			Text/Primary
+Pages and Layouts	Configuration				Text/Primary
+Pages and Layouts	Form		Background/Primary		Text/Primary
+Pages and Layouts	Menu-search-settings	Page=Menu	Background/Secondary		Text/Theme
+Pages and Layouts	Menu-search-settings	Page=Search	Background/Secondary		Text/Primary
+Pages and Layouts	Menu-search-settings	Page=Settings	Background/Secondary		Text/Primary
+Cards and panels	[S] Attachment			Border/Secondary	Text/Primary
+Cards and panels	Footer				Tags/Content/Negative
+Cards and panels	Content				Text/Primary
+Cards and panels	Detail item				Text/Primary
+Forms	Required field				Text/Primary
+Forms	Field label				Text/Primary
+Forms	Browser drop down		Background/Secondary		Text/Always White
+Forms	People and department drop down		Background/Primary		Base colours/White
+Forms	Multiselect tag		Base colours/Blue Ocean		Base colours/White
+Forms	[S] Post content				Text/Primary
+Forms	Calendar picker				Base colours/White
+Forms	Time picker				Base colours/White
+Navigation	Config side menu		Background/Primary		Text/Primary
+Navigation	[S] Config child menu				Text/Primary
+Navigation	Counter		Icons/Icon - Theme		Text/Inverted primary
+Controls	Date picker period				Text/Primary
+Controls	Date range visual				Text/Primary
+Controls	Slider				Text/Primary
+Tables	AG field	State=Selected		Icons/Icon - Primary	Text/Disabled
+Tables	AG field	State=Unselected	Background/Primary	Filter menu/Border	Text/Disabled
+Buttons and links	Repeating group				Grey-slate
+Buttons and links	Action menu		Background/Primary		Text/Primary
+AI	Adaptive card				Text/Secondary
+AI	AI Gradient component				Text/Primary
