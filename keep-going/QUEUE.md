@@ -302,41 +302,52 @@ after Run 3, and both are the kind that a screen-builder hits immediately:
 - `people-first`, `pf-screen` — project. Govern 17, 18, 19.
 - `skill-creator` — governs any skill change.
 
-## 16. Measure the 55 half-captured components — `pending`
+## 16. Measure the 55 half-captured components — `done`
 
-**Done when:** every component that has colours in the library also has its size, padding,
-radius, gap, font and layout measured — or is recorded, with a reason, as one that cannot
-be measured. `verify-components.mjs` still passes.
+**Done when:** met — **139 of 139**, up from 84. It also exposed a rule that only ever
+covered half the box: the generator knew a large fixed WIDTH is the artboard rather than a
+rule, but applied no judgement to height, so components drawn at screen size were about to
+ship with `height: 1080px`. Height now has three tiers (control / panel / artboard), and
+`verify-components.mjs` encodes the same three, or it would fail the library on values the
+generator deliberately does not emit.
 
 **Depends on:** nothing. Uses Figma reads.
 
-## 17. A typography layer — `pending`
+## 17. A typography layer — `done`
 
 Generate type classes from Figma's 23 text styles, so a heading is a class rather than
 three hand-written declarations. Re-extract the text styles to pick up **line-height**,
 which the current extract does not carry and which every screen has therefore been
 restating by hand.
 
-**Done when:** `dist/components.css` (or a sibling) carries a class per Figma text style
-with size, weight, letter-spacing and line-height; the skill documents them; the existing
-screens use them; and a check verifies each class against the extract the way
-`verify-components.mjs` does for components.
+**Done when:** met. `dist/type.css`, 23 classes, `scripts/verify-type.mjs` (107 checks,
+self-tested), documented in the skill and shown in the gallery.
+
+Re-reading the styles corrected three things: **line height** (Figma sets automatic on all
+23, so `normal` is faithful — the `1.2`/`1.3` hand-written into the table were inventions
+and the geometry check passes without them); **weight** (Figma binds it under
+`boundVariables.fontStyle`, not `.fontWeight`, which is why a third read "unresolved");
+and **letter spacing** (percent, not a bare number).
 
 **Depends on:** nothing.
 
-## 18. Make icons usable without pasting SVG — `pending`
+## 18. Make icons usable without pasting SVG — `done`
 
 All 293 icons exist as files, but using one means opening the file and pasting its markup
 inline. That is friction on every single use, and friction is what makes someone draw
 their own instead.
 
-**Done when:** there is one documented way to place an icon that does not involve reading
-a file by hand, it works in a standalone artifact (which cannot link to local files), and
-`check-icon-fidelity.mjs` still recognises the result as a real Figma icon.
+**Done when:** met — `<!--pf-icon:tick-->`, expanded at build time to the real file's
+markup, so the output is the plain inline SVG the fidelity check already verifies. A name
+that does not exist fails the build. All 21 icons on the absence-requests screen now use it.
+
+It also caught a check going hollow: pointed at the `.src.html`, which no longer holds any
+inline `<svg>`, `check-icon-fidelity` reported "0 of 0 ... 0 are not" and exited zero. It
+now treats an empty page as an error, and `npm run verify` runs it on the built page.
 
 **Depends on:** nothing.
 
-## 19. Verify the two untested skills — `pending`
+## 19. Verify the two untested skills — `in progress`
 
 Run 3 changed `pf-handoff` and `pf-audit` but no fresh session exercised either. They are
 currently claims, not verified behaviour.

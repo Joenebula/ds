@@ -607,3 +607,87 @@ and that the answer is to measure rather than to trust either the eye or the che
 **Not checked:** the two skills changed in task 12 that no fresh session exercised —
 `pf-handoff` and `pf-audit` were edited but only `people-first` and `pf-screen` were proven
 by the verification run.
+
+---
+
+# Run 4 — finish the layers that were still half-built
+
+## Task 16 — Measure the 55 half-captured components — DONE
+
+**Skills loaded:** `figma-use` (Figma MCP resource).
+
+**Built:** `scripts/extract-geometry.mjs`, plus Figma measurement reads across nine pages.
+Every component in the library now has its size, padding, radius, gap, font and layout
+measured — **139 of 139**, up from 84. Until this, a third of the library handed you a
+background and no height: right colours, invented shapes, which is the exact split this
+project already shipped once and built two checks to prevent.
+
+**A rule that only ever covered half the box.** The generator already knew that a large
+fixed WIDTH is the artboard a component was drawn on rather than a rule, but applied no
+such judgement to height — so components drawn at screen size were about to ship with
+`height: 1080px` baked in. Height needed three tiers rather than one threshold, because
+the number means something different at each scale: up to 260px it is a control or row and
+the height IS the design; to 700px it is a panel or modal, so the measurement is a floor
+rather than a cap; above that it is the artboard and gets dropped with the reason recorded.
+
+`verify-components.mjs` encodes the same three tiers. Without that it would have gone on
+asserting the raw Figma number and failing the library on values the generator is
+deliberately not emitting — a check disagreeing with the rule it is meant to be checking.
+
+**Found by looking, not by a check:** the gallery specimens for `Full page navigation` and
+`Menu-search-settings` were rendering a screen tall.
+
+**Commands run:** `npm run build`; `npm run verify` → 2622 library checks, 0 off;
+`verify-components --self-test` → 72 failures caught.
+
+## Task 17 — A typography layer — DONE
+
+**Skills loaded:** `figma-use`, `people-first`.
+
+Figma has 23 text styles and the library had **none** of them, so every screen hand-wrote
+`font-size`, `font-weight` and `letter-spacing` — hand-written component CSS by another
+name, drifting from Figma the same way. `dist/type.css` now carries a class per style,
+checked by `scripts/verify-type.mjs` (107 checks) and shown in the gallery.
+
+**Re-reading from Figma corrected three things:**
+
+- **Line height.** The old extract carried none, and the absence-requests screen had
+  `line-height: 1.2` and `1.3` hand-written into its table *with a comment saying the
+  extract could not capture it*. Figma sets AUTOMATIC line height on all 23 styles, so
+  `normal` is the faithful value. Removed the invented numbers; the geometry check still
+  passes at 54px and 58px. They had never been needed.
+- **Weight.** A third recorded "unresolved". Figma binds the weight variable under
+  `boundVariables.fontStyle`, not `.fontWeight`; reading the obvious-looking field returns
+  nothing. With that fixed, 13 of 23 resolve. The other **10 have no weight anywhere in
+  Figma** — including four `(light)` variants whose names promise a weight the style does
+  not carry. Their classes set none and say so.
+- **Letter spacing.** Recorded as a bare `-1` with no unit. It is percent: `-0.01em`.
+
+**The self-test earned its place.** It reported the new type checker as broken, because it
+targeted a class name that did not exist — exactly the failure a check that only ever
+passes would hide.
+
+## Task 18 — Make icons usable without pasting SVG — DONE
+
+Using an icon meant opening `assets/icons/<name>.svg` and pasting its markup. That
+friction on every use is what makes someone draw their own, which is the one thing the
+icon set exists to prevent. Now: `<!--pf-icon:tick-->`, or `<!--pf-icon:export 14-->`,
+expanded at build time to the real file's markup — so the output is still the ordinary
+inline SVG the fidelity check already verifies, works in a standalone artifact, costs
+nothing at runtime, and a name that does not exist **fails the build**.
+
+All 21 icons on the absence-requests screen now use it, rewritten by matching each pasted
+glyph against the icon files rather than by hand.
+
+**It exposed a check going hollow.** `check-icon-fidelity` was pointed at the `.src.html`,
+which no longer contains any inline `<svg>` — it reported a contented
+`0 of 0 inline glyphs are real Figma icons, 0 are not` and exited zero. It now treats a
+page with no glyphs as an error that says what to run instead, and `npm run verify` runs
+it on the built page. A check that cannot fail is worse than no check.
+
+**Commands run:** all seven checks green; a DOM sweep confirmed nothing on the rebuilt
+page is clipped by the newly-measured fixed heights; screens read by eye in both modes.
+
+**Not checked:** the icon reference syntax only works through `build-prototype.mjs`. A
+hand-written artifact that never runs the build still has to paste SVG, and the skill
+says so rather than implying otherwise.
