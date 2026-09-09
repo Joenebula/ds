@@ -41,7 +41,11 @@ for (const screen of screens) {
       ok = false;
       out = (e.stdout || '') + (e.stderr || '');
     }
-    const last = out.trim().split('\n').filter(Boolean).pop() || '(no output)';
+    // Take the last RESULT line. Indented lines are explanatory notes (pf-audit prints
+    // several saying what it does not cover), and taking those instead reported a
+    // check's footnote as its verdict.
+    const lines = out.trim().split('\n').filter(l => l.trim() && !/^\s/.test(l));
+    const last = lines.pop() || '(no output)';
     console.log(`  ${ok ? 'ok  ' : 'FAIL'} ${name.padEnd(9)} ${last}`);
     if (!ok) failed++;
   }

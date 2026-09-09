@@ -2,10 +2,35 @@
 // Builds ds-bundle/ — self-contained preview pages for the claude.ai/design
 // Design System pane. Each carries a first-line @dsCard marker so the pane
 // indexes it. Tokens are inlined because the pane renders these standalone.
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync } from 'node:fs';
 
 const t = JSON.parse(readFileSync('tokens/design-tokens.json', 'utf8'));
 const tokensCss = readFileSync('dist/tokens.css', 'utf8');
+// The component and type layers, and the extracts they are generated from. Before this,
+// the component pages here hand-wrote their own approximations of People First — the
+// buttons carried border-radius: var(--pf-radius-small), which is 4px, on a system whose
+// buttons are pills. The Design System pane is the surface people generate designs from,
+// so a wrong shape here propagates into everything made with it.
+const componentsCss = readFileSync('dist/components.css', 'utf8');
+const typeCss = readFileSync('dist/type.css', 'utf8');
+const tsv = (f) => {
+  const [h, ...rows] = readFileSync(f, 'utf8').trim().split('\n');
+  const k = h.split('\t');
+  return rows.map(r => Object.fromEntries(r.split('\t').map((v, i) => [k[i], v ?? ''])));
+};
+const variants = tsv('tokens/_raw/component-variants.tsv');
+const geometry = new Map(tsv('tokens/_raw/component-geometry.tsv').map(r => [r.component, r]));
+const textStyles = tsv('tokens/_raw/text-styles.tsv');
+const kebab = x => x.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+// components.css is emitted as one commented block per component. Splitting on those
+// headers lets each preview page carry only the rules it actually uses — otherwise every
+// one of the 18 pages inlines the whole 95 KB stylesheet to show a handful of specimens.
+const cssBlocks = new Map();
+for (const block of componentsCss.split(/\n(?=\/\* )/)) {
+  const name = (block.match(/^\/\* ([^\n*]+?)(?:\s{2,}\(no geometry|\n)/) || [])[1];
+  if (name) cssBlocks.set(name.trim(), block);
+}
+const cssFor = (names) => [...names].map(n => cssBlocks.get(n)).filter(Boolean).join('\n');
 const ext = n => n.$extensions['com.mhr.pf'];
 const collect = (n, acc = []) => {
   if (n && typeof n === 'object') { if (n.$type) acc.push(n); else Object.values(n).forEach(v => collect(v, acc)); }
@@ -13,7 +38,7 @@ const collect = (n, acc = []) => {
 };
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-const shell = ({ group, name, subtitle, body }) => `<!-- @dsCard group="${group}" name="${name}" -->
+const shell = ({ group, name, subtitle, body, css }) => `<!-- @dsCard group="${group}" name="${name}" -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -22,6 +47,7 @@ const shell = ({ group, name, subtitle, body }) => `<!-- @dsCard group="${group}
 <title>${esc(name)} — People First</title>
 <style>
 ${tokensCss}
+${css === undefined ? componentsCss + typeCss : css}
 * { box-sizing: border-box; }
 body { margin: 0; padding: var(--pf-space-large); background: var(--pf-bg-primary);
        color: var(--pf-text-primary); font-family: var(--pf-font-body);
@@ -118,83 +144,81 @@ files['foundations/elevation.html'] = shell({
       <code class="mono">${ext(n).cssVar}</code></div>`).join('')}</div>`
 });
 
-files['components/buttons.html'] = shell({
-  group: 'Components', name: 'Buttons',
-  subtitle: 'Action is the default. Positive confirms, Negative destroys, Hollow is secondary. Pink is brand — never a button.',
-  body: `<div class="row">
-    <button style="font-family:inherit;font-weight:var(--pf-font-weight-bold);font-size:var(--pf-font-size-s);padding:var(--pf-space-small) var(--pf-space-large);border-radius:var(--pf-radius-small);border:none;cursor:pointer;background:var(--pf-bg-secondary-button);color:var(--pf-text-inverted-primary)">Action</button>
-    <button style="font-family:inherit;font-weight:var(--pf-font-weight-bold);font-size:var(--pf-font-size-s);padding:var(--pf-space-small) var(--pf-space-large);border-radius:var(--pf-radius-small);border:none;cursor:pointer;background:var(--pf-bg-primary-button);color:var(--pf-text-always-white)">Positive</button>
-    <button style="font-family:inherit;font-weight:var(--pf-font-weight-bold);font-size:var(--pf-font-size-s);padding:var(--pf-space-small) var(--pf-space-large);border-radius:var(--pf-radius-small);border:none;cursor:pointer;background:var(--pf-bg-negative-button);color:var(--pf-text-always-white)">Negative</button>
-    <button style="font-family:inherit;font-weight:var(--pf-font-weight-bold);font-size:var(--pf-font-size-s);padding:var(--pf-space-small) var(--pf-space-large);border-radius:var(--pf-radius-small);cursor:pointer;background:transparent;color:var(--pf-text-primary);border:1px solid var(--pf-border-hollow-button)">Hollow</button>
-  </div>
-  <h2>Hover fills</h2>
-  <table><tbody>
-    <tr><td class="mono">--pf-bg-secondary-button-hover</td><td><div style="width:80px;height:24px;border-radius:var(--pf-radius-small);background:var(--pf-bg-secondary-button-hover)"></div></td></tr>
-    <tr><td class="mono">--pf-bg-primary-button-hover</td><td><div style="width:80px;height:24px;border-radius:var(--pf-radius-small);background:var(--pf-bg-primary-button-hover)"></div></td></tr>
-    <tr><td class="mono">--pf-bg-negative-button-hover</td><td><div style="width:80px;height:24px;border-radius:var(--pf-radius-small);background:var(--pf-bg-negative-button-hover)"></div></td></tr>
-    <tr><td class="mono">--pf-button-fill-hollow-hover</td><td><div style="width:80px;height:24px;border-radius:var(--pf-radius-small);background:var(--pf-button-fill-hollow-hover)"></div></td></tr>
-  </tbody></table>`
+// ---- component pages, generated from the extracts --------------------------
+// One page per Figma page, every captured component and variant, rendered with the real
+// dist/components.css. Nothing here is hand-written, so the pane cannot show a shape the
+// library does not actually produce — which is exactly what it was doing before.
+const SAMPLE = {
+  'Button': 'Save', 'Filter chip': 'Absence type', 'Tags': 'Approved',
+  'Links': 'View details', 'Field': 'Jane Okafor', 'Form field': 'Manager',
+  'Option': 'Annual leave', 'Checkbox/Radio item': 'Include leavers',
+  'Table cell (AG)': 'Jane Okafor', 'Table header (AG)': 'Employee',
+  'Toast message': 'Request approved', 'Counter': '3', 'Navigation item': 'People',
+  'Side navigation tab': 'Absence', 'Primary search': 'Search people',
+  'Status': 'Pending', 'Clock in': 'Clock in', 'AI button': 'Ask AI',
+  'Information box': 'Absence approved and added to the calendar.',
+};
+const TAG_FOR = { 'Button': 'button', 'Filter chip': 'button', 'AI button': 'button',
+                  'Clock in': 'button', 'Links': 'a', 'Action menu button': 'button' };
+
+const byPage = new Map();
+for (const r of variants) {
+  if (!byPage.has(r.page)) byPage.set(r.page, new Map());
+  const m = byPage.get(r.page);
+  if (!m.has(r.component)) m.set(r.component, []);
+  m.get(r.component).push(r);
+}
+
+for (const [page, comps] of [...byPage.entries()].sort()) {
+  const parts = [];
+  for (const [component, rows] of [...comps.entries()].sort()) {
+    const base = 'pf-' + kebab(component);
+    const el = TAG_FOR[component] || 'div';
+    const label = SAMPLE[component] || component;
+    const g = geometry.get(component);
+    parts.push(`<h2>${esc(component)}</h2>`);
+    parts.push(`<p class="sub">.${base}${g ? '  ·  ' + esc(g.size) : ''}  ·  ${rows.length} variant${rows.length === 1 ? '' : 's'}</p>`);
+    parts.push('<div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">');
+    for (const r of rows) {
+      const attrs = r.variant.split(',').map(x => x.trim()).filter(Boolean).map(x => {
+        const i = x.indexOf('=');
+        return i < 0 ? '' : ` data-${kebab(x.slice(0, i))}="${esc(x.slice(i + 1).trim())}"`;
+      }).join('');
+      parts.push(`<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
+        <${el} class="${base}"${attrs}>${esc(label)}</${el}>
+        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">${esc(r.variant) || 'default'}</span>
+      </div>`);
+    }
+    parts.push('</div>');
+  }
+  files[`components/${kebab(page)}.html`] = shell({
+    css: cssFor(comps.keys()),
+    group: 'Components', name: page,
+    subtitle: `${comps.size} component${comps.size === 1 ? '' : 's'} from the ${page} page in Figma, rendered with dist/components.css. Class names mirror Figma's variant panel: the component is the class, each variant property is a data attribute.`,
+    body: parts.join('\n'),
+  });
+}
+
+// Type gets its own card: it is what every screen touches.
+files['foundations/type-classes.html'] = shell({
+  css: typeCss,
+  group: 'Foundations', name: 'Type classes',
+  subtitle: 'One class per Figma text style. Colour is deliberately not set — pair a type class with a --pf-text-* token. Every style uses Figma automatic line height, so `normal` is the faithful value.',
+  body: (() => {
+    const classes = [...typeCss.matchAll(/^\.(pf-text-[a-z0-9-]+) \{/gm)].map(m => m[1]);
+    return textStyles.map((ts, i) => `<div style="margin-bottom:12px">
+      <div class="${classes[i] || ''}">${esc(ts.name.replace(/^\w+ text\//, ''))}</div>
+      <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">.${classes[i]}  ·  ${esc(ts.size)}px  ·  ${ts.weight ? esc(ts.weight) : 'no weight set in Figma'}</span>
+    </div>`).join('\n');
+  })(),
 });
 
-files['components/tags.html'] = shell({
-  group: 'Components', name: 'Tags',
-  subtitle: 'Seven statuses. Always take fill, border and content from the same status — never mix.',
-  body: `<div class="row">${TAGS.map(s =>
-    `<span style="font-size:var(--pf-font-size-xs);text-transform:uppercase;letter-spacing:-.01em;border-radius:var(--pf-radius-small);padding:2px 10px;border:1px solid;background:var(--pf-tag-fill-${s});border-color:var(--pf-tag-border-${s});color:var(--pf-tag-content-${s})">${s}</span>`).join('')}</div>`
-});
-
-files['components/tables.html'] = shell({
-  group: 'Components', name: 'Tables',
-  subtitle: 'Tables have dedicated surface tokens — do not substitute --pf-bg-* for them.',
-  body: `<table style="background:var(--pf-table-card)">
-    <thead><tr><th>Name</th><th>Team</th><th>Status</th></tr></thead>
-    <tbody>
-      <tr style="background:var(--pf-table-primary-cell)"><td>Row one</td><td>People Ops</td><td><span style="font-size:var(--pf-font-size-xs);text-transform:uppercase;border-radius:var(--pf-radius-small);padding:2px 10px;border:1px solid;background:var(--pf-tag-fill-positive);border-color:var(--pf-tag-border-positive);color:var(--pf-tag-content-positive)">active</span></td></tr>
-      <tr style="background:var(--pf-table-stripe-cell)"><td>Row two</td><td>Payroll</td><td><span style="font-size:var(--pf-font-size-xs);text-transform:uppercase;border-radius:var(--pf-radius-small);padding:2px 10px;border:1px solid;background:var(--pf-tag-fill-warning);border-color:var(--pf-tag-border-warning);color:var(--pf-tag-content-warning)">pending</span></td></tr>
-      <tr style="background:var(--pf-table-primary-cell)"><td>Row three</td><td>Talent</td><td><span style="font-size:var(--pf-font-size-xs);text-transform:uppercase;border-radius:var(--pf-radius-small);padding:2px 10px;border:1px solid;background:var(--pf-tag-fill-expired);border-color:var(--pf-tag-border-expired);color:var(--pf-tag-content-expired)">expired</span></td></tr>
-    </tbody></table>`
-});
-
-files['components/forms.html'] = shell({
-  group: 'Components', name: 'Form inputs',
-  subtitle: '--pf-border-form-input is the one border token identical in both modes.',
-  body: `<div style="display:flex;flex-direction:column;gap:var(--pf-space-large);max-width:340px">
-    <label style="display:flex;flex-direction:column;gap:4px">
-      <span style="font-size:var(--pf-font-size-xs)">Full name <span style="color:var(--pf-icon-required-field)">*</span></span>
-      <input value="Ada Lovelace" style="font-family:inherit;background:var(--pf-bg-primary);color:var(--pf-text-primary);border:1px solid var(--pf-border-form-input);border-radius:var(--pf-radius-small);padding:var(--pf-space-small);font-size:var(--pf-font-size-s)">
-    </label>
-    <label style="display:flex;flex-direction:column;gap:4px">
-      <span style="font-size:var(--pf-font-size-xs)">Email</span>
-      <input value="not-an-email" aria-invalid="true" style="font-family:inherit;background:var(--pf-bg-primary);color:var(--pf-text-primary);border:1px solid var(--pf-border-negative);border-radius:var(--pf-radius-small);padding:var(--pf-space-small);font-size:var(--pf-font-size-s)">
-      <span style="font-size:var(--pf-font-size-xs);color:var(--pf-text-negative)">Enter a valid email address</span>
-    </label>
-    <label style="display:flex;flex-direction:column;gap:4px">
-      <span style="font-size:var(--pf-font-size-xs);color:var(--pf-text-disabled)">Employee ID</span>
-      <input value="Locked" disabled style="font-family:inherit;background:var(--pf-bg-secondary);color:var(--pf-text-disabled);border:1px solid var(--pf-border-disabled);border-radius:var(--pf-radius-small);padding:var(--pf-space-small);font-size:var(--pf-font-size-s)">
-    </label>
-  </div>`
-});
-
-files['components/chips.html'] = shell({
-  group: 'Components', name: 'Filter chips',
-  subtitle: 'Selected and hover both take the theme border and theme text; hover adds the soft theme fill.',
-  body: `<div class="row">
-    <span style="background:var(--pf-bg-primary);color:var(--pf-text-primary);border:1px solid var(--pf-border-hollow-button);border-radius:var(--pf-radius-medium);padding:var(--pf-space-xsmall) var(--pf-space-small);font-size:var(--pf-font-size-xs)">Default</span>
-    <span style="background:var(--pf-bg-primary);color:var(--pf-text-theme);border:1px solid var(--pf-border-theme);border-radius:var(--pf-radius-medium);padding:var(--pf-space-xsmall) var(--pf-space-small);font-size:var(--pf-font-size-xs)">Selected</span>
-    <span style="background:var(--pf-bg-theme);color:var(--pf-text-theme);border:1px solid var(--pf-border-theme);border-radius:var(--pf-radius-medium);padding:var(--pf-space-xsmall) var(--pf-space-small);font-size:var(--pf-font-size-xs)">Hover</span>
-  </div>`
-});
-
-files['components/charts.html'] = shell({
-  group: 'Components', name: 'Chart palette',
-  subtitle: 'Ten categorical colours, mode-stable. Use in sequence — reordering makes a series change colour between screens.',
-  body: `<div style="display:flex;height:56px;border-radius:var(--pf-radius-small);overflow:hidden">
-    ${Array.from({ length: 10 }, (_, i) => `<div style="flex:1;background:var(--pf-chart-${i + 1})"></div>`).join('')}</div>
-  <h2>AI gradient</h2>
-  <p class="sub">Reserved for AI features — not ordinary decoration.</p>
-  <div style="height:56px;border-radius:var(--pf-radius-small);background:var(--pf-gradient-ai-gradient)"></div>`
-});
-
+// Clear the output first. The page set is derived from Figma, so it changes when Figma
+// does; without this, a page that is no longer generated lingers on disk and the Design
+// System pane indexes it alongside the real one. Three hand-written pages from the
+// previous generator were doing exactly that.
+for (const d of ['ds-bundle/foundations', 'ds-bundle/components'])
+  if (existsSync(d)) rmSync(d, { recursive: true });
 mkdirSync('ds-bundle/foundations', { recursive: true });
 mkdirSync('ds-bundle/components', { recursive: true });
 let total = 0;
