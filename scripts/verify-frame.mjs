@@ -49,16 +49,23 @@ export async function measure(browser, url, decls, viewport) {
   await page.waitForLoadState('networkidle').catch(() => {});
   await page.evaluate(() => document.fonts.ready);
 
-  const got = await page.evaluate((sels) => sels.map((sel) => {
-    const el = document.querySelector(sel);
-    if (!el) return { sel, missing: true };
-    const b = el.getBoundingClientRect();
-    const cs = getComputedStyle(el);
-    return { sel,
-      width: b.width, height: b.height,
-      padding: cs.padding, radius: cs.borderTopLeftRadius,
-      gap: cs.rowGap === 'normal' ? '0px' : cs.rowGap,
-      colGap: cs.columnGap === 'normal' ? '0px' : cs.columnGap };
+  // EVERY match, not the first. `querySelector` meant a declaration covered element one and
+  // nothing else: on a screen with four identical cards and three icon rows in each, twelve
+  // `.card-line-icon` elements existed and exactly one was ever measured. Caught by mutating
+  // the third icon in a card from 18px to 22px and watching the check pass. A declaration is
+  // a statement about the thing it names, so it has to hold everywhere that thing appears.
+  const got = await page.evaluate((sels) => sels.flatMap((sel) => {
+    const els = [...document.querySelectorAll(sel)];
+    if (!els.length) return [{ sel, missing: true }];
+    return els.map((el, i) => {
+      const b = el.getBoundingClientRect();
+      const cs = getComputedStyle(el);
+      return { sel, nth: i + 1, of: els.length,
+        width: b.width, height: b.height,
+        padding: cs.padding, radius: cs.borderTopLeftRadius,
+        gap: cs.rowGap === 'normal' ? '0px' : cs.rowGap,
+        colGap: cs.columnGap === 'normal' ? '0px' : cs.columnGap };
+    });
   }), decls.map((d) => d.selector));
 
   await ctx.close();
@@ -72,19 +79,27 @@ export function judge(decls, got) {
   let checked = 0, asserts = 0;
 
   for (const d of decls) {
-    const g = got.find((x) => x.sel === d.selector);
-    if (!g || g.missing) {
+    const matches = got.filter((x) => x.sel === d.selector);
+    if (!matches.length || matches[0].missing) {
       // A declared selector that is not on the page is not a pass — the screen no longer
       // contains the thing the extract describes.
       problems.push(`MISSING  ${d.selector} (${d.name || 'declared in the extract'}) is not on this page`);
       continue;
     }
+
+    // One report per declaration however many elements match, so four identical cards drifting
+    // together read as one fault and not as four. The count says how many were measured, which
+    // is the number that would have been 1 before.
+    const seen = new Set();
+    for (const g of matches) {
     checked++;
 
+    const where = g.of > 1 ? ` [${g.nth} of ${g.of}]` : '';
     const cmp = (label, want, have, unit = 'px') => {
       asserts++;
-      if (Math.abs(want - have) > TOLERANCE) {
-        problems.push(`SIZE     ${d.selector} ${label} is ${Math.round(have)}${unit}, `
+      if (Math.abs(want - have) > TOLERANCE && !seen.has(label)) {
+        seen.add(label);
+        problems.push(`SIZE     ${d.selector}${where} ${label} is ${Math.round(have)}${unit}, `
           + `Figma says ${want}${unit}${d.name ? `  (${d.name})` : ''}`);
       }
     };
@@ -97,10 +112,12 @@ export function judge(decls, got) {
     if (d.padding != null) {
       asserts++;
       const want = pad4(d.padding), have = pad4(g.padding);
-      if (want.some((v, i) => Math.abs(v - have[i]) > TOLERANCE)) {
-        problems.push(`SIZE     ${d.selector} padding is ${have.join(' ')}px, `
+      if (want.some((v, i) => Math.abs(v - have[i]) > TOLERANCE) && !seen.has('padding')) {
+        seen.add('padding');
+        problems.push(`SIZE     ${d.selector}${where} padding is ${have.join(' ')}px, `
           + `Figma says ${want.join(' ')}px${d.name ? `  (${d.name})` : ''}`);
       }
+    }
     }
   }
 
@@ -159,6 +176,17 @@ function selfTest() {
     ['a declared element missing from the page', [decl], [{ sel: '.stage', missing: true }], /MISSING/],
     ['sub-pixel drift is not a defect', [decl], with_({ height: 74.4 }), null],
     ['shorthand and longhand padding agree', [decl], with_({ padding: '14px 12px 14px 12px' }), null],
+
+    // THE ONE THAT ESCAPED. `querySelector` measured element one and nothing else, so the
+    // third icon in a card could be the wrong size while the check reported 0 off. Found by
+    // mutating exactly that and watching it pass.
+    ['a SECOND matching element that drifts', [decl],
+      [{ ...ok, nth: 1, of: 2 }, { ...ok, nth: 2, of: 2, height: 93 }],
+      /\[2 of 2\] height is 93px/],
+    ['all matching elements correct', [decl],
+      [{ ...ok, nth: 1, of: 3 }, { ...ok, nth: 2, of: 3 }, { ...ok, nth: 3, of: 3 }], null],
+    ['four identical cards drifting together report ONCE', [decl],
+      [1, 2, 3, 4].map((n) => ({ ...ok, nth: n, of: 4, height: 93 })), /height is 93px/],
   ];
 
   let failures = 0;
@@ -171,6 +199,21 @@ function selfTest() {
       for (const p of problems) console.log(`         ${p}`);
       if (want) console.log(`         expected a problem matching ${want}`);
     }
+  }
+
+  // Four cards wrong in the same way is one fault, not four. If this ever prints four lines the
+  // report becomes noise on exactly the screens that repeat a component most.
+  const together = judge([decl], [1, 2, 3, 4].map((n) => ({ ...ok, nth: n, of: 4, height: 93 })));
+  if (together.problems.length !== 1) {
+    failures++;
+    console.log(`  MISS four identical elements drifting together must report once `
+      + `(got ${together.problems.length})`);
+  }
+  // `decl` declares height, padding, radius and gap — four assertions — so four matching
+  // elements must produce sixteen. Before this change it produced four.
+  if (together.asserts !== 4 * 4) {
+    failures++;
+    console.log(`  MISS every matching element must be measured (${together.asserts} assertions, expected 16)`);
   }
 
   // A declaration that asserts nothing must not read as a pass with work done.
