@@ -623,11 +623,13 @@
 }
 .pf-ai-assistant[data-type="Default"] {
   background: var(--pf-bg-primary);
+  /* Figma binds the primitive "Base colours/Default Pink" here; no semantic token has this role */
   color: var(--pf-base-default-pink);
 }
 .pf-ai-assistant[data-type="Active chat"] {
   background: var(--pf-bg-primary);
   border-color: var(--pf-border-default);
+  /* Figma binds the primitive "Base colours/Default Pink" here; no semantic token has this role */
   color: var(--pf-base-default-pink);
 }
 .pf-ai-assistant[data-type="Expanded"] {
@@ -711,14 +713,18 @@
   color: var(--pf-text-primary);
 }
 .pf-ai-button[data-style="Light mode"][data-hover="True"] {
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-ai-button[data-style="Inverted"][data-hover="False"] {
+  /* Figma binds the primitive "Base colours/Default Pink" here; no semantic token has this role */
   color: var(--pf-base-default-pink);
 }
 .pf-ai-button[data-style="Inverted"][data-hover="True"] {
+  /* Figma binds the primitive "Base colours/White" here; no semantic token has this role */
   border-color: var(--pf-base-white);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 /* AI card modal
@@ -1075,21 +1081,25 @@
 }
 .pf-button[data-type="Positive"] {
   background: var(--pf-bg-primary-button);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-button[data-type="Positive"][data-state="Hover"],
 .pf-button[data-type="Positive"]:hover {
   background: var(--pf-bg-primary-button-hover);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-button[data-type="Negative"] {
   background: var(--pf-bg-negative-button);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-button[data-type="Negative"][data-state="Hover"],
 .pf-button[data-type="Negative"]:hover {
   background: var(--pf-bg-negative-button-hover);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-button[data-type="Hollow"] {
   border-color: var(--pf-border-hollow-button);
@@ -1149,13 +1159,15 @@
 .pf-button[data-type="Negative"]:disabled,
 .pf-button[data-type="Negative"][aria-disabled="true"] {
   background: var(--pf-bg-negative-button);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-button[data-type="Positive"][data-state="Disabled"],
 .pf-button[data-type="Positive"]:disabled,
 .pf-button[data-type="Positive"][aria-disabled="true"] {
   background: var(--pf-bg-primary-button);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 /* Calendar picker
@@ -1176,7 +1188,8 @@
   font-family: var(--pf-font-body);
 }
 .pf-calendar-picker {
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 /* Card
@@ -1345,6 +1358,7 @@
 }
 .pf-clickable-ai-element[data-state="Hover"],
 .pf-clickable-ai-element:hover {
+  /* Figma binds the primitive "Base colours/Default Pink" here; no semantic token has this role */
   color: var(--pf-base-default-pink);
 }
 
@@ -1402,6 +1416,7 @@
   color: var(--pf-text-primary);
 }
 .pf-config-child-menu[data-type="Selected"] {
+  /* Figma binds the primitive "Base colours/Blue Ocean" here; no semantic token has this role */
   background: var(--pf-base-blue-ocean);
   color: var(--pf-text-inverted-primary);
 }
@@ -2432,10 +2447,35 @@
   color: var(--pf-text-secondary);
 }
 .pf-full-page-navigation[data-breakpoint="Mobile"] {
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-full-page-navigation[data-breakpoint="Tablet"] {
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
+}
+
+/* Full page/Header navigation/Yes/No
+ * 1 variant captured. Single component, mobile width.
+ * Figma draws this 375px wide; treated as layout, not a rule
+ */
+.pf-full-page-header-navigation-yes-no {
+  height: 138px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-full-page-header-navigation-yes-no {
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 /* Graph axis
@@ -2506,10 +2546,12 @@
   color: var(--pf-text-secondary);
 }
 .pf-header-top-navigation[data-breakpoint="Tablet"] {
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-header-top-navigation[data-breakpoint="Mobile"] {
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 /* Header
@@ -2534,10 +2576,12 @@
   color: var(--pf-text-secondary);
 }
 .pf-header[data-breakpoint="Tablet"] {
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-header[data-breakpoint="Mobile"] {
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 /* Hemisphere chart
@@ -3007,8 +3051,10 @@
   font-family: var(--pf-font-body);
 }
 .pf-multiselect-tag {
+  /* Figma binds the primitive "Base colours/Blue Ocean" here; no semantic token has this role */
   background: var(--pf-base-blue-ocean);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 /* Navigation item
@@ -3155,6 +3201,33 @@
   color: var(--pf-text-primary);
 }
 
+/* Notification categories
+ * 2 variants captured. 2 variants (Mobile). Figma draws it 1020px tall — the artboard, not a rule.
+ * Figma draws this 300px wide; treated as layout, not a rule
+ */
+.pf-notification-categories {
+  padding: 5px 10px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-notification-categories[data-mobile="No"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-navigation-notification-selected);
+}
+.pf-notification-categories[data-mobile="Yes"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-primary);
+}
+
 /* Notification image
  * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
  * carries its measured geometry and leaves colour to the page.
@@ -3170,6 +3243,51 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+
+/* Notification list
+ * 2 variants captured. 2 variants (Mobile). Figma draws it 1117x730 — the artboard, not a rule.
+ */
+.pf-notification-list {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-notification-list[data-mobile="No"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-primary);
+}
+.pf-notification-list[data-mobile="Yes"] {
+  color: var(--pf-text-theme);
+}
+
+/* Notification panel
+ * 1 variant captured. 2 variants (Mobile). Figma draws it 1500x1080 — the artboard, not a rule.
+ */
+.pf-notification-panel {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-notification-panel {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-primary);
 }
 
 /* Option
@@ -3232,6 +3350,28 @@
   color: var(--pf-text-primary);
 }
 
+/* Pagination buttons
+ * 1 variant captured. Single component. Binds a primitive for its text — see source issues.
+ */
+.pf-pagination-buttons {
+  height: 32px;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 30px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-pagination-buttons {
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
+}
+
 /* People and department drop down
  * 1 variant captured
  * Figma draws this 440px wide; treated as layout, not a rule
@@ -3254,7 +3394,8 @@
 }
 .pf-people-and-department-drop-down {
   background: var(--pf-bg-primary);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 /* Percentage bar
@@ -3882,10 +4023,73 @@
   background: var(--pf-icon-warning);
 }
 .pf-status[data-status-type="Recognition"] {
+  /* Figma binds the primitive "Base colours/Light Purple" here; no semantic token has this role */
   background: var(--pf-base-light-purple);
 }
 .pf-status[data-status-type="Comment"] {
   background: var(--pf-icon-info);
+}
+
+/* Stepper
+ * 1 variant captured. 2 variants (System); both bind the same colours.
+ * Figma draws this 330px wide; treated as layout, not a rule
+ */
+.pf-stepper {
+  height: 160px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-stepper {
+  color: var(--pf-text-positive);
+}
+
+/* Steps
+ * 6 variants captured. 26 variants across System x State x Position; 6 distinct colour bindings, keyed on State.
+ */
+.pf-steps {
+  width: 110px;
+  height: 48px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-steps[data-state="Completed"] {
+  color: var(--pf-text-positive);
+}
+.pf-steps[data-state="Selected"] {
+  color: var(--pf-navigation-nav-bg-top);
+}
+.pf-steps[data-state="Default enabled"] {
+  color: var(--pf-text-secondary);
+}
+.pf-steps[data-state="Default disabled"] {
+  color: var(--pf-text-inverted-secondary);
+}
+.pf-steps[data-system="People First"][data-state="Hover"],
+.pf-steps[data-system="People First"]:hover {
+  color: var(--pf-text-theme);
+}
+.pf-steps[data-system="Configr"][data-state="Hover"],
+.pf-steps[data-system="Configr"]:hover {
+  color: var(--pf-text-configr-theme);
 }
 
 /* Sticky footer
@@ -3912,7 +4116,8 @@
 .pf-sticky-footer[data-default="Default"] {
   background: var(--pf-bg-primary);
   border-color: var(--pf-border-secondary);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-sticky-footer[data-default="Stepper"] {
   background: var(--pf-bg-primary);
@@ -4324,7 +4529,8 @@
   font-family: var(--pf-font-body);
 }
 .pf-time-picker {
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 /* Title panel
@@ -4375,20 +4581,28 @@
   font-family: var(--pf-font-body);
 }
 .pf-toast-message[data-message-type="Success"] {
+  /* Figma binds the primitive "Base colours/White" here; no semantic token has this role */
   background: var(--pf-base-white);
-  color: var(--pf-base-grey-slate);
+  /* Figma binds the primitive "Base colours/Grey Slate" here instead of a semantic token */
+  color: var(--pf-text-always-grey-slate);
 }
 .pf-toast-message[data-message-type="Info"] {
+  /* Figma binds the primitive "Base colours/White" here; no semantic token has this role */
   background: var(--pf-base-white);
-  color: var(--pf-base-grey-slate);
+  /* Figma binds the primitive "Base colours/Grey Slate" here instead of a semantic token */
+  color: var(--pf-text-always-grey-slate);
 }
 .pf-toast-message[data-message-type="Warning"] {
+  /* Figma binds the primitive "Base colours/White" here; no semantic token has this role */
   background: var(--pf-base-white);
-  color: var(--pf-base-grey-slate);
+  /* Figma binds the primitive "Base colours/Grey Slate" here instead of a semantic token */
+  color: var(--pf-text-always-grey-slate);
 }
 .pf-toast-message[data-message-type="Error"] {
+  /* Figma binds the primitive "Base colours/White" here; no semantic token has this role */
   background: var(--pf-base-white);
-  color: var(--pf-base-grey-slate);
+  /* Figma binds the primitive "Base colours/Grey Slate" here instead of a semantic token */
+  color: var(--pf-text-always-grey-slate);
 }
 
 /* Toggle
@@ -4415,15 +4629,18 @@
 }
 .pf-toggle[data-on="No"][data-locked="No"] {
   background: var(--pf-bg-tertiary);
+  /* Figma binds the primitive "Base colours/Grey Dolphin" here; no semantic token has this role */
   border-color: var(--pf-base-grey-dolphin);
   color: var(--pf-text-secondary);
 }
 .pf-toggle[data-on="Yes"][data-locked="No"] {
   background: var(--pf-bg-primary-button);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-toggle[data-on="No"][data-locked="Yes"] {
   background: var(--pf-bg-tertiary);
+  /* Figma binds the primitive "Base colours/Grey Dolphin" here; no semantic token has this role */
   border-color: var(--pf-base-grey-dolphin);
 }
 .pf-toggle[data-on="Yes"][data-locked="Yes"] {
@@ -4491,7 +4708,25 @@
   font-family: var(--pf-font-body);
 }
 .pf-top-bar-app-context {
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
+}
+
+/* Waffle
+ * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
+ * carries its measured geometry and leaves colour to the page. 15 variants (Theme). No colour variable bound in Figma.
+ */
+.pf-waffle {
+  width: 90px;
+  height: 86px;
+  display: inline-block;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
 }
 
 /* [S] Attachment
@@ -6252,6 +6487,14 @@ variant names.</p>
     <span class="label">Breakpoint=Tablet</span>
   </div>
 </div>
+<h3>Full page/Header navigation/Yes/No</h3>
+<p class="meta">1 variant  ·  .pf-full-page-header-navigation-yes-no  ·  375 x 138  ·  vertical min min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-full-page-header-navigation-yes-no">Full page/Header navigation/Yes/No</div>
+    <span class="label"></span>
+  </div>
+</div>
 <h3>Header top navigation</h3>
 <p class="meta">3 variants  ·  .pf-header-top-navigation  ·  1834 x auto  ·  vertical min min</p>
 <p class="meta" style="opacity:.75">Darkmode dropped — the tokens already carry both modes.  Levels of navigation dropped — it does not change how the component looks</p>
@@ -6319,6 +6562,47 @@ variant names.</p>
     <span class="label"></span>
   </div>
 </div>
+<h3>Notification categories</h3>
+<p class="meta">2 variants  ·  .pf-notification-categories  ·  300 x auto  ·  vertical min min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-notification-categories" data-mobile="No">Notification categories</div>
+    <span class="label">Mobile=No</span>
+  </div>
+  <div class="spec">
+    <div class="pf-notification-categories" data-mobile="Yes">Notification categories</div>
+    <span class="label">Mobile=Yes</span>
+  </div>
+</div>
+<h3>Notification list</h3>
+<p class="meta">2 variants  ·  .pf-notification-list  ·  auto x auto  ·  vertical min min</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-notification-list" data-mobile="No">Notification list</div>
+    <span class="label">Mobile=No</span>
+  </div>
+  <div class="spec">
+    <div class="pf-notification-list" data-mobile="Yes">Notification list</div>
+    <span class="label">Mobile=Yes</span>
+  </div>
+</div>
+<h3>Notification panel</h3>
+<p class="meta">1 variant  ·  .pf-notification-panel  ·  auto x auto  ·  vertical min min</p>
+<p class="meta" style="opacity:.75">Mobile dropped — a stylesheet is not breakpoint-scoped</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-notification-panel">Notification panel</div>
+    <span class="label"></span>
+  </div>
+</div>
+<h3>Pagination buttons</h3>
+<p class="meta">1 variant  ·  .pf-pagination-buttons  ·  auto x 32  ·  horizontal space_between center</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-pagination-buttons">Pagination buttons</div>
+    <span class="label"></span>
+  </div>
+</div>
 <h3>Search home button</h3>
 <p class="meta">2 variants  ·  .pf-search-home-button  ·  150 x 32</p>
 <div class="row">
@@ -6375,6 +6659,44 @@ variant names.</p>
   <div class="spec">
     <div class="pf-side-navigation" data-variant="Finance">Side navigation</div>
     <span class="label">Variant=Finance</span>
+  </div>
+</div>
+<h3>Stepper</h3>
+<p class="meta">1 variant  ·  .pf-stepper  ·  330 x 160  ·  vertical center center</p>
+<p class="meta" style="opacity:.75">Figma also varies this by <strong>System (People First/Configr)</strong> — every value binds the same colours, so it is one rule here</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-stepper">Stepper</div>
+    <span class="label"></span>
+  </div>
+</div>
+<h3>Steps</h3>
+<p class="meta">6 variants  ·  .pf-steps  ·  110 x 48  ·  vertical min center</p>
+<p class="meta" style="opacity:.75">Figma also varies this by <strong>Position (Middle/First/Last), Current step (No/Yes), Completed step (No/Yes)</strong> — every value binds the same colours, so it is one rule here</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-steps" data-state="Completed">Steps</div>
+    <span class="label">State=Completed</span>
+  </div>
+  <div class="spec">
+    <div class="pf-steps" data-state="Selected">Steps</div>
+    <span class="label">State=Selected</span>
+  </div>
+  <div class="spec">
+    <div class="pf-steps" data-state="Default enabled">Steps</div>
+    <span class="label">State=Default enabled</span>
+  </div>
+  <div class="spec">
+    <div class="pf-steps" data-state="Default disabled">Steps</div>
+    <span class="label">State=Default disabled</span>
+  </div>
+  <div class="spec">
+    <div class="pf-steps" data-state="Hover" data-system="People First">Steps</div>
+    <span class="label">State=Hover, System=People First</span>
+  </div>
+  <div class="spec">
+    <div class="pf-steps" data-state="Hover" data-system="Configr">Steps</div>
+    <span class="label">State=Hover, System=Configr</span>
   </div>
 </div>
 <h3>Tab</h3>

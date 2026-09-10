@@ -175,3 +175,11 @@ Default header background	auto x 86	0	0	0	—	NONE	Full-bleed header bar; height
 Default header background|Breakpoint=Desktop	auto x 86	0	0	0	—	NONE	
 Default header background|Breakpoint=Tablet	auto x 74	0	0	0	—	NONE	
 Default header background|Breakpoint=Mobile	auto x 62	0	0	0	—	NONE	
+Notification panel	auto x auto	0	0	0	—	VERTICAL MIN MIN	2 variants (Mobile). Figma draws it 1500x1080 — the artboard, not a rule.
+Notification list	auto x auto	0	0	0	—	VERTICAL MIN MIN	2 variants (Mobile). Figma draws it 1117x730 — the artboard, not a rule.
+Notification categories	300 x auto	5 10	0	0	—	VERTICAL MIN MIN	2 variants (Mobile). Figma draws it 1020px tall — the artboard, not a rule.
+Pagination buttons	auto x 32	0	0	30	—	HORIZONTAL SPACE_BETWEEN CENTER	Single component. Binds a primitive for its text — see source issues.
+Steps	110 x 48	0	0	5	—	VERTICAL MIN CENTER	26 variants across System x State x Position; 6 distinct colour bindings, keyed on State.
+Stepper	330 x 160	0	0	0	—	VERTICAL CENTER CENTER	2 variants (System); both bind the same colours.
+Waffle	90 x 86	0	0	0	—	NONE	15 variants (Theme). No colour variable bound in Figma.
+Full page/Header navigation/Yes/No	375 x 138	0	0	0	—	VERTICAL MIN MIN	Single component, mobile width.

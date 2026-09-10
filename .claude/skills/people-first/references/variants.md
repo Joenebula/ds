@@ -652,6 +652,55 @@ Figma component actually binds.
 |---|---|---|---|
 |  | `var(--pf-icon-theme)` | — | `var(--pf-text-inverted-primary)` |
 
+### Notification panel
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | `var(--pf-bg-primary)` | — | `var(--pf-text-primary)` |
+
+### Notification list
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| Mobile=No | `var(--pf-bg-primary)` | — | `var(--pf-text-primary)` |
+| Mobile=Yes | — | — | `var(--pf-text-theme)` |
+
+### Notification categories
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| Mobile=No | `var(--pf-bg-primary)` | — | `var(--pf-navigation-notification-selected)` |
+| Mobile=Yes | `var(--pf-bg-primary)` | — | `var(--pf-text-primary)` |
+
+### Pagination buttons
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-base-white)` |
+
+### Steps
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| State=Completed | — | — | `var(--pf-text-positive)` |
+| State=Selected | — | — | `var(--pf-navigation-nav-bg-top)` |
+| State=Default enabled | — | — | `var(--pf-text-secondary)` |
+| State=Default disabled | — | — | `var(--pf-text-inverted-secondary)` |
+| State=Hover, System=People First | — | — | `var(--pf-text-theme)` |
+| State=Hover, System=Configr | — | — | `var(--pf-text-configr-theme)` |
+
+### Stepper
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-positive)` |
+
+### Full page/Header navigation/Yes/No
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-base-white)` |
+
 ## Cards and panels
 
 ### Draggable card

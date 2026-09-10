@@ -915,3 +915,53 @@ single space.
 Checks run: `npm run build` clean, no unresolved aliases; `npm run check` 27/28 AA in both
 modes (the two AA-large-only entries are Figma's own values, unchanged); `npm run verify`
 — result recorded with the commit.
+
+---
+
+## Run 9 — "33 components is still way off the full list surely"
+
+The user was right, and the reason is worse than a miscount.
+
+**My inventory extract never descended into Figma SECTIONs.** A page-by-page count taken
+live from Figma shows 157 distinct components across the 12 real pages; the inventory had
+142. Navigation is organised almost entirely in sections and lost 14; `Repeating group` on
+Buttons and links lost the same way. Everything downstream inherited it — the "460
+components" figure, the gallery's gap list, and the reconciliation I had reported as
+complete. It was internally consistent and wrong at the source.
+
+**And six of those fourteen were not new components at all — they were RENAMES.** Keyed on
+nodeId rather than name, six node ids carry two names: the one my extract recorded and the
+one Figma uses today.
+
+    Header top navigation      is now  Header navigation
+    [S] Navigation/main tabs   is now  Nav tabs
+    [S] Main nav context       is now  Secondary nav
+    Secondary nav              is now  Tertiary nav
+    Search home button         is now  Search navigation
+    Full page navigation       is now  Full page
+    Side navigation tab        is now  Notification tabs
+
+I had already added all fourteen before checking node ids, which would have shipped six
+duplicate classes for components that were already there. Backed out.
+
+The last one matters most: **`.pf-side-navigation-tab`, which every one of the three
+prototypes uses for its sidebar, is derived from a component Figma now calls `Notification
+tabs`.** The class is not wrong — it renders what was extracted — but its name no longer
+means what Figma means by it.
+
+Three inventory entries are stale in other ways: `Counter` is a variant child my old
+extract mistook for a component, `Side navigation panel` has been deleted from Figma, and
+`Default header background` exists but is no longer listed among the Navigation page's
+owners. All three are flagged in the inventory rather than removed, because deleting an
+entry that still has rules would silently drop a class.
+
+**Net:** 8 components genuinely added (Steps, Stepper, Waffle, Pagination buttons,
+Notification panel/list/categories, Full page/Header navigation/Yes/No), 6 renames
+recorded not acted on, 3 stale entries flagged. Nothing in Figma is now missing from the
+extract under some name.
+
+Also, primitive detection is now by COLLECTION MEMBERSHIP rather than a list of names, and
+the check has to run before the normal token lookup — a primitive resolves perfectly well
+to itself, so the substitution never fired. That immediately surfaced four more components
+binding primitives directly that had been shipping silently: Toast message, Status, AI
+button, Top bar app context.

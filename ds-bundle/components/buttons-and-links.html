@@ -502,21 +502,25 @@
 }
 .pf-button[data-type="Positive"] {
   background: var(--pf-bg-primary-button);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-button[data-type="Positive"][data-state="Hover"],
 .pf-button[data-type="Positive"]:hover {
   background: var(--pf-bg-primary-button-hover);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-button[data-type="Negative"] {
   background: var(--pf-bg-negative-button);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-button[data-type="Negative"][data-state="Hover"],
 .pf-button[data-type="Negative"]:hover {
   background: var(--pf-bg-negative-button-hover);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-button[data-type="Hollow"] {
   border-color: var(--pf-border-hollow-button);
@@ -576,13 +580,15 @@
 .pf-button[data-type="Negative"]:disabled,
 .pf-button[data-type="Negative"][aria-disabled="true"] {
   background: var(--pf-bg-negative-button);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-button[data-type="Positive"][data-state="Disabled"],
 .pf-button[data-type="Positive"]:disabled,
 .pf-button[data-type="Positive"][aria-disabled="true"] {
   background: var(--pf-bg-primary-button);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 /* Links

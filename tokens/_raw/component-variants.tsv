@@ -283,3 +283,17 @@ Buttons and links	Action menu		Background/Primary		Text/Primary
 AI	Adaptive card				Text/Secondary
 AI	AI Gradient component				Text/Primary
 Icons	Circle icons		Background/Light Theme	Border/Theme	
+Navigation	Notification panel		Background/Primary		Text/Primary
+Navigation	Notification list	Mobile=No	Background/Primary		Text/Primary
+Navigation	Notification list	Mobile=Yes			Text/Theme
+Navigation	Notification categories	Mobile=No	Background/Primary		Navigation/Notification selected
+Navigation	Notification categories	Mobile=Yes	Background/Primary		Text/Primary
+Navigation	Pagination buttons				Base colours/White
+Navigation	Steps	State=Completed			Text/Positive
+Navigation	Steps	State=Selected			Navigation/Nav bg top
+Navigation	Steps	State=Default enabled			Text/Secondary
+Navigation	Steps	State=Default disabled			Text/Inverted secondary
+Navigation	Steps	State=Hover, System=People First			Text/Theme
+Navigation	Steps	State=Hover, System=Configr			Text/Configr Theme
+Navigation	Stepper				Text/Positive
+Navigation	Full page/Header navigation/Yes/No				Base colours/White

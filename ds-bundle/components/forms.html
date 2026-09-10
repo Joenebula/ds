@@ -860,7 +860,8 @@
 }
 .pf-people-and-department-drop-down {
   background: var(--pf-bg-primary);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 /* Multiselect tag
@@ -882,8 +883,10 @@
   font-family: var(--pf-font-body);
 }
 .pf-multiselect-tag {
+  /* Figma binds the primitive "Base colours/Blue Ocean" here; no semantic token has this role */
   background: var(--pf-base-blue-ocean);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 /* [S] Post content
@@ -928,7 +931,8 @@
   font-family: var(--pf-font-body);
 }
 .pf-calendar-picker {
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 /* Time picker
@@ -949,7 +953,8 @@
   font-family: var(--pf-font-body);
 }
 .pf-time-picker {
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 * { box-sizing: border-box; }

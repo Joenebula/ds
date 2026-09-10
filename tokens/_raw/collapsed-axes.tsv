@@ -42,6 +42,7 @@ Metric card	Mobile	True/False	context
 Mobile bottom navigation	Darkmode	False/True	context
 Mobile bottom navigation	Breakpoint	Tablet/Mobile	context
 Navigation tabs	Mobile	No/Yes	context
+Notification panel	Mobile	Yes/No	context
 Percentage bar	Percentage	0/25/50/75/100	state
 Secondary nav	Mobile	True/False	context
 Side navigation	Darkmode	True/False	context
@@ -49,6 +50,10 @@ Spotlight Card	Mobile	False/True	context
 Square progress bar	Variant	Default/Inline/Bottom label	state
 Square progress bar	Progress	0%/25%/50%/75%/100%	state
 Star rating	Read only	No/Yes	state
+Stepper	System	People First/Configr	state
+Steps	Position	Middle/First/Last	state
+Steps	Current step	No/Yes	state
+Steps	Completed step	No/Yes	state
 Table progress bar	Completion	0%/25%/50%/75%/100%	state
 Table progress bar	Dark cell background	No/Yes	state
 Tags	Small	No/Yes	state

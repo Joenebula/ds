@@ -832,7 +832,8 @@
 .pf-sticky-footer[data-default="Default"] {
   background: var(--pf-bg-primary);
   border-color: var(--pf-border-secondary);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-sticky-footer[data-default="Stepper"] {
   background: var(--pf-bg-primary);

@@ -496,14 +496,18 @@
   color: var(--pf-text-primary);
 }
 .pf-ai-button[data-style="Light mode"][data-hover="True"] {
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-ai-button[data-style="Inverted"][data-hover="False"] {
+  /* Figma binds the primitive "Base colours/Default Pink" here; no semantic token has this role */
   color: var(--pf-base-default-pink);
 }
 .pf-ai-button[data-style="Inverted"][data-hover="True"] {
+  /* Figma binds the primitive "Base colours/White" here; no semantic token has this role */
   border-color: var(--pf-base-white);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 /* AI Assistant
@@ -526,11 +530,13 @@
 }
 .pf-ai-assistant[data-type="Default"] {
   background: var(--pf-bg-primary);
+  /* Figma binds the primitive "Base colours/Default Pink" here; no semantic token has this role */
   color: var(--pf-base-default-pink);
 }
 .pf-ai-assistant[data-type="Active chat"] {
   background: var(--pf-bg-primary);
   border-color: var(--pf-border-default);
+  /* Figma binds the primitive "Base colours/Default Pink" here; no semantic token has this role */
   color: var(--pf-base-default-pink);
 }
 .pf-ai-assistant[data-type="Expanded"] {
@@ -619,6 +625,7 @@
 }
 .pf-clickable-ai-element[data-state="Hover"],
 .pf-clickable-ai-element:hover {
+  /* Figma binds the primitive "Base colours/Default Pink" here; no semantic token has this role */
   color: var(--pf-base-default-pink);
 }
 

@@ -186,6 +186,14 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Default header background|Breakpoint=Desktop** | auto x 86 | 0 | 0 | 0 | — | NONE |
 | **Default header background|Breakpoint=Tablet** | auto x 74 | 0 | 0 | 0 | — | NONE |
 | **Default header background|Breakpoint=Mobile** | auto x 62 | 0 | 0 | 0 | — | NONE |
+| **Notification panel** | auto x auto | 0 | 0 | 0 | — | VERTICAL MIN MIN |
+| **Notification list** | auto x auto | 0 | 0 | 0 | — | VERTICAL MIN MIN |
+| **Notification categories** | 300 x auto | 5 10 | 0 | 0 | — | VERTICAL MIN MIN |
+| **Pagination buttons** | auto x 32 | 0 | 0 | 30 | — | HORIZONTAL SPACE_BETWEEN CENTER |
+| **Steps** | 110 x 48 | 0 | 0 | 5 | — | VERTICAL MIN CENTER |
+| **Stepper** | 330 x 160 | 0 | 0 | 0 | — | VERTICAL CENTER CENTER |
+| **Waffle** | 90 x 86 | 0 | 0 | 0 | — | NONE |
+| **Full page/Header navigation/Yes/No** | 375 x 138 | 0 | 0 | 0 | — | VERTICAL MIN MIN |
 
 ## Reading these numbers
 

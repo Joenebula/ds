@@ -63,7 +63,23 @@ const PRIMITIVE_ALIAS = {
     'background': '--pf-base-grey-slate',
     'border-color': '--pf-base-grey-slate',
   },
+  'Base colours/Grey Slate': {
+    'color': '--pf-text-always-grey-slate',
+  },
+  'Base colours/White': {
+    // Bound as text on Pagination buttons, Header navigation and Full page. The semantic
+    // token that means exactly "white text, in both modes" is Text/Always White, and it
+    // resolves to the same value.
+    'color': '--pf-text-always-white',
+  },
 };
+// Every name in the primitive collection. A component binding one of these has reached
+// past the semantic layer to a raw colour, which is what stops it adapting between modes.
+// Detected by collection membership rather than by a list of names, so a new one cannot
+// slip through unnoticed.
+const PRIMITIVE_NAMES = new Set(
+  readFileSync('tokens/_raw/primitives.tsv', 'utf8').trim().split('\n')
+    .map(l => l.split('\t')[0]).filter(Boolean));
 const sourceIssues = new Map();
 
 // ---- naming ----------------------------------------------------------------
@@ -192,6 +208,24 @@ function colourDecls(row) {
   const put = (figmaName, prop) => {
     if (!figmaName) return;
     const v = tokenVar.get(figmaName);
+    // A primitive resolves perfectly well through tokenVar — to the primitive — so the
+    // check has to come FIRST or the substitution never runs and the component ships
+    // with a colour that cannot change between modes.
+    if (PRIMITIVE_NAMES.has(figmaName) || PRIMITIVE_ALIAS[figmaName]) {
+      const alias = (PRIMITIVE_ALIAS[figmaName] || {})[prop];
+      if (alias) {
+        d.push(`/* Figma binds the primitive "${figmaName}" here instead of a semantic token */`);
+        d.push(`${prop}: var(${alias})`);
+        sourceIssues.set(`${figmaName} (${prop})`, `bound directly on ${row.component}; using ${alias}, same value`);
+        return;
+      }
+      if (v) {
+        d.push(`/* Figma binds the primitive "${figmaName}" here; no semantic token has this role */`);
+        d.push(`${prop}: var(${v})`);
+        sourceIssues.set(`${figmaName} (${prop})`, `bound directly on ${row.component}; NO semantic equivalent — will not adapt between modes`);
+        return;
+      }
+    }
     if (v) { d.push(`${prop}: var(${v})`); return; }
     // A binding Figma records under a bare PRIMITIVE name rather than a semantic path.
     // Every other binding in the file reads `Text/Primary`, `Background/Theme`; these

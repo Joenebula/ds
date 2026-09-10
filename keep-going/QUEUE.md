@@ -608,3 +608,33 @@ I have not touched either. Repointing `--pf-border-default` at `Border/Default f
 change every hairline in dark mode from white to Grey Fog — visible, and a design decision
 rather than a build one. Ask the design team which is right, or say the word and I will
 make the change and show you both before and after.
+
+## 34. The 14 Navigation components the inventory never saw — `in progress`
+
+The user pushed back on "33 components" and was right to. A page-by-page count against
+Figma shows 157 distinct components on the 12 real pages, and my inventory extract
+(`tokens/_raw/components.json`) is missing 15 of them — 14 on Navigation, 1 on Buttons and
+links. The cause is structural: the extract never descended into Figma SECTIONs, and
+Navigation is organised almost entirely in sections.
+
+So the reconciliation I reported was internally consistent and wrong at the source: it
+reconciled against an inventory that was itself incomplete. Everything downstream — the
+"460 components", the gallery's gap list, the per-page tallies — inherited that.
+
+Missing, all on Navigation: Full page, Full page/Header navigation/Yes/No, Header
+navigation, Nav tabs, Notification categories, Notification list, Notification panel,
+Notification tabs, Pagination buttons, Search navigation, Stepper, Steps, Tertiary nav,
+Waffle. (`Repeating group` on Buttons and links is absent from the inventory too, but it
+already has rules, so nothing is missing from the stylesheet for it.)
+
+**Done when:** the inventory extract descends into sections and lists all 157; the 14 have
+colour bindings and measured geometry in the extracts and classes in `dist/components.css`;
+a check fails if the inventory disagrees with a per-page count taken from Figma; and the
+gallery's totals move accordingly.
+
+**Governing skills:** `figma-use` before any Figma read.
+
+## Parked at the user's request
+
+The two tokens with no Figma variable — `--pf-border-default` and `--pf-bg-theme-full`.
+Coming back to these; nothing has been changed.

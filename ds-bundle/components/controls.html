@@ -492,15 +492,18 @@
 }
 .pf-toggle[data-on="No"][data-locked="No"] {
   background: var(--pf-bg-tertiary);
+  /* Figma binds the primitive "Base colours/Grey Dolphin" here; no semantic token has this role */
   border-color: var(--pf-base-grey-dolphin);
   color: var(--pf-text-secondary);
 }
 .pf-toggle[data-on="Yes"][data-locked="No"] {
   background: var(--pf-bg-primary-button);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-toggle[data-on="No"][data-locked="Yes"] {
   background: var(--pf-bg-tertiary);
+  /* Figma binds the primitive "Base colours/Grey Dolphin" here; no semantic token has this role */
   border-color: var(--pf-base-grey-dolphin);
 }
 .pf-toggle[data-on="Yes"][data-locked="Yes"] {

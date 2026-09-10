@@ -662,6 +662,7 @@
   color: var(--pf-text-primary);
 }
 .pf-config-child-menu[data-type="Selected"] {
+  /* Figma binds the primitive "Base colours/Blue Ocean" here; no semantic token has this role */
   background: var(--pf-base-blue-ocean);
   color: var(--pf-text-inverted-primary);
 }
@@ -848,10 +849,12 @@
   color: var(--pf-text-secondary);
 }
 .pf-header[data-breakpoint="Tablet"] {
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-header[data-breakpoint="Mobile"] {
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 /* Mobile bottom navigation
@@ -899,10 +902,12 @@
   color: var(--pf-text-secondary);
 }
 .pf-header-top-navigation[data-breakpoint="Tablet"] {
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-header-top-navigation[data-breakpoint="Mobile"] {
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 /* [S] Main nav context
@@ -950,7 +955,8 @@
   font-family: var(--pf-font-body);
 }
 .pf-top-bar-app-context {
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 /* Search home button
@@ -999,10 +1005,12 @@
   color: var(--pf-text-secondary);
 }
 .pf-full-page-navigation[data-breakpoint="Mobile"] {
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-full-page-navigation[data-breakpoint="Tablet"] {
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 /* Side navigation panel
@@ -1132,6 +1140,185 @@
   color: var(--pf-text-inverted-primary);
 }
 
+/* Notification panel
+ * 1 variant captured. 2 variants (Mobile). Figma draws it 1500x1080 — the artboard, not a rule.
+ */
+.pf-notification-panel {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-notification-panel {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-primary);
+}
+
+/* Notification list
+ * 2 variants captured. 2 variants (Mobile). Figma draws it 1117x730 — the artboard, not a rule.
+ */
+.pf-notification-list {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-notification-list[data-mobile="No"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-primary);
+}
+.pf-notification-list[data-mobile="Yes"] {
+  color: var(--pf-text-theme);
+}
+
+/* Notification categories
+ * 2 variants captured. 2 variants (Mobile). Figma draws it 1020px tall — the artboard, not a rule.
+ * Figma draws this 300px wide; treated as layout, not a rule
+ */
+.pf-notification-categories {
+  padding: 5px 10px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-notification-categories[data-mobile="No"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-navigation-notification-selected);
+}
+.pf-notification-categories[data-mobile="Yes"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-primary);
+}
+
+/* Pagination buttons
+ * 1 variant captured. Single component. Binds a primitive for its text — see source issues.
+ */
+.pf-pagination-buttons {
+  height: 32px;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 30px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-pagination-buttons {
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
+}
+
+/* Steps
+ * 6 variants captured. 26 variants across System x State x Position; 6 distinct colour bindings, keyed on State.
+ */
+.pf-steps {
+  width: 110px;
+  height: 48px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-steps[data-state="Completed"] {
+  color: var(--pf-text-positive);
+}
+.pf-steps[data-state="Selected"] {
+  color: var(--pf-navigation-nav-bg-top);
+}
+.pf-steps[data-state="Default enabled"] {
+  color: var(--pf-text-secondary);
+}
+.pf-steps[data-state="Default disabled"] {
+  color: var(--pf-text-inverted-secondary);
+}
+.pf-steps[data-system="People First"][data-state="Hover"],
+.pf-steps[data-system="People First"]:hover {
+  color: var(--pf-text-theme);
+}
+.pf-steps[data-system="Configr"][data-state="Hover"],
+.pf-steps[data-system="Configr"]:hover {
+  color: var(--pf-text-configr-theme);
+}
+
+/* Stepper
+ * 1 variant captured. 2 variants (System); both bind the same colours.
+ * Figma draws this 330px wide; treated as layout, not a rule
+ */
+.pf-stepper {
+  height: 160px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-stepper {
+  color: var(--pf-text-positive);
+}
+
+/* Full page/Header navigation/Yes/No
+ * 1 variant captured. Single component, mobile width.
+ * Figma draws this 375px wide; treated as layout, not a rule
+ */
+.pf-full-page-header-navigation-yes-no {
+  height: 138px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-full-page-header-navigation-yes-no {
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
+}
+
 * { box-sizing: border-box; }
 body { margin: 0; padding: var(--pf-space-large); background: var(--pf-bg-primary);
        color: var(--pf-text-primary); font-family: var(--pf-font-body);
@@ -1159,7 +1346,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
 </head>
 <body>
 <h1>Navigation</h1>
-<p class="sub">24 components from the Navigation page in Figma, rendered with dist/components.css. Class names mirror Figma's variant panel: the component is the class, each variant property is a data attribute.</p>
+<p class="sub">31 components from the Navigation page in Figma, rendered with dist/components.css. Class names mirror Figma's variant panel: the component is the class, each variant property is a data attribute.</p>
 <h2>Clock in</h2>
 <p class="sub">.pf-clock-in  ·  107 x 32  ·  2 variants</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
@@ -1260,6 +1447,14 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
         <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Breakpoint=Tablet</span>
       </div>
 </div>
+<h2>Full page/Header navigation/Yes/No</h2>
+<p class="sub">.pf-full-page-header-navigation-yes-no  ·  375 x 138  ·  1 variant</p>
+<div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
+<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
+        <div class="pf-full-page-header-navigation-yes-no">Full page/Header navigation/Yes/No</div>
+        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">default</span>
+      </div>
+</div>
 <h2>Header top navigation</h2>
 <p class="sub">.pf-header-top-navigation  ·  1834 x auto  ·  3 variants</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
@@ -1324,6 +1519,46 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
         <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">default</span>
       </div>
 </div>
+<h2>Notification categories</h2>
+<p class="sub">.pf-notification-categories  ·  300 x auto  ·  2 variants</p>
+<div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
+<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
+        <div class="pf-notification-categories" data-mobile="No">Notification categories</div>
+        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Mobile=No</span>
+      </div>
+<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
+        <div class="pf-notification-categories" data-mobile="Yes">Notification categories</div>
+        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Mobile=Yes</span>
+      </div>
+</div>
+<h2>Notification list</h2>
+<p class="sub">.pf-notification-list  ·  auto x auto  ·  2 variants</p>
+<div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
+<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
+        <div class="pf-notification-list" data-mobile="No">Notification list</div>
+        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Mobile=No</span>
+      </div>
+<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
+        <div class="pf-notification-list" data-mobile="Yes">Notification list</div>
+        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Mobile=Yes</span>
+      </div>
+</div>
+<h2>Notification panel</h2>
+<p class="sub">.pf-notification-panel  ·  auto x auto  ·  1 variant</p>
+<div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
+<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
+        <div class="pf-notification-panel">Notification panel</div>
+        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">default</span>
+      </div>
+</div>
+<h2>Pagination buttons</h2>
+<p class="sub">.pf-pagination-buttons  ·  auto x 32  ·  1 variant</p>
+<div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
+<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
+        <div class="pf-pagination-buttons">Pagination buttons</div>
+        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">default</span>
+      </div>
+</div>
 <h2>Search home button</h2>
 <p class="sub">.pf-search-home-button  ·  150 x 32  ·  2 variants</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
@@ -1378,6 +1613,42 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-side-navigation" data-variant="Finance">Side navigation</div>
         <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Variant=Finance</span>
+      </div>
+</div>
+<h2>Stepper</h2>
+<p class="sub">.pf-stepper  ·  330 x 160  ·  1 variant</p>
+<div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
+<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
+        <div class="pf-stepper">Stepper</div>
+        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">default</span>
+      </div>
+</div>
+<h2>Steps</h2>
+<p class="sub">.pf-steps  ·  110 x 48  ·  6 variants</p>
+<div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
+<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
+        <div class="pf-steps" data-state="Completed">Steps</div>
+        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">State=Completed</span>
+      </div>
+<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
+        <div class="pf-steps" data-state="Selected">Steps</div>
+        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">State=Selected</span>
+      </div>
+<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
+        <div class="pf-steps" data-state="Default enabled">Steps</div>
+        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">State=Default enabled</span>
+      </div>
+<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
+        <div class="pf-steps" data-state="Default disabled">Steps</div>
+        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">State=Default disabled</span>
+      </div>
+<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
+        <div class="pf-steps" data-state="Hover" data-system="People First">Steps</div>
+        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">State=Hover, System=People First</span>
+      </div>
+<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
+        <div class="pf-steps" data-state="Hover" data-system="Configr">Steps</div>
+        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">State=Hover, System=Configr</span>
       </div>
 </div>
 <h2>Tab</h2>
