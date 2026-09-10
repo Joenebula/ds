@@ -137,8 +137,11 @@ body {
   color: var(--pf-icon-theme);
 }
 
-/* GAP 3 + GAP 5 — the dashed add-another card. Same 74px row as the two stages
-   above it, centred rather than left-aligned, with a dashed themed outline. */
+/* GAP 3 + GAP 5 — the dashed add-another card. Same 74px row as the two stages above
+   it, centred rather than left-aligned, with a dashed themed outline. The centring is
+   deliberate, so the markup says data-align="center" — verify-layout.mjs treats any
+   undeclared centring as a defect, because an accident and a decision look identical
+   from outside. */
 .add-stage {
   display: flex; align-items: center; justify-content: center; gap: var(--pf-space-small);
   width: 100%; font-family: inherit; text-align: left;
@@ -234,7 +237,7 @@ body {
       </span>
     </button>
 
-    <button type="button" class="pf-card stage add-stage" data-property-1="Default">
+    <button type="button" class="pf-card stage add-stage" data-property-1="Default" data-align="center">
       <span class="marker" data-state="add" aria-hidden="true"><!--pf-icon:add-plus 14--></span>
       <span class="pf-text-body-text-semibold">Add new stage</span>
     </button>
