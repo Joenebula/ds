@@ -1,0 +1,92 @@
+{
+  "source": "figma:kuX4KDIN0u4axsKTELYlzW:17471:142965",
+  "extractedWith": "get_design_context",
+  "extractedOn": "2026-09-10",
+  "screen": "Case management — all stages complete",
+  "why": [
+    "Written from the extract BEFORE any markup, which is the order F-020 exists to enforce.",
+    "The raw responses are saved verbatim in dsskill/runs/20260910-case-stages-complete/context/."
+  ],
+  "text": [
+    { "node": "16299:9439", "content": "Case summary", "fontSize": 13, "fontWeight": 400 },
+    {
+      "node": "16299:9440",
+      "content": "Nicholas has twice taken unapproved absences",
+      "fontSize": 16,
+      "fontWeight": 600,
+      "comment": "Figma carries a trailing space on this run; normalised away when comparing."
+    },
+    { "node": "16299:9441", "content": "10 Aug 2026 • 12 days ago", "fontSize": 13, "fontWeight": 400,
+      "comment": "Two spans in one paragraph, both 13px. The bullet is U+2022, not U+00B7." },
+    { "node": "16299:9444", "content": "Case subject", "fontSize": 13, "fontWeight": 400 },
+    { "node": "16299:9448", "content": "Nicholas Smudge", "fontSize": 16, "fontWeight": 400 },
+    { "node": "16299:9450", "content": "Type", "fontSize": 13, "fontWeight": 400 },
+    { "node": "16299:9453", "content": "Disciplinary", "fontSize": 16, "fontWeight": 400 },
+
+    { "node": "17471:142968", "content": "Stages", "fontSize": 16, "fontWeight": 600 },
+
+    { "node": "I17471:142969;14171:9720", "content": "Case raised", "fontSize": 16, "fontWeight": 600 },
+    {
+      "node": "I17471:142969;16157:23149",
+      "content": "David Thompson",
+      "fontSize": 12,
+      "fontWeight": 400,
+      "accept": { "fontSize": 13, "why": "12px is not on the People First ramp (13/16/20/24/36); the prototype uses the 13px label class and this file records Figma's real 12px" }
+    },
+
+    { "node": "I17628:145169;14171:9720", "content": "Hearing", "fontSize": 16, "fontWeight": 600 },
+    {
+      "node": "I17628:145169;16157:23149",
+      "content": "Samantha Stevens",
+      "fontSize": 12,
+      "fontWeight": 400,
+      "accept": { "fontSize": 13, "why": "12px is not on the People First ramp; the prototype uses the 13px label class" }
+    },
+
+    { "node": "14171:9720", "content": "Investigation", "fontSize": 16, "fontWeight": 600,
+      "comment": "Third card is the ClickableCard component at its own default content." },
+    {
+      "node": "16157:23149",
+      "content": "Samantha Stevens",
+      "fontSize": 12,
+      "fontWeight": 400,
+      "accept": { "fontSize": 13, "why": "12px is not on the People First ramp; the prototype uses the 13px label class" }
+    },
+
+    { "node": "I17471:142969;14171:9725;1486:42842;1486:42691", "content": "Complete", "fontSize": 13, "fontWeight": 400,
+      "comment": "All three cards carry the same green Complete tag." }
+  ],
+  "peoplePerCard": {
+    "comment": "Four avatars: one in the header's subject field, one per stage card.",
+    "16299:9445": 1,
+    "17471:142969": 1,
+    "17628:145169": 1,
+    "17471:142971": 1
+  },
+  "placeholders": {
+    "comment": "EMPTY, deliberately. Every string on this page is Figma's own, so there is nothing to declare and the whole screen is held to Figma's exact words. See `portraits` for why one avatar shows a monogram instead of a face."
+  },
+  "portraits": {
+    "comment": "Figma's People instances are sample content dropped in without matching the text. This screen takes the TEXT as authoritative and binds a portrait only where a People variant of that name exists — so a name the library has no face for shows a monogram, which is the honest rendering rather than a substituted name.",
+    "Nicholas Smudge": { "key": "nicholas-smudge", "node": "329:360", "figmaPhoto": "Cooper Passaquindici Arcand — does not match the name" },
+    "Samantha Stevens": { "key": "samantha-stevens", "node": "329:348", "figmaPhoto": "Samantha Stevens — matches" },
+    "David Thompson": { "key": null, "figmaPhoto": "Roger Ekstrom Bothman — does not match the name", "note": "No David Thompson exists in People (329:422). Shows the monogram DT." }
+  },
+  "geometry": {
+    "comment": "From get_metadata on 17471:142965. Recorded so the divergences below are measured, not remembered.",
+    "frame": "516x504, 20px padding, 20px between the two regions",
+    "header": "476x170 at (20,20) — the same component as the Case summary screen",
+    "stages": "476x274 at (20,210); heading 22px tall, three 74px cards, 10px gaps",
+    "card": "h74, px12 py14, radius 10, gap 12, white with a 1px border/default",
+    "stepper": "24px, filled Green button (#517A38), 14px white tick — Done on all three",
+    "tag": "Rectangle Tags, px15 py5, radius 4, 13px Regular green",
+    "arrow": "Right arrow, 20px"
+  },
+  "divergences": {
+    "comment": "Known, deliberate differences from Figma. Listed so they are decisions rather than drift.",
+    "components": "Stepper, People, Rectangle Tags and Right arrow come from a non-People-First library (F-018). The rebuild substitutes People First equivalents where they exist and declares a gap where they do not.",
+    "cardGeometry": "Figma's clickable card is radius 10, padding 12/14. .pf-card is radius 8, padding 20. The prototype uses the People First card and accepts the difference.",
+    "tags": "Figma uses Rectangle Tags with alpha fills (rgba(81,122,56,0.05)). The prototype uses the People First Tags component.",
+    "personName12px": "12px is not on the People First type ramp. Recorded as a gap; the prototype uses the 13px label class and each entry carries an `accept`."
+  }
+}
