@@ -65,7 +65,7 @@ writeFileSync('dist/avatars.css', css);
 console.log(`built dist/avatars.css  (${(css.length / 1024).toFixed(0)} KB)`);
 if (!files.length) {
   console.log('avatars          : 0 — assets/avatars/ is empty, so every .avatar keeps its initials');
-  console.log('                   drop .png/.jpg/.webp files there named after the person, e.g. aisha-bello.png');
+  console.log('                   drop .png/.jpg/.webp files there named after the person, e.g. roger-bothman.png');
 } else {
   console.log(`avatars          : ${files.length} (${(bytes / 1024).toFixed(0)} KB of source images)`);
   console.log(`                   ${files.map((f) => basename(f, extname(f))).join(', ')}`);

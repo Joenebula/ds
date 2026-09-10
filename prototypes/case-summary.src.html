@@ -104,11 +104,13 @@ body {
    in the card. Every check stayed green while the page was visibly wrong, because none of
    them measures where a thing sits. So the two local classes above stay: they are page
    layout, which is what local CSS is for.
-   What the library genuinely does not carry is the photograph —
-   tokens/_raw/uncaptured-reasons.tsv: "its variants are sample content (one per fictional
-   employee), not design", which is correct, since a photograph is not a token. Initials on
-   a neutral surface, and dist/avatars.css covers them with a portrait the moment one
-   exists in assets/avatars/. Figma draws it 24px, off the icon ramp. */
+   The People set DOES carry a `Who?=Initials` variant (10651:114287) — but it is a
+   flattened SVG that binds no colour variable, which is precisely why
+   tokens/_raw/uncaptured-reasons.tsv excludes `Profile image`: there is nothing in it to
+   put in a stylesheet. So this local class is a real gap, not a re-implementation, and it
+   stays. Figma draws the avatar 24px, off the icon ramp.
+   The portraits are the library's own sample employees; dist/avatars.css covers these
+   initials with one the moment the matching file exists in assets/avatars/. */
 .avatar {
   width: 24px; height: 24px;
   border-radius: 50%; flex: 0 0 auto;
@@ -172,7 +174,7 @@ body {
           <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">Case summary</span>
           <!-- 16px SemiBold. Figma uses no 20px type anywhere on this screen. -->
           <h1 class="pf-text-body-text-semibold" id="case-heading" style="margin:0">
-            Repeated unauthorised absence
+            Nicholas has twice taken unapproved absences
           </h1>
           <!-- One text run, and Figma's bullet is U+2022, not U+00B7. -->
           <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">10 Aug 2026 &bull; 12 days ago</span>
@@ -184,8 +186,8 @@ body {
           <div class="field">
             <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">Case subject</span>
             <span class="field-value">
-              <span class="avatar pf-avatar-photo" data-person data-avatar="aisha-bello" aria-hidden="true">AB</span>
-              <span class="pf-text-body-text">Aisha Bello</span>
+              <span class="avatar pf-avatar-photo" data-person data-avatar="nicholas-smudge" aria-hidden="true">NS</span>
+              <span class="pf-text-body-text">Nicholas Smudge</span>
             </span>
           </div>
           <div class="field">
@@ -207,8 +209,8 @@ body {
       <span class="stage-body">
         <span class="stage-title"><span class="pf-text-body-text-semibold">Case raised</span></span>
         <span class="stage-people">
-          <span class="avatar pf-avatar-photo" data-person data-avatar="tomasz-kowalczyk" aria-hidden="true">TK</span>
-          <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">Tomasz Kowalczyk</span>
+          <span class="avatar pf-avatar-photo" data-person data-avatar="roger-bothman" aria-hidden="true">RB</span>
+          <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">Roger Bothman</span>
         </span>
       </span>
       <span class="stage-end">
@@ -218,7 +220,7 @@ body {
     </button>
 
     <button type="button" class="pf-card stage" data-property-1="Default" aria-current="step"
-            aria-label="Stage in progress, Nadia Hussain">
+            aria-label="Stage in progress, Samantha Stevens">
       <span class="marker" data-state="current" aria-hidden="true"></span>
       <span class="stage-body">
         <!-- EMPTY ON PURPOSE. Figma node I16157:22128;16157:21465 contains a single
@@ -226,8 +228,8 @@ body {
              is the invention scripts/verify-content.mjs now exists to catch. -->
         <span class="stage-title"></span>
         <span class="stage-people">
-          <span class="avatar pf-avatar-photo" data-person data-avatar="nadia-hussain" aria-hidden="true">NH</span>
-          <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">Nadia Hussain</span>
+          <span class="avatar pf-avatar-photo" data-person data-avatar="samantha-stevens" aria-hidden="true">SS</span>
+          <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">Samantha Stevens</span>
         </span>
       </span>
       <span class="stage-end">

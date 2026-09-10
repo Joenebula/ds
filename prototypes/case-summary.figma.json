@@ -134,12 +134,8 @@
     "comment": "One People instance per card. The first build put two on the in-progress card, inventing a second person."
   },
   "placeholders": {
-    "comment": "Personal data is replaced because the design carries a named disciplinary case. Every substitution is declared here so verify-content can tell a substitution from an invention — which is exactly the difference the first build got wrong.",
-    "Nicholas Smudge": "Aisha Bello",
-    "David Thompson": "Tomasz Kowalczyk",
-    "Samantha Stevens": "Nadia Hussain",
-    "Nicholas has twice taken unapproved absences": "Repeated unauthorised absence",
-    "10 Aug 2026 • 12 days ago": "10 Aug 2026 • 12 days ago"
+    "comment": "Down to ONE entry. The screen now shows the design system's own sample employees (People, 329:422) rather than names I made up, so every other string is a straight copy of Figma and verify-content holds the page to Figma's exact words. A shorter map is a stronger check: each entry is a place the page is allowed to differ.",
+    "David Thompson": "Roger Bothman"
   },
   "divergences": {
     "comment": "Known, deliberate differences from the Figma design. Listed so they are decisions rather than drift.",
@@ -188,5 +184,26 @@
     "card": "h74, px12 py14, radius 10, gap 12",
     "headerInnerCard": "px10 py15, radius 8, 1px border/default",
     "button": "114x32 at (20,504)"
+  },
+  "portraits": {
+    "comment": "From People (329:422), the design system's own fictional employees. Exported by hand because www.figma.com is denied by this session's egress proxy; assets/fonts/manifest.json records source URLs the same way for the same reason.",
+    "nicholas-smudge": {
+      "node": "329:360",
+      "variant": "Who?=S -  Nicholas Smudge",
+      "usedFor": "Case subject"
+    },
+    "roger-bothman": {
+      "node": "329:372",
+      "variant": "Who?=S -  Roger Bothman",
+      "usedFor": "Case raised stage"
+    },
+    "samantha-stevens": {
+      "node": "329:348",
+      "variant": "Who?=S -  Samantha Stevens",
+      "usedFor": "In-progress stage"
+    }
+  },
+  "placeholderNotes": {
+    "David Thompson": "Figma labels Roger Bothman's portrait 'David Thompson' (text node I16157:22088;16157:23149, photo 329:372). There is no David Thompson in the People set, so the face and the name cannot both match Figma. The face wins, and this records that it was a choice."
   }
 }

@@ -5,7 +5,7 @@ Drop images here and `npm run build` turns them into `dist/avatars.css`.
 **Naming.** The filename is the binding key, lowercased and hyphenated:
 
 ```
-assets/avatars/aisha-bello.png  ->  <span class="avatar pf-avatar-photo" data-avatar="aisha-bello">AB</span>
+assets/avatars/roger-bothman.png  ->  <span class="avatar pf-avatar-photo" data-avatar="roger-bothman">RB</span>
 ```
 
 `.png`, `.jpg`, `.jpeg` and `.webp` are read; anything else is ignored.
