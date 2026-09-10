@@ -140,11 +140,11 @@
   "divergences": {
     "comment": "Known, deliberate differences from the Figma design. Listed so they are decisions rather than drift.",
     "components": "Stepper, People, Rectangle Tags and Right arrow are from a non-People-First library (F-018). The rebuild substitutes People First equivalents where they exist and declares a gap where they do not.",
-    "cardGeometry": "Figma cards are radius 10px, padding 12/14px. .pf-card is radius 8px, padding 20px. The rebuild uses the People First card and accepts the difference.",
     "tags": "Figma uses Rectangle Tags with alpha fills (rgba(81,122,56,0.05)). The rebuild uses the People First Tags component.",
     "personName12px": "12px is not on the People First type ramp (13 / 16 / 20 / 24 / 36). Recorded as a gap; the rebuild uses the 13px label class and this file records the real value.",
     "emptyTitleHeight": "Figma's stage title row is a fixed 22px. On the in-progress card the title is empty, so the prototype keeps the 22px with .stage-title{min-height:22px} — without it the card loses height and the two stages stop lining up. The emptiness is the design; the height keeps it honest.",
-    "buttonCase": "Figma draws Close case 13px Regular UPPERCASE with no icon. .pf-button is 13px SemiBold sentence case with a leading icon slot. The library component wins and the icon is dropped, so the page reads 'Close case', not 'CLOSE CASE'. This is the one visible difference from the Figma render."
+    "buttonCase": "Figma draws Close case 13px Regular UPPERCASE with no icon. .pf-button is 13px SemiBold sentence case with a leading icon slot. The library component wins and the icon is dropped, so the page reads 'Close case', not 'CLOSE CASE'. This is the one visible difference from the Figma render.",
+    "cardsAreLocalCss": "The header and subject are plain Figma FRAMES, and the stage card is `Clickable card` from a non-People-First library. None is the People First Card, so they are built in local CSS to Figma's measured values and asserted by the `frame` block above. `.pf-card` used to stand in for them at radius 8 / padding 20, which made every screen about a fifth taller than the design."
   },
   "icons": {
     "comment": "Sizes as Figma draws them. The 'circle' the case icon sits in is the icon's own outline — assets/icons/case-management.svg is the same speech-bubble ring, and at 28px it stopped reading as one. The defect was the size, not a missing container.",
@@ -205,5 +205,45 @@
   },
   "placeholderNotes": {
     "David Thompson": "Figma labels Roger Bothman's portrait 'David Thompson' (text node I16157:22088;16157:23149, photo 329:372). There is no David Thompson in the People set, so the face and the name cannot both match Figma. The face wins, and this records that it was a choice."
-  }
+  },
+  "frame": [
+    {
+      "selector": ".panel",
+      "name": "Figma frame",
+      "width": 516,
+      "padding": "20px",
+      "gap": 20,
+      "height": 556
+    },
+    {
+      "selector": ".summary",
+      "name": "header frame 16299:9456",
+      "height": 170,
+      "padding": "10px",
+      "radius": 8,
+      "gap": 10
+    },
+    {
+      "selector": ".subject",
+      "name": "subject frame 16299:9442",
+      "padding": "15px 10px",
+      "radius": 8
+    },
+    {
+      "selector": ".stage",
+      "name": "Clickable card 14171:9714",
+      "height": 74,
+      "padding": "14px 12px",
+      "radius": 10,
+      "columnGap": 12
+    },
+    {
+      "selector": ".add-stage",
+      "name": "Clickable card, add variant 14044:8899",
+      "height": 74,
+      "padding": "14px 12px",
+      "radius": 10
+    }
+  ],
+  "frame_comment": "Machine-readable geometry, read by scripts/verify-frame.mjs. Every value is from the saved extract in dsskill/runs/. These frames are NOT the People First Card: the header and subject are plain Figma frames (page layout), and the stage card is `Clickable card` from a non-People-First library (F-018). They are built in local CSS as declared GAPs — and this block is what makes that checkable rather than merely declared."
 }

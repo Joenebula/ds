@@ -44,43 +44,65 @@ body {
   font-family: var(--pf-font-body);
   padding: var(--pf-space-xlarge) var(--pf-space-large);
 }
-/* Figma frame is 516 wide with 20px padding, so 476 of content. */
-.panel { max-width: 516px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--pf-space-large); }
-
-/* .pf-card centres its children and hugs; a panel card fills and stacks left. */
-.card-block { display: flex; align-items: stretch; width: 100%; }
-.card-block > .pf-card { width: 100%; align-items: stretch; }
+/* THE FIGMA FRAME. This element IS the frame, so its measured size is checkable
+   against the extract by verify-frame.mjs. The provenance note lives outside it. */
+.panel {
+  width: 516px; max-width: 100%; margin: 0 auto;
+  display: flex; flex-direction: column;
+  padding: var(--pf-space-large); gap: var(--pf-space-large);
+}
 
 /* ---------- summary header ---------- */
 /* Figma: bg background/theme, 10px padding, 10px gap, radius 8. .pf-card brings
    the radius and the surface; the 10px padding is a declared divergence from the
    component's 20px, recorded in case-summary.figma.json under `cardGeometry`. */
-.summary { background: var(--pf-bg-theme); gap: var(--pf-space-small); align-items: stretch; }
+.summary {
+  display: flex; flex-direction: column; align-items: stretch;
+  background: var(--pf-bg-theme);
+  padding: var(--pf-space-small); gap: var(--pf-space-small);
+  border-radius: var(--pf-radius-medium);
+}
 .summary-top { display: flex; gap: var(--pf-space-small); align-items: center; }
 .summary-icon { color: var(--pf-icon-theme); flex: 0 0 auto; display: flex; }
 /* Figma stacks these 2px apart. 2px is not a spacing token; xsmall (5px) is the
    nearest and the difference is a declared gap, not a hand-rolled scale. */
-.summary-text { display: flex; flex-direction: column; gap: var(--pf-space-xsmall); min-width: 0; }
+.summary-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 
 .subject {
-  /* .pf-card stacks; Figma lays these two fields out side by side, each flex-1,
-     justified apart. flex-direction has to be said out loud to beat the component. */
-  display: flex; flex-direction: row; align-items: flex-start;
-  justify-content: space-between; gap: var(--pf-space-large);
+  display: flex; flex-direction: row; align-items: flex-start; justify-content: space-between;
+  background: var(--pf-bg-primary);
+  border: 1px solid var(--pf-border-default);
+  padding: var(--pf-space-medium) var(--pf-space-small);
+  border-radius: var(--pf-radius-medium);
+  gap: var(--pf-space-large);
 }
-.field { display: flex; flex-direction: column; gap: var(--pf-space-xsmall); flex: 1 1 0; min-width: 0; }
+.field { display: flex; flex-direction: column; gap: 4px; flex: 1 1 0; min-width: 0; }
 .field-value { display: flex; align-items: center; gap: var(--pf-space-small); }
 
 /* ---------- stages ---------- */
 .stages { display: flex; flex-direction: column; gap: var(--pf-space-small); }
 .stage {
-  /* .pf-card is column + centred; a stage row must override both explicitly. */
+  /* GAP — `Clickable card` (14171:9714) is from a non-People-First library, so there is
+     no class for it. Every value here is Figma's, and this screen's .figma.json declares
+     them for verify-frame.mjs to assert — which is what makes it a CHECKED gap rather
+     than the unchecked approximation `.pf-card` was standing in for.
+
+     HEIGHT, not min-height, and that is not a rounding choice. get_metadata on
+     16157:22041 shows the card fixed at 74 with its inner wrapper 75 tall at y=-0.5 —
+     Figma centres a child TALLER than the frame and lets it overflow. Reproducing that
+     means fixing the height and centring, which is why Figma's own 14+22+5+24+14=79
+     renders as 74. Figma's inner py12 is omitted for the same reason: it overflows
+     either way, and the body centres to the same place without it. */
   display: flex; flex-direction: row; align-items: center; justify-content: flex-start;
-  gap: var(--pf-space-small);
+  height: 74px; padding: 14px 12px; border-radius: 10px; gap: 12px;
   width: 100%; text-align: left; font-family: inherit;
+  background: var(--pf-bg-primary); color: var(--pf-text-primary);
   border: 1px solid var(--pf-border-default);
   cursor: pointer; transition: border-color .12s ease, background-color .12s ease;
 }
+/* Figma wraps the marker and the body together at gap 10; the tag and arrow sit beside
+   that wrapper at the card's own gap of 12. */
+.stage-main { display: flex; flex-direction: row; align-items: center; gap: var(--pf-space-small); flex: 1 1 0; min-width: 0; }
 .stage:hover { border-color: var(--pf-border-theme); }
 /* GAP 5 — the in-progress card. Figma fills it background/theme and outlines it
    border/theme; .pf-card has no such variant, so the two tokens are applied here. */
@@ -91,7 +113,7 @@ body {
    two cards stop lining up. The emptiness is the design; the height keeps it honest. */
 .stage-title { display: flex; align-items: center; min-height: 22px; }
 .stage-people { display: flex; align-items: center; gap: var(--pf-space-small); }
-.stage-end { display: flex; align-items: center; gap: var(--pf-space-small); flex: 0 0 auto; }
+.stage-end { display: flex; align-items: center; gap: 12px; flex: 0 0 auto; }
 /* GAP 4 — Figma's Right arrow is 20px. The icon ramp jumps 18 → 22. */
 .stage-chevron { color: var(--pf-icon-secondary); display: flex; width: 20px; height: 20px; }
 
@@ -163,8 +185,7 @@ body {
 <main class="panel">
 
   <!-- summary header — Figma 16299:9456 -->
-  <div class="card-block">
-    <section class="pf-card summary" aria-labelledby="case-heading">
+  <section class="summary" aria-labelledby="case-heading">
       <div class="summary-top">
         <!-- Figma draws this 36px. The circle the icon sits in is the icon's own
              outline: assets/icons/case-management.svg is the same speech-bubble
@@ -181,8 +202,7 @@ body {
         </div>
       </div>
 
-      <div class="card-block">
-        <div class="pf-card subject" data-property-1="Default">
+      <div class="subject">
           <div class="field">
             <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">Case subject</span>
             <span class="field-value">
@@ -195,22 +215,22 @@ body {
             <span class="pf-text-body-text">Disciplinary</span>
           </div>
         </div>
-      </div>
     </section>
-  </div>
 
   <!-- stages — Figma 16157:22086 -->
   <section class="stages" aria-labelledby="stages-heading">
     <!-- 16px SemiBold, same as the case title. Not a 20px sub-heading. -->
     <h2 class="pf-text-body-text-semibold" id="stages-heading" style="margin:0">Stages</h2>
 
-    <button type="button" class="pf-card stage" data-property-1="Default">
-      <span class="marker" data-state="complete" aria-hidden="true"><!--pf-icon:tick 14--></span>
-      <span class="stage-body">
+    <button type="button" class="stage">
+      <span class="stage-main">
+        <span class="marker" data-state="complete" aria-hidden="true"><!--pf-icon:tick 14--></span>
+        <span class="stage-body">
         <span class="stage-title"><span class="pf-text-body-text-semibold">Case raised</span></span>
         <span class="stage-people">
           <span class="avatar pf-avatar-photo" data-person data-avatar="roger-bothman" aria-hidden="true">RB</span>
           <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">Roger Bothman</span>
+        </span>
         </span>
       </span>
       <span class="stage-end">
@@ -219,10 +239,11 @@ body {
       </span>
     </button>
 
-    <button type="button" class="pf-card stage" data-property-1="Default" aria-current="step"
+    <button type="button" class="stage" aria-current="step"
             aria-label="Stage in progress, Samantha Stevens">
-      <span class="marker" data-state="current" aria-hidden="true"></span>
-      <span class="stage-body">
+      <span class="stage-main">
+        <span class="marker" data-state="current" aria-hidden="true"></span>
+        <span class="stage-body">
         <!-- EMPTY ON PURPOSE. Figma node I16157:22128;16157:21465 contains a single
              space. The first build of this page put a made-up stage name here, which
              is the invention scripts/verify-content.mjs now exists to catch. -->
@@ -230,6 +251,7 @@ body {
         <span class="stage-people">
           <span class="avatar pf-avatar-photo" data-person data-avatar="samantha-stevens" aria-hidden="true">SS</span>
           <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">Samantha Stevens</span>
+        </span>
         </span>
       </span>
       <span class="stage-end">
@@ -239,7 +261,7 @@ body {
       </span>
     </button>
 
-    <button type="button" class="pf-card stage add-stage" data-property-1="Default" data-align="center">
+    <button type="button" class="stage add-stage" data-align="center">
       <span class="marker" data-state="add" aria-hidden="true"><!--pf-icon:add-plus 14--></span>
       <span class="pf-text-body-text-semibold">Add new stage</span>
     </button>
@@ -253,13 +275,13 @@ body {
     <button class="pf-button" data-type="Positive">Close case</button>
   </div>
 
+</main>
+
   <p class="note pf-text-label-text" data-provenance="note">
     Every colour on this page resolves to a People First token. Switch your system or Claude
     theme to dark and the whole screen re-resolves &mdash; no separate dark stylesheet.
     People, dates and case details are sample data and describe no real person.
   </p>
-
-</main>
 
 </body>
 </html>

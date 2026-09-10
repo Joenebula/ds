@@ -8,30 +8,84 @@
     "dsskill/runs/20260910-case-first-stage/context/."
   ],
   "text": [
-    { "node": "16299:9439", "content": "Case summary", "fontSize": 13, "fontWeight": 400 },
-    { "node": "16299:9440", "content": "Nicholas has twice taken unapproved absences", "fontSize": 16, "fontWeight": 600,
-      "comment": "Figma carries a trailing space on this run; normalised away when comparing." },
-    { "node": "16299:9441", "content": "10 Aug 2026 • 12 days ago", "fontSize": 13, "fontWeight": 400,
-      "comment": "Two spans in one paragraph, both 13px. The bullet is U+2022, not U+00B7." },
-    { "node": "16299:9444", "content": "Case subject", "fontSize": 13, "fontWeight": 400 },
-    { "node": "16299:9448", "content": "Nicholas Smudge", "fontSize": 16, "fontWeight": 400 },
-    { "node": "16299:9450", "content": "Type", "fontSize": 13, "fontWeight": 400 },
-    { "node": "16299:9453", "content": "Disciplinary", "fontSize": 16, "fontWeight": 400 },
-
-    { "node": "16157:22040", "content": "Stages", "fontSize": 16, "fontWeight": 600 },
-
-    { "node": "I16157:22041;16157:21465", "content": "Case raised", "fontSize": 16, "fontWeight": 600 },
+    {
+      "node": "16299:9439",
+      "content": "Case summary",
+      "fontSize": 13,
+      "fontWeight": 400
+    },
+    {
+      "node": "16299:9440",
+      "content": "Nicholas has twice taken unapproved absences",
+      "fontSize": 16,
+      "fontWeight": 600,
+      "comment": "Figma carries a trailing space on this run; normalised away when comparing."
+    },
+    {
+      "node": "16299:9441",
+      "content": "10 Aug 2026 • 12 days ago",
+      "fontSize": 13,
+      "fontWeight": 400,
+      "comment": "Two spans in one paragraph, both 13px. The bullet is U+2022, not U+00B7."
+    },
+    {
+      "node": "16299:9444",
+      "content": "Case subject",
+      "fontSize": 13,
+      "fontWeight": 400
+    },
+    {
+      "node": "16299:9448",
+      "content": "Nicholas Smudge",
+      "fontSize": 16,
+      "fontWeight": 400
+    },
+    {
+      "node": "16299:9450",
+      "content": "Type",
+      "fontSize": 13,
+      "fontWeight": 400
+    },
+    {
+      "node": "16299:9453",
+      "content": "Disciplinary",
+      "fontSize": 16,
+      "fontWeight": 400
+    },
+    {
+      "node": "16157:22040",
+      "content": "Stages",
+      "fontSize": 16,
+      "fontWeight": 600
+    },
+    {
+      "node": "I16157:22041;16157:21465",
+      "content": "Case raised",
+      "fontSize": 16,
+      "fontWeight": 600
+    },
     {
       "node": "I16157:22041;16157:22939",
       "content": "David Thompson",
       "fontSize": 12,
       "fontWeight": 400,
-      "accept": { "fontSize": 13, "why": "12px is not on the People First ramp (13/16/20/24/36); the prototype uses the 13px label class and this file records Figma's real 12px" }
+      "accept": {
+        "fontSize": 13,
+        "why": "12px is not on the People First ramp (13/16/20/24/36); the prototype uses the 13px label class and this file records Figma's real 12px"
+      }
     },
-    { "node": "I16157:22041;16157:21470;1486:42842;1486:42691", "content": "Complete", "fontSize": 13, "fontWeight": 400 },
-
-    { "node": "14044:8922", "content": "Add new stage", "fontSize": 16, "fontWeight": 600 },
-
+    {
+      "node": "I16157:22041;16157:21470;1486:42842;1486:42691",
+      "content": "Complete",
+      "fontSize": 13,
+      "fontWeight": 400
+    },
+    {
+      "node": "14044:8922",
+      "content": "Add new stage",
+      "fontSize": 16,
+      "fontWeight": 600
+    },
     {
       "node": "14632:8840",
       "content": "Close case",
@@ -57,8 +111,16 @@
   },
   "portraits": {
     "comment": "Figma's People instances are sample content dropped in without matching the text. This screen takes the TEXT as authoritative and binds a portrait only where a People variant of that name exists.",
-    "Nicholas Smudge": { "key": "nicholas-smudge", "node": "329:360", "figmaPhoto": "Cooper Passaquindici Arcand — does not match the name" },
-    "David Thompson": { "key": null, "figmaPhoto": "Roger Ekstrom Bothman — does not match the name", "note": "No David Thompson exists in People (329:422). Shows the monogram DT." }
+    "Nicholas Smudge": {
+      "key": "nicholas-smudge",
+      "node": "329:360",
+      "figmaPhoto": "Cooper Passaquindici Arcand — does not match the name"
+    },
+    "David Thompson": {
+      "key": null,
+      "figmaPhoto": "Roger Ekstrom Bothman — does not match the name",
+      "note": "No David Thompson exists in People (329:422). Shows the monogram DT."
+    }
   },
   "observations": {
     "comment": "Things the design says that disagree with each other. Reproduced exactly rather than reconciled, because picking whichever two look consistent would be inventing a decision.",
@@ -78,9 +140,49 @@
   "divergences": {
     "comment": "Known, deliberate differences from Figma. Listed so they are decisions rather than drift.",
     "components": "Stepper, People, Rectangle Tags and Right arrow come from a non-People-First library (F-018).",
-    "cardGeometry": "Figma's clickable card is radius 10, padding 12/14. .pf-card is radius 8, padding 20. The prototype uses the People First card and accepts the difference.",
     "tags": "Figma uses Rectangle Tags with alpha fills. The prototype uses the People First Tags component.",
     "personName12px": "12px is not on the People First type ramp. Recorded as a gap; the prototype uses the 13px label class with a declared `accept`.",
-    "buttonCase": "Figma draws Close case 13px Regular UPPERCASE with no icon; .pf-button is 13px SemiBold sentence case. The library component wins, so the page reads 'Close case', not 'CLOSE CASE'."
-  }
+    "buttonCase": "Figma draws Close case 13px Regular UPPERCASE with no icon; .pf-button is 13px SemiBold sentence case. The library component wins, so the page reads 'Close case', not 'CLOSE CASE'.",
+    "cardsAreLocalCss": "The header and subject are plain Figma FRAMES, and the stage card is `Clickable card` from a non-People-First library. None is the People First Card, so they are built in local CSS to Figma's measured values and asserted by the `frame` block above. `.pf-card` used to stand in for them at radius 8 / padding 20, which made every screen about a fifth taller than the design."
+  },
+  "frame": [
+    {
+      "selector": ".panel",
+      "name": "Figma frame",
+      "width": 516,
+      "padding": "20px",
+      "gap": 20,
+      "height": 472
+    },
+    {
+      "selector": ".summary",
+      "name": "header frame 16299:9456",
+      "height": 170,
+      "padding": "10px",
+      "radius": 8,
+      "gap": 10
+    },
+    {
+      "selector": ".subject",
+      "name": "subject frame 16299:9442",
+      "padding": "15px 10px",
+      "radius": 8
+    },
+    {
+      "selector": ".stage",
+      "name": "Clickable card 14171:9714",
+      "height": 74,
+      "padding": "14px 12px",
+      "radius": 10,
+      "columnGap": 12
+    },
+    {
+      "selector": ".add-stage",
+      "name": "Clickable card, add variant 14044:8899",
+      "height": 74,
+      "padding": "14px 12px",
+      "radius": 10
+    }
+  ],
+  "frame_comment": "Machine-readable geometry, read by scripts/verify-frame.mjs. Every value is from the saved extract in dsskill/runs/. These frames are NOT the People First Card: the header and subject are plain Figma frames (page layout), and the stage card is `Clickable card` from a non-People-First library (F-018). They are built in local CSS as declared GAPs — and this block is what makes that checkable rather than merely declared."
 }
