@@ -38,7 +38,9 @@ h1, h2, h3 { margin: 0; letter-spacing: 0; text-wrap: balance; }
 h1 { font-size: var(--pf-font-size-l); font-weight: var(--pf-font-weight-regular); }
 h2 { font-size: var(--pf-font-size-m); font-weight: var(--pf-font-weight-bold); }
 h3 { font-size: var(--pf-font-size-s); font-weight: var(--pf-font-weight-bold); }
-:focus-visible { outline: 2px solid var(--pf-border-theme); outline-offset: 2px; }
+/* Focus comes from dist/components.css above — a two-tone ring that reads on every
+   surface. This page used to define its own here, and it was invisible on 12 of 32
+   surfaces including every filled button. See dsskill DEF-0003. */
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 svg { display: block; }
 

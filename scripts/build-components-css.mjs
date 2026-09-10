@@ -259,6 +259,45 @@ out.push('  vertical-align: middle;');
 out.push('}');
 out.push('');
 
+// ---- focus ------------------------------------------------------------------
+// A focus ring is BROWSER BEHAVIOUR, not a Figma variant, so it is not in the extract and
+// never will be — the same category as the fix-ups above. Until now the system shipped no
+// focus rule at all, so every page wrote its own, and all three prototypes wrote the same
+// one: `outline: 2px solid var(--pf-border-theme)`. That fails WCAG 2.2 AA 1.4.11 on 12 of
+// 32 surfaces — 1.00:1 against --pf-bg-theme-full, the identical colour, and ~1.05:1 on
+// every filled button, which is what a keyboard user lands on most. Drawn, and invisible.
+//
+// WHY TWO COLOURS. No single one can work here, and that is arithmetic rather than a gap in
+// the palette: 0 of 148 --pf-* tokens reach 3:1 against all 32 surfaces, best 1.41:1. A
+// colour that reads on a white page cannot also read on a saturated button fill, because
+// those are at opposite ends of the luminance range.
+//
+// So: two concentric halves that contrast with EACH OTHER (16.44:1), and each one is
+// invisible on exactly the surfaces the other carries —
+//
+//     --pf-bg-primary   light #ffffff   inner 1.00:1   outer 16.44:1
+//     --pf-bg-secondary dark  #1d1f27   inner 16.44:1  outer 1.00:1
+//
+// which is the technique working, not a flaw. GOV.UK, GitHub and Material all use one.
+// Verified against every --pf-bg-* token in both modes by dsskill's
+// scripts/focus-ring-candidates.mjs; recorded there as DEF-0003 and D-017.
+//
+// The two names are aliases so the colour has ONE place to change, and so nothing points at
+// a primitive directly. 4px total, above the 2px floor in WCAG 2.4.13.
+out.push('/* Focus — browser behaviour, not a Figma variant. Two-tone: no single colour in');
+out.push(' * the palette reaches 3:1 against every surface (best 1.41:1). Each half is');
+out.push(' * invisible where the other carries, so one always reads. See dsskill DEF-0003. */');
+out.push(':root {');
+out.push('  --pf-border-focus-inner: var(--pf-text-always-white);');
+out.push('  --pf-border-focus-outer: var(--pf-base-blue-shark);');
+out.push('}');
+out.push(':focus-visible {');
+out.push('  outline: 2px solid var(--pf-border-focus-outer);');
+out.push('  outline-offset: 2px;');
+out.push('  box-shadow: 0 0 0 2px var(--pf-border-focus-inner);');
+out.push('}');
+out.push('');
+
 mkdirSync('dist', { recursive: true });
 writeFileSync('dist/components.css', out.join('\n'));
 

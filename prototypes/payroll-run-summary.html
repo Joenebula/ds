@@ -4416,6 +4416,19 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
   vertical-align: middle;
 }
 
+/* Focus — browser behaviour, not a Figma variant. Two-tone: no single colour in
+ * the palette reaches 3:1 against every surface (best 1.41:1). Each half is
+ * invisible where the other carries, so one always reads. See dsskill DEF-0003. */
+:root {
+  --pf-border-focus-inner: var(--pf-text-always-white);
+  --pf-border-focus-outer: var(--pf-base-blue-shark);
+}
+:focus-visible {
+  outline: 2px solid var(--pf-border-focus-outer);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--pf-border-focus-inner);
+}
+
 /* People First — type classes, generated from the Figma text styles.
  *
  * DO NOT EDIT. Regenerate with: npm run build
@@ -4643,7 +4656,9 @@ h1, h2, h3 { margin: 0; letter-spacing: 0; text-wrap: balance; }
 h1 { font-size: var(--pf-font-size-l); font-weight: var(--pf-font-weight-regular); }
 h2 { font-size: var(--pf-font-size-m); font-weight: var(--pf-font-weight-bold); }
 h3 { font-size: var(--pf-font-size-s); font-weight: var(--pf-font-weight-bold); }
-:focus-visible { outline: 2px solid var(--pf-border-theme); outline-offset: 2px; }
+/* Focus comes from dist/components.css above — a two-tone ring that reads on every
+   surface. This page used to define its own here, and it was invisible on 12 of 32
+   surfaces including every filled button. See dsskill DEF-0003. */
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 svg { display: block; }
 

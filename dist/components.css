@@ -3998,3 +3998,16 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
   display: table-cell;
   vertical-align: middle;
 }
+
+/* Focus — browser behaviour, not a Figma variant. Two-tone: no single colour in
+ * the palette reaches 3:1 against every surface (best 1.41:1). Each half is
+ * invisible where the other carries, so one always reads. See dsskill DEF-0003. */
+:root {
+  --pf-border-focus-inner: var(--pf-text-always-white);
+  --pf-border-focus-outer: var(--pf-base-blue-shark);
+}
+:focus-visible {
+  outline: 2px solid var(--pf-border-focus-outer);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--pf-border-focus-inner);
+}
