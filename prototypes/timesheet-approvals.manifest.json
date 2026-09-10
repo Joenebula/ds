@@ -1,0 +1,1670 @@
+{
+  "screen": "timesheet-approvals",
+  "generated": "scripts/tag-elements.mjs — do not hand-edit",
+  "elements": [
+    {
+      "id": "side-navigation-main",
+      "component": "Side navigation",
+      "cls": "pf-side-navigation",
+      "variant": "variant=Default",
+      "tag": "nav",
+      "text": "People First Dashboard My team Absence Timesheets Payroll Re"
+    },
+    {
+      "id": "side-navigation-tab-dashboard",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": "selected=false",
+      "tag": "a",
+      "text": "Dashboard"
+    },
+    {
+      "id": "side-navigation-tab-my-team",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": "selected=false",
+      "tag": "a",
+      "text": "My team"
+    },
+    {
+      "id": "side-navigation-tab-absence",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": "selected=false",
+      "tag": "a",
+      "text": "Absence"
+    },
+    {
+      "id": "side-navigation-tab-timesheets",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": "selected=true",
+      "tag": "a",
+      "text": "Timesheets"
+    },
+    {
+      "id": "side-navigation-tab-payroll",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": "selected=false",
+      "tag": "a",
+      "text": "Payroll"
+    },
+    {
+      "id": "side-navigation-tab-recruitment",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": "selected=false",
+      "tag": "a",
+      "text": "Recruitment"
+    },
+    {
+      "id": "side-navigation-tab-learning",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": "selected=false",
+      "tag": "a",
+      "text": "Learning"
+    },
+    {
+      "id": "side-navigation-tab-reports",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": "selected=false",
+      "tag": "a",
+      "text": "Reports"
+    },
+    {
+      "id": "button-path-fill-rule-evenodd-d-m",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Hollow",
+      "tag": "button",
+      "text": "Send reminder"
+    },
+    {
+      "id": "button-path-fill-rule-evenodd-d-m-2",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Hollow",
+      "tag": "button",
+      "text": "Export"
+    },
+    {
+      "id": "button-path-d-m29-2-9-7c29-64",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Action",
+      "tag": "button",
+      "text": "Approve all valid"
+    },
+    {
+      "id": "card-awaiting-approval-8",
+      "component": "Card",
+      "cls": "pf-card",
+      "variant": "property-1=Default",
+      "tag": "div",
+      "text": "Awaiting approval 8 of 12 in your team"
+    },
+    {
+      "id": "card-hours-submitted-312-50",
+      "component": "Card",
+      "cls": "pf-card",
+      "variant": "property-1=Default",
+      "tag": "div",
+      "text": "Hours submitted 312.50 Against 300.00 contracted"
+    },
+    {
+      "id": "card-overtime-hours-27-75",
+      "component": "Card",
+      "cls": "pf-card",
+      "variant": "property-1=Default",
+      "tag": "div",
+      "text": "Overtime hours 27.75 3 above the 48-hour average"
+    },
+    {
+      "id": "card-open-queries-1",
+      "component": "Card",
+      "cls": "pf-card",
+      "variant": "property-1=Default",
+      "tag": "div",
+      "text": "Open queries 1 Raised with Owen Whitlock"
+    },
+    {
+      "id": "card-path-fill-rule-evenodd-d-m",
+      "component": "Card",
+      "cls": "pf-card",
+      "variant": "property-1=Default",
+      "tag": "div",
+      "text": "3 timesheets take the 17-week average above 48 hours a week."
+    },
+    {
+      "id": "information-box-3-timesheets-take",
+      "component": "Information box",
+      "cls": "pf-information-box",
+      "variant": "type=Warning",
+      "tag": "div",
+      "text": "3 timesheets take the 17-week average above 48 hours a week."
+    },
+    {
+      "id": "filter-chip-awaiting-approval-8",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": "state=Selected, active=True",
+      "tag": "button",
+      "text": "Awaiting approval 8"
+    },
+    {
+      "id": "filter-chip-all-12",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": "state=Default, active=False",
+      "tag": "button",
+      "text": "All 12"
+    },
+    {
+      "id": "filter-chip-approved-3",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": "state=Default, active=False",
+      "tag": "button",
+      "text": "Approved 3"
+    },
+    {
+      "id": "filter-chip-queried-1",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": "state=Default, active=False",
+      "tag": "button",
+      "text": "Queried 1"
+    },
+    {
+      "id": "filter-chip-overtime-flagged-3",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": "state=Default, active=False",
+      "tag": "button",
+      "text": "Overtime flagged 3"
+    },
+    {
+      "id": "filter-chip-missing-entries-2",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": "state=Default, active=False",
+      "tag": "button",
+      "text": "Missing entries 2"
+    },
+    {
+      "id": "form-field-search-path-fill-rule-evenod",
+      "component": "Form field",
+      "cls": "pf-form-field",
+      "variant": "input-type=Search, state=Default",
+      "tag": "div",
+      "text": "Search"
+    },
+    {
+      "id": "field-period-select-class-pf-field",
+      "component": "Field",
+      "cls": "pf-field",
+      "variant": "right-aligned=No, filled=No",
+      "tag": "input",
+      "text": ""
+    },
+    {
+      "id": "form-field-period-week-ending",
+      "component": "Form field",
+      "cls": "pf-form-field",
+      "variant": "input-type=Date picker, state=Default",
+      "tag": "div",
+      "text": "Period Week ending 06/09/2026 Week ending 30/08/2026 Week en"
+    },
+    {
+      "id": "field-week-ending-06-09-2026",
+      "component": "Field",
+      "cls": "pf-field",
+      "variant": "right-aligned=No, filled=Yes",
+      "tag": "select",
+      "text": "Week ending 06/09/2026 Week ending 30/08/2026 Week ending 23"
+    },
+    {
+      "id": "form-field-team-all-my",
+      "component": "Form field",
+      "cls": "pf-form-field",
+      "variant": "input-type=Dropdown, state=Default",
+      "tag": "div",
+      "text": "Team All my direct reports Logistics Warehouse Clinical"
+    },
+    {
+      "id": "field-all-my-direct",
+      "component": "Field",
+      "cls": "pf-field",
+      "variant": "right-aligned=No, filled=Yes",
+      "tag": "select",
+      "text": "All my direct reports Logistics Warehouse Clinical"
+    },
+    {
+      "id": "button-path-d-m7-96-15-43c7-79",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Sort",
+      "tag": "button",
+      "text": "Sort"
+    },
+    {
+      "id": "button-path-fill-rule-evenodd-d-m-3",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Filter",
+      "tag": "button",
+      "text": "More filters"
+    },
+    {
+      "id": "toggle-no",
+      "component": "Toggle",
+      "cls": "pf-toggle",
+      "variant": "on=No, locked=No",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "selected-action-banner-3-timesheets-selected",
+      "component": "Selected action banner",
+      "cls": "pf-selected-action-banner",
+      "variant": "mobile=False",
+      "tag": "div",
+      "text": "3 timesheets selected · 118.25 hours Approve selected Query "
+    },
+    {
+      "id": "button-path-d-m29-2-9-7c29-64-2",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Positive",
+      "tag": "button",
+      "text": "Approve selected"
+    },
+    {
+      "id": "button-path-d-m12-16-88c12-62",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Negative",
+      "tag": "button",
+      "text": "Query selected"
+    },
+    {
+      "id": "table-ag-submitted-timesheets-mdash",
+      "component": "Table (AG)",
+      "cls": "pf-table-ag",
+      "variant": "mobile=False",
+      "tag": "div",
+      "text": "Submitted timesheets — week commencing 31/08/2026, ending 06"
+    },
+    {
+      "id": "table-header-ag-checkbox",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": "alignment=Checkbox",
+      "tag": "th",
+      "text": ""
+    },
+    {
+      "id": "multi-select-checkbox-some-rows-on",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": "state=Mixed selection",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "table-header-ag-employee-path-d-m7-96",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": "alignment=Left",
+      "tag": "th",
+      "text": "Employee"
+    },
+    {
+      "id": "table-header-icons-sorted-ascending",
+      "component": "Table header icons",
+      "cls": "pf-table-header-icons",
+      "variant": "variant=Sort, state=Ascending",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "table-header-ag-period",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": "alignment=Left",
+      "tag": "th",
+      "text": "Period"
+    },
+    {
+      "id": "table-header-ag-contracted",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": "alignment=Right",
+      "tag": "th",
+      "text": "Contracted"
+    },
+    {
+      "id": "table-header-ag-submitted",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": "alignment=Right",
+      "tag": "th",
+      "text": "Submitted"
+    },
+    {
+      "id": "table-header-ag-overtime",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": "alignment=Right",
+      "tag": "th",
+      "text": "Overtime"
+    },
+    {
+      "id": "table-header-ag-variance",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": "alignment=Right",
+      "tag": "th",
+      "text": "Variance"
+    },
+    {
+      "id": "table-header-ag-status-path-fill-rule-evenod",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": "alignment=Left",
+      "tag": "th",
+      "text": "Status"
+    },
+    {
+      "id": "table-header-icons-filtered",
+      "component": "Table header icons",
+      "cls": "pf-table-header-icons",
+      "variant": "variant=Filter, state=Filtered",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "table-header-ag-nbsp",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": "alignment=Left",
+      "tag": "th",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-checkbox",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Checkbox, style=Default",
+      "tag": "td",
+      "text": ""
+    },
+    {
+      "id": "multi-select-checkbox-selected",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": "state=Selected",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-aisha-bello-shift",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default",
+      "tag": "td",
+      "text": "Aisha BelloShift Supervisor · 100482"
+    },
+    {
+      "id": "table-cell-ag-31-08-ndash-06-09",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default",
+      "tag": "td",
+      "text": "31/08 – 06/09"
+    },
+    {
+      "id": "table-cell-ag-37-50",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default",
+      "tag": "td",
+      "text": "37.50"
+    },
+    {
+      "id": "table-cell-ag-41-00",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default",
+      "tag": "td",
+      "text": "41.00"
+    },
+    {
+      "id": "table-cell-ag-3-50",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default",
+      "tag": "td",
+      "text": "3.50"
+    },
+    {
+      "id": "table-cell-ag-3-50-2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default",
+      "tag": "td",
+      "text": "+3.50"
+    },
+    {
+      "id": "table-cell-ag-pending",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default",
+      "tag": "td",
+      "text": "Pending"
+    },
+    {
+      "id": "tags-pending",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": "type=Warning",
+      "tag": "span",
+      "text": "Pending"
+    },
+    {
+      "id": "table-cell-ag-path-d-m18-19-5c18-83",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default",
+      "tag": "td",
+      "text": ""
+    },
+    {
+      "id": "button-actions-for-aisha",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Hollow",
+      "tag": "button",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r2c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Checkbox, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": ""
+    },
+    {
+      "id": "multi-select-checkbox-not-selected",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": "state=Default",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r2c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "Danny OkonkwoCustomer Adviser · 100517"
+    },
+    {
+      "id": "table-cell-ag-r2c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "31/08 – 06/09"
+    },
+    {
+      "id": "table-cell-ag-r2c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "30.00"
+    },
+    {
+      "id": "table-cell-ag-r2c5",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "28.50"
+    },
+    {
+      "id": "table-cell-ag-r2c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "—"
+    },
+    {
+      "id": "table-cell-ag-r2c7",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "−1.50"
+    },
+    {
+      "id": "table-cell-ag-r2c8",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "Missing entries"
+    },
+    {
+      "id": "tags-missing-entries",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": "type=Neutral",
+      "tag": "span",
+      "text": "Missing entries"
+    },
+    {
+      "id": "table-cell-ag-r2c9",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": ""
+    },
+    {
+      "id": "button-actions-for-danny",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Hollow",
+      "tag": "button",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r3c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Checkbox, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": ""
+    },
+    {
+      "id": "multi-select-checkbox-not-selected-2",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": "state=Default",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r3c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "Elin PrydderchStore Manager · 100238"
+    },
+    {
+      "id": "table-cell-ag-r3c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "31/08 – 06/09"
+    },
+    {
+      "id": "table-cell-ag-r3c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "37.50"
+    },
+    {
+      "id": "table-cell-ag-r3c5",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "37.50"
+    },
+    {
+      "id": "table-cell-ag-r3c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "—"
+    },
+    {
+      "id": "table-cell-ag-r3c7",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "—"
+    },
+    {
+      "id": "table-cell-ag-r3c8",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "Approved"
+    },
+    {
+      "id": "tags-approved",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": "type=Positive",
+      "tag": "span",
+      "text": "Approved"
+    },
+    {
+      "id": "table-cell-ag-r3c9",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": ""
+    },
+    {
+      "id": "button-actions-for-elin",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Hollow",
+      "tag": "button",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r4c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Checkbox, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": ""
+    },
+    {
+      "id": "multi-select-checkbox-selected-2",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": "state=Selected",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r4c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "Nadia HussainNurse Practitioner · 100355"
+    },
+    {
+      "id": "table-cell-ag-r4c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "31/08 – 06/09"
+    },
+    {
+      "id": "table-cell-ag-r4c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "37.50"
+    },
+    {
+      "id": "table-cell-ag-r4c5",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "49.75"
+    },
+    {
+      "id": "table-cell-ag-r4c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "12.25"
+    },
+    {
+      "id": "table-cell-ag-r4c7",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "+12.25"
+    },
+    {
+      "id": "table-cell-ag-r4c8",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "Over 48 hrs"
+    },
+    {
+      "id": "tags-over-48-hrs",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": "type=Negative",
+      "tag": "span",
+      "text": "Over 48 hrs"
+    },
+    {
+      "id": "table-cell-ag-r4c9",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": ""
+    },
+    {
+      "id": "button-actions-for-nadia",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Hollow",
+      "tag": "button",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r5c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Checkbox, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": ""
+    },
+    {
+      "id": "multi-select-checkbox-selected-3",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": "state=Selected",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r5c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "Priya RaghunathanLogistics Coordinator · 100011"
+    },
+    {
+      "id": "table-cell-ag-r5c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "31/08 – 06/09"
+    },
+    {
+      "id": "table-cell-ag-r5c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "37.50"
+    },
+    {
+      "id": "table-cell-ag-r5c5",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "47.25"
+    },
+    {
+      "id": "table-cell-ag-r5c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "9.75"
+    },
+    {
+      "id": "table-cell-ag-r5c7",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "+9.75"
+    },
+    {
+      "id": "table-cell-ag-r5c8",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "Over 48 hrs"
+    },
+    {
+      "id": "tags-over-48-hrs-2",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": "type=Negative",
+      "tag": "span",
+      "text": "Over 48 hrs"
+    },
+    {
+      "id": "table-cell-ag-r5c9",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": ""
+    },
+    {
+      "id": "button-actions-for-priya",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Hollow",
+      "tag": "button",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r6c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Checkbox, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": ""
+    },
+    {
+      "id": "multi-select-checkbox-not-selected-3",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": "state=Default",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r6c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "Owen WhitlockWarehouse Operative · 100803"
+    },
+    {
+      "id": "table-cell-ag-r6c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "31/08 – 06/09"
+    },
+    {
+      "id": "table-cell-ag-r6c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "40.00"
+    },
+    {
+      "id": "table-cell-ag-r6c5",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "44.00"
+    },
+    {
+      "id": "table-cell-ag-r6c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "4.00"
+    },
+    {
+      "id": "table-cell-ag-r6c7",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "+4.00"
+    },
+    {
+      "id": "table-cell-ag-r6c8",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "Query raised"
+    },
+    {
+      "id": "tags-query-raised",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": "type=Other",
+      "tag": "span",
+      "text": "Query raised"
+    },
+    {
+      "id": "table-cell-ag-r6c9",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": ""
+    },
+    {
+      "id": "button-actions-for-owen",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Hollow",
+      "tag": "button",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r7c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Checkbox, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": ""
+    },
+    {
+      "id": "multi-select-checkbox-not-selected-4",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": "state=Default",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r7c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "Samuel AdeyemiDriver · 100147"
+    },
+    {
+      "id": "table-cell-ag-r7c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "24/08 – 30/08"
+    },
+    {
+      "id": "table-cell-ag-r7c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "37.50"
+    },
+    {
+      "id": "table-cell-ag-r7c5",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "37.50"
+    },
+    {
+      "id": "table-cell-ag-r7c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "—"
+    },
+    {
+      "id": "table-cell-ag-r7c7",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "—"
+    },
+    {
+      "id": "table-cell-ag-r7c8",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "Lapsed"
+    },
+    {
+      "id": "tags-lapsed",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": "type=Expired",
+      "tag": "span",
+      "text": "Lapsed"
+    },
+    {
+      "id": "table-cell-ag-r7c9",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": ""
+    },
+    {
+      "id": "button-actions-for-samuel",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Hollow",
+      "tag": "button",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r8c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Checkbox, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": ""
+    },
+    {
+      "id": "multi-select-checkbox-not-selected-5",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": "state=Default",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r8c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "Tomasz KowalczykDelivery Driver · 100729"
+    },
+    {
+      "id": "table-cell-ag-r8c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "31/08 – 06/09"
+    },
+    {
+      "id": "table-cell-ag-r8c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "40.00"
+    },
+    {
+      "id": "table-cell-ag-r8c5",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "52.50"
+    },
+    {
+      "id": "table-cell-ag-r8c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "12.50"
+    },
+    {
+      "id": "table-cell-ag-r8c7",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "+12.50"
+    },
+    {
+      "id": "table-cell-ag-r8c8",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "Over 48 hrs"
+    },
+    {
+      "id": "tags-over-48-hrs-3",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": "type=Negative",
+      "tag": "span",
+      "text": "Over 48 hrs"
+    },
+    {
+      "id": "table-cell-ag-r8c9",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": ""
+    },
+    {
+      "id": "button-actions-for-tomasz",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Hollow",
+      "tag": "button",
+      "text": ""
+    },
+    {
+      "id": "footer-ag-showing-8-of",
+      "component": "Footer (AG)",
+      "cls": "pf-footer-ag",
+      "variant": "mobile=False",
+      "tag": "div",
+      "text": "Showing 8 of 12 timesheets · sorted by employee name Hours a"
+    },
+    {
+      "id": "card-variant-states-reference",
+      "component": "Card",
+      "cls": "pf-card",
+      "variant": "property-1=Default",
+      "tag": "section",
+      "text": "Variant states Reference block for verify-geometry and verif"
+    },
+    {
+      "id": "button-path-d-m29-2-9-7c29-64-3",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Action",
+      "tag": "button",
+      "text": "Approve"
+    },
+    {
+      "id": "button-path-d-m29-2-9-7c29-64-4",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Action, state=Hover",
+      "tag": "button",
+      "text": "Approve"
+    },
+    {
+      "id": "button-path-d-m29-2-9-7c29-64-5",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Positive",
+      "tag": "button",
+      "text": "Confirm"
+    },
+    {
+      "id": "button-path-d-m29-2-9-7c29-64-6",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Positive, state=Hover",
+      "tag": "button",
+      "text": "Confirm"
+    },
+    {
+      "id": "button-path-fill",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Negative",
+      "tag": "button",
+      "text": "Reject"
+    },
+    {
+      "id": "button-path-fill-2",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Negative, state=Hover",
+      "tag": "button",
+      "text": "Reject"
+    },
+    {
+      "id": "button-path-fill-rule-evenodd-d-m-4",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Hollow",
+      "tag": "button",
+      "text": "Export"
+    },
+    {
+      "id": "button-path-fill-rule-evenodd-d-m-5",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Hollow, state=Hover",
+      "tag": "button",
+      "text": "Export"
+    },
+    {
+      "id": "button-path-fill-rule-evenodd-d-m-6",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Filter",
+      "tag": "button",
+      "text": "Filter"
+    },
+    {
+      "id": "button-path-d-m7-96-15-43c7-79-2",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Sort",
+      "tag": "button",
+      "text": "Sort"
+    },
+    {
+      "id": "button-path-fill-rule-evenodd-d-m-7",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Hollow",
+      "tag": "button",
+      "text": "Undo"
+    },
+    {
+      "id": "button-more",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Action",
+      "tag": "button",
+      "text": ""
+    },
+    {
+      "id": "tags-approved-2",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": "type=Positive",
+      "tag": "span",
+      "text": "Approved"
+    },
+    {
+      "id": "tags-over-48-hrs-4",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": "type=Negative",
+      "tag": "span",
+      "text": "Over 48 hrs"
+    },
+    {
+      "id": "tags-pending-2",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": "type=Warning",
+      "tag": "span",
+      "text": "Pending"
+    },
+    {
+      "id": "tags-missing-entries-2",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": "type=Neutral",
+      "tag": "span",
+      "text": "Missing entries"
+    },
+    {
+      "id": "tags-query-raised-2",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": "type=Other",
+      "tag": "span",
+      "text": "Query raised"
+    },
+    {
+      "id": "tags-lapsed-2",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": "type=Expired",
+      "tag": "span",
+      "text": "Lapsed"
+    },
+    {
+      "id": "tags-overtime",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": "type=Theme",
+      "tag": "span",
+      "text": "Overtime"
+    },
+    {
+      "id": "draggable-card-wed-02-09",
+      "component": "Draggable card",
+      "cls": "pf-draggable-card",
+      "variant": "state=Default",
+      "tag": "div",
+      "text": "Wed 02/09"
+    },
+    {
+      "id": "draggable-card-wed-02-09-2",
+      "component": "Draggable card",
+      "cls": "pf-draggable-card",
+      "variant": "state=Hover",
+      "tag": "div",
+      "text": "Wed 02/09"
+    },
+    {
+      "id": "draggable-card-wed-02-09-3",
+      "component": "Draggable card",
+      "cls": "pf-draggable-card",
+      "variant": "state=Click",
+      "tag": "div",
+      "text": "Wed 02/09"
+    },
+    {
+      "id": "draggable-card-wed-02-09-4",
+      "component": "Draggable card",
+      "cls": "pf-draggable-card",
+      "variant": "state=Drop",
+      "tag": "div",
+      "text": "Wed 02/09"
+    },
+    {
+      "id": "filter-chip-approved",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": "state=Default, active=False",
+      "tag": "button",
+      "text": "Approved"
+    },
+    {
+      "id": "filter-chip-approved-2",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": "state=Hover, active=False",
+      "tag": "button",
+      "text": "Approved"
+    },
+    {
+      "id": "filter-chip-approved-4",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": "state=Selected, active=True",
+      "tag": "button",
+      "text": "Approved"
+    },
+    {
+      "id": "multi-select-checkbox-not-selected-6",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": "state=Default",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "multi-select-checkbox-selected-4",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": "state=Selected",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "multi-select-checkbox-mixed",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": "state=Mixed selection",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "toggle-off",
+      "component": "Toggle",
+      "cls": "pf-toggle",
+      "variant": "on=No, locked=No",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "toggle-on",
+      "component": "Toggle",
+      "cls": "pf-toggle",
+      "variant": "on=Yes, locked=No",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "side-panel-priya-raghunathan-svg",
+      "component": "Side panel",
+      "cls": "pf-side-panel",
+      "variant": "mobile=No, size=Medium",
+      "tag": "aside",
+      "text": "Priya Raghunathan PR Logistics Coordinator Operations · payr"
+    },
+    {
+      "id": "side-panel-header-priya-raghunathan-path",
+      "component": "Side panel header",
+      "cls": "pf-side-panel-header",
+      "variant": "size=Default",
+      "tag": "div",
+      "text": "Priya Raghunathan"
+    },
+    {
+      "id": "button-close-panel",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Hollow",
+      "tag": "button",
+      "text": ""
+    },
+    {
+      "id": "tags-over-48-hrs-5",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": "type=Negative",
+      "tag": "span",
+      "text": "Over 48 hrs"
+    },
+    {
+      "id": "tags-overtime-9-75",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": "type=Theme",
+      "tag": "span",
+      "text": "Overtime 9.75"
+    },
+    {
+      "id": "information-box-path-fill-rule-evenodd-d-m",
+      "component": "Information box",
+      "cls": "pf-information-box",
+      "variant": "type=Error",
+      "tag": "div",
+      "text": "17-week average is 49.4 hours. No working-time opt-out on fi"
+    },
+    {
+      "id": "button-path-fill-rule-evenodd-d-m-8",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Hollow",
+      "tag": "button",
+      "text": "Adjust"
+    },
+    {
+      "id": "draggable-card-path-fill-rule-evenodd-d-m",
+      "component": "Draggable card",
+      "cls": "pf-draggable-card",
+      "variant": "state=Default",
+      "tag": "div",
+      "text": "Mon 31/08 7.50"
+    },
+    {
+      "id": "draggable-card-path-fill-rule-evenodd-d-m-2",
+      "component": "Draggable card",
+      "cls": "pf-draggable-card",
+      "variant": "state=Default",
+      "tag": "div",
+      "text": "Tue 01/09 8.00"
+    },
+    {
+      "id": "draggable-card-path-fill-rule-evenodd-d-m-3",
+      "component": "Draggable card",
+      "cls": "pf-draggable-card",
+      "variant": "state=Default",
+      "tag": "div",
+      "text": "Wed 02/09 9.25"
+    },
+    {
+      "id": "draggable-card-path-fill-rule-evenodd-d-m-4",
+      "component": "Draggable card",
+      "cls": "pf-draggable-card",
+      "variant": "state=Default",
+      "tag": "div",
+      "text": "Thu 03/09 8.00"
+    },
+    {
+      "id": "draggable-card-path-fill-rule-evenodd-d-m-5",
+      "component": "Draggable card",
+      "cls": "pf-draggable-card",
+      "variant": "state=Default",
+      "tag": "div",
+      "text": "Fri 04/09 10.50"
+    },
+    {
+      "id": "draggable-card-path-fill-rule-evenodd-d-m-6",
+      "component": "Draggable card",
+      "cls": "pf-draggable-card",
+      "variant": "state=Default",
+      "tag": "div",
+      "text": "Sat 05/09 4.00"
+    },
+    {
+      "id": "draggable-card-path-d-m12-21-38c11-38",
+      "component": "Draggable card",
+      "cls": "pf-draggable-card",
+      "variant": "state=Default",
+      "tag": "div",
+      "text": "Sun 06/09 Not worked"
+    },
+    {
+      "id": "form-field-outcome-approve-with",
+      "component": "Form field",
+      "cls": "pf-form-field",
+      "variant": "input-type=Dropdown, state=Selected",
+      "tag": "div",
+      "text": "Outcome Approve with adjustment Approve as submitted Return "
+    },
+    {
+      "id": "field-approve-with-adjustment",
+      "component": "Field",
+      "cls": "pf-field",
+      "variant": "right-aligned=No, filled=Yes",
+      "tag": "select",
+      "text": "Approve with adjustment Approve as submitted Return to emplo"
+    },
+    {
+      "id": "form-field-adjusted-overtime-hours",
+      "component": "Form field",
+      "cls": "pf-form-field",
+      "variant": "input-type=Text, state=Error",
+      "tag": "div",
+      "text": "Adjusted overtime hours * Cannot exceed the 9.75 hours submi"
+    },
+    {
+      "id": "field-cannot-exceed-the",
+      "component": "Field",
+      "cls": "pf-field",
+      "variant": "right-aligned=No, filled=Yes",
+      "tag": "input",
+      "text": ""
+    },
+    {
+      "id": "form-field-cost-centre-set",
+      "component": "Form field",
+      "cls": "pf-form-field",
+      "variant": "input-type=Text, state=Disabled",
+      "tag": "div",
+      "text": "Cost centre Set by the employee’s position"
+    },
+    {
+      "id": "field-set-by-the",
+      "component": "Field",
+      "cls": "pf-field",
+      "variant": "right-aligned=No, filled=Yes",
+      "tag": "input",
+      "text": ""
+    },
+    {
+      "id": "form-field-note-to-employee",
+      "component": "Form field",
+      "cls": "pf-form-field",
+      "variant": "input-type=Text, state=Default",
+      "tag": "div",
+      "text": "Note to employee"
+    },
+    {
+      "id": "field-no",
+      "component": "Field",
+      "cls": "pf-field",
+      "variant": "right-aligned=No, filled=No",
+      "tag": "textarea",
+      "text": ""
+    },
+    {
+      "id": "checkbox-radio-item-notify-the-employee",
+      "component": "Checkbox/Radio item",
+      "cls": "pf-checkbox-radio-item",
+      "variant": "state=Selected",
+      "tag": "label",
+      "text": "Notify the employee by email"
+    },
+    {
+      "id": "checkbox-radio-item-send-to-the",
+      "component": "Checkbox/Radio item",
+      "cls": "pf-checkbox-radio-item",
+      "variant": "state=Default",
+      "tag": "label",
+      "text": "Send to the September payroll run"
+    },
+    {
+      "id": "checkbox-radio-item-confirm-the-overtime",
+      "component": "Checkbox/Radio item",
+      "cls": "pf-checkbox-radio-item",
+      "variant": "state=Error",
+      "tag": "label",
+      "text": "Confirm the overtime was authorised in advance"
+    },
+    {
+      "id": "checkbox-radio-item-escalate-to-hr",
+      "component": "Checkbox/Radio item",
+      "cls": "pf-checkbox-radio-item",
+      "variant": "state=Disabled",
+      "tag": "label",
+      "text": "Escalate to HR (locked — no opt-out on file)"
+    },
+    {
+      "id": "toggle-yes",
+      "component": "Toggle",
+      "cls": "pf-toggle",
+      "variant": "on=Yes, locked=No",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "sticky-footer-path-d-m29-2-9-7c29-64",
+      "component": "Sticky footer",
+      "cls": "pf-sticky-footer",
+      "variant": "default=Stepper",
+      "tag": "div",
+      "text": "Approve Raise query"
+    },
+    {
+      "id": "button-path-d-m29-2-9-7c29-64-7",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Positive",
+      "tag": "button",
+      "text": "Approve"
+    },
+    {
+      "id": "button-path-d-m12-16-88c12-62-2",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Negative",
+      "tag": "button",
+      "text": "Raise query"
+    }
+  ]
+}

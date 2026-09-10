@@ -280,14 +280,14 @@ select.control { appearance: none; background-image:
   <!-- Side navigation -->
   <nav class="side" aria-label="Main">
     <div class="brand"><span class="mark"></span> People First</div>
-    <a class="pf-side-navigation-tab" data-selected="false" href="#">Dashboard</a>
-    <a class="pf-side-navigation-tab" data-selected="false" href="#">My team</a>
-    <a class="pf-side-navigation-tab" data-selected="false" href="#">Absence</a>
-    <a class="pf-side-navigation-tab" data-selected="false" href="#">Timesheets</a>
-    <a class="pf-side-navigation-tab" data-selected="true" href="#" aria-current="page">Payroll</a>
-    <a class="pf-side-navigation-tab" data-selected="false" href="#">Recruitment</a>
-    <a class="pf-side-navigation-tab" data-selected="false" href="#">Learning</a>
-    <a class="pf-side-navigation-tab" data-selected="false" href="#">Reports</a>
+    <a class="pf-side-navigation-tab" data-selected="false" href="#" data-pf-id="side-navigation-tab-dashboard">Dashboard</a>
+    <a class="pf-side-navigation-tab" data-selected="false" href="#" data-pf-id="side-navigation-tab-my-team">My team</a>
+    <a class="pf-side-navigation-tab" data-selected="false" href="#" data-pf-id="side-navigation-tab-absence">Absence</a>
+    <a class="pf-side-navigation-tab" data-selected="false" href="#" data-pf-id="side-navigation-tab-timesheets">Timesheets</a>
+    <a class="pf-side-navigation-tab" data-selected="true" href="#" aria-current="page" data-pf-id="side-navigation-tab-payroll">Payroll</a>
+    <a class="pf-side-navigation-tab" data-selected="false" href="#" data-pf-id="side-navigation-tab-recruitment">Recruitment</a>
+    <a class="pf-side-navigation-tab" data-selected="false" href="#" data-pf-id="side-navigation-tab-learning">Learning</a>
+    <a class="pf-side-navigation-tab" data-selected="false" href="#" data-pf-id="side-navigation-tab-reports">Reports</a>
   </nav>
 
   <div class="main">
@@ -303,9 +303,9 @@ select.control { appearance: none; background-image:
         </p>
       </div>
       <div class="btnrow">
-        <button class="pf-button" data-type="Hollow" type="button"><!--pf-icon:history 14-->Audit history</button>
-        <button class="pf-button" data-type="Hollow" type="button"><!--pf-icon:export 14-->Export</button>
-        <button class="pf-button" data-type="Positive" type="button"><!--pf-icon:tick 14-->Approve pay run</button>
+        <button class="pf-button" data-type="Hollow" type="button" data-pf-id="button-audit-history"><!--pf-icon:history 14-->Audit history</button>
+        <button class="pf-button" data-type="Hollow" type="button" data-pf-id="button-export"><!--pf-icon:export 14-->Export</button>
+        <button class="pf-button" data-type="Positive" type="button" data-pf-id="button-approve-pay-run"><!--pf-icon:tick 14-->Approve pay run</button>
       </div>
     </header>
 
@@ -335,7 +335,7 @@ select.control { appearance: none; background-image:
         </div>
       </section>
 
-      <div class="pf-information-box" data-type="Warning">
+      <div class="pf-information-box" data-type="Warning" data-pf-id="information-box-3-employees-have">
         <!--pf-icon:information-->
         <div><strong>3 employees have validation errors.</strong> Missing or invalid bank details
         will stop the FPS being accepted. Resolve these before approving the run.</div>
@@ -344,38 +344,38 @@ select.control { appearance: none; background-image:
       <!-- Filters -->
       <section class="filterbar" aria-label="Filter employees">
         <div class="line" role="group" aria-label="Pay status">
-          <button class="pf-filter-chip" data-state="Selected" data-active="True" type="button" aria-pressed="true">All <span class="count">248</span></button>
-          <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false">Needs review <span class="count">12</span></button>
-          <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false">Approved <span class="count">214</span></button>
-          <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false">Changed this period <span class="count">31</span></button>
-          <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false">New starters <span class="count">5</span></button>
-          <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false">Leavers <span class="count">2</span></button>
+          <button class="pf-filter-chip" data-state="Selected" data-active="True" type="button" aria-pressed="true" data-pf-id="filter-chip-all-248">All <span class="count">248</span></button>
+          <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false" data-pf-id="filter-chip-needs-review-12">Needs review <span class="count">12</span></button>
+          <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false" data-pf-id="filter-chip-approved-214">Approved <span class="count">214</span></button>
+          <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false" data-pf-id="filter-chip-changed-this-period">Changed this period <span class="count">31</span></button>
+          <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false" data-pf-id="filter-chip-new-starters-5">New starters <span class="count">5</span></button>
+          <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false" data-pf-id="filter-chip-leavers-2">Leavers <span class="count">2</span></button>
         </div>
         <div class="line">
           <div class="searchwrap">
             <span class="icn"><!--pf-icon:search 16--></span>
-            <input class="pf-field" data-right-aligned="No" data-filled="No" type="search" aria-label="Search employees" placeholder="Search name or payroll number">
+            <input class="pf-field" data-right-aligned="No" data-filled="No" type="search" aria-label="Search employees" placeholder="Search name or payroll number" data-pf-id="field-search-employees">
           </div>
-          <select class="pf-field" data-right-aligned="No" data-filled="No" aria-label="Department" style="width:auto;min-width:180px">
+          <select class="pf-field" data-right-aligned="No" data-filled="No" aria-label="Department" style="width:auto;min-width:180px" data-pf-id="field-department">
             <option>All departments</option>
             <option>Finance</option><option>Operations</option><option>People</option>
             <option>Technology</option><option>Retail</option><option>Logistics</option>
           </select>
-          <select class="pf-field" data-right-aligned="No" data-filled="No" aria-label="Pay group" style="width:auto;min-width:160px">
+          <select class="pf-field" data-right-aligned="No" data-filled="No" aria-label="Pay group" style="width:auto;min-width:160px" data-pf-id="field-pay-group">
             <option>All pay groups</option>
             <option>Monthly salaried</option><option>Weekly hourly</option>
           </select>
-          <button class="pf-button" data-type="Hollow" type="button"><!--pf-icon:sort-arrow-ag-grid 14-->Sort</button>
-          <label class="togglelab"><span class="pf-toggle" data-on="No" data-locked="No" role="switch" aria-checked="false" tabindex="0"></span> Show only exceptions</label>
+          <button class="pf-button" data-type="Hollow" type="button" data-pf-id="button-sort"><!--pf-icon:sort-arrow-ag-grid 14-->Sort</button>
+          <label class="togglelab"><span class="pf-toggle" data-on="No" data-locked="No" role="switch" aria-checked="false" tabindex="0" data-pf-id="toggle-no"></span> Show only exceptions</label>
         </div>
       </section>
 
       <!-- Selected action banner -->
-      <div class="pf-selected-action-banner" data-darkmode="False" data-mobile="False">
+      <div class="pf-selected-action-banner" data-darkmode="False" data-mobile="False" data-pf-id="selected-action-banner-3-employees-selected">
         <span><strong>3 employees</strong> selected</span>
         <div class="btnrow" style="margin-left:auto">
-          <button class="pf-button" data-type="Action" type="button"><!--pf-icon:tick 14-->Approve selected</button>
-          <button class="pf-button" data-type="Negative" type="button"><!--pf-icon:close-x-cancel 14-->Put on hold</button>
+          <button class="pf-button" data-type="Action" type="button" data-pf-id="button-approve-selected"><!--pf-icon:tick 14-->Approve selected</button>
+          <button class="pf-button" data-type="Negative" type="button" data-pf-id="button-put-on-hold"><!--pf-icon:close-x-cancel 14-->Put on hold</button>
         </div>
       </div>
 
@@ -388,9 +388,9 @@ select.control { appearance: none; background-image:
             </caption>
             <thead>
               <tr>
-                <th class="col-sel"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="All on this page selected"></span></th>
+                <th class="col-sel"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="All on this page selected" data-pf-id="multi-select-checkbox-all-on-this"></span></th>
                 <th class="col-emp">Employee
-                  <span class="pf-table-header-icons" data-variant="Sort" data-state="Ascending" aria-label="Sorted ascending"><!--pf-icon:sort-arrow-ag-grid 12--></span>
+                  <span class="pf-table-header-icons" data-variant="Sort" data-state="Ascending" aria-label="Sorted ascending" data-pf-id="table-header-icons-sorted-ascending"><!--pf-icon:sort-arrow-ag-grid 12--></span>
                 </th>
                 <th class="col-dep">Department</th>
                 <th class="num col-gross">Gross pay</th>
@@ -402,104 +402,104 @@ select.control { appearance: none; background-image:
             </thead>
             <tbody>
               <tr>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="name">Aisha Bello</span><span class="sub">Software Engineer &middot; 100482</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default">Technology</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-default"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected" data-pf-id="multi-select-checkbox-not-selected"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-aisha-bello-software"><span class="name">Aisha Bello</span><span class="sub">Software Engineer &middot; 100482</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-technology">Technology</td>
                 <td class="num">5,416.67</td>
                 <td class="num">1,702.55</td>
                 <td class="num">3,714.12</td>
                 <td class="num muted">&mdash;</td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-tags" data-type="Positive">Approved</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-approved"><span class="pf-tags" data-type="Positive" data-pf-id="tags-approved">Approved</span></td>
               </tr>
               <tr>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="name">Danny Okonkwo</span><span class="sub">Customer Adviser &middot; 100517</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe">Service</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r2c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected" data-pf-id="multi-select-checkbox-not-selected-2"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r2c2" data-pf-repeat="row"><span class="name">Danny Okonkwo</span><span class="sub">Customer Adviser &middot; 100517</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r2c3" data-pf-repeat="row">Service</td>
                 <td class="num">1,983.33</td>
                 <td class="num">402.77</td>
                 <td class="num">1,580.56</td>
                 <td class="num">&minus;&pound;241.10</td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-tags" data-type="Other">Query raised</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r2c8" data-pf-repeat="row"><span class="pf-tags" data-type="Other" data-pf-id="tags-query-raised">Query raised</span></td>
               </tr>
               <tr>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="Selected"></span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="name">Elin Prydderch</span><span class="sub">Store Manager &middot; 100238</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default">Retail</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r3c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="Selected" data-pf-id="multi-select-checkbox-selected"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r3c2" data-pf-repeat="row"><span class="name">Elin Prydderch</span><span class="sub">Store Manager &middot; 100238</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r3c3" data-pf-repeat="row">Retail</td>
                 <td class="num">3,541.67</td>
                 <td class="num">1,006.44</td>
                 <td class="num">2,535.23</td>
                 <td class="num">+&pound;95.00</td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-tags" data-type="Positive">Approved</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r3c8" data-pf-repeat="row"><span class="pf-tags" data-type="Positive" data-pf-id="tags-approved-2">Approved</span></td>
               </tr>
               <tr>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="name">Grace Ellery</span><span class="sub">Marketing Executive &middot; 100611</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe">Marketing</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r4c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected" data-pf-id="multi-select-checkbox-not-selected-3"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r4c2" data-pf-repeat="row"><span class="name">Grace Ellery</span><span class="sub">Marketing Executive &middot; 100611</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r4c3" data-pf-repeat="row">Marketing</td>
                 <td class="num">2,916.67</td>
                 <td class="num">774.30</td>
                 <td class="num">2,142.37</td>
                 <td class="num muted">&mdash;</td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-tags" data-type="Neutral">Not started</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r4c8" data-pf-repeat="row"><span class="pf-tags" data-type="Neutral" data-pf-id="tags-not-started">Not started</span></td>
               </tr>
               <tr>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="name">Marcus Farrell</span><span class="sub">HR Adviser &middot; 100094</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default">People</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r5c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected" data-pf-id="multi-select-checkbox-not-selected-4"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r5c2" data-pf-repeat="row"><span class="name">Marcus Farrell</span><span class="sub">HR Adviser &middot; 100094</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r5c3" data-pf-repeat="row">People</td>
                 <td class="num">3,166.67</td>
                 <td class="num">878.02</td>
                 <td class="num">2,288.65</td>
                 <td class="num muted">&mdash;</td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-tags" data-type="Positive">Approved</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r5c8" data-pf-repeat="row"><span class="pf-tags" data-type="Positive" data-pf-id="tags-approved-3">Approved</span></td>
               </tr>
               <tr>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="Selected"></span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="name">Nadia Hussain</span><span class="sub">Nurse Practitioner &middot; 100355</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe">Clinical</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r6c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="Selected" data-pf-id="multi-select-checkbox-selected-2"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r6c2" data-pf-repeat="row"><span class="name">Nadia Hussain</span><span class="sub">Nurse Practitioner &middot; 100355</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r6c3" data-pf-repeat="row">Clinical</td>
                 <td class="num">1,875.00</td>
                 <td class="num">421.08</td>
                 <td class="num">1,453.92</td>
                 <td class="num">&minus;&pound;1,875.00</td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-tags" data-type="Expired">Leaver</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r6c8" data-pf-repeat="row"><span class="pf-tags" data-type="Expired" data-pf-id="tags-leaver">Leaver</span></td>
               </tr>
               <tr class="is-open" aria-selected="true">
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="Selected"></span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="name">Tomasz Kowalczyk</span><span class="sub">Delivery Driver &middot; 100729</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default">Logistics</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r7c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="Selected" data-pf-id="multi-select-checkbox-selected-3"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r7c2" data-pf-repeat="row"><span class="name">Tomasz Kowalczyk</span><span class="sub">Delivery Driver &middot; 100729</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r7c3" data-pf-repeat="row">Logistics</td>
                 <td class="num">2,600.00</td>
                 <td class="num">631.09</td>
                 <td class="num">1,968.91</td>
                 <td class="num">+&pound;454.40</td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-tags" data-type="Negative">Failed validation</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r7c8" data-pf-repeat="row"><span class="pf-tags" data-type="Negative" data-pf-id="tags-failed-validation">Failed validation</span></td>
               </tr>
               <tr>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="name">Owen Whitlock</span><span class="sub">Warehouse Operative &middot; 100803</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe">Operations</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r8c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected" data-pf-id="multi-select-checkbox-not-selected-5"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r8c2" data-pf-repeat="row"><span class="name">Owen Whitlock</span><span class="sub">Warehouse Operative &middot; 100803</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r8c3" data-pf-repeat="row">Operations</td>
                 <td class="num">2,145.60</td>
                 <td class="num">512.18</td>
                 <td class="num">1,633.42</td>
                 <td class="num">+&pound;318.40</td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-tags" data-type="Warning">Needs review</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r8c8" data-pf-repeat="row"><span class="pf-tags" data-type="Warning" data-pf-id="tags-needs-review">Needs review</span></td>
               </tr>
               <tr>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="name">Priya Raghunathan</span><span class="sub">Payroll Analyst &middot; 100011</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default">Finance</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r9c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected" data-pf-id="multi-select-checkbox-not-selected-6"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r9c2" data-pf-repeat="row"><span class="name">Priya Raghunathan</span><span class="sub">Payroll Analyst &middot; 100011</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r9c3" data-pf-repeat="row">Finance</td>
                 <td class="num">4,208.33</td>
                 <td class="num">1,236.94</td>
                 <td class="num">2,971.39</td>
                 <td class="num muted">&mdash;</td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-tags" data-type="Positive">Approved</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r9c8" data-pf-repeat="row"><span class="pf-tags" data-type="Positive" data-pf-id="tags-approved-4">Approved</span></td>
               </tr>
               <tr>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="name">Samuel Adeyemi</span><span class="sub">Finance Business Partner &middot; 100147</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe">Finance</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r10c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected" data-pf-id="multi-select-checkbox-not-selected-7"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r10c2" data-pf-repeat="row"><span class="name">Samuel Adeyemi</span><span class="sub">Finance Business Partner &middot; 100147</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r10c3" data-pf-repeat="row">Finance</td>
                 <td class="num">4,791.67</td>
                 <td class="num">1,509.88</td>
                 <td class="num">3,281.79</td>
                 <td class="num muted">&mdash;</td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-tags" data-type="Warning">Needs review</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r10c8" data-pf-repeat="row"><span class="pf-tags" data-type="Warning" data-pf-id="tags-needs-review-2">Needs review</span></td>
               </tr>
             </tbody>
           </table>
@@ -511,7 +511,7 @@ select.control { appearance: none; background-image:
       </div>
 
       <!-- Variant reference — verification surface, not part of the screen -->
-      <section class="pf-card" aria-labelledby="states">
+      <section class="pf-card" aria-labelledby="states" data-pf-id="card-variant-states-reference">
         <h2 id="states">Variant states</h2>
         <p class="muted small" style="margin:-12px 0 0">
           Reference block for <code>verify-geometry</code> and <code>verify-rendered</code>. Hover states are
@@ -523,15 +523,15 @@ select.control { appearance: none; background-image:
           <div>
             <span class="statelab">Button &mdash; Type &times; State</span>
             <div class="mrow">
-              <div class="cell"><span class="statelab">Action</span><button class="pf-button" data-type="Action" type="button"><!--pf-icon:add-plus 14-->Action</button></div>
-              <div class="cell"><span class="statelab">Hover</span><button class="pf-button" data-type="Action" data-state="Hover" type="button"><!--pf-icon:add-plus 14-->Action</button></div>
-              <div class="cell"><span class="statelab">Positive</span><button class="pf-button" data-type="Positive" type="button"><!--pf-icon:tick 14-->Positive</button></div>
-              <div class="cell"><span class="statelab">Hover</span><button class="pf-button" data-type="Positive" data-state="Hover" type="button"><!--pf-icon:tick 14-->Positive</button></div>
-              <div class="cell"><span class="statelab">Negative</span><button class="pf-button" data-type="Negative" type="button"><!--pf-icon:close-x-cancel 14-->Negative</button></div>
-              <div class="cell"><span class="statelab">Hover</span><button class="pf-button" data-type="Negative" data-state="Hover" type="button"><!--pf-icon:close-x-cancel 14-->Negative</button></div>
-              <div class="cell"><span class="statelab">Hollow</span><button class="pf-button" data-type="Hollow" type="button"><!--pf-icon:save 14-->Hollow</button></div>
-              <div class="cell"><span class="statelab">Hover</span><button class="pf-button" data-type="Hollow" data-state="Hover" type="button"><!--pf-icon:save 14-->Hollow</button></div>
-              <div class="cell"><span class="statelab">Disabled</span><button class="pf-button" data-type="Hollow" type="button" disabled><!--pf-icon:history 14-->Undo</button></div>
+              <div class="cell"><span class="statelab">Action</span><button class="pf-button" data-type="Action" type="button" data-pf-id="button-action"><!--pf-icon:add-plus 14-->Action</button></div>
+              <div class="cell"><span class="statelab">Hover</span><button class="pf-button" data-type="Action" data-state="Hover" type="button" data-pf-id="button-action-2"><!--pf-icon:add-plus 14-->Action</button></div>
+              <div class="cell"><span class="statelab">Positive</span><button class="pf-button" data-type="Positive" type="button" data-pf-id="button-positive"><!--pf-icon:tick 14-->Positive</button></div>
+              <div class="cell"><span class="statelab">Hover</span><button class="pf-button" data-type="Positive" data-state="Hover" type="button" data-pf-id="button-positive-2"><!--pf-icon:tick 14-->Positive</button></div>
+              <div class="cell"><span class="statelab">Negative</span><button class="pf-button" data-type="Negative" type="button" data-pf-id="button-negative"><!--pf-icon:close-x-cancel 14-->Negative</button></div>
+              <div class="cell"><span class="statelab">Hover</span><button class="pf-button" data-type="Negative" data-state="Hover" type="button" data-pf-id="button-negative-2"><!--pf-icon:close-x-cancel 14-->Negative</button></div>
+              <div class="cell"><span class="statelab">Hollow</span><button class="pf-button" data-type="Hollow" type="button" data-pf-id="button-hollow"><!--pf-icon:save 14-->Hollow</button></div>
+              <div class="cell"><span class="statelab">Hover</span><button class="pf-button" data-type="Hollow" data-state="Hover" type="button" data-pf-id="button-hollow-2"><!--pf-icon:save 14-->Hollow</button></div>
+              <div class="cell"><span class="statelab">Disabled</span><button class="pf-button" data-type="Hollow" type="button" disabled data-pf-id="button-undo"><!--pf-icon:history 14-->Undo</button></div>
             </div>
           </div>
 
@@ -540,13 +540,13 @@ select.control { appearance: none; background-image:
           <div>
             <span class="statelab">Tags &mdash; all seven types</span>
             <div class="mrow">
-              <span class="pf-tags" data-type="Positive">Approved</span>
-              <span class="pf-tags" data-type="Negative">Failed validation</span>
-              <span class="pf-tags" data-type="Warning">Needs review</span>
-              <span class="pf-tags" data-type="Neutral">Not started</span>
-              <span class="pf-tags" data-type="Other">Query raised</span>
-              <span class="pf-tags" data-type="Expired">Leaver</span>
-              <span class="pf-tags" data-type="Theme">Theme</span>
+              <span class="pf-tags" data-type="Positive" data-pf-id="tags-approved-5">Approved</span>
+              <span class="pf-tags" data-type="Negative" data-pf-id="tags-failed-validation-2">Failed validation</span>
+              <span class="pf-tags" data-type="Warning" data-pf-id="tags-needs-review-3">Needs review</span>
+              <span class="pf-tags" data-type="Neutral" data-pf-id="tags-not-started-2">Not started</span>
+              <span class="pf-tags" data-type="Other" data-pf-id="tags-query-raised-2">Query raised</span>
+              <span class="pf-tags" data-type="Expired" data-pf-id="tags-leaver-2">Leaver</span>
+              <span class="pf-tags" data-type="Theme" data-pf-id="tags-theme">Theme</span>
             </div>
           </div>
 
@@ -555,10 +555,10 @@ select.control { appearance: none; background-image:
           <div>
             <span class="statelab">Draggable card &mdash; State (pay-element row geometry)</span>
             <div class="mrow">
-              <div class="cell"><span class="statelab">Default</span><div class="pf-draggable-card" data-state="Default" style="width:180px">Overtime</div></div>
-              <div class="cell"><span class="statelab">Hover</span><div class="pf-draggable-card" data-state="Hover" style="width:180px">Overtime</div></div>
-              <div class="cell"><span class="statelab">Click</span><div class="pf-draggable-card" data-state="Click" style="width:180px">Overtime</div></div>
-              <div class="cell"><span class="statelab">Drop</span><div class="pf-draggable-card" data-state="Drop" style="width:180px">Overtime</div></div>
+              <div class="cell"><span class="statelab">Default</span><div class="pf-draggable-card" data-state="Default" style="width:180px" data-pf-id="draggable-card-overtime">Overtime</div></div>
+              <div class="cell"><span class="statelab">Hover</span><div class="pf-draggable-card" data-state="Hover" style="width:180px" data-pf-id="draggable-card-overtime-2">Overtime</div></div>
+              <div class="cell"><span class="statelab">Click</span><div class="pf-draggable-card" data-state="Click" style="width:180px" data-pf-id="draggable-card-overtime-3">Overtime</div></div>
+              <div class="cell"><span class="statelab">Drop</span><div class="pf-draggable-card" data-state="Drop" style="width:180px" data-pf-id="draggable-card-overtime-4">Overtime</div></div>
             </div>
           </div>
 
@@ -567,9 +567,9 @@ select.control { appearance: none; background-image:
           <div>
             <span class="statelab">Information box &mdash; Type</span>
             <div style="display:flex;flex-direction:column;gap:var(--pf-space-small)">
-              <div class="pf-information-box" data-type="Success">Pay run approved and locked for editing.</div>
-              <div class="pf-information-box" data-type="Information">Pension contributions recalculated after the 06/09 rate change.</div>
-              <div class="pf-information-box" data-type="Error">Sort code fails the modulus check for account 100729.</div>
+              <div class="pf-information-box" data-type="Success" data-pf-id="information-box-pay-run-approved">Pay run approved and locked for editing.</div>
+              <div class="pf-information-box" data-type="Information" data-pf-id="information-box-pension-contributions-recalcul">Pension contributions recalculated after the 06/09 rate change.</div>
+              <div class="pf-information-box" data-type="Error" data-pf-id="information-box-sort-code-fails">Sort code fails the modulus check for account 100729.</div>
             </div>
           </div>
 
@@ -600,7 +600,7 @@ select.control { appearance: none; background-image:
   <aside class="sidepanel" aria-labelledby="sp-title">
     <div class="sp-head">
       <span class="grow" id="sp-title">Tomasz Kowalczyk</span>
-      <button class="pf-button pf-button--icon-only" data-type="Hollow" type="button" aria-label="Close panel"><!--pf-icon:close-x-cancel 14--></button>
+      <button class="pf-button pf-button--icon-only" data-type="Hollow" type="button" aria-label="Close panel" data-pf-id="button-close-panel"><!--pf-icon:close-x-cancel 14--></button>
     </div>
 
     <div class="sp-body">
@@ -615,11 +615,11 @@ select.control { appearance: none; background-image:
       </div>
 
       <div class="mrow">
-        <span class="pf-tags" data-type="Negative">Failed validation</span>
-        <span class="pf-tags" data-type="Warning">Overtime above average</span>
+        <span class="pf-tags" data-type="Negative" data-pf-id="tags-failed-validation-3">Failed validation</span>
+        <span class="pf-tags" data-type="Warning" data-pf-id="tags-overtime-above-average">Overtime above average</span>
       </div>
 
-      <div class="pf-information-box" data-type="Error">
+      <div class="pf-information-box" data-type="Error" data-pf-id="information-box-sort-code-fails-2">
         <!--pf-icon:information-->
         <div class="small">Sort code fails the modulus check. Correct it before this run is submitted.</div>
       </div>
@@ -628,19 +628,19 @@ select.control { appearance: none; background-image:
       <div class="sp-sec">
         <div class="hdr">
           <h3>Payments</h3>
-          <button class="pf-button" data-type="Hollow" type="button"><!--pf-icon:add-plus 14-->Add</button>
+          <button class="pf-button" data-type="Hollow" type="button" data-pf-id="button-add"><!--pf-icon:add-plus 14-->Add</button>
         </div>
-        <div class="pf-draggable-card" data-state="Default"><span>Basic salary</span><span class="amt">&pound;2,145.60</span></div>
-        <div class="pf-draggable-card" data-state="Default"><span>Overtime &middot; 18.5 hrs</span><span class="amt">&pound;454.40</span></div>
+        <div class="pf-draggable-card" data-state="Default" data-pf-id="draggable-card-basic-salary-pound-2-145-60"><span>Basic salary</span><span class="amt">&pound;2,145.60</span></div>
+        <div class="pf-draggable-card" data-state="Default" data-pf-id="draggable-card-overtime-middot-18-5"><span>Overtime &middot; 18.5 hrs</span><span class="amt">&pound;454.40</span></div>
         <div class="sp-total"><span class="small muted">Gross pay</span><span class="amt">&pound;2,600.00</span></div>
       </div>
 
       <!-- Deductions -->
       <div class="sp-sec">
         <h3>Deductions</h3>
-        <div class="pf-draggable-card" data-state="Default"><span>PAYE</span><span class="amt">&pound;331.80</span></div>
-        <div class="pf-draggable-card" data-state="Default"><span>National Insurance</span><span class="amt">&pound;168.29</span></div>
-        <div class="pf-draggable-card" data-state="Default"><span>Pension &middot; 5%</span><span class="amt">&pound;131.00</span></div>
+        <div class="pf-draggable-card" data-state="Default" data-pf-id="draggable-card-paye-pound-331-80"><span>PAYE</span><span class="amt">&pound;331.80</span></div>
+        <div class="pf-draggable-card" data-state="Default" data-pf-id="draggable-card-national-insurance-pound-168"><span>National Insurance</span><span class="amt">&pound;168.29</span></div>
+        <div class="pf-draggable-card" data-state="Default" data-pf-id="draggable-card-pension-middot-5"><span>Pension &middot; 5%</span><span class="amt">&pound;131.00</span></div>
         <div class="sp-total"><span class="small muted">Total deductions</span><span class="amt">&pound;631.09</span></div>
       </div>
 
@@ -653,24 +653,24 @@ select.control { appearance: none; background-image:
       <div class="sp-sec" style="gap:var(--pf-space-medium)">
         <h3>Payment details</h3>
 
-        <div class="pf-form-field" data-input-type="Text" data-state="Selected">
+        <div class="pf-form-field" data-input-type="Text" data-state="Selected" data-pf-id="form-field-pay-method-bacs">
           <label class="lbl" for="sp-method">Pay method</label>
-          <select class="pf-field" data-right-aligned="No" data-filled="No" id="sp-method">
+          <select class="pf-field" data-right-aligned="No" data-filled="No" id="sp-method" data-pf-id="field-bacs-mdash-3">
             <option>BACS &mdash; 3 working days</option>
             <option>Faster Payment</option>
             <option>Cheque</option>
           </select>
         </div>
 
-        <div class="pf-form-field" data-input-type="Text" data-state="Error">
+        <div class="pf-form-field" data-input-type="Text" data-state="Error" data-pf-id="form-field-sort-code">
           <label class="lbl" for="sp-sort">Sort code <span class="req">*</span></label>
-          <input class="pf-field" data-right-aligned="No" data-filled="No" id="sp-sort" value="20-99-0" aria-invalid="true" aria-describedby="sp-sort-hint">
+          <input class="pf-field" data-right-aligned="No" data-filled="No" id="sp-sort" value="20-99-0" aria-invalid="true" aria-describedby="sp-sort-hint" data-pf-id="field-enter-6-digits">
           <span class="hint" id="sp-sort-hint">Enter 6 digits. This sort code fails the modulus check.</span>
         </div>
 
-        <div class="pf-form-field" data-input-type="Text" data-state="Default">
+        <div class="pf-form-field" data-input-type="Text" data-state="Default" data-pf-id="form-field-note-for-payroll">
           <label class="lbl" for="sp-note">Note for payroll</label>
-          <textarea class="pf-field" data-right-aligned="No" data-filled="No" id="sp-note" placeholder="Visible to payroll administrators only"></textarea>
+          <textarea class="pf-field" data-right-aligned="No" data-filled="No" id="sp-note" placeholder="Visible to payroll administrators only" data-pf-id="field-no"></textarea>
         </div>
       </div>
 
@@ -680,8 +680,8 @@ select.control { appearance: none; background-image:
     </div>
 
     <div class="sp-foot">
-      <button class="pf-button" data-type="Positive" type="button" disabled><!--pf-icon:tick 14-->Approve pay</button>
-      <button class="pf-button" data-type="Negative" type="button"><!--pf-icon:close-x-cancel 14-->Raise query</button>
+      <button class="pf-button" data-type="Positive" type="button" disabled data-pf-id="button-approve-pay"><!--pf-icon:tick 14-->Approve pay</button>
+      <button class="pf-button" data-type="Negative" type="button" data-pf-id="button-raise-query"><!--pf-icon:close-x-cancel 14-->Raise query</button>
     </div>
   </aside>
 

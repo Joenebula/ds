@@ -58,7 +58,38 @@ node scripts/pf-audit.mjs <out>.html                     # on-system, contrast, 
 
 A page that passes one and not the others is not finished. Report the numbers.
 
-**4. Then look at it.** Screenshot the page in light *and* dark and actually read the
+**4. Name every element.** A screen is handed to developers, or to a pipeline that turns
+it into Angular. Both address elements by NAME, not by CSS selector — selectors change
+every time the layout does. Run:
+
+```bash
+node scripts/name-elements.mjs <src>.src.html --write   # derive a data-pf-id for each
+node scripts/tag-elements.mjs <out>.html --write        # write the manifest, fail if any
+                                                        # element is unnamed or a name repeats
+```
+
+Only the NAME is authored. The component and variant are derived from the class and its
+data attributes, because those already come from Figma and retyping them is how they
+drift. The manifest is what a pipeline consumes:
+
+```json
+{ "id": "button-approve-selected", "component": "Button",
+  "variant": "type=Action", "tag": "button", "text": "Approve selected" }
+```
+
+Two things need a decision from you, not from the script:
+
+- **A specimen block is not screen content.** Mark it `data-pf-ignore` and its subtree is
+  excluded — otherwise a gallery of every button variant puts six identical
+  `button-action`s in a manifest a developer is meant to trust.
+- **A derived name that collides gets a number,** and the script says so. A number tells a
+  developer nothing: rename it to what the thing actually is.
+
+Rows of a data table are named by position (`r3c2`) and marked `data-pf-repeat`, because
+they are one repeating template rather than N distinct elements — which is what an
+`*ngFor` needs.
+
+**5. Then look at it.** Screenshot the page in light *and* dark and actually read the
 screenshot. On this project the scripts have passed three separate times while the page
 was visibly broken — icons crushed to empty boxes, hollow buttons rendering as filled
 pills, a form laid out sideways. Every one was caught by looking, none by a check.

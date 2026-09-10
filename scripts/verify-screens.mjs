@@ -24,6 +24,9 @@ const CHECKS = [
   ['colour', 'scripts/verify-rendered.mjs'],
   ['icons', 'scripts/check-icon-fidelity.mjs'],
   ['audit', 'scripts/pf-audit.mjs'],
+  // Every design-system element must be addressable by name, or the screen cannot be
+  // handed to a developer or a pipeline that assigns elements by name.
+  ['tagging', 'scripts/tag-elements.mjs'],
 ];
 
 let failed = 0;

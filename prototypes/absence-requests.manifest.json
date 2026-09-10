@@ -1,0 +1,694 @@
+{
+  "screen": "absence-requests",
+  "generated": "scripts/tag-elements.mjs — do not hand-edit",
+  "elements": [
+    {
+      "id": "side-navigation-tab-dashboard",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": "selected=false",
+      "tag": "a",
+      "text": "Dashboard"
+    },
+    {
+      "id": "side-navigation-tab-my-team",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": "selected=false",
+      "tag": "a",
+      "text": "My team"
+    },
+    {
+      "id": "side-navigation-tab-absence",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": "selected=true",
+      "tag": "a",
+      "text": "Absence"
+    },
+    {
+      "id": "side-navigation-tab-timesheets",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": "selected=false",
+      "tag": "a",
+      "text": "Timesheets"
+    },
+    {
+      "id": "side-navigation-tab-payroll",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": "selected=false",
+      "tag": "a",
+      "text": "Payroll"
+    },
+    {
+      "id": "side-navigation-tab-recruitment",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": "selected=false",
+      "tag": "a",
+      "text": "Recruitment"
+    },
+    {
+      "id": "side-navigation-tab-learning",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": "selected=false",
+      "tag": "a",
+      "text": "Learning"
+    },
+    {
+      "id": "button-export",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Hollow",
+      "tag": "button",
+      "text": "Export"
+    },
+    {
+      "id": "button-approve-selected",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Action",
+      "tag": "button",
+      "text": "Approve selected"
+    },
+    {
+      "id": "information-box-2-requests-overlap",
+      "component": "Information box",
+      "cls": "pf-information-box",
+      "variant": "type=Information",
+      "tag": "div",
+      "text": "2 requests overlap with existing approved leave in your team"
+    },
+    {
+      "id": "filter-chip-pending",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": "state=Selected, active=True",
+      "tag": "button",
+      "text": "Pending"
+    },
+    {
+      "id": "filter-chip-approved",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": "state=Default, active=False",
+      "tag": "button",
+      "text": "Approved"
+    },
+    {
+      "id": "filter-chip-declined",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": "state=Default, active=False",
+      "tag": "button",
+      "text": "Declined"
+    },
+    {
+      "id": "filter-chip-annual-leave",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": "state=Default, active=False",
+      "tag": "button",
+      "text": "Annual leave"
+    },
+    {
+      "id": "filter-chip-sickness",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": "state=Default, active=False",
+      "tag": "button",
+      "text": "Sickness"
+    },
+    {
+      "id": "filter-chip-toil",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": "state=Default, active=False",
+      "tag": "button",
+      "text": "TOIL"
+    },
+    {
+      "id": "table-header-ag-left",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": "alignment=Left",
+      "tag": "th",
+      "text": ""
+    },
+    {
+      "id": "multi-select-checkbox-all-selected",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": "state=Selected",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "table-header-ag-employee",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": "alignment=Left",
+      "tag": "th",
+      "text": "Employee"
+    },
+    {
+      "id": "table-header-icons-sorted-ascending",
+      "component": "Table header icons",
+      "cls": "pf-table-header-icons",
+      "variant": "variant=Sort, state=Ascending",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "table-header-ag-type",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": "alignment=Left",
+      "tag": "th",
+      "text": "Type"
+    },
+    {
+      "id": "table-header-icons-filtered",
+      "component": "Table header icons",
+      "cls": "pf-table-header-icons",
+      "variant": "variant=Filter, state=Filtered",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "table-header-ag-dates",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": "alignment=Left",
+      "tag": "th",
+      "text": "Dates"
+    },
+    {
+      "id": "table-header-ag-status",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": "alignment=Left",
+      "tag": "th",
+      "text": "Status"
+    },
+    {
+      "id": "table-cell-ag-default",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default",
+      "tag": "td",
+      "text": ""
+    },
+    {
+      "id": "multi-select-checkbox-selected",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": "state=Selected",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-marcus-farrell-payroll",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default",
+      "tag": "td",
+      "text": "Marcus FarrellPayroll Analyst"
+    },
+    {
+      "id": "table-cell-ag-annual-leave",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default",
+      "tag": "td",
+      "text": "Annual leave"
+    },
+    {
+      "id": "table-cell-ag-6-ndash-10-apr-2026",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default",
+      "tag": "td",
+      "text": "6–10 Apr 2026"
+    },
+    {
+      "id": "table-cell-ag-pending",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default",
+      "tag": "td",
+      "text": "Pending"
+    },
+    {
+      "id": "tags-pending",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": "type=Warning",
+      "tag": "span",
+      "text": "Pending"
+    },
+    {
+      "id": "table-cell-ag-r2c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": ""
+    },
+    {
+      "id": "multi-select-checkbox-selected-2",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": "state=Selected",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r2c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "Livia FranciReward Partner"
+    },
+    {
+      "id": "table-cell-ag-r2c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "Sickness"
+    },
+    {
+      "id": "table-cell-ag-r2c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "18 Mar 2026"
+    },
+    {
+      "id": "table-cell-ag-r2c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "Escalated"
+    },
+    {
+      "id": "tags-escalated",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": "type=Negative",
+      "tag": "span",
+      "text": "Escalated"
+    },
+    {
+      "id": "table-cell-ag-r3c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": ""
+    },
+    {
+      "id": "multi-select-checkbox-not-selected",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": "state=Default",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r3c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "Rayna CalzoniHR Advisor"
+    },
+    {
+      "id": "table-cell-ag-r3c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "TOIL"
+    },
+    {
+      "id": "table-cell-ag-r3c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "23–24 Mar 2026"
+    },
+    {
+      "id": "table-cell-ag-r3c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "Approved"
+    },
+    {
+      "id": "tags-approved",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": "type=Positive",
+      "tag": "span",
+      "text": "Approved"
+    },
+    {
+      "id": "table-cell-ag-r4c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": ""
+    },
+    {
+      "id": "multi-select-checkbox-not-selected-2",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": "state=Default",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r4c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "Abram CarterFinance Lead"
+    },
+    {
+      "id": "table-cell-ag-r4c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "Parental leave"
+    },
+    {
+      "id": "table-cell-ag-r4c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "1 May – 24 Jul 2026"
+    },
+    {
+      "id": "table-cell-ag-r4c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "In review"
+    },
+    {
+      "id": "tags-in-review",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": "type=Neutral",
+      "tag": "span",
+      "text": "In review"
+    },
+    {
+      "id": "table-cell-ag-r5c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": ""
+    },
+    {
+      "id": "multi-select-checkbox-not-selected-3",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": "state=Default",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r5c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "Samantha StevensTalent Manager"
+    },
+    {
+      "id": "table-cell-ag-r5c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "Unpaid leave"
+    },
+    {
+      "id": "table-cell-ag-r5c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "12–13 Feb 2026"
+    },
+    {
+      "id": "table-cell-ag-r5c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Default, pf-repeat=row",
+      "tag": "td",
+      "text": "Lapsed"
+    },
+    {
+      "id": "tags-lapsed",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": "type=Expired",
+      "tag": "span",
+      "text": "Lapsed"
+    },
+    {
+      "id": "table-cell-ag-r6c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": ""
+    },
+    {
+      "id": "multi-select-checkbox-not-selected-4",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": "state=Default",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r6c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "Cooper PassidiniOnboarding Coordinator"
+    },
+    {
+      "id": "table-cell-ag-r6c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "Study leave"
+    },
+    {
+      "id": "table-cell-ag-r6c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "29 Apr 2026"
+    },
+    {
+      "id": "table-cell-ag-r6c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": "type=Default, style=Stripe, pf-repeat=row",
+      "tag": "td",
+      "text": "Deferred"
+    },
+    {
+      "id": "tags-deferred",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": "type=Other",
+      "tag": "span",
+      "text": "Deferred"
+    },
+    {
+      "id": "card-review-request-mdash",
+      "component": "Card",
+      "cls": "pf-card",
+      "variant": "",
+      "tag": "section",
+      "text": "Review request — Marcus Farrell Absence type Annual leaveSic"
+    },
+    {
+      "id": "form-field-absence-type-annual",
+      "component": "Form field",
+      "cls": "pf-form-field",
+      "variant": "input-type=Text, state=Default",
+      "tag": "div",
+      "text": "Absence type Annual leaveSicknessTOIL"
+    },
+    {
+      "id": "field-absence-type",
+      "component": "Field",
+      "cls": "pf-field",
+      "variant": "right-aligned=No, filled=No",
+      "tag": "select",
+      "text": "Annual leaveSicknessTOIL"
+    },
+    {
+      "id": "form-field-return-to-work-date",
+      "component": "Form field",
+      "cls": "pf-form-field",
+      "variant": "input-type=Text, state=Error",
+      "tag": "div",
+      "text": "Return-to-work date * Return date falls before the last day "
+    },
+    {
+      "id": "field-return-date-falls",
+      "component": "Field",
+      "cls": "pf-field",
+      "variant": "right-aligned=No, filled=Yes",
+      "tag": "input",
+      "text": ""
+    },
+    {
+      "id": "form-field-cover-arranged-with",
+      "component": "Form field",
+      "cls": "pf-form-field",
+      "variant": "input-type=Text, state=Selected",
+      "tag": "div",
+      "text": "Cover arranged with Line manager will be notified"
+    },
+    {
+      "id": "field-cover-arranged-with",
+      "component": "Field",
+      "cls": "pf-field",
+      "variant": "right-aligned=No, filled=Yes",
+      "tag": "input",
+      "text": ""
+    },
+    {
+      "id": "form-field-entitlement-remaining-calculat",
+      "component": "Form field",
+      "cls": "pf-form-field",
+      "variant": "input-type=Text, state=Disabled",
+      "tag": "div",
+      "text": "Entitlement remaining Calculated from the absence policy"
+    },
+    {
+      "id": "field-calculated-from-the",
+      "component": "Field",
+      "cls": "pf-field",
+      "variant": "right-aligned=No, filled=Yes",
+      "tag": "input",
+      "text": ""
+    },
+    {
+      "id": "form-field-approver-note-cover",
+      "component": "Form field",
+      "cls": "pf-form-field",
+      "variant": "input-type=Text, state=Default",
+      "tag": "div",
+      "text": "Approver note Cover confirmed with the payroll team for the "
+    },
+    {
+      "id": "field-approver-note",
+      "component": "Field",
+      "cls": "pf-field",
+      "variant": "right-aligned=No, filled=No",
+      "tag": "textarea",
+      "text": "Cover confirmed with the payroll team for the full period."
+    },
+    {
+      "id": "checkbox-radio-item-notify-the-employee",
+      "component": "Checkbox/Radio item",
+      "cls": "pf-checkbox-radio-item",
+      "variant": "state=Selected",
+      "tag": "label",
+      "text": "Notify the employee by email"
+    },
+    {
+      "id": "checkbox-radio-item-add-to-the",
+      "component": "Checkbox/Radio item",
+      "cls": "pf-checkbox-radio-item",
+      "variant": "state=Default",
+      "tag": "label",
+      "text": "Add to the team absence calendar"
+    },
+    {
+      "id": "checkbox-radio-item-confirm-cover-has",
+      "component": "Checkbox/Radio item",
+      "cls": "pf-checkbox-radio-item",
+      "variant": "state=Error",
+      "tag": "label",
+      "text": "Confirm cover has been arranged"
+    },
+    {
+      "id": "checkbox-radio-item-escalate-to-hr",
+      "component": "Checkbox/Radio item",
+      "cls": "pf-checkbox-radio-item",
+      "variant": "state=Disabled",
+      "tag": "label",
+      "text": "Escalate to HR (locked by policy)"
+    },
+    {
+      "id": "toggle-deduct-from-entitlement",
+      "component": "Toggle",
+      "cls": "pf-toggle",
+      "variant": "on=Yes, locked=No",
+      "tag": "span",
+      "text": ""
+    },
+    {
+      "id": "button-approve",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Positive",
+      "tag": "button",
+      "text": "Approve"
+    },
+    {
+      "id": "button-decline",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Negative",
+      "tag": "button",
+      "text": "Decline"
+    },
+    {
+      "id": "button-save-draft",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Hollow",
+      "tag": "button",
+      "text": "Save draft"
+    },
+    {
+      "id": "button-undo",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": "type=Hollow",
+      "tag": "button",
+      "text": "Undo"
+    }
+  ]
+}

@@ -10,7 +10,8 @@
     "verify": "node scripts/verify-screens.mjs && node scripts/verify-components.mjs && node scripts/verify-type.mjs && node scripts/check-skill-classes.mjs",
     "audit": "node scripts/pf-audit.mjs",
     "icons": "node scripts/extract-icons.mjs && node scripts/verify-icons.mjs --sheet docs/icons.html",
-    "verify:screens": "node scripts/verify-screens.mjs"
+    "verify:screens": "node scripts/verify-screens.mjs",
+    "tag": "node scripts/name-elements.mjs"
   },
   "devDependencies": {
     "playwright-core": "^1.49.0"

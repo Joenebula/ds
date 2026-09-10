@@ -180,13 +180,13 @@ svg { display: block; }
   <!-- Side navigation -->
   <nav class="side" aria-label="Main">
     <div class="brand"><span class="mark"></span> People First</div>
-    <a class="pf-side-navigation-tab" data-selected="false" href="#">Dashboard</a>
-    <a class="pf-side-navigation-tab" data-selected="false" href="#">My team</a>
-    <a class="pf-side-navigation-tab" data-selected="true" href="#" aria-current="page">Absence</a>
-    <a class="pf-side-navigation-tab" data-selected="false" href="#">Timesheets</a>
-    <a class="pf-side-navigation-tab" data-selected="false" href="#">Payroll</a>
-    <a class="pf-side-navigation-tab" data-selected="false" href="#">Recruitment</a>
-    <a class="pf-side-navigation-tab" data-selected="false" href="#">Learning</a>
+    <a class="pf-side-navigation-tab" data-selected="false" href="#" data-pf-id="side-navigation-tab-dashboard">Dashboard</a>
+    <a class="pf-side-navigation-tab" data-selected="false" href="#" data-pf-id="side-navigation-tab-my-team">My team</a>
+    <a class="pf-side-navigation-tab" data-selected="true" href="#" aria-current="page" data-pf-id="side-navigation-tab-absence">Absence</a>
+    <a class="pf-side-navigation-tab" data-selected="false" href="#" data-pf-id="side-navigation-tab-timesheets">Timesheets</a>
+    <a class="pf-side-navigation-tab" data-selected="false" href="#" data-pf-id="side-navigation-tab-payroll">Payroll</a>
+    <a class="pf-side-navigation-tab" data-selected="false" href="#" data-pf-id="side-navigation-tab-recruitment">Recruitment</a>
+    <a class="pf-side-navigation-tab" data-selected="false" href="#" data-pf-id="side-navigation-tab-learning">Learning</a>
   </nav>
 
   <div class="main">
@@ -200,14 +200,14 @@ svg { display: block; }
         </p>
       </div>
       <div class="chiprow">
-        <button class="pf-button" data-type="Hollow" type="button"><!--pf-icon:export 14-->Export</button>
-        <button class="pf-button" data-type="Action" type="button"><!--pf-icon:tick 14-->Approve selected</button>
+        <button class="pf-button" data-type="Hollow" type="button" data-pf-id="button-export"><!--pf-icon:export 14-->Export</button>
+        <button class="pf-button" data-type="Action" type="button" data-pf-id="button-approve-selected"><!--pf-icon:tick 14-->Approve selected</button>
       </div>
     </header>
 
     <div class="content">
 
-      <div class="pf-information-box" data-type="Information">
+      <div class="pf-information-box" data-type="Information" data-pf-id="information-box-2-requests-overlap">
         <!--pf-icon:information-->
         <div><strong>2 requests overlap</strong> with existing approved leave in your team.
         Check cover before approving.</div>
@@ -216,12 +216,12 @@ svg { display: block; }
       <!-- Filters -->
       <div class="chiprow" role="group" aria-label="Filter requests">
         <span class="eyebrow" style="margin-right:4px">Filter</span>
-        <button class="pf-filter-chip" data-state="Selected" data-active="True" type="button" aria-pressed="true">Pending</button>
-        <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false">Approved</button>
-        <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false">Declined</button>
-        <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false">Annual leave</button>
-        <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false">Sickness</button>
-        <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false">TOIL</button>
+        <button class="pf-filter-chip" data-state="Selected" data-active="True" type="button" aria-pressed="true" data-pf-id="filter-chip-pending">Pending</button>
+        <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false" data-pf-id="filter-chip-approved">Approved</button>
+        <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false" data-pf-id="filter-chip-declined">Declined</button>
+        <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false" data-pf-id="filter-chip-annual-leave">Annual leave</button>
+        <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false" data-pf-id="filter-chip-sickness">Sickness</button>
+        <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false" data-pf-id="filter-chip-toil">TOIL</button>
       </div>
 
       <!-- Table -->
@@ -234,70 +234,70 @@ svg { display: block; }
           <table>
             <thead>
               <tr>
-                <th class="pf-table-header-ag" data-alignment="Left" style="width:44px"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="All selected"></span></th>
-                <th class="pf-table-header-ag" data-alignment="Left">Employee
-                  <span class="pf-table-header-icons" data-variant="Sort" data-state="Ascending" aria-label="Sorted ascending">
+                <th class="pf-table-header-ag" data-alignment="Left" style="width:44px" data-pf-id="table-header-ag-left"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="All selected" data-pf-id="multi-select-checkbox-all-selected"></span></th>
+                <th class="pf-table-header-ag" data-alignment="Left" data-pf-id="table-header-ag-employee">Employee
+                  <span class="pf-table-header-icons" data-variant="Sort" data-state="Ascending" aria-label="Sorted ascending" data-pf-id="table-header-icons-sorted-ascending">
                     <!--pf-icon:sort-arrow-ag-grid 12-->
                   </span>
                 </th>
-                <th class="pf-table-header-ag" data-alignment="Left">Type
-                  <span class="pf-table-header-icons" data-variant="Filter" data-state="Filtered" aria-label="Filtered">
+                <th class="pf-table-header-ag" data-alignment="Left" data-pf-id="table-header-ag-type">Type
+                  <span class="pf-table-header-icons" data-variant="Filter" data-state="Filtered" aria-label="Filtered" data-pf-id="table-header-icons-filtered">
                     <!--pf-icon:filter 11-->
                   </span>
                 </th>
-                <th class="pf-table-header-ag" data-alignment="Left">Dates</th>
+                <th class="pf-table-header-ag" data-alignment="Left" data-pf-id="table-header-ag-dates">Dates</th>
                 <th class="num">Days</th>
-                <th class="pf-table-header-ag" data-alignment="Left">Status</th>
+                <th class="pf-table-header-ag" data-alignment="Left" data-pf-id="table-header-ag-status">Status</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="Selected"></span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="name">Marcus Farrell</span><br><span class="muted" style="font-size:var(--pf-font-size-xs)">Payroll Analyst</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default">Annual leave</td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default">6&ndash;10 Apr 2026</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-default"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="Selected" data-pf-id="multi-select-checkbox-selected"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-marcus-farrell-payroll"><span class="name">Marcus Farrell</span><br><span class="muted" style="font-size:var(--pf-font-size-xs)">Payroll Analyst</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-annual-leave">Annual leave</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-6-ndash-10-apr-2026">6&ndash;10 Apr 2026</td>
                 <td class="num">5.0</td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-tags" data-type="Warning">Pending</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-pending"><span class="pf-tags" data-type="Warning" data-pf-id="tags-pending">Pending</span></td>
               </tr>
               <tr>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="Selected"></span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="name">Livia Franci</span><br><span class="muted" style="font-size:var(--pf-font-size-xs)">Reward Partner</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe">Sickness</td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe">18 Mar 2026</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r2c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="Selected" data-pf-id="multi-select-checkbox-selected-2"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r2c2" data-pf-repeat="row"><span class="name">Livia Franci</span><br><span class="muted" style="font-size:var(--pf-font-size-xs)">Reward Partner</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r2c3" data-pf-repeat="row">Sickness</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r2c4" data-pf-repeat="row">18 Mar 2026</td>
                 <td class="num">1.0</td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-tags" data-type="Negative">Escalated</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r2c6" data-pf-repeat="row"><span class="pf-tags" data-type="Negative" data-pf-id="tags-escalated">Escalated</span></td>
               </tr>
               <tr>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="name">Rayna Calzoni</span><br><span class="muted" style="font-size:var(--pf-font-size-xs)">HR Advisor</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default">TOIL</td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default">23&ndash;24 Mar 2026</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r3c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected" data-pf-id="multi-select-checkbox-not-selected"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r3c2" data-pf-repeat="row"><span class="name">Rayna Calzoni</span><br><span class="muted" style="font-size:var(--pf-font-size-xs)">HR Advisor</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r3c3" data-pf-repeat="row">TOIL</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r3c4" data-pf-repeat="row">23&ndash;24 Mar 2026</td>
                 <td class="num">1.5</td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-tags" data-type="Positive">Approved</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r3c6" data-pf-repeat="row"><span class="pf-tags" data-type="Positive" data-pf-id="tags-approved">Approved</span></td>
               </tr>
               <tr>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="name">Abram Carter</span><br><span class="muted" style="font-size:var(--pf-font-size-xs)">Finance Lead</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe">Parental leave</td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe">1 May &ndash; 24 Jul 2026</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r4c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected" data-pf-id="multi-select-checkbox-not-selected-2"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r4c2" data-pf-repeat="row"><span class="name">Abram Carter</span><br><span class="muted" style="font-size:var(--pf-font-size-xs)">Finance Lead</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r4c3" data-pf-repeat="row">Parental leave</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r4c4" data-pf-repeat="row">1 May &ndash; 24 Jul 2026</td>
                 <td class="num">60.0</td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-tags" data-type="Neutral">In review</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r4c6" data-pf-repeat="row"><span class="pf-tags" data-type="Neutral" data-pf-id="tags-in-review">In review</span></td>
               </tr>
               <tr>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="name">Samantha Stevens</span><br><span class="muted" style="font-size:var(--pf-font-size-xs)">Talent Manager</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default">Unpaid leave</td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default">12&ndash;13 Feb 2026</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r5c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected" data-pf-id="multi-select-checkbox-not-selected-3"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r5c2" data-pf-repeat="row"><span class="name">Samantha Stevens</span><br><span class="muted" style="font-size:var(--pf-font-size-xs)">Talent Manager</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r5c3" data-pf-repeat="row">Unpaid leave</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r5c4" data-pf-repeat="row">12&ndash;13 Feb 2026</td>
                 <td class="num">2.0</td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-tags" data-type="Expired">Lapsed</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r5c6" data-pf-repeat="row"><span class="pf-tags" data-type="Expired" data-pf-id="tags-lapsed">Lapsed</span></td>
               </tr>
               <tr>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="name">Cooper Passidini</span><br><span class="muted" style="font-size:var(--pf-font-size-xs)">Onboarding Coordinator</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe">Study leave</td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe">29 Apr 2026</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r6c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected" data-pf-id="multi-select-checkbox-not-selected-4"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r6c2" data-pf-repeat="row"><span class="name">Cooper Passidini</span><br><span class="muted" style="font-size:var(--pf-font-size-xs)">Onboarding Coordinator</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r6c3" data-pf-repeat="row">Study leave</td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r6c4" data-pf-repeat="row">29 Apr 2026</td>
                 <td class="num">1.0</td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-tags" data-type="Other">Deferred</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r6c6" data-pf-repeat="row"><span class="pf-tags" data-type="Other" data-pf-id="tags-deferred">Deferred</span></td>
               </tr>
             </tbody>
           </table>
@@ -306,65 +306,65 @@ svg { display: block; }
 
       <div class="grid2">
         <!-- Form panel -->
-        <section class="pf-card" aria-labelledby="rev">
+        <section class="pf-card" aria-labelledby="rev" data-pf-id="card-review-request-mdash">
           <h2 id="rev" style="margin-bottom:var(--pf-space-large)">Review request &mdash; Marcus Farrell</h2>
           <div style="display:flex;flex-direction:column;gap:var(--pf-space-large)">
 
-            <div class="pf-form-field" data-input-type="Text" data-state="Default">
+            <div class="pf-form-field" data-input-type="Text" data-state="Default" data-pf-id="form-field-absence-type-annual">
               <span class="lbl">Absence type</span>
-              <select class="pf-field" data-right-aligned="No" data-filled="No" aria-label="Absence type">
+              <select class="pf-field" data-right-aligned="No" data-filled="No" aria-label="Absence type" data-pf-id="field-absence-type">
                 <option>Annual leave</option><option>Sickness</option><option>TOIL</option>
               </select>
             </div>
 
-            <div class="pf-form-field" data-input-type="Text" data-state="Error">
+            <div class="pf-form-field" data-input-type="Text" data-state="Error" data-pf-id="form-field-return-to-work-date">
               <span class="lbl">Return-to-work date <span class="req" aria-hidden="true">*</span></span>
-              <input class="pf-field" data-right-aligned="No" data-filled="Yes" value="04/04/2026" aria-invalid="true" aria-describedby="rtw-err">
+              <input class="pf-field" data-right-aligned="No" data-filled="Yes" value="04/04/2026" aria-invalid="true" aria-describedby="rtw-err" data-pf-id="field-return-date-falls">
               <span class="hint pf-text-label-text" id="rtw-err">Return date falls before the last day of absence</span>
             </div>
 
-            <div class="pf-form-field" data-input-type="Text" data-state="Selected">
+            <div class="pf-form-field" data-input-type="Text" data-state="Selected" data-pf-id="form-field-cover-arranged-with">
               <span class="lbl">Cover arranged with</span>
-              <input class="pf-field" data-right-aligned="No" data-filled="Yes" value="Davina Jones" aria-label="Cover arranged with">
+              <input class="pf-field" data-right-aligned="No" data-filled="Yes" value="Davina Jones" aria-label="Cover arranged with" data-pf-id="field-cover-arranged-with">
               <span class="hint pf-text-label-text">Line manager will be notified</span>
             </div>
 
-            <div class="pf-form-field" data-input-type="Text" data-state="Disabled">
+            <div class="pf-form-field" data-input-type="Text" data-state="Disabled" data-pf-id="form-field-entitlement-remaining-calculat">
               <span class="lbl">Entitlement remaining</span>
-              <input class="pf-field" data-right-aligned="No" data-filled="Yes" value="12.5 days" disabled>
+              <input class="pf-field" data-right-aligned="No" data-filled="Yes" value="12.5 days" disabled data-pf-id="field-calculated-from-the">
               <span class="hint pf-text-label-text">Calculated from the absence policy</span>
             </div>
 
-            <div class="pf-form-field" data-input-type="Text" data-state="Default">
+            <div class="pf-form-field" data-input-type="Text" data-state="Default" data-pf-id="form-field-approver-note-cover">
               <span class="lbl">Approver note</span>
-              <textarea class="pf-field" data-right-aligned="No" data-filled="No" aria-label="Approver note">Cover confirmed with the payroll team for the full period.</textarea>
+              <textarea class="pf-field" data-right-aligned="No" data-filled="No" aria-label="Approver note" data-pf-id="field-approver-note">Cover confirmed with the payroll team for the full period.</textarea>
             </div>
 
             <hr class="divider">
 
             <div style="display:flex;flex-direction:column;gap:var(--pf-space-small)">
-              <label class="pf-checkbox-radio-item" data-state="Selected"><span class="box"></span> Notify the employee by email</label>
-              <label class="pf-checkbox-radio-item" data-state="Default"><span class="box"></span> Add to the team absence calendar</label>
-              <label class="pf-checkbox-radio-item" data-state="Error"><span class="box"></span> Confirm cover has been arranged</label>
-              <label class="pf-checkbox-radio-item" data-state="Disabled"><span class="box"></span> Escalate to HR (locked by policy)</label>
+              <label class="pf-checkbox-radio-item" data-state="Selected" data-pf-id="checkbox-radio-item-notify-the-employee"><span class="box"></span> Notify the employee by email</label>
+              <label class="pf-checkbox-radio-item" data-state="Default" data-pf-id="checkbox-radio-item-add-to-the"><span class="box"></span> Add to the team absence calendar</label>
+              <label class="pf-checkbox-radio-item" data-state="Error" data-pf-id="checkbox-radio-item-confirm-cover-has"><span class="box"></span> Confirm cover has been arranged</label>
+              <label class="pf-checkbox-radio-item" data-state="Disabled" data-pf-id="checkbox-radio-item-escalate-to-hr"><span class="box"></span> Escalate to HR (locked by policy)</label>
             </div>
 
             <div style="display:flex;align-items:center;gap:var(--pf-space-small)">
-              <span class="pf-toggle" data-on="Yes" data-locked="No" role="img" aria-label="Deduct from entitlement: on"></span>
+              <span class="pf-toggle" data-on="Yes" data-locked="No" role="img" aria-label="Deduct from entitlement: on" data-pf-id="toggle-deduct-from-entitlement"></span>
               <span>Deduct from annual entitlement</span>
             </div>
 
             <div class="chiprow" style="margin-top:var(--pf-space-xsmall)">
-              <button class="pf-button" data-type="Positive" type="button"><!--pf-icon:tick 14-->Approve</button>
-              <button class="pf-button" data-type="Negative" type="button"><!--pf-icon:close-x-cancel 14-->Decline</button>
-              <button class="pf-button" data-type="Hollow" type="button"><!--pf-icon:save 14-->Save draft</button>
-              <button class="pf-button" data-type="Hollow" type="button" disabled><!--pf-icon:history 14-->Undo</button>
+              <button class="pf-button" data-type="Positive" type="button" data-pf-id="button-approve"><!--pf-icon:tick 14-->Approve</button>
+              <button class="pf-button" data-type="Negative" type="button" data-pf-id="button-decline"><!--pf-icon:close-x-cancel 14-->Decline</button>
+              <button class="pf-button" data-type="Hollow" type="button" data-pf-id="button-save-draft"><!--pf-icon:save 14-->Save draft</button>
+              <button class="pf-button" data-type="Hollow" type="button" disabled data-pf-id="button-undo"><!--pf-icon:history 14-->Undo</button>
             </div>
           </div>
         </section>
 
         <!-- State matrix -->
-        <section class="pf-card pf-card--raised" aria-labelledby="states">
+        <section class="pf-card pf-card--raised" aria-labelledby="states" data-pf-ignore>
           <h2 id="states">Variant states</h2>
           <p class="muted" style="margin:4px 0 var(--pf-space-large)">
             Hover states rendered statically so both halves of each pair are visible at rest.
