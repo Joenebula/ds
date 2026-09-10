@@ -24,6 +24,7 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { chromium } from 'playwright-core';
+import { viewportFor } from './lib/screen-viewport.mjs';
 
 // Sub-pixel layout moves an edge by well under 1px. Anything larger is a real difference.
 const TOLERANCE = 1;
@@ -40,8 +41,9 @@ export function pad4(s) {
 }
 
 // ---------------------------------------------------------------------------
-export async function measure(browser, url, decls) {
-  const ctx = await browser.newContext({ colorScheme: 'light' });
+export async function measure(browser, url, decls, viewport) {
+  // A 1600px design cannot be measured in a 1280px window — see scripts/lib/screen-viewport.mjs.
+  const ctx = await browser.newContext({ colorScheme: 'light', viewport });
   const page = await ctx.newPage();
   await page.goto(url);
   await page.waitForLoadState('networkidle').catch(() => {});
@@ -128,7 +130,8 @@ async function main() {
   }
 
   const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
-  const got = await measure(browser, file.startsWith('http') ? file : 'file://' + resolve(file), decls);
+  const got = await measure(browser, file.startsWith('http') ? file : 'file://' + resolve(file), decls,
+    viewportFor(file));
   await browser.close();
 
   const r = judge(decls, got);

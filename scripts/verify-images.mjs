@@ -24,10 +24,11 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { chromium } from 'playwright-core';
+import { viewportFor } from './lib/screen-viewport.mjs';
 
 // ---------------------------------------------------------------------------
-export async function measure(browser, url, selectors) {
-  const ctx = await browser.newContext({ colorScheme: 'light' });
+export async function measure(browser, url, selectors, viewport) {
+  const ctx = await browser.newContext({ colorScheme: 'light', viewport });
   const page = await ctx.newPage();
   await page.goto(url);
   await page.waitForLoadState('networkidle').catch(() => {});
@@ -116,7 +117,7 @@ async function main() {
 
   const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
   const got = await measure(browser, file.startsWith('http') ? file : 'file://' + resolve(file),
-    decls.map((d) => d.selector));
+    decls.map((d) => d.selector), viewportFor(file));
   await browser.close();
 
   // Nothing on the page claims a picture and the extract declares none. That is not a pass —

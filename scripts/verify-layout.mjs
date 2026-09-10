@@ -24,13 +24,16 @@
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { chromium } from 'playwright-core';
+import { viewportFor } from './lib/screen-viewport.mjs';
 
 const TOLERANCE = 1.5;   // px. Sub-pixel layout and font hinting move an edge by well under 1.
 
 // ---------------------------------------------------------------------------
 // Measure: every column container that intends to left-align, and where its rows' ink starts.
-export async function measure(browser, url) {
-  const ctx = await browser.newContext({ colorScheme: 'light' });
+export async function measure(browser, url, viewport) {
+  // Alignment is a question about where things sit, so it has to be asked in a window the
+  // screen actually fits in — see scripts/lib/screen-viewport.mjs.
+  const ctx = await browser.newContext({ colorScheme: 'light', viewport });
   const page = await ctx.newPage();
   await page.goto(url);
   await page.waitForLoadState('networkidle').catch(() => {});
@@ -66,7 +69,20 @@ export async function measure(browser, url) {
           }
         }
         const ownText = [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim());
-        if (ownText || /^(img|svg|canvas)$/.test(el.tagName.toLowerCase())) {
+        // A PICTURE IS INK, WHETHER OR NOT IT HAS ARRIVED. An <img> was recognised; an element
+        // painting a background-image was not, so a hero drawn as a background was invisible
+        // here and the walk reported the next thing along — on the Pathway screen the masthead
+        // 390px to its right, which read as "this row is centring its contents". The row was
+        // fine; the check could not see the leftmost thing in it.
+        //
+        // And it must count the SLOT, not only the paint. A declared picture whose file has
+        // not arrived still occupies its space and is still the leftmost thing in the row, so
+        // `data-image` and role="img" are ink too. Whether the picture actually paints is
+        // verify-images.mjs's question, and answering it twice — once as a phantom alignment
+        // defect — would make the real report harder to read, not easier.
+        const painted = getComputedStyle(el).backgroundImage !== 'none';
+        const pictureSlot = el.hasAttribute('data-image') || el.getAttribute('role') === 'img';
+        if (ownText || painted || pictureSlot || /^(img|svg|canvas)$/.test(el.tagName.toLowerCase())) {
           return { left: el.getBoundingClientRect().left, what: label(el) };
         }
         let best = null;
@@ -181,7 +197,8 @@ async function main() {
   if (!file.startsWith('http') && !existsSync(file)) { console.error(`no such file: ${file}`); process.exit(2); }
 
   const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
-  const m = await measure(browser, file.startsWith('http') ? file : 'file://' + resolve(file));
+  const m = await measure(browser, file.startsWith('http') ? file : 'file://' + resolve(file),
+  viewportFor(file));
   await browser.close();
 
   const r = judge(m);

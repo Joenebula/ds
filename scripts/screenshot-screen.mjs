@@ -15,6 +15,7 @@
 import { existsSync, mkdirSync } from 'node:fs';
 import { resolve, basename } from 'node:path';
 import { chromium } from 'playwright-core';
+import { viewportFor } from './lib/screen-viewport.mjs';
 import { measure, judge } from './verify-fonts.mjs';
 
 const file = process.argv[2];
@@ -23,7 +24,12 @@ if (!existsSync(file)) { console.error(`no such file: ${file}`); process.exit(2)
 
 const outDir = (process.argv[3] && !process.argv[3].startsWith('--')) ? process.argv[3] : 'screenshots';
 const crop = (process.argv.find((a) => a.startsWith('--crop=')) || '').slice(7);
-const width = Number((process.argv.find((a) => a.startsWith('--width=')) || '=640').split('=')[1]);
+// --width wins; otherwise the screen's own declared viewport, otherwise 640. A 1600px
+// design shot in a 640px window is a picture of the wrong page — see
+// scripts/lib/screen-viewport.mjs.
+const widthArg = process.argv.find((a) => a.startsWith('--width='));
+const width = widthArg ? Number(widthArg.split('=')[1])
+  : (viewportFor(file).width > 1280 ? viewportFor(file).width : 640);
 // Zoom for looking closely at one component. Ad-hoc one-off scripts are how this repo ended
 // up with months of screenshots nobody could reproduce, so the zoom lives in the tool.
 const scale = Number((process.argv.find((a) => a.startsWith('--scale=')) || '=2').split('=')[1]);

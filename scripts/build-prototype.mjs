@@ -9,13 +9,17 @@ const src = process.argv[2], out = process.argv[3];
 // system rendered in DejaVu Sans for months with four green checks agreeing.
 const fonts = readFileSync('dist/fonts.css', 'utf8');
 const avatars = readFileSync('dist/avatars.css', 'utf8');
+// Page photographs — heroes, video stills, card images. Same seam as avatars, but a
+// missing file here paints nothing and fails verify-images rather than degrading to
+// something that looks deliberate. See scripts/build-images-css.mjs.
+const images = readFileSync('dist/images.css', 'utf8');
 const tokens = readFileSync('dist/tokens.css', 'utf8');
 const components = readFileSync('dist/components.css', 'utf8');
 const type = readFileSync('dist/type.css', 'utf8');
 let html = readFileSync(src, 'utf8');
 if (!html.includes('/*__TOKENS__*/')) { console.error('no /*__TOKENS__*/ placeholder'); process.exit(1); }
 if (!html.includes('/*__FONTS__*/')) { console.error('no /*__FONTS__*/ placeholder — the page has no font layer'); process.exit(1); }
-html = html.replace('/*__FONTS__*/', fonts + '\n' + avatars);
+html = html.replace('/*__FONTS__*/', fonts + '\n' + avatars + '\n' + images);
 html = html.replace('/*__TOKENS__*/', tokens);
 if (html.includes('/*__COMPONENTS__*/')) html = html.replace('/*__COMPONENTS__*/', components);
 if (html.includes('/*__TYPE__*/')) html = html.replace('/*__TYPE__*/', type);
