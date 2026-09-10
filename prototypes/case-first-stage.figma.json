@@ -1,0 +1,86 @@
+{
+  "source": "figma:kuX4KDIN0u4axsKTELYlzW:14632:8829",
+  "extractedWith": "get_design_context",
+  "extractedOn": "2026-09-10",
+  "screen": "Case management — first stage raised",
+  "why": [
+    "Written from the extract BEFORE any markup. The raw responses are saved verbatim in",
+    "dsskill/runs/20260910-case-first-stage/context/."
+  ],
+  "text": [
+    { "node": "16299:9439", "content": "Case summary", "fontSize": 13, "fontWeight": 400 },
+    { "node": "16299:9440", "content": "Nicholas has twice taken unapproved absences", "fontSize": 16, "fontWeight": 600,
+      "comment": "Figma carries a trailing space on this run; normalised away when comparing." },
+    { "node": "16299:9441", "content": "10 Aug 2026 • 12 days ago", "fontSize": 13, "fontWeight": 400,
+      "comment": "Two spans in one paragraph, both 13px. The bullet is U+2022, not U+00B7." },
+    { "node": "16299:9444", "content": "Case subject", "fontSize": 13, "fontWeight": 400 },
+    { "node": "16299:9448", "content": "Nicholas Smudge", "fontSize": 16, "fontWeight": 400 },
+    { "node": "16299:9450", "content": "Type", "fontSize": 13, "fontWeight": 400 },
+    { "node": "16299:9453", "content": "Disciplinary", "fontSize": 16, "fontWeight": 400 },
+
+    { "node": "16157:22040", "content": "Stages", "fontSize": 16, "fontWeight": 600 },
+
+    { "node": "I16157:22041;16157:21465", "content": "Case raised", "fontSize": 16, "fontWeight": 600 },
+    {
+      "node": "I16157:22041;16157:22939",
+      "content": "David Thompson",
+      "fontSize": 12,
+      "fontWeight": 400,
+      "accept": { "fontSize": 13, "why": "12px is not on the People First ramp (13/16/20/24/36); the prototype uses the 13px label class and this file records Figma's real 12px" }
+    },
+    { "node": "I16157:22041;16157:21470;1486:42842;1486:42691", "content": "Complete", "fontSize": 13, "fontWeight": 400 },
+
+    { "node": "14044:8922", "content": "Add new stage", "fontSize": 16, "fontWeight": 600 },
+
+    {
+      "node": "14632:8840",
+      "content": "Close case",
+      "fontSize": 13,
+      "fontWeight": 400,
+      "textTransform": "uppercase",
+      "comment": "13px Regular, uppercase, no icon. People First buttons are 13px SemiBold sentence case with a leading icon slot, so this is a declared divergence from the library rather than a port.",
+      "accept": {
+        "fontWeight": 600,
+        "textTransform": "none",
+        "why": "Figma has 13px Regular uppercase with no icon; .pf-button is 13px SemiBold sentence case. Using the library component beats matching the product file."
+      }
+    }
+  ],
+  "peoplePerCard": {
+    "comment": "Two avatars: one in the header's subject field, one on the single stage card. The dashed add-card carries none.",
+    "16299:9445": 1,
+    "16157:22041": 1,
+    "16157:22042": 0
+  },
+  "placeholders": {
+    "comment": "EMPTY, deliberately. Every string on this page is Figma's own, so there is nothing to declare and the whole screen is held to Figma's exact words. See `portraits` for why one avatar shows a monogram."
+  },
+  "portraits": {
+    "comment": "Figma's People instances are sample content dropped in without matching the text. This screen takes the TEXT as authoritative and binds a portrait only where a People variant of that name exists.",
+    "Nicholas Smudge": { "key": "nicholas-smudge", "node": "329:360", "figmaPhoto": "Cooper Passaquindici Arcand — does not match the name" },
+    "David Thompson": { "key": null, "figmaPhoto": "Roger Ekstrom Bothman — does not match the name", "note": "No David Thompson exists in People (329:422). Shows the monogram DT." }
+  },
+  "observations": {
+    "comment": "Things the design says that disagree with each other. Reproduced exactly rather than reconciled, because picking whichever two look consistent would be inventing a decision.",
+    "stageCardSignals": "Card 16157:22041 is styled as the THEME card (background/theme fill, 1px border/theme stroke) and carries an IN PROGRESS stepper, yet its tag reads COMPLETE in green. Three signals, three different states. The sibling screens show white+Done+Complete and theme+In progress+In-progress; this is a third combination."
+  },
+  "geometry": {
+    "comment": "From get_metadata on 14632:8829.",
+    "frame": "516x472, 20px padding, 20px between regions",
+    "header": "476x170 at (20,20) — the same component as the other two Case screens",
+    "stages": "476x190 at (20,210); heading 22px tall, two 74px cards, 10px gaps",
+    "card": "h74, px12 py14, radius 10, gap 12",
+    "stageCard": "background/theme fill, 1px solid border/theme",
+    "addCard": "background/primary fill, 1px DASHED border/theme, contents centred",
+    "stepper": "24px; In progress = themed ring with a themed centre dot; Add = white with a 1px themed ring and a 14px plus",
+    "button": "141x32 at (20,420)"
+  },
+  "divergences": {
+    "comment": "Known, deliberate differences from Figma. Listed so they are decisions rather than drift.",
+    "components": "Stepper, People, Rectangle Tags and Right arrow come from a non-People-First library (F-018).",
+    "cardGeometry": "Figma's clickable card is radius 10, padding 12/14. .pf-card is radius 8, padding 20. The prototype uses the People First card and accepts the difference.",
+    "tags": "Figma uses Rectangle Tags with alpha fills. The prototype uses the People First Tags component.",
+    "personName12px": "12px is not on the People First type ramp. Recorded as a gap; the prototype uses the 13px label class with a declared `accept`.",
+    "buttonCase": "Figma draws Close case 13px Regular UPPERCASE with no icon; .pf-button is 13px SemiBold sentence case. The library component wins, so the page reads 'Close case', not 'CLOSE CASE'."
+  }
+}
