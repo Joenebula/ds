@@ -72,7 +72,7 @@ component library and the example screens against Figma.
 source; the built file is an output. Editing it directly is overwritten on the next build, and
 until then the screen and its source disagree.
 
-`npm run verify` checks every screen in `prototypes/` on nine axes, plus the component
+`npm run verify` checks every screen in `prototypes/` on eleven axes, plus the component
 library, the type layer and the docs, each on a different axis. They are not
 interchangeable — on this project every one of them has passed while the page was
 visibly wrong on an axis it does not measure.
@@ -81,6 +81,13 @@ The first axis is `built`, and it is a **gate**: it rebuilds each source and com
 because `npm run build` once built everything except the screens, and eight green marks on a
 stale page read exactly like eight on a current one. If it fails, run `npm run build` — nothing
 on that screen has been measured, whatever the other marks say.
+
+The last axis is `source`, and it asks a question about the DESIGN rather than the page: does
+the Figma frame fit its own contents? A frame fixed shorter than its children clips the rest,
+and a clipped frame looks exactly like a screen that ends there — so the build silently copies
+whichever height it was handed. It reads `prototypes/<screen>.figma.xml`, the raw `get_metadata`
+saved beside the extract. Fix the frame in Figma, or declare the decision in the extract's
+`sourceClips` with a reason.
 
 A `--` is a check that measured nothing. It is not a pass.
 

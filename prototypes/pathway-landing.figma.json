@@ -8,6 +8,16 @@
     "height": 1400
   },
   "viewport_comment": "This design is 1600 wide. Every check used to open a 1280x720 window, so the page's `max-width: 100%` shrank it and verify-frame reported `.magazine` as 1240 against Figma's 1600 — measuring the window, not the screen. Read by scripts/lib/screen-viewport.mjs; 1680 leaves room for the body's 20px gutters.",
+  "sourceClips": {
+    "comment": "Frames in the SOURCE FILE that are shorter than their own contents, read by scripts/check-frame-clip.mjs from prototypes/pathway-landing.figma.xml. An undeclared clip fails the check; declaring one records that the question was asked and answered rather than silently inherited. The house rule now requires Figma frames to show the full screen, so new extracts should have nothing here.",
+    "6953:22156": {
+      "overflow": 422,
+      "frame": "1600x1085",
+      "contents": "1600x1507",
+      "decision": "Build the full content — 1507 tall, nothing clipped.",
+      "why": "Asked rather than chosen. Both readings were internally consistent: the renderer gives 840 = 20 + 254 + 566 with the Outcomes pills cut through the middle and the whole Related learning block never drawn, and get_metadata gives content running to 1507. Taking either number on its own would have produced a confident, verified, wrong screen — 840 silently drops a third of the design and 1085 describes nothing at all. This frame predates the full-screen rule."
+    }
+  },
   "why": [
     "Written from the extract BEFORE any markup, which is the order F-020 exists to enforce.",
     "The raw responses are saved verbatim in dsskill/runs/20260910-pathway-landing/context/.",

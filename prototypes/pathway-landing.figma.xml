@@ -1,0 +1,61 @@
+<!-- get_metadata 3GENMC1nb7BxGNFfU0nBVW 6953:22156 — verbatim. Read by check-frame-clip.mjs. -->
+<frame id="6953:22156" name="Frame 6270678" x="115" y="240" width="1600" height="1085">
+  <frame id="6953:22162" name="White bar" x="0" y="20" width="1600" height="254">
+    <frame id="6953:22163" name="White bar" x="20" y="20" width="350" height="170" />
+    <instance id="7182:5536" name="Frame 6271155" x="410" y="20" width="1147" height="214" />
+  </frame>
+  <frame id="6953:22195" name="Layout container (magazine style)" x="0" y="274" width="1600" height="1233">
+    <instance id="6953:22196" name="Layout container title" x="30" y="30" width="1540" height="44" hidden="true" />
+    <text id="6953:22197" name="Summary content will be featured here, try to keep it concise, clear and informative." x="30" y="94" width="1540" height="49" hidden="true" />
+    <instance id="6953:22198" name="Layout container tabs" x="30" y="163" width="1540" height="36" hidden="true" />
+    <instance id="6953:22199" name="Horizontal scroll" x="30" y="625" width="1540" height="32" hidden="true" />
+    <frame id="6953:22200" name="Navigation tabs" x="40" y="30" width="327" height="36">
+      <instance id="6953:22201" name="Tab" x="0" y="0" width="72" height="36" />
+      <instance id="6953:22202" name="Tab" x="112" y="1" width="59" height="34" />
+      <instance id="6953:22203" name="Tab" x="211" y="1" width="116" height="34" />
+      <instance id="6953:22204" name="Tab" x="242" y="1" width="40" height="34" hidden="true" />
+      <instance id="6953:22205" name="Tab" x="322" y="1" width="40" height="34" hidden="true" />
+      <instance id="6953:22206" name="Tab" x="402" y="1" width="40" height="34" hidden="true" />
+      <instance id="6953:22207" name="Tab" x="482" y="1" width="40" height="34" hidden="true" />
+      <instance id="6953:22208" name="Tab" x="562" y="1" width="40" height="34" hidden="true" />
+    </frame>
+    <frame id="6953:22209" name="Frame 6271124" x="40" y="96" width="1520" height="335">
+      <frame id="6953:22210" name="Frame 86554" x="20" y="20" width="930" height="194">
+        <frame id="6953:22211" name="Frame 6271085" x="20" y="20" width="890" height="154">
+          <text id="6953:22212" name="This learning pathway is a comprehensive list of all the available training to you as a Line Manager in MHR.    Lead your own development by working through this pathway at your own pace.     To see all of classroom based training, click on Training events. To view what is available as bite sized learning,  please click on eLearning." x="0" y="0" width="890" height="154" />
+        </frame>
+      </frame>
+      <rounded-rectangle id="6953:22213" name="image 1" x="970" y="20" width="530" height="295" />
+    </frame>
+    <frame id="6953:22214" name="Frame 6271080" x="40" y="461" width="1520" height="129">
+      <text id="6953:22215" name="Outcomes" x="20" y="20" width="1480" height="27" />
+      <frame id="6953:22216" name="Frame 6271143" x="20" y="67" width="1480" height="42">
+        <frame id="6953:22217" name="Frame 6271078" x="0" y="0" width="1480" height="42">
+          <instance id="6953:22218" name="Frame 6271074" x="0" y="0" width="466.6666564941406" height="42" />
+          <instance id="6953:22219" name="Frame 6271076" x="506.6666564941406" y="0" width="466.66668701171875" height="42" />
+          <instance id="6953:22220" name="Frame 6271075" x="1013.3333740234375" y="0" width="466.66668701171875" height="42" />
+        </frame>
+      </frame>
+    </frame>
+    <frame id="6953:22221" name="Layout container (magazine style)" x="40" y="620" width="1520" height="583">
+      <frame id="6953:22222" name="Layout container title" x="30" y="30" width="1460" height="32">
+        <text id="6953:22223" name="Related learning" x="0" y="2.5" width="152" height="27" />
+        <frame id="6953:22224" name="Frame 6270936" x="1222" y="0" width="238" height="32">
+          <text id="6953:22225" name="565 other courses" x="0" y="5" width="132" height="22" />
+          <instance id="6953:22226" name="Button" x="142" y="0" width="96" height="32" />
+        </frame>
+      </frame>
+      <text id="6953:22227" name="Summary content will be featured here, try to keep it concise, clear and informative." x="30" y="94" width="1540" height="49" hidden="true" />
+      <instance id="6953:22228" name="Layout container tabs" x="30" y="163" width="1540" height="36" hidden="true" />
+      <frame id="6953:22229" name="4 in a row cards" x="30" y="82" width="1460" height="471">
+        <frame id="6953:22230" name="Frame 6270935" x="0" y="0" width="1460" height="419">
+          <instance id="6953:22231" name="Selection card" x="0" y="0" width="350" height="419" />
+          <instance id="6953:22232" name="Selection card" x="370" y="0" width="350" height="419" />
+          <instance id="6953:22233" name="Selection card" x="740" y="0" width="350" height="419" />
+          <instance id="6953:22234" name="Selection card" x="1110" y="0" width="350" height="419" />
+        </frame>
+        <instance id="6953:22235" name="Horizontal scroll" x="0" y="439" width="1460" height="32" />
+      </frame>
+    </frame>
+  </frame>
+</frame>

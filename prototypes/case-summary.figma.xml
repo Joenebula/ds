@@ -1,0 +1,13 @@
+<!-- get_metadata kuX4KDIN0u4axsKTELYlzW 15401:7882 — verbatim. Read by check-frame-clip.mjs. -->
+<frame id="15401:7882" name="Frame 2028433845" x="0" y="0" width="516" height="556">
+  <instance id="16299:9655" name="Frame 2028433897" x="20" y="20" width="476" height="170" />
+  <frame id="16157:22086" name="Frame 2028433843" x="20" y="210" width="476" height="274">
+    <text id="16157:22087" name="Stages" x="0" y="0" width="177" height="22" />
+    <instance id="16157:22088" name="Clickable card" x="0" y="32" width="476" height="74" />
+    <instance id="16157:22128" name="Clickable card" x="0" y="116" width="476" height="74" />
+    <instance id="16157:22089" name="Clickable card" x="0" y="200" width="476" height="74" />
+  </frame>
+  <frame id="15401:7911" name="Frame 86144" x="20" y="504" width="476" height="32">
+    <instance id="15401:7912" name="Button" x="0" y="0" width="114" height="32" />
+  </frame>
+</frame>

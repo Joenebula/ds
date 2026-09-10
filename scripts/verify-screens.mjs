@@ -38,6 +38,11 @@ const CHECKS = [
   // axis nothing measured. dist/avatars.css degrades a missing photograph to a monogram,
   // which is a good failure mode and an invisible one. See F-026.
   ['images', 'scripts/verify-images.mjs'],
+  // Is the design being copied self-consistent? A Figma frame fixed shorter than its own
+  // contents clips the rest, and a clipped frame looks exactly like a screen that ends there —
+  // so the build inherits whichever height it was handed. The house rule is that frames show
+  // the full screen; this is the rule with a detector behind it. See F-028.
+  ['source', 'scripts/check-frame-clip.mjs'],
 ];
 
 // Exit 2 means VACUOUS — the check ran and measured nothing (no saved Figma extract,
