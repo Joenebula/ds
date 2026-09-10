@@ -110,16 +110,18 @@
     "comment": "EMPTY, deliberately. Every string on this page is Figma's own, so there is nothing to declare and the whole screen is held to Figma's exact words. See `portraits` for why one avatar shows a monogram."
   },
   "portraits": {
-    "comment": "Figma's People instances are sample content dropped in without matching the text. This screen takes the TEXT as authoritative and binds a portrait only where a People variant of that name exists.",
+    "comment": "Every person slot on this page carries a photograph, because the design does. Where the NAME matches a People variant that variant's face is used; where it does not, the face Figma actually draws in that slot is used. A monogram is never the finished state — scripts/verify-images.mjs fails any slot claiming a photograph that paints none.",
     "Nicholas Smudge": {
       "key": "nicholas-smudge",
       "node": "329:360",
-      "figmaPhoto": "Cooper Passaquindici Arcand — does not match the name"
+      "figmaPhoto": "Cooper Passaquindici Arcand — does not match the name",
+      "note": "Figma draws Cooper Passaquindici Arcand here, but People carries a real `Nicholas Smudge` variant (329:360) and the text says Nicholas Smudge, so the matching face wins over the sample content Figma happens to have dropped in."
     },
     "David Thompson": {
-      "key": null,
-      "figmaPhoto": "Roger Ekstrom Bothman — does not match the name",
-      "note": "No David Thompson exists in People (329:422). Shows the monogram DT."
+      "key": "roger-bothman",
+      "node": "329:373",
+      "figmaPhoto": "Roger Ekstrom Bothman",
+      "note": "People (329:422) has no David Thompson. Figma draws Roger Ekstrom Bothman's face in this slot, so that portrait binds here: the design puts a photograph on this row and the prototype puts one there too. The NAME is Figma's and stays Figma's; the mismatch between them is Figma's own, recorded rather than reconciled."
     }
   },
   "observations": {

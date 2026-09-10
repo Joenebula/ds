@@ -4905,10 +4905,12 @@ body {
         <span class="stage-body">
         <span class="stage-title"><span class="pf-text-body-text-semibold">Case raised</span></span>
         <span class="stage-people">
-          <!-- No data-avatar: People (329:422) has no David Thompson, so this shows the
-               monogram rather than borrowing someone else's face. Figma pairs Roger
-               Ekstrom Bothman's portrait with this name; the text is what we follow. -->
-          <span class="avatar" data-person aria-hidden="true">DT</span>
+          <!-- People (329:422) has no David Thompson, so there is no portrait to match the
+               NAME. Figma draws Roger Ekstrom Bothman's face in this slot, so that is what
+               binds here: the design puts a photograph on this row, and reproducing the
+               design means putting one there too. The name mismatch is Figma's own and is
+               recorded under `portraits` and `observations`, not papered over. -->
+          <span class="avatar pf-avatar-photo" data-person data-avatar="roger-bothman" aria-hidden="true">DT</span>
           <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">David Thompson</span>
         </span>
         </span>

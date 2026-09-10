@@ -34,6 +34,10 @@ const CHECKS = [
   ['layout', 'scripts/verify-layout.mjs'],
   ['frame', 'scripts/verify-frame.mjs'],
   ['content', 'scripts/verify-content.mjs'],
+  // "as long as there is an image when one is required" — the user, in one line, naming an
+  // axis nothing measured. dist/avatars.css degrades a missing photograph to a monogram,
+  // which is a good failure mode and an invisible one. See F-026.
+  ['images', 'scripts/verify-images.mjs'],
 ];
 
 // Exit 2 means VACUOUS — the check ran and measured nothing (no saved Figma extract,

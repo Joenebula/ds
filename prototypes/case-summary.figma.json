@@ -186,7 +186,7 @@
     "button": "114x32 at (20,504)"
   },
   "portraits": {
-    "comment": "From People (329:422), the design system's own fictional employees. Exported by hand because www.figma.com is denied by this session's egress proxy; assets/fonts/manifest.json records source URLs the same way for the same reason.",
+    "comment": "Every person slot on this page carries a photograph, because the design does. Where the NAME matches a People variant that variant's face is used; where it does not, the face Figma actually draws in that slot is used. A monogram is never the finished state — scripts/verify-images.mjs fails any slot claiming a photograph that paints none.",
     "nicholas-smudge": {
       "node": "329:360",
       "variant": "Who?=S -  Nicholas Smudge",
