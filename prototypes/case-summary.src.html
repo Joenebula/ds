@@ -4,10 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Case summary</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
+/*__FONTS__*/
 /*__TOKENS__*/
 /*__COMPONENTS__*/
 /*__TYPE__*/
@@ -71,7 +69,9 @@ body {
   justify-content: space-between; gap: var(--pf-space-large);
 }
 .field { display: flex; flex-direction: column; gap: var(--pf-space-xsmall); flex: 1 1 0; min-width: 0; }
-.field-value { display: flex; align-items: center; gap: var(--pf-space-small); }
+ /* avatar + name is .pf-s-people, a library class — see dist/components.css. Nothing
+    to hand-roll here; the block that used to sit at .field-value and .stage-people was
+    re-implementing a component the system already carries. */
 
 /* ---------- stages ---------- */
 .stages { display: flex; flex-direction: column; gap: var(--pf-space-small); }
@@ -92,14 +92,17 @@ body {
    EMPTY — a single space — so without this the card loses 22px of height and the
    two cards stop lining up. The emptiness is the design; the height keeps it honest. */
 .stage-title { display: flex; align-items: center; min-height: 22px; }
-.stage-people { display: flex; align-items: center; gap: var(--pf-space-small); }
 .stage-end { display: flex; align-items: center; gap: var(--pf-space-small); flex: 0 0 auto; }
 /* GAP 4 — Figma's Right arrow is 20px. The icon ramp jumps 18 → 22. */
 .stage-chevron { color: var(--pf-icon-secondary); display: flex; width: 20px; height: 20px; }
 
-/* GAP 1 + GAP 4 — avatar. `People` is excluded from the library (sample content,
-   not design), so no avatar class exists. Figma draws it 24px, which is off the
-   icon ramp. Initials on a neutral surface; Figma's are photographs. */
+/* GAP 1 + GAP 4 — the avatar FACE. The avatar-and-name row is not a gap at all: it is
+   .pf-s-people, a library class, and the block that used to sit here was re-implementing
+   it. What the library genuinely does not carry is the photograph —
+   tokens/_raw/uncaptured-reasons.tsv: "its variants are sample content (one per fictional
+   employee), not design", which is correct, since a photograph is not a token.
+   So: initials on a neutral surface, and dist/avatars.css covers them with a portrait the
+   moment one exists in assets/avatars/. Figma draws it 24px, off the icon ramp. */
 .avatar {
   width: 24px; height: 24px;
   border-radius: 50%; flex: 0 0 auto;
@@ -171,8 +174,8 @@ body {
         <div class="pf-card subject" data-property-1="Default">
           <div class="field">
             <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">Case subject</span>
-            <span class="field-value">
-              <span class="avatar" data-person aria-hidden="true">AB</span>
+            <span class="pf-s-people" data-property-1="Inline">
+              <span class="avatar pf-avatar-photo" data-person data-avatar="aisha-bello" aria-hidden="true">AB</span>
               <span class="pf-text-body-text">Aisha Bello</span>
             </span>
           </div>
@@ -194,8 +197,8 @@ body {
       <span class="marker" data-state="complete" aria-hidden="true"><!--pf-icon:tick 14--></span>
       <span class="stage-body">
         <span class="stage-title"><span class="pf-text-body-text-semibold">Case raised</span></span>
-        <span class="stage-people">
-          <span class="avatar" data-person aria-hidden="true">TK</span>
+        <span class="pf-s-people" data-property-1="Inline">
+          <span class="avatar pf-avatar-photo" data-person data-avatar="tomasz-kowalczyk" aria-hidden="true">TK</span>
           <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">Tomasz Kowalczyk</span>
         </span>
       </span>
@@ -213,8 +216,8 @@ body {
              space. The first build of this page put a made-up stage name here, which
              is the invention scripts/verify-content.mjs now exists to catch. -->
         <span class="stage-title"></span>
-        <span class="stage-people">
-          <span class="avatar" data-person aria-hidden="true">NH</span>
+        <span class="pf-s-people" data-property-1="Inline">
+          <span class="avatar pf-avatar-photo" data-person data-avatar="nadia-hussain" aria-hidden="true">NH</span>
           <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">Nadia Hussain</span>
         </span>
       </span>

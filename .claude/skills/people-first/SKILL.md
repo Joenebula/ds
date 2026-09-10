@@ -13,6 +13,7 @@ Everything below is generated from that file — not invented.
 Three stylesheets. Link all three:
 
 ```html
+<link rel="stylesheet" href="dist/fonts.css">       <!-- Open Sans, self-hosted -->
 <link rel="stylesheet" href="dist/tokens.css">      <!-- the colours -->
 <link rel="stylesheet" href="dist/components.css">  <!-- the components -->
 <link rel="stylesheet" href="dist/type.css">        <!-- the type -->

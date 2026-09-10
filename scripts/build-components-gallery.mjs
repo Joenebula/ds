@@ -92,7 +92,7 @@ out.push('<title>People First components</title>');
 // when the file is opened from inside the repo — anywhere else (a browser preview, an
 // attachment, someone you sent it to) the page renders unstyled with no error at all,
 // which is the worst way for a design system gallery to fail.
-for (const f of ['dist/tokens.css', 'dist/components.css', 'dist/type.css'])
+for (const f of ['dist/fonts.css', 'dist/avatars.css', 'dist/tokens.css', 'dist/components.css', 'dist/type.css'])
   out.push(`<style>/* ${f} */\n${readFileSync(f, 'utf8')}</style>`);
 out.push(`<style>
   body { background: var(--pf-bg-secondary); color: var(--pf-text-primary);

@@ -24,6 +24,7 @@ const CHECKS = [
   ['colour', 'scripts/verify-rendered.mjs'],
   ['icons', 'scripts/check-icon-fidelity.mjs'],
   ['audit', 'scripts/pf-audit.mjs'],
+  ['fonts', 'scripts/verify-fonts.mjs'],
   ['content', 'scripts/verify-content.mjs'],
 ];
 

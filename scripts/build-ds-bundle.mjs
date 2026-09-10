@@ -10,6 +10,7 @@
 import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync } from 'node:fs';
 
 const t = JSON.parse(readFileSync('tokens/design-tokens.json', 'utf8'));
+const fontsCss = readFileSync('dist/fonts.css', 'utf8');
 const tokensCss = readFileSync('dist/tokens.css', 'utf8');
 // The component and type layers, and the extracts they are generated from. Before this,
 // the component pages here hand-wrote their own approximations of People First — the
@@ -51,6 +52,7 @@ const shell = ({ group, name, subtitle, body, css }) => `<!-- @dsCard group="${g
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(name)} — People First</title>
 <style>
+${fontsCss}
 ${tokensCss}
 ${css === undefined ? componentsCss + typeCss : css}
 * { box-sizing: border-box; }

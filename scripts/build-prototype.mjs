@@ -3,11 +3,19 @@
 // .src.html and verifies token discipline.
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 const src = process.argv[2], out = process.argv[3];
+// fonts.css first: an @font-face the rest of the sheet depends on. It is base64 rather
+// than a fonts.googleapis.com <link> because a linked font dies offline, dies behind a
+// proxy, and never existed at all in an artifact or a .dc.html canvas — which is how this
+// system rendered in DejaVu Sans for months with four green checks agreeing.
+const fonts = readFileSync('dist/fonts.css', 'utf8');
+const avatars = readFileSync('dist/avatars.css', 'utf8');
 const tokens = readFileSync('dist/tokens.css', 'utf8');
 const components = readFileSync('dist/components.css', 'utf8');
 const type = readFileSync('dist/type.css', 'utf8');
 let html = readFileSync(src, 'utf8');
 if (!html.includes('/*__TOKENS__*/')) { console.error('no /*__TOKENS__*/ placeholder'); process.exit(1); }
+if (!html.includes('/*__FONTS__*/')) { console.error('no /*__FONTS__*/ placeholder — the page has no font layer'); process.exit(1); }
+html = html.replace('/*__FONTS__*/', fonts + '\n' + avatars);
 html = html.replace('/*__TOKENS__*/', tokens);
 if (html.includes('/*__COMPONENTS__*/')) html = html.replace('/*__COMPONENTS__*/', components);
 if (html.includes('/*__TYPE__*/')) html = html.replace('/*__TYPE__*/', type);
@@ -54,6 +62,7 @@ const rawRgb = [...authored.matchAll(/\brgba?\([^)]*\)/g)].map(m => m[0]);
 
 const iconCount = (readFileSync(src, 'utf8').match(/<!--pf-icon:/g) || []).length;
 console.log(`built ${out}  (${(html.length/1024).toFixed(0)} KB)`);
+console.log(`font faces       : ${(fonts.match(/@font-face/g) || []).length} inlined, no network at runtime`);
 console.log(`icon references  : ${iconCount} expanded from assets/icons/`);
 console.log(`tokens referenced: ${new Set(used).size} distinct, ${used.length} uses`);
 console.log(`undefined tokens : ${undef.length ? undef.join(', ') : 'none'}`);

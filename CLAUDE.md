@@ -25,17 +25,25 @@ Non-negotiables from that skill:
 
 ## Using the tokens, components and type
 
-Three stylesheets. For a page:
+Four stylesheets. For a page:
 
 ```html
+<link rel="stylesheet" href="dist/fonts.css">       <!-- Open Sans, self-hosted -->
 <link rel="stylesheet" href="dist/tokens.css">      <!-- the colours -->
 <link rel="stylesheet" href="dist/components.css">  <!-- the components -->
 <link rel="stylesheet" href="dist/type.css">        <!-- the type -->
 ```
 
 For a self-contained artifact or `.dc.html` canvas artboard: inline the contents of
-all three into a `<style>` block. Artifacts and canvases can't reference local files, so the
+all four into a `<style>` block. Artifacts and canvases can't reference local files, so the
 link tag will silently do nothing there.
+
+**`dist/fonts.css` is not optional.** It carries Open Sans as base64 `@font-face` rules, and
+without it the page falls through to `system-ui` — SF Pro on a Mac, Segoe UI on Windows —
+which renders every 600 visibly lighter than Open Sans SemiBold. That is not a small thing:
+this repo rendered in DejaVu Sans for months while four checks reported green, because every
+check read the CSS declaration and none read the glyphs. Never use a `fonts.googleapis.com`
+link instead: it dies offline, dies behind a proxy, and does nothing at all in an artifact.
 
 Component classes are named off Figma's variant panel — component is the class, each
 variant property is a data attribute, values keep Figma's spelling:
@@ -54,7 +62,7 @@ Dark mode: `data-theme="dark"` / `"light"` on the root, or omit to follow the OS
 
 `tokens/_raw/` is the input; everything else is generated. Re-extract from Figma into
 those files, then `npm run build`. Never hand-edit `tokens/design-tokens.json`,
-`dist/tokens.css`, `dist/components.css` or `dist/type.css` — they are overwritten. Run `npm run check`
+`dist/tokens.css`, `dist/components.css`, `dist/type.css` or `dist/fonts.css` — they are overwritten. Run `npm run check`
 after any token change to re-verify WCAG contrast, and `npm run verify` to re-check the
 component library and the example screens against Figma.
 
@@ -64,4 +72,7 @@ component library and the example screens against Figma.
 library, the type layer and the docs, each on a different axis. They are not
 interchangeable — on this project every one of them has passed while the page was
 visibly wrong on an axis it does not measure. **Always screenshot the result in light
-and dark and look at it** before saying a screen is done.
+and dark and look at it** before saying a screen is done — with
+`node scripts/screenshot-screen.mjs <screen.html>`, which refuses to write a PNG if the page
+is not rendering in Open Sans. A screenshot in the wrong typeface is worse than none: it is
+false evidence, and it is what this project shipped for months.
