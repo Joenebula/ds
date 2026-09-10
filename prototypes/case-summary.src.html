@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Case summary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+/*__TOKENS__*/
+/*__COMPONENTS__*/
+/*__TYPE__*/
+
+/* ==========================================================================
+   LOCAL CSS — page layout and behaviour only.
+   Component appearance comes from dist/components.css above; text size and
+   weight from dist/type.css. What is left here is the page grid, cursor and
+   transition, and art drawn *inside* a component.
+
+   Three blocks are marked GAP. They are components the Figma library does not
+   carry, so there is no class to use and no extract to check them against.
+   They are named in the handover rather than hidden here:
+     GAP 1  avatar        — `People` is excluded from the library as sample
+                            content, so there is no avatar component at all
+     GAP 2  stage marker  — the tick/current dot down the left of a stage row
+     GAP 3  add-new row   — the dashed "add another" affordance
+   ========================================================================== */
+
+/* ---------- base ---------- */
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--pf-bg-secondary);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-body);
+  padding: var(--pf-space-xlarge) var(--pf-space-large);
+}
+.panel { max-width: 516px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--pf-space-large); }
+
+/* .pf-card centres its children and hugs; a panel card fills and stacks left. */
+.card-block { display: flex; align-items: stretch; width: 100%; }
+.card-block > .pf-card { width: 100%; align-items: stretch; }
+
+/* ---------- summary header ---------- */
+.summary { background: var(--pf-bg-theme); gap: var(--pf-space-medium); align-items: stretch; }
+.summary-top { display: flex; gap: var(--pf-space-medium); align-items: flex-start; }
+.summary-icon { color: var(--pf-icon-theme); flex: 0 0 auto; display: flex; }
+.summary-text { display: flex; flex-direction: column; gap: var(--pf-space-xsmall); min-width: 0; }
+
+.subject { display: grid; grid-template-columns: 1fr 1fr; gap: var(--pf-space-large); }
+.field { display: flex; flex-direction: column; gap: var(--pf-space-xsmall); min-width: 0; }
+.field-value { display: flex; align-items: center; gap: var(--pf-space-small); }
+
+/* ---------- stages ---------- */
+.stages { display: flex; flex-direction: column; gap: var(--pf-space-small); }
+.stage {
+  /* .pf-card is column + centred; a stage row must override both explicitly. */
+  display: flex; flex-direction: row; align-items: center; justify-content: flex-start;
+  gap: var(--pf-space-medium);
+  width: 100%; text-align: left; font-family: inherit;
+  border: 1px solid var(--pf-border-secondary);
+  cursor: pointer; transition: border-color .12s ease, background-color .12s ease;
+}
+.stage:hover { border-color: var(--pf-border-default); }
+.stage[aria-current="step"] { border-color: var(--pf-border-theme); }
+.stage-body { display: flex; flex-direction: column; gap: var(--pf-space-xsmall); flex: 1 1 auto; min-width: 0; }
+.stage-people { display: flex; align-items: center; gap: var(--pf-space-small); }
+.stage-end { display: flex; align-items: center; gap: var(--pf-space-medium); flex: 0 0 auto; }
+.stage-chevron { color: var(--pf-icon-secondary); display: flex; }
+
+/* GAP 1 — avatar. `People` is excluded from the library (sample content, not
+   design), so no avatar class exists. Initials on a neutral surface, sized to
+   the xxs icon so it lines up with everything else on the row. */
+.avatar {
+  width: var(--pf-icon-size-s); height: var(--pf-icon-size-s);
+  border-radius: 50%; flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--pf-bg-tertiary); color: var(--pf-text-secondary);
+  font-size: var(--pf-font-size-xs); font-weight: var(--pf-font-weight-bold);
+}
+.avatar-stack { display: inline-flex; gap: 2px; }
+/* Figma overlaps these, but Figma's are photographs. Overlapping INITIALS clips a
+   letter and turns "NH OW" into "NI OW" — legibility beats matching the flourish. */
+
+/* GAP 2 — stage marker. Drawn inside the row: a filled tick for a completed
+   stage, a ring with a centre dot for the one in progress. */
+.marker {
+  width: var(--pf-icon-size-xs); height: var(--pf-icon-size-xs);
+  border-radius: 50%; flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.marker[data-state="complete"] { background: var(--pf-bg-positive); color: var(--pf-icon-positive); }
+.marker[data-state="current"] { border: 2px solid var(--pf-border-theme); }
+.marker[data-state="current"]::after {
+  content: ""; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--pf-bg-theme-full);
+}
+
+/* GAP 3 — the dashed add-another row. No library equivalent. */
+.add-stage {
+  display: flex; align-items: center; justify-content: center; gap: var(--pf-space-small);
+  width: 100%; min-height: 74px; padding: var(--pf-space-large);
+  background: transparent; font-family: inherit;
+  border: 1px dashed var(--pf-border-theme); border-radius: var(--pf-radius-medium);
+  color: var(--pf-text-primary);
+  cursor: pointer; transition: background-color .12s ease;
+}
+.add-stage:hover { background: var(--pf-bg-theme); }
+.add-stage-icon { color: var(--pf-icon-theme); display: flex; }
+
+/* ---------- footer ---------- */
+.actions { display: flex; }
+.note { color: var(--pf-text-secondary); margin: 0; }
+</style>
+</head>
+<body>
+
+<main class="panel">
+
+  <!-- summary header -->
+  <div class="card-block">
+    <section class="pf-card summary" aria-labelledby="case-heading">
+      <div class="summary-top">
+        <span class="summary-icon" aria-hidden="true"><!--pf-icon:case-management 28--></span>
+        <div class="summary-text">
+          <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">Case summary</span>
+          <h1 class="pf-text-sub-heading-semibold" id="case-heading" style="margin:0">
+            Repeated unauthorised absence
+          </h1>
+          <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">
+            <time datetime="2026-08-10">10 Aug 2026</time> &middot; 12 days ago
+          </span>
+        </div>
+      </div>
+
+      <div class="card-block">
+        <div class="pf-card subject" data-property-1="Default">
+          <div class="field">
+            <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">Case subject</span>
+            <span class="field-value">
+              <span class="avatar" aria-hidden="true">AB</span>
+              <span class="pf-text-body-text">Aisha Bello</span>
+            </span>
+          </div>
+          <div class="field">
+            <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">Type</span>
+            <span class="pf-text-body-text">Disciplinary</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- stages -->
+  <section class="stages" aria-labelledby="stages-heading">
+    <h2 class="pf-text-sub-heading-semibold" id="stages-heading" style="margin:0">Stages</h2>
+
+    <button type="button" class="pf-card stage" data-property-1="Default">
+      <span class="marker" data-state="complete" aria-hidden="true"><!--pf-icon:tick 14--></span>
+      <span class="stage-body">
+        <span class="pf-text-body-text-semibold">Case raised</span>
+        <span class="stage-people">
+          <span class="avatar" aria-hidden="true">TK</span>
+          <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">Tomasz Kowalczyk</span>
+        </span>
+      </span>
+      <span class="stage-end">
+        <span class="pf-tags" data-type="Positive">Complete</span>
+        <span class="stage-chevron" aria-hidden="true"><!--pf-icon:right-chevron 18--></span>
+      </span>
+    </button>
+
+    <button type="button" class="pf-card stage" data-property-1="Default" aria-current="step">
+      <span class="marker" data-state="current" aria-hidden="true"></span>
+      <span class="stage-body">
+        <span class="pf-text-body-text-semibold">Investigation meeting</span>
+        <span class="stage-people">
+          <span class="avatar-stack" aria-hidden="true">
+            <span class="avatar">NH</span>
+            <span class="avatar">OW</span>
+          </span>
+          <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">Nadia Hussain and Owen Whitlock</span>
+        </span>
+      </span>
+      <span class="stage-end">
+        <span class="pf-tags" data-type="Neutral">In progress</span>
+        <span class="stage-chevron" aria-hidden="true"><!--pf-icon:right-chevron 18--></span>
+      </span>
+    </button>
+
+    <button type="button" class="add-stage">
+      <span class="add-stage-icon" aria-hidden="true"><!--pf-icon:add-plus 22--></span>
+      <span class="pf-text-body-text">Add new stage</span>
+    </button>
+  </section>
+
+  <!-- actions -->
+  <div class="actions">
+    <button class="pf-button" data-type="Positive">
+      <!--pf-icon:tick 18-->
+      Close case
+    </button>
+  </div>
+
+  <p class="note pf-text-label-text">
+    Every colour on this page resolves to a People First token. Switch your system or Claude
+    theme to dark and the whole screen re-resolves &mdash; no separate dark stylesheet.
+    People, dates and case details are sample data and describe no real person.
+  </p>
+
+</main>
+
+</body>
+</html>

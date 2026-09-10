@@ -83,7 +83,16 @@ for (const c of CHECKS) {
   const add = (prop, expected, actual, ok, note = '') =>
     results.push({ component: c.component, sel: c.sel, prop, expected, actual, ok, note });
 
-  if (!m) { add('exists', 'present in DOM', 'missing', false); continue; }
+  // A component that is not on the page is NOT a geometry failure. It used to be
+  // recorded as one, and nothing noticed because the three screens that existed were all
+  // large dashboards that happened to contain every component in the list. The first
+  // small panel to be checked — a 516px case summary with a button, tags and cards —
+  // reported "8 off" while every component it actually had was correct.
+  //
+  // A check that cannot tell "this is wrong" from "this is not here" is the same fault
+  // this repo keeps finding in itself. Absent is now its own outcome: not counted as a
+  // pass, not counted as a failure, and reported so it stays visible.
+  if (!m) { add('exists', 'present in DOM', 'not on this page', null); continue; }
 
   if (c.height) {
     const want = heightOf(c.component);
@@ -117,11 +126,21 @@ for (const c of CHECKS) {
 await ctx.close();
 await browser.close();
 
-const pass = results.filter(r => r.ok).length;
-const fail = results.filter(r => !r.ok);
+const pass = results.filter(r => r.ok === true).length;
+const fail = results.filter(r => r.ok === false);
+const absent = results.filter(r => r.ok === null);
 for (const r of results) {
-  const mark = r.ok ? 'ok  ' : 'FAIL';
+  const mark = r.ok === true ? 'ok  ' : r.ok === false ? 'FAIL' : '--  ';
   console.log(`${mark} ${r.component.padEnd(24)} ${r.prop.padEnd(15)} expected ${String(r.expected).padEnd(12)} got ${r.actual}${r.note ? '  — ' + r.note : ''}`);
 }
-console.log(`\n${pass} geometry checks match Figma, ${fail.length} off`);
+console.log(`\n${pass} geometry checks match Figma, ${fail.length} off`
+  + (absent.length ? `, ${absent.length} component(s) not on this page` : ''));
+
+// A page carrying NONE of the library's components measures nothing, and "0 off" would
+// read as a clean bill of health. Exit 2 — the vacuous code this repo uses everywhere —
+// so a screen that dodges every check cannot wear a pass.
+if (!pass && !fail.length) {
+  console.log('nothing measured — none of the library\'s components are on this page');
+  process.exit(2);
+}
 process.exit(fail.length ? 1 : 0);
