@@ -68,11 +68,23 @@ component library and the example screens against Figma.
 
 ## Checking any screen
 
-`npm run verify` checks every screen in `prototypes/` on four axes, plus the component
+**Edit the `.src.html`, never the `.html`.** `npm run build` generates every screen from its
+source; the built file is an output. Editing it directly is overwritten on the next build, and
+until then the screen and its source disagree.
+
+`npm run verify` checks every screen in `prototypes/` on nine axes, plus the component
 library, the type layer and the docs, each on a different axis. They are not
 interchangeable — on this project every one of them has passed while the page was
-visibly wrong on an axis it does not measure. **Always screenshot the result in light
-and dark and look at it** before saying a screen is done — with
+visibly wrong on an axis it does not measure.
+
+The first axis is `built`, and it is a **gate**: it rebuilds each source and compares bytes,
+because `npm run build` once built everything except the screens, and eight green marks on a
+stale page read exactly like eight on a current one. If it fails, run `npm run build` — nothing
+on that screen has been measured, whatever the other marks say.
+
+A `--` is a check that measured nothing. It is not a pass.
+
+**Always screenshot the result in light and dark and look at it** before saying a screen is done — with
 `node scripts/screenshot-screen.mjs <screen.html>`, which refuses to write a PNG if the page
 is not rendering in Open Sans. A screenshot in the wrong typeface is worse than none: it is
 false evidence, and it is what this project shipped for months.

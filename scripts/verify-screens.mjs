@@ -20,6 +20,12 @@ const screens = readdirSync(dir)
 if (!screens.length) { console.error('no built screens in prototypes/'); process.exit(1); }
 
 const CHECKS = [
+  // FIRST, and a gate rather than one axis among nine. Every other check reads the built
+  // .html; if that file is not what its .src.html builds to, all eight are describing a
+  // page that no longer exists. Found by mutating a stage title, running `npm run build`,
+  // and watching verify-content report `0 invented` — the string had never reached the
+  // file it reads. See F-025.
+  ['built', 'scripts/verify-built.mjs'],
   ['geometry', 'scripts/verify-geometry.mjs'],
   ['colour', 'scripts/verify-rendered.mjs'],
   ['icons', 'scripts/check-icon-fidelity.mjs'],
@@ -34,7 +40,7 @@ const CHECKS = [
 // no component on the page). That is neither a pass nor a failure, and collapsing it
 // into either is how this repo has twice shipped a check that could not see the thing
 // it was pointed at. It gets its own mark and its own tally.
-let failed = 0, unmeasured = 0;
+let failed = 0, unmeasured = 0, stale = 0;
 for (const screen of screens) {
   const path = `${dir}/${screen}`;
   // A built screen with no source is a stale artefact; say so rather than checking it.
@@ -57,6 +63,16 @@ for (const screen of screens) {
     const mark = code === 0 ? 'ok  ' : code === 2 ? '--  ' : 'FAIL';
     console.log(`  ${mark} ${name.padEnd(9)} ${last}`);
     if (code === 2) unmeasured++; else if (code !== 0) failed++;
+
+    // A stale page makes every later mark meaningless — green on the wrong file reads
+    // exactly like green on the right one. Say so instead of printing eight of them.
+    if (name === 'built' && code === 1) {
+      stale++;
+      for (const [skipped] of CHECKS.slice(1)) {
+        console.log(`  ---- ${skipped.padEnd(9)} not run — the built page is stale`);
+      }
+      break;
+    }
   }
 }
 
@@ -64,5 +80,9 @@ console.log(`\n${screens.length} screens checked, ${failed} check failure(s), `
   + `${unmeasured} check(s) not measured`);
 if (unmeasured) {
   console.log('a "--" is a check that measured nothing — it is not a pass');
+}
+if (stale) {
+  console.log(`${stale} screen(s) are not what their source builds to — run \`npm run build\`. `
+    + 'Until then nothing on those screens has been measured, whatever the marks say.');
 }
 process.exit(failed ? 1 : 0);

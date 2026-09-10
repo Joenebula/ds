@@ -1,0 +1,185 @@
+{
+  "source": "figma:kuX4KDIN0u4axsKTELYlzW:14545:10049",
+  "extractedWith": "get_design_context",
+  "extractedOn": "2026-09-10",
+  "screen": "Case management — three stages raised",
+  "why": [
+    "Written from the extract BEFORE any markup. Raw responses in",
+    "dsskill/runs/20260910-case-three-stages/context/."
+  ],
+  "text": [
+    {
+      "node": "16299:9439",
+      "content": "Case summary",
+      "fontSize": 13,
+      "fontWeight": 400
+    },
+    {
+      "node": "16299:9440",
+      "content": "Nicholas has twice taken unapproved absences",
+      "fontSize": 16,
+      "fontWeight": 600,
+      "comment": "Figma carries a trailing space on this run; normalised away when comparing."
+    },
+    {
+      "node": "16299:9441",
+      "content": "10 Aug 2026 • 12 days ago",
+      "fontSize": 13,
+      "fontWeight": 400,
+      "comment": "Two spans in one paragraph, both 13px. The bullet is U+2022, not U+00B7."
+    },
+    {
+      "node": "16299:9444",
+      "content": "Case subject",
+      "fontSize": 13,
+      "fontWeight": 400
+    },
+    {
+      "node": "16299:9448",
+      "content": "Nicholas Smudge",
+      "fontSize": 16,
+      "fontWeight": 400
+    },
+    {
+      "node": "16299:9450",
+      "content": "Type",
+      "fontSize": 13,
+      "fontWeight": 400
+    },
+    {
+      "node": "16299:9453",
+      "content": "Disciplinary",
+      "fontSize": 16,
+      "fontWeight": 400
+    },
+    {
+      "node": "14545:10058",
+      "content": "Stages",
+      "fontSize": 16,
+      "fontWeight": 600
+    },
+    {
+      "node": "I16157:21831;16157:21465",
+      "content": "Case raised",
+      "fontSize": 16,
+      "fontWeight": 600,
+      "comment": "The same title on all three cards — see `observations`."
+    },
+    {
+      "node": "I16157:21831;16157:22939",
+      "content": "David Thompson",
+      "fontSize": 12,
+      "fontWeight": 400,
+      "accept": {
+        "fontSize": 13,
+        "why": "12px is not on the People First ramp (13/16/20/24/36); the prototype uses the 13px label class and this file records Figma's real 12px"
+      }
+    },
+    {
+      "node": "I16157:21831;16157:21470;1486:42842;1486:42691",
+      "content": "Complete",
+      "fontSize": 13,
+      "fontWeight": 400
+    },
+    {
+      "node": "14044:8922",
+      "content": "Add new stage",
+      "fontSize": 16,
+      "fontWeight": 600
+    },
+    {
+      "node": "17693:12648",
+      "content": "Close case",
+      "fontSize": 13,
+      "fontWeight": 400,
+      "comment": "Sentence case here, 13px Regular, white on --background/primary-button, with the leading Add plus icon HIDDEN. The Button instance on 14632:8829 renders CLOSE CASE — the design file disagrees with itself about button case between frames.",
+      "accept": {
+        "fontWeight": 600,
+        "why": "Figma is 13px Regular; .pf-button is 13px SemiBold. Case matches, so weight is the only divergence left."
+      }
+    }
+  ],
+  "peoplePerCard": {
+    "comment": "Four avatars: one in the header's subject field, one on each of the three stage cards. The dashed add-card carries none.",
+    "16299:9445": 1,
+    "16157:21831": 1,
+    "17693:12607": 1,
+    "17693:12626": 1,
+    "16157:22013": 0
+  },
+  "placeholders": {
+    "comment": "EMPTY, deliberately. Every string on this page is Figma's own."
+  },
+  "portraits": {
+    "comment": "Figma's People instances are sample content dropped in without matching the text. The TEXT is authoritative; a portrait binds only where a People variant of that name exists.",
+    "Nicholas Smudge": {
+      "key": "nicholas-smudge",
+      "node": "329:360",
+      "figmaPhoto": "Cooper Passaquindici Arcand — does not match the name"
+    },
+    "David Thompson": {
+      "key": null,
+      "figmaPhoto": "Roger Ekstrom Bothman — does not match the name",
+      "note": "No David Thompson exists in People (329:422). Shows the monogram DT."
+    }
+  },
+  "observations": {
+    "comment": "Things the design says that look like mistakes. Reproduced exactly rather than reconciled — choosing otherwise would be inventing content or a decision.",
+    "threeIdenticalCards": "16157:21831, 17693:12607 and 17693:12626 carry the SAME title, person, tag, surface and stepper. Three identical rows reads as unfinished work in Figma rather than a design decision, but giving each a different title would be inventing content.",
+    "stageCardSignals": "Each card is a THEME surface with an IN PROGRESS stepper and a green COMPLETE tag — three signals, three states. Same disagreement as 14632:8829.",
+    "buttonCaseAcrossFrames": "This frame's button is sentence case; the Button instance on 14632:8829 renders CLOSE CASE. The file is inconsistent about button case between frames."
+  },
+  "frame": [
+    {
+      "selector": ".panel",
+      "name": "Figma frame 14545:10049",
+      "width": 516,
+      "height": 640,
+      "padding": "20px",
+      "gap": 20
+    },
+    {
+      "selector": ".summary",
+      "name": "header frame 16299:9456",
+      "height": 170,
+      "padding": "10px",
+      "radius": 8,
+      "gap": 10
+    },
+    {
+      "selector": ".subject",
+      "name": "subject frame 16299:9442",
+      "padding": "15px 10px",
+      "radius": 8
+    },
+    {
+      "selector": ".field",
+      "name": "subject field 16299:9443 — 217 wide, no gap between the two",
+      "width": 217
+    },
+    {
+      "selector": ".stage",
+      "name": "Clickable card 14171:9714",
+      "height": 74,
+      "padding": "14px 12px",
+      "radius": 10,
+      "columnGap": 12
+    },
+    {
+      "selector": ".add-stage",
+      "name": "Clickable card, add variant 14044:8899",
+      "height": 74,
+      "padding": "14px 12px",
+      "radius": 10
+    }
+  ],
+  "frame_comment": "Machine-readable geometry, read by scripts/verify-frame.mjs. Every value is from the saved extract. These frames are NOT the People First Card — the header and subject are plain Figma frames, and the stage card is `Clickable card` from a non-People-First library (F-018) — so they are built in local CSS and asserted here rather than merely declared.",
+  "divergences": {
+    "comment": "Known, deliberate differences from Figma.",
+    "components": "Stepper, People, Rectangle Tags and Right arrow come from a non-People-First library (F-018).",
+    "tags": "Figma uses Rectangle Tags with alpha fills. The prototype uses the People First Tags component.",
+    "personName12px": "12px is not on the People First type ramp; the prototype uses the 13px label class with a declared `accept`.",
+    "buttonWeight": "Figma draws Close case 13px Regular; .pf-button is 13px SemiBold. Case matches on this frame, so weight is the only difference.",
+    "cardsAreLocalCss": "See `frame_comment`."
+  }
+}

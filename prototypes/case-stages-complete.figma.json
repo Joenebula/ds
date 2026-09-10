@@ -184,6 +184,11 @@
       "radius": 8
     },
     {
+      "selector": ".field",
+      "name": "subject field 16299:9443 — 217 wide, no gap between the two",
+      "width": 217
+    },
+    {
       "selector": ".stage",
       "name": "Clickable card 14171:9714",
       "height": 74,

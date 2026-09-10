@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Case management — first stage raised</title>
+<title>Case management — three stages raised</title>
 <style>
 /*__FONTS__*/
 /*__TOKENS__*/
@@ -15,9 +15,15 @@
    Component appearance comes from dist/components.css; text size and weight from
    dist/type.css; the typeface from dist/fonts.css.
 
-   Built from prototypes/case-first-stage.figma.json, written from
-   get_design_context on kuX4KDIN0u4axsKTELYlzW:14632:8829 before any markup
-   existed. Raw responses: dsskill/runs/20260910-case-first-stage/context/.
+   Built from prototypes/case-three-stages.figma.json, written from
+   get_design_context on kuX4KDIN0u4axsKTELYlzW:14545:10049 before any markup
+   existed. Raw responses: dsskill/runs/20260910-case-three-stages/context/.
+
+   THREE IDENTICAL CARDS. Figma repeats the same title, person, tag, surface and
+   stepper three times. That reads as unfinished work in the design file rather
+   than a decision, but giving each card a different title would be inventing
+   content, so it is built exactly as the file has it and flagged in
+   `observations`.
 
    Four blocks are marked GAP — components or sizes the library does not carry:
      GAP 1  avatar        — the People set's faces are sample content, not design;
@@ -38,7 +44,7 @@ body {
   padding: var(--pf-space-xlarge) var(--pf-space-large);
 }
 /* Figma frame is 516 wide with 20px padding, so 476 of content. */
-/* THE FIGMA FRAME. 14632:8829 is 516x472 with 20px padding, so this element IS the
+/* THE FIGMA FRAME. 14545:10049 is 516x640 with 20px padding, so this element IS the
    frame and its measured size is checkable against the extract by verify-frame.mjs.
    The provenance note lives outside it for that reason. */
 .panel {
@@ -174,7 +180,7 @@ body {
 
 <main class="panel">
 
-  <!-- summary header — Figma 16299:9611, the same component as the sibling Case screens -->
+  <!-- summary header — Figma 16299:9457, the same component as the sibling Case screens -->
   <section class="summary" aria-labelledby="case-heading">
       <div class="summary-top">
         <!-- Figma draws this 36px. The circle the icon sits in is the icon's own
@@ -206,10 +212,49 @@ body {
         </div>
     </section>
 
-  <!-- stages — Figma 16157:22039. One stage raised, then the prompt to add the next. -->
+  <!-- stages — Figma 14545:10057. Three stages, then the prompt to add another.
+       All three cards are identical in Figma: same title, same person, same tag. -->
   <section class="stages" aria-labelledby="stages-heading">
     <h2 class="pf-text-body-text-semibold" id="stages-heading" style="margin:0">Stages</h2>
 
+    <button type="button" class="stage" data-stage="current">
+      <span class="stage-main">
+        <span class="marker" data-state="current" aria-hidden="true"></span>
+        <span class="stage-body">
+        <span class="stage-title"><span class="pf-text-body-text-semibold">Case raised</span></span>
+        <span class="stage-people">
+          <!-- No data-avatar: People (329:422) has no David Thompson, so this shows the
+               monogram rather than borrowing someone else's face. Figma pairs Roger
+               Ekstrom Bothman's portrait with this name; the text is what we follow. -->
+          <span class="avatar" data-person aria-hidden="true">DT</span>
+          <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">David Thompson</span>
+        </span>
+        </span>
+      </span>
+      <span class="stage-end">
+        <span class="pf-tags" data-type="Positive">Complete</span>
+        <span class="stage-chevron" aria-hidden="true"><!--pf-icon:right-chevron 20--></span>
+      </span>
+    </button>
+    <button type="button" class="stage" data-stage="current">
+      <span class="stage-main">
+        <span class="marker" data-state="current" aria-hidden="true"></span>
+        <span class="stage-body">
+        <span class="stage-title"><span class="pf-text-body-text-semibold">Case raised</span></span>
+        <span class="stage-people">
+          <!-- No data-avatar: People (329:422) has no David Thompson, so this shows the
+               monogram rather than borrowing someone else's face. Figma pairs Roger
+               Ekstrom Bothman's portrait with this name; the text is what we follow. -->
+          <span class="avatar" data-person aria-hidden="true">DT</span>
+          <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">David Thompson</span>
+        </span>
+        </span>
+      </span>
+      <span class="stage-end">
+        <span class="pf-tags" data-type="Positive">Complete</span>
+        <span class="stage-chevron" aria-hidden="true"><!--pf-icon:right-chevron 20--></span>
+      </span>
+    </button>
     <button type="button" class="stage" data-stage="current">
       <span class="stage-main">
         <span class="marker" data-state="current" aria-hidden="true"></span>
@@ -236,11 +281,11 @@ body {
     </button>
   </section>
 
-  <!-- actions — Figma 14632:8840, Code Connected to <button mhr-button>Close case</button> -->
+  <!-- actions — Figma 17693:12646. A plain frame here rather than the Code Connected
+       Button instance, and sentence case, with the leading icon hidden. -->
   <div class="actions">
-    <!-- Figma draws this 13px Regular UPPERCASE with no icon. .pf-button is 13px
-         SemiBold sentence case; using the library component and accepting the
-         difference is recorded in case-first-stage.figma.json under `accept`. -->
+    <!-- Figma draws this 13px Regular sentence case with the icon hidden. .pf-button
+         is 13px SemiBold, so weight is the only difference — recorded under `accept`. -->
     <button class="pf-button" data-type="Positive">Close case</button>
   </div>
 

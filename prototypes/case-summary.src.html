@@ -74,7 +74,10 @@ body {
   border: 1px solid var(--pf-border-default);
   padding: var(--pf-space-medium) var(--pf-space-small);
   border-radius: var(--pf-radius-medium);
-  gap: var(--pf-space-large);
+  /* NO gap. get_metadata on the header shows the two fields at x=11 w=217 and x=228
+     w=217 — 217+217 = 434, exactly the content width, touching. A 20px gap here made
+     each field 207 and started "Type" 10px right of where Figma puts it. */
+  gap: 0;
 }
 .field { display: flex; flex-direction: column; gap: 4px; flex: 1 1 0; min-width: 0; }
 .field-value { display: flex; align-items: center; gap: var(--pf-space-small); }
