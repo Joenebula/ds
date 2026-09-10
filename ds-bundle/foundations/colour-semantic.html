@@ -155,6 +155,7 @@
   --pf-filter-menu-background: #f8f8f8; /* literal */
   --pf-filter-menu-border: #dadbdb; /* literal */
   --pf-icon-always-grey-slate: var(--pf-base-grey-slate);
+  --pf-icon-always-white: var(--pf-base-white);
   --pf-icon-disabled: var(--pf-base-grey);
   --pf-icon-info: var(--pf-base-blue-sky);
   --pf-icon-link: var(--pf-base-blue-ocean);
@@ -255,6 +256,7 @@
   --pf-filter-menu-background: #2c313c; /* literal */
   --pf-filter-menu-border: #2c313c; /* literal */
   --pf-icon-always-grey-slate: var(--pf-base-grey-slate);
+  --pf-icon-always-white: var(--pf-base-white);
   --pf-icon-disabled: var(--pf-base-white-ivory);
   --pf-icon-info: var(--pf-base-blue-sky);
   --pf-icon-link: var(--pf-base-blue-turquoise);
@@ -356,6 +358,7 @@
     --pf-filter-menu-background: #2c313c; /* literal */
     --pf-filter-menu-border: #2c313c; /* literal */
     --pf-icon-always-grey-slate: var(--pf-base-grey-slate);
+    --pf-icon-always-white: var(--pf-base-white);
     --pf-icon-disabled: var(--pf-base-white-ivory);
     --pf-icon-info: var(--pf-base-blue-sky);
     --pf-icon-link: var(--pf-base-blue-turquoise);
@@ -4413,6 +4416,19 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
   display: table-cell;
   vertical-align: middle;
 }
+
+/* Focus — browser behaviour, not a Figma variant. Two-tone: no single colour in
+ * the palette reaches 3:1 against every surface (best 1.41:1). Each half is
+ * invisible where the other carries, so one always reads. See dsskill DEF-0003. */
+:root {
+  --pf-border-focus-inner: var(--pf-text-always-white);
+  --pf-border-focus-outer: var(--pf-base-blue-shark);
+}
+:focus-visible {
+  outline: 2px solid var(--pf-border-focus-outer);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--pf-border-focus-inner);
+}
 /* People First — type classes, generated from the Figma text styles.
  *
  * DO NOT EDIT. Regenerate with: npm run build
@@ -4688,7 +4704,8 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
     <div class="m"><code>--pf-filter-menu-background</code><span class="f">Filter menu/Background</span></div></div><div class="sw"><div class="c" style="background:var(--pf-filter-menu-border)"></div>
     <div class="m"><code>--pf-filter-menu-border</code><span class="f">Filter menu/Border</span></div></div></div>
 <h2>Icons</h2><div class="grid"><div class="sw"><div class="c" style="background:var(--pf-icon-always-grey-slate)"></div>
-    <div class="m"><code>--pf-icon-always-grey-slate</code><span class="f">Icons/Icon - Always grey slate</span></div></div><div class="sw"><div class="c" style="background:var(--pf-icon-disabled)"></div>
+    <div class="m"><code>--pf-icon-always-grey-slate</code><span class="f">Icons/Icon - Always grey slate</span></div></div><div class="sw"><div class="c" style="background:var(--pf-icon-always-white)"></div>
+    <div class="m"><code>--pf-icon-always-white</code><span class="f">Icons/Icon - Always white</span></div></div><div class="sw"><div class="c" style="background:var(--pf-icon-disabled)"></div>
     <div class="m"><code>--pf-icon-disabled</code><span class="f">Icons/Icon - Disabled</span></div></div><div class="sw"><div class="c" style="background:var(--pf-icon-info)"></div>
     <div class="m"><code>--pf-icon-info</code><span class="f">Icons/Icon - Info</span></div></div><div class="sw"><div class="c" style="background:var(--pf-icon-link)"></div>
     <div class="m"><code>--pf-icon-link</code><span class="f">Icons/Icon - Link</span></div></div><div class="sw"><div class="c" style="background:var(--pf-icon-negative)"></div>

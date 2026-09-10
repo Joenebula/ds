@@ -1555,6 +1555,29 @@
             }
           }
         },
+        "always-white": {
+          "$type": "color",
+          "$value": "{color.base.white}",
+          "$extensions": {
+            "com.mhr.pf": {
+              "figmaName": "Icons/Icon - Always white",
+              "cssVar": "--pf-icon-always-white",
+              "tier": "semantic",
+              "scopes": [
+                "SHAPE_FILL",
+                "STROKE_COLOR"
+              ],
+              "modes": {
+                "light": "{color.base.white}",
+                "dark": "{color.base.white}"
+              },
+              "cssRef": {
+                "light": "--pf-base-white",
+                "dark": "--pf-base-white"
+              }
+            }
+          }
+        },
         "disabled": {
           "$type": "color",
           "$value": "{color.base.grey}",

@@ -40,6 +40,7 @@ Charts/Chart 9	@Base colours/Brown Gold	@Base colours/Brown Gold	FRAME_FILL+SHAP
 Filter menu/Background	#f8f8f8	#2c313c	FRAME_FILL
 Filter menu/Border	#dadbdb	#2c313c	STROKE_COLOR
 Icons/Icon - Always grey slate	@Base colours/Grey Slate	@Base colours/Grey Slate	SHAPE_FILL+STROKE_COLOR
+Icons/Icon - Always white	@Base colours/White	@Base colours/White	SHAPE_FILL+STROKE_COLOR
 Icons/Icon - Disabled	@Base colours/Grey	@Base colours/White Ivory	SHAPE_FILL+STROKE_COLOR
 Icons/Icon - Info	@Base colours/Blue Sky	@Base colours/Blue Sky	SHAPE_FILL+STROKE_COLOR
 Icons/Icon - Link	@Base colours/Blue Ocean	@Base colours/Blue Turquoise	SHAPE_FILL+STROKE_COLOR
