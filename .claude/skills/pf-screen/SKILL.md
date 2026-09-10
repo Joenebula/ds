@@ -54,9 +54,17 @@ node scripts/verify-geometry.mjs <out>.html              # shapes match Figma
 node scripts/verify-rendered.mjs <out>.html              # colours match Figma, both modes
 node scripts/check-icon-fidelity.mjs <out>.html          # every glyph is a real Figma icon
 node scripts/pf-audit.mjs <out>.html                     # on-system, contrast, both modes
+node scripts/verify-layout.mjs <out>.html                # nothing cut off with no way to reach it
 ```
 
 A page that passes one and not the others is not finished. Report the numbers.
+
+The first four all measure one element in isolation — its size, its colour, its glyphs,
+its contrast. `verify-layout` asks the question they cannot: can the element be SEEN?
+All four passed on a screen quietly slicing 126px off its own table, because Figma draws
+`Table (AG)` as a hug-contents frame and the faithful `display: inline-flex` grew past
+its column and clipped the rest. A scroll region is fine; being clipped with no way to
+scroll to the content is not, and that is the distinction this check makes.
 
 **4. Name every element.** A screen is handed to developers, or to a pipeline that turns
 it into Angular. Both address elements by NAME, not by CSS selector — selectors change
@@ -64,36 +72,69 @@ every time the layout does. Run:
 
 ```bash
 node scripts/name-elements.mjs <src>.src.html --write   # derive a data-pf-id for each
-node scripts/tag-elements.mjs <out>.html --write        # write the manifest, fail if any
-                                                        # element is unnamed or a name repeats
+                                                        # add --redo to re-derive existing ones
+node scripts/tag-elements.mjs <out>.html --write        # write the manifest; fails on an
+                                                        # element that is unnamed, repeated,
+                                                        # carries a name nobody can use, or
+                                                        # claims a variant Figma has no
+                                                        # such property for
 ```
 
 Only the NAME is authored. The component and variant are derived from the class and its
 data attributes, because those already come from Figma and retyping them is how they
-drift. The manifest is what a pipeline consumes:
+drift. The manifest is what a pipeline consumes — one entry per element, variants as
+structured values, and `parent` so the component tree is recoverable:
 
 ```json
-{ "id": "button-approve-selected", "component": "Button",
-  "variant": "type=Action", "tag": "button", "text": "Approve selected" }
+{ "id": "button-approve", "component": "Button", "variant": { "type": "Positive" },
+  "parent": "card-marcus-webb", "tag": "button", "repeat": null, "text": "Approve" }
 ```
 
-Two things need a decision from you, not from the script:
+**A name that exists is not the same as a name that is usable**, and this is where the
+tagging check reported `176 of 176 addressable by name` on a screen whose names included
+`button-path-d-m29-2-9-7c29-64`. Three kinds are now rejected outright:
+
+- **Path data.** An icon-led button has 900 characters of `<path d="…">` before its
+  label. The label reader skips SVG whole; if one still leaks through, the check fails.
+- **Sample data.** `All 248` names a chip `filter-chip-all-248`, and next month the count
+  is 251 and the name is a lie. Trailing letter-free words are dropped.
+- **A bare number.** `tags-approved-4` tells a developer nothing. A colliding name is
+  qualified by what it sits inside first — `card-marcus-webb-tags-approved` — and a
+  number is a reported failure, not a resolution.
+
+Two things still need a decision from you, not from the script:
 
 - **A specimen block is not screen content.** Mark it `data-pf-ignore` and its subtree is
   excluded — otherwise a gallery of every button variant puts six identical
-  `button-action`s in a manifest a developer is meant to trust.
-- **A derived name that collides gets a number,** and the script says so. A number tells a
-  developer nothing: rename it to what the thing actually is.
+  `button-action`s in a manifest a developer is meant to trust. Two of these three
+  prototypes shipped without that marker, and their galleries were most of the collisions.
+- **An icon-only control has no label to derive from.** Give it an `aria-label`; it needs
+  one anyway, and the name then comes out right for free.
 
-Rows of a data table are named by position (`r3c2`) and marked `data-pf-repeat`, because
-they are one repeating template rather than N distinct elements — which is what an
-`*ngFor` needs.
+A `data-*` attribute that is not one of Figma's variant properties for that component now
+fails the check outright. It is worse than no variant, because it is a plausible lie: a
+`data-darkmode="False"` sat on a Selected action banner whose only Figma property is
+`Mobile`, and a pipeline would have generated an `@Input` for it.
 
-**5. Then look at it.** Screenshot the page in light *and* dark and actually read the
-screenshot. On this project the scripts have passed three separate times while the page
+Everything inside a `<tbody>` is named by position (`r3c2`) and marked `data-pf-repeat`,
+because it is one repeating template rather than N distinct elements — which is what an
+`*ngFor` needs. A `<thead>` cell is not: `Employee` is a stable label.
+
+**5. Then look at it.**
+
+```bash
+node scripts/shoot.mjs <out>.html screenshots          # light and dark, viewport-sized
+```
+
+Actually read the screenshot. On this project the scripts have passed three separate times while the page
 was visibly broken — icons crushed to empty boxes, hollow buttons rendering as filled
 pills, a form laid out sideways. Every one was caught by looking, none by a check.
 Checks cover the axis they measure and nothing else.
+
+Read a full-page capture (`--full`) with one caveat: it flattens `position: sticky`, so a
+pinned sidebar renders at its natural height and looks like it stops halfway down the
+page, and a sticky panel footer looks like it is clipping the content above it. Both read
+as layout bugs and neither is one. The default viewport shot shows the truth.
 
 ## The five shapes that decide whether it reads as People First
 

@@ -259,6 +259,35 @@ out.push('  vertical-align: middle;');
 out.push('}');
 out.push('');
 
+// The same trap one level up. Figma draws Table (AG) as a hug-contents frame, so the
+// faithful `display: inline-flex` shrink-wraps to whatever the table inside it measures.
+// Put that container in a page column narrower than the table and it does not scroll and
+// does not wrap — it grows past the column and its own overflow clips the last columns
+// off. The timesheet screen lost 126px of itself this way, Status column included, with
+// every geometry, colour, icon and contrast check still passing. (The payroll screen
+// looks the same in a screenshot and is not the same bug: its container is a plain div,
+// so its 206px is a real scroll region. scripts/verify-layout.mjs tells them apart.)
+out.push('/* A component used as a table CONTAINER has to be able to be narrower than its');
+out.push('   contents; hug-contents is a Figma canvas behaviour, not a page one. */');
+out.push('.pf-table-ag {');
+out.push('  display: flex;');
+out.push('  width: 100%;');
+out.push('  min-width: 0;');
+out.push('  max-width: 100%;');
+// Figma hugs its contents in BOTH directions, so align-items: flex-start leaves the
+// table sitting at its natural width with dead space beside it inside a full-width card.
+out.push('  align-items: stretch;');
+out.push('}');
+// A flex item defaults to min-width:auto, so the scroll region inside the container
+// grows to the table's natural width and overflows anyway — the container fix alone
+// moved the clipping one element inwards rather than removing it.
+out.push('.pf-table-ag > * { min-width: 0; max-width: 100%; width: 100%; }');
+// The container carries SemiBold because Figma sets it on the frame for the header row.
+// Inherited into the body it turns every cell bold, including the secondary line under a
+// name. A cell's weight belongs to the cell's own text, not to the frame around it.
+out.push('.pf-table-ag td, .pf-table-ag tbody { font-weight: var(--pf-font-weight-regular); }');
+out.push('');
+
 mkdirSync('dist', { recursive: true });
 writeFileSync('dist/components.css', out.join('\n'));
 

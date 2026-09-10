@@ -2,9 +2,9 @@
   "screen": "payroll-run-summary",
   "generated": "scripts/tag-elements.mjs — do not hand-edit",
   "counts": {
-    "elements": 130,
-    "roots": 82,
-    "repeating": 36
+    "elements": 107,
+    "roots": 40,
+    "repeating": 60
   },
   "elements": [
     {
@@ -140,7 +140,7 @@
       "text": "Approve pay run"
     },
     {
-      "id": "information-box-3-employees-have",
+      "id": "information-box-3-employees",
       "component": "Information box",
       "cls": "pf-information-box",
       "variant": {
@@ -152,7 +152,7 @@
       "text": "3 employees have validation errors. Missing or invalid bank "
     },
     {
-      "id": "filter-chip-all-248",
+      "id": "filter-chip-all",
       "component": "Filter chip",
       "cls": "pf-filter-chip",
       "variant": {
@@ -165,7 +165,7 @@
       "text": "All 248"
     },
     {
-      "id": "filter-chip-needs-review-12",
+      "id": "filter-chip-needs-review",
       "component": "Filter chip",
       "cls": "pf-filter-chip",
       "variant": {
@@ -178,7 +178,7 @@
       "text": "Needs review 12"
     },
     {
-      "id": "filter-chip-approved-214",
+      "id": "filter-chip-approved",
       "component": "Filter chip",
       "cls": "pf-filter-chip",
       "variant": {
@@ -204,7 +204,7 @@
       "text": "Changed this period 31"
     },
     {
-      "id": "filter-chip-new-starters-5",
+      "id": "filter-chip-new-starters",
       "component": "Filter chip",
       "cls": "pf-filter-chip",
       "variant": {
@@ -217,7 +217,7 @@
       "text": "New starters 5"
     },
     {
-      "id": "filter-chip-leavers-2",
+      "id": "filter-chip-leavers",
       "component": "Filter chip",
       "cls": "pf-filter-chip",
       "variant": {
@@ -298,7 +298,6 @@
       "component": "Selected action banner",
       "cls": "pf-selected-action-banner",
       "variant": {
-        "darkmode": "False",
         "mobile": "False"
       },
       "parent": null,
@@ -331,13 +330,25 @@
       "text": "Put on hold"
     },
     {
-      "id": "multi-select-checkbox-all-on-this",
+      "id": "table-ag-employee-pay-status",
+      "component": "Table (AG)",
+      "cls": "pf-table-ag",
+      "variant": {
+        "mobile": "False"
+      },
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "Employee pay status — September 2026 run Employee Department"
+    },
+    {
+      "id": "multi-select-checkbox-all",
       "component": "Multi-select checkbox",
       "cls": "pf-multi-select-checkbox",
       "variant": {
         "state": "Selected"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "span",
       "repeat": null,
       "text": ""
@@ -350,85 +361,85 @@
         "variant": "Sort",
         "state": "Ascending"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "span",
       "repeat": null,
       "text": ""
     },
     {
-      "id": "table-cell-ag-default",
+      "id": "table-cell-ag-r1c1",
       "component": "Table cell (AG)",
       "cls": "pf-table-cell-ag",
       "variant": {
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
-      "id": "multi-select-checkbox-not-selected",
+      "id": "table-cell-ag-r1c1-multi-select-checkbox",
       "component": "Multi-select checkbox",
       "cls": "pf-multi-select-checkbox",
       "variant": {
         "state": "Default"
       },
-      "parent": "table-cell-ag-default",
+      "parent": "table-cell-ag-r1c1",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
-      "id": "table-cell-ag-aisha-bello-software",
+      "id": "table-cell-ag-r1c2",
       "component": "Table cell (AG)",
       "cls": "pf-table-cell-ag",
       "variant": {
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
-      "repeat": null,
+      "repeat": "row",
       "text": "Aisha BelloSoftware Engineer · 100482"
     },
     {
-      "id": "table-cell-ag-technology",
+      "id": "table-cell-ag-r1c3",
       "component": "Table cell (AG)",
       "cls": "pf-table-cell-ag",
       "variant": {
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
-      "repeat": null,
+      "repeat": "row",
       "text": "Technology"
     },
     {
-      "id": "table-cell-ag-approved",
+      "id": "table-cell-ag-r1c8",
       "component": "Table cell (AG)",
       "cls": "pf-table-cell-ag",
       "variant": {
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
-      "repeat": null,
+      "repeat": "row",
       "text": "Approved"
     },
     {
-      "id": "tags-approved",
+      "id": "table-cell-ag-r1c8-tags",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
         "type": "Positive"
       },
-      "parent": "table-cell-ag-approved",
+      "parent": "table-cell-ag-r1c8",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": "Approved"
     },
     {
@@ -439,13 +450,13 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": ""
     },
     {
-      "id": "multi-select-checkbox-not-selected-2",
+      "id": "table-cell-ag-r2c1-multi-select-checkbox",
       "component": "Multi-select checkbox",
       "cls": "pf-multi-select-checkbox",
       "variant": {
@@ -453,7 +464,7 @@
       },
       "parent": "table-cell-ag-r2c1",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -464,7 +475,7 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "Danny OkonkwoCustomer Adviser · 100517"
@@ -477,7 +488,7 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "Service"
@@ -490,13 +501,13 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "Query raised"
     },
     {
-      "id": "tags-query-raised",
+      "id": "table-cell-ag-r2c8-tags",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
@@ -504,7 +515,7 @@
       },
       "parent": "table-cell-ag-r2c8",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": "Query raised"
     },
     {
@@ -515,13 +526,13 @@
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": ""
     },
     {
-      "id": "multi-select-checkbox-selected",
+      "id": "table-cell-ag-r3c1-multi-select-checkbox",
       "component": "Multi-select checkbox",
       "cls": "pf-multi-select-checkbox",
       "variant": {
@@ -529,7 +540,7 @@
       },
       "parent": "table-cell-ag-r3c1",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -540,7 +551,7 @@
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "Elin PrydderchStore Manager · 100238"
@@ -553,7 +564,7 @@
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "Retail"
@@ -566,13 +577,13 @@
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "Approved"
     },
     {
-      "id": "tags-approved-2",
+      "id": "table-cell-ag-r3c8-tags",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
@@ -580,7 +591,7 @@
       },
       "parent": "table-cell-ag-r3c8",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": "Approved"
     },
     {
@@ -591,13 +602,13 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": ""
     },
     {
-      "id": "multi-select-checkbox-not-selected-3",
+      "id": "table-cell-ag-r4c1-multi-select-checkbox",
       "component": "Multi-select checkbox",
       "cls": "pf-multi-select-checkbox",
       "variant": {
@@ -605,7 +616,7 @@
       },
       "parent": "table-cell-ag-r4c1",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -616,7 +627,7 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "Grace ElleryMarketing Executive · 100611"
@@ -629,7 +640,7 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "Marketing"
@@ -642,13 +653,13 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "Not started"
     },
     {
-      "id": "tags-not-started",
+      "id": "table-cell-ag-r4c8-tags",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
@@ -656,7 +667,7 @@
       },
       "parent": "table-cell-ag-r4c8",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": "Not started"
     },
     {
@@ -667,13 +678,13 @@
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": ""
     },
     {
-      "id": "multi-select-checkbox-not-selected-4",
+      "id": "table-cell-ag-r5c1-multi-select-checkbox",
       "component": "Multi-select checkbox",
       "cls": "pf-multi-select-checkbox",
       "variant": {
@@ -681,7 +692,7 @@
       },
       "parent": "table-cell-ag-r5c1",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -692,7 +703,7 @@
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "Marcus FarrellHR Adviser · 100094"
@@ -705,7 +716,7 @@
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "People"
@@ -718,13 +729,13 @@
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "Approved"
     },
     {
-      "id": "tags-approved-3",
+      "id": "table-cell-ag-r5c8-tags",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
@@ -732,7 +743,7 @@
       },
       "parent": "table-cell-ag-r5c8",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": "Approved"
     },
     {
@@ -743,13 +754,13 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": ""
     },
     {
-      "id": "multi-select-checkbox-selected-2",
+      "id": "table-cell-ag-r6c1-multi-select-checkbox",
       "component": "Multi-select checkbox",
       "cls": "pf-multi-select-checkbox",
       "variant": {
@@ -757,7 +768,7 @@
       },
       "parent": "table-cell-ag-r6c1",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -768,7 +779,7 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "Nadia HussainNurse Practitioner · 100355"
@@ -781,7 +792,7 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "Clinical"
@@ -794,13 +805,13 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "Leaver"
     },
     {
-      "id": "tags-leaver",
+      "id": "table-cell-ag-r6c8-tags",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
@@ -808,7 +819,7 @@
       },
       "parent": "table-cell-ag-r6c8",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": "Leaver"
     },
     {
@@ -819,13 +830,13 @@
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": ""
     },
     {
-      "id": "multi-select-checkbox-selected-3",
+      "id": "table-cell-ag-r7c1-multi-select-checkbox",
       "component": "Multi-select checkbox",
       "cls": "pf-multi-select-checkbox",
       "variant": {
@@ -833,7 +844,7 @@
       },
       "parent": "table-cell-ag-r7c1",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -844,7 +855,7 @@
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "Tomasz KowalczykDelivery Driver · 100729"
@@ -857,7 +868,7 @@
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "Logistics"
@@ -870,13 +881,13 @@
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "Failed validation"
     },
     {
-      "id": "tags-failed-validation",
+      "id": "table-cell-ag-r7c8-tags",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
@@ -884,7 +895,7 @@
       },
       "parent": "table-cell-ag-r7c8",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": "Failed validation"
     },
     {
@@ -895,13 +906,13 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": ""
     },
     {
-      "id": "multi-select-checkbox-not-selected-5",
+      "id": "table-cell-ag-r8c1-multi-select-checkbox",
       "component": "Multi-select checkbox",
       "cls": "pf-multi-select-checkbox",
       "variant": {
@@ -909,7 +920,7 @@
       },
       "parent": "table-cell-ag-r8c1",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -920,7 +931,7 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "Owen WhitlockWarehouse Operative · 100803"
@@ -933,7 +944,7 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "Operations"
@@ -946,13 +957,13 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "Needs review"
     },
     {
-      "id": "tags-needs-review",
+      "id": "table-cell-ag-r8c8-tags",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
@@ -960,7 +971,7 @@
       },
       "parent": "table-cell-ag-r8c8",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": "Needs review"
     },
     {
@@ -971,13 +982,13 @@
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": ""
     },
     {
-      "id": "multi-select-checkbox-not-selected-6",
+      "id": "table-cell-ag-r9c1-multi-select-checkbox",
       "component": "Multi-select checkbox",
       "cls": "pf-multi-select-checkbox",
       "variant": {
@@ -985,7 +996,7 @@
       },
       "parent": "table-cell-ag-r9c1",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -996,7 +1007,7 @@
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "Priya RaghunathanPayroll Analyst · 100011"
@@ -1009,7 +1020,7 @@
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "Finance"
@@ -1022,13 +1033,13 @@
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "Approved"
     },
     {
-      "id": "tags-approved-4",
+      "id": "table-cell-ag-r9c8-tags",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
@@ -1036,7 +1047,7 @@
       },
       "parent": "table-cell-ag-r9c8",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": "Approved"
     },
     {
@@ -1047,13 +1058,13 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": ""
     },
     {
-      "id": "multi-select-checkbox-not-selected-7",
+      "id": "table-cell-ag-r10c1-multi-select-checkbox",
       "component": "Multi-select checkbox",
       "cls": "pf-multi-select-checkbox",
       "variant": {
@@ -1061,7 +1072,7 @@
       },
       "parent": "table-cell-ag-r10c1",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -1072,7 +1083,7 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "Samuel AdeyemiFinance Business Partner · 100147"
@@ -1085,7 +1096,7 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "Finance"
@@ -1098,13 +1109,13 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-pay-status",
       "tag": "td",
       "repeat": "row",
       "text": "Needs review"
     },
     {
-      "id": "tags-needs-review-2",
+      "id": "table-cell-ag-r10c8-tags",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
@@ -1112,298 +1123,8 @@
       },
       "parent": "table-cell-ag-r10c8",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": "Needs review"
-    },
-    {
-      "id": "card-variant-states-reference",
-      "component": "Card",
-      "cls": "pf-card",
-      "variant": {},
-      "parent": null,
-      "tag": "section",
-      "repeat": null,
-      "text": "Variant states Reference block for verify-geometry and verif"
-    },
-    {
-      "id": "button-action",
-      "component": "Button",
-      "cls": "pf-button",
-      "variant": {
-        "type": "Action"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "button",
-      "repeat": null,
-      "text": "Action"
-    },
-    {
-      "id": "button-action-2",
-      "component": "Button",
-      "cls": "pf-button",
-      "variant": {
-        "type": "Action",
-        "state": "Hover"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "button",
-      "repeat": null,
-      "text": "Action"
-    },
-    {
-      "id": "button-positive",
-      "component": "Button",
-      "cls": "pf-button",
-      "variant": {
-        "type": "Positive"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "button",
-      "repeat": null,
-      "text": "Positive"
-    },
-    {
-      "id": "button-positive-2",
-      "component": "Button",
-      "cls": "pf-button",
-      "variant": {
-        "type": "Positive",
-        "state": "Hover"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "button",
-      "repeat": null,
-      "text": "Positive"
-    },
-    {
-      "id": "button-negative",
-      "component": "Button",
-      "cls": "pf-button",
-      "variant": {
-        "type": "Negative"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "button",
-      "repeat": null,
-      "text": "Negative"
-    },
-    {
-      "id": "button-negative-2",
-      "component": "Button",
-      "cls": "pf-button",
-      "variant": {
-        "type": "Negative",
-        "state": "Hover"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "button",
-      "repeat": null,
-      "text": "Negative"
-    },
-    {
-      "id": "button-hollow",
-      "component": "Button",
-      "cls": "pf-button",
-      "variant": {
-        "type": "Hollow"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "button",
-      "repeat": null,
-      "text": "Hollow"
-    },
-    {
-      "id": "button-hollow-2",
-      "component": "Button",
-      "cls": "pf-button",
-      "variant": {
-        "type": "Hollow",
-        "state": "Hover"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "button",
-      "repeat": null,
-      "text": "Hollow"
-    },
-    {
-      "id": "button-undo",
-      "component": "Button",
-      "cls": "pf-button",
-      "variant": {
-        "type": "Hollow"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "button",
-      "repeat": null,
-      "text": "Undo"
-    },
-    {
-      "id": "tags-approved-5",
-      "component": "Tags",
-      "cls": "pf-tags",
-      "variant": {
-        "type": "Positive"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "span",
-      "repeat": null,
-      "text": "Approved"
-    },
-    {
-      "id": "tags-failed-validation-2",
-      "component": "Tags",
-      "cls": "pf-tags",
-      "variant": {
-        "type": "Negative"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "span",
-      "repeat": null,
-      "text": "Failed validation"
-    },
-    {
-      "id": "tags-needs-review-3",
-      "component": "Tags",
-      "cls": "pf-tags",
-      "variant": {
-        "type": "Warning"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "span",
-      "repeat": null,
-      "text": "Needs review"
-    },
-    {
-      "id": "tags-not-started-2",
-      "component": "Tags",
-      "cls": "pf-tags",
-      "variant": {
-        "type": "Neutral"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "span",
-      "repeat": null,
-      "text": "Not started"
-    },
-    {
-      "id": "tags-query-raised-2",
-      "component": "Tags",
-      "cls": "pf-tags",
-      "variant": {
-        "type": "Other"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "span",
-      "repeat": null,
-      "text": "Query raised"
-    },
-    {
-      "id": "tags-leaver-2",
-      "component": "Tags",
-      "cls": "pf-tags",
-      "variant": {
-        "type": "Expired"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "span",
-      "repeat": null,
-      "text": "Leaver"
-    },
-    {
-      "id": "tags-theme",
-      "component": "Tags",
-      "cls": "pf-tags",
-      "variant": {
-        "type": "Theme"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "span",
-      "repeat": null,
-      "text": "Theme"
-    },
-    {
-      "id": "draggable-card-overtime",
-      "component": "Draggable card",
-      "cls": "pf-draggable-card",
-      "variant": {
-        "state": "Default"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "div",
-      "repeat": null,
-      "text": "Overtime"
-    },
-    {
-      "id": "draggable-card-overtime-2",
-      "component": "Draggable card",
-      "cls": "pf-draggable-card",
-      "variant": {
-        "state": "Hover"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "div",
-      "repeat": null,
-      "text": "Overtime"
-    },
-    {
-      "id": "draggable-card-overtime-3",
-      "component": "Draggable card",
-      "cls": "pf-draggable-card",
-      "variant": {
-        "state": "Click"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "div",
-      "repeat": null,
-      "text": "Overtime"
-    },
-    {
-      "id": "draggable-card-overtime-4",
-      "component": "Draggable card",
-      "cls": "pf-draggable-card",
-      "variant": {
-        "state": "Drop"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "div",
-      "repeat": null,
-      "text": "Overtime"
-    },
-    {
-      "id": "information-box-pay-run-approved",
-      "component": "Information box",
-      "cls": "pf-information-box",
-      "variant": {
-        "type": "Success"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "div",
-      "repeat": null,
-      "text": "Pay run approved and locked for editing."
-    },
-    {
-      "id": "information-box-pension-contributions-recalcul",
-      "component": "Information box",
-      "cls": "pf-information-box",
-      "variant": {
-        "type": "Information"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "div",
-      "repeat": null,
-      "text": "Pension contributions recalculated after the 06/09 rate chan"
-    },
-    {
-      "id": "information-box-sort-code-fails",
-      "component": "Information box",
-      "cls": "pf-information-box",
-      "variant": {
-        "type": "Error"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "div",
-      "repeat": null,
-      "text": "Sort code fails the modulus check for account 100729."
     },
     {
       "id": "button-close-panel",
@@ -1418,7 +1139,7 @@
       "text": ""
     },
     {
-      "id": "tags-failed-validation-3",
+      "id": "tags-failed-validation",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
@@ -1442,7 +1163,7 @@
       "text": "Overtime above average"
     },
     {
-      "id": "information-box-sort-code-fails-2",
+      "id": "information-box-sort-code-fails",
       "component": "Information box",
       "cls": "pf-information-box",
       "variant": {
@@ -1466,7 +1187,7 @@
       "text": "Add"
     },
     {
-      "id": "draggable-card-basic-salary-pound-2-145-60",
+      "id": "draggable-card-basic-salary",
       "component": "Draggable card",
       "cls": "pf-draggable-card",
       "variant": {
@@ -1490,7 +1211,7 @@
       "text": "Overtime · 18.5 hrs£454.40"
     },
     {
-      "id": "draggable-card-paye-pound-331-80",
+      "id": "draggable-card-paye",
       "component": "Draggable card",
       "cls": "pf-draggable-card",
       "variant": {
@@ -1502,7 +1223,7 @@
       "text": "PAYE£331.80"
     },
     {
-      "id": "draggable-card-national-insurance-pound-168",
+      "id": "draggable-card-national-insurance",
       "component": "Draggable card",
       "cls": "pf-draggable-card",
       "variant": {
@@ -1514,7 +1235,7 @@
       "text": "National Insurance£168.29"
     },
     {
-      "id": "draggable-card-pension-5-131-00",
+      "id": "draggable-card-pension",
       "component": "Draggable card",
       "cls": "pf-draggable-card",
       "variant": {

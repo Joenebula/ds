@@ -60,8 +60,22 @@ component library and the example screens against Figma.
 
 ## Checking any screen
 
-`npm run verify` checks every screen in `prototypes/` on four axes, plus the component
-library, the type layer and the docs, each on a different axis. They are not
-interchangeable — on this project every one of them has passed while the page was
-visibly wrong on an axis it does not measure. **Always screenshot the result in light
-and dark and look at it** before saying a screen is done.
+`npm run verify` checks every screen in `prototypes/` on six axes — geometry, colour,
+icons, audit, tagging and layout — plus the component library, the type layer and the
+docs, each on a different axis. They are not interchangeable: on this project every one
+of them has passed while the page was visibly wrong on an axis it does not measure.
+
+Five of the six measure an element in isolation. `verify-layout` is the one that asks
+whether an element can be SEEN at all — the other five passed on a screen slicing 126px
+off its own table.
+
+**Always screenshot the result in light and dark and look at it** before saying a screen
+is done:
+
+```bash
+node scripts/shoot.mjs prototypes/<screen>.html screenshots
+```
+
+A full-page capture (`--full`) flattens `position: sticky`, so a pinned sidebar looks
+like it stops halfway down and a sticky footer looks like it is clipping the panel above
+it. Neither is a bug. The default viewport shot shows the truth.

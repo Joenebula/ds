@@ -768,3 +768,66 @@ Also caught while there: my own `<td>` regex mangled `<thead>` into `<th ...ead>
 mistake as Run 2; and `verify-rendered` treated a component simply not present on a page as
 a failure, which is wrong now that it runs against every screen — absent bindings are
 skipped and reported, but a page where NOTHING matched still fails.
+
+---
+
+## Run 7 — element tagging for the developer pipeline
+
+Skills loaded: `people-first` (SKILL.md, current), `pf-screen` (SKILL.md, current),
+`keep-going`. Commands run and their results are named inline below.
+
+**Built:** a naming layer (`scripts/name-elements.mjs`) and a manifest writer
+(`scripts/tag-elements.mjs`), so every element on a screen can be addressed by name
+rather than by CSS selector. All three screens: 86, 106 and 176 elements, none unnamed.
+
+**The check I wrote passed while the thing it checked was useless.** It reported "176 of
+176 elements addressable by name" on a screen whose names included
+`button-path-d-m29-2-9-7c29-64`, `filter-chip-all-248` and `tags-approved-4`. Present and
+unique was all it measured. 84 of 208 names on that screen were unusable. Three causes:
+the label reader was looking through 900 characters of inline icon path data and picking
+up the truncated tag; sample data (a count, a date, a currency amount) was being baked
+into names that go stale the moment the data changes; and a colliding name got a number,
+which tells a developer nothing. Names are now qualified by what they sit inside
+(`card-marcus-webb-tags-approved`), and the check fails on all three kinds — verified by
+running it against the pre-fix page from git, where it reports 84 and exits 1.
+
+**Two of the three screens never marked their specimen gallery.** `data-pf-ignore` exists
+precisely so a block showing every button variant does not put six identical
+`button-action`s in a manifest a developer is meant to trust. Only absence-requests had
+it. That was most of the collisions.
+
+**A variant Figma does not have.** `data-darkmode="False"` sat on a Selected action
+banner whose only Figma property is `Mobile`. A pipeline would have generated an `@Input`
+for it. Removed, and the check now fails on any data attribute that is not a real Figma
+variant property for that component — proven by putting it back on a scratch copy.
+
+**Looking at the screenshots found what six checks did not.** The timesheet screen was
+slicing 126px off its own table, the whole Status column, because Figma draws `Table (AG)`
+as a hug-contents frame: the faithful `display: inline-flex` grew past its column and its
+own `overflow: hidden` amputated the rest. Geometry, colour, icons, contrast and tagging
+all passed. Fixed in the generator (same place as the earlier `<td>` fix-up) and added
+`scripts/verify-layout.mjs`, which asks the one question the others cannot — can the
+element be seen? It fails the pre-fix build and passes the fixed one.
+
+**The first version of that check was hollow** and I nearly shipped it. It looked only at
+`[class*="pf-"], td, th` and reported a clean bill of health on the very page it was
+written for: the thing being amputated was the scroll `<div>` around the table, which
+carries no `pf-` class. It walks every element now.
+
+**And two "bugs" I nearly fixed that were not bugs.** A full-page screenshot flattens
+`position: sticky`, so the payroll sidebar looked like it stopped halfway down the page
+and the panel's sticky footer looked like it was clipping the content above it. Both are
+correct at viewport size. `scripts/shoot.mjs` now shoots the viewport by default and says
+so; `--full` is opt-in.
+
+**Also fixed while looking:** `.searchwrap .control` was a dead selector on the payroll
+screen — the input's class is `pf-field` — so the search icon sat on top of the
+placeholder text; and Figma gives Information box no gap, so its icon was glued to the
+first word on two screens.
+
+Checks run: `verify-screens` (geometry, colour, icons, audit, tagging, layout on all
+three screens), `verify-components` 2622/2622, `verify-type` 107/107,
+`check-skill-classes` 15 classes / 86 variants / 0 problems.
+
+**Not checked:** whether the manifest is the shape the Angular pipeline actually wants.
+Its contract is in a session I cannot read, so the fields are my best guess.

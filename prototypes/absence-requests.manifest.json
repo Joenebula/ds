@@ -2,9 +2,9 @@
   "screen": "absence-requests",
   "generated": "scripts/tag-elements.mjs — do not hand-edit",
   "counts": {
-    "elements": 86,
-    "roots": 52,
-    "repeating": 25
+    "elements": 87,
+    "roots": 18,
+    "repeating": 42
   },
   "elements": [
     {
@@ -206,13 +206,25 @@
       "text": "TOIL"
     },
     {
+      "id": "table-ag-employee-type-dates",
+      "component": "Table (AG)",
+      "cls": "pf-table-ag",
+      "variant": {
+        "mobile": "False"
+      },
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "Employee Type Dates Days Status Marcus FarrellPayroll Analys"
+    },
+    {
       "id": "table-header-ag-left",
       "component": "Table header (AG)",
       "cls": "pf-table-header-ag",
       "variant": {
         "alignment": "Left"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "th",
       "repeat": null,
       "text": ""
@@ -236,7 +248,7 @@
       "variant": {
         "alignment": "Left"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "th",
       "repeat": null,
       "text": "Employee"
@@ -261,7 +273,7 @@
       "variant": {
         "alignment": "Left"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "th",
       "repeat": null,
       "text": "Type"
@@ -286,7 +298,7 @@
       "variant": {
         "alignment": "Left"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "th",
       "repeat": null,
       "text": "Dates"
@@ -298,98 +310,98 @@
       "variant": {
         "alignment": "Left"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "th",
       "repeat": null,
       "text": "Status"
     },
     {
-      "id": "table-cell-ag-default",
+      "id": "table-cell-ag-r1c1",
       "component": "Table cell (AG)",
       "cls": "pf-table-cell-ag",
       "variant": {
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
-      "id": "multi-select-checkbox-selected",
+      "id": "table-cell-ag-r1c1-multi-select-checkbox",
       "component": "Multi-select checkbox",
       "cls": "pf-multi-select-checkbox",
       "variant": {
         "state": "Selected"
       },
-      "parent": "table-cell-ag-default",
+      "parent": "table-cell-ag-r1c1",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
-      "id": "table-cell-ag-marcus-farrell-payroll",
+      "id": "table-cell-ag-r1c2",
       "component": "Table cell (AG)",
       "cls": "pf-table-cell-ag",
       "variant": {
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
-      "repeat": null,
+      "repeat": "row",
       "text": "Marcus FarrellPayroll Analyst"
     },
     {
-      "id": "table-cell-ag-annual-leave",
+      "id": "table-cell-ag-r1c3",
       "component": "Table cell (AG)",
       "cls": "pf-table-cell-ag",
       "variant": {
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
-      "repeat": null,
+      "repeat": "row",
       "text": "Annual leave"
     },
     {
-      "id": "table-cell-ag-6-10-apr",
+      "id": "table-cell-ag-r1c4",
       "component": "Table cell (AG)",
       "cls": "pf-table-cell-ag",
       "variant": {
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
-      "repeat": null,
+      "repeat": "row",
       "text": "6–10 Apr 2026"
     },
     {
-      "id": "table-cell-ag-pending",
+      "id": "table-cell-ag-r1c6",
       "component": "Table cell (AG)",
       "cls": "pf-table-cell-ag",
       "variant": {
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
-      "repeat": null,
+      "repeat": "row",
       "text": "Pending"
     },
     {
-      "id": "tags-pending",
+      "id": "table-cell-ag-r1c6-tags",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
         "type": "Warning"
       },
-      "parent": "table-cell-ag-pending",
+      "parent": "table-cell-ag-r1c6",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": "Pending"
     },
     {
@@ -400,13 +412,13 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
       "repeat": "row",
       "text": ""
     },
     {
-      "id": "multi-select-checkbox-selected-2",
+      "id": "table-cell-ag-r2c1-multi-select-checkbox",
       "component": "Multi-select checkbox",
       "cls": "pf-multi-select-checkbox",
       "variant": {
@@ -414,7 +426,7 @@
       },
       "parent": "table-cell-ag-r2c1",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -425,7 +437,7 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
       "repeat": "row",
       "text": "Livia FranciReward Partner"
@@ -438,7 +450,7 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
       "repeat": "row",
       "text": "Sickness"
@@ -451,7 +463,7 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
       "repeat": "row",
       "text": "18 Mar 2026"
@@ -464,13 +476,13 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
       "repeat": "row",
       "text": "Escalated"
     },
     {
-      "id": "tags-escalated",
+      "id": "table-cell-ag-r2c6-tags",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
@@ -478,7 +490,7 @@
       },
       "parent": "table-cell-ag-r2c6",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": "Escalated"
     },
     {
@@ -489,13 +501,13 @@
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
       "repeat": "row",
       "text": ""
     },
     {
-      "id": "multi-select-checkbox-not-selected",
+      "id": "table-cell-ag-r3c1-multi-select-checkbox",
       "component": "Multi-select checkbox",
       "cls": "pf-multi-select-checkbox",
       "variant": {
@@ -503,7 +515,7 @@
       },
       "parent": "table-cell-ag-r3c1",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -514,7 +526,7 @@
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
       "repeat": "row",
       "text": "Rayna CalzoniHR Advisor"
@@ -527,7 +539,7 @@
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
       "repeat": "row",
       "text": "TOIL"
@@ -540,7 +552,7 @@
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
       "repeat": "row",
       "text": "23–24 Mar 2026"
@@ -553,13 +565,13 @@
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
       "repeat": "row",
       "text": "Approved"
     },
     {
-      "id": "tags-approved",
+      "id": "table-cell-ag-r3c6-tags",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
@@ -567,7 +579,7 @@
       },
       "parent": "table-cell-ag-r3c6",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": "Approved"
     },
     {
@@ -578,13 +590,13 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
       "repeat": "row",
       "text": ""
     },
     {
-      "id": "multi-select-checkbox-not-selected-2",
+      "id": "table-cell-ag-r4c1-multi-select-checkbox",
       "component": "Multi-select checkbox",
       "cls": "pf-multi-select-checkbox",
       "variant": {
@@ -592,7 +604,7 @@
       },
       "parent": "table-cell-ag-r4c1",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -603,7 +615,7 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
       "repeat": "row",
       "text": "Abram CarterFinance Lead"
@@ -616,7 +628,7 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
       "repeat": "row",
       "text": "Parental leave"
@@ -629,7 +641,7 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
       "repeat": "row",
       "text": "1 May – 24 Jul 2026"
@@ -642,13 +654,13 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
       "repeat": "row",
       "text": "In review"
     },
     {
-      "id": "tags-in-review",
+      "id": "table-cell-ag-r4c6-tags",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
@@ -656,7 +668,7 @@
       },
       "parent": "table-cell-ag-r4c6",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": "In review"
     },
     {
@@ -667,13 +679,13 @@
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
       "repeat": "row",
       "text": ""
     },
     {
-      "id": "multi-select-checkbox-not-selected-3",
+      "id": "table-cell-ag-r5c1-multi-select-checkbox",
       "component": "Multi-select checkbox",
       "cls": "pf-multi-select-checkbox",
       "variant": {
@@ -681,7 +693,7 @@
       },
       "parent": "table-cell-ag-r5c1",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -692,7 +704,7 @@
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
       "repeat": "row",
       "text": "Samantha StevensTalent Manager"
@@ -705,7 +717,7 @@
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
       "repeat": "row",
       "text": "Unpaid leave"
@@ -718,7 +730,7 @@
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
       "repeat": "row",
       "text": "12–13 Feb 2026"
@@ -731,13 +743,13 @@
         "type": "Default",
         "style": "Default"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
       "repeat": "row",
       "text": "Lapsed"
     },
     {
-      "id": "tags-lapsed",
+      "id": "table-cell-ag-r5c6-tags",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
@@ -745,7 +757,7 @@
       },
       "parent": "table-cell-ag-r5c6",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": "Lapsed"
     },
     {
@@ -756,13 +768,13 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
       "repeat": "row",
       "text": ""
     },
     {
-      "id": "multi-select-checkbox-not-selected-4",
+      "id": "table-cell-ag-r6c1-multi-select-checkbox",
       "component": "Multi-select checkbox",
       "cls": "pf-multi-select-checkbox",
       "variant": {
@@ -770,7 +782,7 @@
       },
       "parent": "table-cell-ag-r6c1",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -781,7 +793,7 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
       "repeat": "row",
       "text": "Cooper PassidiniOnboarding Coordinator"
@@ -794,7 +806,7 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
       "repeat": "row",
       "text": "Study leave"
@@ -807,7 +819,7 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
       "repeat": "row",
       "text": "29 Apr 2026"
@@ -820,13 +832,13 @@
         "type": "Default",
         "style": "Stripe"
       },
-      "parent": null,
+      "parent": "table-ag-employee-type-dates",
       "tag": "td",
       "repeat": "row",
       "text": "Deferred"
     },
     {
-      "id": "tags-deferred",
+      "id": "table-cell-ag-r6c6-tags",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
@@ -834,7 +846,7 @@
       },
       "parent": "table-cell-ag-r6c6",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": "Deferred"
     },
     {
@@ -900,7 +912,7 @@
       "text": ""
     },
     {
-      "id": "form-field-cover-arranged-with",
+      "id": "form-field-cover-arranged",
       "component": "Form field",
       "cls": "pf-form-field",
       "variant": {
@@ -913,20 +925,20 @@
       "text": "Cover arranged with Line manager will be notified"
     },
     {
-      "id": "field-cover-arranged-with",
+      "id": "field-cover-arranged",
       "component": "Field",
       "cls": "pf-field",
       "variant": {
         "right-aligned": "No",
         "filled": "Yes"
       },
-      "parent": "form-field-cover-arranged-with",
+      "parent": "form-field-cover-arranged",
       "tag": "input",
       "repeat": null,
       "text": ""
     },
     {
-      "id": "form-field-entitlement-remaining-calculat",
+      "id": "form-field-entitlement-remaining",
       "component": "Form field",
       "cls": "pf-form-field",
       "variant": {
@@ -939,14 +951,14 @@
       "text": "Entitlement remaining Calculated from the absence policy"
     },
     {
-      "id": "field-calculated-from-the",
+      "id": "field-calculated",
       "component": "Field",
       "cls": "pf-field",
       "variant": {
         "right-aligned": "No",
         "filled": "Yes"
       },
-      "parent": "form-field-entitlement-remaining-calculat",
+      "parent": "form-field-entitlement-remaining",
       "tag": "input",
       "repeat": null,
       "text": ""
@@ -990,7 +1002,7 @@
       "text": "Notify the employee by email"
     },
     {
-      "id": "checkbox-radio-item-add-to-the",
+      "id": "checkbox-radio-item-add",
       "component": "Checkbox/Radio item",
       "cls": "pf-checkbox-radio-item",
       "variant": {
@@ -1002,7 +1014,7 @@
       "text": "Add to the team absence calendar"
     },
     {
-      "id": "checkbox-radio-item-confirm-cover-has",
+      "id": "checkbox-radio-item-confirm-cover",
       "component": "Checkbox/Radio item",
       "cls": "pf-checkbox-radio-item",
       "variant": {

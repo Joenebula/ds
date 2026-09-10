@@ -442,3 +442,61 @@ Also: pages inlined the whole 95 KB stylesheet each (now only their own rules, 2
 hand-written set were still on disk for the pane to index.
 
 **Depends on:** nothing, but best done after 20 and 21 so it ships the corrected screens.
+
+## 23. Tag every element for the developer pipeline — `done`
+
+A screen handed to developers, or to an AI pipeline that turns it into Angular, has to
+address elements by NAME. A CSS selector changes every time the layout does; a name does
+not. Only the name is authored — component and variant are derived from the class and its
+data attributes, because those already come from Figma and retyping them is how they drift.
+
+**Done when:** met. Every design-system element on all three screens carries a
+`data-pf-id`, each screen has a `.manifest.json` a pipeline can read, and the check fails
+if anything is unnamed or a name repeats.
+
+**Depends on:** nothing.
+
+## 24. Make the names usable, not merely present — `done`
+
+Task 23's check reported "176 of 176 addressable by name" on a screen whose names included
+`button-path-d-m29-2-9-7c29-64` and `filter-chip-all-248`. Present and unique was all it
+measured. Three kinds of name are no use to a developer: one carrying SVG path data (the
+label reader was looking through an inline icon), one carrying sample data (next month the
+count is 251 and the name is a lie), and a bare collision counter (`tags-approved-4`).
+
+**Done when:** met. 84 of 208 names on the timesheet screen were unusable and now none
+are; a colliding name is qualified by what it sits inside rather than numbered; and the
+check fails on all three kinds, proven against the pre-fix page.
+
+**Depends on:** 23.
+
+## 25. Fail on a variant Figma does not have — `done`
+
+A `data-*` attribute that is not one of Figma's variant properties for that component is
+worse than no variant: a pipeline turns it into an `@Input` the component does not have.
+
+**Done when:** met. `data-darkmode="False"` was sitting on a Selected action banner whose
+only Figma property is `Mobile`; removed, and the check now fails on any such attribute.
+
+**Depends on:** 23.
+
+## 26. Check whether an element can be SEEN — `done`
+
+Every other check measures one element in isolation: its size, its colour, its glyphs, its
+contrast, its name. None of them notice an element being cut off. The timesheet screen was
+slicing 126px off its own table — the whole Status column — with all five passing.
+
+**Done when:** met. `verify-layout.mjs` fails a screen where anything is clipped by an
+ancestor with no way to scroll to it, proven against the pre-fix build; the root cause
+(Figma draws `Table (AG)` as a hug-contents frame, so `display: inline-flex` grew past its
+column and its own overflow clipped the rest) is fixed in the generator for every screen.
+
+**Depends on:** nothing.
+
+## Open — needs you
+
+**The manifest shape is still my best guess.** The pipeline's real contract lives in the
+"Figma to Angular AI pipeline" session, which I cannot read. What the manifest carries now
+— id, component, variant object, parent, tag, repeat, text — is what a generator would
+plausibly want, not what yours asks for. One example of the JSON your pipeline expects
+would settle it.

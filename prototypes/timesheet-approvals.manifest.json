@@ -2,9 +2,9 @@
   "screen": "timesheet-approvals",
   "generated": "scripts/tag-elements.mjs — do not hand-edit",
   "counts": {
-    "elements": 208,
-    "roots": 25,
-    "repeating": 63
+    "elements": 176,
+    "roots": 24,
+    "repeating": 96
   },
   "elements": [
     {
@@ -116,7 +116,7 @@
       "text": "Reports"
     },
     {
-      "id": "button-path-fill-rule-evenodd-d-m",
+      "id": "button-send-reminder",
       "component": "Button",
       "cls": "pf-button",
       "variant": {
@@ -128,7 +128,7 @@
       "text": "Send reminder"
     },
     {
-      "id": "button-path-fill-rule-evenodd-d-m-2",
+      "id": "button-export",
       "component": "Button",
       "cls": "pf-button",
       "variant": {
@@ -140,7 +140,7 @@
       "text": "Export"
     },
     {
-      "id": "button-path-d-m29-2-9-7c29-64",
+      "id": "button-approve-all-valid",
       "component": "Button",
       "cls": "pf-button",
       "variant": {
@@ -152,7 +152,7 @@
       "text": "Approve all valid"
     },
     {
-      "id": "card-awaiting-approval-8",
+      "id": "card-awaiting-approval",
       "component": "Card",
       "cls": "pf-card",
       "variant": {
@@ -164,7 +164,7 @@
       "text": "Awaiting approval 8 of 12 in your team"
     },
     {
-      "id": "card-hours-submitted-312-50",
+      "id": "card-hours-submitted",
       "component": "Card",
       "cls": "pf-card",
       "variant": {
@@ -176,7 +176,7 @@
       "text": "Hours submitted 312.50 Against 300.00 contracted"
     },
     {
-      "id": "card-overtime-hours-27-75",
+      "id": "card-overtime-hours",
       "component": "Card",
       "cls": "pf-card",
       "variant": {
@@ -188,7 +188,7 @@
       "text": "Overtime hours 27.75 3 above the 48-hour average"
     },
     {
-      "id": "card-open-queries-1",
+      "id": "card-open-queries",
       "component": "Card",
       "cls": "pf-card",
       "variant": {
@@ -200,7 +200,7 @@
       "text": "Open queries 1 Raised with Owen Whitlock"
     },
     {
-      "id": "card-path-fill-rule-evenodd-d-m",
+      "id": "card-3-timesheets-take",
       "component": "Card",
       "cls": "pf-card",
       "variant": {
@@ -218,13 +218,13 @@
       "variant": {
         "type": "Warning"
       },
-      "parent": "card-path-fill-rule-evenodd-d-m",
+      "parent": "card-3-timesheets-take",
       "tag": "div",
       "repeat": null,
       "text": "3 timesheets take the 17-week average above 48 hours a week."
     },
     {
-      "id": "filter-chip-awaiting-approval-8",
+      "id": "filter-chip-awaiting-approval",
       "component": "Filter chip",
       "cls": "pf-filter-chip",
       "variant": {
@@ -237,7 +237,7 @@
       "text": "Awaiting approval 8"
     },
     {
-      "id": "filter-chip-all-12",
+      "id": "filter-chip-all",
       "component": "Filter chip",
       "cls": "pf-filter-chip",
       "variant": {
@@ -250,7 +250,7 @@
       "text": "All 12"
     },
     {
-      "id": "filter-chip-approved-3",
+      "id": "filter-chip-approved",
       "component": "Filter chip",
       "cls": "pf-filter-chip",
       "variant": {
@@ -263,7 +263,7 @@
       "text": "Approved 3"
     },
     {
-      "id": "filter-chip-queried-1",
+      "id": "filter-chip-queried",
       "component": "Filter chip",
       "cls": "pf-filter-chip",
       "variant": {
@@ -276,7 +276,7 @@
       "text": "Queried 1"
     },
     {
-      "id": "filter-chip-overtime-flagged-3",
+      "id": "filter-chip-overtime-flagged",
       "component": "Filter chip",
       "cls": "pf-filter-chip",
       "variant": {
@@ -289,7 +289,7 @@
       "text": "Overtime flagged 3"
     },
     {
-      "id": "filter-chip-missing-entries-2",
+      "id": "filter-chip-missing-entries",
       "component": "Filter chip",
       "cls": "pf-filter-chip",
       "variant": {
@@ -302,7 +302,7 @@
       "text": "Missing entries 2"
     },
     {
-      "id": "form-field-search-path-fill-rule-evenod",
+      "id": "form-field-search",
       "component": "Form field",
       "cls": "pf-form-field",
       "variant": {
@@ -315,14 +315,14 @@
       "text": "Search"
     },
     {
-      "id": "field-period-select-class-pf-field",
+      "id": "field-period-week-ending",
       "component": "Field",
       "cls": "pf-field",
       "variant": {
         "right-aligned": "No",
         "filled": "No"
       },
-      "parent": "form-field-search-path-fill-rule-evenod",
+      "parent": "form-field-search",
       "tag": "input",
       "repeat": null,
       "text": ""
@@ -341,7 +341,7 @@
       "text": "Period Week ending 06/09/2026 Week ending 30/08/2026 Week en"
     },
     {
-      "id": "field-week-ending-06-09-2026",
+      "id": "field-week-ending",
       "component": "Field",
       "cls": "pf-field",
       "variant": {
@@ -354,7 +354,7 @@
       "text": "Week ending 06/09/2026 Week ending 30/08/2026 Week ending 23"
     },
     {
-      "id": "form-field-team-all-my",
+      "id": "form-field-team-all",
       "component": "Form field",
       "cls": "pf-form-field",
       "variant": {
@@ -374,13 +374,13 @@
         "right-aligned": "No",
         "filled": "Yes"
       },
-      "parent": "form-field-team-all-my",
+      "parent": "form-field-team-all",
       "tag": "select",
       "repeat": null,
       "text": "All my direct reports Logistics Warehouse Clinical"
     },
     {
-      "id": "button-path-d-m7-96-15-43c7-79",
+      "id": "button-sort",
       "component": "Button",
       "cls": "pf-button",
       "variant": {
@@ -392,7 +392,7 @@
       "text": "Sort"
     },
     {
-      "id": "button-path-fill-rule-evenodd-d-m-3",
+      "id": "button-more-filters",
       "component": "Button",
       "cls": "pf-button",
       "variant": {
@@ -429,7 +429,7 @@
       "text": "3 timesheets selected · 118.25 hours Approve selected Query "
     },
     {
-      "id": "button-path-d-m29-2-9-7c29-64-2",
+      "id": "button-approve-selected",
       "component": "Button",
       "cls": "pf-button",
       "variant": {
@@ -441,7 +441,7 @@
       "text": "Approve selected"
     },
     {
-      "id": "button-path-d-m12-16-88c12-62",
+      "id": "button-query-selected",
       "component": "Button",
       "cls": "pf-button",
       "variant": {
@@ -477,7 +477,7 @@
       "text": ""
     },
     {
-      "id": "multi-select-checkbox-some-rows-on",
+      "id": "multi-select-checkbox-some-rows",
       "component": "Multi-select checkbox",
       "cls": "pf-multi-select-checkbox",
       "variant": {
@@ -489,7 +489,7 @@
       "text": ""
     },
     {
-      "id": "table-header-ag-employee-path-d-m7-96",
+      "id": "table-header-ag-employee",
       "component": "Table header (AG)",
       "cls": "pf-table-header-ag",
       "variant": {
@@ -508,7 +508,7 @@
         "variant": "Sort",
         "state": "Ascending"
       },
-      "parent": "table-header-ag-employee-path-d-m7-96",
+      "parent": "table-header-ag-employee",
       "tag": "span",
       "repeat": null,
       "text": ""
@@ -574,7 +574,7 @@
       "text": "Variance"
     },
     {
-      "id": "table-header-ag-status-path-fill-rule-evenod",
+      "id": "table-header-ag-status",
       "component": "Table header (AG)",
       "cls": "pf-table-header-ag",
       "variant": {
@@ -593,7 +593,7 @@
         "variant": "Filter",
         "state": "Filtered"
       },
-      "parent": "table-header-ag-status-path-fill-rule-evenod",
+      "parent": "table-header-ag-status",
       "tag": "span",
       "repeat": null,
       "text": ""
@@ -611,7 +611,7 @@
       "text": ""
     },
     {
-      "id": "table-cell-ag-checkbox",
+      "id": "table-cell-ag-r1c1",
       "component": "Table cell (AG)",
       "cls": "pf-table-cell-ag",
       "variant": {
@@ -620,23 +620,23 @@
       },
       "parent": "table-ag-submitted-timesheets-week",
       "tag": "td",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
-      "id": "multi-select-checkbox-selected",
+      "id": "table-cell-ag-r1c1-multi-select-checkbox",
       "component": "Multi-select checkbox",
       "cls": "pf-multi-select-checkbox",
       "variant": {
         "state": "Selected"
       },
-      "parent": "table-cell-ag-checkbox",
+      "parent": "table-cell-ag-r1c1",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
-      "id": "table-cell-ag-aisha-bello-shift",
+      "id": "table-cell-ag-r1c2",
       "component": "Table cell (AG)",
       "cls": "pf-table-cell-ag",
       "variant": {
@@ -645,11 +645,11 @@
       },
       "parent": "table-ag-submitted-timesheets-week",
       "tag": "td",
-      "repeat": null,
+      "repeat": "row",
       "text": "Aisha BelloShift Supervisor · 100482"
     },
     {
-      "id": "table-cell-ag-31-08-06-09",
+      "id": "table-cell-ag-r1c3",
       "component": "Table cell (AG)",
       "cls": "pf-table-cell-ag",
       "variant": {
@@ -658,11 +658,11 @@
       },
       "parent": "table-ag-submitted-timesheets-week",
       "tag": "td",
-      "repeat": null,
+      "repeat": "row",
       "text": "31/08 – 06/09"
     },
     {
-      "id": "table-cell-ag-37-50",
+      "id": "table-cell-ag-r1c4",
       "component": "Table cell (AG)",
       "cls": "pf-table-cell-ag",
       "variant": {
@@ -671,11 +671,11 @@
       },
       "parent": "table-ag-submitted-timesheets-week",
       "tag": "td",
-      "repeat": null,
+      "repeat": "row",
       "text": "37.50"
     },
     {
-      "id": "table-cell-ag-41-00",
+      "id": "table-cell-ag-r1c5",
       "component": "Table cell (AG)",
       "cls": "pf-table-cell-ag",
       "variant": {
@@ -684,11 +684,11 @@
       },
       "parent": "table-ag-submitted-timesheets-week",
       "tag": "td",
-      "repeat": null,
+      "repeat": "row",
       "text": "41.00"
     },
     {
-      "id": "table-cell-ag-3-50",
+      "id": "table-cell-ag-r1c6",
       "component": "Table cell (AG)",
       "cls": "pf-table-cell-ag",
       "variant": {
@@ -697,11 +697,11 @@
       },
       "parent": "table-ag-submitted-timesheets-week",
       "tag": "td",
-      "repeat": null,
+      "repeat": "row",
       "text": "3.50"
     },
     {
-      "id": "table-cell-ag-3-50-2",
+      "id": "table-cell-ag-r1c7",
       "component": "Table cell (AG)",
       "cls": "pf-table-cell-ag",
       "variant": {
@@ -710,11 +710,11 @@
       },
       "parent": "table-ag-submitted-timesheets-week",
       "tag": "td",
-      "repeat": null,
+      "repeat": "row",
       "text": "+3.50"
     },
     {
-      "id": "table-cell-ag-pending",
+      "id": "table-cell-ag-r1c8",
       "component": "Table cell (AG)",
       "cls": "pf-table-cell-ag",
       "variant": {
@@ -723,23 +723,23 @@
       },
       "parent": "table-ag-submitted-timesheets-week",
       "tag": "td",
-      "repeat": null,
+      "repeat": "row",
       "text": "Pending"
     },
     {
-      "id": "tags-pending",
+      "id": "table-cell-ag-r1c8-tags",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
         "type": "Warning"
       },
-      "parent": "table-cell-ag-pending",
+      "parent": "table-cell-ag-r1c8",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": "Pending"
     },
     {
-      "id": "table-cell-ag-path-d-m18-19-5c18-83",
+      "id": "table-cell-ag-r1c9",
       "component": "Table cell (AG)",
       "cls": "pf-table-cell-ag",
       "variant": {
@@ -748,19 +748,19 @@
       },
       "parent": "table-ag-submitted-timesheets-week",
       "tag": "td",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
-      "id": "button-actions-for-aisha",
+      "id": "table-cell-ag-r1c9-button",
       "component": "Button",
       "cls": "pf-button",
       "variant": {
         "type": "Hollow"
       },
-      "parent": "table-cell-ag-path-d-m18-19-5c18-83",
+      "parent": "table-cell-ag-r1c9",
       "tag": "button",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -777,7 +777,7 @@
       "text": ""
     },
     {
-      "id": "multi-select-checkbox-not-selected",
+      "id": "table-cell-ag-r2c1-multi-select-checkbox",
       "component": "Multi-select checkbox",
       "cls": "pf-multi-select-checkbox",
       "variant": {
@@ -785,7 +785,7 @@
       },
       "parent": "table-cell-ag-r2c1",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -880,7 +880,7 @@
       "text": "Missing entries"
     },
     {
-      "id": "tags-missing-entries",
+      "id": "table-cell-ag-r2c8-tags",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
@@ -888,7 +888,7 @@
       },
       "parent": "table-cell-ag-r2c8",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": "Missing entries"
     },
     {
@@ -905,7 +905,7 @@
       "text": ""
     },
     {
-      "id": "button-actions-for-danny",
+      "id": "table-cell-ag-r2c9-button",
       "component": "Button",
       "cls": "pf-button",
       "variant": {
@@ -913,7 +913,7 @@
       },
       "parent": "table-cell-ag-r2c9",
       "tag": "button",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -930,7 +930,7 @@
       "text": ""
     },
     {
-      "id": "multi-select-checkbox-not-selected-2",
+      "id": "table-cell-ag-r3c1-multi-select-checkbox",
       "component": "Multi-select checkbox",
       "cls": "pf-multi-select-checkbox",
       "variant": {
@@ -938,7 +938,7 @@
       },
       "parent": "table-cell-ag-r3c1",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -1033,7 +1033,7 @@
       "text": "Approved"
     },
     {
-      "id": "tags-approved",
+      "id": "table-cell-ag-r3c8-tags",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
@@ -1041,7 +1041,7 @@
       },
       "parent": "table-cell-ag-r3c8",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": "Approved"
     },
     {
@@ -1058,7 +1058,7 @@
       "text": ""
     },
     {
-      "id": "button-actions-for-elin",
+      "id": "table-cell-ag-r3c9-button",
       "component": "Button",
       "cls": "pf-button",
       "variant": {
@@ -1066,7 +1066,7 @@
       },
       "parent": "table-cell-ag-r3c9",
       "tag": "button",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -1083,7 +1083,7 @@
       "text": ""
     },
     {
-      "id": "multi-select-checkbox-selected-2",
+      "id": "table-cell-ag-r4c1-multi-select-checkbox",
       "component": "Multi-select checkbox",
       "cls": "pf-multi-select-checkbox",
       "variant": {
@@ -1091,7 +1091,7 @@
       },
       "parent": "table-cell-ag-r4c1",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -1186,7 +1186,7 @@
       "text": "Over 48 hrs"
     },
     {
-      "id": "tags-over-48-hrs",
+      "id": "table-cell-ag-r4c8-tags",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
@@ -1194,7 +1194,7 @@
       },
       "parent": "table-cell-ag-r4c8",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": "Over 48 hrs"
     },
     {
@@ -1211,7 +1211,7 @@
       "text": ""
     },
     {
-      "id": "button-actions-for-nadia",
+      "id": "table-cell-ag-r4c9-button",
       "component": "Button",
       "cls": "pf-button",
       "variant": {
@@ -1219,7 +1219,7 @@
       },
       "parent": "table-cell-ag-r4c9",
       "tag": "button",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -1236,7 +1236,7 @@
       "text": ""
     },
     {
-      "id": "multi-select-checkbox-selected-3",
+      "id": "table-cell-ag-r5c1-multi-select-checkbox",
       "component": "Multi-select checkbox",
       "cls": "pf-multi-select-checkbox",
       "variant": {
@@ -1244,7 +1244,7 @@
       },
       "parent": "table-cell-ag-r5c1",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -1339,7 +1339,7 @@
       "text": "Over 48 hrs"
     },
     {
-      "id": "tags-over-48-hrs-2",
+      "id": "table-cell-ag-r5c8-tags",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
@@ -1347,7 +1347,7 @@
       },
       "parent": "table-cell-ag-r5c8",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": "Over 48 hrs"
     },
     {
@@ -1364,7 +1364,7 @@
       "text": ""
     },
     {
-      "id": "button-actions-for-priya",
+      "id": "table-cell-ag-r5c9-button",
       "component": "Button",
       "cls": "pf-button",
       "variant": {
@@ -1372,7 +1372,7 @@
       },
       "parent": "table-cell-ag-r5c9",
       "tag": "button",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -1389,7 +1389,7 @@
       "text": ""
     },
     {
-      "id": "multi-select-checkbox-not-selected-3",
+      "id": "table-cell-ag-r6c1-multi-select-checkbox",
       "component": "Multi-select checkbox",
       "cls": "pf-multi-select-checkbox",
       "variant": {
@@ -1397,7 +1397,7 @@
       },
       "parent": "table-cell-ag-r6c1",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -1492,7 +1492,7 @@
       "text": "Query raised"
     },
     {
-      "id": "tags-query-raised",
+      "id": "table-cell-ag-r6c8-tags",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
@@ -1500,7 +1500,7 @@
       },
       "parent": "table-cell-ag-r6c8",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": "Query raised"
     },
     {
@@ -1517,7 +1517,7 @@
       "text": ""
     },
     {
-      "id": "button-actions-for-owen",
+      "id": "table-cell-ag-r6c9-button",
       "component": "Button",
       "cls": "pf-button",
       "variant": {
@@ -1525,7 +1525,7 @@
       },
       "parent": "table-cell-ag-r6c9",
       "tag": "button",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -1542,7 +1542,7 @@
       "text": ""
     },
     {
-      "id": "multi-select-checkbox-not-selected-4",
+      "id": "table-cell-ag-r7c1-multi-select-checkbox",
       "component": "Multi-select checkbox",
       "cls": "pf-multi-select-checkbox",
       "variant": {
@@ -1550,7 +1550,7 @@
       },
       "parent": "table-cell-ag-r7c1",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -1645,7 +1645,7 @@
       "text": "Lapsed"
     },
     {
-      "id": "tags-lapsed",
+      "id": "table-cell-ag-r7c8-tags",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
@@ -1653,7 +1653,7 @@
       },
       "parent": "table-cell-ag-r7c8",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": "Lapsed"
     },
     {
@@ -1670,7 +1670,7 @@
       "text": ""
     },
     {
-      "id": "button-actions-for-samuel",
+      "id": "table-cell-ag-r7c9-button",
       "component": "Button",
       "cls": "pf-button",
       "variant": {
@@ -1678,7 +1678,7 @@
       },
       "parent": "table-cell-ag-r7c9",
       "tag": "button",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -1695,7 +1695,7 @@
       "text": ""
     },
     {
-      "id": "multi-select-checkbox-not-selected-5",
+      "id": "table-cell-ag-r8c1-multi-select-checkbox",
       "component": "Multi-select checkbox",
       "cls": "pf-multi-select-checkbox",
       "variant": {
@@ -1703,7 +1703,7 @@
       },
       "parent": "table-cell-ag-r8c1",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
@@ -1798,7 +1798,7 @@
       "text": "Over 48 hrs"
     },
     {
-      "id": "tags-over-48-hrs-3",
+      "id": "table-cell-ag-r8c8-tags",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
@@ -1806,7 +1806,7 @@
       },
       "parent": "table-cell-ag-r8c8",
       "tag": "span",
-      "repeat": null,
+      "repeat": "row",
       "text": "Over 48 hrs"
     },
     {
@@ -1823,7 +1823,7 @@
       "text": ""
     },
     {
-      "id": "button-actions-for-tomasz",
+      "id": "table-cell-ag-r8c9-button",
       "component": "Button",
       "cls": "pf-button",
       "variant": {
@@ -1831,11 +1831,11 @@
       },
       "parent": "table-cell-ag-r8c9",
       "tag": "button",
-      "repeat": null,
+      "repeat": "row",
       "text": ""
     },
     {
-      "id": "footer-ag-showing-8-of",
+      "id": "footer-ag-showing",
       "component": "Footer (AG)",
       "cls": "pf-footer-ag",
       "variant": {
@@ -1847,400 +1847,7 @@
       "text": "Showing 8 of 12 timesheets · sorted by employee name Hours a"
     },
     {
-      "id": "card-variant-states-reference",
-      "component": "Card",
-      "cls": "pf-card",
-      "variant": {
-        "property-1": "Default"
-      },
-      "parent": null,
-      "tag": "section",
-      "repeat": null,
-      "text": "Variant states Reference block for verify-geometry and verif"
-    },
-    {
-      "id": "button-path-d-m29-2-9-7c29-64-3",
-      "component": "Button",
-      "cls": "pf-button",
-      "variant": {
-        "type": "Action"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "button",
-      "repeat": null,
-      "text": "Approve"
-    },
-    {
-      "id": "button-path-d-m29-2-9-7c29-64-4",
-      "component": "Button",
-      "cls": "pf-button",
-      "variant": {
-        "type": "Action",
-        "state": "Hover"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "button",
-      "repeat": null,
-      "text": "Approve"
-    },
-    {
-      "id": "button-path-d-m29-2-9-7c29-64-5",
-      "component": "Button",
-      "cls": "pf-button",
-      "variant": {
-        "type": "Positive"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "button",
-      "repeat": null,
-      "text": "Confirm"
-    },
-    {
-      "id": "button-path-d-m29-2-9-7c29-64-6",
-      "component": "Button",
-      "cls": "pf-button",
-      "variant": {
-        "type": "Positive",
-        "state": "Hover"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "button",
-      "repeat": null,
-      "text": "Confirm"
-    },
-    {
-      "id": "button-path-fill",
-      "component": "Button",
-      "cls": "pf-button",
-      "variant": {
-        "type": "Negative"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "button",
-      "repeat": null,
-      "text": "Reject"
-    },
-    {
-      "id": "button-path-fill-2",
-      "component": "Button",
-      "cls": "pf-button",
-      "variant": {
-        "type": "Negative",
-        "state": "Hover"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "button",
-      "repeat": null,
-      "text": "Reject"
-    },
-    {
-      "id": "button-path-fill-rule-evenodd-d-m-4",
-      "component": "Button",
-      "cls": "pf-button",
-      "variant": {
-        "type": "Hollow"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "button",
-      "repeat": null,
-      "text": "Export"
-    },
-    {
-      "id": "button-path-fill-rule-evenodd-d-m-5",
-      "component": "Button",
-      "cls": "pf-button",
-      "variant": {
-        "type": "Hollow",
-        "state": "Hover"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "button",
-      "repeat": null,
-      "text": "Export"
-    },
-    {
-      "id": "button-path-fill-rule-evenodd-d-m-6",
-      "component": "Button",
-      "cls": "pf-button",
-      "variant": {
-        "type": "Filter"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "button",
-      "repeat": null,
-      "text": "Filter"
-    },
-    {
-      "id": "button-path-d-m7-96-15-43c7-79-2",
-      "component": "Button",
-      "cls": "pf-button",
-      "variant": {
-        "type": "Sort"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "button",
-      "repeat": null,
-      "text": "Sort"
-    },
-    {
-      "id": "button-path-fill-rule-evenodd-d-m-7",
-      "component": "Button",
-      "cls": "pf-button",
-      "variant": {
-        "type": "Hollow"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "button",
-      "repeat": null,
-      "text": "Undo"
-    },
-    {
-      "id": "button-more",
-      "component": "Button",
-      "cls": "pf-button",
-      "variant": {
-        "type": "Action"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "button",
-      "repeat": null,
-      "text": ""
-    },
-    {
-      "id": "tags-approved-2",
-      "component": "Tags",
-      "cls": "pf-tags",
-      "variant": {
-        "type": "Positive"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "span",
-      "repeat": null,
-      "text": "Approved"
-    },
-    {
-      "id": "tags-over-48-hrs-4",
-      "component": "Tags",
-      "cls": "pf-tags",
-      "variant": {
-        "type": "Negative"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "span",
-      "repeat": null,
-      "text": "Over 48 hrs"
-    },
-    {
-      "id": "tags-pending-2",
-      "component": "Tags",
-      "cls": "pf-tags",
-      "variant": {
-        "type": "Warning"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "span",
-      "repeat": null,
-      "text": "Pending"
-    },
-    {
-      "id": "tags-missing-entries-2",
-      "component": "Tags",
-      "cls": "pf-tags",
-      "variant": {
-        "type": "Neutral"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "span",
-      "repeat": null,
-      "text": "Missing entries"
-    },
-    {
-      "id": "tags-query-raised-2",
-      "component": "Tags",
-      "cls": "pf-tags",
-      "variant": {
-        "type": "Other"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "span",
-      "repeat": null,
-      "text": "Query raised"
-    },
-    {
-      "id": "tags-lapsed-2",
-      "component": "Tags",
-      "cls": "pf-tags",
-      "variant": {
-        "type": "Expired"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "span",
-      "repeat": null,
-      "text": "Lapsed"
-    },
-    {
-      "id": "tags-overtime",
-      "component": "Tags",
-      "cls": "pf-tags",
-      "variant": {
-        "type": "Theme"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "span",
-      "repeat": null,
-      "text": "Overtime"
-    },
-    {
-      "id": "draggable-card-wed-02-09",
-      "component": "Draggable card",
-      "cls": "pf-draggable-card",
-      "variant": {
-        "state": "Default"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "div",
-      "repeat": null,
-      "text": "Wed 02/09"
-    },
-    {
-      "id": "draggable-card-wed-02-09-2",
-      "component": "Draggable card",
-      "cls": "pf-draggable-card",
-      "variant": {
-        "state": "Hover"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "div",
-      "repeat": null,
-      "text": "Wed 02/09"
-    },
-    {
-      "id": "draggable-card-wed-02-09-3",
-      "component": "Draggable card",
-      "cls": "pf-draggable-card",
-      "variant": {
-        "state": "Click"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "div",
-      "repeat": null,
-      "text": "Wed 02/09"
-    },
-    {
-      "id": "draggable-card-wed-02-09-4",
-      "component": "Draggable card",
-      "cls": "pf-draggable-card",
-      "variant": {
-        "state": "Drop"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "div",
-      "repeat": null,
-      "text": "Wed 02/09"
-    },
-    {
-      "id": "filter-chip-approved",
-      "component": "Filter chip",
-      "cls": "pf-filter-chip",
-      "variant": {
-        "state": "Default",
-        "active": "False"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "button",
-      "repeat": null,
-      "text": "Approved"
-    },
-    {
-      "id": "filter-chip-approved-2",
-      "component": "Filter chip",
-      "cls": "pf-filter-chip",
-      "variant": {
-        "state": "Hover",
-        "active": "False"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "button",
-      "repeat": null,
-      "text": "Approved"
-    },
-    {
-      "id": "filter-chip-approved-4",
-      "component": "Filter chip",
-      "cls": "pf-filter-chip",
-      "variant": {
-        "state": "Selected",
-        "active": "True"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "button",
-      "repeat": null,
-      "text": "Approved"
-    },
-    {
-      "id": "multi-select-checkbox-not-selected-6",
-      "component": "Multi-select checkbox",
-      "cls": "pf-multi-select-checkbox",
-      "variant": {
-        "state": "Default"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "span",
-      "repeat": null,
-      "text": ""
-    },
-    {
-      "id": "multi-select-checkbox-selected-4",
-      "component": "Multi-select checkbox",
-      "cls": "pf-multi-select-checkbox",
-      "variant": {
-        "state": "Selected"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "span",
-      "repeat": null,
-      "text": ""
-    },
-    {
-      "id": "multi-select-checkbox-mixed",
-      "component": "Multi-select checkbox",
-      "cls": "pf-multi-select-checkbox",
-      "variant": {
-        "state": "Mixed selection"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "span",
-      "repeat": null,
-      "text": ""
-    },
-    {
-      "id": "toggle-off",
-      "component": "Toggle",
-      "cls": "pf-toggle",
-      "variant": {
-        "on": "No",
-        "locked": "No"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "span",
-      "repeat": null,
-      "text": ""
-    },
-    {
-      "id": "toggle-on",
-      "component": "Toggle",
-      "cls": "pf-toggle",
-      "variant": {
-        "on": "Yes",
-        "locked": "No"
-      },
-      "parent": "card-variant-states-reference",
-      "tag": "span",
-      "repeat": null,
-      "text": ""
-    },
-    {
-      "id": "side-panel-priya-raghunathan-svg",
+      "id": "side-panel-priya-raghunathan-pr",
       "component": "Side panel",
       "cls": "pf-side-panel",
       "variant": {
@@ -2253,13 +1860,13 @@
       "text": "Priya Raghunathan PR Logistics Coordinator Operations · payr"
     },
     {
-      "id": "side-panel-header-priya-raghunathan-path",
+      "id": "side-panel-header-priya-raghunathan",
       "component": "Side panel header",
       "cls": "pf-side-panel-header",
       "variant": {
         "size": "Default"
       },
-      "parent": "side-panel-priya-raghunathan-svg",
+      "parent": "side-panel-priya-raghunathan-pr",
       "tag": "div",
       "repeat": null,
       "text": "Priya Raghunathan"
@@ -2271,152 +1878,152 @@
       "variant": {
         "type": "Hollow"
       },
-      "parent": "side-panel-header-priya-raghunathan-path",
+      "parent": "side-panel-header-priya-raghunathan",
       "tag": "button",
       "repeat": null,
       "text": ""
     },
     {
-      "id": "tags-over-48-hrs-5",
+      "id": "tags-over-48-hrs",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
         "type": "Negative"
       },
-      "parent": "side-panel-priya-raghunathan-svg",
+      "parent": "side-panel-priya-raghunathan-pr",
       "tag": "span",
       "repeat": null,
       "text": "Over 48 hrs"
     },
     {
-      "id": "tags-overtime-9-75",
+      "id": "tags-overtime",
       "component": "Tags",
       "cls": "pf-tags",
       "variant": {
         "type": "Theme"
       },
-      "parent": "side-panel-priya-raghunathan-svg",
+      "parent": "side-panel-priya-raghunathan-pr",
       "tag": "span",
       "repeat": null,
       "text": "Overtime 9.75"
     },
     {
-      "id": "information-box-path-fill-rule-evenodd-d-m",
+      "id": "information-box-17-week-average",
       "component": "Information box",
       "cls": "pf-information-box",
       "variant": {
         "type": "Error"
       },
-      "parent": "side-panel-priya-raghunathan-svg",
+      "parent": "side-panel-priya-raghunathan-pr",
       "tag": "div",
       "repeat": null,
       "text": "17-week average is 49.4 hours. No working-time opt-out on fi"
     },
     {
-      "id": "button-path-fill-rule-evenodd-d-m-8",
+      "id": "button-adjust",
       "component": "Button",
       "cls": "pf-button",
       "variant": {
         "type": "Hollow"
       },
-      "parent": "side-panel-priya-raghunathan-svg",
+      "parent": "side-panel-priya-raghunathan-pr",
       "tag": "button",
       "repeat": null,
       "text": "Adjust"
     },
     {
-      "id": "draggable-card-path-fill-rule-evenodd-d-m",
+      "id": "draggable-card-mon",
       "component": "Draggable card",
       "cls": "pf-draggable-card",
       "variant": {
         "state": "Default"
       },
-      "parent": "side-panel-priya-raghunathan-svg",
+      "parent": "side-panel-priya-raghunathan-pr",
       "tag": "div",
       "repeat": null,
       "text": "Mon 31/08 7.50"
     },
     {
-      "id": "draggable-card-path-fill-rule-evenodd-d-m-2",
+      "id": "draggable-card-tue",
       "component": "Draggable card",
       "cls": "pf-draggable-card",
       "variant": {
         "state": "Default"
       },
-      "parent": "side-panel-priya-raghunathan-svg",
+      "parent": "side-panel-priya-raghunathan-pr",
       "tag": "div",
       "repeat": null,
       "text": "Tue 01/09 8.00"
     },
     {
-      "id": "draggable-card-path-fill-rule-evenodd-d-m-3",
+      "id": "draggable-card-wed",
       "component": "Draggable card",
       "cls": "pf-draggable-card",
       "variant": {
         "state": "Default"
       },
-      "parent": "side-panel-priya-raghunathan-svg",
+      "parent": "side-panel-priya-raghunathan-pr",
       "tag": "div",
       "repeat": null,
       "text": "Wed 02/09 9.25"
     },
     {
-      "id": "draggable-card-path-fill-rule-evenodd-d-m-4",
+      "id": "draggable-card-thu",
       "component": "Draggable card",
       "cls": "pf-draggable-card",
       "variant": {
         "state": "Default"
       },
-      "parent": "side-panel-priya-raghunathan-svg",
+      "parent": "side-panel-priya-raghunathan-pr",
       "tag": "div",
       "repeat": null,
       "text": "Thu 03/09 8.00"
     },
     {
-      "id": "draggable-card-path-fill-rule-evenodd-d-m-5",
+      "id": "draggable-card-fri",
       "component": "Draggable card",
       "cls": "pf-draggable-card",
       "variant": {
         "state": "Default"
       },
-      "parent": "side-panel-priya-raghunathan-svg",
+      "parent": "side-panel-priya-raghunathan-pr",
       "tag": "div",
       "repeat": null,
       "text": "Fri 04/09 10.50"
     },
     {
-      "id": "draggable-card-path-fill-rule-evenodd-d-m-6",
+      "id": "draggable-card-sat",
       "component": "Draggable card",
       "cls": "pf-draggable-card",
       "variant": {
         "state": "Default"
       },
-      "parent": "side-panel-priya-raghunathan-svg",
+      "parent": "side-panel-priya-raghunathan-pr",
       "tag": "div",
       "repeat": null,
       "text": "Sat 05/09 4.00"
     },
     {
-      "id": "draggable-card-path-d-m12-21-38c11-38",
+      "id": "draggable-card-sun-06-09-not",
       "component": "Draggable card",
       "cls": "pf-draggable-card",
       "variant": {
         "state": "Default"
       },
-      "parent": "side-panel-priya-raghunathan-svg",
+      "parent": "side-panel-priya-raghunathan-pr",
       "tag": "div",
       "repeat": null,
       "text": "Sun 06/09 Not worked"
     },
     {
-      "id": "form-field-outcome-approve-with",
+      "id": "form-field-outcome-approve",
       "component": "Form field",
       "cls": "pf-form-field",
       "variant": {
         "input-type": "Dropdown",
         "state": "Selected"
       },
-      "parent": "side-panel-priya-raghunathan-svg",
+      "parent": "side-panel-priya-raghunathan-pr",
       "tag": "div",
       "repeat": null,
       "text": "Outcome Approve with adjustment Approve as submitted Return "
@@ -2429,7 +2036,7 @@
         "right-aligned": "No",
         "filled": "Yes"
       },
-      "parent": "form-field-outcome-approve-with",
+      "parent": "form-field-outcome-approve",
       "tag": "select",
       "repeat": null,
       "text": "Approve with adjustment Approve as submitted Return to emplo"
@@ -2442,13 +2049,13 @@
         "input-type": "Text",
         "state": "Error"
       },
-      "parent": "side-panel-priya-raghunathan-svg",
+      "parent": "side-panel-priya-raghunathan-pr",
       "tag": "div",
       "repeat": null,
       "text": "Adjusted overtime hours * Cannot exceed the 9.75 hours submi"
     },
     {
-      "id": "field-cannot-exceed-the",
+      "id": "field-cannot-exceed",
       "component": "Field",
       "cls": "pf-field",
       "variant": {
@@ -2468,13 +2075,13 @@
         "input-type": "Text",
         "state": "Disabled"
       },
-      "parent": "side-panel-priya-raghunathan-svg",
+      "parent": "side-panel-priya-raghunathan-pr",
       "tag": "div",
       "repeat": null,
       "text": "Cost centre Set by the employee’s position"
     },
     {
-      "id": "field-set-by-the",
+      "id": "field-set",
       "component": "Field",
       "cls": "pf-field",
       "variant": {
@@ -2494,7 +2101,7 @@
         "input-type": "Text",
         "state": "Default"
       },
-      "parent": "side-panel-priya-raghunathan-svg",
+      "parent": "side-panel-priya-raghunathan-pr",
       "tag": "div",
       "repeat": null,
       "text": "Note to employee"
@@ -2519,19 +2126,19 @@
       "variant": {
         "state": "Selected"
       },
-      "parent": "side-panel-priya-raghunathan-svg",
+      "parent": "side-panel-priya-raghunathan-pr",
       "tag": "label",
       "repeat": null,
       "text": "Notify the employee by email"
     },
     {
-      "id": "checkbox-radio-item-send-to-the",
+      "id": "checkbox-radio-item-send",
       "component": "Checkbox/Radio item",
       "cls": "pf-checkbox-radio-item",
       "variant": {
         "state": "Default"
       },
-      "parent": "side-panel-priya-raghunathan-svg",
+      "parent": "side-panel-priya-raghunathan-pr",
       "tag": "label",
       "repeat": null,
       "text": "Send to the September payroll run"
@@ -2543,7 +2150,7 @@
       "variant": {
         "state": "Error"
       },
-      "parent": "side-panel-priya-raghunathan-svg",
+      "parent": "side-panel-priya-raghunathan-pr",
       "tag": "label",
       "repeat": null,
       "text": "Confirm the overtime was authorised in advance"
@@ -2555,7 +2162,7 @@
       "variant": {
         "state": "Disabled"
       },
-      "parent": "side-panel-priya-raghunathan-svg",
+      "parent": "side-panel-priya-raghunathan-pr",
       "tag": "label",
       "repeat": null,
       "text": "Escalate to HR (locked — no opt-out on file)"
@@ -2568,43 +2175,43 @@
         "on": "Yes",
         "locked": "No"
       },
-      "parent": "side-panel-priya-raghunathan-svg",
+      "parent": "side-panel-priya-raghunathan-pr",
       "tag": "span",
       "repeat": null,
       "text": ""
     },
     {
-      "id": "sticky-footer-path-d-m29-2-9-7c29-64",
+      "id": "sticky-footer-approve-raise-query",
       "component": "Sticky footer",
       "cls": "pf-sticky-footer",
       "variant": {
         "default": "Stepper"
       },
-      "parent": "side-panel-priya-raghunathan-svg",
+      "parent": "side-panel-priya-raghunathan-pr",
       "tag": "div",
       "repeat": null,
       "text": "Approve Raise query"
     },
     {
-      "id": "button-path-d-m29-2-9-7c29-64-7",
+      "id": "button-approve",
       "component": "Button",
       "cls": "pf-button",
       "variant": {
         "type": "Positive"
       },
-      "parent": "sticky-footer-path-d-m29-2-9-7c29-64",
+      "parent": "sticky-footer-approve-raise-query",
       "tag": "button",
       "repeat": null,
       "text": "Approve"
     },
     {
-      "id": "button-path-d-m12-16-88c12-62-2",
+      "id": "button-raise-query",
       "component": "Button",
       "cls": "pf-button",
       "variant": {
         "type": "Negative"
       },
-      "parent": "sticky-footer-path-d-m29-2-9-7c29-64",
+      "parent": "sticky-footer-approve-raise-query",
       "tag": "button",
       "repeat": null,
       "text": "Raise query"

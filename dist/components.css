@@ -3998,3 +3998,15 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
   display: table-cell;
   vertical-align: middle;
 }
+
+/* A component used as a table CONTAINER has to be able to be narrower than its
+   contents; hug-contents is a Figma canvas behaviour, not a page one. */
+.pf-table-ag {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  align-items: stretch;
+}
+.pf-table-ag > * { min-width: 0; max-width: 100%; width: 100%; }
+.pf-table-ag td, .pf-table-ag tbody { font-weight: var(--pf-font-weight-regular); }

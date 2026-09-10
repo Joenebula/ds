@@ -27,6 +27,10 @@ const CHECKS = [
   // Every design-system element must be addressable by name, or the screen cannot be
   // handed to a developer or a pipeline that assigns elements by name.
   ['tagging', 'scripts/tag-elements.mjs'],
+  // The axis none of the others cover: whether an element can actually be SEEN. Every
+  // check above measures an element in isolation and all five passed on a screen that
+  // was slicing 126px off its own table.
+  ['layout', 'scripts/verify-layout.mjs'],
 ];
 
 let failed = 0;
