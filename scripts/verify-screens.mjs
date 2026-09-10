@@ -24,9 +24,14 @@ const CHECKS = [
   ['colour', 'scripts/verify-rendered.mjs'],
   ['icons', 'scripts/check-icon-fidelity.mjs'],
   ['audit', 'scripts/pf-audit.mjs'],
+  ['content', 'scripts/verify-content.mjs'],
 ];
 
-let failed = 0;
+// Exit 2 means VACUOUS — the check ran and measured nothing (no saved Figma extract,
+// no component on the page). That is neither a pass nor a failure, and collapsing it
+// into either is how this repo has twice shipped a check that could not see the thing
+// it was pointed at. It gets its own mark and its own tally.
+let failed = 0, unmeasured = 0;
 for (const screen of screens) {
   const path = `${dir}/${screen}`;
   // A built screen with no source is a stale artefact; say so rather than checking it.
@@ -34,11 +39,11 @@ for (const screen of screens) {
   const note = existsSync(src) ? '' : '  (no .src.html — built by hand?)';
   console.log(`\n=== ${screen}${note} ===`);
   for (const [name, script] of CHECKS) {
-    let out = '', ok = true;
+    let out = '', code = 0;
     try {
       out = execFileSync('node', [script, path], { encoding: 'utf8' });
     } catch (e) {
-      ok = false;
+      code = e.status ?? 1;
       out = (e.stdout || '') + (e.stderr || '');
     }
     // Take the last RESULT line. Indented lines are explanatory notes (pf-audit prints
@@ -46,10 +51,15 @@ for (const screen of screens) {
     // check's footnote as its verdict.
     const lines = out.trim().split('\n').filter(l => l.trim() && !/^\s/.test(l));
     const last = lines.pop() || '(no output)';
-    console.log(`  ${ok ? 'ok  ' : 'FAIL'} ${name.padEnd(9)} ${last}`);
-    if (!ok) failed++;
+    const mark = code === 0 ? 'ok  ' : code === 2 ? '--  ' : 'FAIL';
+    console.log(`  ${mark} ${name.padEnd(9)} ${last}`);
+    if (code === 2) unmeasured++; else if (code !== 0) failed++;
   }
 }
 
-console.log(`\n${screens.length} screens checked, ${failed} check failures`);
+console.log(`\n${screens.length} screens checked, ${failed} check failure(s), `
+  + `${unmeasured} check(s) not measured`);
+if (unmeasured) {
+  console.log('a "--" is a check that measured nothing — it is not a pass');
+}
 process.exit(failed ? 1 : 0);

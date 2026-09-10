@@ -1,0 +1,192 @@
+{
+  "source": "figma:kuX4KDIN0u4axsKTELYlzW:15401:7882",
+  "extractedWith": "get_design_context",
+  "extractedOn": "2026-09-10",
+  "why": [
+    "This file exists because the first build of this screen was typed from a 900px screenshot",
+    "rather than extracted. That produced three fabricated strings and nine wrong type or",
+    "geometry values, and every automated check passed. Everything below is what Figma",
+    "actually returned, so verify-content.mjs has something to check the page against."
+  ],
+  "note": "A text node whose content is a single space is EMPTY in the design. The in-progress stage card has one. It is recorded, not tidied away.",
+  "text": [
+    {
+      "node": "I16299:9655;16299:9439",
+      "content": "Case summary",
+      "fontSize": 13,
+      "fontWeight": 400
+    },
+    {
+      "node": "I16299:9655;16299:9440",
+      "content": "Nicholas has twice taken unapproved absences",
+      "fontSize": 16,
+      "fontWeight": 600
+    },
+    {
+      "node": "I16299:9655;16299:9441",
+      "content": "10 Aug 2026 • 12 days ago",
+      "fontSize": 13,
+      "fontWeight": 400
+    },
+    {
+      "node": "I16299:9655;16299:9444",
+      "content": "Case subject",
+      "fontSize": 13,
+      "fontWeight": 400
+    },
+    {
+      "node": "I16299:9655;16299:9448",
+      "content": "Nicholas Smudge",
+      "fontSize": 16,
+      "fontWeight": 400
+    },
+    {
+      "node": "I16299:9655;16299:9450",
+      "content": "Type",
+      "fontSize": 13,
+      "fontWeight": 400
+    },
+    {
+      "node": "I16299:9655;16299:9453",
+      "content": "Disciplinary",
+      "fontSize": 16,
+      "fontWeight": 400
+    },
+    {
+      "node": "16157:22087",
+      "content": "Stages",
+      "fontSize": 16,
+      "fontWeight": 600
+    },
+    {
+      "node": "I16157:22088;14171:9720",
+      "content": "Case raised",
+      "fontSize": 16,
+      "fontWeight": 600
+    },
+    {
+      "node": "I16157:22088;16157:23149",
+      "content": "David Thompson",
+      "fontSize": 12,
+      "fontWeight": 400,
+      "accept": {
+        "fontSize": 13,
+        "why": "12px is not on the People First type ramp (13/16/20/24/36); the prototype uses the 13px label class and this file records Figma's real 12px"
+      }
+    },
+    {
+      "node": "I16157:22088;14171:9725",
+      "content": "Complete",
+      "fontSize": 13,
+      "fontWeight": 400
+    },
+    {
+      "node": "I16157:22128;16157:21465",
+      "content": "",
+      "fontSize": 16,
+      "fontWeight": 600,
+      "empty": true,
+      "raw": " ",
+      "comment": "THE INVENTION. This title is a single space in Figma. The first build put 'Investigation meeting' here."
+    },
+    {
+      "node": "I16157:22128;16157:22939",
+      "content": "Samantha Stevens",
+      "fontSize": 12,
+      "fontWeight": 400,
+      "accept": {
+        "fontSize": 13,
+        "why": "12px is not on the People First type ramp (13/16/20/24/36); the prototype uses the 13px label class and this file records Figma's real 12px"
+      }
+    },
+    {
+      "node": "I16157:22128;16157:21470",
+      "content": "In-progress",
+      "fontSize": 13,
+      "fontWeight": 400,
+      "comment": "Hyphenated. The first build wrote 'In progress'."
+    },
+    {
+      "node": "14044:8922",
+      "content": "Add new stage",
+      "fontSize": 16,
+      "fontWeight": 600
+    },
+    {
+      "node": "I15401:7912;25552:8083",
+      "content": "Close case",
+      "fontSize": 13,
+      "fontWeight": 400,
+      "textTransform": "uppercase",
+      "comment": "13px REGULAR and uppercase, and carries NO icon. People First buttons are 13px SemiBold sentence case with a leading icon, so this is a declared divergence from the library, not a port.",
+      "accept": {
+        "fontWeight": 600,
+        "textTransform": "none",
+        "why": "Figma has 13px Regular uppercase with no icon; .pf-button is 13px SemiBold sentence case. Using the library component beats matching the product file."
+      }
+    }
+  ],
+  "peoplePerCard": {
+    "I16299:9655": 1,
+    "16157:22088": 1,
+    "16157:22128": 1,
+    "16157:22089": 0,
+    "comment": "One People instance per card. The first build put two on the in-progress card, inventing a second person."
+  },
+  "placeholders": {
+    "comment": "Personal data is replaced because the design carries a named disciplinary case. Every substitution is declared here so verify-content can tell a substitution from an invention — which is exactly the difference the first build got wrong.",
+    "Nicholas Smudge": "Aisha Bello",
+    "David Thompson": "Tomasz Kowalczyk",
+    "Samantha Stevens": "Nadia Hussain",
+    "Nicholas has twice taken unapproved absences": "Repeated unauthorised absence",
+    "10 Aug 2026 • 12 days ago": "10 Aug 2026 • 12 days ago"
+  },
+  "divergences": {
+    "comment": "Known, deliberate differences from the Figma design. Listed so they are decisions rather than drift.",
+    "components": "Stepper, People, Rectangle Tags and Right arrow are from a non-People-First library (F-018). The rebuild substitutes People First equivalents where they exist and declares a gap where they do not.",
+    "cardGeometry": "Figma cards are radius 10px, padding 12/14px. .pf-card is radius 8px, padding 20px. The rebuild uses the People First card and accepts the difference.",
+    "tags": "Figma uses Rectangle Tags with alpha fills (rgba(81,122,56,0.05)). The rebuild uses the People First Tags component.",
+    "personName12px": "12px is not on the People First type ramp (13 / 16 / 20 / 24 / 36). Recorded as a gap; the rebuild uses the 13px label class and this file records the real value.",
+    "emptyTitleHeight": "Figma's stage title row is a fixed 22px. On the in-progress card the title is empty, so the prototype keeps the 22px with .stage-title{min-height:22px} — without it the card loses height and the two stages stop lining up. The emptiness is the design; the height keeps it honest.",
+    "buttonCase": "Figma draws Close case 13px Regular UPPERCASE with no icon. .pf-button is 13px SemiBold sentence case with a leading icon slot. The library component wins and the icon is dropped, so the page reads 'Close case', not 'CLOSE CASE'. This is the one visible difference from the Figma render."
+  },
+  "icons": {
+    "comment": "Sizes as Figma draws them. The 'circle' the case icon sits in is the icon's own outline — assets/icons/case-management.svg is the same speech-bubble ring, and at 28px it stopped reading as one. The defect was the size, not a missing container.",
+    "Case management": {
+      "node": "16299:9436",
+      "size": 36,
+      "asset": "assets/icons/case-management.svg"
+    },
+    "Stepper (Done)": {
+      "size": 24,
+      "fill": "#517A38",
+      "tick": 14,
+      "tickFill": "white"
+    },
+    "Stepper (In progress)": {
+      "size": 24,
+      "note": "ring + centre dot, border/theme"
+    },
+    "Stepper (Add)": {
+      "size": 24,
+      "note": "white, 1px border/theme, 14px Add plus"
+    },
+    "Right arrow": {
+      "size": 20,
+      "note": "from a non-People-First library (F-018)"
+    },
+    "People avatar": {
+      "size": 24,
+      "note": "photograph in Figma; initials here (GAP 1)"
+    }
+  },
+  "geometry": {
+    "comment": "From get_metadata on 15401:7882. Recorded so the divergences below are measured, not remembered.",
+    "frame": "516x556, 20px padding, 20px between the three regions",
+    "header": "476x170 at (20,20)",
+    "stages": "476x274 at (20,210); heading 22px tall, three 74px cards, 10px gaps",
+    "card": "h74, px12 py14, radius 10, gap 12",
+    "headerInnerCard": "px10 py15, radius 8, 1px border/default",
+    "button": "114x32 at (20,504)"
+  }
+}
