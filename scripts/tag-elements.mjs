@@ -157,9 +157,35 @@ const verdict = bad
 
 if (write) {
   const out = file.replace(/\.html$/, '.manifest.json');
+  // The manifest carries its own field guide. Whoever receives this file — a developer,
+  // or a generator turning it into Angular — should not need a second document to read
+  // it, because the second document is the one that gets lost or goes stale.
+  const fields = {
+    id: 'Stable name for this ONE element. The only authored value; everything else is derived. Address elements by this, never by CSS selector — a selector changes every time the layout does.',
+    component: "Figma component name, exactly as it appears in the Figma library (e.g. 'Side navigation tab').",
+    cls: "CSS class in dist/components.css that renders it (e.g. 'pf-button'). Component and class are two names for the same thing.",
+    variant: "Figma's variant properties for this instance, as an object: {\"type\": \"Positive\"} means Figma's Type property is set to Positive. Keys are only ever properties the component really has.",
+    parent: 'id of the nearest enclosing element in this list, or null if it is a top-level one. Gives you the component tree, not just a flat list.',
+    tag: 'HTML element it was rendered as.',
+    repeat: "'row' if it is part of a repeating template rather than a distinct element — the cells of a table body are one row rendered N times, which is what an *ngFor consumes. null otherwise.",
+    text: 'Visible text, first 60 characters. Sample content, not a label to build against.',
+  };
+  // A field guide that has drifted from the data is worse than none, because it is
+  // believed. If the two ever disagree, say so and write nothing.
+  const documented = Object.keys(fields).sort().join(',');
+  const emitted = Object.keys(found[0] || {}).sort().join(',');
+  if (found.length && documented !== emitted) {
+    console.error(`\nfield guide does not match the data it describes:`);
+    console.error(`  documented: ${documented}`);
+    console.error(`  emitted   : ${emitted}`);
+    console.error(`Update the \`fields\` block in this script and re-run.`);
+    process.exit(1);
+  }
   writeFileSync(out, JSON.stringify({
     screen: file.split('/').pop().replace(/\.html$/, ''),
     generated: 'scripts/tag-elements.mjs — do not hand-edit',
+    about: 'Every design-system element on this screen, addressable by name. Regenerate with: node scripts/tag-elements.mjs <screen>.html --write',
+    fields,
     counts: {
       elements: found.length,
       roots: found.filter(f => !f.parent).length,

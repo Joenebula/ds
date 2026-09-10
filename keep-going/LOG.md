@@ -831,3 +831,12 @@ three screens), `verify-components` 2622/2622, `verify-type` 107/107,
 
 **Not checked:** whether the manifest is the shape the Angular pipeline actually wants.
 Its contract is in a session I cannot read, so the fields are my best guess.
+
+**There is no JSON contract to match.** I had been treating the manifest shape as
+provisional pending the Angular pipeline's expected input; there isn't one. So the
+manifest is the contract, and the thing that mattered was making it readable without a
+companion document — a companion document is what gets lost or goes stale. Every manifest
+now carries an `about` line and a `fields` block defining each key, and the writer aborts
+rather than emit a manifest whose field guide disagrees with the data (verified by adding
+a field and watching it refuse). `pf-handoff` had never mentioned the manifest at all; it
+now hands it over alongside the prose spec.

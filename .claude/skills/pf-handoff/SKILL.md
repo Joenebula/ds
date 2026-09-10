@@ -100,6 +100,36 @@ get wrong:
 - `--pf-text-always-white` and `--pf-text-always-grey-slate` deliberately **do not**.
 - Chart colours are mode-stable by design — safe on any surface.
 
+## Hand over the manifest too
+
+A prose spec is for a person reading it. A pipeline that turns the screen into Angular
+needs the same facts as data, and every screen already has them:
+
+```bash
+node scripts/tag-elements.mjs <page>.html --write   # writes <page>.manifest.json
+```
+
+One entry per design-system element — its name, its Figma component, its variant
+properties as an object, what it sits inside, and whether it is one of a repeating set:
+
+```json
+{ "id": "button-approve", "component": "Button", "cls": "pf-button",
+  "variant": { "type": "Positive" }, "parent": "card-marcus-webb",
+  "tag": "button", "repeat": null, "text": "Approve" }
+```
+
+The file carries its own `fields` block explaining every key, so nobody needs this page
+to read it — and the generator refuses to write a manifest whose field guide has drifted
+from the data.
+
+Two things about it worth saying out loud in the handoff:
+
+- **The `id` is the contract.** It is the only authored value; everything else is derived
+  from the class and its data attributes. A developer wires to the name, not a selector,
+  because a selector changes every time the layout does.
+- **`repeat: "row"` means one template, not N elements.** The cells of a table body are a
+  single row rendered many times — an `*ngFor`, not eight components.
+
 ## Known source issues to carry into the spec
 
 If the screen uses these, say so — a developer implementing faithfully will otherwise

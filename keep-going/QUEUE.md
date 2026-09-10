@@ -493,10 +493,22 @@ column and its own overflow clipped the rest) is fixed in the generator for ever
 
 **Depends on:** nothing.
 
+## 27. Make the manifest explain itself — `done`
+
+There is no existing JSON contract to match — asked, and there isn't one — so the manifest
+IS the contract. That means it cannot depend on a separate document travelling with it,
+because the separate document is the thing that gets lost.
+
+**Done when:** met. Every manifest carries an `about` line and a `fields` block defining
+each key in plain English, so a developer or a generator can read the file cold. The
+writer refuses to emit a manifest whose field guide has drifted from the data it
+describes — proven by adding a field and watching it abort. `pf-handoff` now points at the
+manifest as the machine-readable half of a handoff.
+
+**Depends on:** 23.
+
 ## Open — needs you
 
-**The manifest shape is still my best guess.** The pipeline's real contract lives in the
-"Figma to Angular AI pipeline" session, which I cannot read. What the manifest carries now
-— id, component, variant object, parent, tag, repeat, text — is what a generator would
-plausibly want, not what yours asks for. One example of the JSON your pipeline expects
-would settle it.
+Nothing blocking. The manifest format is now settled by default rather than by
+specification: if the Angular pipeline turns out to want different fields, say which and
+they are a small change to `scripts/tag-elements.mjs`.
