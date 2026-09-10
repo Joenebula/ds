@@ -53,8 +53,14 @@ Dark mode: `data-theme="dark"` / `"light"` on the root, or omit to follow the OS
 ## Editing tokens
 
 `tokens/_raw/` is the input; everything else is generated. Re-extract from Figma into
-those files, then `npm run build`. Never hand-edit `tokens/design-tokens.json`,
-`dist/tokens.css`, `dist/components.css` or `dist/type.css` — they are overwritten. Run `npm run check`
+those files, then **`npm run build`** — the whole build, never a single generator. Six
+files inline `dist/components.css` (the component gallery and five ds-bundle pages), and
+running only `build-components-css.mjs` leaves every one of them carrying the previous
+version while every check still passes, because the checks read `dist/`. `npm run verify`
+now fails if any generated file is stale.
+
+Never hand-edit `tokens/design-tokens.json`, `dist/tokens.css`, `dist/components.css` or
+`dist/type.css` — they are overwritten. Run `npm run check`
 after any token change to re-verify WCAG contrast, and `npm run verify` to re-check the
 component library and the example screens against Figma.
 

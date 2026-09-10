@@ -840,3 +840,12 @@ now carries an `about` line and a `fields` block defining each key, and the writ
 rather than emit a manifest whose field guide disagrees with the data (verified by adding
 a field and watching it refuse). `pf-handoff` had never mentioned the manifest at all; it
 now hands it over alongside the prose spec.
+
+**Generated files went stale and nothing noticed.** A fix to the components generator was
+applied by running `node scripts/build-components-css.mjs` rather than `npm run build`, so
+`dist/components.css` was correct while the six files that INLINE it — the component
+gallery and five ds-bundle pages — kept the previous version, and the repo was committed
+in that state. Every check passed, because every check reads `dist/`, not the copies. The
+git stop-hook caught it, not the suite. `scripts/check-generated.mjs` now runs first in
+`npm run verify` and fails if the build would change anything; verified by reverting the
+gallery to the stale version and watching it name all six files.
