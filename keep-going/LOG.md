@@ -849,3 +849,69 @@ in that state. Every check passed, because every check reads `dist/`, not the co
 git stop-hook caught it, not the suite. `scripts/check-generated.mjs` now runs first in
 `npm run verify` and fails if the build would change anything; verified by reverting the
 gallery to the stale version and watching it name all six files.
+
+---
+
+## Run 8 — closing the four gaps
+
+Skills loaded: `figma-use` (MCP resource, current) before every Figma read; `pf-handoff`
+(SKILL.md, current) for the payroll spec; `keep-going`.
+
+**I gave the wrong number for gap 3 and corrected it before starting.** I had told the
+user 33 components were "catalogued but unmeasured — they exist as classes". They had no
+rules at all, and 22 of the 33 should not: 20 are project documentation on the DOCUMENT
+MANAGEMENT page, one is an unnamed `Component 1`, one is sample employee data. The real
+gap was 11 — Tooltip, Menu, Stars, Field icons, Map, Floaters, Horizontal scroll, Profile
+image, Notification image, Mobile key actions, Default header background.
+
+**The generator only ever walked the colour extract.** A component Figma binds no colour
+variable to therefore got no rules at all, even where its geometry had been measured. It
+now walks the union and emits those as SHAPE ONLY, with a comment saying so.
+
+**And the first version of that emitted 29 components, 18 of which do not exist.** The
+geometry file also holds rows measured against sub-parts under labels I wrote by hand —
+`Button (icon only)`, `Field (second component)`, `Table (AG) container`. Emitting those
+would have invented components this design system does not have, in the one file
+everything else is generated from. Figma's own inventory is now the arbiter: a shape-only
+class is emitted only for a name that is really a component in the file. 11, as expected.
+
+**`Circle icons` was never missing a colour — it was never looked at.** The component
+extract skips the Icons page and the icon exporter only takes single icons, so the one
+component set on that page belonged to neither. It binds `Background/Light Theme` and
+`Border/Theme`, has four sizes, and is a circle.
+
+**Which uncovered that the token extract itself was incomplete.** `Background/Light Theme`
+was not in it. Nor were 16 others — the entire `Navigation/*` group (7), both `Configr`
+themes, `Border/Default full`, `Border/Default hidden`, `Icons/Icon - Always white`. Four
+primitives were missing too (the violets), which is why the first rebuild after adding the
+semantic tokens reported unresolved aliases. Figma has 111 semantic and 56 primitive
+variables; the extract now has all of them.
+
+**Two tokens in the shipped system have no Figma variable at all.** `--pf-border-default`
+(38 uses in components.css) and `--pf-bg-theme-full`. Not missing from the extract —
+absent from the file. Left alone and raised with the user, because repointing
+`--pf-border-default` at `Border/Default full` changes every hairline in dark mode from
+white to Grey Fog, which is a design decision.
+
+**Seven primitives were being used directly in the screens** — `--pf-base-white` for tick
+marks and toggle knobs, `--pf-base-grey-dolphin` for a checkbox border — which CLAUDE.md
+forbids because a primitive cannot adapt between modes. The reason was the missing
+extract: `Icons/Icon - Always white` did not exist to use. Now it does; zero primitive uses
+remain on any screen.
+
+**Geometry can now vary by variant.** `Circle icons` is four sizes of one circle and
+`Default header background` is three heights of one bar; both bind identical colours, so
+the colour layer correctly collapses them and the size was the only thing left to carry.
+Geometry rows keyed `Component|Prop=Value` emit a rule on that variant's selector.
+
+Also: the primitive `Grey-slate` that `Repeating group` binds directly now resolves to
+`Text/Always grey slate` (same value, semantic layer) instead of emitting nothing, and is
+reported as a Figma SOURCE ISSUE rather than as an unmapped token. `UNMAPPED` is 0.
+
+Reconciliation of Figma's 460 components is now: 139 with colour rules, 11 shape-only, 282
+icons, 39 excluded with a written reason, 1 unaccounted — a component whose name is a
+single space.
+
+Checks run: `npm run build` clean, no unresolved aliases; `npm run check` 27/28 AA in both
+modes (the two AA-large-only entries are Figma's own values, unchanged); `npm run verify`
+— result recorded with the commit.

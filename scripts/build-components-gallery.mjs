@@ -74,7 +74,17 @@ for (const r of variants) {
   comps.get(r.component).push(r);
 }
 
+const geometryRowsAll = tsv('tokens/_raw/component-geometry.tsv');
+const figmaComponentNames = new Set(inventory.map(c => c.name));
 const captured = new Set(variants.map(r => r.component));
+// Components the stylesheet carries as SHAPE ONLY: Figma binds no colour variable to any
+// of their variants, but their measured geometry is real and is emitted. They used to be
+// listed here as gaps, which stopped being true once the generator started emitting them.
+const shapeOnly = new Set(geometryRowsAll
+  .filter(r => !r.component.includes('|') && !captured.has(r.component))
+  .map(r => r.component)
+  .filter(n => figmaComponentNames.has(n)));
+for (const n of shapeOnly) captured.add(n);
 const uncaptured = [];
 for (const c of inventory) {
   const page = (c.pageName || '').trim();

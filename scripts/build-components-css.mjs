@@ -36,8 +36,35 @@ const tokenVar = new Map();
   }
 })(JSON.parse(readFileSync('tokens/design-tokens.json', 'utf8')));
 
-const geometry = new Map(tsv('tokens/_raw/component-geometry.tsv').map(r => [r.component, r]));
+// A geometry row keyed `Component|Prop=Value` measures ONE variant rather than the
+// component as a whole. Circle icons is four sizes of the same circle and Default header
+// background is three heights of the same bar; both bind identical colours across those
+// variants, so the colour layer collapses them correctly and the SIZE is the only thing
+// that distinguishes them. Without this they would all render at one size.
+const geometryRows = tsv('tokens/_raw/component-geometry.tsv');
+const geometry = new Map(geometryRows.filter(r => !r.component.includes('|'))
+  .map(r => [r.component, r]));
+const geometryByVariant = new Map();
+for (const r of geometryRows) {
+  if (!r.component.includes('|')) continue;
+  const [comp, variant] = r.component.split('|');
+  if (!geometryByVariant.has(comp)) geometryByVariant.set(comp, []);
+  geometryByVariant.get(comp).push({ ...r, variant });
+}
 const variants = tsv('tokens/_raw/component-variants.tsv');
+
+// Primitive names Figma binds directly, and the semantic token of identical value to
+// use instead — chosen per CSS property, because the semantic layer names the ROLE.
+// `Grey-slate` is #3e3e3e; `Text/Always grey slate` resolves to exactly that and is a
+// deliberately mode-stable token, so the rendered colour is unchanged.
+const PRIMITIVE_ALIAS = {
+  'Grey-slate': {
+    'color': '--pf-text-always-grey-slate',
+    'background': '--pf-base-grey-slate',
+    'border-color': '--pf-base-grey-slate',
+  },
+};
+const sourceIssues = new Map();
 
 // ---- naming ----------------------------------------------------------------
 const kebab = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -165,8 +192,21 @@ function colourDecls(row) {
   const put = (figmaName, prop) => {
     if (!figmaName) return;
     const v = tokenVar.get(figmaName);
-    if (v) d.push(`${prop}: var(${v})`);
-    else d.push(`/* unmapped Figma token: ${figmaName} */`);
+    if (v) { d.push(`${prop}: var(${v})`); return; }
+    // A binding Figma records under a bare PRIMITIVE name rather than a semantic path.
+    // Every other binding in the file reads `Text/Primary`, `Background/Theme`; these
+    // reach past that layer to the raw colour, which is the thing that stops a component
+    // adapting between modes. We cannot fix their file, but emitting nothing at all is
+    // worse: the component then ships with no colour whatsoever. So substitute the
+    // SEMANTIC token that resolves to the same value, and report it as a source issue.
+    const alias = (PRIMITIVE_ALIAS[figmaName] || {})[prop];
+    if (alias) {
+      d.push(`/* Figma binds the primitive "${figmaName}" here instead of a semantic token */`);
+      d.push(`${prop}: var(${alias})`);
+      sourceIssues.set(figmaName, `bound directly on ${row.component} (${prop}); using ${alias}, same value`);
+      return;
+    }
+    d.push(`/* unmapped Figma token: ${figmaName} */`);
   };
   put(row.fill, 'background');
   put(row.stroke, 'border-color');
@@ -200,6 +240,25 @@ out.push('');
 
 let componentCount = 0, ruleCount = 0, unmapped = new Set();
 
+// Components Figma binds no colour variable to still have a shape, and a shape is most
+// of what a component is. Eleven of them had no rules at all — Tooltip, Menu, Stars among
+// them — because the build only ever walked the colour extract. Walk the union.
+//
+// But ONLY for names that are real Figma components. The geometry file also holds rows
+// measured against sub-parts, under descriptive labels written by hand — `Button (icon
+// only)`, `Field (second component)`, `Table (AG) container`. Those are measurement
+// notes, not components, and emitting `.pf-button-icon-only` would invent a component
+// this design system does not have. Figma's own inventory is the arbiter.
+const figmaComponents = new Set(
+  JSON.parse(readFileSync('tokens/_raw/components.json', 'utf8')).map(c => c.name));
+const shapeOnly = [];
+for (const comp of geometry.keys()) {
+  if (byComponent.has(comp)) continue;
+  if (!figmaComponents.has(comp)) continue;
+  byComponent.set(comp, []);
+  shapeOnly.push(comp);
+}
+
 for (const [component, rows] of [...byComponent.entries()].sort()) {
   const base = cls(component);
   const g = geometry.get(component);
@@ -207,8 +266,13 @@ for (const [component, rows] of [...byComponent.entries()].sort()) {
   const geo = geometryDecls(g, notes);
 
   out.push(`/* ${component}${g ? '' : '  (no geometry measured — colours only)'}`);
-  out.push(` * ${rows.length} variant${rows.length === 1 ? '' : 's'} captured${
-    g && g.notes ? '. ' + g.notes : ''}`);
+  out.push(rows.length
+    ? ` * ${rows.length} variant${rows.length === 1 ? '' : 's'} captured${g && g.notes ? '. ' + g.notes : ''}`
+    : ` * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class`);
+  if (!rows.length) {
+    out.push(' * carries its measured geometry and leaves colour to the page.' +
+             (g && g.notes ? ' ' + g.notes : ''));
+  }
   for (const n of notes) out.push(` * ${n}`);
   out.push(' */');
 
@@ -227,6 +291,17 @@ for (const [component, rows] of [...byComponent.entries()].sort()) {
       : '  border: 0;');
     out.push('  box-sizing: border-box;');
     out.push('  font-family: var(--pf-font-body);');
+    out.push('}');
+    ruleCount++;
+  }
+
+  for (const vg of geometryByVariant.get(component) || []) {
+    const vnotes = [];
+    const vdecls = geometryDecls(vg, vnotes);
+    if (!vdecls.length) continue;
+    const sels = selectorsFor(base, parseVariant(vg.variant));
+    out.push(`${sels.join(',\n')} {`);
+    for (const d of vdecls) out.push(`  ${d};`);
     out.push('}');
     ruleCount++;
   }
@@ -292,7 +367,15 @@ mkdirSync('dist', { recursive: true });
 writeFileSync('dist/components.css', out.join('\n'));
 
 console.log(`components.css written — ${componentCount} components, ${ruleCount} rules`);
+if (shapeOnly.length) {
+  console.log(`  SHAPE ONLY (no colour bound in Figma) : ${shapeOnly.length}`);
+  console.log(`    ${shapeOnly.sort().join(', ')}`);
+}
 console.log(`  with measured geometry : ${[...byComponent.keys()].filter(c => geometry.has(c)).length}`);
+if (sourceIssues.size) {
+  console.log(`  Figma SOURCE ISSUES    : ${sourceIssues.size}  (primitive bound where a semantic token belongs)`);
+  for (const [k, v] of [...sourceIssues].sort()) console.log(`    ${k} — ${v}`);
+}
 if (unmapped.size) {
   console.log(`  UNMAPPED Figma tokens  : ${unmapped.size}`);
   for (const u of [...unmapped].sort()) console.log(`    ${u}`);

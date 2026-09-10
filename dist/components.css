@@ -811,6 +811,48 @@
   color: var(--pf-text-link);
 }
 
+/* Circle icons
+ * 1 variant captured. CIRCLE. Four sizes as Size variants; each size row below carries its own box.
+ */
+.pf-circle-icons {
+  border-radius: 999px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-circle-icons[data-size="XS - 28px"] {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  display: inline-block;
+}
+.pf-circle-icons[data-size="S - 36px"] {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  display: inline-block;
+}
+.pf-circle-icons[data-size="M - 44px"] {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  display: inline-block;
+}
+.pf-circle-icons[data-size="L - 52px"] {
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  display: inline-block;
+}
+.pf-circle-icons {
+  background: var(--pf-bg-light-theme);
+  border-color: var(--pf-border-theme);
+}
+
 /* Clickable AI element
  * 2 variants captured
  * Figma draws this 382px wide; treated as layout, not a rule
@@ -1277,6 +1319,34 @@
   color: var(--pf-text-primary);
 }
 
+/* Default header background
+ * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
+ * carries its measured geometry and leaves colour to the page. Full-bleed header bar; height varies by Breakpoint (see size rows). Fill is a raw colour in Figma, not a variable.
+ */
+.pf-default-header-background {
+  height: 86px;
+  display: inline-block;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-default-header-background[data-breakpoint="Desktop"] {
+  height: 86px;
+  display: inline-block;
+}
+.pf-default-header-background[data-breakpoint="Tablet"] {
+  height: 74px;
+  display: inline-block;
+}
+.pf-default-header-background[data-breakpoint="Mobile"] {
+  height: 62px;
+  display: inline-block;
+}
+
 /* Detail item
  * 1 variant captured
  * Figma draws this 162px wide; treated as layout, not a rule
@@ -1525,6 +1595,25 @@
   color: var(--pf-text-theme);
 }
 
+/* Field icons
+ * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
+ * carries its measured geometry and leaves colour to the page. 2 variants
+ */
+.pf-field-icons {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+
 /* Field label
  * 1 variant captured. label sits above its input, 5px gap
  * Figma draws this 152px wide; treated as layout, not a rule
@@ -1690,6 +1779,27 @@
 }
 .pf-filter-tabs {
   color: var(--pf-text-theme);
+}
+
+/* Floaters
+ * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
+ * carries its measured geometry and leaves colour to the page. Single component. No colour variable bound in Figma.
+ */
+.pf-floaters {
+  width: 85px;
+  height: 40px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
 }
 
 /* Footer (AG)
@@ -1988,6 +2098,26 @@
   color: var(--pf-text-primary);
 }
 
+/* Horizontal scroll
+ * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
+ * carries its measured geometry and leaves colour to the page. 2 variants (Page). Figma draws it 1160px wide — the artboard, not a rule. No colour variable bound.
+ */
+.pf-horizontal-scroll {
+  height: 32px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 390px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+
 /* Image picker
  * 1 variant captured. not auto-layout
  * Figma draws this 440px wide; treated as layout, not a rule
@@ -2195,6 +2325,45 @@
   color: var(--pf-text-primary);
 }
 
+/* Map
+ * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
+ * carries its measured geometry and leaves colour to the page. not auto-layout
+ * Figma draws this 480px wide; treated as layout, not a rule
+ */
+.pf-map {
+  height: 200px;
+  border-radius: 8px;
+  display: inline-block;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+
+/* Menu
+ * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
+ * carries its measured geometry and leaves colour to the page. 2 variants (Size). No colour variable bound in Figma.
+ */
+.pf-menu {
+  width: 50px;
+  height: 73px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+
 /* Menu-search-settings
  * 3 variants captured
  * Figma draws this 1920px wide; treated as layout, not a rule
@@ -2303,6 +2472,23 @@
 }
 .pf-mobile-bottom-navigation {
   color: var(--pf-text-secondary);
+}
+
+/* Mobile key actions
+ * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
+ * carries its measured geometry and leaves colour to the page. 6 variants (Link). No colour variable bound in Figma.
+ * Figma draws this 126px wide; treated as layout, not a rule
+ */
+.pf-mobile-key-actions {
+  height: 103px;
+  display: inline-block;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
 }
 
 /* Multi-select checkbox
@@ -2504,6 +2690,23 @@
   color: var(--pf-text-primary);
 }
 
+/* Notification image
+ * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
+ * carries its measured geometry and leaves colour to the page.
+ */
+.pf-notification-image {
+  width: 44px;
+  height: 44px;
+  display: inline-block;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+
 /* Option
  * 2 variants captured. dropdown list row. 2 variants
  * Figma draws this 250px wide; treated as layout, not a rule
@@ -2640,6 +2843,25 @@
   color: var(--pf-text-secondary);
 }
 
+/* Profile image
+ * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
+ * carries its measured geometry and leaves colour to the page. CIRCLE
+ * pill
+ */
+.pf-profile-image {
+  width: 93px;
+  height: 93px;
+  border-radius: 999px;
+  display: inline-block;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+
 /* Radio card
  * 4 variants captured. 4 variants
  * Figma draws this 235px wide; treated as layout, not a rule
@@ -2741,7 +2963,8 @@
   font-family: var(--pf-font-body);
 }
 .pf-repeating-group {
-  /* unmapped Figma token: Grey-slate */
+  /* Figma binds the primitive "Grey-slate" here instead of a semantic token */
+  color: var(--pf-text-always-grey-slate);
 }
 
 /* Required field
@@ -3151,6 +3374,23 @@
 .pf-star-rating[data-rating="0..5"][data-state="Hover"],
 .pf-star-rating[data-rating="0..5"]:hover {
   color: var(--pf-text-primary);
+}
+
+/* Stars
+ * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
+ * carries its measured geometry and leaves colour to the page. 2 variants (Active). No colour variable bound in Figma.
+ */
+.pf-stars {
+  width: 25px;
+  height: 24px;
+  display: inline-block;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
 }
 
 /* Status
@@ -3747,6 +3987,23 @@
 .pf-tool-tip {
   background: var(--pf-bg-tertiary);
   color: var(--pf-text-primary);
+}
+
+/* Tooltip
+ * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
+ * carries its measured geometry and leaves colour to the page. 2 variants (Hover). No colour variable bound in Figma.
+ */
+.pf-tooltip {
+  width: 28px;
+  height: 28px;
+  display: inline-block;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
 }
 
 /* Top bar app context

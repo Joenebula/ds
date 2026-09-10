@@ -171,6 +171,21 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Data variance alternative** | auto x auto | — | — | 5 | 20px | HORIZONTAL CENTER MIN |
 | **[S] People** | 380 x auto | — | — | 10 | 16px | HORIZONTAL CENTER CENTER |
 | **Text template format editor ** | 440 x auto | — | — | 5 | 16px | VERTICAL MIN MIN |
+| **Circle icons** | auto x auto | 0 | 999 | 0 | — | NONE |
+| **Circle icons|Size=XS - 28px** | 28 x 28 | 0 | 999 | 0 | — | NONE |
+| **Circle icons|Size=S - 36px** | 36 x 36 | 0 | 999 | 0 | — | NONE |
+| **Circle icons|Size=M - 44px** | 44 x 44 | 0 | 999 | 0 | — | NONE |
+| **Circle icons|Size=L - 52px** | 52 x 52 | 0 | 999 | 0 | — | NONE |
+| **Tooltip** | 28 x 28 | 0 | 0 | 0 | — | NONE |
+| **Menu** | 50 x 73 | 0 | 0 | 5 | — | VERTICAL MIN CENTER |
+| **Stars** | 25 x 24 | 0 | 0 | 0 | — | NONE |
+| **Floaters** | 85 x 40 | 0 | 0 | 5 | — | HORIZONTAL MIN CENTER |
+| **Horizontal scroll** | auto x 32 | 0 | 0 | 390 | — | HORIZONTAL CENTER CENTER |
+| **Mobile key actions** | 126 x 103 | 0 | 0 | 0 | — | NONE |
+| **Default header background** | auto x 86 | 0 | 0 | 0 | — | NONE |
+| **Default header background|Breakpoint=Desktop** | auto x 86 | 0 | 0 | 0 | — | NONE |
+| **Default header background|Breakpoint=Tablet** | auto x 74 | 0 | 0 | 0 | — | NONE |
+| **Default header background|Breakpoint=Mobile** | auto x 62 | 0 | 0 | 0 | — | NONE |
 
 ## Reading these numbers
 

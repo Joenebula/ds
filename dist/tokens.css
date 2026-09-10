@@ -25,7 +25,9 @@
   --pf-base-bronze-gin-fizz: #fff4e5; /* Base colours/Bronze Gin Fizz */
   --pf-base-brown-gold: #8f6d19; /* Base colours/Brown Gold */
   --pf-base-copper: #b05e00; /* Base colours/Copper */
+  --pf-base-dark-violet: #412562; /* Base colours/Dark Violet */
   --pf-base-default-pink: #cd2359; /* Base colours/Default Pink */
+  --pf-base-electric-violet: #7a0ff9; /* Base colours/Electric Violet */
   --pf-base-green: #517a38; /* Base colours/Green */
   --pf-base-green-leaf: #00ad60; /* Base colours/Green Leaf */
   --pf-base-green-mint: #53bda7; /* Base colours/Green Mint */
@@ -38,9 +40,11 @@
   --pf-base-grey-boulder: #777777; /* Base colours/Grey boulder */
   --pf-base-light-ivory: #fafafa; /* Base colours/Light Ivory */
   --pf-base-light-purple: #9e5bba; /* Base colours/Light Purple */
+  --pf-base-light-violet: #bf89ff; /* Base colours/Light Violet */
   --pf-base-negative-hover: #a41c22; /* Base colours/Negative Hover */
   --pf-base-orange: #fc8700; /* Base colours/Orange */
   --pf-base-pale-pink-theme: #fcf4f7; /* Base colours/Pale Pink Theme */
+  --pf-base-pale-violet: #f2e7fe; /* Base colours/Pale Violet */
   --pf-base-pineapple: #ddcb3f; /* Base colours/Pineapple */
   --pf-base-pink-candy: #f06292; /* Base colours/Pink Candy */
   --pf-base-positive-hover: #43652e; /* Base colours/Positive Hover */
@@ -105,7 +109,10 @@
   --pf-gradient-ai-gradient: linear-gradient(90deg, #007ff3 0.0%, #a922c1 31.5%, #ff0098 58.5%, #ff0029 100.0%); /* AI gradient */
 
   /* ---- Semantic colours — Lightmode ---- */
+  --pf-bg-configr-light-theme: var(--pf-base-pale-violet);
+  --pf-bg-configr-theme: var(--pf-base-electric-violet);
   --pf-bg-highlight: var(--pf-base-white-lilac);
+  --pf-bg-light-theme: var(--pf-base-pale-pink-theme);
   --pf-bg-negative: var(--pf-base-red-lavender-blush);
   --pf-bg-negative-button: var(--pf-base-red);
   --pf-bg-negative-button-hover: var(--pf-base-negative-hover);
@@ -122,7 +129,10 @@
   --pf-bg-theme-full: var(--pf-base-default-pink);
   --pf-bg-warning: var(--pf-base-bronze-gin-fizz);
   --pf-border-drop-shadow: var(--pf-base-grey-dolphin);
+  --pf-border-configr: var(--pf-base-electric-violet);
   --pf-border-default: var(--pf-base-grey-steel);
+  --pf-border-default-full: var(--pf-base-grey-steel);
+  --pf-border-default-hidden: var(--pf-base-grey-steel);
   --pf-border-disabled: var(--pf-base-grey-dolphin);
   --pf-border-form-input: var(--pf-base-grey-boulder);
   --pf-border-hollow-button: var(--pf-base-grey-fog);
@@ -147,6 +157,8 @@
   --pf-filter-menu-background: #f8f8f8; /* literal */
   --pf-filter-menu-border: #dadbdb; /* literal */
   --pf-icon-always-grey-slate: var(--pf-base-grey-slate);
+  --pf-icon-always-white: var(--pf-base-white);
+  --pf-icon-configr: var(--pf-base-electric-violet);
   --pf-icon-disabled: var(--pf-base-grey);
   --pf-icon-info: var(--pf-base-blue-sky);
   --pf-icon-link: var(--pf-base-blue-ocean);
@@ -159,6 +171,14 @@
   --pf-icon-secondary-inverted: var(--pf-base-grey-dolphin);
   --pf-icon-theme: var(--pf-base-default-pink);
   --pf-icon-warning: var(--pf-base-orange);
+  --pf-navigation-configr-hover: var(--pf-base-electric-violet);
+  --pf-navigation-configr-nav: var(--pf-base-grey-fog);
+  --pf-navigation-nav-bg-left: var(--pf-base-white);
+  --pf-navigation-nav-bg-top: var(--pf-base-white);
+  --pf-navigation-nav-hover: var(--pf-base-default-pink);
+  --pf-navigation-nav-items: var(--pf-base-grey-fog);
+  --pf-navigation-notification-selected: var(--pf-base-default-pink);
+  --pf-navigation-search-bg: rgba(255,255,255,0.9); /* literal */
   --pf-org-card-bg-dark: #bf1d43; /* literal */
   --pf-org-card-bg-light: #fbf4f6; /* literal */
   --pf-org-card-bg-main: var(--pf-base-white);
@@ -191,6 +211,7 @@
   --pf-tag-fill-warning: var(--pf-bg-warning);
   --pf-text-always-white: var(--pf-base-white);
   --pf-text-always-grey-slate: var(--pf-base-grey-slate);
+  --pf-text-configr-theme: var(--pf-base-electric-violet);
   --pf-text-disabled: var(--pf-base-grey);
   --pf-text-inverted-primary: var(--pf-base-white);
   --pf-text-inverted-secondary: var(--pf-base-grey-dolphin);
@@ -205,7 +226,10 @@
 
 /* ---- Semantic colours — Darkmode (explicit) ---- */
 :root[data-theme="dark"] {
+  --pf-bg-configr-light-theme: var(--pf-base-dark-violet);
+  --pf-bg-configr-theme: var(--pf-base-light-violet);
   --pf-bg-highlight: var(--pf-base-blue-oxford);
+  --pf-bg-light-theme: #3d475a; /* literal */
   --pf-bg-negative: #c01123; /* literal */
   --pf-bg-negative-button: var(--pf-base-negative-hover);
   --pf-bg-negative-button-hover: var(--pf-base-red-sanguine-brown);
@@ -222,7 +246,10 @@
   --pf-bg-theme-full: var(--pf-base-blue-sky);
   --pf-bg-warning: #b65c02; /* literal */
   --pf-border-drop-shadow: var(--pf-base-grey-slate);
+  --pf-border-configr: var(--pf-base-light-violet);
   --pf-border-default: var(--pf-base-white);
+  --pf-border-default-full: var(--pf-base-grey-fog);
+  --pf-border-default-hidden: rgba(255,255,255,0); /* literal */
   --pf-border-disabled: var(--pf-base-grey);
   --pf-border-form-input: var(--pf-base-grey-boulder);
   --pf-border-hollow-button: var(--pf-base-white);
@@ -247,6 +274,8 @@
   --pf-filter-menu-background: #2c313c; /* literal */
   --pf-filter-menu-border: #2c313c; /* literal */
   --pf-icon-always-grey-slate: var(--pf-base-grey-slate);
+  --pf-icon-always-white: var(--pf-base-white);
+  --pf-icon-configr: var(--pf-base-light-violet);
   --pf-icon-disabled: var(--pf-base-white-ivory);
   --pf-icon-info: var(--pf-base-blue-sky);
   --pf-icon-link: var(--pf-base-blue-turquoise);
@@ -259,6 +288,14 @@
   --pf-icon-secondary-inverted: var(--pf-base-grey-fog);
   --pf-icon-theme: var(--pf-base-blue-turquoise);
   --pf-icon-warning: var(--pf-base-orange);
+  --pf-navigation-configr-hover: var(--pf-base-light-violet);
+  --pf-navigation-configr-nav: var(--pf-base-white);
+  --pf-navigation-nav-bg-left: var(--pf-bg-secondary);
+  --pf-navigation-nav-bg-top: #23252e; /* literal */
+  --pf-navigation-nav-hover: var(--pf-base-blue-sky);
+  --pf-navigation-nav-items: var(--pf-base-white);
+  --pf-navigation-notification-selected: var(--pf-base-white);
+  --pf-navigation-search-bg: var(--pf-bg-secondary);
   --pf-org-card-bg-dark: var(--pf-base-blue-turquoise);
   --pf-org-card-bg-light: #292f3c; /* literal */
   --pf-org-card-bg-main: var(--pf-base-blue-shark);
@@ -291,6 +328,7 @@
   --pf-tag-fill-warning: #b65c02; /* literal */
   --pf-text-always-white: var(--pf-base-white);
   --pf-text-always-grey-slate: var(--pf-base-grey-slate);
+  --pf-text-configr-theme: var(--pf-base-light-violet);
   --pf-text-disabled: var(--pf-base-grey-dolphin);
   --pf-text-inverted-primary: var(--pf-base-grey-slate);
   --pf-text-inverted-secondary: var(--pf-base-grey-fog);
@@ -306,7 +344,10 @@
 /* ---- Semantic colours — Darkmode (system preference) ---- */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
+    --pf-bg-configr-light-theme: var(--pf-base-dark-violet);
+    --pf-bg-configr-theme: var(--pf-base-light-violet);
     --pf-bg-highlight: var(--pf-base-blue-oxford);
+    --pf-bg-light-theme: #3d475a; /* literal */
     --pf-bg-negative: #c01123; /* literal */
     --pf-bg-negative-button: var(--pf-base-negative-hover);
     --pf-bg-negative-button-hover: var(--pf-base-red-sanguine-brown);
@@ -323,7 +364,10 @@
     --pf-bg-theme-full: var(--pf-base-blue-sky);
     --pf-bg-warning: #b65c02; /* literal */
     --pf-border-drop-shadow: var(--pf-base-grey-slate);
+    --pf-border-configr: var(--pf-base-light-violet);
     --pf-border-default: var(--pf-base-white);
+    --pf-border-default-full: var(--pf-base-grey-fog);
+    --pf-border-default-hidden: rgba(255,255,255,0); /* literal */
     --pf-border-disabled: var(--pf-base-grey);
     --pf-border-form-input: var(--pf-base-grey-boulder);
     --pf-border-hollow-button: var(--pf-base-white);
@@ -348,6 +392,8 @@
     --pf-filter-menu-background: #2c313c; /* literal */
     --pf-filter-menu-border: #2c313c; /* literal */
     --pf-icon-always-grey-slate: var(--pf-base-grey-slate);
+    --pf-icon-always-white: var(--pf-base-white);
+    --pf-icon-configr: var(--pf-base-light-violet);
     --pf-icon-disabled: var(--pf-base-white-ivory);
     --pf-icon-info: var(--pf-base-blue-sky);
     --pf-icon-link: var(--pf-base-blue-turquoise);
@@ -360,6 +406,14 @@
     --pf-icon-secondary-inverted: var(--pf-base-grey-fog);
     --pf-icon-theme: var(--pf-base-blue-turquoise);
     --pf-icon-warning: var(--pf-base-orange);
+    --pf-navigation-configr-hover: var(--pf-base-light-violet);
+    --pf-navigation-configr-nav: var(--pf-base-white);
+    --pf-navigation-nav-bg-left: var(--pf-bg-secondary);
+    --pf-navigation-nav-bg-top: #23252e; /* literal */
+    --pf-navigation-nav-hover: var(--pf-base-blue-sky);
+    --pf-navigation-nav-items: var(--pf-base-white);
+    --pf-navigation-notification-selected: var(--pf-base-white);
+    --pf-navigation-search-bg: var(--pf-bg-secondary);
     --pf-org-card-bg-dark: var(--pf-base-blue-turquoise);
     --pf-org-card-bg-light: #292f3c; /* literal */
     --pf-org-card-bg-main: var(--pf-base-blue-shark);
@@ -392,6 +446,7 @@
     --pf-tag-fill-warning: #b65c02; /* literal */
     --pf-text-always-white: var(--pf-base-white);
     --pf-text-always-grey-slate: var(--pf-base-grey-slate);
+    --pf-text-configr-theme: var(--pf-base-light-violet);
     --pf-text-disabled: var(--pf-base-grey-dolphin);
     --pf-text-inverted-primary: var(--pf-base-grey-slate);
     --pf-text-inverted-secondary: var(--pf-base-grey-fog);

@@ -1,4 +1,7 @@
+Background/Configr Light Theme	@Base colours/Pale Violet	@Base colours/Dark Violet	FRAME_FILL+SHAPE_FILL
+Background/Configr Theme	@Base colours/Electric Violet	@Base colours/Light Violet	FRAME_FILL+SHAPE_FILL
 Background/Highlight	@Base colours/White Lilac	@Base colours/Blue Oxford	FRAME_FILL+SHAPE_FILL
+Background/Light Theme	@Base colours/Pale Pink Theme	#3d475a	FRAME_FILL+SHAPE_FILL
 Background/Negative	@Base colours/Red Lavender Blush	#c01123	FRAME_FILL+SHAPE_FILL
 Background/Negative Button	@Base colours/Red	@Base colours/Negative Hover	FRAME_FILL+SHAPE_FILL
 Background/Negative Button Hover	@Base colours/Negative Hover	@Base colours/Red Sanguine Brown	FRAME_FILL+SHAPE_FILL
@@ -15,7 +18,10 @@ Background/Theme	@Base colours/Pale Pink Theme	#2c3844	FRAME_FILL+SHAPE_FILL
 Background/Theme full	@Base colours/Default Pink	@Base colours/Blue Sky	FRAME_FILL+SHAPE_FILL
 Background/Warning	@Base colours/Bronze Gin Fizz	#b65c02	FRAME_FILL+SHAPE_FILL
 Border/Border - Drop shadow	@Base colours/Grey Dolphin	@Base colours/Grey Slate	STROKE_COLOR+EFFECT_COLOR
+Border/Configr	@Base colours/Electric Violet	@Base colours/Light Violet	STROKE_COLOR
 Border/Default	@Base colours/Grey Steel	@Base colours/White	STROKE_COLOR
+Border/Default full	@Base colours/Grey Steel	@Base colours/Grey Fog	FRAME_FILL+SHAPE_FILL+STROKE_COLOR
+Border/Default hidden	@Base colours/Grey Steel	rgba(255,255,255,0)	FRAME_FILL+SHAPE_FILL+STROKE_COLOR
 Border/Disabled	@Base colours/Grey Dolphin	@Base colours/Grey	STROKE_COLOR
 Border/Form input	@Base colours/Grey boulder	@Base colours/Grey boulder	STROKE_COLOR
 Border/Hollow Button	@Base colours/Grey Fog	@Base colours/White	STROKE_COLOR
@@ -40,6 +46,8 @@ Charts/Chart 9	@Base colours/Brown Gold	@Base colours/Brown Gold	FRAME_FILL+SHAP
 Filter menu/Background	#f8f8f8	#2c313c	FRAME_FILL
 Filter menu/Border	#dadbdb	#2c313c	STROKE_COLOR
 Icons/Icon - Always grey slate	@Base colours/Grey Slate	@Base colours/Grey Slate	SHAPE_FILL+STROKE_COLOR
+Icons/Icon - Always white	@Base colours/White	@Base colours/White	SHAPE_FILL+STROKE_COLOR
+Icons/Icon - Configr	@Base colours/Electric Violet	@Base colours/Light Violet	SHAPE_FILL+STROKE_COLOR
 Icons/Icon - Disabled	@Base colours/Grey	@Base colours/White Ivory	SHAPE_FILL+STROKE_COLOR
 Icons/Icon - Info	@Base colours/Blue Sky	@Base colours/Blue Sky	SHAPE_FILL+STROKE_COLOR
 Icons/Icon - Link	@Base colours/Blue Ocean	@Base colours/Blue Turquoise	SHAPE_FILL+STROKE_COLOR
@@ -52,6 +60,14 @@ Icons/Icon - Secondary	@Base colours/Grey Fog	@Base colours/Grey Dolphin	SHAPE_F
 Icons/Icon - Secondary inverted	@Base colours/Grey Dolphin	@Base colours/Grey Fog	SHAPE_FILL+STROKE_COLOR
 Icons/Icon - Theme	@Base colours/Default Pink	@Base colours/Blue Turquoise	SHAPE_FILL+STROKE_COLOR
 Icons/Icon - Warning	@Base colours/Orange	@Base colours/Orange	SHAPE_FILL+STROKE_COLOR
+Navigation/Configr hover	@Base colours/Electric Violet	@Base colours/Light Violet	ALL_FILLS+STROKE_COLOR
+Navigation/Configr nav	@Base colours/Grey Fog	@Base colours/White	ALL_FILLS+STROKE_COLOR
+Navigation/Nav bg left	@Base colours/White	@Background/Secondary	ALL_FILLS+STROKE_COLOR
+Navigation/Nav bg top	@Base colours/White	#23252e	ALL_FILLS+STROKE_COLOR
+Navigation/Nav hover	@Base colours/Default Pink	@Base colours/Blue Sky	ALL_FILLS+STROKE_COLOR
+Navigation/Nav items	@Base colours/Grey Fog	@Base colours/White	ALL_FILLS+STROKE_COLOR
+Navigation/Notification selected	@Base colours/Default Pink	@Base colours/White	ALL_FILLS+STROKE_COLOR
+Navigation/Search bg	rgba(255,255,255,0.9)	@Background/Secondary	FRAME_FILL+SHAPE_FILL
 Org cards/Fills/BG Dark	#bf1d43	@Base colours/Blue Turquoise	FRAME_FILL+SHAPE_FILL+STROKE_COLOR
 Org cards/Fills/BG Light	#fbf4f6	#292f3c	FRAME_FILL+SHAPE_FILL
 Org cards/Fills/BG Main	@Base colours/White	@Base colours/Blue Shark	FRAME_FILL+SHAPE_FILL
@@ -84,6 +100,7 @@ Tags/Fills/Positive	@Background/Positive	#005711	FRAME_FILL+SHAPE_FILL
 Tags/Fills/Warning	@Background/Warning	#b65c02	FRAME_FILL+SHAPE_FILL
 Text/Always White	@Base colours/White	@Base colours/White	TEXT_FILL
 Text/Always grey slate	@Base colours/Grey Slate	@Base colours/Grey Slate	TEXT_FILL
+Text/Configr Theme	@Base colours/Electric Violet	@Base colours/Light Violet	TEXT_FILL
 Text/Disabled	@Base colours/Grey	@Base colours/Grey Dolphin	TEXT_FILL
 Text/Inverted primary	@Base colours/White	@Base colours/Grey Slate	TEXT_FILL
 Text/Inverted secondary	@Base colours/Grey Dolphin	@Base colours/Grey Fog	TEXT_FILL

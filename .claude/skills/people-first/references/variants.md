@@ -1016,6 +1016,14 @@ Figma component actually binds.
 | Page=Search | `var(--pf-bg-secondary)` | — | `var(--pf-text-primary)` |
 | Page=Settings | `var(--pf-bg-secondary)` | — | `var(--pf-text-primary)` |
 
+## Icons
+
+### Circle icons
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | `var(--pf-bg-light-theme)` | `var(--pf-border-theme)` | — |
+
 ## Notes and quirks
 
 Carried through from Figma rather than silently corrected:

@@ -15,6 +15,7 @@ Bar	Label	Horizontal/Vertical	context
 Button	Label	No/Yes	context
 Checkbox/Radio item	Radio	No/Yes	state
 Checkbox/Radio item	Filled	No/Yes	state
+Circle icons	Size	XS - 28px/S - 36px/M - 44px/L - 52px	context
 Config parent menu	open	false/true	state
 Confirmation modal	Mobile	false/True	context
 Data variance	Data change	Up/Down/No change	state

@@ -512,3 +512,99 @@ manifest as the machine-readable half of a handoff.
 Nothing blocking. The manifest format is now settled by default rather than by
 specification: if the Angular pipeline turns out to want different fields, say which and
 they are a small change to `scripts/tag-elements.mjs`.
+
+---
+
+## 28. Payroll handoff document — `done`
+
+`docs/` has a handoff spec for absence-requests and timesheet-approvals but not for
+payroll-run-summary, which is the most component-dense of the three.
+
+**Done when:** `docs/handoff-payroll-run-summary.md` exists, built the way the other two
+were — every value traceable to the extracts, never estimated — and names the manifest
+alongside it.
+
+**Governing skills:** `pf-handoff`. **Depends on:** nothing.
+
+## 29. The one Figma token the generator cannot map — `done`
+
+`Repeating group` binds a text colour Figma calls `Grey-slate`. Every other binding in the
+file is a semantic path (`Text/Primary`, `Background/Theme`); this one is a PRIMITIVE bound
+directly, which is the thing that breaks dark mode. The generator emits
+`/* unmapped Figma token */` and the component ships with no text colour at all.
+
+**Done when:** the rule carries a colour again, sourced from a semantic token of the same
+value rather than the primitive; the build reports it as a Figma SOURCE ISSUE rather than
+as an unmapped token; and `UNMAPPED Figma tokens` is 0.
+
+**Depends on:** nothing.
+
+## 30. The 11 components Figma binds no colour to — `done`
+
+Not 33 — that number was wrong when I gave it. 20 of the 33 are project documentation on
+the DOCUMENT MANAGEMENT page, one is an unnamed `Component 1`, one is sample employee
+data; all 22 are correctly excluded. The real gap is 11 components with no rules at all:
+Tooltip, Menu, Stars, Field icons, Map, Floaters, Horizontal scroll, Profile image,
+Notification image, Mobile key actions, Default header background.
+
+They are missing because no variant of any of them binds a colour variable. But a
+component is a shape as well as a colour, and four of the eleven already have geometry
+measured. A `.pf-tooltip` with Figma's real size and radius, and a comment saying colour
+is unbound in Figma, is more use than nothing and is honest about what it is.
+
+**Done when:** all 11 are classes in `dist/components.css` carrying their measured
+geometry, each with a comment naming the gap; the seven currently unmeasured are measured
+from Figma first; the gallery shows them under a heading that says what they are.
+
+**Governing skills:** `figma-use` before any Figma read. **Depends on:** nothing.
+
+## 31. `Circle icons` — the one genuinely missed component — `done`
+
+A COMPONENT_SET on the Icons page with `Icon` and `Size` properties (XS 28, S 36, M 44,
+L 52). It fell between the two extractors: the component extract skips the Icons page, and
+the icon exporter only takes single icons, so nobody claimed it.
+
+**Done when:** it is a class with its four sizes as a variant attribute, measured from
+Figma, and the reconciliation of Figma's 460 components leaves nothing unaccounted but the
+one blank-named component.
+
+**Governing skills:** `figma-use` before any Figma read. **Depends on:** nothing.
+
+## 32. The token extract was incomplete — `done`
+
+Found while closing 31: `Circle icons` binds `Background/Light Theme`, and that token was
+not in the extract at all. It was not alone.
+
+**Done when:** met. 17 semantic tokens were missing — the whole `Navigation/*` group, both
+`Configr` themes, `Border/Default full` and `Border/Default hidden` among them — and four
+primitives (the violets) that those tokens alias. All added; `dist/tokens.css` now carries
+113 semantic tokens against Figma's 111 definitions, and the build reports no unresolved
+aliases and no unmapped names.
+
+Two of the two extra: see **Open — needs you**.
+
+## 33. No primitives left in any screen — `done`
+
+Seven direct uses of `--pf-base-white` and `--pf-base-grey-dolphin` across the three
+screens, which CLAUDE.md forbids because a primitive does not change between modes. They
+were there because the semantic token that means "always white" was one of the 17 missing
+from the extract. Replaced with `--pf-icon-always-white` and `--pf-border-secondary`, both
+identical in value. Zero primitive uses remain.
+
+## Open — needs you
+
+**Two tokens in the shipped system have no Figma variable.** They are not missing from the
+extract; they do not exist in the file at all.
+
+- `--pf-border-default` — used 38 times in `dist/components.css` and 18 times on the
+  payroll screen alone. Figma has `Border/Default full` (Grey Steel → Grey Fog) and
+  `Border/Default hidden`, but no `Border/Default`. The extract's dark value is White,
+  which matches neither. Either the variable was renamed after extraction or the extract
+  was wrong at the time.
+- `--pf-bg-theme-full` — values identical to `Background/Theme`, so probably a duplicate
+  that should be retired.
+
+I have not touched either. Repointing `--pf-border-default` at `Border/Default full` would
+change every hairline in dark mode from white to Grey Fog — visible, and a design decision
+rather than a build one. Ask the design team which is right, or say the word and I will
+make the change and show you both before and after.

@@ -27,7 +27,9 @@
   --pf-base-bronze-gin-fizz: #fff4e5; /* Base colours/Bronze Gin Fizz */
   --pf-base-brown-gold: #8f6d19; /* Base colours/Brown Gold */
   --pf-base-copper: #b05e00; /* Base colours/Copper */
+  --pf-base-dark-violet: #412562; /* Base colours/Dark Violet */
   --pf-base-default-pink: #cd2359; /* Base colours/Default Pink */
+  --pf-base-electric-violet: #7a0ff9; /* Base colours/Electric Violet */
   --pf-base-green: #517a38; /* Base colours/Green */
   --pf-base-green-leaf: #00ad60; /* Base colours/Green Leaf */
   --pf-base-green-mint: #53bda7; /* Base colours/Green Mint */
@@ -40,9 +42,11 @@
   --pf-base-grey-boulder: #777777; /* Base colours/Grey boulder */
   --pf-base-light-ivory: #fafafa; /* Base colours/Light Ivory */
   --pf-base-light-purple: #9e5bba; /* Base colours/Light Purple */
+  --pf-base-light-violet: #bf89ff; /* Base colours/Light Violet */
   --pf-base-negative-hover: #a41c22; /* Base colours/Negative Hover */
   --pf-base-orange: #fc8700; /* Base colours/Orange */
   --pf-base-pale-pink-theme: #fcf4f7; /* Base colours/Pale Pink Theme */
+  --pf-base-pale-violet: #f2e7fe; /* Base colours/Pale Violet */
   --pf-base-pineapple: #ddcb3f; /* Base colours/Pineapple */
   --pf-base-pink-candy: #f06292; /* Base colours/Pink Candy */
   --pf-base-positive-hover: #43652e; /* Base colours/Positive Hover */
@@ -107,7 +111,10 @@
   --pf-gradient-ai-gradient: linear-gradient(90deg, #007ff3 0.0%, #a922c1 31.5%, #ff0098 58.5%, #ff0029 100.0%); /* AI gradient */
 
   /* ---- Semantic colours — Lightmode ---- */
+  --pf-bg-configr-light-theme: var(--pf-base-pale-violet);
+  --pf-bg-configr-theme: var(--pf-base-electric-violet);
   --pf-bg-highlight: var(--pf-base-white-lilac);
+  --pf-bg-light-theme: var(--pf-base-pale-pink-theme);
   --pf-bg-negative: var(--pf-base-red-lavender-blush);
   --pf-bg-negative-button: var(--pf-base-red);
   --pf-bg-negative-button-hover: var(--pf-base-negative-hover);
@@ -124,7 +131,10 @@
   --pf-bg-theme-full: var(--pf-base-default-pink);
   --pf-bg-warning: var(--pf-base-bronze-gin-fizz);
   --pf-border-drop-shadow: var(--pf-base-grey-dolphin);
+  --pf-border-configr: var(--pf-base-electric-violet);
   --pf-border-default: var(--pf-base-grey-steel);
+  --pf-border-default-full: var(--pf-base-grey-steel);
+  --pf-border-default-hidden: var(--pf-base-grey-steel);
   --pf-border-disabled: var(--pf-base-grey-dolphin);
   --pf-border-form-input: var(--pf-base-grey-boulder);
   --pf-border-hollow-button: var(--pf-base-grey-fog);
@@ -149,6 +159,8 @@
   --pf-filter-menu-background: #f8f8f8; /* literal */
   --pf-filter-menu-border: #dadbdb; /* literal */
   --pf-icon-always-grey-slate: var(--pf-base-grey-slate);
+  --pf-icon-always-white: var(--pf-base-white);
+  --pf-icon-configr: var(--pf-base-electric-violet);
   --pf-icon-disabled: var(--pf-base-grey);
   --pf-icon-info: var(--pf-base-blue-sky);
   --pf-icon-link: var(--pf-base-blue-ocean);
@@ -161,6 +173,14 @@
   --pf-icon-secondary-inverted: var(--pf-base-grey-dolphin);
   --pf-icon-theme: var(--pf-base-default-pink);
   --pf-icon-warning: var(--pf-base-orange);
+  --pf-navigation-configr-hover: var(--pf-base-electric-violet);
+  --pf-navigation-configr-nav: var(--pf-base-grey-fog);
+  --pf-navigation-nav-bg-left: var(--pf-base-white);
+  --pf-navigation-nav-bg-top: var(--pf-base-white);
+  --pf-navigation-nav-hover: var(--pf-base-default-pink);
+  --pf-navigation-nav-items: var(--pf-base-grey-fog);
+  --pf-navigation-notification-selected: var(--pf-base-default-pink);
+  --pf-navigation-search-bg: rgba(255,255,255,0.9); /* literal */
   --pf-org-card-bg-dark: #bf1d43; /* literal */
   --pf-org-card-bg-light: #fbf4f6; /* literal */
   --pf-org-card-bg-main: var(--pf-base-white);
@@ -193,6 +213,7 @@
   --pf-tag-fill-warning: var(--pf-bg-warning);
   --pf-text-always-white: var(--pf-base-white);
   --pf-text-always-grey-slate: var(--pf-base-grey-slate);
+  --pf-text-configr-theme: var(--pf-base-electric-violet);
   --pf-text-disabled: var(--pf-base-grey);
   --pf-text-inverted-primary: var(--pf-base-white);
   --pf-text-inverted-secondary: var(--pf-base-grey-dolphin);
@@ -207,7 +228,10 @@
 
 /* ---- Semantic colours — Darkmode (explicit) ---- */
 :root[data-theme="dark"] {
+  --pf-bg-configr-light-theme: var(--pf-base-dark-violet);
+  --pf-bg-configr-theme: var(--pf-base-light-violet);
   --pf-bg-highlight: var(--pf-base-blue-oxford);
+  --pf-bg-light-theme: #3d475a; /* literal */
   --pf-bg-negative: #c01123; /* literal */
   --pf-bg-negative-button: var(--pf-base-negative-hover);
   --pf-bg-negative-button-hover: var(--pf-base-red-sanguine-brown);
@@ -224,7 +248,10 @@
   --pf-bg-theme-full: var(--pf-base-blue-sky);
   --pf-bg-warning: #b65c02; /* literal */
   --pf-border-drop-shadow: var(--pf-base-grey-slate);
+  --pf-border-configr: var(--pf-base-light-violet);
   --pf-border-default: var(--pf-base-white);
+  --pf-border-default-full: var(--pf-base-grey-fog);
+  --pf-border-default-hidden: rgba(255,255,255,0); /* literal */
   --pf-border-disabled: var(--pf-base-grey);
   --pf-border-form-input: var(--pf-base-grey-boulder);
   --pf-border-hollow-button: var(--pf-base-white);
@@ -249,6 +276,8 @@
   --pf-filter-menu-background: #2c313c; /* literal */
   --pf-filter-menu-border: #2c313c; /* literal */
   --pf-icon-always-grey-slate: var(--pf-base-grey-slate);
+  --pf-icon-always-white: var(--pf-base-white);
+  --pf-icon-configr: var(--pf-base-light-violet);
   --pf-icon-disabled: var(--pf-base-white-ivory);
   --pf-icon-info: var(--pf-base-blue-sky);
   --pf-icon-link: var(--pf-base-blue-turquoise);
@@ -261,6 +290,14 @@
   --pf-icon-secondary-inverted: var(--pf-base-grey-fog);
   --pf-icon-theme: var(--pf-base-blue-turquoise);
   --pf-icon-warning: var(--pf-base-orange);
+  --pf-navigation-configr-hover: var(--pf-base-light-violet);
+  --pf-navigation-configr-nav: var(--pf-base-white);
+  --pf-navigation-nav-bg-left: var(--pf-bg-secondary);
+  --pf-navigation-nav-bg-top: #23252e; /* literal */
+  --pf-navigation-nav-hover: var(--pf-base-blue-sky);
+  --pf-navigation-nav-items: var(--pf-base-white);
+  --pf-navigation-notification-selected: var(--pf-base-white);
+  --pf-navigation-search-bg: var(--pf-bg-secondary);
   --pf-org-card-bg-dark: var(--pf-base-blue-turquoise);
   --pf-org-card-bg-light: #292f3c; /* literal */
   --pf-org-card-bg-main: var(--pf-base-blue-shark);
@@ -293,6 +330,7 @@
   --pf-tag-fill-warning: #b65c02; /* literal */
   --pf-text-always-white: var(--pf-base-white);
   --pf-text-always-grey-slate: var(--pf-base-grey-slate);
+  --pf-text-configr-theme: var(--pf-base-light-violet);
   --pf-text-disabled: var(--pf-base-grey-dolphin);
   --pf-text-inverted-primary: var(--pf-base-grey-slate);
   --pf-text-inverted-secondary: var(--pf-base-grey-fog);
@@ -308,7 +346,10 @@
 /* ---- Semantic colours — Darkmode (system preference) ---- */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
+    --pf-bg-configr-light-theme: var(--pf-base-dark-violet);
+    --pf-bg-configr-theme: var(--pf-base-light-violet);
     --pf-bg-highlight: var(--pf-base-blue-oxford);
+    --pf-bg-light-theme: #3d475a; /* literal */
     --pf-bg-negative: #c01123; /* literal */
     --pf-bg-negative-button: var(--pf-base-negative-hover);
     --pf-bg-negative-button-hover: var(--pf-base-red-sanguine-brown);
@@ -325,7 +366,10 @@
     --pf-bg-theme-full: var(--pf-base-blue-sky);
     --pf-bg-warning: #b65c02; /* literal */
     --pf-border-drop-shadow: var(--pf-base-grey-slate);
+    --pf-border-configr: var(--pf-base-light-violet);
     --pf-border-default: var(--pf-base-white);
+    --pf-border-default-full: var(--pf-base-grey-fog);
+    --pf-border-default-hidden: rgba(255,255,255,0); /* literal */
     --pf-border-disabled: var(--pf-base-grey);
     --pf-border-form-input: var(--pf-base-grey-boulder);
     --pf-border-hollow-button: var(--pf-base-white);
@@ -350,6 +394,8 @@
     --pf-filter-menu-background: #2c313c; /* literal */
     --pf-filter-menu-border: #2c313c; /* literal */
     --pf-icon-always-grey-slate: var(--pf-base-grey-slate);
+    --pf-icon-always-white: var(--pf-base-white);
+    --pf-icon-configr: var(--pf-base-light-violet);
     --pf-icon-disabled: var(--pf-base-white-ivory);
     --pf-icon-info: var(--pf-base-blue-sky);
     --pf-icon-link: var(--pf-base-blue-turquoise);
@@ -362,6 +408,14 @@
     --pf-icon-secondary-inverted: var(--pf-base-grey-fog);
     --pf-icon-theme: var(--pf-base-blue-turquoise);
     --pf-icon-warning: var(--pf-base-orange);
+    --pf-navigation-configr-hover: var(--pf-base-light-violet);
+    --pf-navigation-configr-nav: var(--pf-base-white);
+    --pf-navigation-nav-bg-left: var(--pf-bg-secondary);
+    --pf-navigation-nav-bg-top: #23252e; /* literal */
+    --pf-navigation-nav-hover: var(--pf-base-blue-sky);
+    --pf-navigation-nav-items: var(--pf-base-white);
+    --pf-navigation-notification-selected: var(--pf-base-white);
+    --pf-navigation-search-bg: var(--pf-bg-secondary);
     --pf-org-card-bg-dark: var(--pf-base-blue-turquoise);
     --pf-org-card-bg-light: #292f3c; /* literal */
     --pf-org-card-bg-main: var(--pf-base-blue-shark);
@@ -394,6 +448,7 @@
     --pf-tag-fill-warning: #b65c02; /* literal */
     --pf-text-always-white: var(--pf-base-white);
     --pf-text-always-grey-slate: var(--pf-base-grey-slate);
+    --pf-text-configr-theme: var(--pf-base-light-violet);
     --pf-text-disabled: var(--pf-base-grey-dolphin);
     --pf-text-inverted-primary: var(--pf-base-grey-slate);
     --pf-text-inverted-secondary: var(--pf-base-grey-fog);
@@ -1221,6 +1276,48 @@
   color: var(--pf-text-link);
 }
 
+/* Circle icons
+ * 1 variant captured. CIRCLE. Four sizes as Size variants; each size row below carries its own box.
+ */
+.pf-circle-icons {
+  border-radius: 999px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-circle-icons[data-size="XS - 28px"] {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  display: inline-block;
+}
+.pf-circle-icons[data-size="S - 36px"] {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  display: inline-block;
+}
+.pf-circle-icons[data-size="M - 44px"] {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  display: inline-block;
+}
+.pf-circle-icons[data-size="L - 52px"] {
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  display: inline-block;
+}
+.pf-circle-icons {
+  background: var(--pf-bg-light-theme);
+  border-color: var(--pf-border-theme);
+}
+
 /* Clickable AI element
  * 2 variants captured
  * Figma draws this 382px wide; treated as layout, not a rule
@@ -1687,6 +1784,34 @@
   color: var(--pf-text-primary);
 }
 
+/* Default header background
+ * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
+ * carries its measured geometry and leaves colour to the page. Full-bleed header bar; height varies by Breakpoint (see size rows). Fill is a raw colour in Figma, not a variable.
+ */
+.pf-default-header-background {
+  height: 86px;
+  display: inline-block;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-default-header-background[data-breakpoint="Desktop"] {
+  height: 86px;
+  display: inline-block;
+}
+.pf-default-header-background[data-breakpoint="Tablet"] {
+  height: 74px;
+  display: inline-block;
+}
+.pf-default-header-background[data-breakpoint="Mobile"] {
+  height: 62px;
+  display: inline-block;
+}
+
 /* Detail item
  * 1 variant captured
  * Figma draws this 162px wide; treated as layout, not a rule
@@ -1935,6 +2060,25 @@
   color: var(--pf-text-theme);
 }
 
+/* Field icons
+ * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
+ * carries its measured geometry and leaves colour to the page. 2 variants
+ */
+.pf-field-icons {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+
 /* Field label
  * 1 variant captured. label sits above its input, 5px gap
  * Figma draws this 152px wide; treated as layout, not a rule
@@ -2100,6 +2244,27 @@
 }
 .pf-filter-tabs {
   color: var(--pf-text-theme);
+}
+
+/* Floaters
+ * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
+ * carries its measured geometry and leaves colour to the page. Single component. No colour variable bound in Figma.
+ */
+.pf-floaters {
+  width: 85px;
+  height: 40px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
 }
 
 /* Footer (AG)
@@ -2398,6 +2563,26 @@
   color: var(--pf-text-primary);
 }
 
+/* Horizontal scroll
+ * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
+ * carries its measured geometry and leaves colour to the page. 2 variants (Page). Figma draws it 1160px wide — the artboard, not a rule. No colour variable bound.
+ */
+.pf-horizontal-scroll {
+  height: 32px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 390px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+
 /* Image picker
  * 1 variant captured. not auto-layout
  * Figma draws this 440px wide; treated as layout, not a rule
@@ -2605,6 +2790,45 @@
   color: var(--pf-text-primary);
 }
 
+/* Map
+ * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
+ * carries its measured geometry and leaves colour to the page. not auto-layout
+ * Figma draws this 480px wide; treated as layout, not a rule
+ */
+.pf-map {
+  height: 200px;
+  border-radius: 8px;
+  display: inline-block;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+
+/* Menu
+ * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
+ * carries its measured geometry and leaves colour to the page. 2 variants (Size). No colour variable bound in Figma.
+ */
+.pf-menu {
+  width: 50px;
+  height: 73px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+
 /* Menu-search-settings
  * 3 variants captured
  * Figma draws this 1920px wide; treated as layout, not a rule
@@ -2713,6 +2937,23 @@
 }
 .pf-mobile-bottom-navigation {
   color: var(--pf-text-secondary);
+}
+
+/* Mobile key actions
+ * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
+ * carries its measured geometry and leaves colour to the page. 6 variants (Link). No colour variable bound in Figma.
+ * Figma draws this 126px wide; treated as layout, not a rule
+ */
+.pf-mobile-key-actions {
+  height: 103px;
+  display: inline-block;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
 }
 
 /* Multi-select checkbox
@@ -2914,6 +3155,23 @@
   color: var(--pf-text-primary);
 }
 
+/* Notification image
+ * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
+ * carries its measured geometry and leaves colour to the page.
+ */
+.pf-notification-image {
+  width: 44px;
+  height: 44px;
+  display: inline-block;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+
 /* Option
  * 2 variants captured. dropdown list row. 2 variants
  * Figma draws this 250px wide; treated as layout, not a rule
@@ -3050,6 +3308,25 @@
   color: var(--pf-text-secondary);
 }
 
+/* Profile image
+ * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
+ * carries its measured geometry and leaves colour to the page. CIRCLE
+ * pill
+ */
+.pf-profile-image {
+  width: 93px;
+  height: 93px;
+  border-radius: 999px;
+  display: inline-block;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+
 /* Radio card
  * 4 variants captured. 4 variants
  * Figma draws this 235px wide; treated as layout, not a rule
@@ -3151,7 +3428,8 @@
   font-family: var(--pf-font-body);
 }
 .pf-repeating-group {
-  /* unmapped Figma token: Grey-slate */
+  /* Figma binds the primitive "Grey-slate" here instead of a semantic token */
+  color: var(--pf-text-always-grey-slate);
 }
 
 /* Required field
@@ -3561,6 +3839,23 @@
 .pf-star-rating[data-rating="0..5"][data-state="Hover"],
 .pf-star-rating[data-rating="0..5"]:hover {
   color: var(--pf-text-primary);
+}
+
+/* Stars
+ * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
+ * carries its measured geometry and leaves colour to the page. 2 variants (Active). No colour variable bound in Figma.
+ */
+.pf-stars {
+  width: 25px;
+  height: 24px;
+  display: inline-block;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
 }
 
 /* Status
@@ -4157,6 +4452,23 @@
 .pf-tool-tip {
   background: var(--pf-bg-tertiary);
   color: var(--pf-text-primary);
+}
+
+/* Tooltip
+ * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
+ * carries its measured geometry and leaves colour to the page. 2 variants (Hover). No colour variable bound in Figma.
+ */
+.pf-tooltip {
+  width: 28px;
+  height: 28px;
+  display: inline-block;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
 }
 
 /* Top bar app context
@@ -5825,6 +6137,16 @@ variant names.</p>
     <span class="label"></span>
   </div>
 </div>
+<h2>Icons</h2>
+<h3>Circle icons</h3>
+<p class="meta">1 variant  ·  .pf-circle-icons  ·  auto x auto  ·  none</p>
+<p class="meta" style="opacity:.75">Size dropped — a stylesheet is not breakpoint-scoped</p>
+<div class="row">
+  <div class="spec">
+    <div class="pf-circle-icons">Circle icons</div>
+    <span class="label"></span>
+  </div>
+</div>
 <h2>Navigation</h2>
 <h3>Clock in</h3>
 <p class="meta">2 variants  ·  .pf-clock-in  ·  107 x 32  ·  horizontal center center</p>
@@ -6534,20 +6856,6 @@ so nobody has to guess whether one is an oversight — most are deliberate.</p>
   <div>Thumbnail <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
   <div>Thumbnail/Brand logo <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
   <div>Work item <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
-</div>
-<h3 style="margin-top:20px">11 — no variant binds a colour variable in Figma — nothing to put in a stylesheet</h3>
-<div class="gaps">
-  <div>Mobile key actions <span style="opacity:.6">— Buttons and links</span></div>
-  <div>Tooltip <span style="opacity:.6">— Buttons and links</span></div>
-  <div>Floaters <span style="opacity:.6">— Cards and panels</span></div>
-  <div>Horizontal scroll <span style="opacity:.6">— Cards and panels</span></div>
-  <div>Field icons <span style="opacity:.6">— Forms, geometry measured</span></div>
-  <div>Map <span style="opacity:.6">— Forms, geometry measured</span></div>
-  <div>Default header background <span style="opacity:.6">— Navigation</span></div>
-  <div>Menu <span style="opacity:.6">— Navigation</span></div>
-  <div>Profile image <span style="opacity:.6">— People, geometry measured</span></div>
-  <div>Notification image <span style="opacity:.6">— System messages, geometry measured</span></div>
-  <div>Stars <span style="opacity:.6">— Tags and ratings</span></div>
 </div>
 <h3 style="margin-top:20px">1 — carries a Figma default name — an unnamed component, not part of the system</h3>
 <div class="gaps">

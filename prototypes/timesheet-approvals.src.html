@@ -183,13 +183,13 @@ td .plain { color: var(--pf-text-primary); }
 .pf-multi-select-checkbox { position: relative; cursor: pointer; }
 .pf-multi-select-checkbox[data-state="Selected"]::after {
   content: ""; position: absolute; left: 6.5px; top: 2.5px; width: 5px; height: 9px;
-  border: solid var(--pf-base-white); border-width: 0 2px 2px 0; transform: rotate(45deg);
+  border: solid var(--pf-icon-always-white); border-width: 0 2px 2px 0; transform: rotate(45deg);
 }
 /* Mixed selection is the same fill as Selected, so without its dash it reads as a
    plain filled square. The dash is drawn art, like the tick. */
 .pf-multi-select-checkbox[data-state="Mixed selection"]::after {
   content: ""; position: absolute; left: 4px; top: 7.5px; width: 10px; height: 0;
-  border-top: 2px solid var(--pf-base-white);
+  border-top: 2px solid var(--pf-icon-always-white);
 }
 
 /* ---------- avatar (Profile image: a circle) ---------- */
@@ -255,14 +255,14 @@ select.pf-field { background-image:
                                                       border-color: var(--pf-icon-theme); }
 .pf-checkbox-radio-item[data-state="Selected"] .box::after {
   content: ""; position: absolute; left: 6.5px; top: 2.5px; width: 5px; height: 9px;
-  border: solid var(--pf-base-white); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+  border: solid var(--pf-icon-always-white); border-width: 0 2px 2px 0; transform: rotate(45deg); }
 .pf-checkbox-radio-item[data-state="Error"] .box { border-color: var(--pf-border-negative); }
 .pf-checkbox-radio-item[data-state="Disabled"] .box { border-color: var(--pf-border-disabled); }
 
 /* the knob is drawn art, not a token */
 .pf-toggle { position: relative; flex: none; cursor: pointer; }
 .pf-toggle::after { content: ""; position: absolute; top: 2px; left: 3px; width: 19px; height: 19px;
-                    border-radius: 50%; background: var(--pf-base-white);
+                    border-radius: 50%; background: var(--pf-icon-always-white);
                     box-shadow: var(--pf-shadow-drop-shadow); }
 .pf-toggle[data-on="Yes"]::after { left: auto; right: 3px; }
 
