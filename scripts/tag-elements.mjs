@@ -42,26 +42,41 @@ const page = await (await browser.newContext()).newPage();
 await page.goto('file://' + resolve(file));
 const found = await page.evaluate((classMap) => {
   const map = new Map(classMap);
-  const out = [];
-  for (const el of document.querySelectorAll('[class*="pf-"]')) {
-    const cls = [...el.classList].find(c => map.has(c));
-    if (!cls) continue;
+  const els = [...document.querySelectorAll('[class*="pf-"]')]
+    .filter(el => [...el.classList].some(c => map.has(c)))
     // A region the screen marks as not part of itself — a specimen block showing every
     // variant is not screen content, and listing it would put six identical buttons in a
     // manifest a developer is meant to trust.
-    if (el.closest('[data-pf-ignore]')) continue;
-    const variant = [...el.attributes]
-      .filter(a => a.name.startsWith('data-') && !['data-pf-id', 'data-theme'].includes(a.name))
-      .map(a => `${a.name.replace(/^data-/, '')}=${a.value}`).join(', ');
-    out.push({
+    .filter(el => !el.closest('[data-pf-ignore]'));
+  const index = new Map(els.map((el, i) => [el, i]));
+
+  return els.map((el) => {
+    const cls = [...el.classList].find(c => map.has(c));
+    // Variants as STRUCTURED values, not a joined string. A pipeline generating Angular
+    // maps each one onto an @Input; "type=Action, state=Hover" would have to be re-parsed
+    // by whoever consumes this, and re-parsing is where formats go wrong.
+    const variant = {};
+    for (const a of el.attributes) {
+      if (!a.name.startsWith('data-')) continue;
+      if (['data-pf-id', 'data-pf-repeat', 'data-pf-ignore', 'data-theme'].includes(a.name)) continue;
+      variant[a.name.replace(/^data-/, '')] = a.value;
+    }
+    // Containment. A flat list cannot tell a pipeline that this button belongs to that
+    // card, and the component tree is the thing being generated.
+    let p = el.parentElement, parent = null;
+    while (p) { if (index.has(p)) { parent = p.getAttribute('data-pf-id'); break; } p = p.parentElement; }
+
+    return {
       id: el.getAttribute('data-pf-id') || null,
-      component: map.get(cls), cls,
+      component: map.get(cls),
+      cls,
       variant,
+      parent,
       tag: el.tagName.toLowerCase(),
+      repeat: el.getAttribute('data-pf-repeat') || null,
       text: (el.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 60),
-    });
-  }
-  return out;
+    };
+  });
 }, [...byClass.entries()]);
 await browser.close();
 
@@ -89,6 +104,11 @@ if (write) {
   writeFileSync(out, JSON.stringify({
     screen: file.split('/').pop().replace(/\.html$/, ''),
     generated: 'scripts/tag-elements.mjs — do not hand-edit',
+    counts: {
+      elements: found.length,
+      roots: found.filter(f => !f.parent).length,
+      repeating: found.filter(f => f.repeat).length,
+    },
     elements: found,
   }, null, 2) + '\n');
   console.log(`\nwritten — ${out}`);

@@ -70,9 +70,17 @@ src = src.replace(/<([a-z][a-z0-9]*)\b([^>]*)>/gi, (whole, tag, attrs, offset) =
   // Prefer an explicit aria-label: it is what the element is called, and a container's
   // raw text run is every label it happens to wrap.
   const aria = (attrs.match(/aria-label="([^"]*)"/) || [])[1];
+  // (decode is defined just below and used for both)
   const after = src.slice(offset + whole.length, offset + whole.length + 300);
-  const inner = after.split(new RegExp(`</${tag}>`, 'i'))[0]
-    .replace(/<!--[\s\S]*?-->/g, ' ').replace(/<[^>]*>/g, ' ')
+  // Decode entities BEFORE slugging. `Review request &mdash; Marcus` otherwise names the
+  // element `...-request-mdash`, which reads like a component nobody has heard of.
+  const decode = t => t
+    .replace(/&(mdash|ndash|minus);/g, ' ').replace(/&(nbsp|ensp|emsp|thinsp);/g, ' ')
+    .replace(/&(middot|bull|sdot);/g, ' ').replace(/&(lsquo|rsquo|apos|#39);/g, '')
+    .replace(/&(ldquo|rdquo|quot);/g, '').replace(/&amp;/g, ' and ')
+    .replace(/&[a-z]+;|&#\d+;/gi, ' ');
+  const inner = decode(after.split(new RegExp(`</${tag}>`, 'i'))[0]
+    .replace(/<!--[\s\S]*?-->/g, ' ').replace(/<[^>]*>/g, ' '))
     .replace(/\s+/g, ' ').trim();
   // A container wraps many labels; a control has one. Take at most three words, so a
   // wrapper cannot absorb the whole section's text into its name.
