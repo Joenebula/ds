@@ -347,7 +347,7 @@ several semantic variables — `#FFFFFF` to nine of them, `#E5E5E5` to both `Bor
 `-hidden` — so picking one is a design decision, **invisible in light mode and wrong in dark**,
 which is exactly the failure mode the rest of this file exists to prevent.
 
-**Seven nodes were rebound on 2026-09-11**, leaving `AI Assistant` completely clean and retiring
+**277 nodes were rebound on 2026-09-11**, leaving `AI Assistant` completely clean and retiring
 two of the seven colours outright:
 
 | was | now | light | dark |
@@ -356,30 +356,65 @@ two of the seven colours outright:
 | `AI Assistant` — `"How can I help you today?"` | `Text/Primary` | `#3E3E3E` unchanged | `#FFFFFF` |
 | `AI Assistant` — panel stroke | `Border/Default full` | `#E5E5E5` unchanged | `#656565` |
 | `[S] Config child menu` — `Line 17` divider | `Border/Default full` | `#E5E5E5` unchanged | `#656565` |
+| `Waffle` — 270 dots, 18 in each of 15 themes | `Icons/Icon - Always white` | `#FFFFFF` unchanged | `#FFFFFF` deliberately |
 
 `Text/Theme` rather than `Background/Theme` is the whole lesson in one line: they share `#CD2359`
 in light and diverge in dark (`#5CC4EA` against `#33B5E5`), so matching the ROLE is what makes the
 swap safe. Left unpublished for review. `Grey slate (A)` and `Default theme pink (A)` now have no
 references at all.
 
-**What is left is not rebinding work.** Three cases have no correct token:
+**What is left is not rebinding work.** Two cases have no correct token:
 
 - `Browser drop down` and `Option` fill a selected row with `#0075BE`, and every semantic at that
   value is a TEXT or ICON token. `Background/Highlight` is role-correct at `#F0F2F6` — a different
   colour.
 - `Table header icons` fills three Hover states with `#E5E5E5`, where the only semantics are
   `Border/*`. `Background/Tertiary` is role-correct at `#F2F2F2` — again a different colour.
-- `Side navigation`'s 18 white waffle vectors **cannot be fixed in this file at all**. They sit
-  inside `App menu`, a REMOTE component (key `87407bb150c15d117e7f74f6c07a4e262f4b739d`) published
-  from another library, and the instance carries **0 overrides** — so the deprecated style is
-  inherited from that component rather than set here. Editing it here would create overrides that
-  mask the problem and drift from source. The fix belongs to whoever owns that library.
 
-  The token, when they make it, is **`Icons/Icon - Always white`** and not `Icon - Primary
-  inverted`. The waffle sits on a fixed cranberry red `#B90C2A` — an earlier reading of "white on
-  white" was a too-shallow parent lookup — so the dots must stay white in both modes. That is this
-  system's own rule: the `always-*` tokens deliberately do not flip, and you pick by intent rather
-  than by how it looks in light mode.
+**The waffle was a third, and it was not. It is now DONE, and it should never have been on that
+list.** 270 vectors — 18 in each of the 15 Theme variants of the `Waffle` set (`32517:29171`,
+page `Navigation`) — were rebound to `Icons/Icon - Always white` on 2026-09-11 and verified
+0 styled / 270 bound, with a screenshot of all 15.
+
+What this file said before was that the waffle *could not be fixed here*: that the vectors sit
+inside `App menu`, a remote component, carrying **0 overrides**, so the style was inherited and the
+fix belonged to another library's owner. Half of that is true. `App menu` IS remote — `13658:6706`,
+key `87407bb150c15d117e7f74f6c07a4e262f4b739d`. **The 0 came off a different node.** It was read
+from the *Configr* waffle (`32544:53025`), whose `vectorSample` is empty — it has no waffle dots at
+all — and applied to the People First one, which reports **19 overrides: `fillStyleId` ×18 and
+`fills` ×18**. Measuring one variant and reporting the other is this file's own recurring failure
+wearing a new hat.
+
+**One property settles it without counting anything**, and it is the check worth keeping:
+`DEPRECATED COLOURS/White` is `remote: false` — a style LOCAL to this file. A remote component
+cannot reference a local style, so the fills could only ever have been set here. Where an override
+count can be read off the wrong node, that cannot.
+
+The token is `Icons/Icon - Always white`, not `Icon - Primary inverted` — and that is now proved
+from the variables rather than argued from intent: **Always white aliases the same primitive
+(`VariableID:27998:12734`) in BOTH Lightmode and Darkmode; Primary inverted aliases `12734` light
+and `12735` dark.** Every waffle backdrop is a fixed brand colour (`#B90C2A` on the default, and 14
+others from `#79C56E` to `#1D1F27`), so the dots must not flip. An earlier reading of "white on
+white" was a too-shallow parent lookup and was wrong too.
+
+**A cold `findAll` under-reports, and it nearly shipped a 15× error.** The first census compared
+`fillStyleId` against the style id and found the deprecated style in **2** of the 15 variants. A
+second pass that resolved each node's style to a NAME found it in all 15. Re-running the *identical*
+id comparison afterwards then returned 270 as well — the same code, the same file, no writes in
+between. The difference is that the subtree had been traversed once by then. Treat the first
+traversal of a subtree as a warm-up whose counts are not evidence: **run any whole-file Figma census
+twice and believe it only when the two runs agree.** Had the first number been trusted, 13 variants
+would have been left carrying a retired style while the verdict line said the job was done.
+
+**And the extract only ever saw a corner of this.** A sweep of the whole file for
+`DEPRECATED COLOURS/White` finds **203 nodes still carrying it across 10 pages** — 27 on `WIKI`, 26
+on `STYLE GUIDE`, 40 on `DOCUMENT MANAGEMENT`, and the rest spread over `Tables` (28), `AI` (24),
+`Buttons and links` (17), `Navigation` (18), `Analytics and charts` (8), `Controls` (8) and
+`System messages` (7). `tokens:check` sees none of them, because it reads captured components and
+these are mostly specimens, documentation swatches and uncaptured variants. Among the 18 on
+`Navigation` are seven inside `Full page` — which the line above calls *already clean*, and which is
+clean only of the colours that line was measuring. **The count in a verdict line is scoped to what
+was extracted, and that is not the same as what is in Figma.**
 
 **And `Border/Default hidden` has a light value and no dark value at all** — worth knowing, since
 three components map onto it.

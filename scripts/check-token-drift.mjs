@@ -147,14 +147,20 @@ export function classifyDeclared(declared, debt) {
 // design decision that is invisible in light mode and wrong in dark if guessed.
 export const BOUND_BY = {
   'deprecated-colours/white':
-    '#FFFFFF — [S] Config child menu (Vector fill), and Side navigation\'s 18 waffle vectors, '
-    + 'WHICH CANNOT BE FIXED IN THIS FILE. Checked 2026-09-11: they sit inside `App menu`, a '
-    + 'REMOTE component (key 87407bb150c15d117e7f74f6c07a4e262f4b739d) published from another '
-    + 'library, and the instance carries 0 overrides — so the deprecated style is inherited from '
-    + 'that component, not set here. Editing it here would create overrides that mask the problem '
-    + 'and drift from source. When it is fixed in the owning library the token is '
-    + 'Icons/Icon - Always white, NOT Icon - Primary inverted: the waffle sits on a fixed '
-    + 'cranberry red #B90C2A, so the dots must stay white in both modes. '
+    '#FFFFFF — [S] Config child menu (Vector fill). The waffle is DONE: 270 vectors across all 15 '
+    + 'Theme variants of the Waffle set (32517:29171) were rebound to Icons/Icon - Always white '
+    + '(VariableID:32643:12266) on 2026-09-11, verified 0 styled / 270 bound and screenshotted. '
+    + 'The previous note here said the waffle could not be fixed in this file because it sits '
+    + 'inside a REMOTE App menu component carrying 0 overrides. HALF TRUE AND WRONG WHERE IT '
+    + 'MATTERED: App menu IS remote (13658:6706, key 87407bb150c15d117e7f74f6c07a4e262f4b739d), '
+    + 'but the 0-override reading came off the Configr waffle (32544:53025, vectorSample []) and '
+    + 'was applied to the People First one, which reports 19 overrides — fillStyleId x18, fills '
+    + 'x18. The style itself settles it: DEPRECATED COLOURS/White is remote:false, a LOCAL style, '
+    + 'and a remote component cannot reference one. It was set here, so it was ours to fix. '
+    + 'Icons/Icon - Always white, NOT Icon - Primary inverted, and this is now proved from the '
+    + 'variable rather than argued: Always white aliases VariableID:27998:12734 in BOTH Lightmode '
+    + 'and Darkmode; Primary inverted aliases 12734 light and 12735 dark. Every waffle backdrop is '
+    + 'a fixed brand colour, so the dots must not flip. '
     + 'NOT Full page, Header or Mobile key actions: already clean',
   'deprecated-colours/grey-steel':
     '#E5E5E5 — Table header icons (3 Hover FILLS). The AI Assistant stroke and the '
