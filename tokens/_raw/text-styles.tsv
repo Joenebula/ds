@@ -2,17 +2,17 @@ name	size	weight	lineHeight	letterSpacing	textCase
 Desktop text/XL heading	36		AUTO	0%	ORIGINAL
 Desktop text/XL heading (light)	36	Light	AUTO	0%	ORIGINAL
 Desktop text/Large heading	24	Regular	AUTO	0%	ORIGINAL
-Desktop text/Large heading (light)	24		AUTO	0%	ORIGINAL
-Desktop text/Sub heading	20		AUTO	0%	ORIGINAL
+Desktop text/Large heading (light)	24	Light	AUTO	0%	ORIGINAL
+Desktop text/Sub heading	20	Regular	AUTO	0%	ORIGINAL
 Desktop text/Sub heading (semi bold, 600)	20	SemiBold	AUTO	0%	ORIGINAL
 Desktop text/Body text	16	Regular	AUTO	-1%	ORIGINAL
 Desktop text/Body text (semi bold, 600)	16	SemiBold	AUTO	-1%	ORIGINAL
 Desktop text/Body text (italic)	16	Italic	AUTO	-1%	ORIGINAL
 Desktop text/Button text	16	SemiBold	AUTO	0%	ORIGINAL
-Desktop text/Label text	13		AUTO	0%	ORIGINAL
+Desktop text/Label text	13	Regular	AUTO	0%	ORIGINAL
 Desktop text/Label text (semi bold, 600)	13	SemiBold	AUTO	0%	ORIGINAL
 Desktop text/Label text (italic)	13	Italic	AUTO	-1%	ORIGINAL
-Desktop text/Button text	13		AUTO	0%	UPPER
+Desktop text/Button text	13	SemiBold	AUTO	0%	UPPER
 Desktop text/Tag text	13		AUTO	-1%	UPPER
 Mobile text/XXL heading	50	Medium	AUTO	0%	ORIGINAL
 Mobile text/XXL heading (light)	50		AUTO	0%	ORIGINAL
@@ -20,5 +20,5 @@ Mobile text/XL heading	30	Regular	AUTO	0%	ORIGINAL
 Mobile text/XL heading (light)	30		AUTO	0%	ORIGINAL
 Mobile text/Large heading	20	Regular	AUTO	0%	ORIGINAL
 Mobile text/Large heading (light)	20		AUTO	0%	ORIGINAL
-Mobile text/Sub heading	18		AUTO	0%	ORIGINAL
+Mobile text/Sub heading	18	Regular	AUTO	0%	ORIGINAL
 Mobile text/Sub heading (bold)	18	SemiBold	AUTO	0%	ORIGINAL

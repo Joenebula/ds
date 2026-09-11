@@ -38,16 +38,18 @@
   font-family: var(--pf-font-body);
 }
 
-/* Desktop text/Large heading (light)  — NO WEIGHT SET IN FIGMA; inherits */
+/* Desktop text/Large heading (light)  — Light is outside the system's stated 400/600 weights */
 .pf-text-large-heading-light {
   font-size: 24px;
+  font-weight: 300;
   line-height: normal;
   font-family: var(--pf-font-body);
 }
 
-/* Desktop text/Sub heading  — NO WEIGHT SET IN FIGMA; inherits */
+/* Desktop text/Sub heading */
 .pf-text-sub-heading {
   font-size: 20px;
+  font-weight: 400;
   line-height: normal;
   font-family: var(--pf-font-body);
 }
@@ -96,9 +98,10 @@
   font-family: var(--pf-font-body);
 }
 
-/* Desktop text/Label text  — NO WEIGHT SET IN FIGMA; inherits */
+/* Desktop text/Label text */
 .pf-text-label-text {
   font-size: 13px;
+  font-weight: 400;
   line-height: normal;
   font-family: var(--pf-font-body);
 }
@@ -121,9 +124,10 @@
   font-family: var(--pf-font-body);
 }
 
-/* Desktop text/Button text  — NO WEIGHT SET IN FIGMA; inherits */
+/* Desktop text/Button text */
 .pf-text-button-text-uppercase {
   font-size: 13px;
+  font-weight: 600;
   text-transform: uppercase;
   line-height: normal;
   font-family: var(--pf-font-body);
@@ -183,9 +187,10 @@
   font-family: var(--pf-font-body);
 }
 
-/* Mobile text/Sub heading  — NO WEIGHT SET IN FIGMA; inherits */
+/* Mobile text/Sub heading */
 .pf-text-mobile-sub-heading {
   font-size: 18px;
+  font-weight: 400;
   line-height: normal;
   font-family: var(--pf-font-body);
 }

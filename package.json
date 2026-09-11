@@ -14,7 +14,7 @@
     "shot": "node scripts/screenshot-screen.mjs",
     "build:screens": "node scripts/build-prototypes.mjs",
     "sync:check": "node scripts/sync-check.mjs tokens/_raw/figma-components.json",
-    "selftest": "node scripts/lib/transcript.mjs --self-test && node scripts/lib/decode-var.mjs --self-test && node scripts/extract-variants.mjs --self-test && node scripts/extract-geometry.mjs --self-test && node scripts/extract-text-styles.mjs --self-test && node scripts/extract-icons.mjs --self-test && node scripts/backfill-node-ids.mjs --self-test && node scripts/apply-renames.mjs --self-test && node scripts/check-catalogue-drift.mjs --self-test && node scripts/sync-check.mjs --self-test && node scripts/check-token-drift.mjs --self-test",
+    "selftest": "node scripts/lib/transcript.mjs --self-test && node scripts/lib/decode-var.mjs --self-test && node scripts/extract-variants.mjs --self-test && node scripts/extract-geometry.mjs --self-test && node scripts/extract-text-styles.mjs --self-test && node scripts/extract-icons.mjs --self-test && node scripts/backfill-node-ids.mjs --self-test && node scripts/apply-renames.mjs --self-test && node scripts/backfill-text-weights.mjs --self-test && node scripts/check-catalogue-drift.mjs --self-test && node scripts/sync-check.mjs --self-test && node scripts/check-token-drift.mjs --self-test",
     "tokens:check": "node scripts/check-token-drift.mjs"
   },
   "devDependencies": {

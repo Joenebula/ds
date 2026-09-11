@@ -728,7 +728,7 @@
 }
 
 /* AI card modal
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: its fill is no longer a flat token. The root paints TWO stacked linear-gradients — an opaque white base under the AI gradient at 5% — so the captured Background/Primary is STALE and no fill token can replace it. Its border is a raw #007ff3 and its shadow binds Border/Border - Drop shadow
  * Figma draws this 440px wide; treated as layout, not a rule
  * Figma draws this 505px tall; emitted as a minimum, since content decides the real height
  */
@@ -756,7 +756,7 @@
 }
 
 /* AI message bubble
- * 2 variants captured
+ * 2 variants captured. RE-READ 2026-09-11: both types render IDENTICALLY in the stylesheet — background transparent, border 0, colour Text/Secondary twice. The painted box is a CHILD of the component, not its root: the root is a column holding a timestamp AND a bubble, so recording the bubble fill (AI chat Background/Primary, User chat Background/Secondary) on the component class would paint the timestamp too. The captured Text/Secondary correctly describes the timestamp. User chat also binds Border/Default full, which is unextracted
  * Figma draws this 455px wide; treated as layout, not a rule
  */
 .pf-ai-message-bubble {
@@ -860,7 +860,7 @@
 }
 
 /* Adaptive card
- * 1 variant captured
+ * 1 variant captured. Same wrapper shape as AI message bubble: the root is a column holding a timestamp and a card, and the captured Text/Secondary is the timestamp. The card child binds Background/Primary with a raw #007ff3 border. Unchanged on re-read
  * Figma draws this 478px wide; treated as layout, not a rule
  */
 .pf-adaptive-card {
