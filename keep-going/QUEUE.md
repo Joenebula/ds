@@ -591,7 +591,11 @@ were there because the semantic token that means "always white" was one of the 1
 from the extract. Replaced with `--pf-icon-always-white` and `--pf-border-secondary`, both
 identical in value. Zero primitive uses remain.
 
-## Open — needs you
+## Open — needs you — `resolved by task 38 below`
+
+**Superseded. Left here because it is the reasoning task 38 acted on, not a live decision.**
+Both tokens turned out to be renames rather than phantoms and neither exists in
+`dist/tokens.css` any more. Nothing here needs answering.
 
 **Two tokens in the shipped system have no Figma variable.** They are not missing from the
 extract; they do not exist in the file at all.
