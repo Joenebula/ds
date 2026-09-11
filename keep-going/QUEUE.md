@@ -858,3 +858,52 @@ Both generate `.pf-header`; one silently wins. Node ID is the identity, not the 
 
 Used by the Case Management test file, not present in the People First library. Unresolved
 whether it is CM-only or another rename. Node-ID comparison will say.
+
+
+---
+
+## 11. Ship the typeface — `done` (spec fault 1)
+
+`CLAUDE.md` mandates Open Sans 400/600 and nothing provided it: `fc-match "Open Sans"`
+resolved to DejaVu Sans, and DejaVu has no SemiBold, so weight 600 rendered as synthesised
+Bold. Every screen, for the life of the project, in the wrong face at the wrong weight.
+
+**Done when:** met. Vendored to `assets/fonts/`, inlined by `dist/fonts.css`,
+`check-fonts.mjs` asks which face actually rendered. It found three more instances
+immediately — ten unweighted text styles inheriting the UA's 700, `<strong>`/`<th>`
+defaults, and all three prototypes fetching Google Fonts through a blocked egress policy.
+
+## 12. Check against an independent measurement — `done` (spec fault 2)
+
+**Done when:** met. `tokens/_raw/figma-truth.tsv` is measured by its own walk and no build
+script reads it; `verify-against-figma.mjs` compares the rendered stylesheet to it and
+passes `--self-test`. Every other check now says "match the extract" rather than
+"match Figma". First run found 14 real drifts.
+
+---
+
+# Still open, in spec order
+
+## E. Per-variant geometry — `pending` (spec fault 3)
+
+One geometry row per component. Confirmed by the new check in components I had never
+looked at: `Button Type=Filter/Sort` padding, `Filter chip Mobile=True` box and type,
+`Filter chip Selected` gap, `Links Secondary` size. Drift is pinned at 14 and cannot rise.
+
+**Done when:** `component-geometry.tsv` holds one row per variant, and the drift count
+falls to zero across whatever `figma-truth.tsv` covers.
+
+## F. Component type from the text styles — `pending` (spec fault 4)
+
+`components.css` emits 131 `font-size` and 32 `font-weight` of its own. `Links` binds
+`Desktop text/Body text`; `Button` binds nothing. Nothing has ever read `textStyleId`.
+
+**Done when:** components compose a `.pf-text-*` class instead of carrying their own type,
+and every unbound label is reported to `docs/FIGMA-ISSUES.md`.
+
+## G. Truth-snapshot coverage — `pending`
+
+`figma-truth.tsv` covers 23 shapes across 11 components — one Figma page. Everything else
+is unchecked against an independent source.
+
+**Done when:** the snapshot covers every page the component inventory lists.

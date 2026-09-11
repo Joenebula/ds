@@ -21,13 +21,15 @@ const claims = [
     () => count('working/case-mgmt-my-team.html', /@font-face/g) > 0],
   ['1', 'FIX HOLDS: both weights are vendored',
     () => sh('ls assets/fonts/open-sans-400.woff2 assets/fonts/open-sans-600.woff2').split('\n').filter(Boolean).length === 2],
-  ['2', 'verify-components reads the same two files the build reads',
-    () => ['scripts/verify-components.mjs', 'scripts/build-components-css.mjs']
-      .every(f => /_raw\/component-geometry\.tsv/.test(readFileSync(f, 'utf8'))
-                && /_raw\/component-variants\.tsv/.test(readFileSync(f, 'utf8')))],
-  ['2', 'no script contacts Figma',
-    // --exclude this file: it names those strings to test for them, and would match itself.
-    () => sh('grep -ln "use_figma\\|api.figma" scripts/*.mjs --exclude=verify-spec.mjs').trim() === ''],
+  // Fault 2 is fixed. verify-components still reads the files the build reads — that is
+  // correct now, and it says so. What matters is that a SECOND check exists whose
+  // expectation has an independent origin, and that nothing under build-* reads it.
+  ['2', 'FIX HOLDS: a check compares against an independent measurement',
+    () => /figma-truth\.tsv/.test(readFileSync('scripts/verify-against-figma.mjs', 'utf8'))],
+  ['2', 'FIX HOLDS: no build script reads the truth snapshot',
+    () => sh('grep -ln figma-truth scripts/build-*.mjs').trim() === ''],
+  ['2', 'FIX HOLDS: only the independent check claims "match Figma"',
+    () => sh('grep -l "match Figma" scripts/verify-rendered.mjs scripts/verify-type.mjs scripts/verify-geometry.mjs').trim() === ''],
   ['3', 'geometry rows far fewer than variant rows',
     () => readFileSync('tokens/_raw/component-geometry.tsv', 'utf8').trim().split('\n').length
         < readFileSync('tokens/_raw/component-variants.tsv', 'utf8').trim().split('\n').length],
