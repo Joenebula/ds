@@ -256,6 +256,54 @@ nothing had tried the other one. A blocker recorded once and never re-tested is 
 from a blocker that is still there — which is the same shape as every stale count this file has
 had to correct.
 
+## Icon drift
+
+The token layer got a drift check and the type layer got one; the ICON layer had the same hole and
+nobody had noticed. `icons.tsv` holds 294 SVGs captured from transcripts, `verify-icons.mjs` checks
+them against the sheet it generates FROM them, and nothing had ever compared one of those drawings
+against Figma. `sync-check.mjs` is not that check either — it compares NAMES, and a redrawn icon
+keeps its name, so it is invisible there by construction.
+
+```
+npm run icons:check
+```
+
+**First run, 2026-09-11: 281 of 287 pinned icons verified identical, and SIX have drifted.**
+
+| | |
+|---|---|
+| `Community group people` | `6237:66072` |
+| `Key` | `8198:78418` |
+| `People first face` | `695:14903` |
+| `Rocket` | `9598:97928` |
+| `Team` | `11453:114175` |
+| `Upload CSV` | `659:390` |
+
+Those six ship artwork that is no longer what Figma draws, and every check in this repo was green
+about it. Nothing has been re-captured: replacing a shipped drawing is a decision, and the six are
+named here so it is a decision somebody takes rather than one a script takes quietly.
+
+**A digest is PATH DATA only, and the three exclusions are the whole design.** Colour is ignored
+because `icons.tsv` stores `fill="currentColor"` by design while Figma exports the real paint —
+comparing it would report all 287 as drifted on run one, which is a check nobody reads twice.
+Numbers are rounded to 2dp on both sides because the extractor rounds and Figma does not; **the
+first attempt compared raw coordinates and matched nothing at all, not one icon of 287**. Path ORDER
+is deliberately NOT normalised: a reorder changes stacking, and "probably harmless" is a person's
+call.
+
+It takes no network calls, like `extract-tokens.mjs` — a session with Figma runs the collector in the
+script's header and drops the result into `tokens/_raw/figma-icon-digests.json`. Without that file it
+exits **2**, vacuous, rather than reporting a clean run. A row the digest file does not mention is
+UNCOVERED, counted and named, never failed: a partial read is not a deletion. Eleven mutants hold it,
+including one that turns the vacuous 2 into a 0 — which survived until the exit code was pulled out
+of `main()` into a function a test can reach.
+
+**And the seven icons Figma has that this repo has not captured are all already-known items**, which
+is the reassuring answer: `Coins` `14334:1477` and `Tax` `32530:44518` (the `Taxes coins` split), the
+four `Circle icons` variants — `6580:66320`, `16896:27867`, `16896:27887`, `16896:27897`, exactly the
+four bogus `Size=` rows, now with ids — and `8136:78321`, the component whose name is a single space.
+No surprises, which is the first time that has been provable.
+
 ## Re-extracting
 
 A bigger, deliberate job. The `extract-*.mjs` scripts read Figma reads out of the session
