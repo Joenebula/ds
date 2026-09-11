@@ -305,8 +305,16 @@ first attempt compared raw coordinates and matched nothing at all, not one icon 
 is deliberately NOT normalised: a reorder changes stacking, and "probably harmless" is a person's
 call.
 
-It takes no network calls, like `extract-tokens.mjs` — a session with Figma runs the collector in the
-script's header and drops the result into `tokens/_raw/figma-icon-digests.json`. Without that file it
+It takes no network calls, like `extract-tokens.mjs` — a session with Figma pastes
+`docs/figma-icon-digest.js` into `use_figma` and drops the result into
+`tokens/_raw/figma-icon-digests.json`. **That collector is GENERATED from the check, because the
+hand-copy was wrong.** It lived in the check's header as a `norm`/`hash` snippet emitting
+`{id, name, len, h}` — the format of the FIRST comparison, rewritten twice underneath it and never
+updated there, so the documented instructions produced a file the current `formatError()` REFUSES.
+It failed safe and it was still wrong. `build-figma-icon-digest.mjs` now inlines `digest()`,
+`shape()`, `NUMBER` and `BUDGET_PER_NUMBER` verbatim and `verify-generated.mjs` gates the output, so
+changing the comparison without rebuilding fails `npm run verify`. `differs()` is deliberately left
+behind: a collector measures, it does not judge. Without that digest file the check
 exits **2**, vacuous, rather than reporting a clean run. A row the digest file does not mention is
 UNCOVERED, counted and named, never failed: a partial read is not a deletion. Eleven mutants hold it,
 including one that turns the vacuous 2 into a 0 — which survived until the exit code was pulled out
@@ -828,14 +836,24 @@ nobody can trust.*
 ### And the driver is generated from the rule, so the two cannot drift
 
 A rule nothing can run is half a mechanism. `docs/figma-rebind-deprecated.js` is the Figma-side
-driver: set `STYLE_NAME`, paste it into `use_figma`, read the report. It is **generated** by
+driver: set `STYLE_NAME`, paste it into `use_figma`, read the report — and it **writes nothing until
+you also set `WRITE = true`**. It is **generated** by
 `scripts/build-figma-rebind.mjs`, which inlines `rebind-rule.mjs` verbatim — a plugin sandbox cannot
 import a module, and a hand-copied second copy is how a fixed rule keeps being run in its broken
-form. `verify-generated.mjs` gates it as a fifth file, so changing the rule without rebuilding fails
+form. `verify-generated.mjs` gates it (one of six now — the icon collector is generated the same way
+and for the same reason), so changing the rule without rebuilding fails
 `npm run verify` rather than leaving a stale copy to be pasted into Figma and believed.
 
-The driver's own job is only the three things the rule cannot do for itself, and each one cost a
-cycle today:
+The driver's own job is only the four things the rule cannot do for itself, and each one cost a
+cycle:
+
+- **Report by default.** Every other script here reports and writes only with `--write`; this one
+  wrote the moment it was pasted, which is the wrong default for the single tool in the repo whose
+  mistakes land in someone else's file. A dry run still names every node it WOULD change and every
+  node it holds, so the held reasons can be read before anything moves. **Proved by RUNNING the
+  generated driver against a stub Figma**, not by grepping it for `if (WRITE)` — a string search
+  passes on a driver that writes anyway one line lower. Five mutants: the guard removed, the default
+  flipped, the id log moved inside the guard, `WROTE` hardcoded, and a dry run that reports nothing.
 
 - **Sweep twice and REFUSE to write unless the counts agree.** Not warn — refuse, and return the
   two numbers.
