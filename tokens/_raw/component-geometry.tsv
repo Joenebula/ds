@@ -95,8 +95,8 @@ Map	480 x 200	—	8	—	—	NONE	not auto-layout	1337:35965
 Calendar picker	auto x auto	0	0	0	16px	VERTICAL MIN MIN		17411:5842
 Time picker	auto x auto	0	0	0	16px	VERTICAL MIN MIN		17411:5843
 Field (second component)	auto x auto	0	0	2	13px	VERTICAL MIN MIN	Figma has two components named Field on the Forms page; this is the smaller one	
-Radio tile	235 x auto	25 0	4	10	16px SemiBold	VERTICAL CENTER MIN	2 variants	26746:17352
-Radio card	235 x 152	25 0	4	10	16px SemiBold	VERTICAL CENTER MIN	4 variants	30573:16933
+Radio tile	235 x auto	25 0	4	10	16px SemiBold	VERTICAL CENTER MIN	RE-READ 2026-09-11: its theme-tinted state has moved Background/Theme -> Background/Light theme and its resting border Border/Default -> Border/Default full. Both replacements are unextracted, so the rows are left as captured and are KNOWN STALE. The fill change is invisible in light mode (both resolve to #fcf4f7) and changes dark mode, where Background/Theme goes to #2c3844	26746:17352
+Radio card	235 x 152	25 0	4	10	16px SemiBold	VERTICAL CENTER MIN	RE-READ 2026-09-11: its theme-tinted state has moved Background/Theme -> Background/Light theme and its resting border Border/Default -> Border/Default full. Both replacements are unextracted, so the rows are left as captured and are KNOWN STALE. The fill change is invisible in light mode (both resolve to #fcf4f7) and changes dark mode, where Background/Theme goes to #2c3844	30573:16933
 Control	20 x 20	10	4	10	—	VERTICAL CENTER CENTER	the checkbox/radio box itself, 20x20 r4. 2 variants	30641:14910
 Checkbox/Radio item	auto x 22	0	0	10	16px	HORIZONTAL CENTER MIN	box + label, 10px gap. 18 variants	30643:20637
 Checkbox/Radio list	194 x auto	0	0	5	16px	VERTICAL MIN MIN	5px between items. 4 variants	30644:37303
