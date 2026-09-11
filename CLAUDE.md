@@ -353,6 +353,64 @@ Four of its rules are the ones that matter, and each is proved by a mutant:
   indistinguishable from a deletion, so a write that would drop a captured token names what it
   would have lost; `--shrink` is the deliberate override.
 
+## Type drift
+
+Same hole, one layer over. `verify-type.mjs` checks `dist/type.css` against `text-styles.tsv` and
+`build-type-css.mjs` generates the one from the other, so the type layer is internally consistent —
+and **nothing checked the extract against Figma.** Two files agreeing with each other says nothing
+about whether either is right.
+
+```
+npm run type:check
+```
+
+No Figma calls, same source as `tokens:check`: the design-context responses already in the
+transcripts end with a line naming every text style they used, verbatim. It is **not in
+`npm run verify`**, for the same reason — a fresh clone has no transcripts and would exit 2 for ever.
+
+Current reading: **12 of 23 styles verified, 0 differences, 0 conflicts, 11 not seen.** The 11 are
+counted AND NAMED on every run, because "0 differences" across half the file reads exactly like
+"0 differences" across all of it — the `--` problem again.
+
+Three things make the naive version of this check wrong, and each is a mutant:
+
+- **Figma reports variable-bound values where the extract records literals.** `Desktop text/Body
+  text` comes back as `style: Weight/Regular, size: Size/S`; the extract says `16 / Regular`. Same
+  style. Worse, `Body text (semi bold, 600)` arrives BOTH ways in one run — 43 bound, 6 literal —
+  so without resolving first they look like a contradiction rather than one style. `Size/S` is 16
+  and `Weight/Bold` is SemiBold, both in `other.json`.
+- **Two styles share one name.** `Desktop text/Button text` is captured twice, 16 sentence-case and
+  13 UPPER. Matching pairs on name AND size; a name alone compares the wrong row and passes.
+- **The marker cannot be anchored, so this repo's own source is in the haystack.** `scrapeBatches`
+  uses `^` precisely so a format quoted in prose is not mistaken for data, and that is unavailable
+  here: Figma appends this marker at the END of generated code. The first live run scraped six
+  occurrences of this repo's own comments and fixtures — a `Font(...)`, a `family: ' + '"Open Sans"`
+  from a wrapped string literal, a `weight: 300, …` from an ellipsis — and one of them, being LAST,
+  won and reported a difference that did not exist.
+
+  Two mechanisms answer that, and neither is sufficient alone. A **shape guard**: a report always
+  carries family, style, size and weight, so an occurrence missing one — or carrying an ellipsis or
+  a string seam — measured nothing, and is rejected and **counted**, never read as evidence of
+  absence. (Written for truncation too: batches come under a 20KB cap and a half-arrived `Font()`
+  is indistinguishable from a style that lost its letterSpacing.) And **agreement instead of
+  last-wins**: occurrences collate by name and resolved size, repeats reinforce, and a genuine
+  disagreement is reported as a CONFLICT naming both sides and their counts — never resolved by
+  picking the popular one. A check whose verdict can be steered by whatever was scraped last is not
+  measuring Figma.
+
+  What it still cannot do: a verbatim, well-formed report quoted in a source comment is
+  byte-identical to a real one. `build-type-css.mjs`'s fixture is one, and it agrees with Figma, so
+  it changes nothing today. A stale one would surface as a CONFLICT of 1 against 80-odd rather than
+  as a verdict — the right failure mode, but a limit, not a solved problem.
+
+**A mutation test corrected this file's own comment.** The regex requires a style name to start
+`Desktop text/` or `Mobile text/`, and the comment said that was what kept the effect styles
+(`Drop shadow: Effect(...)`) out. It is not — `Font\(` does that. What the prefix really does is
+anchor the name's LEFT edge: Figma comma-separates the entries, so a pattern that merely forbids a
+colon walks backwards over the previous entry and captures `"#517A38, Desktop text/Label text"`,
+which matches no row and reports ABSENT — 27 false differences. Widening the name changed nothing
+about Effect styles, and that is how the comment was found to be wrong.
+
 ## Editing tokens
 
 `tokens/_raw/` is the input; everything else is generated. Re-extract from Figma into
