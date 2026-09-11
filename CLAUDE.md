@@ -382,6 +382,28 @@ it. Keeping the two apart is the whole point, and a mutant holds it.
 1 `GEOMETRY` batch. The batches those files were built from are in sessions that no longer exist —
 which is what the refuse-to-shrink guards have been protecting all along.
 
+**A result too big to inline is a POINTER, and the payload is still Figma's answer.** The
+transcript stores an oversized result as `<persisted-output> … Full output saved to: <path>` plus a
+2 KB preview, and the bytes sit in a sibling `tool-results/` directory that `transcriptFiles()`
+never sees — it is non-recursive and filters to `.jsonl`. So the checks were scraping this repo's
+own source **while missing genuine Figma responses**: the two halves of one blindness. `scrapeFigma`
+now follows the pointer, and three rules make that safe rather than merely bigger:
+
+- **The file, never the preview.** The preview is the same response truncated at 2 KB, so reading
+  both would stand a half-arrived duplicate beside the whole one — the truncation hazard the shape
+  guards exist to catch, manufactured for free.
+- **Parsed, not scanned raw.** A spilled MCP result is the content-block array, so its text is
+  JSON-escaped. The first run of this scanned the raw file and `check-type-drift` correctly rejected
+  five real Figma style reports as *"truncated or quoted source"* — the check catching my bug. The
+  escaping is a representation, not damage.
+- **The path is data.** It comes out of the transcript, so only a file inside that transcript's own
+  directory is read.
+
+It found one attributable Figma spill (`AI Assistant`, node `27507:11696`, our file), taking
+`tokens:check` from 101 resolved to **102**. A second 87 KB spill is a real `get_design_context`
+response that no pointer references — and **276 of its node ids match none of the 475 in our
+inventory**, so it belongs to one of the other two Figma files and is rightly left out.
+
 ### It CAN attribute a read to a Figma file after all
 
 This file used to say flatly that it could not. That was true of the response and false of the

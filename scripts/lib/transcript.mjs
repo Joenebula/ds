@@ -14,7 +14,7 @@
 //      clothes. That is the failure this repo keeps finding: a mechanism that cannot tell two
 //      states apart reports the wrong one confidently.
 import { readFileSync, readdirSync, statSync, writeFileSync, mkdtempSync, rmSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, dirname } from 'node:path';
 import { tmpdir } from 'node:os';
 
 export const TRANSCRIPT_DIR = '/root/.claude/projects/-home-user-ds';
@@ -89,6 +89,10 @@ export function scrapeBatches(paths, re) {
 // survive a `mcp__Figma__` filter. Keeping the two apart is the whole point.
 export const FIGMA_TOOL = /^mcp__Figma__/;
 
+// How the transcript records a result too big to inline: a pointer to the real bytes, followed by
+// a 2KB preview of them.
+export const PERSISTED = /<persisted-output>[\s\S]*?Full output saved to:\s*(\S+)/;
+
 // Every tool call in a transcript: tool_use_id -> { name, input }.
 export function toolCalls(text) {
   const calls = new Map();
@@ -140,7 +144,42 @@ export function scrapeFigma(paths, re) {
           else if (Array.isArray(v)) v.forEach(collect);
           else if (v && typeof v === 'object') Object.values(v).forEach(collect);
         };
-        collect(b.content);
+
+        // A RESULT TOO BIG TO INLINE IS A POINTER, AND THE PAYLOAD IS STILL FIGMA'S ANSWER.
+        // The transcript stores an oversized result as `<persisted-output> … Full output saved to:
+        // <path>` plus a 2KB preview, and the real bytes sit in a sibling tool-results/ directory
+        // that transcriptFiles() never sees (non-recursive, .jsonl only). So the checks were
+        // scraping this repo's own source WHILE missing genuine Figma responses — the two halves of
+        // the same blindness. Follow the pointer.
+        //
+        // The FILE, never the preview. The preview is the same response truncated at 2KB, so
+        // scanning both would add a half-arrived duplicate beside the whole one — exactly the
+        // truncation hazard the shape guards exist to catch, manufactured here for free.
+        const spill = typeof b.content === 'string' && PERSISTED.exec(b.content);
+        if (spill) {
+          const file = spill[1];
+          // The path comes out of transcript DATA, so it is not trusted to point anywhere. A spill
+          // belongs to the transcript that referenced it, so the allowed root is that file's own
+          // directory — narrower than a global constant, and it makes the rule testable.
+          // No existsSync here on purpose: the catch below already covers a spill that is absent
+          // or unreadable, and a guard no mutant can kill is a line nobody can trust.
+          if (file.startsWith(`${dirname(p)}/`)) {
+            try {
+              const body = readFileSync(file, 'utf8');
+              // PARSE IT IF IT IS JSON. A spilled MCP result is the content-block array, so its
+              // text is JSON-ESCAPED — `\"Open Sans\"`, not `"Open Sans"`. Scanning the raw file
+              // hands the parsers escaped quotes, and check-type-drift's shape guard correctly
+              // rejected five real Figma style reports as "truncated or quoted source" the first
+              // time this ran. The escaping is a representation, not damage; walk the parsed value
+              // and the strings come out as Figma wrote them.
+              let parsed = null;
+              try { parsed = JSON.parse(body); } catch { /* a plain-text spill */ }
+              collect(parsed === null ? body : parsed);
+            } catch { /* unreadable spill */ }
+          }
+        } else {
+          collect(b.content);
+        }
         if (!hits.length) continue;
 
         const call = byId.get(b.tool_use_id);
@@ -330,6 +369,63 @@ export function selfTest() {
     if (o.reads.length !== 0) miss('a result with no call is not attributable and must not be read');
     if (o.unattributed !== 1) miss(`an unattributable match must be COUNTED (got ${o.unattributed})`);
 
+    // A SPILLED RESULT IS STILL FIGMA'S ANSWER. An oversized result is stored as a pointer plus a
+    // 2KB preview, and the bytes live in a sibling directory transcriptFiles() never looks in — so
+    // the checks were scraping this repo's own source WHILE missing real Figma responses.
+    const spillBody = JSON.stringify([{ type: 'text', text: `<div data-node-id="9:9"/>${MARK} SPILLED` }]);
+    const spillFile = join(dir, 'spill.json');
+    const previewTail = `${MARK} PREVIEW-ONLY`;
+    writeFileSync(spillFile, spillBody);
+    const pointerFile = join(dir, 'c.jsonl');
+    writeFileSync(pointerFile, [
+      rec({ type: 'assistant', uuid: 's1', message: { content: [{ type: 'tool_use', id: 'tu_spill',
+        name: 'mcp__Figma__get_design_context', input: { fileKey: 'KEY1', nodeId: '9:9' } }] } }),
+      rec({ type: 'user', parentUuid: 's1', message: { content: [{ type: 'tool_result',
+        tool_use_id: 'tu_spill',
+        content: `<persisted-output>\nOutput too large (1KB). Full output saved to: ${spillFile}\n\nPreview (first 2KB):\n${previewTail}` }] } }),
+    ].join('\n') + '\n');
+
+    const sp = scrapeFigma([pointerFile], marker);
+    if (!sp.reads.some((x) => /SPILLED/.test(x.text))) {
+      miss('a result too big to inline must be followed to the file that holds it');
+    }
+    // The preview is the SAME response truncated at 2KB. Reading both would add a half-arrived
+    // duplicate beside the whole one — the truncation hazard, manufactured for free.
+    if (sp.reads.some((x) => /PREVIEW-ONLY/.test(x.text))) {
+      miss('the 2KB preview must not be read as a second response beside the file it previews');
+    }
+    // A spilled MCP result is JSON, so its text is escaped. Scanning the raw file hands the
+    // parsers `\\"Open Sans\\"` and the shape guards reject real data as damaged — which is
+    // exactly what happened the first time this ran.
+    if (sp.reads.some((x) => /\\"/.test(x.text))) {
+      miss('a JSON spill must be parsed, not scanned raw — escaped quotes are a representation, not damage');
+    }
+    if (sp.reads[0] && sp.reads[0].fileKey !== 'KEY1') miss('a spilled read keeps its call\'s fileKey');
+
+    // THE PATH COMES OUT OF DATA. A pointer outside the transcript's own directory is not followed.
+    const outside = join(dir, 'outside.jsonl');
+    writeFileSync(join(tmpdir(), `pf-elsewhere-${process.pid}.json`), spillBody);
+    writeFileSync(outside, [
+      rec({ type: 'assistant', uuid: 'o1', message: { content: [{ type: 'tool_use', id: 'tu_out',
+        name: 'mcp__Figma__get_design_context', input: { fileKey: 'KEY1' } }] } }),
+      rec({ type: 'user', parentUuid: 'o1', message: { content: [{ type: 'tool_result',
+        tool_use_id: 'tu_out',
+        content: `<persisted-output>\nFull output saved to: ${join(tmpdir(), `pf-elsewhere-${process.pid}.json`)}\n\nPreview (first 2KB):\nx` }] } }),
+    ].join('\n') + '\n');
+    if (scrapeFigma([outside], marker).reads.length !== 0) {
+      miss('a spill path outside the transcript\'s own directory is data, not a licence to read it');
+    }
+    // A pointer to a file that is not there must not throw.
+    const missingPtr = join(dir, 'missing.jsonl');
+    writeFileSync(missingPtr, [
+      rec({ type: 'assistant', uuid: 'm1', message: { content: [{ type: 'tool_use', id: 'tu_m',
+        name: 'mcp__Figma__get_design_context', input: { fileKey: 'KEY1' } }] } }),
+      rec({ type: 'user', parentUuid: 'm1', message: { content: [{ type: 'tool_result',
+        tool_use_id: 'tu_m', content: `<persisted-output>\nFull output saved to: ${join(dir, 'gone.json')}\n\nPreview:\nx` }] } }),
+    ].join('\n') + '\n');
+    try { scrapeFigma([missingPtr], marker); }
+    catch (e) { miss(`a pointer to a missing spill must not throw (${e.message})`); }
+
     // And the extractors' path must be untouched by any of this.
     if (scrapeBatches([file], /^PAGE\t/).length !== 0) miss('an anchored batch marker is unaffected');
   } finally { rmSync(dir, { recursive: true, force: true }); }
@@ -342,7 +438,10 @@ export function selfTest() {
     + 'blank lines are not rows, a batch quoted in prose is not data, and a Figma response is told '
     + 'from a byte-identical Write input or Bash echo by WHO SAID IT rather than by what it looks '
     + 'like: the mirror copy counts once, the call supplies the fileKey and nodeId, and a result '
-    + 'whose call is missing is counted as unattributable rather than quietly dropped');
+    + 'whose call is missing is counted as unattributable rather than quietly dropped; and a '
+    + 'result too big to inline is followed to the file holding it — parsed rather than scanned '
+    + 'raw so escaped quotes are not mistaken for damage, without also reading the 2KB preview '
+    + 'of itself, and never outside the transcript\'s own directory, since that path is data');
 }
 
 import { pathToFileURL } from 'node:url';
