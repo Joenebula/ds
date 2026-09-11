@@ -160,6 +160,12 @@ export const BOUND_BY = {
 // five times. A Figma variable name is word characters, spaces and a little punctuation — never
 // an ellipsis, never a sentence. Rejecting anything else costs nothing and closes the whole class,
 // not just the one character that found it.
+// ITS ORIGINAL JOB IS NOW PROVENANCE'S. The paragraph above describes this file's own header being
+// scraped as a token — that cannot happen any more, because scrapeFigma reads only what came back
+// from an `mcp__Figma__*` tool, so this repo's source is not in the haystack at all. What the guard
+// still does is narrower and real: a GENUINE design-context response is generated code plus prose,
+// and prose can contain `var(--` too. Kept for that, not for the case that found it.
+//
 // TIGHTENED 2026-09-11, because the first version closed one SPELLING rather than the class. It
 // rejected the single character `…` and still accepted `--...` (a dot was in the allowed set) and
 // `--…` (the escape spelling, whose backslash was allowed for the sake of `--text\/primary`).
@@ -172,8 +178,25 @@ export const BOUND_BY = {
 // backslash that is ever legitimate is the `\/` a kebab CSS variable uses to escape the collection
 // separator, so a backslash is allowed ONLY in that pair, and the dot is gone entirely.
 const NAME_SHAPE = /^--(?:\\\/|[A-Za-z0-9\/_%+()-])(?:\\\/|[A-Za-z0-9\/_%+() -])*$/;
+
+// ESCAPING DEPTH IS NOT MEANING. The same binding reaches the transcript as `var(--border\/theme)`
+// from one read and `var(--border\\/theme)` from another, depending on how many string literals
+// the response passed through on its way here. NAME_SHAPE allows exactly one backslash, so the
+// doubled form failed the shape test and the binding was DROPPED — silently, because a name that
+// fails the guard is filtered out rather than reported.
+//
+// Measured after provenance landed: 53 occurrences across 17 genuine Figma reads of this file,
+// including `--border\\/default-full`, one of the tokens this check exists to find. Most of the
+// rest resolve to tokens the repo holds, so nothing was ever reported WRONG — the check was just
+// quietly measuring less than it said. A haystack that has shrunk in silence is the failure this
+// file keeps finding in other mechanisms.
+//
+// Collapsing any run of backslashes to one normalises depth without loosening the shape: the guard
+// still rejects prose, and `decode()` strips backslashes entirely for the lookup anyway.
+export const unescapeDepth = (v) => String(v).replace(/\\+/g, '\\');
+
 export function scanVars(text) {
-  return [...text.matchAll(/var\((--[^,)]+)/g)].map((m) => m[1])
+  return [...text.matchAll(/var\((--[^,)]+)/g)].map((m) => unescapeDepth(m[1]))
     .filter((v) => !/^--pf-/.test(v) && NAME_SHAPE.test(v));
 }
 
@@ -350,6 +373,27 @@ function selfTest() {
   }
   if (scanVars(String.raw`var(--navigation\/nav-bg-top,#fff)`).length !== 1) {
     miss('a real kebab variable name must still be accepted');
+  }
+  // ESCAPING DEPTH IS NOT MEANING. The same binding arrives singly or doubly escaped depending on
+  // how many string literals the response passed through. The doubled form used to fail the shape
+  // guard and be dropped in silence — 53 real bindings across 17 Figma reads of this file.
+  {
+    const doubled = scanVars(String.raw`var(--border\\/default-full)`);
+    if (doubled.length !== 1) {
+      miss(`a doubly-escaped binding is the same binding and must be read (got ${JSON.stringify(doubled)})`);
+    }
+    if (doubled[0] !== String.raw`--border\/default-full`) {
+      miss(`escaping depth must be normalised, not merely tolerated (got ${JSON.stringify(doubled[0])})`);
+    }
+    // The two spellings must land on ONE token, or a binding would be counted twice.
+    const both = scanVars(String.raw`var(--border\/theme) var(--border\\/theme)`);
+    if (new Set(both).size !== 1) {
+      miss(`both escapings of one name must normalise to one (got ${JSON.stringify(both)})`);
+    }
+    // And normalising depth must not loosen the guard: prose is still prose.
+    if (scanVars('pulls every `var(--…)` out').length !== 0) {
+      miss('normalising backslashes must not let prose through');
+    }
   }
   // get_variable_defs: only the COLOUR entries, by their exact Figma names.
   const defs = JSON.stringify({ 'Navigation/Nav items': '#656565', 'Size/S': '16',

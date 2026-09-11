@@ -382,6 +382,17 @@ it. Keeping the two apart is the whole point, and a mutant holds it.
 1 `GEOMETRY` batch. The batches those files were built from are in sessions that no longer exist —
 which is what the refuse-to-shrink guards have been protecting all along.
 
+**Escaping depth is not meaning, and 53 real bindings were being dropped for it.** The same
+binding reaches the transcript as `var(--border\/theme)` from one read and `var(--border\\/theme)`
+from another, depending on how many string literals the response passed through. `NAME_SHAPE`
+allowed exactly one backslash, so the doubled form failed the shape test and was filtered out —
+**in silence**, because a name that fails the guard is dropped rather than reported. Measured after
+provenance landed: 53 occurrences across **17 genuine Figma reads of this file**, one of them
+`--border\\/default-full`, a token this check exists to find. Nothing was ever reported *wrong* —
+they resolve to names the repo holds — the check was simply measuring less than it said, which is
+the failure it keeps finding in other mechanisms. Collapsing any run of backslashes to one took the
+count from 979 to **1032** bound variables, with `resolved` unchanged at 102 and still 0 unknown.
+
 **A result too big to inline is a POINTER, and the payload is still Figma's answer.** The
 transcript stores an oversized result as `<persisted-output> … Full output saved to: <path>` plus a
 2 KB preview, and the bytes sit in a sibling `tool-results/` directory that `transcriptFiles()`

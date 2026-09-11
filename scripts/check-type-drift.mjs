@@ -34,35 +34,37 @@
 //    AND size, and a name whose reported size matches no captured row is a real difference rather
 //    than a wrong pairing.
 //
-// 3. THE MARKER IS UNANCHORED, SO THIS REPO'S OWN SOURCE IS IN THE HAYSTACK. `scrapeBatches`
-//    anchors a batch with `^` precisely so a format quoted in prose cannot be mistaken for data,
-//    and that is not available here: Figma appends this marker at the END of a generated file, so
-//    the string it sits in starts with code. Every transcript therefore also contains this
-//    repo's own comments and self-test fixtures, which quote reports verbatim. The first live run
-//    of this check scraped SIX such occurrences — `Font(...)` from a comment two screens up, a
-//    `family: ' + '"Open Sans"` from a wrapped string literal, and a `weight: 300, …)` from an
-//    ellipsis in backfill-text-weights.mjs — and, being last, one of them WON and reported a
-//    difference that did not exist. Exactly the false positive tokens:check had.
+// 3. THIS REPO'S OWN SOURCE USED TO BE IN THE HAYSTACK. PROVENANCE TOOK IT OUT.
+//    The marker cannot be anchored — Figma appends it at the END of a generated file, so the
+//    string it sits in starts with code — and every transcript also contains this repo's own
+//    comments and fixtures, which quote reports verbatim. The first live run scraped SIX such
+//    occurrences, and one of them, being LAST, won and reported a difference that did not exist.
 //
-//    Two mechanisms, because neither is sufficient alone:
+//    That is over. This reads only what came back from an `mcp__Figma__*` tool (see
+//    lib/transcript.mjs), so a source comment is not merely outweighed, it is never in the
+//    haystack. The rejection count went 18 -> 0 on the run that landed it: every one of the 18
+//    was this repo's own source, and none was a Figma truncation.
 //
-//    A SHAPE GUARD. A genuine report always carries family, style, size and weight. An occurrence
-//    missing any of them, or carrying an ellipsis or a JS string seam, MEASURED NOTHING — it is
-//    rejected and COUNTED, never read as evidence of absence. (Today every rejection is this
-//    repo's own source. The guard is written for truncation too: batches come under a 20KB cap,
-//    and a half-arrived Font() is indistinguishable from a style that lost its letterSpacing.)
+//    THE HEADER USED TO CLAIM A RESIDUAL LIMIT HERE — that a verbatim, well-formed report quoted
+//    in a source comment is byte-identical to a real one and passes every content check. True
+//    when it was written, and FALSE NOW: byte-identical or not, it did not come from Figma, so it
+//    is never read. The claim is removed rather than left standing, because a limit that no longer
+//    exists is how the next content heuristic gets written to close it.
 //
-//    AGREEMENT INSTEAD OF LAST-WINS. 81 reads say Label text is 13/Regular and one junk string
-//    said otherwise; last-wins picked the junk. Occurrences are now collated by name and RESOLVED
-//    size, repeats reinforce, and a genuine disagreement is reported as a CONFLICT naming both
-//    sides and their counts — never silently resolved by picking one. A check whose verdict can
-//    be steered by whatever happened to be scraped last is not measuring Figma.
+//    Two mechanisms survive, and it is worth being exact about what each is still FOR:
 //
-//    WHAT THIS STILL CANNOT DO. A verbatim, well-formed report quoted in a source comment is
-//    byte-identical to a real one and passes both mechanisms — build-type-css.mjs's self-test
-//    fixture is one, and it agrees with Figma so it changes nothing today. If such a fixture ever
-//    went stale it would surface as a CONFLICT of 1 against 80-odd rather than as a verdict,
-//    which is the right failure mode, but it is a limit and not a solved problem.
+//    A SHAPE GUARD — now for TRUNCATION ONLY. Its contamination half is provenance's job. What it
+//    still catches is real: batches come under a 20KB cap, so a half-arrived Font() inside a
+//    genuine Figma response is possible, and it is indistinguishable from a style that lost its
+//    letterSpacing. An occurrence missing family, style, size or weight MEASURED NOTHING and is
+//    rejected and COUNTED, never read as evidence of absence.
+//
+//    AGREEMENT INSTEAD OF LAST-WINS — now for a disagreement between two REAL reads. 81 reads
+//    said Label text is 13/Regular and one junk string said otherwise; last-wins picked the junk.
+//    That particular junk can no longer get in, but two genuine reads of the same style CAN
+//    differ — a stale page, a mid-edit Figma file — and that is a question for a person. So
+//    occurrences collate by name and RESOLVED size, repeats reinforce, and a disagreement is
+//    reported as a CONFLICT naming both sides and their counts, never resolved by picking one.
 //
 // COVERAGE IS REPORTED AND IS NOT A PASS. A style no component in these transcripts happens to use
 // was never checked against anything. Saying "0 differences" while silently meaning "across half
