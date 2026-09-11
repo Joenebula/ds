@@ -9368,6 +9368,19 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 <div><h1 class="pf-text-xl-heading">Component templates</h1>
 <p class="pf-text-body-text">Generated from each component&rsquo;s Figma child tree. Paste the markup; every class in it is a real library class and every colour is a token.</p></div>
 <div class="item">
+<h2 class="pf-text-sub-heading">50/50 layout container <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">3 nodes</span></h2>
+<div class="stage"><div class="pf-50-50-layout-container">
+  <div class="pf-single-layout-card" data-mobile="false">single layout card</div>
+  <div class="pf-single-layout-card" data-mobile="false">single layout card</div>
+</div>
+</div>
+<pre>&lt;div class="pf-50-50-layout-container"&gt;
+  &lt;div class="pf-single-layout-card" data-mobile="false"&gt;single layout card&lt;/div&gt;
+  &lt;div class="pf-single-layout-card" data-mobile="false"&gt;single layout card&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
 <h2 class="pf-text-sub-heading">AG Filter menus <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">5 nodes</span></h2>
 <div class="stage"><div class="pf-ag-filter-menus">
   <div class="pf-ag-field" data-state="Selected">AG field</div>
@@ -9524,6 +9537,35 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
   &lt;span style="color:var(--pf-text-secondary);font-size:12px"&gt;8:26 AM&lt;/span&gt;&lt;!-- 12px is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
   &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:10px;padding:20px 20px 20px 20px;border-radius:8px;background:var(--pf-bg-primary)"&gt;
     &lt;span class="pf-text-body-text" style="color:var(--pf-text-primary)"&gt;AI chat bubb&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Accordion <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">9 nodes</span></h2>
+<div class="stage"><div class="pf-accordion">
+  <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
+    <svg class="pf-icon" width="22" height="22" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path fill-rule="evenodd" d="M10.33 3.33C10.77 2.89 11.48 2.89 11.92 3.33L25.92 17.33C26.36 17.77 26.36 18.48 25.92 18.92L11.92 32.92C11.48 33.36 10.77 33.36 10.33 32.92C9.89 32.48 9.89 31.77 10.33 31.33L23.53 18.13L10.33 4.92C9.89 4.48 9.89 3.77 10.33 3.33Z"/></g></svg>
+    <div class="pf-circle-icons" data-size="M - 44px">Circle icons</div>
+    <span class="pf-text-sub-heading" style="color:var(--pf-text-primary)">Text here</span>
+  </div>
+  <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-end;gap:20px">
+    <div class="pf-tags" data-type="Positive" data-small="No">Tags</div>
+    <div class="pf-button" data-type="Action" data-state="Default" data-label="Yes">Button</div>
+    <!-- Tick in circle: detached from the Figma page tree, so the library has no class for it — see uncaptured-reasons.tsv -->
+  </div>
+</div>
+</div>
+<pre>&lt;div class="pf-accordion"&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px"&gt;
+    &lt;!--pf-icon:right-chevron 22--&gt;
+    &lt;div class="pf-circle-icons" data-size="M - 44px"&gt;Circle icons&lt;/div&gt;
+    &lt;span class="pf-text-sub-heading" style="color:var(--pf-text-primary)"&gt;Text here&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-end;gap:20px"&gt;
+    &lt;div class="pf-tags" data-type="Positive" data-small="No"&gt;Tags&lt;/div&gt;
+    &lt;div class="pf-button" data-type="Action" data-state="Default" data-label="Yes"&gt;Button&lt;/div&gt;
+    &lt;!-- Tick in circle: detached from the Figma page tree, so the library has no class for it — see uncaptured-reasons.tsv --&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 </pre>
@@ -9848,6 +9890,19 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 <pre>&lt;div class="pf-clock-in"&gt;
   &lt;!--pf-icon:clock 22--&gt;
   &lt;span class="pf-text-body-text" style="color:var(--pf-text-inverted-primary)"&gt;Clock-in&lt;/span&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Component 1 <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">3 nodes</span></h2>
+<div class="stage"><div class="pf-component-1">
+  <span class="pf-text-sub-heading" style="color:var(--pf-text-secondary)">Apples</span>
+  <svg class="pf-icon" width="28" height="28" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path d="M11 16.88C10.38 16.88 9.88 17.38 9.88 18C9.88 18.62 10.38 19.13 11 19.13H25C25.62 19.13 26.13 18.62 26.13 18C26.13 17.38 25.62 16.88 25 16.88H11Z"/><path fill-rule="evenodd" d="M18 3.38C9.92 3.38 3.38 9.92 3.38 18C3.38 26.08 9.92 32.63 18 32.63C26.08 32.63 32.63 26.08 32.63 18C32.63 9.92 26.08 3.38 18 3.38ZM5.63 18C5.63 11.17 11.17 5.63 18 5.63C24.83 5.63 30.38 11.17 30.38 18C30.38 24.83 24.83 30.38 18 30.38C11.17 30.38 5.63 24.83 5.63 18Z"/></g></svg>
+</div>
+</div>
+<pre>&lt;div class="pf-component-1"&gt;
+  &lt;span class="pf-text-sub-heading" style="color:var(--pf-text-secondary)"&gt;Apples&lt;/span&gt;
+  &lt;!--pf-icon:remove 28--&gt;
 &lt;/div&gt;
 </pre>
 </div>
@@ -10470,6 +10525,44 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 </pre>
 </div>
 <div class="item">
+<h2 class="pf-text-sub-heading">Filter tab single <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">3 nodes</span></h2>
+<div class="stage"><div class="pf-filter-tab-single">
+  <span class="pf-text-large-heading" style="color:var(--pf-text-secondary)">10</span>
+  <span class="pf-text-body-text" style="color:var(--pf-text-secondary)">Tab name</span>
+</div>
+</div>
+<pre>&lt;div class="pf-filter-tab-single"&gt;
+  &lt;span class="pf-text-large-heading" style="color:var(--pf-text-secondary)"&gt;10&lt;/span&gt;
+  &lt;span class="pf-text-body-text" style="color:var(--pf-text-secondary)"&gt;Tab name&lt;/span&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Filter tabs <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">9 nodes</span></h2>
+<div class="stage"><div class="pf-filter-tabs">
+  <div class="pf-filter-tab-single" data-selected="True" data-breakpoint="Desktop" data-state="Default">Filter tab single</div>
+  <div class="pf-filter-tab-single" data-selected="False" data-breakpoint="Desktop" data-state="Default">Filter tab single</div>
+  <div class="pf-filter-tab-single" data-selected="False" data-breakpoint="Desktop" data-state="Default">Filter tab single</div>
+  <div class="pf-filter-tab-single" data-selected="False" data-breakpoint="Desktop" data-state="Default">Filter tab single</div>
+  <div class="pf-filter-tab-single" data-selected="False" data-breakpoint="Desktop" data-state="Default">Filter tab single</div>
+  <div class="pf-filter-tab-single" data-selected="False" data-breakpoint="Desktop" data-state="Default">Filter tab single</div>
+  <div class="pf-filter-tab-single" data-selected="False" data-breakpoint="Desktop" data-state="Default">Filter tab single</div>
+  <div class="pf-filter-tab-single" data-selected="False" data-breakpoint="Desktop" data-state="Default">Filter tab single</div>
+</div>
+</div>
+<pre>&lt;div class="pf-filter-tabs"&gt;
+  &lt;div class="pf-filter-tab-single" data-selected="True" data-breakpoint="Desktop" data-state="Default"&gt;Filter tab single&lt;/div&gt;
+  &lt;div class="pf-filter-tab-single" data-selected="False" data-breakpoint="Desktop" data-state="Default"&gt;Filter tab single&lt;/div&gt;
+  &lt;div class="pf-filter-tab-single" data-selected="False" data-breakpoint="Desktop" data-state="Default"&gt;Filter tab single&lt;/div&gt;
+  &lt;div class="pf-filter-tab-single" data-selected="False" data-breakpoint="Desktop" data-state="Default"&gt;Filter tab single&lt;/div&gt;
+  &lt;div class="pf-filter-tab-single" data-selected="False" data-breakpoint="Desktop" data-state="Default"&gt;Filter tab single&lt;/div&gt;
+  &lt;div class="pf-filter-tab-single" data-selected="False" data-breakpoint="Desktop" data-state="Default"&gt;Filter tab single&lt;/div&gt;
+  &lt;div class="pf-filter-tab-single" data-selected="False" data-breakpoint="Desktop" data-state="Default"&gt;Filter tab single&lt;/div&gt;
+  &lt;div class="pf-filter-tab-single" data-selected="False" data-breakpoint="Desktop" data-state="Default"&gt;Filter tab single&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
 <h2 class="pf-text-sub-heading">Floaters <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">4 nodes</span></h2>
 <div class="stage"><div class="pf-floaters">
   <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border-radius:50px;background:var(--pf-bg-primary)">
@@ -10583,6 +10676,21 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     &lt;div class="pf-button" data-type="Hollow" data-state="Default" data-label="Yes"&gt;Button&lt;/div&gt;
     &lt;div class="pf-button" data-type="Negative" data-state="Default" data-label="Yes"&gt;Button&lt;/div&gt;
   &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Full page <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">4 nodes</span></h2>
+<div class="stage"><div class="pf-full-page">
+  <div class="pf-side-navigation" data-system="People First">Side navigation</div>
+  <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:10px;padding:20px 20px 20px 20px"></div>
+  <div class="pf-header-navigation" data-mobile="No" data-tablet="No">Header navigation</div>
+</div>
+</div>
+<pre>&lt;div class="pf-full-page"&gt;
+  &lt;div class="pf-side-navigation" data-system="People First"&gt;Side navigation&lt;/div&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:10px;padding:20px 20px 20px 20px"&gt;&lt;/div&gt;
+  &lt;div class="pf-header-navigation" data-mobile="No" data-tablet="No"&gt;Header navigation&lt;/div&gt;
 &lt;/div&gt;
 </pre>
 </div>
@@ -10735,6 +10843,31 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 </pre>
 </div>
 <div class="item">
+<h2 class="pf-text-sub-heading">Horizontal scroll <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">7 nodes</span></h2>
+<div class="stage"><div class="pf-horizontal-scroll">
+  <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;border-radius:100px"><!-- SLOT: Figma marks this as where the component's content goes. -->
+    <div style="border-radius:170px;background:var(--pf-border-theme);min-height:5px;width:60px"></div>
+    <div style="border-radius:170px"></div>
+  </div>
+  <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
+    <div class="pf-button" data-type="Hollow" data-state="Disabled" data-label="No">Button</div>
+    <div class="pf-button" data-type="Hollow" data-state="Default" data-label="No">Button</div>
+  </div>
+</div>
+</div>
+<pre>&lt;div class="pf-horizontal-scroll"&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;border-radius:100px"&gt;&lt;!-- SLOT: Figma marks this as where the component's content goes. --&gt;
+    &lt;div style="border-radius:170px;background:var(--pf-border-theme);min-height:5px;width:60px"&gt;&lt;/div&gt;
+    &lt;div style="border-radius:170px"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px"&gt;
+    &lt;div class="pf-button" data-type="Hollow" data-state="Disabled" data-label="No"&gt;Button&lt;/div&gt;
+    &lt;div class="pf-button" data-type="Hollow" data-state="Default" data-label="No"&gt;Button&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
 <h2 class="pf-text-sub-heading">Image picker <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">10 nodes</span></h2>
 <div class="stage"><div class="pf-image-picker">
   <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-end;gap:5px;padding:5px 5px 5px 5px">
@@ -10780,6 +10913,99 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
   &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:12px;padding:12px 20px 12px 20px;background:var(--pf-bg-secondary)"&gt;
     &lt;span class="pf-text-label-text" style="color:var(--pf-text-primary)"&gt;No items added&lt;/span&gt;
     &lt;div class="pf-form-field" data-input-type="Search" data-state="Default" data-full-width="Yes"&gt;Form field&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Layout container (magazine style) <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">10 nodes</span></h2>
+<div class="stage"><div class="pf-layout-container-magazine-style">
+  <div class="pf-layout-container-title" data-property-1="Default">Layout container title</div>
+  <span class="pf-text-xl-heading" style="color:var(--pf-text-primary)">Summary cont</span>
+  <div class="pf-layout-container-tabs" data-property-1="Default">Layout container tabs</div>
+  <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:20px">
+    <div class="pf-content-cards" data-mobile="false">Content cards</div>
+    <div class="pf-content-cards" data-mobile="false">Content cards</div>
+    <div class="pf-content-cards" data-mobile="false">Content cards</div>
+    <div class="pf-content-cards" data-mobile="false">Content cards</div>
+  </div>
+  <div class="pf-horizontal-scroll" data-page="First">Horizontal scroll</div>
+</div>
+</div>
+<pre>&lt;div class="pf-layout-container-magazine-style"&gt;
+  &lt;div class="pf-layout-container-title" data-property-1="Default"&gt;Layout container title&lt;/div&gt;
+  &lt;span class="pf-text-xl-heading" style="color:var(--pf-text-primary)"&gt;Summary cont&lt;/span&gt;
+  &lt;div class="pf-layout-container-tabs" data-property-1="Default"&gt;Layout container tabs&lt;/div&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:20px"&gt;
+    &lt;div class="pf-content-cards" data-mobile="false"&gt;Content cards&lt;/div&gt;
+    &lt;div class="pf-content-cards" data-mobile="false"&gt;Content cards&lt;/div&gt;
+    &lt;div class="pf-content-cards" data-mobile="false"&gt;Content cards&lt;/div&gt;
+    &lt;div class="pf-content-cards" data-mobile="false"&gt;Content cards&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="pf-horizontal-scroll" data-page="First"&gt;Horizontal scroll&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Layout container tabs <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">12 nodes</span></h2>
+<div class="stage"><div class="pf-layout-container-tabs">
+  <div style="display:flex;flex-direction:row;align-items:flex-end;justify-content:flex-start;gap:30px">
+    <div class="pf-tab" data-system="People First" data-state="Selected" data-mobile="No" data-selected="Yes">Tab</div>
+    <div class="pf-tab" data-system="People First" data-state="Default" data-mobile="No" data-selected="No">Tab</div>
+    <div class="pf-tab" data-system="People First" data-state="Default" data-mobile="No" data-selected="No">Tab</div>
+    <div class="pf-tab" data-system="People First" data-state="Default" data-mobile="No" data-selected="No">Tab</div>
+    <div class="pf-tab" data-system="People First" data-state="Default" data-mobile="No" data-selected="No">Tab</div>
+    <div class="pf-tab" data-system="People First" data-state="Default" data-mobile="No" data-selected="No">Tab</div>
+  </div>
+  <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:10px">
+    <div class="pf-button" data-type="Action" data-state="Default" data-label="Yes">Button</div>
+    <div class="pf-button" data-type="Hollow" data-state="Default" data-label="Yes">Button</div>
+    <div class="pf-button" data-type="Hollow" data-state="Default" data-label="No">Button</div>
+  </div>
+</div>
+</div>
+<pre>&lt;div class="pf-layout-container-tabs"&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:flex-end;justify-content:flex-start;gap:30px"&gt;
+    &lt;div class="pf-tab" data-system="People First" data-state="Selected" data-mobile="No" data-selected="Yes"&gt;Tab&lt;/div&gt;
+    &lt;div class="pf-tab" data-system="People First" data-state="Default" data-mobile="No" data-selected="No"&gt;Tab&lt;/div&gt;
+    &lt;div class="pf-tab" data-system="People First" data-state="Default" data-mobile="No" data-selected="No"&gt;Tab&lt;/div&gt;
+    &lt;div class="pf-tab" data-system="People First" data-state="Default" data-mobile="No" data-selected="No"&gt;Tab&lt;/div&gt;
+    &lt;div class="pf-tab" data-system="People First" data-state="Default" data-mobile="No" data-selected="No"&gt;Tab&lt;/div&gt;
+    &lt;div class="pf-tab" data-system="People First" data-state="Default" data-mobile="No" data-selected="No"&gt;Tab&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:10px"&gt;
+    &lt;div class="pf-button" data-type="Action" data-state="Default" data-label="Yes"&gt;Button&lt;/div&gt;
+    &lt;div class="pf-button" data-type="Hollow" data-state="Default" data-label="Yes"&gt;Button&lt;/div&gt;
+    &lt;div class="pf-button" data-type="Hollow" data-state="Default" data-label="No"&gt;Button&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Layout container title <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">9 nodes</span></h2>
+<div class="stage"><div class="pf-layout-container-title">
+  <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
+    <div class="pf-circle-icons" data-size="M - 44px">Circle icons</div>
+    <span class="pf-text-sub-heading" style="color:var(--pf-text-primary)">Title</span>
+  </div>
+  <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-end;gap:10px">
+    <div class="pf-button" data-type="Action" data-state="Default" data-label="Yes">Button</div>
+    <div class="pf-button" data-type="Hollow" data-state="Default" data-label="Yes">Button</div>
+    <div class="pf-button" data-type="Hollow" data-state="Default" data-label="No">Button</div>
+    <!-- Pop up button/ context menu: not in the library -->
+  </div>
+</div>
+</div>
+<pre>&lt;div class="pf-layout-container-title"&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px"&gt;
+    &lt;div class="pf-circle-icons" data-size="M - 44px"&gt;Circle icons&lt;/div&gt;
+    &lt;span class="pf-text-sub-heading" style="color:var(--pf-text-primary)"&gt;Title&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-end;gap:10px"&gt;
+    &lt;div class="pf-button" data-type="Action" data-state="Default" data-label="Yes"&gt;Button&lt;/div&gt;
+    &lt;div class="pf-button" data-type="Hollow" data-state="Default" data-label="Yes"&gt;Button&lt;/div&gt;
+    &lt;div class="pf-button" data-type="Hollow" data-state="Default" data-label="No"&gt;Button&lt;/div&gt;
+    &lt;!-- Pop up button/ context menu: not in the library --&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 </pre>
@@ -10843,6 +11069,105 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     &lt;!--pf-icon:home 36--&gt;
   &lt;/div&gt;
   &lt;span class="pf-text-label-text"&gt;Label&lt;/span&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Menu-search-settings <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">37 nodes</span></h2>
+<div class="stage"><div class="pf-menu-search-settings">
+  <div style="display:flex;flex-direction:row;align-items:center;justify-content:center">
+    <div></div>
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:10px"></div>
+    <!-- Close x: detached from the Figma page tree, so the library has no class for it — see uncaptured-reasons.tsv -->
+  </div>
+  <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:space-between;gap:10px;padding:0px 80px 0px 80px">
+    <div class="pf-menu" data-size="Large">Menu</div>
+  </div>
+  <!-- Logo: not in the library -->
+  <div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:10px;padding:0px 150px 0px 150px">
+    <div class="pf-menu" data-size="Large">Menu</div>
+    <div class="pf-menu" data-size="Large">Menu</div>
+    <div class="pf-menu" data-size="Large">Menu</div>
+    <div class="pf-menu" data-size="Large">Menu</div>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:10px 465px 10px 465px">
+    <div style="height:1px;align-self:stretch;background:var(--pf-border-theme)"></div>
+  </div>
+  <span style="color:var(--pf-text-theme);font-size:16px">My apps</span><!-- 16px is not a text style; see FIGMA-ISSUES.md section 7 -->
+  <div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:10px;padding:0px 150px 0px 150px">
+    <div class="pf-menu" data-size="Large">Menu</div>
+    <div class="pf-menu" data-size="Large">Menu</div>
+    <div class="pf-menu" data-size="Large">Menu</div>
+    <div class="pf-menu" data-size="Large">Menu</div>
+  </div>
+  <div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:10px;padding:0px 150px 0px 150px">
+    <div class="pf-menu" data-size="Large">Menu</div>
+    <div class="pf-menu" data-size="Large">Menu</div>
+    <div class="pf-menu" data-size="Large">Menu</div>
+    <div class="pf-menu" data-size="Large">Menu</div>
+  </div>
+  <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:150px;padding:0px 150px 0px 150px">
+    <div class="pf-menu" data-size="Large">Menu</div>
+    <div class="pf-menu" data-size="Large">Menu</div>
+    <div class="pf-menu" data-size="Large">Menu</div>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:10px 465px 10px 465px">
+    <div style="height:1px;align-self:stretch;background:var(--pf-border-theme)"></div>
+  </div>
+  <span style="color:var(--pf-text-theme);font-size:16px">External lin</span><!-- 16px is not a text style; see FIGMA-ISSUES.md section 7 -->
+  <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:10px">
+    <div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:10px"></div>
+    <div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:10px"></div>
+    <div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:10px"></div>
+  </div>
+</div>
+</div>
+<pre>&lt;div class="pf-menu-search-settings"&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center"&gt;
+    &lt;div&gt;&lt;/div&gt;
+    &lt;div style="display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:10px"&gt;&lt;/div&gt;
+    &lt;!-- Close x: detached from the Figma page tree, so the library has no class for it — see uncaptured-reasons.tsv --&gt;
+  &lt;/div&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:space-between;gap:10px;padding:0px 80px 0px 80px"&gt;
+    &lt;div class="pf-menu" data-size="Large"&gt;Menu&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- Logo: not in the library --&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:10px;padding:0px 150px 0px 150px"&gt;
+    &lt;div class="pf-menu" data-size="Large"&gt;Menu&lt;/div&gt;
+    &lt;div class="pf-menu" data-size="Large"&gt;Menu&lt;/div&gt;
+    &lt;div class="pf-menu" data-size="Large"&gt;Menu&lt;/div&gt;
+    &lt;div class="pf-menu" data-size="Large"&gt;Menu&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:10px 465px 10px 465px"&gt;
+    &lt;div style="height:1px;align-self:stretch;background:var(--pf-border-theme)"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;span style="color:var(--pf-text-theme);font-size:16px"&gt;My apps&lt;/span&gt;&lt;!-- 16px is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:10px;padding:0px 150px 0px 150px"&gt;
+    &lt;div class="pf-menu" data-size="Large"&gt;Menu&lt;/div&gt;
+    &lt;div class="pf-menu" data-size="Large"&gt;Menu&lt;/div&gt;
+    &lt;div class="pf-menu" data-size="Large"&gt;Menu&lt;/div&gt;
+    &lt;div class="pf-menu" data-size="Large"&gt;Menu&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:10px;padding:0px 150px 0px 150px"&gt;
+    &lt;div class="pf-menu" data-size="Large"&gt;Menu&lt;/div&gt;
+    &lt;div class="pf-menu" data-size="Large"&gt;Menu&lt;/div&gt;
+    &lt;div class="pf-menu" data-size="Large"&gt;Menu&lt;/div&gt;
+    &lt;div class="pf-menu" data-size="Large"&gt;Menu&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:150px;padding:0px 150px 0px 150px"&gt;
+    &lt;div class="pf-menu" data-size="Large"&gt;Menu&lt;/div&gt;
+    &lt;div class="pf-menu" data-size="Large"&gt;Menu&lt;/div&gt;
+    &lt;div class="pf-menu" data-size="Large"&gt;Menu&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:10px 465px 10px 465px"&gt;
+    &lt;div style="height:1px;align-self:stretch;background:var(--pf-border-theme)"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;span style="color:var(--pf-text-theme);font-size:16px"&gt;External lin&lt;/span&gt;&lt;!-- 16px is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
+  &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:10px"&gt;
+    &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:10px"&gt;&lt;/div&gt;
+    &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:10px"&gt;&lt;/div&gt;
+    &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:10px"&gt;&lt;/div&gt;
+  &lt;/div&gt;
 &lt;/div&gt;
 </pre>
 </div>
@@ -11114,6 +11439,27 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 </pre>
 </div>
 <div class="item">
+<h2 class="pf-text-sub-heading">Notification categories <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">6 nodes</span></h2>
+<div class="stage"><div class="pf-notification-categories">
+  <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"><!-- SLOT: Figma marks this as where the component's content goes. -->
+    <div class="pf-notification-tabs" data-state="Selected" data-selected="Yes">Notification tabs</div>
+    <div class="pf-notification-tabs" data-state="Default" data-selected="No">Notification tabs</div>
+    <div class="pf-notification-tabs" data-state="Default" data-selected="No">Notification tabs</div>
+    <div class="pf-notification-tabs" data-state="Default" data-selected="No">Notification tabs</div>
+  </div>
+</div>
+</div>
+<pre>&lt;div class="pf-notification-categories"&gt;
+  &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;&lt;!-- SLOT: Figma marks this as where the component's content goes. --&gt;
+    &lt;div class="pf-notification-tabs" data-state="Selected" data-selected="Yes"&gt;Notification tabs&lt;/div&gt;
+    &lt;div class="pf-notification-tabs" data-state="Default" data-selected="No"&gt;Notification tabs&lt;/div&gt;
+    &lt;div class="pf-notification-tabs" data-state="Default" data-selected="No"&gt;Notification tabs&lt;/div&gt;
+    &lt;div class="pf-notification-tabs" data-state="Default" data-selected="No"&gt;Notification tabs&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
 <h2 class="pf-text-sub-heading">Notification image <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">2 nodes</span></h2>
 <div class="stage"><div class="pf-notification-image">
   <div class="pf-people" data-who="S -  Alice Robinson">People</div>
@@ -11121,6 +11467,42 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 </div>
 <pre>&lt;div class="pf-notification-image"&gt;
   &lt;div class="pf-people" data-who="S -  Alice Robinson"&gt;People&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Notification list <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">4 nodes</span></h2>
+<div class="stage"><div class="pf-notification-list">
+  <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start">
+    <div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:10px;padding:20px 20px 0px 40px"></div>
+    <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:15px;padding:20px 20px 20px 20px"><!-- SLOT: Figma marks this as where the component's content goes. --></div>
+  </div>
+</div>
+</div>
+<pre>&lt;div class="pf-notification-list"&gt;
+  &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;
+    &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:10px;padding:20px 20px 0px 40px"&gt;&lt;/div&gt;
+    &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:15px;padding:20px 20px 20px 20px"&gt;&lt;!-- SLOT: Figma marks this as where the component's content goes. --&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Notification panel <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">5 nodes</span></h2>
+<div class="stage"><div class="pf-notification-panel">
+  <div class="pf-side-panel-header" data-size="Default">Side panel header</div>
+  <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start">
+    <div class="pf-notification-categories" data-mobile="No">Notification categories</div>
+    <div class="pf-notification-list" data-mobile="No">Notification list</div>
+  </div>
+</div>
+</div>
+<pre>&lt;div class="pf-notification-panel"&gt;
+  &lt;div class="pf-side-panel-header" data-size="Default"&gt;Side panel header&lt;/div&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start"&gt;
+    &lt;div class="pf-notification-categories" data-mobile="No"&gt;Notification categories&lt;/div&gt;
+    &lt;div class="pf-notification-list" data-mobile="No"&gt;Notification list&lt;/div&gt;
+  &lt;/div&gt;
 &lt;/div&gt;
 </pre>
 </div>
@@ -11344,6 +11726,49 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 </pre>
 </div>
 <div class="item">
+<h2 class="pf-text-sub-heading">Repeating group <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">14 nodes</span></h2>
+<div class="stage"><div class="pf-repeating-group">
+  <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
+    <div style="min-height:6px;width:6px"></div>
+    <span style="font-size:16px">Denotes a re</span><!-- 16px Italic is not a text style; see FIGMA-ISSUES.md section 7 -->
+  </div>
+  <span style="color:var(--pf-text-primary);font-size:16px;font-weight:600">Item 1</span><!-- 16px SemiBold is not a text style; see FIGMA-ISSUES.md section 7 -->
+  <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:20px;padding:10px 10px 10px 10px"><!-- SLOT: Figma marks this as where the component's content goes. -->
+    <div class="pf-form-field" data-input-type="Text" data-state="Default" data-full-width="Yes">Form field</div>
+    <div class="pf-form-field" data-input-type="Text" data-state="Default" data-full-width="Yes">Form field</div>
+  </div>
+  <div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:5px">
+    <span style="color:var(--pf-text-link);font-size:13px">Add another</span><!-- 13px Regular is not a text style; see FIGMA-ISSUES.md section 7 -->
+    <span style="color:var(--pf-text-negative);font-size:13px">Remove</span><!-- 13px Regular is not a text style; see FIGMA-ISSUES.md section 7 -->
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:20px">
+    <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:6px"></div>
+    <div class="pf-links" data-state="Add">Links</div>
+  </div>
+</div>
+</div>
+<pre>&lt;div class="pf-repeating-group"&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px"&gt;
+    &lt;div style="min-height:6px;width:6px"&gt;&lt;/div&gt;
+    &lt;span style="font-size:16px"&gt;Denotes a re&lt;/span&gt;&lt;!-- 16px Italic is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
+  &lt;/div&gt;
+  &lt;span style="color:var(--pf-text-primary);font-size:16px;font-weight:600"&gt;Item 1&lt;/span&gt;&lt;!-- 16px SemiBold is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
+  &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:20px;padding:10px 10px 10px 10px"&gt;&lt;!-- SLOT: Figma marks this as where the component's content goes. --&gt;
+    &lt;div class="pf-form-field" data-input-type="Text" data-state="Default" data-full-width="Yes"&gt;Form field&lt;/div&gt;
+    &lt;div class="pf-form-field" data-input-type="Text" data-state="Default" data-full-width="Yes"&gt;Form field&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:5px"&gt;
+    &lt;span style="color:var(--pf-text-link);font-size:13px"&gt;Add another&lt;/span&gt;&lt;!-- 13px Regular is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
+    &lt;span style="color:var(--pf-text-negative);font-size:13px"&gt;Remove&lt;/span&gt;&lt;!-- 13px Regular is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
+  &lt;/div&gt;
+  &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:20px"&gt;
+    &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:6px"&gt;&lt;/div&gt;
+    &lt;div class="pf-links" data-state="Add"&gt;Links&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
 <h2 class="pf-text-sub-heading">Required field <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">3 nodes</span></h2>
 <div class="stage"><div class="pf-required-field">
   <div style="background:var(--pf-icon-required-field);min-height:6px;width:6px"></div>
@@ -11522,6 +11947,21 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
   &lt;/div&gt;
   &lt;!--pf-icon:context-menu 28--&gt;
   &lt;div class="pf-switcher" data-property-1="Default"&gt;Switcher&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Side panel <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">4 nodes</span></h2>
+<div class="stage"><div class="pf-side-panel">
+  <div class="pf-side-panel-header" data-size="Default">Side panel header</div>
+  <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:25px;padding:10px 10px 10px 10px"><!-- SLOT: Figma marks this as where the component's content goes. --></div>
+  <div class="pf-sticky-footer" data-default="Default">Sticky footer</div>
+</div>
+</div>
+<pre>&lt;div class="pf-side-panel"&gt;
+  &lt;div class="pf-side-panel-header" data-size="Default"&gt;Side panel header&lt;/div&gt;
+  &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:25px;padding:10px 10px 10px 10px"&gt;&lt;!-- SLOT: Figma marks this as where the component's content goes. --&gt;&lt;/div&gt;
+  &lt;div class="pf-sticky-footer" data-default="Default"&gt;Sticky footer&lt;/div&gt;
 &lt;/div&gt;
 </pre>
 </div>
@@ -11750,6 +12190,21 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
   &lt;div class="pf-button" data-type="Hollow" data-state="Default" data-label="Yes"&gt;Button&lt;/div&gt;
   &lt;div class="pf-button" data-type="Hollow" data-state="Default" data-label="Yes"&gt;Button&lt;/div&gt;
   &lt;!--pf-icon:context-menu 28--&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Switcher <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">4 nodes</span></h2>
+<div class="stage"><div class="pf-switcher">
+  <svg class="pf-icon" width="28" height="28" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M6.38 18C6.38 17.38 6.88 16.88 7.5 16.88H28.5C29.12 16.88 29.63 17.38 29.63 18C29.63 18.62 29.12 19.13 28.5 19.13H7.5C6.88 19.13 6.38 18.62 6.38 18Z"/><path fill-rule="evenodd" d="M29.3 17.2C29.73 17.64 29.73 18.36 29.3 18.8L20.3 27.8C19.86 28.23 19.14 28.23 18.7 27.8C18.27 27.36 18.27 26.64 18.7 26.2L27.7 17.2C28.14 16.77 28.86 16.77 29.3 17.2Z"/><path fill-rule="evenodd" d="M18.7 8.2C19.14 7.77 19.86 7.77 20.3 8.2L29.3 17.2C29.73 17.64 29.73 18.36 29.3 18.8C28.86 19.23 28.14 19.23 27.7 18.8L18.7 9.8C18.27 9.36 18.27 8.64 18.7 8.2Z"/></svg>
+  <span class="pf-text-body-text" style="color:var(--pf-text-primary)">1 of 200</span>
+  <svg class="pf-icon" width="28" height="28" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M6.38 18C6.38 17.38 6.88 16.88 7.5 16.88H28.5C29.12 16.88 29.63 17.38 29.63 18C29.63 18.62 29.12 19.13 28.5 19.13H7.5C6.88 19.13 6.38 18.62 6.38 18Z"/><path fill-rule="evenodd" d="M29.3 17.2C29.73 17.64 29.73 18.36 29.3 18.8L20.3 27.8C19.86 28.23 19.14 28.23 18.7 27.8C18.27 27.36 18.27 26.64 18.7 26.2L27.7 17.2C28.14 16.77 28.86 16.77 29.3 17.2Z"/><path fill-rule="evenodd" d="M18.7 8.2C19.14 7.77 19.86 7.77 20.3 8.2L29.3 17.2C29.73 17.64 29.73 18.36 29.3 18.8C28.86 19.23 28.14 19.23 27.7 18.8L18.7 9.8C18.27 9.36 18.27 8.64 18.7 8.2Z"/></svg>
+</div>
+</div>
+<pre>&lt;div class="pf-switcher"&gt;
+  &lt;!--pf-icon:right-arrow 28--&gt;
+  &lt;span class="pf-text-body-text" style="color:var(--pf-text-primary)"&gt;1 of 200&lt;/span&gt;
+  &lt;!--pf-icon:right-arrow 28--&gt;
 &lt;/div&gt;
 </pre>
 </div>
@@ -12200,6 +12655,43 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     &lt;span class="pf-text-body-text" style="color:var(--pf-text-primary)"&gt;Aperiam dicta cu&lt;/span&gt;
   &lt;/div&gt;
   &lt;span style="color:var(--pf-text-secondary);font-size:16px"&gt;200 characters o&lt;/span&gt;&lt;!-- 16px is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">single layout card <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">13 nodes</span></h2>
+<div class="stage"><div class="pf-single-layout-card">
+  <div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:20px">
+    <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px"></div>
+    <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-end;gap:10px"></div>
+  </div>
+  <div style="display:flex;flex-direction:row;align-items:flex-end;justify-content:flex-start;gap:30px">
+    <div class="pf-tab" data-system="People First" data-state="Selected" data-mobile="No" data-selected="Yes">Tab</div>
+    <div class="pf-tab" data-system="People First" data-state="Default" data-mobile="No" data-selected="No">Tab</div>
+    <div class="pf-tab" data-system="People First" data-state="Default" data-mobile="No" data-selected="No">Tab</div>
+    <div class="pf-tab" data-system="People First" data-state="Default" data-mobile="No" data-selected="No">Tab</div>
+    <div class="pf-tab" data-system="People First" data-state="Default" data-mobile="No" data-selected="No">Tab</div>
+    <div class="pf-tab" data-system="People First" data-state="Default" data-mobile="No" data-selected="No">Tab</div>
+  </div>
+  <div class="pf-content-cards" data-mobile="false">Content cards</div>
+  <div class="pf-empty-section" data-mobile="False">Empty section</div>
+</div>
+</div>
+<pre>&lt;div class="pf-single-layout-card"&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:20px"&gt;
+    &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px"&gt;&lt;/div&gt;
+    &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-end;gap:10px"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:flex-end;justify-content:flex-start;gap:30px"&gt;
+    &lt;div class="pf-tab" data-system="People First" data-state="Selected" data-mobile="No" data-selected="Yes"&gt;Tab&lt;/div&gt;
+    &lt;div class="pf-tab" data-system="People First" data-state="Default" data-mobile="No" data-selected="No"&gt;Tab&lt;/div&gt;
+    &lt;div class="pf-tab" data-system="People First" data-state="Default" data-mobile="No" data-selected="No"&gt;Tab&lt;/div&gt;
+    &lt;div class="pf-tab" data-system="People First" data-state="Default" data-mobile="No" data-selected="No"&gt;Tab&lt;/div&gt;
+    &lt;div class="pf-tab" data-system="People First" data-state="Default" data-mobile="No" data-selected="No"&gt;Tab&lt;/div&gt;
+    &lt;div class="pf-tab" data-system="People First" data-state="Default" data-mobile="No" data-selected="No"&gt;Tab&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="pf-content-cards" data-mobile="false"&gt;Content cards&lt;/div&gt;
+  &lt;div class="pf-empty-section" data-mobile="False"&gt;Empty section&lt;/div&gt;
 &lt;/div&gt;
 </pre>
 </div>

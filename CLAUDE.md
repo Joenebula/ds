@@ -115,16 +115,22 @@ dist/templates/pf-metric-card.html      docs/templates.html   — see them all r
 
 `npm run verify` runs `check-templates.mjs`, which fails if a composite component has no
 template or if a template renders an empty box. It also reports how many of them render
-NOTHING from the bare class — currently **all 11 of them**, which is exactly why this
+NOTHING from the bare class — currently **all 154 of them**, which is exactly why this
 exists.
 
-**Coverage: 139 of the 161 non-icon components are walked, and 136 have templates.** The
-22 without one are either not composite — `Tooltip` is drawn from vector paths,
-`Default header background` is artwork, `Information box` wraps an instance of itself — or
-are the large layout containers (`Accordion`, `Side panel`, `50/50 layout container`,
-`Menu-search-settings` and friends), which are still to walk. If a component has no
-template, open `docs/components.html` and look at what its class actually renders before
-building on it. If it renders a blank box, say so rather than hand-writing a substitute.
+**Coverage: 158 of the 161 product-page components are walked, and 154 have templates.**
+The three unwalked ones are each unwalkable rather than skipped: `Multi-select checkbox`
+has no children in Figma, `Side navigation tab` is the old name of `Notification tabs`, and
+`Default header background` is detached from the page tree (it is artwork, and has its own
+section above). The four walked ones with no template are not composite — `Tooltip` is
+drawn from vector paths and `Information box` wraps an instance of itself.
+
+**A template is only as deep as the walk that made it.** The walk stops at depth 2, so a
+container three levels down comes back with no children and its template renders an empty
+box inside an otherwise correct one. 44 of the 156 walked components have a container
+sitting exactly on that cap, and the data cannot say which of them are genuinely empty. Do
+not read a blank inner div as "Figma has nothing here". This is the row-cap truncation
+fault one level down, and it is open.
 
 (The same section used to cite "69 classes with no paint". That number was wrong —
 `check-component-art.mjs` was counting rules rather than classes. The real figure is 2, and

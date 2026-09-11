@@ -877,15 +877,36 @@ Four things the work turned up, each now handled rather than papered over:
 - **Off-ramp text keeps its measurement.** "More details" is 13px bound to no style;
   emitting no size left it at the browser's 16.
 
-**Coverage: 139 of the 161 non-icon components walked; 136 have templates.** Every product
-page has been through it.
-
-**Remaining: 22.** Most are not composite and correctly have none — `Tooltip` is vector
-paths, `Default header background` is artwork, `Information box` wraps itself,
-`Side navigation tab` is a rename. The rest are the large layout containers (`Accordion`,
+**Coverage: 158 of the 161 product-page components walked; 154 have templates.** Every
+product page has been through it, the large layout containers included — `Accordion`,
 `Side panel`, `Layout container (magazine style)`, `50/50 layout container`,
-`Horizontal scroll`, `Menu-search-settings`, `Full page`, `Repeating group`, the
-Notification panels, `Filter tabs`), each of which is big enough to need a call of its own.
+`Horizontal scroll`, `Menu-search-settings`, `Full page`, `Repeating group`,
+`Notification panel`, `Notification list`, `Notification categories`, `Filter tabs`.
+
+**Nothing is left to walk at this depth.** The three components with no walk cannot be
+walked: `Multi-select checkbox` has no children in Figma, `Side navigation tab` is the old
+name of `Notification tabs`, and `Default header background` is detached from the page
+tree. The four walked components with no template are not composite — `Tooltip` is vector
+paths, `Information box` wraps an instance of itself.
+
+### Still open: the walk's DEPTH cap truncates silently
+
+The row cap was fixed — a component that will not fit whole is rolled back and named. The
+**depth** cap was not. The walk stops at depth 2, so a container three levels down is
+recorded with no children, and its template renders an empty box inside an otherwise
+correct one. That is indistinguishable from a container Figma genuinely leaves empty.
+
+**44 of the 156 walked components have a container sitting exactly on the cap** — among
+them `Table (AG)` (`Fixed columns`, `Unfixed columns`), `Calendar picker` (its four week
+rows), `Manage columns` (`Column list`), `Notification list` (`Actions`, `Cards`) and
+`Time picker`. Several of those certainly do have contents, so several templates are shells
+again, which is the fault this whole item exists to fix.
+
+The data cannot answer this: a row records what a node IS, never how many children it has,
+so nothing downstream can tell empty from cut off. The fix is in the walk — record each
+node's child count and raise the cap — which changes the block header and therefore means
+re-walking all 156 components. `component-tree.tsv` as it stands is correct as far as it
+goes and is committed; the deepening is the next piece of work, not a repair of this one.
 
 Three more faults the widening turned up, all now fixed:
 
