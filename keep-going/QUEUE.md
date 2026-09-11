@@ -792,3 +792,69 @@ produces confident nonsense.
 
 **Done when:** met. Both documents written, one alias added, README updated, and two stale
 README figures corrected (198 tokens not 177, 420 custom properties not 365).
+
+---
+
+## 9. Component artwork — `done`
+
+The component extract models a component as one outer box plus three colour slots
+(fill / stroke / text), and every slot wants a colour VARIABLE. The header band's visual
+is a raster image bound to no variable, so `uncaptured-reasons.tsv` recorded "nothing to
+put in a stylesheet" and the whole artwork was dropped. The class rendered as an empty
+transparent box, so a header had to be hand-written — and hand-writing is where the flat
+pink band and the wrong font weights came from.
+
+**Done when:** met. Six `Default header background` variants exported at scale 1,
+harvested by `scripts/extract-component-art.mjs`, inlined as data: URIs (a `url()` path
+fails silently in an artifact or canvas), theme-aware without the page setting
+`data-darkmode`. `scripts/check-component-art.mjs` fails if extracted artwork does not
+reach the stylesheet, and pins the count of classes with no paint at all.
+
+## 10. Navigation item measured per variant — `done`
+
+One geometry row per component meant the Selected variant's numbers were applied to every
+state and device. Four measured rows replace it.
+
+**Done when:** met. Verified by screenshot in both modes — which is what caught the
+regression the change introduced.
+
+---
+
+# Still open
+
+## A. Composite components are still shells — `pending`
+
+The root cause behind both items above is unchanged: the extract captures a component's
+OUTER BOX and nothing inside it. No children, no nested instances, no per-child type.
+So simple components work as classes and composite ones do not — `.pf-header`,
+`.pf-card`, `.pf-metric-card`, `.pf-calendar-picker`, `.pf-table-ag` carry a size and
+nothing in it. **70 classes have no paint at all** (pinned by `check-component-art.mjs`).
+
+This needs a real structural extract: per component, the child tree with each child's box,
+layout, fills, strokes, radius and text style, plus an HTML template per composite
+component so "use the component" means pasting working markup rather than an empty div.
+The pilot walk already works — see the TSV shape in this session's `use_figma` calls.
+
+**Done when:** building a header, a card or a metric card means using the component and
+nothing else, and a check fails when a composite component's class renders an empty box.
+
+**Depends on:** nothing. Large.
+
+## B. `verify-layout` is blind to content that ESCAPES its container — `pending`
+
+It fails when an element is clipped by an ancestor. It passes when content overflows
+*outward* instead — visually just as wrong, silently green.
+
+**Done when:** a deliberately overflowing element fails the check.
+
+## C. Two Figma components share the name `Header` — `pending`
+
+`13658:7653` on Navigation (the app header) and one on the WIKI page (a docs header).
+Both generate `.pf-header`; one silently wins. Node ID is the identity, not the name.
+
+**Done when:** colliding names either disambiguate in the class name or fail the build.
+
+## D. `Tabs navigation` — `pending`
+
+Used by the Case Management test file, not present in the People First library. Unresolved
+whether it is CM-only or another rename. Node-ID comparison will say.
