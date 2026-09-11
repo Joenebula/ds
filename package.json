@@ -12,7 +12,8 @@
     "icons": "node scripts/extract-icons.mjs && node scripts/verify-icons.mjs --sheet docs/icons.html",
     "verify:screens": "node scripts/verify-screens.mjs",
     "tag": "node scripts/name-elements.mjs",
-    "off-system": "node scripts/check-off-system.mjs"
+    "off-system": "node scripts/check-off-system.mjs",
+    "verify-spec": "node scripts/verify-spec.mjs"
   },
   "devDependencies": {
     "playwright-core": "^1.49.0"
