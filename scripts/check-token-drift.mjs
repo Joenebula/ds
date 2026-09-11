@@ -138,7 +138,18 @@ export const BOUND_BY = {
 // five times. A Figma variable name is word characters, spaces and a little punctuation — never
 // an ellipsis, never a sentence. Rejecting anything else costs nothing and closes the whole class,
 // not just the one character that found it.
-const NAME_SHAPE = /^--[A-Za-z0-9\\/_.%+()-][A-Za-z0-9\\/_.%+() -]*$/;
+// TIGHTENED 2026-09-11, because the first version closed one SPELLING rather than the class. It
+// rejected the single character `…` and still accepted `--...` (a dot was in the allowed set) and
+// `--…` (the escape spelling, whose backslash was allowed for the sake of `--text\/primary`).
+// Both are in this file's OWN comments and self-test, and both came back as UNKNOWN tokens the
+// moment a session re-read it — the same false positive, through the two spellings the guard
+// happened not to cover.
+//
+// So it is now written from what a Figma name IS rather than from what prose has been seen to do:
+// of the 228 names this repo holds, none contains a dot and none contains a backslash. The only
+// backslash that is ever legitimate is the `\/` a kebab CSS variable uses to escape the collection
+// separator, so a backslash is allowed ONLY in that pair, and the dot is gone entirely.
+const NAME_SHAPE = /^--(?:\\\/|[A-Za-z0-9\/_%+()-])(?:\\\/|[A-Za-z0-9\/_%+() -])*$/;
 export function scanVars(text) {
   return [...text.matchAll(/var\((--[^,)]+)/g)].map((m) => m[1])
     .filter((v) => !/^--pf-/.test(v) && NAME_SHAPE.test(v));
@@ -258,6 +269,21 @@ function selfTest() {
   // with an ellipsis inside one, and it was scraped as a token five times.
   if (scanVars('pulls every `var(--\u2026)` out of them').length !== 0) {
     miss('a var() whose name is not name-shaped must be rejected, not reported as a Figma token');
+  }
+  // ...AND ITS OTHER TWO SPELLINGS. The first guard closed the character and left these, so both
+  // came back as UNKNOWN tokens from this file's own source the moment a session re-read it.
+  for (const prose of ['// Every `var(--...)` in a chunk of text, as the raw name',
+    'if (scanVars(\'pulls every `var(--\\u2026)` out of them\')']) {
+    if (scanVars(prose).length !== 0) {
+      miss(`a var() spelled with dots or a \\u escape is prose, not a token (${JSON.stringify(scanVars(prose))})`);
+    }
+  }
+  // And the tightening must not reject the real thing: a kebab name escapes its separator as \/.
+  if (scanVars(String.raw`var(--text\/primary)`).length !== 1) {
+    miss('an escaped separator is the normal spelling of a kebab variable and must be accepted');
+  }
+  if (scanVars('var(--navigation/nav-bg-top)').length !== 1) {
+    miss('an unescaped separator must also be accepted');
   }
   if (scanVars(String.raw`var(--navigation\/nav-bg-top,#fff)`).length !== 1) {
     miss('a real kebab variable name must still be accepted');

@@ -333,6 +333,17 @@ same value**, so there is nothing to extract — but nine components still bind 
 `Full page` binds four of them, and `Header` binds a deprecated pink *and* its non-deprecated twin
 in the same component. That is a Figma-side rebinding job which this rule does not touch.
 
+**The name guard was tightened on 2026-09-11, and the reason is the lesson.** It was written to
+reject prose that merely contains `var(--`, and it rejected the single character `…` — one
+SPELLING, not the class. `--...` still passed, because a dot was in the allowed set, and so did
+`--\u2026`, the escape spelling, because a backslash was allowed for the sake of `--text\/primary`.
+Both appear in `check-token-drift.mjs`'s own comments and self-test, and both came back as UNKNOWN
+tokens the moment a session re-read the file. The guard is now written from what a Figma name IS
+rather than from what prose has been seen to do: of the 228 names this repo holds, **none contains
+a dot and none contains a backslash**, so the dot is gone and a backslash is legal only in the
+`\/` pair a kebab variable uses to escape its separator. Four mutants hold it, including one that
+allows the dot back and one that rejects the real names too.
+
 **It cannot attribute a read to a Figma file.** A design-context response does not carry its file
 key, so a transcript that also read another Figma file will show that file's variables as
 unknowns here. Six of the current eight are that: they come from the Pathway test file, and their
