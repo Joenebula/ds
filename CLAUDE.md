@@ -147,6 +147,43 @@ genuinely gone from Figma.
 And every transcript is read, oldest first, not the one with the lexicographically-last filename.
 That is what lets a re-extract span more than one session, which at ~30 heavy reads it will.
 
+## Token drift
+
+The repo could always tell you a COMPONENT had drifted. Nothing could tell you a TOKEN had. The
+component extract records a colour by its Figma variable name and every reader downstream assumes
+the token layer knows that name; nothing checked it. Two were found by accident on 2026-09-11 —
+`Navigation/Nav bg top` and `Border/Default full` are bound in Figma today and are in neither
+`semantic.tsv` nor `primitives.tsv`. They surfaced only because the kebab decoder refused to guess
+at a near miss. Luck is not a mechanism.
+
+```
+npm run tokens:check
+```
+
+No Figma calls: it reads the `get_design_context` responses already durable in the session
+transcripts, pulls every `var(--…)` out, and resolves each against every name the repo holds —
+colours in `semantic.tsv` and `primitives.tsv`, plus the dimensions, typography, text, effect,
+grid and gradient names in `other.json`. **It is not in `npm run verify`**, because a fresh clone
+has no transcripts and it would exit 2 (vacuous) and fail the chain for ever. Run it in a session
+that has read components.
+
+An unexplained unknown FAILS. A token that is genuinely not coming gets a line in
+`tokens/_raw/uncaptured-tokens.tsv`; a `pending:` reason passes and is counted and named every run.
+
+**It cannot attribute a read to a Figma file.** A design-context response does not carry its file
+key, so a transcript that also read another Figma file will show that file's variables as
+unknowns here. Six of the current eight are that: they come from the Pathway test file, and their
+reasons say so and why (this file has no `color/*` collection; it spells spacing
+`Spacing/sizing-small`, not `-sm`).
+
+**The token layer cannot currently be re-extracted.** `semantic.tsv` needs a light value, a dark
+value and scopes per token. `get_variable_defs` resolves ONE mode and takes no mode parameter, and
+the Figma Variables REST API that carries both modes plus scopes is on `api.figma.com`, which this
+environment's egress policy denies (`CONNECT tunnel failed, response 403`) — the same wall that
+blocks `download_assets`. So a missing token's light value is recoverable and its dark value is
+not, and adding it with a guessed dark value would break dark mode. It waits for a route that can
+read both.
+
 ## Editing tokens
 
 `tokens/_raw/` is the input; everything else is generated. Re-extract from Figma into
