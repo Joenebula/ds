@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // Screenshot a built screen in light and dark — and refuse if the type is wrong.
 //
-//   node scripts/screenshot-screen.mjs prototypes/case-summary.html [outDir]
-//   node scripts/screenshot-screen.mjs prototypes/case-summary.html out --crop=.pf-tags
+//   node scripts/screenshot-screen.mjs prototypes/absence-requests.html [outDir]
+//   node scripts/screenshot-screen.mjs prototypes/absence-requests.html out --crop=.pf-tags
 //
 // WHY THIS REFUSES. CLAUDE.md's last line is "Always screenshot the result in light and dark
 // and look at it before saying a screen is done." That was being done. Every one of those

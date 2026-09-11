@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Is this screen the SIZE Figma draws it?
 //
-//   node scripts/verify-frame.mjs prototypes/case-first-stage.html
+//   node scripts/verify-frame.mjs prototypes/absence-requests.html
 //   node scripts/verify-frame.mjs --self-test
 //
 // WHY THIS EXISTS. The user said "not an exact copy" four times. Each time the answer was a

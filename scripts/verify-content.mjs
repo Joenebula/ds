@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Does the page SAY what the design says?
 //
-//   node scripts/verify-content.mjs prototypes/case-summary.html
+//   node scripts/verify-content.mjs prototypes/absence-requests.html
 //
 // WHY THIS EXISTS. `npm run verify` had four checks — geometry, colour, icons, tokens — and
 // every one of them passed on a screen containing three fabricated strings: a card title that
@@ -166,7 +166,7 @@ process.exit(r.problems.length ? 1 : 0);
 
 // ---------------------------------------------------------------------------
 // --self-test. Every mutation below is a real defect that shipped in the first
-// build of prototypes/case-summary.html and passed all four existing checks. The
+// build of prototypes/absence-requests.html and passed all four existing checks. The
 // test breaks a correct fixture one way at a time and asserts the break is seen.
 // A check that has only ever been observed to pass is not evidence.
 function selfTest() {

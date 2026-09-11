@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Does the page actually RENDER in Open Sans?
 //
-//   node scripts/verify-fonts.mjs prototypes/case-summary.html
+//   node scripts/verify-fonts.mjs prototypes/absence-requests.html
 //   node scripts/verify-fonts.mjs --self-test
 //
 // WHY THIS EXISTS. Every check in this repo read a DECLARATION. verify-type.mjs compares

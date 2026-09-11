@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Does every slot that claims a picture actually paint one?
 //
-//   node scripts/verify-images.mjs prototypes/case-three-stages.html
+//   node scripts/verify-images.mjs prototypes/absence-requests.html
 //   node scripts/verify-images.mjs --self-test
 //
 // WHY THIS EXISTS. `dist/avatars.css` was written so that "a missing file degrades to a

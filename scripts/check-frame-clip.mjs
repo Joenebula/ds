@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Does the Figma frame this screen copies fit its own contents?
 //
-//   node scripts/check-frame-clip.mjs prototypes/pathway-landing.html
+//   node scripts/check-frame-clip.mjs prototypes/absence-requests.html
 //   node scripts/check-frame-clip.mjs --self-test
 //
 // WHY THIS EXISTS. `6953:22156` is fixed at 1600x1085 while its own children run to 1507.

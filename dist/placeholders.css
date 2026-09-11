@@ -10,29 +10,3 @@
  * assets/images/ or assets/avatars/ and the rule stops being generated — no override,
  * no specificity contest, and the key leaves the placeholder count by itself.
  */
-
-/* PAGE PICTURES — a flat theme tint. A token, so it re-resolves in dark mode, and no
-   raw hex, no glyph and no invented imagery. It reads as a deliberate empty panel,
-   which is exactly what it is. */
-.pf-image[data-image="pathway-hero"] {
-  --pf-placeholder: 1;
-  background-image: linear-gradient(var(--pf-bg-theme), var(--pf-bg-theme));
-}
-
-.pf-image[data-image="pathway-video"] {
-  --pf-placeholder: 1;
-  background-image: linear-gradient(var(--pf-bg-theme), var(--pf-bg-theme));
-}
-
-.pf-image[data-image="related-card"] {
-  --pf-placeholder: 1;
-  background-image: linear-gradient(var(--pf-bg-theme), var(--pf-bg-theme));
-}
-
-/* PEOPLE — marked, but deliberately NOT repainted. The monogram already standing in
-   (NS, DT, SS) says more than a blank tinted disc would, and it is not a fabricated
-   face. All this adds is the mark, so the slot is counted and named rather than
-   failing as empty. The look does not change; only the reporting does. */
-.pf-avatar-photo[data-avatar="nicholas-smudge"] { --pf-placeholder: 1; }
-.pf-avatar-photo[data-avatar="roger-bothman"] { --pf-placeholder: 1; }
-.pf-avatar-photo[data-avatar="samantha-stevens"] { --pf-placeholder: 1; }

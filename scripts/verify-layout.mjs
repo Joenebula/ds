@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Do things that should line up actually line up?
 //
-//   node scripts/verify-layout.mjs prototypes/case-summary.html
+//   node scripts/verify-layout.mjs prototypes/absence-requests.html
 //   node scripts/verify-layout.mjs --self-test
 //
 // WHY THIS EXISTS. Swapping one class into the Case summary screen pushed the avatar-and-name

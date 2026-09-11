@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Is the screen the checks are about to read the screen its source builds to?
 //
-//   node scripts/verify-built.mjs prototypes/case-three-stages.html
+//   node scripts/verify-built.mjs prototypes/absence-requests.html
 //   node scripts/verify-built.mjs --self-test
 //
 // WHY THIS EXISTS. `npm run build` built everything except the seven screens. They were
