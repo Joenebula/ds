@@ -148,15 +148,22 @@ function render(component, rows, path, depth) {
 
   // An INSTANCE is another component. Use its class; say so if we do not have one.
   if (row.type === 'INSTANCE') {
+    // THE MAIN COMPONENT'S NAME, NOT THE INSTANCE'S. An instance can be renamed in Figma
+    // and two are: the instance labelled "Key actions" inside `Mobile key actions` is an
+    // instance of `[S] Mobile top cards`, and "Control list item" inside `Settings card`
+    // is `Checkbox/Radio option/Checkbox/Default`. Looking a component up by a label
+    // somebody can retype is the same mistake as trusting a name over a node id.
+    const source = row.main || row.name;
+
     // A component that instances ITSELF. `Information box` is a one-child wrapper around
     // an instance of `Information box`, so emitting the class here nests the component
     // inside itself and renders an empty box twice over. The wrapper adds nothing the
     // class does not already have.
-    if (row.name === component) {
+    if (source === component) {
       unresolved.push(`${component}: instances itself — the wrapper adds nothing, so the class alone is the component`);
       return `${pad}<!-- ${esc(component)} instances itself here; the outer class already is it -->`;
     }
-    const c = cls(row.name);
+    const c = cls(source);
     // The instanced component's NAME goes inside it as sample content. An empty div is
     // not neutral: nearly every component class is inline-flex, so with nothing in it the
     // instance collapses to zero width and the template renders as a stack of slivers —
@@ -171,9 +178,9 @@ function render(component, rows, path, depth) {
       const attrs = (row.variant || '').split(',').map(x => x.trim()).filter(Boolean)
         .map(x => ` data-${kebab(x.slice(0, x.indexOf('=')))}="${esc(x.slice(x.indexOf('=') + 1))}"`)
         .join('');
-      return `${pad}<div class="${c}"${attrs}>${esc(row.name)}</div>`;
+      return `${pad}<div class="${c}"${attrs}>${esc(source)}</div>`;
     }
-    const icon = iconFor(row.name);
+    const icon = iconFor(source);
     if (icon) {
       const px = parseInt(row.size, 10);
       return `${pad}<!--pf-icon:${icon}${Number.isFinite(px) && px !== 18 ? ' ' + px : ''}-->`;
@@ -182,10 +189,11 @@ function render(component, rows, path, depth) {
     // DETACHED component — one the file uses but that sits on no page, so no walk could
     // capture it. They are recorded in uncaptured-reasons.tsv with the reason; the
     // template says so in place rather than pretending the gap is not there.
-    const known = detachedNames.has(row.name);
-    unresolved.push(`${component}: instances "${row.name}", `
+    const known = detachedNames.has(source);
+    unresolved.push(`${component}: instances "${source}"`
+      + (source !== row.name ? ` (labelled "${row.name}")` : '') + ', '
       + (known ? 'a DETACHED component (recorded)' : 'which is neither a class nor an icon'));
-    return `${pad}<!-- ${esc(row.name)}: ${known
+    return `${pad}<!-- ${esc(source)}: ${known
       ? 'detached from the Figma page tree, so the library has no class for it — see uncaptured-reasons.tsv'
       : 'not in the library'} -->`;
   }
@@ -270,8 +278,15 @@ const made = [];
 // class already is the whole component and a template for it would render an empty box
 // twice over. Both this and check-templates.mjs must agree on that or one will demand a
 // template the other refuses to write.
+// A component drawn entirely out of VECTORs is artwork, not a composite. `Tooltip` is a
+// 28x28 glyph whose whole tree is vector paths and a boolean operation; turning that into
+// nested divs produces an empty box, because the shape lives in path data no markup can
+// carry. Those belong in the icon set or the component-art pipeline, not here.
+const DRAWING = new Set(['VECTOR', 'BOOLEAN_OPERATION', 'STAR', 'POLYGON']);
 const isComposite = (component, rows) => [...rows.entries()]
-  .some(([path, r]) => path && !(r.type === 'INSTANCE' && r.name === component));
+  .some(([path, r]) => path
+    && !(r.type === 'INSTANCE' && (r.main || r.name) === component)
+    && !DRAWING.has(r.type));
 
 for (const [component, rows] of [...byComponent.entries()].sort()) {
   if (!isComposite(component, rows)) continue;         // the class alone is the component

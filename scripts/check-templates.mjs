@@ -28,11 +28,12 @@ const cls = name => 'pf-' + kebab(name);
 // instance of ITSELF is not composite: `Information box` wraps an `Information box`, so
 // its class already is the whole component.
 const tsvRows = readFileSync('tokens/_raw/component-tree.tsv', 'utf8').trim().split('\n').slice(1);
+const DRAWING = new Set(['VECTOR', 'BOOLEAN_OPERATION', 'STAR', 'POLYGON']);
 const realChildren = new Map();
 for (const line of tsvRows) {
-  const [component, path, type, name] = line.split('\t');
+  const [component, path, type, name, main] = line.split('\t');
   if (!realChildren.has(component)) realChildren.set(component, 0);
-  if (path && !(type === 'INSTANCE' && name === component))
+  if (path && !(type === 'INSTANCE' && (main || name) === component) && !DRAWING.has(type))
     realChildren.set(component, realChildren.get(component) + 1);
 }
 const composite = [...realChildren.entries()].filter(([, n]) => n > 0).map(([c]) => c);
@@ -65,11 +66,12 @@ const missing = specs.filter(s => !s.template).map(s => s.component);
 // is `[S] Signature`, one of the 55. The generator marks those, and they are counted and
 // named rather than failed — failing would demand something impossible, and passing
 // silently would hide a real gap.
-// The test is not "mentions a detached component" — `Toast message` references one and
-// still renders four other things. It is "renders nothing AND the reason is a detached
-// component", so the exemption only ever applies where the template would otherwise fail.
+// The test is not "mentions a missing component" — `Toast message` references one and
+// still renders four other things. It is "renders nothing AND the reason is a component
+// the library does not have", so the exemption only ever applies where the template would
+// otherwise fail, and it names which ones rather than passing them silently.
 const mentionsDetached = new Set(specs
-  .filter(s => s.template && /detached from the Figma page tree/.test(s.template))
+  .filter(s => s.template && /(detached from the Figma page tree|not in the library)/.test(s.template))
   .map(s => s.component));
 const blocked = [];
 

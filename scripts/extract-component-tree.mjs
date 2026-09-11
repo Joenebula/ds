@@ -16,6 +16,12 @@
 //   TEXT               becomes a span carrying a type class and a colour token.
 //   INSTANCE           another component we already have. Becomes ITS class, and the
 //                      walk stops there: what is inside it is that component's business.
+//                      Recorded by its MAIN COMPONENT's name, not the instance's own: an
+//                      instance can be renamed in Figma, and one is — the instance called
+//                      "Key actions" inside `Mobile key actions` is an instance of
+//                      `[S] Mobile top cards`. Looking a component up by a label somebody
+//                      can retype is the same class of mistake as trusting a component
+//                      name over a node id.
 //
 // Plus the occasional LINE, RECTANGLE, ELLIPSE (a rule, an image placeholder, an icon
 // backing circle) and SLOT — Figma's own "content goes here" marker, which `Card` uses
@@ -26,7 +32,7 @@
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
-const HEADER = 'TREE2\tcomponent\tpath\ttype\tname\tvariant\tsize\tlayout\tpadding\tgap\tradius\tfill\tstroke\ttextStyle\tfont\ttext';
+const HEADER = 'TREE3\tcomponent\tpath\ttype\tname\tmain\tvariant\tsize\tlayout\tpadding\tgap\tradius\tfill\tstroke\ttextStyle\tfont\ttext';
 const OUT = 'tokens/_raw/component-tree.tsv';
 const dir = '/root/.claude/projects/-home-user-ds';
 const file = process.argv[2] ||
@@ -74,7 +80,7 @@ for (const [, rows] of [...trees.entries()].sort())
   for (const [, line] of [...rows.entries()].sort((a, b) => a[0].localeCompare(b[0], undefined, { numeric: true })))
     out.push(line);
 
-writeFileSync(OUT, HEADER.replace(/^TREE2\t/, '') + '\n' + out.join('\n') + '\n');
+writeFileSync(OUT, HEADER.replace(/^TREE3\t/, '') + '\n' + out.join('\n') + '\n');
 
 const composite = [...trees.entries()].filter(([, r]) => r.size > 1);
 console.log(`component-tree.tsv — ${trees.size} components, ${out.length} nodes`);
