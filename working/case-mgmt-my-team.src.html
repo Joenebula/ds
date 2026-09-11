@@ -59,11 +59,12 @@ svg { display: block; }
 
 .app { display: grid; grid-template-columns: 90px 1fr; min-height: 100vh; }
 
-/* Rail. The component is 90x86 and Figma lays it out as a row; the icon-above-label
-   stack is drawn inside it, which is local CSS by the skill's rule. */
+/* pf-new: the rail is the page shell — the column that holds Navigation items. Figma has
+   a component for the items, none for the column they sit in. */
 .rail { background: var(--pf-bg-primary); border-right: 1px solid var(--pf-border-default-full);
         display: flex; flex-direction: column; }
 .rail .spacer { flex: 1; }
+/* pf-new: the app-menu square at the top of the rail. No component covers it. */
 .railtop { width: 90px; height: 86px; display: grid; place-items: center;
            background: var(--pf-bg-theme); color: var(--pf-icon-always-white); }
 /* This page renders the rail item AS the stack, so it owns direction, gap and padding
@@ -126,10 +127,13 @@ svg { display: block; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .pf-clock-in { color: var(--pf-text-always-white); }
 }
+/* The class owns the fill — `Navigation/Search bg` — and the text colour. Overriding the
+   background with --pf-bg-primary here was the same fault as the sub nav: right in light
+   mode, a different grey in dark.
+   pf-new: the 150px box, its 7px padding and the icon-to-text gap are the component's
+   INTERNAL arrangement, which the outer-box extract does not reach. */
 .pf-search-navigation { display: inline-flex; align-items: center; gap: 7px; width: 150px;
-  height: 32px; padding: 0 7px; background: var(--pf-bg-primary);
-  color: var(--pf-text-secondary); font-size: 16px; letter-spacing: -0.01em; }
-  /* Figma: 150x32, icon 22, text Grey Fog = --pf-text-secondary, -1% tracking */
+  padding: 0 7px; font-size: 16px; letter-spacing: -0.01em; }
 .rightgrp { display: flex; align-items: center; gap: 20px; }  /* Figma: Frame 84860 gap 20 */
 
 /* Secondary nav — Figma "[S] Main nav context", 1830x44, which the People First file
@@ -155,13 +159,11 @@ svg { display: block; }
 /* The People card. One container, as in Figma. Layout only — every painted thing here
    is a component class or a token. The avatar is `.pf-profile-image[data-size="Large"]`,
    which is 76px and now carries the real artwork rather than an empty circle. */
-.peoplecard { width: 100%; background: var(--pf-bg-primary);
-  border-radius: var(--pf-radius-medium); padding: var(--pf-space-large);
-  display: flex; flex-direction: column; gap: var(--pf-space-medium); }
+/* .pf-card owns the fill, radius, padding and gap. Figma hugs and centres its contents;
+   on a page it is a full-width block. */
+.peoplecard { width: 100%; display: flex; align-items: stretch; }
 .ppl-head { display: flex; align-items: center; gap: 10px; }
-.ppl-mark { width: 32px; height: 32px; border-radius: 999px; display: grid;
-  place-items: center; background: var(--pf-bg-light-theme);
-  color: var(--pf-icon-theme); flex: 0 0 auto; }
+.ppl-mark { display: grid; place-items: center; flex: 0 0 auto; }
 /* Tab binds no fill, so it sits on the card. Nav tabs binds `Navigation/Nav bg top` and
    belongs in the top strip; using it here put a lighter box behind the unselected tab in
    dark mode. The underline is a child of the Selected variant in Figma, so it is page CSS. */
@@ -176,9 +178,13 @@ svg { display: block; }
   gap: var(--pf-space-large) var(--pf-space-medium); }
 .person { display: flex; flex-direction: column; align-items: center; gap: 5px;
   text-align: center; min-width: 0; }
+/* pf-new: a positioning context for the dot and kebab. Sized to the Large avatar so the
+   two children can be placed against it. */
 .pav { position: relative; display: block; width: 76px; height: 76px; }
-/* Presence dot and kebab sit on the avatar. Both are Figma children of the tile, not of
-   the Profile image component, so they are page markup here rather than component CSS. */
+/* pf-new: the presence dot is a child of the tile in Figma, not of any component. The
+   extract captures a component's outer box only, so there is no class for it. Its own
+   colour binding could not be read — the Case Management frame no longer resolves
+   through the plugin API — so the design system's solid green and red are used. */
 .dot { position: absolute; top: 2px; left: 2px; width: 14px; height: 14px;
   border-radius: 999px; border: 2px solid var(--pf-bg-primary); }
 /* Background/Primary Button and Background/Negative Button — the design system's solid
@@ -187,22 +193,22 @@ svg { display: block; }
    in the Case Management frame, which no longer resolves through the plugin API. */
 .dot[data-presence="Available"] { background: var(--pf-bg-primary-button); }
 .dot[data-presence="Away"] { background: var(--pf-bg-negative-button); }
+/* pf-new: the kebab is likewise a child of the tile, with no component of its own. */
 .kebab { position: absolute; top: 0; right: -14px; width: 20px; height: 20px;
   display: grid; place-items: center; background: none; border: 0; padding: 0;
   cursor: pointer; color: var(--pf-icon-secondary); }
 /* Measured on the People component: #Name is 13px Regular Text/Primary and #ID is
-   13px Regular Text/Secondary. Both were guessed here — bold and 11px — and both were
-   wrong. Nothing in this tile is SemiBold. */
-.pname { font-size: 13px; font-weight: var(--pf-font-weight-regular);
-  color: var(--pf-text-primary); }
-.prole { font-size: 13px; font-weight: var(--pf-font-weight-regular);
-  color: var(--pf-text-secondary); }
+   13px Regular Text/Secondary. 13px Regular IS `.pf-text-label-text`, so the type layer
+   carries both and only the secondary colour is set here. */
+.prole { color: var(--pf-text-secondary); }
 
 /* Department insights — Layout container (magazine style) */
 .pf-layout-container-magazine-style { width: 100%; background: var(--pf-bg-primary);
   border-radius: var(--pf-radius-medium); padding: var(--pf-space-large);
   display: flex; flex-direction: column; gap: var(--pf-space-large); }
 .ins-head { display: flex; flex-direction: column; gap: var(--pf-space-small); }
+/* pf-new: a 1px rule under the card title. Figma draws it as a LINE node, which the
+   outer-box extract does not capture as a component. */
 .ins-rule { height: 1px; background: var(--pf-border-default-full); }
 .ins-meta { display: flex; align-items: center; gap: var(--pf-space-large); flex-wrap: wrap; }
 .ins-meta .grow { flex: 1; }
@@ -262,10 +268,10 @@ svg { display: block; }
            "a screenshot, nothing to extract" — the same reasoning that lost the header
            swoosh. The avatars are the real `Profile image` component; only the individual
            photographs are content, and those are not in the People First library. -->
-      <section class="peoplecard" aria-labelledby="ppl">
+      <section class="pf-card peoplecard" aria-labelledby="ppl">
         <div class="ppl-head">
-          <span class="ppl-mark"><!--pf-icon:team 22--></span>
-          <h2 id="ppl" class="pf-text-medium-heading">People</h2>
+          <span class="pf-circle-icons ppl-mark" data-size="XS - 28px"><!--pf-icon:team 22--></span>
+          <h2 id="ppl" class="pf-text-sub-heading">People</h2>
         </div>
         <nav class="ppl-tabs" aria-label="People view">
           <button class="pf-tab" data-state="Selected" data-mobile="No" aria-current="page" type="button">My team</button>
@@ -279,8 +285,8 @@ svg { display: block; }
               <span class="dot" data-presence="Available" title="Available"></span>
               <button class="kebab" type="button" aria-label="Actions for Alice Smith"><!--pf-icon:context-menu 14--></button>
             </span>
-            <span class="pname">Alice Smith</span>
-            <span class="prole"></span>
+            <span class="pf-text-label-text pname">Alice Smith</span>
+            <span class="pf-text-label-text prole"></span>
           </li>
           <li class="person">
             <span class="pav">
@@ -288,8 +294,8 @@ svg { display: block; }
               <span class="dot" data-presence="Available" title="Available"></span>
               <button class="kebab" type="button" aria-label="Actions for Zach Da Rosa"><!--pf-icon:context-menu 14--></button>
             </span>
-            <span class="pname">Zach Da Rosa</span>
-            <span class="prole"></span>
+            <span class="pf-text-label-text pname">Zach Da Rosa</span>
+            <span class="pf-text-label-text prole"></span>
           </li>
           <li class="person">
             <span class="pav">
@@ -297,8 +303,8 @@ svg { display: block; }
               <span class="dot" data-presence="Available" title="Available"></span>
               <button class="kebab" type="button" aria-label="Actions for anna anna"><!--pf-icon:context-menu 14--></button>
             </span>
-            <span class="pname">anna anna</span>
-            <span class="prole">Business Analyst</span>
+            <span class="pf-text-label-text pname">anna anna</span>
+            <span class="pf-text-label-text prole">Business Analyst</span>
           </li>
           <li class="person">
             <span class="pav">
@@ -306,8 +312,8 @@ svg { display: block; }
               <span class="dot" data-presence="Available" title="Available"></span>
               <button class="kebab" type="button" aria-label="Actions for anna anna"><!--pf-icon:context-menu 14--></button>
             </span>
-            <span class="pname">anna anna</span>
-            <span class="prole">Goal Keeper3</span>
+            <span class="pf-text-label-text pname">anna anna</span>
+            <span class="pf-text-label-text prole">Goal Keeper3</span>
           </li>
           <li class="person">
             <span class="pav">
@@ -315,8 +321,8 @@ svg { display: block; }
               <span class="dot" data-presence="Available" title="Available"></span>
               <button class="kebab" type="button" aria-label="Actions for Amelie Bennett"><!--pf-icon:context-menu 14--></button>
             </span>
-            <span class="pname">Amelie Bennett</span>
-            <span class="prole">Probation manager</span>
+            <span class="pf-text-label-text pname">Amelie Bennett</span>
+            <span class="pf-text-label-text prole">Probation manager</span>
           </li>
           <li class="person">
             <span class="pav">
@@ -324,8 +330,8 @@ svg { display: block; }
               <span class="dot" data-presence="Available" title="Available"></span>
               <button class="kebab" type="button" aria-label="Actions for Ariel Castro"><!--pf-icon:context-menu 14--></button>
             </span>
-            <span class="pname">Ariel Castro</span>
-            <span class="prole">Sales admin</span>
+            <span class="pf-text-label-text pname">Ariel Castro</span>
+            <span class="pf-text-label-text prole">Sales admin</span>
           </li>
           <li class="person">
             <span class="pav">
@@ -333,8 +339,8 @@ svg { display: block; }
               <span class="dot" data-presence="Away" title="Away"></span>
               <button class="kebab" type="button" aria-label="Actions for Penelope Furst"><!--pf-icon:context-menu 14--></button>
             </span>
-            <span class="pname">Penelope Furst</span>
-            <span class="prole">HR Consultant</span>
+            <span class="pf-text-label-text pname">Penelope Furst</span>
+            <span class="pf-text-label-text prole">HR Consultant</span>
           </li>
           <li class="person">
             <span class="pav">
@@ -342,8 +348,8 @@ svg { display: block; }
               <span class="dot" data-presence="Away" title="Away"></span>
               <button class="kebab" type="button" aria-label="Actions for Rebecca Jacobs"><!--pf-icon:context-menu 14--></button>
             </span>
-            <span class="pname">Rebecca Jacobs</span>
-            <span class="prole">HR Systems Lead</span>
+            <span class="pf-text-label-text pname">Rebecca Jacobs</span>
+            <span class="pf-text-label-text prole">HR Systems Lead</span>
           </li>
           <li class="person">
             <span class="pav">
@@ -351,8 +357,8 @@ svg { display: block; }
               <span class="dot" data-presence="Available" title="Available"></span>
               <button class="kebab" type="button" aria-label="Actions for anna anna"><!--pf-icon:context-menu 14--></button>
             </span>
-            <span class="pname">anna anna</span>
-            <span class="prole">Goal Keeper3</span>
+            <span class="pf-text-label-text pname">anna anna</span>
+            <span class="pf-text-label-text prole">Goal Keeper3</span>
           </li>
           <li class="person">
             <span class="pav">
@@ -360,8 +366,8 @@ svg { display: block; }
               <span class="dot" data-presence="Available" title="Available"></span>
               <button class="kebab" type="button" aria-label="Actions for Jane Jones"><!--pf-icon:context-menu 14--></button>
             </span>
-            <span class="pname">Jane Jones</span>
-            <span class="prole">Business Partner 3</span>
+            <span class="pf-text-label-text pname">Jane Jones</span>
+            <span class="pf-text-label-text prole">Business Partner 3</span>
           </li>
           <li class="person">
             <span class="pav">
@@ -369,8 +375,8 @@ svg { display: block; }
               <span class="dot" data-presence="Available" title="Available"></span>
               <button class="kebab" type="button" aria-label="Actions for Jackson Keegan"><!--pf-icon:context-menu 14--></button>
             </span>
-            <span class="pname">Jackson Keegan</span>
-            <span class="prole">Business Partner Lead</span>
+            <span class="pf-text-label-text pname">Jackson Keegan</span>
+            <span class="pf-text-label-text prole">Business Partner Lead</span>
           </li>
           <li class="person">
             <span class="pav">
@@ -378,8 +384,8 @@ svg { display: block; }
               <span class="dot" data-presence="Available" title="Available"></span>
               <button class="kebab" type="button" aria-label="Actions for Jackson Keegan"><!--pf-icon:context-menu 14--></button>
             </span>
-            <span class="pname">Jackson Keegan</span>
-            <span class="prole">Developer BBB testing</span>
+            <span class="pf-text-label-text pname">Jackson Keegan</span>
+            <span class="pf-text-label-text prole">Developer BBB testing</span>
           </li>
           <li class="person">
             <span class="pav">
@@ -387,8 +393,8 @@ svg { display: block; }
               <span class="dot" data-presence="Available" title="Available"></span>
               <button class="kebab" type="button" aria-label="Actions for Jackson Keegan"><!--pf-icon:context-menu 14--></button>
             </span>
-            <span class="pname">Jackson Keegan</span>
-            <span class="prole">Business Partner 2</span>
+            <span class="pf-text-label-text pname">Jackson Keegan</span>
+            <span class="pf-text-label-text prole">Business Partner 2</span>
           </li>
           <li class="person">
             <span class="pav">
@@ -396,8 +402,8 @@ svg { display: block; }
               <span class="dot" data-presence="Available" title="Available"></span>
               <button class="kebab" type="button" aria-label="Actions for Mark Keeling"><!--pf-icon:context-menu 14--></button>
             </span>
-            <span class="pname">Mark Keeling</span>
-            <span class="prole">Campaign Admin</span>
+            <span class="pf-text-label-text pname">Mark Keeling</span>
+            <span class="pf-text-label-text prole">Campaign Admin</span>
           </li>
           <li class="person">
             <span class="pav">
@@ -405,8 +411,8 @@ svg { display: block; }
               <span class="dot" data-presence="Available" title="Available"></span>
               <button class="kebab" type="button" aria-label="Actions for Mary Kirby"><!--pf-icon:context-menu 14--></button>
             </span>
-            <span class="pname">Mary Kirby</span>
-            <span class="prole">HR assistant</span>
+            <span class="pf-text-label-text pname">Mary Kirby</span>
+            <span class="pf-text-label-text prole">HR assistant</span>
           </li>
           <li class="person">
             <span class="pav">
@@ -414,8 +420,8 @@ svg { display: block; }
               <span class="dot" data-presence="Available" title="Available"></span>
               <button class="kebab" type="button" aria-label="Actions for Jonathon Lomax"><!--pf-icon:context-menu 14--></button>
             </span>
-            <span class="pname">Jonathon Lomax</span>
-            <span class="prole">HR assistant</span>
+            <span class="pf-text-label-text pname">Jonathon Lomax</span>
+            <span class="pf-text-label-text prole">HR assistant</span>
           </li>
           <li class="person">
             <span class="pav">
@@ -423,8 +429,8 @@ svg { display: block; }
               <span class="dot" data-presence="Available" title="Available"></span>
               <button class="kebab" type="button" aria-label="Actions for Jonathon Lomax"><!--pf-icon:context-menu 14--></button>
             </span>
-            <span class="pname">Jonathon Lomax</span>
-            <span class="prole">Employee Support</span>
+            <span class="pf-text-label-text pname">Jonathon Lomax</span>
+            <span class="pf-text-label-text prole">Employee Support</span>
           </li>
           <li class="person">
             <span class="pav">
@@ -432,8 +438,8 @@ svg { display: block; }
               <span class="dot" data-presence="Available" title="Available"></span>
               <button class="kebab" type="button" aria-label="Actions for Jackson Keegan"><!--pf-icon:context-menu 14--></button>
             </span>
-            <span class="pname">Jackson Keegan</span>
-            <span class="prole">Business Partner 2</span>
+            <span class="pf-text-label-text pname">Jackson Keegan</span>
+            <span class="pf-text-label-text prole">Business Partner 2</span>
           </li>
         </ul>
       </section>

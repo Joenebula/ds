@@ -410,6 +410,12 @@ for (const [component, rows] of [...byComponent.entries()].sort()) {
     for (const d of decls) { const m = d.match(/unmapped Figma token: (.+) \*\//); if (m) unmapped.add(m[1]); }
     if (!decls.length) continue;
     const sels = selectorsFor(base, parseVariant(r.variant));
+    // A component with exactly ONE variant has no alternative to choose between, so its
+    // colours belong on the bare class as well as behind the attribute. Card binds
+    // Background/Primary under `Property 1=Default`; without this, `class="pf-card"`
+    // rendered a transparent box and the card vanished into the page. There is nothing
+    // for the bare selector to conflict with, so this cannot mask another variant.
+    if (rows.length === 1 && !sels.includes(`.${base}`)) sels.unshift(`.${base}`);
     out.push(`${sels.join(',\n')} {`);
     for (const d of decls) out.push(`  ${d.startsWith('/*') ? d : d + ';'}`);
     out.push('}');

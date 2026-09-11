@@ -91,6 +91,41 @@ number grows. It does not, and cannot, tell you a class is structurally empty. B
 building anything composite, open `docs/components.html` and look at what the class
 actually renders. If it renders a blank box, say so rather than hand-writing a substitute.
 
+## The rule: only design-system components
+
+A page may use design-system components. Its own CSS does **layout**, and nothing else.
+`npm run verify` enforces this on anything in `working/`; run it anywhere with
+`npm run off-system -- <file>`.
+
+Three ways a page goes off-system, all of which happened on this project:
+
+1. **An invented class.** `pf-text-medium-heading` does not exist. The title fell back to
+   the browser's bold `h2` default and read as a font-weight bug for two rounds.
+2. **A hand-written component.** The sub nav was written with `--pf-bg-primary`, which is
+   white in light mode so it looked right and was a different grey in dark. Clock-in was
+   written with `padding: 7 16 7 6` measured by eye; the component says `7 20 7 10`.
+3. **An override.** Setting a property the component already owns silently undoes the
+   extract.
+
+**Properties a component owns** — and a page therefore must not set on its own class:
+size, padding, radius, gap, font-size, font-weight, background, colour, border, shadow,
+letter-spacing. Spacing is the exception: `padding` and `gap` are fine on a layout element
+as long as every value is a `var(--pf-space-*)` token or zero.
+
+**When something genuinely is new** — a Figma child the outer-box extract cannot reach, or
+a page-shell element with no component — say so where you write it:
+
+```css
+/* pf-new: the presence dot is a child of the tile in Figma, not of any component */
+.dot { ... }
+```
+
+The marker must sit immediately before the rule. It makes the exception visible and
+reviewable rather than invisible.
+
+**`prototypes/` are exempt** — they are hand-built fixtures and score 30-63 off-system
+each. That is what they are; see the section above. Builds FROM a design are not exempt.
+
 ## Editing tokens
 
 `tokens/_raw/` is the input; everything else is generated. Re-extract from Figma into
