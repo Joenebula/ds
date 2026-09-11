@@ -77,6 +77,21 @@ A reason beginning `pending:` is DEBT — known, recorded, waiting on a re-extra
 is **counted and named in the verdict line on every run**. Never delete that count to tidy the
 output; it is the only thing keeping a known gap from becoming a forgotten one.
 
+**The node id is the identity, not the name.** `component-variants.tsv` and
+`component-geometry.tsv` carry `nodeId` as their **last** column — last, because six readers
+destructure by position (`const [page, component, ...] = l.split('\t')`) and a leading column
+would shift every one of them, while a trailing one is invisible to all of them.
+
+This matters because Figma renames things, and a name-only comparison cannot tell a rename from
+a deletion plus an addition. Comparing this repo against a newer component list produced
+*"7 gone, 27 new"* when the truth was *"5 renamed, 2 removed, 22 newly captured"*. With ids, a
+rename is one line that says so.
+
+`scripts/backfill-node-ids.mjs` fills ids from `components.json` by name, makes no Figma calls,
+and never invents one — an unmatched row keeps an empty id and is reported. 18 geometry rows
+have no id on purpose: they are measured sub-parts (`Links (primary)`, `People (row)`) that
+Figma never published as component sets, so they never will.
+
 **Has Figma changed since we last looked?** One call, on demand:
 
 ```

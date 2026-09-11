@@ -1,284 +1,284 @@
-page	component	variant	fill	stroke	text
-Buttons and links	Button	Type=Action, State=Default	Background/Secondary Button		Text/Inverted primary
-Buttons and links	Button	Type=Action, State=Hover	Background/Secondary Button Hover		Text/Inverted primary
-Buttons and links	Button	Type=Positive, State=Default	Background/Primary Button		Base colours/White
-Buttons and links	Button	Type=Positive, State=Hover	Background/Primary Button Hover		Base colours/White
-Buttons and links	Button	Type=Negative, State=Default	Background/Negative Button		Base colours/White
-Buttons and links	Button	Type=Negative, State=Hover	Background/Negative Button Hover		Base colours/White
-Buttons and links	Button	Type=Hollow, State=Default		Border/Hollow Button	Text/Primary
-Buttons and links	Button	Type=Hollow, State=Hover	Buttons/Fills/Hollow hover	Border/Hollow Button	Text/Primary
-Buttons and links	Button	Type=Filter, State=Default		Border/Hollow Button	Text/Primary
-Buttons and links	Button	Type=Filter, State=Hover	Buttons/Fills/Hollow hover	Border/Hollow Button	Text/Primary
-Buttons and links	Button	Type=Sort, State=Default		Border/Hollow Button	Text/Primary
-Buttons and links	Button	Type=Sort, State=Hover	Buttons/Fills/Hollow hover	Border/Hollow Button	Text/Primary
-Buttons and links	Links	Link type=Primary, Hover=False			Text/Link
-Buttons and links	Links	Link type=Primary, Hover=True			Text/Link
-Buttons and links	Links	Link type=Secondary, Hover=False			Text/Link
-Buttons and links	Links	Link type=Secondary, Hover=True			Text/Link
-Buttons and links	Filter chip	State=Default, Active=False	Background/Primary	Border/Hollow Button	Text/Primary
-Buttons and links	Filter chip	State=Selected, Active=True	Background/Primary	Border/Theme	Text/Theme
-Buttons and links	Filter chip	State=Hover, Active=False	Background/Theme	Border/Theme	Text/Theme
-Forms	Form field	Input type=Text, State=Default			Text/Primary
-Forms	Form field	Input type=Text, State=Disabled			Text/Primary
-Forms	Form field	Input type=Text, State=Error			Text/Negative
-Forms	Form field	Input type=Text, State=Selected			Text/Link
-Forms	Form field	Input type=Dropdown, State=Default			Text/Primary
-Forms	Form field	Input type=Dropdown, State=Disabled			Text/Primary
-Forms	Form field	Input type=Dropdown, State=Error			Text/Negative
-Forms	Form field	Input type=Dropdown, State=Selected			Text/Link
-Forms	Form field	Input type=Search, State=Default			Text/Primary
-Forms	Form field	Input type=Search, State=Disabled			Text/Primary
-Forms	Form field	Input type=Search, State=Error			Text/Negative
-Forms	Form field	Input type=Search, State=Selected			Text/Link
-Forms	Form field	Input type=Date picker, State=Default			Text/Primary
-Forms	Form field	Input type=Time picker, State=Default			Text/Primary
-Forms	Field	Right aligned=No, Filled=No	Background/Primary	Border/Form input	Text/Secondary
-Forms	Field	Right aligned=No, Filled=Yes	Background/Primary	Border/Form input	Text/Primary
-Forms	Text area	Type=Standard			Text/Primary
-Forms	Text area	Type=Read only			Text/Primary
-Forms	Text area	Type=Disabled			Text/Primary
-Forms	Text area	Type=Error			Text/Negative
-Forms	Option	Selected=No			Text/Primary
-Forms	Option	Selected=Yes			Text/Inverted primary
-Forms	Inline search	Filled=False			Text/Primary
-Forms	Inline search	Filled=True			Text/Primary
-Forms	Primary search	Darkmode=False, Icon only=False	Background/Primary	Border/Secondary	Text/Secondary
-Forms	Message box	Property 1=Default	Background/Primary	Border/Form input	Text/Secondary
-Controls	Toggle	On=No, Locked=No	Background/Tertiary	Base colours/Grey Dolphin	Text/Secondary
-Controls	Toggle	On=Yes, Locked=No	Background/Primary Button		Base colours/White
-Controls	Toggle	On=No, Locked=Yes	Background/Tertiary	Base colours/Grey Dolphin
-Controls	Toggle	On=Yes, Locked=Yes	Background/Primary Button
-Controls	Radio tile	State=Default	Background/Primary	Border/Default	Text/Primary
-Controls	Radio tile	State=Hover	Background/Theme	Border/Theme	Text/Theme
-Controls	Radio card	State=Enabled, Selected=No	Background/Primary	Border/Default	Text/Primary
-Controls	Radio card	State=Enabled, Selected=Yes	Background/Theme	Border/Theme	Text/Theme
-Controls	Radio card	State=Disabled, Selected=No	Background/Tertiary	Border/Disabled	Text/Disabled
-Controls	Radio card	State=Disabled, Selected=Yes	Background/Tertiary	Border/Disabled	Text/Disabled
-Controls	Checkbox/Radio item	State=Default			Text/Primary
-Controls	Checkbox/Radio item	State=Hover			Text/Link
-Controls	Checkbox/Radio item	State=Disabled			Text/Secondary
-Controls	Checkbox/Radio item	State=Error			Text/Negative
-Controls	Checkbox/Radio item	State=Selected			Text/Link
-Controls	Checkbox/Radio list	State=Default			Text/Primary
-Controls	Checkbox/Radio list	State=Disabled			Text/Primary
-Controls	Checkbox/Radio list	State=Error			Text/Negative
-Controls	Checkbox/Radio list	State=Selected			Text/Link
-Controls	Control	Radio=No	Background/Primary	Icons/Icon - Disabled
-Controls	Control	Radio=Yes	Background/Primary	Icons/Icon - Disabled
-Controls	Image picker	Property 1=Default		Border/Form input
-Controls	Document previewer	Device=Mobile		Border/Default	Text/Primary
-Controls	Document previewer	Device=Tablet		Border/Default	Text/Primary
-Controls	Document previewer	Device=Desktop		Border/Default	Text/Primary
-Tables	Table header (AG)	Alignment=Left	Table/Header cell	Border/Default	Text/Primary
-Tables	Table header (AG)	Alignment=Right	Table/Header cell	Border/Default	Text/Primary
-Tables	Table header (AG)	Alignment=Checkbox	Table/Header cell
-Tables	Table cell (AG)	Type=Default, Style=Default	Table/Primary cell	Border/Default	Text/Link
-Tables	Table cell (AG)	Type=Default, Style=Stripe	Table/Stripe cell	Border/Default	Text/Link
-Tables	Table cell (AG)	Type=Default, Style=Hover	Background/Theme	Border/Default
-Tables	Table cell (AG)	Type=Checkbox, Style=Default	Table/Primary cell	Border/Default
-Tables	Table cell (AG)	Type=Checkbox, Style=Stripe	Table/Stripe cell	Border/Default
-Tables	Table cell (AG)	Type=Checkbox, Style=Hover	Background/Theme	Border/Default
-Tables	Table (AG)	Mobile=False		Table/Border	Text/Primary
-Tables	Table card (AG)	Mobile=False	Table/Card		Text/Theme
-Tables	Footer (AG)	Mobile=False	Table/Card		Text/Primary
-Tables	Multi-select checkbox	State=Default	Background/Primary	Icons/Icon - Disabled
-Tables	Multi-select checkbox	State=Hover	Background/Theme	Icons/Icon - Theme
-Tables	Multi-select checkbox	State=Selected	Icons/Icon - Theme
-Tables	Multi-select checkbox	State=Mixed selection	Icons/Icon - Theme
-Tables	Table header icons	Variant=Sort, State=Default
-Tables	Table header icons	Variant=Sort, State=Ascending	Background/Theme	Icons/Icon - Theme
-Tables	Table header icons	Variant=Sort, State=Descending	Background/Theme	Icons/Icon - Theme
-Tables	Table header icons	Variant=Filter, State=Filtered	Background/Theme	Icons/Icon - Theme
-Tables	Table header icons	Variant=Context menu, State=Active	Background/Theme	Icons/Icon - Theme
-Tables	AG sort item	State=Default			Text/Primary
-Tables	AG sort item	State=Hover	Background/Theme		Text/Primary
-Tables	AG sort item	State=Active	Background/Theme		Text/Primary
-Tables	AG Filter menus	Variant=Multi & search	Filter menu/Background	Filter menu/Border	Text/Disabled
-Tables	AG Filter menus	Variant=Date	Filter menu/Background	Filter menu/Border	Text/Primary
-Tables	AG Filter menus	Variant=Sort	Filter menu/Background	Filter menu/Border	Text/Primary
-Tables	Selected action banner	Mobile=False	Background/Tertiary		Text/Primary
-Tables	Manage columns	Mobile=False	Background/Primary		Text/Primary
-Tables	Table action bar	Mobile=False			Text/Theme
-Tags and ratings	Tags	Type=Neutral	Tags/Fills/Neutral	Tags/Borders/Neutral	Tags/Content/Neutral
-Tags and ratings	Tags	Type=Positive	Tags/Fills/Positive	Tags/Borders/Positive	Tags/Content/Positive
-Tags and ratings	Tags	Type=Negative	Tags/Fills/Negative	Tags/Borders/Negative	Tags/Content/Negative
-Tags and ratings	Tags	Type=Warning	Tags/Fills/Warning	Tags/Borders/Warning	Tags/Content/Warning
-Tags and ratings	Tags	Type=Expired	Tags/Fills/Expired	Tags/Borders/Expired	Tags/Content/Expired
-Tags and ratings	Tags	Type=Other	Tags/Fills/Other	Tags/Borders/Other	Tags/Content/Other
-Tags and ratings	Tags	Type=Theme	Tags/Fills/Info	Tags/Borders/Info	Tags/Borders/Info
-Tags and ratings	Star rating	Rating=0..5, State=Default			Text/Primary
-Tags and ratings	Star rating	Rating=0..5, State=Hover			Text/Primary
-Tags and ratings	Empty section	Mobile=False			Text/Theme
-System messages	Toast message	Message type=Success	Base colours/White		Base colours/Grey Slate
-System messages	Toast message	Message type=Info	Base colours/White		Base colours/Grey Slate
-System messages	Toast message	Message type=Warning	Base colours/White		Base colours/Grey Slate
-System messages	Toast message	Message type=Error	Base colours/White		Base colours/Grey Slate
-System messages	Information box	Type=Information			Text/Primary
-System messages	Information box	Type=Warning			Text/Primary
-System messages	Information box	Type=Error			Text/Primary
-System messages	Information box	Type=Success			Text/Primary
-System messages	Notification card	Mobile=False	Background/Primary	Border/Default	Text/Primary
-System messages	Confirmation modal	Type=Confirmation	Background/Primary	Border/Default	Text/Primary
-System messages	Confirmation modal	Type=Success	Background/Primary	Border/Default	Text/Primary
-System messages	Confirmation modal	Type=Information	Background/Primary	Border/Default	Text/Primary
-System messages	Next actions modal	Type=Warning	Background/Primary	Border/Default
-System messages	Next actions modal	Type=Success	Background/Primary	Border/Default
-System messages	Status	Status type=Like	Icons/Icon - Info
-System messages	Status	Status type=Absence	Icons/Icon - Warning
-System messages	Status	Status type=Recognition	Base colours/Light Purple
-System messages	Status	Status type=Comment	Icons/Icon - Info
-Navigation	Navigation item	State=Selected, Device=Desktop	Background/Primary		Text/Theme
-Navigation	Navigation item	State=Unselected, Device=Desktop	Background/Primary		Text/Secondary
-Navigation	Navigation item	State=Hover, Device=Desktop	Background/Primary		Text/Theme
-Navigation	Tab	State=Default			Text/Primary
-Navigation	Tab	State=Hover			Text/Theme
-Navigation	Tab	State=Selected			Text/Theme
-Navigation	Side navigation tab	Selected=false			Text/Primary
-Navigation	Side navigation tab	Selected=true	Background/Theme		Text/Theme
-Navigation	Filter tab single	Selected=False, State=Default	Background/Primary	Border/Default	Text/Secondary
-Navigation	Filter tab single	Selected=False, State=Hover	Background/Primary	Border/Default	Text/Theme
-Navigation	Filter tab single	Selected=True, State=Default	Background/Primary	Border/Default	Text/Theme
-Navigation	[S] Navigation/main tabs	Status=Unselected	Background/Primary	Border/Default	Text/Primary
-Navigation	[S] Navigation/main tabs	Status=Hover	Background/Primary	Border/Default	Text/Theme
-Navigation	[S] Navigation/main tabs	Status=Selected	Background/Primary	Border/Default	Text/Theme
-Navigation	Config child menu	Type=Child			Text/Primary
-Navigation	Config child menu	Type=Selected	Base colours/Blue Ocean		Text/Inverted primary
-Navigation	Clock in	Type=Standard		Border/Default	Text/Inverted primary
-Navigation	Clock in	Type=Hover	Background/Primary	Border/Default	Text/Theme
-Navigation	Secondary nav	Navigation type=Chips			Text/Theme
-Navigation	Secondary nav	Navigation type=Page	Background/Primary		Text/Primary
-Navigation	Side navigation	Variant=Default	Background/Primary		Text/Secondary
-Navigation	Side navigation	Variant=Finance	Background/Primary		Text/Secondary
-Cards and panels	Draggable card	State=Default	Background/Primary	Border/Default	Text/Primary
-Cards and panels	Draggable card	State=Hover	Background/Secondary	Border/Secondary	Text/Primary
-Cards and panels	Draggable card	State=Click	Background/Primary	Border/Theme	Text/Primary
-Cards and panels	Draggable card	State=Drag	Background/Primary	Border/Theme	Text/Primary
-Cards and panels	Draggable card	State=Drop	Background/Theme	Border/Theme
-Cards and panels	Accordion	Expanded=False	Background/Primary	Border/Default	Text/Primary
-Cards and panels	Accordion	Expanded=True	Background/Primary	Border/Default	Text/Primary
-Cards and panels	Card	Property 1=Default	Background/Primary		Text/Primary
-Cards and panels	Content cards	Mobile=false	Background/Primary	Border/Default	Text/Primary
-Cards and panels	Spotlight Card	Horizontal=False	Background/Primary	Border/Default	Text/Primary
-Cards and panels	single layout card	Mobile=false	Background/Primary	Border/Default	Text/Primary
-Cards and panels	Editable list card	Property 1=Default	Background/Primary	Border/Default	Text/Secondary
-Cards and panels	Settings card	Property 1=Default	Background/Secondary		Text/Theme
-Cards and panels	Configuration tile	Device=Desktop	Background/Secondary		Text/Primary
-Cards and panels	Title panel	Mobile=false	Background/Tertiary		Text/Primary
-Cards and panels	Side panel	Mobile=No, Size=Small	Background/Primary		Text/Primary
-Cards and panels	Side panel	Mobile=No, Size=Medium	Background/Primary		Text/Primary
-Cards and panels	Side panel	Mobile=No, Size=Large	Background/Primary		Text/Primary
-Cards and panels	Side panel header	Size=Default	Background/Primary	Border/Secondary	Text/Primary
-Cards and panels	Sticky footer	Default=Default	Background/Primary	Border/Secondary	Base colours/White
-Cards and panels	Sticky footer	Default=Stepper	Background/Primary	Border/Secondary	Text/Primary
-Cards and panels	Layout container (magazine style)	Row colour=False	Background/Primary		Text/Primary
-Cards and panels	Layout container (magazine style)	Row colour=True	Background/Theme		Text/Primary
-Cards and panels	Org chart	Type=Org	Background/Primary		Text/Primary
-Cards and panels	Org chart	Type=Manager	Background/Primary		Text/Primary
-Cards and panels	Org chart	Type=Reportee	Background/Primary		Text/Primary
-Cards and panels	Note	Property 1=Default		Border/Default	Text/Primary
-Cards and panels	Side filter	Mobile=False	Background/Primary		Text/Primary
-AI	AI button	Style=Light mode, Hover=False			Text/Primary
-AI	AI button	Style=Light mode, Hover=True			Base colours/White
-AI	AI button	Style=Inverted, Hover=False			Base colours/Default Pink
-AI	AI button	Style=Inverted, Hover=True		Base colours/White	Base colours/White
-AI	AI Assistant	Type=Default	Background/Primary		Base colours/Default Pink
-AI	AI Assistant	Type=Active chat	Background/Primary	Border/Default	Base colours/Default Pink
-AI	AI Assistant	Type=Expanded	Background/Primary		Text/Primary
-AI	AI banner	Darkmode=False	Background/Primary		Text/Primary
-AI	AI card modal	Property 1=Default	Background/Primary		Text/Primary
-AI	Clickable AI element	State=default			Text/Primary
-AI	Clickable AI element	State=Hover			Base colours/Default Pink
-AI	AI message bubble	Type=AI chat			Text/Secondary
-AI	AI message bubble	Type=User chat			Text/Secondary
-Navigation	Config menu items				Text/Primary
-Navigation	Config parent menu			Border/Default	Text/Primary
-Navigation	Navigation tabs				Text/Theme
-Navigation	Header	Breakpoint=Desktop			Text/Secondary
-Navigation	Header	Breakpoint=Tablet			Base colours/White
-Navigation	Header	Breakpoint=Mobile			Base colours/White
-Navigation	Mobile bottom navigation				Text/Secondary
-Navigation	Header top navigation	Breakpoint=Desktop			Text/Secondary
-Navigation	Header top navigation	Breakpoint=Tablet			Base colours/White
-Navigation	Header top navigation	Breakpoint=Mobile			Base colours/White
-Navigation	[S] Main nav context		Background/Primary		Text/Theme
-Navigation	Top bar app context				Base colours/White
-Navigation	Search home button	Mobile=False			Text/Secondary
-Navigation	Search home button	Mobile=Mobile3			Text/Theme
-Navigation	Full page navigation	Breakpoint=Desktop			Text/Secondary
-Navigation	Full page navigation	Breakpoint=Mobile			Base colours/White
-Navigation	Full page navigation	Breakpoint=Tablet			Base colours/White
-Navigation	Side navigation panel		Background/Primary		Text/Theme
-Navigation	Filter tabs				Text/Theme
-Cards and panels	Attachments				Text/Primary
-Cards and panels	Attachment with person			Border/Default	Text/Primary
-Cards and panels	Configuration panel				Text/Theme
-Cards and panels	Details				Text/Primary
-Cards and panels	Switcher				Text/Primary
-Cards and panels	Layout container title				Text/Primary
-Cards and panels	Layout container tabs				Text/Theme
-Cards and panels	50/50 layout container				Text/Primary
-Forms	[S] Text area				Text/Primary
-Forms	Signature				Text/Primary
-Forms	Text template format editor 				Text/Primary
-Buttons and links	Add attachment				Text/Primary
-Buttons and links	Action menu button				Text/Primary
-Buttons and links	Tool tip		Background/Tertiary		Text/Primary
-Buttons and links	Drop down button	Hover=False		Border/Form input	Text/Primary
-Buttons and links	Drop down button	Hover=True	Background/Tertiary	Border/Form input	Text/Secondary
-Navigation	Config child menu	Type=Child + sub			Text/Primary
-Forms	Field	Right aligned=Yes, Filled=No	Background/Primary	Border/Form input	Text/Secondary
-Forms	Field	Right aligned=Yes, Filled=Yes	Background/Primary	Border/Form input	Text/Secondary
-Buttons and links	Button	Type=Hollow, State=Disabled		Border/Disabled	Text/Disabled
-Buttons and links	Button	Type=Filter, State=Disabled		Border/Disabled	Text/Disabled
-Buttons and links	Button	Type=Sort, State=Disabled		Border/Disabled	Text/Disabled
-Buttons and links	Button	Type=Action, State=Disabled	Background/Secondary Button		Text/Inverted primary
-Buttons and links	Button	Type=Negative, State=Disabled	Background/Negative Button		Base colours/White
-Buttons and links	Button	Type=Positive, State=Disabled	Background/Primary Button		Base colours/White
-Analytics and charts	Bar				Text/Primary
-Analytics and charts	Bar chart				Text/Primary
-Analytics and charts	Bar chart with axis				Text/Primary
-Analytics and charts	Donut pie chart				Text/Primary
-Analytics and charts	Donut chart with ledger				Text/Primary
-Analytics and charts	Hemisphere chart				Text/Primary
-Analytics and charts	Data variance				Text/Primary
-Analytics and charts	Metric card		Background/Tertiary		Text/Primary
-Analytics and charts	Data variance alternative				Text/Primary
-Analytics and charts	Graph legend				Text/Primary
-Analytics and charts	Graph axis				Text/Primary
-Analytics and charts	Square progress bar				Text/Primary
-Analytics and charts	Table progress bar				Text/Primary
-Analytics and charts	Percentage bar				Text/Primary
-People	[S] People	Property 1=Inline			Text/Primary
-People	[S] People	Property 1=Header			Text/Inverted primary
-People	[S] People	Property 1=Small card			Text/Primary
-People	[S] People	Property 1=Large card			Text/Primary
-People	[S] People	Property 1=Table			Text/Primary
-Pages and Layouts	Configuration				Text/Primary
-Pages and Layouts	Form		Background/Primary		Text/Primary
-Pages and Layouts	Menu-search-settings	Page=Menu	Background/Secondary		Text/Theme
-Pages and Layouts	Menu-search-settings	Page=Search	Background/Secondary		Text/Primary
-Pages and Layouts	Menu-search-settings	Page=Settings	Background/Secondary		Text/Primary
-Cards and panels	[S] Attachment			Border/Secondary	Text/Primary
-Cards and panels	Footer				Tags/Content/Negative
-Cards and panels	Content				Text/Primary
-Cards and panels	Detail item				Text/Primary
-Forms	Required field				Text/Primary
-Forms	Field label				Text/Primary
-Forms	Browser drop down		Background/Secondary		Text/Always White
-Forms	People and department drop down		Background/Primary		Base colours/White
-Forms	Multiselect tag		Base colours/Blue Ocean		Base colours/White
-Forms	[S] Post content				Text/Primary
-Forms	Calendar picker				Base colours/White
-Forms	Time picker				Base colours/White
-Navigation	Config side menu		Background/Primary		Text/Primary
-Navigation	[S] Config child menu				Text/Primary
-Navigation	Counter		Icons/Icon - Theme		Text/Inverted primary
-Controls	Date picker period				Text/Primary
-Controls	Date range visual				Text/Primary
-Controls	Slider				Text/Primary
-Tables	AG field	State=Selected		Icons/Icon - Primary	Text/Disabled
-Tables	AG field	State=Unselected	Background/Primary	Filter menu/Border	Text/Disabled
-Buttons and links	Repeating group				Grey-slate
-Buttons and links	Action menu		Background/Primary		Text/Primary
-AI	Adaptive card				Text/Secondary
-AI	AI Gradient component				Text/Primary
+page	component	variant	fill	stroke	text	nodeId
+Buttons and links	Button	Type=Action, State=Default	Background/Secondary Button		Text/Inverted primary	1656:44983
+Buttons and links	Button	Type=Action, State=Hover	Background/Secondary Button Hover		Text/Inverted primary	1656:44983
+Buttons and links	Button	Type=Positive, State=Default	Background/Primary Button		Base colours/White	1656:44983
+Buttons and links	Button	Type=Positive, State=Hover	Background/Primary Button Hover		Base colours/White	1656:44983
+Buttons and links	Button	Type=Negative, State=Default	Background/Negative Button		Base colours/White	1656:44983
+Buttons and links	Button	Type=Negative, State=Hover	Background/Negative Button Hover		Base colours/White	1656:44983
+Buttons and links	Button	Type=Hollow, State=Default		Border/Hollow Button	Text/Primary	1656:44983
+Buttons and links	Button	Type=Hollow, State=Hover	Buttons/Fills/Hollow hover	Border/Hollow Button	Text/Primary	1656:44983
+Buttons and links	Button	Type=Filter, State=Default		Border/Hollow Button	Text/Primary	1656:44983
+Buttons and links	Button	Type=Filter, State=Hover	Buttons/Fills/Hollow hover	Border/Hollow Button	Text/Primary	1656:44983
+Buttons and links	Button	Type=Sort, State=Default		Border/Hollow Button	Text/Primary	1656:44983
+Buttons and links	Button	Type=Sort, State=Hover	Buttons/Fills/Hollow hover	Border/Hollow Button	Text/Primary	1656:44983
+Buttons and links	Links	Link type=Primary, Hover=False			Text/Link	9707:98838
+Buttons and links	Links	Link type=Primary, Hover=True			Text/Link	9707:98838
+Buttons and links	Links	Link type=Secondary, Hover=False			Text/Link	9707:98838
+Buttons and links	Links	Link type=Secondary, Hover=True			Text/Link	9707:98838
+Buttons and links	Filter chip	State=Default, Active=False	Background/Primary	Border/Hollow Button	Text/Primary	8433:85634
+Buttons and links	Filter chip	State=Selected, Active=True	Background/Primary	Border/Theme	Text/Theme	8433:85634
+Buttons and links	Filter chip	State=Hover, Active=False	Background/Theme	Border/Theme	Text/Theme	8433:85634
+Forms	Form field	Input type=Text, State=Default			Text/Primary	13737:25863
+Forms	Form field	Input type=Text, State=Disabled			Text/Primary	13737:25863
+Forms	Form field	Input type=Text, State=Error			Text/Negative	13737:25863
+Forms	Form field	Input type=Text, State=Selected			Text/Link	13737:25863
+Forms	Form field	Input type=Dropdown, State=Default			Text/Primary	13737:25863
+Forms	Form field	Input type=Dropdown, State=Disabled			Text/Primary	13737:25863
+Forms	Form field	Input type=Dropdown, State=Error			Text/Negative	13737:25863
+Forms	Form field	Input type=Dropdown, State=Selected			Text/Link	13737:25863
+Forms	Form field	Input type=Search, State=Default			Text/Primary	13737:25863
+Forms	Form field	Input type=Search, State=Disabled			Text/Primary	13737:25863
+Forms	Form field	Input type=Search, State=Error			Text/Negative	13737:25863
+Forms	Form field	Input type=Search, State=Selected			Text/Link	13737:25863
+Forms	Form field	Input type=Date picker, State=Default			Text/Primary	13737:25863
+Forms	Form field	Input type=Time picker, State=Default			Text/Primary	13737:25863
+Forms	Field	Right aligned=No, Filled=No	Background/Primary	Border/Form input	Text/Secondary	18846:28925
+Forms	Field	Right aligned=No, Filled=Yes	Background/Primary	Border/Form input	Text/Primary	18846:28925
+Forms	Text area	Type=Standard			Text/Primary	13740:47785
+Forms	Text area	Type=Read only			Text/Primary	13740:47785
+Forms	Text area	Type=Disabled			Text/Primary	13740:47785
+Forms	Text area	Type=Error			Text/Negative	13740:47785
+Forms	Option	Selected=No			Text/Primary	3479:69375
+Forms	Option	Selected=Yes			Text/Inverted primary	3479:69375
+Forms	Inline search	Filled=False			Text/Primary	8478:86031
+Forms	Inline search	Filled=True			Text/Primary	8478:86031
+Forms	Primary search	Darkmode=False, Icon only=False	Background/Primary	Border/Secondary	Text/Secondary	6584:66405
+Forms	Message box	Property 1=Default	Background/Primary	Border/Form input	Text/Secondary	26895:77316
+Controls	Toggle	On=No, Locked=No	Background/Tertiary	Base colours/Grey Dolphin	Text/Secondary	2816:1369
+Controls	Toggle	On=Yes, Locked=No	Background/Primary Button		Base colours/White	2816:1369
+Controls	Toggle	On=No, Locked=Yes	Background/Tertiary	Base colours/Grey Dolphin		2816:1369
+Controls	Toggle	On=Yes, Locked=Yes	Background/Primary Button			2816:1369
+Controls	Radio tile	State=Default	Background/Primary	Border/Default	Text/Primary	26746:17352
+Controls	Radio tile	State=Hover	Background/Theme	Border/Theme	Text/Theme	26746:17352
+Controls	Radio card	State=Enabled, Selected=No	Background/Primary	Border/Default	Text/Primary	30573:16933
+Controls	Radio card	State=Enabled, Selected=Yes	Background/Theme	Border/Theme	Text/Theme	30573:16933
+Controls	Radio card	State=Disabled, Selected=No	Background/Tertiary	Border/Disabled	Text/Disabled	30573:16933
+Controls	Radio card	State=Disabled, Selected=Yes	Background/Tertiary	Border/Disabled	Text/Disabled	30573:16933
+Controls	Checkbox/Radio item	State=Default			Text/Primary	30643:20637
+Controls	Checkbox/Radio item	State=Hover			Text/Link	30643:20637
+Controls	Checkbox/Radio item	State=Disabled			Text/Secondary	30643:20637
+Controls	Checkbox/Radio item	State=Error			Text/Negative	30643:20637
+Controls	Checkbox/Radio item	State=Selected			Text/Link	30643:20637
+Controls	Checkbox/Radio list	State=Default			Text/Primary	30644:37303
+Controls	Checkbox/Radio list	State=Disabled			Text/Primary	30644:37303
+Controls	Checkbox/Radio list	State=Error			Text/Negative	30644:37303
+Controls	Checkbox/Radio list	State=Selected			Text/Link	30644:37303
+Controls	Control	Radio=No	Background/Primary	Icons/Icon - Disabled		30641:14910
+Controls	Control	Radio=Yes	Background/Primary	Icons/Icon - Disabled		30641:14910
+Controls	Image picker	Property 1=Default		Border/Form input		10306:112952
+Controls	Document previewer	Device=Mobile		Border/Default	Text/Primary	27479:15917
+Controls	Document previewer	Device=Tablet		Border/Default	Text/Primary	27479:15917
+Controls	Document previewer	Device=Desktop		Border/Default	Text/Primary	27479:15917
+Tables	Table header (AG)	Alignment=Left	Table/Header cell	Border/Default	Text/Primary	27719:2335
+Tables	Table header (AG)	Alignment=Right	Table/Header cell	Border/Default	Text/Primary	27719:2335
+Tables	Table header (AG)	Alignment=Checkbox	Table/Header cell			27719:2335
+Tables	Table cell (AG)	Type=Default, Style=Default	Table/Primary cell	Border/Default	Text/Link	27719:3034
+Tables	Table cell (AG)	Type=Default, Style=Stripe	Table/Stripe cell	Border/Default	Text/Link	27719:3034
+Tables	Table cell (AG)	Type=Default, Style=Hover	Background/Theme	Border/Default		27719:3034
+Tables	Table cell (AG)	Type=Checkbox, Style=Default	Table/Primary cell	Border/Default		27719:3034
+Tables	Table cell (AG)	Type=Checkbox, Style=Stripe	Table/Stripe cell	Border/Default		27719:3034
+Tables	Table cell (AG)	Type=Checkbox, Style=Hover	Background/Theme	Border/Default		27719:3034
+Tables	Table (AG)	Mobile=False		Table/Border	Text/Primary	27737:49017
+Tables	Table card (AG)	Mobile=False	Table/Card		Text/Theme	27744:18741
+Tables	Footer (AG)	Mobile=False	Table/Card		Text/Primary	27725:51239
+Tables	Multi-select checkbox	State=Default	Background/Primary	Icons/Icon - Disabled		9040:87456
+Tables	Multi-select checkbox	State=Hover	Background/Theme	Icons/Icon - Theme		9040:87456
+Tables	Multi-select checkbox	State=Selected	Icons/Icon - Theme			9040:87456
+Tables	Multi-select checkbox	State=Mixed selection	Icons/Icon - Theme			9040:87456
+Tables	Table header icons	Variant=Sort, State=Default				30772:33402
+Tables	Table header icons	Variant=Sort, State=Ascending	Background/Theme	Icons/Icon - Theme		30772:33402
+Tables	Table header icons	Variant=Sort, State=Descending	Background/Theme	Icons/Icon - Theme		30772:33402
+Tables	Table header icons	Variant=Filter, State=Filtered	Background/Theme	Icons/Icon - Theme		30772:33402
+Tables	Table header icons	Variant=Context menu, State=Active	Background/Theme	Icons/Icon - Theme		30772:33402
+Tables	AG sort item	State=Default			Text/Primary	30792:46426
+Tables	AG sort item	State=Hover	Background/Theme		Text/Primary	30792:46426
+Tables	AG sort item	State=Active	Background/Theme		Text/Primary	30792:46426
+Tables	AG Filter menus	Variant=Multi & search	Filter menu/Background	Filter menu/Border	Text/Disabled	30782:46404
+Tables	AG Filter menus	Variant=Date	Filter menu/Background	Filter menu/Border	Text/Primary	30782:46404
+Tables	AG Filter menus	Variant=Sort	Filter menu/Background	Filter menu/Border	Text/Primary	30782:46404
+Tables	Selected action banner	Mobile=False	Background/Tertiary		Text/Primary	23862:16596
+Tables	Manage columns	Mobile=False	Background/Primary		Text/Primary	20798:19026
+Tables	Table action bar	Mobile=False			Text/Theme	27742:15071
+Tags and ratings	Tags	Type=Neutral	Tags/Fills/Neutral	Tags/Borders/Neutral	Tags/Content/Neutral	18415:5426
+Tags and ratings	Tags	Type=Positive	Tags/Fills/Positive	Tags/Borders/Positive	Tags/Content/Positive	18415:5426
+Tags and ratings	Tags	Type=Negative	Tags/Fills/Negative	Tags/Borders/Negative	Tags/Content/Negative	18415:5426
+Tags and ratings	Tags	Type=Warning	Tags/Fills/Warning	Tags/Borders/Warning	Tags/Content/Warning	18415:5426
+Tags and ratings	Tags	Type=Expired	Tags/Fills/Expired	Tags/Borders/Expired	Tags/Content/Expired	18415:5426
+Tags and ratings	Tags	Type=Other	Tags/Fills/Other	Tags/Borders/Other	Tags/Content/Other	18415:5426
+Tags and ratings	Tags	Type=Theme	Tags/Fills/Info	Tags/Borders/Info	Tags/Borders/Info	18415:5426
+Tags and ratings	Star rating	Rating=0..5, State=Default			Text/Primary	30806:31238
+Tags and ratings	Star rating	Rating=0..5, State=Hover			Text/Primary	30806:31238
+Tags and ratings	Empty section	Mobile=False			Text/Theme	19552:92722
+System messages	Toast message	Message type=Success	Base colours/White		Base colours/Grey Slate	8213:79219
+System messages	Toast message	Message type=Info	Base colours/White		Base colours/Grey Slate	8213:79219
+System messages	Toast message	Message type=Warning	Base colours/White		Base colours/Grey Slate	8213:79219
+System messages	Toast message	Message type=Error	Base colours/White		Base colours/Grey Slate	8213:79219
+System messages	Information box	Type=Information			Text/Primary	3341:64984
+System messages	Information box	Type=Warning			Text/Primary	3341:64984
+System messages	Information box	Type=Error			Text/Primary	3341:64984
+System messages	Information box	Type=Success			Text/Primary	3341:64984
+System messages	Notification card	Mobile=False	Background/Primary	Border/Default	Text/Primary	13846:5504
+System messages	Confirmation modal	Type=Confirmation	Background/Primary	Border/Default	Text/Primary	5217:64300
+System messages	Confirmation modal	Type=Success	Background/Primary	Border/Default	Text/Primary	5217:64300
+System messages	Confirmation modal	Type=Information	Background/Primary	Border/Default	Text/Primary	5217:64300
+System messages	Next actions modal	Type=Warning	Background/Primary	Border/Default		30115:781
+System messages	Next actions modal	Type=Success	Background/Primary	Border/Default		30115:781
+System messages	Status	Status type=Like	Icons/Icon - Info			3435:66939
+System messages	Status	Status type=Absence	Icons/Icon - Warning			3435:66939
+System messages	Status	Status type=Recognition	Base colours/Light Purple			3435:66939
+System messages	Status	Status type=Comment	Icons/Icon - Info			3435:66939
+Navigation	Navigation item	State=Selected, Device=Desktop	Background/Primary		Text/Theme	13658:8027
+Navigation	Navigation item	State=Unselected, Device=Desktop	Background/Primary		Text/Secondary	13658:8027
+Navigation	Navigation item	State=Hover, Device=Desktop	Background/Primary		Text/Theme	13658:8027
+Navigation	Tab	State=Default			Text/Primary	13658:7879
+Navigation	Tab	State=Hover			Text/Theme	13658:7879
+Navigation	Tab	State=Selected			Text/Theme	13658:7879
+Navigation	Side navigation tab	Selected=false			Text/Primary	22973:20747
+Navigation	Side navigation tab	Selected=true	Background/Theme		Text/Theme	22973:20747
+Navigation	Filter tab single	Selected=False, State=Default	Background/Primary	Border/Default	Text/Secondary	23069:23190
+Navigation	Filter tab single	Selected=False, State=Hover	Background/Primary	Border/Default	Text/Theme	23069:23190
+Navigation	Filter tab single	Selected=True, State=Default	Background/Primary	Border/Default	Text/Theme	23069:23190
+Navigation	[S] Navigation/main tabs	Status=Unselected	Background/Primary	Border/Default	Text/Primary	13658:7817
+Navigation	[S] Navigation/main tabs	Status=Hover	Background/Primary	Border/Default	Text/Theme	13658:7817
+Navigation	[S] Navigation/main tabs	Status=Selected	Background/Primary	Border/Default	Text/Theme	13658:7817
+Navigation	Config child menu	Type=Child			Text/Primary	958:30289
+Navigation	Config child menu	Type=Selected	Base colours/Blue Ocean		Text/Inverted primary	958:30289
+Navigation	Clock in	Type=Standard		Border/Default	Text/Inverted primary	13658:8019
+Navigation	Clock in	Type=Hover	Background/Primary	Border/Default	Text/Theme	13658:8019
+Navigation	Secondary nav	Navigation type=Chips			Text/Theme	13658:7900
+Navigation	Secondary nav	Navigation type=Page	Background/Primary		Text/Primary	13658:7900
+Navigation	Side navigation	Variant=Default	Background/Primary		Text/Secondary	13658:7757
+Navigation	Side navigation	Variant=Finance	Background/Primary		Text/Secondary	13658:7757
+Cards and panels	Draggable card	State=Default	Background/Primary	Border/Default	Text/Primary	19979:2091
+Cards and panels	Draggable card	State=Hover	Background/Secondary	Border/Secondary	Text/Primary	19979:2091
+Cards and panels	Draggable card	State=Click	Background/Primary	Border/Theme	Text/Primary	19979:2091
+Cards and panels	Draggable card	State=Drag	Background/Primary	Border/Theme	Text/Primary	19979:2091
+Cards and panels	Draggable card	State=Drop	Background/Theme	Border/Theme		19979:2091
+Cards and panels	Accordion	Expanded=False	Background/Primary	Border/Default	Text/Primary	16812:1710
+Cards and panels	Accordion	Expanded=True	Background/Primary	Border/Default	Text/Primary	16812:1710
+Cards and panels	Card	Property 1=Default	Background/Primary		Text/Primary	5726:69614
+Cards and panels	Content cards	Mobile=false	Background/Primary	Border/Default	Text/Primary	20755:32197
+Cards and panels	Spotlight Card	Horizontal=False	Background/Primary	Border/Default	Text/Primary	26820:17383
+Cards and panels	single layout card	Mobile=false	Background/Primary	Border/Default	Text/Primary	20787:9281
+Cards and panels	Editable list card	Property 1=Default	Background/Primary	Border/Default	Text/Secondary	5127:69366
+Cards and panels	Settings card	Property 1=Default	Background/Secondary		Text/Theme	6033:65712
+Cards and panels	Configuration tile	Device=Desktop	Background/Secondary		Text/Primary	7063:83776
+Cards and panels	Title panel	Mobile=false	Background/Tertiary		Text/Primary	5050:63097
+Cards and panels	Side panel	Mobile=No, Size=Small	Background/Primary		Text/Primary	13909:5302
+Cards and panels	Side panel	Mobile=No, Size=Medium	Background/Primary		Text/Primary	13909:5302
+Cards and panels	Side panel	Mobile=No, Size=Large	Background/Primary		Text/Primary	13909:5302
+Cards and panels	Side panel header	Size=Default	Background/Primary	Border/Secondary	Text/Primary	18222:8378
+Cards and panels	Sticky footer	Default=Default	Background/Primary	Border/Secondary	Base colours/White	20184:1662
+Cards and panels	Sticky footer	Default=Stepper	Background/Primary	Border/Secondary	Text/Primary	20184:1662
+Cards and panels	Layout container (magazine style)	Row colour=False	Background/Primary		Text/Primary	16370:9151
+Cards and panels	Layout container (magazine style)	Row colour=True	Background/Theme		Text/Primary	16370:9151
+Cards and panels	Org chart	Type=Org	Background/Primary		Text/Primary	6237:66512
+Cards and panels	Org chart	Type=Manager	Background/Primary		Text/Primary	6237:66512
+Cards and panels	Org chart	Type=Reportee	Background/Primary		Text/Primary	6237:66512
+Cards and panels	Note	Property 1=Default		Border/Default	Text/Primary	5235:65705
+Cards and panels	Side filter	Mobile=False	Background/Primary		Text/Primary	9374:93485
+AI	AI button	Style=Light mode, Hover=False			Text/Primary	22814:16542
+AI	AI button	Style=Light mode, Hover=True			Base colours/White	22814:16542
+AI	AI button	Style=Inverted, Hover=False			Base colours/Default Pink	22814:16542
+AI	AI button	Style=Inverted, Hover=True		Base colours/White	Base colours/White	22814:16542
+AI	AI Assistant	Type=Default	Background/Primary		Base colours/Default Pink	27507:11696
+AI	AI Assistant	Type=Active chat	Background/Primary	Border/Default	Base colours/Default Pink	27507:11696
+AI	AI Assistant	Type=Expanded	Background/Primary		Text/Primary	27507:11696
+AI	AI banner	Darkmode=False	Background/Primary		Text/Primary	25225:6175
+AI	AI card modal	Property 1=Default	Background/Primary		Text/Primary	22814:16588
+AI	Clickable AI element	State=default			Text/Primary	26970:14559
+AI	Clickable AI element	State=Hover			Base colours/Default Pink	26970:14559
+AI	AI message bubble	Type=AI chat			Text/Secondary	27295:378
+AI	AI message bubble	Type=User chat			Text/Secondary	27295:378
+Navigation	Config menu items				Text/Primary	958:30298
+Navigation	Config parent menu			Border/Default	Text/Primary	4931:63962
+Navigation	Navigation tabs				Text/Theme	23086:8084
+Navigation	Header	Breakpoint=Desktop			Text/Secondary	13658:7653
+Navigation	Header	Breakpoint=Tablet			Base colours/White	13658:7653
+Navigation	Header	Breakpoint=Mobile			Base colours/White	13658:7653
+Navigation	Mobile bottom navigation				Text/Secondary	13658:7742
+Navigation	Header top navigation	Breakpoint=Desktop			Text/Secondary	13658:7772
+Navigation	Header top navigation	Breakpoint=Tablet			Base colours/White	13658:7772
+Navigation	Header top navigation	Breakpoint=Mobile			Base colours/White	13658:7772
+Navigation	[S] Main nav context		Background/Primary		Text/Theme	13658:7842
+Navigation	Top bar app context				Base colours/White	13658:7955
+Navigation	Search home button	Mobile=False			Text/Secondary	13658:8009
+Navigation	Search home button	Mobile=Mobile3			Text/Theme	13658:8009
+Navigation	Full page navigation	Breakpoint=Desktop			Text/Secondary	13658:8240
+Navigation	Full page navigation	Breakpoint=Mobile			Base colours/White	13658:8240
+Navigation	Full page navigation	Breakpoint=Tablet			Base colours/White	13658:8240
+Navigation	Side navigation panel		Background/Primary		Text/Theme	22973:20811
+Navigation	Filter tabs				Text/Theme	23069:23560
+Cards and panels	Attachments				Text/Primary	5235:64884
+Cards and panels	Attachment with person			Border/Default	Text/Primary	5235:65181
+Cards and panels	Configuration panel				Text/Theme	7064:68025
+Cards and panels	Details				Text/Primary	30638:22248
+Cards and panels	Switcher				Text/Primary	27561:5474
+Cards and panels	Layout container title				Text/Primary	16418:9936
+Cards and panels	Layout container tabs				Text/Theme	16418:10087
+Cards and panels	50/50 layout container				Text/Primary	28405:3050
+Forms	[S] Text area				Text/Primary	607:90038
+Forms	Signature				Text/Primary	8136:78299
+Forms	Text template format editor 				Text/Primary	5322:65728
+Buttons and links	Add attachment				Text/Primary	4174:71096
+Buttons and links	Action menu button				Text/Primary	5308:64681
+Buttons and links	Tool tip		Background/Tertiary		Text/Primary	5322:66068
+Buttons and links	Drop down button	Hover=False		Border/Form input	Text/Primary	22421:5021
+Buttons and links	Drop down button	Hover=True	Background/Tertiary	Border/Form input	Text/Secondary	22421:5021
+Navigation	Config child menu	Type=Child + sub			Text/Primary	958:30289
+Forms	Field	Right aligned=Yes, Filled=No	Background/Primary	Border/Form input	Text/Secondary	18846:28925
+Forms	Field	Right aligned=Yes, Filled=Yes	Background/Primary	Border/Form input	Text/Secondary	18846:28925
+Buttons and links	Button	Type=Hollow, State=Disabled		Border/Disabled	Text/Disabled	1656:44983
+Buttons and links	Button	Type=Filter, State=Disabled		Border/Disabled	Text/Disabled	1656:44983
+Buttons and links	Button	Type=Sort, State=Disabled		Border/Disabled	Text/Disabled	1656:44983
+Buttons and links	Button	Type=Action, State=Disabled	Background/Secondary Button		Text/Inverted primary	1656:44983
+Buttons and links	Button	Type=Negative, State=Disabled	Background/Negative Button		Base colours/White	1656:44983
+Buttons and links	Button	Type=Positive, State=Disabled	Background/Primary Button		Base colours/White	1656:44983
+Analytics and charts	Bar				Text/Primary	7649:71538
+Analytics and charts	Bar chart				Text/Primary	6188:65918
+Analytics and charts	Bar chart with axis				Text/Primary	7667:71127
+Analytics and charts	Donut pie chart				Text/Primary	8135:78219
+Analytics and charts	Donut chart with ledger				Text/Primary	8135:79063
+Analytics and charts	Hemisphere chart				Text/Primary	16537:3845
+Analytics and charts	Data variance				Text/Primary	8206:79398
+Analytics and charts	Metric card		Background/Tertiary		Text/Primary	8206:79577
+Analytics and charts	Data variance alternative				Text/Primary	828:31772
+Analytics and charts	Graph legend				Text/Primary	8117:78197
+Analytics and charts	Graph axis				Text/Primary	7658:72461
+Analytics and charts	Square progress bar				Text/Primary	10239:114074
+Analytics and charts	Table progress bar				Text/Primary	43:261
+Analytics and charts	Percentage bar				Text/Primary	18093:998
+People	[S] People	Property 1=Inline			Text/Primary	10682:112860
+People	[S] People	Property 1=Header			Text/Inverted primary	10682:112860
+People	[S] People	Property 1=Small card			Text/Primary	10682:112860
+People	[S] People	Property 1=Large card			Text/Primary	10682:112860
+People	[S] People	Property 1=Table			Text/Primary	10682:112860
+Pages and Layouts	Configuration				Text/Primary	13717:37944
+Pages and Layouts	Form		Background/Primary		Text/Primary	13717:37949
+Pages and Layouts	Menu-search-settings	Page=Menu	Background/Secondary		Text/Theme	829:31644
+Pages and Layouts	Menu-search-settings	Page=Search	Background/Secondary		Text/Primary	829:31644
+Pages and Layouts	Menu-search-settings	Page=Settings	Background/Secondary		Text/Primary	829:31644
+Cards and panels	[S] Attachment			Border/Secondary	Text/Primary	1455:40546
+Cards and panels	Footer				Tags/Content/Negative	30637:15576
+Cards and panels	Content				Text/Primary	30637:15470
+Cards and panels	Detail item				Text/Primary	30637:16556
+Forms	Required field				Text/Primary	14921:25589
+Forms	Field label				Text/Primary	607:8116
+Forms	Browser drop down		Background/Secondary		Text/Always White	3479:69358
+Forms	People and department drop down		Background/Primary		Base colours/White	24963:15286
+Forms	Multiselect tag		Base colours/Blue Ocean		Base colours/White	25959:29138
+Forms	[S] Post content				Text/Primary	2977:43756
+Forms	Calendar picker				Base colours/White	17411:5842
+Forms	Time picker				Base colours/White	17411:5843
+Navigation	Config side menu		Background/Primary		Text/Primary	5942:65619
+Navigation	[S] Config child menu				Text/Primary	930:30367
+Navigation	Counter		Icons/Icon - Theme		Text/Inverted primary	14990:11954
+Controls	Date picker period				Text/Primary	13717:57349
+Controls	Date range visual				Text/Primary	8478:85639
+Controls	Slider				Text/Primary	14948:93064
+Tables	AG field	State=Selected		Icons/Icon - Primary	Text/Disabled	30794:46519
+Tables	AG field	State=Unselected	Background/Primary	Filter menu/Border	Text/Disabled	30794:46519
+Buttons and links	Repeating group				Grey-slate	
+Buttons and links	Action menu		Background/Primary		Text/Primary	5308:64663
+AI	Adaptive card				Text/Secondary	27309:772
+AI	AI Gradient component				Text/Primary	27295:318
