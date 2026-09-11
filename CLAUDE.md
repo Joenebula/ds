@@ -112,6 +112,30 @@ being captured automatically**: it might be real, half-finished, or an experimen
 on a page, and nothing enters the published library without a person deciding. Capture it, or
 add a row to `uncaptured-reasons.tsv` saying why it stays out.
 
+**Icons are counted separately, and for a long time they were not.** Icons are published Figma
+components, but they are captured by `extract-icons.mjs` into `icons.tsv` and `assets/icons/`
+rather than as component classes — so comparing Figma against the COMPONENT extract alone reported
+the entire icon set as uncaptured. This check said **286 NEW** for months: 281 already captured,
+5 real. A verdict line that is 98% false alarm is not a gate, it is a number people learn to read
+past — which is what happened, repeatedly. `isIconPage` in `check-catalogue-drift.mjs` is the one
+definition of that page, and both checks use it.
+
+**But `icons.tsv` has NO nodeId column**, so read its "new" and "gone" lists TOGETHER. This is the
+same defect `component-variants.tsv` was fixed for in `6218a8d`: without an id, a rename is
+indistinguishable from a deletion plus an addition. The first run after the fix reports 5 new and
+8 gone, and almost none of it is either:
+
+| `icons.tsv` | Figma | what it really is |
+|---|---|---|
+| `addres book` | `Address book` | a typo fixed in Figma |
+| `Calendarcross` | `Calendar cross` | spacing fixed in Figma |
+| `Taxes coins` | `Coins` + `Tax` | split into two |
+| `Size=L/M/S/XS - ..px` | `Circle icons` | **not a Figma change at all** — `extract-icons.mjs` captured one component set's four VARIANTS as four separate icons |
+| `unnamed-813678321` | — | an unnamed node captured as an icon |
+
+Pair them by eye before importing anything. Giving `icons.tsv` an id column is the real fix and
+needs a re-extract that carries one.
+
 ## Re-extracting
 
 A bigger, deliberate job. The `extract-*.mjs` scripts read Figma reads out of the session

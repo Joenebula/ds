@@ -20,11 +20,42 @@
 //   GONE      captured here, no longer in Figma                             -> FAILS
 //   SAME      matched                                                       -> the boring case
 //
+// ICONS ARE COUNTED SEPARATELY, AND THAT IS THE DIFFERENCE BETWEEN A GATE AND NOISE. Icons are
+// published Figma components, but they are captured by extract-icons.mjs into icons.tsv and
+// assets/icons/ rather than as component classes. This check compared Figma against the COMPONENT
+// extract alone, so it reported the entire icon set as uncaptured: 286 NEW, of which 281 were
+// already captured and 5 were real. A verdict line that is 98% false alarm is not a gate — it is
+// a number people learn to read past, which is exactly what happened, repeatedly, including by me.
+//
+// So an icon is now judged against icons.tsv, case-insensitively (Figma's "Calendar link" is
+// "calendar link" in the extract), and reported in its own column. It still FAILS when it is
+// genuinely uncaptured: the rule has not been relaxed, only made able to tell the two kinds apart.
+//
+// AND ICONS CARRY NO NODE ID, SO READ "NEW" AND "GONE" TOGETHER. component-variants.tsv gained a
+// nodeId column in 6218a8d precisely because a name-only comparison cannot tell a rename from a
+// deletion plus an addition. icons.tsv never got one — it is index/figmaName/file/svg — so the
+// icon side of this check still has that defect and is honest about it rather than hiding it.
+//
+// The first run after this change is the demonstration. It reports 5 new and 8 gone, and almost
+// none of it is an addition or a removal:
+//
+//   addres book          -> Address book        a typo fixed in Figma
+//   Calendarcross        -> Calendar cross      spacing fixed in Figma
+//   Taxes coins          -> Coins + Tax         split into two
+//   Size=L/M/S/XS - ..px -> Circle icons        NOT a Figma change at all: extract-icons.mjs
+//                                               captured one component set's four VARIANTS as
+//                                               four separate icons
+//   unnamed-813678321    -> nothing             an unnamed node captured as an icon
+//
+// Both lists are printed together, and the verdict line says the ids are missing, so nobody reads
+// the first as "five new icons to import".
+//
 // NEW FAILS RATHER THAN AUTO-CAPTURING. A component appearing in Figma might be real, might be
 // half-finished, might be an experiment somebody left on a page. Pulling it in automatically
 // would let an unfinished idea become part of the published library without anyone deciding.
 // So it stops the run and names itself, and a person classifies it.
 import { readFileSync, existsSync } from 'node:fs';
+import { isExcludedPage, isIconPage } from './check-catalogue-drift.mjs';
 
 const RAW = 'tokens/_raw';
 const key = (n) => String(n || '').trim();
@@ -37,8 +68,31 @@ const tsv = (file) => {
 
 // ---------------------------------------------------------------------------
 // The judgement, pure so --self-test can drive it with fixtures.
-export function judge({ figma, captured, declared, inventory }) {
-  const fig = figma.filter((c) => key(c.name));
+export function judge({ figma, captured, declared, inventory, icons = [] }) {
+  const all = figma.filter((c) => key(c.name));
+
+  // Partition BEFORE anything else. A doc page is not the design system at all; an icon page is
+  // the design system but captured in a different file. Folding either into the component
+  // comparison is what made this check unreadable.
+  const haveIcon = new Set(icons.map((n) => key(n).toLowerCase()).filter(Boolean));
+  const figIcons = all.filter((c) => isIconPage(c.page));
+  const declaredSet = new Set(declared.map(key));
+  const newIcons = figIcons
+    .filter((c) => !haveIcon.has(key(c.name).toLowerCase()))
+    .filter((c) => !declaredSet.has(key(c.name)))
+    .map((c) => key(c.name))
+    .sort();
+  // The other direction. A captured icon Figma no longer publishes is shipped artwork with no
+  // source — the icon equivalent of a GONE component, and it fails for the same reason. Without
+  // ids this is also where the other half of every rename lands, which is why the two lists are
+  // reported together and never separately.
+  const figIconNames = new Set(figIcons.map((c) => key(c.name).toLowerCase()));
+  const goneIcons = [...new Set(icons.map(key).filter(Boolean))]
+    .filter((n) => !figIconNames.has(n.toLowerCase()))
+    .filter((n) => !declaredSet.has(n))
+    .sort();
+
+  const fig = all.filter((c) => !isExcludedPage(c.page));
   const figById = new Map(fig.filter((c) => key(c.nodeId)).map((c) => [key(c.nodeId), c]));
   const figByName = new Map(fig.map((c) => [key(c.name), c]));
 
@@ -94,10 +148,14 @@ export function judge({ figma, captured, declared, inventory }) {
   return {
     renamed: renamed.sort((a, b) => a.from.localeCompare(b.from)),
     isNew, gone: gone.sort(), same,
+    newIcons, goneIcons,
+    capturedIcons: figIcons.length - newIcons.length,
     unidentified: [...new Set(unidentified)].sort(),
     inventoryBehind,
-    figma: fig.length, captured: captured.length,
-    problems: isNew.length + gone.length,
+    figma: fig.length, published: all.length, captured: captured.length,
+    // An uncaptured icon fails exactly as an uncaptured component does. Separating the two was
+    // about making them VISIBLE, never about letting one through.
+    problems: isNew.length + gone.length + newIcons.length + goneIcons.length,
   };
 }
 
@@ -119,7 +177,11 @@ function main() {
 
   const raw = JSON.parse(readFileSync(file, 'utf8'));
   const figma = (Array.isArray(raw) ? raw : raw.components || [])
-    .map((c) => ({ name: c.name, nodeId: c.nodeId || c.id || c.node_id || '' }));
+    .map((c) => ({
+      name: c.name,
+      nodeId: c.nodeId || c.id || c.node_id || '',
+      page: c.pageName || c.page || '',
+    }));
   // Header-keyed, so the nodeId column is picked up wherever it sits in the row.
   const vh = readFileSync(`${RAW}/component-variants.tsv`, 'utf8').split('\n')[0].split('\t');
   const ci = vh.indexOf('component'), ni = vh.indexOf('nodeId');
@@ -130,9 +192,11 @@ function main() {
   }
   const captured = [...seen.values()];
   const declared = tsv(`${RAW}/uncaptured-reasons.tsv`).map((r) => r[0]);
+  // icons.tsv is  index \t figmaName \t file \t svg  — the NAME column, not the file stem.
+  const icons = tsv(`${RAW}/icons.tsv`).map((r) => r[1]).filter(Boolean);
   const inventory = JSON.parse(readFileSync(`${RAW}/components.json`, 'utf8')).map((c) => c.name);
 
-  const r = judge({ figma, captured, declared, inventory });
+  const r = judge({ figma, captured, declared, inventory, icons });
 
   for (const m of r.renamed) {
     console.log(`RENAMED  "${m.from}" is now called "${m.to}" in Figma (${m.nodeId}) — same `
@@ -140,6 +204,20 @@ function main() {
   }
   for (const n of r.isNew) console.log(`NEW      "${n}" is in Figma, has no rules, and no declared reason`);
   for (const n of r.gone) console.log(`GONE     "${n}" has a .pf-* class and is no longer published by Figma`);
+  for (const n of r.newIcons) {
+    console.log(`NEW ICON  "${n}" is on the Figma icon page and is not in icons.tsv`);
+  }
+  for (const n of r.goneIcons) {
+    console.log(`GONE ICON "${n}" is in icons.tsv and Figma's icon page does not publish it`);
+  }
+  if (r.newIcons.length && r.goneIcons.length) {
+    console.log('');
+    console.log('  READ THOSE TWO LISTS TOGETHER. icons.tsv has no nodeId column, so a rename is');
+    console.log('  indistinguishable from a deletion plus an addition — the defect components');
+    console.log('  were fixed for in 6218a8d. Pair them by eye before importing anything: a');
+    console.log('  typo corrected in Figma, or one set\'s variants captured as separate icons,');
+    console.log('  both look exactly like this.');
+  }
   if (r.inventoryBehind.length) {
     console.log(`  behind   components.json is missing ${r.inventoryBehind.length} name(s) Figma `
       + `publishes — refresh it in the same pass`);
@@ -154,9 +232,13 @@ function main() {
     console.log(`  no id    ${r.unidentified.length} captured row(s) carry no nodeId, so a rename `
       + 'of one is indistinguishable from a deletion — run backfill-node-ids.mjs, or re-extract');
   }
-  console.log(`\n${r.figma} published in Figma, ${r.captured} captured here — `
-    + `${r.same} unchanged, ${r.renamed.length} renamed, ${r.isNew.length} new, ${r.gone.length} gone`
+  console.log(`\n${r.published} published in Figma — ${r.figma} component(s) and `
+    + `${r.capturedIcons + r.newIcons.length} icon(s); the rest are documentation pages`);
+  console.log(`components: ${r.captured} captured — ${r.same} unchanged, ${r.renamed.length} `
+    + `renamed, ${r.isNew.length} new, ${r.gone.length} gone`
     + (r.unidentified.length ? `, ${r.unidentified.length} with no id` : ''));
+  console.log(`icons     : ${r.capturedIcons} captured, ${r.newIcons.length} new, `
+    + `${r.goneIcons.length} gone — NO node ids, so renames are not distinguishable`);
   process.exit(r.problems ? 1 : 0);
 }
 
@@ -216,6 +298,50 @@ function selfTest() {
     ['a trailing space is not a new component', () =>
       run({ figma: [{ name: 'Button ', nodeId: '1:2' }] }), (r) => r.problems === 0 && r.same === 1],
 
+    // ---- icons -------------------------------------------------------------------------
+    // The case this whole change exists for. Before it, every one of the 293 captured icons
+    // read as a NEW component, and the 5 that mattered were buried in 286 lines.
+    ['a captured ICON is not a new component', () =>
+      run({ figma: [{ name: 'Button', nodeId: '1:2' },
+        { name: 'Tick', nodeId: '8:8', page: 'Icons' }], icons: ['Tick'] }),
+      (r) => r.problems === 0 && r.isNew.length === 0 && r.newIcons.length === 0
+        && r.capturedIcons === 1],
+
+    ['...and the icon page is kept OUT of the component tally', () =>
+      run({ figma: [{ name: 'Button', nodeId: '1:2' },
+        { name: 'Tick', nodeId: '8:8', page: 'Icons' }], icons: ['Tick'] }),
+      (r) => r.figma === 1],
+
+    // Excluding the icon page without comparing it would trade 281 false alarms for 5 silent
+    // misses, which is the same failure wearing the opposite coat.
+    ['an UNCAPTURED icon still FAILS — excluding is not the same as ignoring', () =>
+      run({ figma: [{ name: 'Button', nodeId: '1:2' },
+        { name: 'Coins', nodeId: '9:9', page: 'Icons' }], icons: [] }),
+      (r) => r.newIcons.length === 1 && r.newIcons[0] === 'Coins'
+        && r.goneIcons.length === 0 && r.problems === 1],
+
+    // Figma's "Calendar link" is "calendar link" in the extract. Matching case-sensitively
+    // reported a captured icon as new, and briefly made this session's count 6 instead of 5.
+    ['icon names match case-INSENSITIVELY', () =>
+      run({ figma: [{ name: 'Button', nodeId: '1:2' },
+        { name: 'Calendar link', nodeId: '9:9', page: 'Icons' }], icons: ['calendar link'] }),
+      (r) => r.newIcons.length === 0 && r.problems === 0],
+
+    ['a captured icon Figma no longer publishes is GONE, not silence', () =>
+      run({ figma: [{ name: 'Button', nodeId: '1:2' }], icons: ['Retired glyph'] }),
+      (r) => r.goneIcons.length === 1 && r.goneIcons[0] === 'Retired glyph' && r.problems === 1],
+
+    ['a declared icon passes, like a declared component', () =>
+      run({ figma: [{ name: 'Button', nodeId: '1:2' },
+        { name: 'Coins', nodeId: '9:9', page: 'Icons' }], icons: [], declared: ['Coins'] }),
+      (r) => r.newIcons.length === 0 && r.problems === 0],
+
+    // A documentation page is not the design system and never was — no new, no gone, no noise.
+    ['a documentation page is excluded entirely', () =>
+      run({ figma: [{ name: 'Button', nodeId: '1:2' },
+        { name: 'Dos and donts', nodeId: '4:4', page: '\u{1F4DA} WIKI' }] }),
+      (r) => r.problems === 0 && r.isNew.length === 0 && r.newIcons.length === 0],
+
     ['the inventory lagging is recorded, not failed', () =>
       run({ figma: [{ name: 'Button', nodeId: '1:2' }, { name: 'Late', nodeId: '5:5' }],
         captured: [{ name: 'Button', nodeId: '1:2' }, { name: 'Late', nodeId: '5:5' }],
@@ -243,7 +369,9 @@ function selfTest() {
   }
   console.log('self-test passed — a rename reports as ONE line rather than a deletion plus an '
     + 'addition, five renames as five, and a row with no id falls back to the name and is '
-    + 'counted as blind; a new component, a removal and an empty listing all still fail');
+    + 'counted as blind; a new component, a removal and an empty listing all still fail; and a '
+    + 'captured ICON is no longer mistaken for a new component while an uncaptured one still '
+    + 'fails, matched case-insensitively, with the gone side reported beside it');
 }
 
 import { pathToFileURL } from 'node:url';

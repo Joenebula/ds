@@ -33,11 +33,19 @@ import { readFileSync, existsSync } from 'node:fs';
 
 const RAW = 'tokens/_raw';
 
+// THE ICON PAGE, in one place. Icons ARE published Figma components — 293 of them — but they are
+// captured by extract-icons.mjs into icons.tsv and assets/icons/, not as component classes. Any
+// check that compares Figma against the COMPONENT extract has to know that, or it reports the
+// whole icon set as uncaptured. sync-check.mjs did exactly that: 286 "new components", 281 of
+// them already captured, burying the 5 that were real. The `.trim()` is load-bearing — the
+// inventory spells this page "Icons " with a trailing space.
+export const isIconPage = (page) => String(page || '').trim() === 'Icons';
+
 // Figma pages that are not the design system: documentation, style guide, wiki, and the icon
-// page (293 icons, captured separately by extract-icons.mjs into assets/icons/). The emoji
-// prefix is the file's own convention — see extract-variants.mjs, which uses the same test.
+// page. The emoji prefix is the file's own convention — see extract-variants.mjs, which uses the
+// same test.
 export const isExcludedPage = (page) => /^(📄|📚|🎨)/.test(String(page || '').trim())
-  || String(page || '').trim() === 'Icons';
+  || isIconPage(page);
 
 const tsv = (file) => {
   if (!existsSync(file)) return [];

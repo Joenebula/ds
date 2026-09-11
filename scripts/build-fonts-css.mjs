@@ -7,7 +7,7 @@
 // `Open Sans, system-ui, sans-serif` and every type class asks for a weight, but nothing
 // anywhere shipped the face. Open Sans arrived, when it arrived, from a Google Fonts <link>
 // hand-written into four prototype files. Everywhere else — docs/components.html, the
-// ds-bundle, every artifact and every .dc.html canvas built to the CLAUDE.md recipe — fell
+// every artifact and every .dc.html canvas built to the CLAUDE.md recipe — fell
 // straight through to system-ui, which is SF Pro on a Mac and Segoe UI on Windows. Both are
 // visibly lighter than Open Sans SemiBold at the same 600, which is why the weight was
 // reported as reading "medium".
