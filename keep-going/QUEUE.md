@@ -910,6 +910,49 @@ components**, each one named in the markup — `<!-- 13 children here in Figma t
 did not reach -->` — and the count is pinned by `check-templates.mjs`, which fails if it
 grows. A blank inner div with no comment is now a statement that Figma has nothing there.
 
+### The depth cap is closed, and closing it found a live bug — `done`
+
+61 containers were still behind the limit. All nine components re-walked at five levels,
+with one new rule: **a run of identical siblings is one fact, not thirteen.** `Table (AG)`
+has 13 rows per column and `Calendar picker` six identical weeks; the walk keeps two and
+the parent's own child count carries the rest, so the template says
+`<!-- 11 more of the same in Figma -->`. That took `Calendar picker` from 88 rows of
+repeated day cells to 24 rows of real structure, and `Table (AG)` from a list of empty
+column boxes to a table with headers and alternating Default/Stripe rows.
+
+**61 -> 3.** The three left each hold a single leaf child. Pinned by `check-templates.mjs`,
+which counts deliberate run-collapses apart from real truncations — counting them together
+would have put 60-odd decisions in a number meant to measure what the walk could NOT see,
+which is the measuring-the-wrong-thing fault this project has now found in four of its own
+checks.
+
+**And looking at the result found a live bug nothing had caught.** `Calendar picker` was
+rendering white text on white. Three faults stacked:
+
+1. **The template generator applied the primitive rule to a child's fill and stroke but not
+   to its text.** Six templates carried `var(--pf-base-*)`, which CLAUDE.md forbids because
+   a primitive cannot change between modes. The substitution table now lives in
+   `scripts/primitive-alias.mjs` so the two generators that need it cannot drift, and
+   `check-templates` fails on any primitive in a template.
+2. **Dropping half a pair is worse than dropping neither.** Figma paints the month header
+   `Blue Charade` (a primitive, correctly dropped) with white text on it (correctly
+   substituted) — so the text was left over nothing. The generator now detects a text whose
+   nearest ancestor fill was dropped and leaves its colour to inherit, with the reason in
+   place.
+3. **The class itself was painting every label white.** The colour extract gives a component
+   ONE text colour; for a composite one that is whichever label Figma recorded, promoted to
+   all of them. `Calendar picker`, `Time picker` and `Repeating group` were shipping it.
+   Dropped where the child tree shows more than one label colour — which is also what tells
+   these apart from `Top bar app context`, identical in the colour extract and genuinely one
+   colour, because it sits on the dark header band.
+
+`verify-components` mirrors the rule rather than exempting by name, and the shell-class
+baseline went 2 -> 5 with the reason recorded: those three lost their only paint, and in
+this one case that is the fix rather than the fault.
+
+Written up for the design team as `docs/FIGMA-ISSUES.md` §10 (four components, two names)
+and §11 (one label's colour recorded as the whole component's).
+
 Four more faults the re-walk turned up:
 
 - **Artwork subtrees ate the row cap.** `Empty section` spent 80 of 88 rows on vector paths

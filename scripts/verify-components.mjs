@@ -10,6 +10,17 @@
 import { readFileSync, writeFileSync, unlinkSync } from 'node:fs';
 import { chromium } from 'playwright-core';
 
+// Mirrors build-components-css.mjs: a component-level text colour that is really one
+// child's, identified by the child tree binding more than one label colour.
+const labelColours = new Map();
+for (const line of readFileSync('tokens/_raw/component-tree.tsv', 'utf8').trim().split('\n').slice(1)) {
+  const c = line.split('\t');
+  if (!c[1] || c[2] !== 'TEXT' || !c[12]) continue;
+  if (!labelColours.has(c[0])) labelColours.set(c[0], new Set());
+  labelColours.get(c[0]).add(c[12]);
+}
+const colourIsOneChilds = (component) => (labelColours.get(component) || new Set()).size > 1;
+
 const selfTest = process.argv.includes('--self-test');
 
 const tsv = (p) => {
@@ -157,7 +168,15 @@ for (const theme of ['light', 'dark']) {
     if (e.flexDirection) add('flex-direction', e.flexDirection, f.flexDirection, f.flexDirection === e.flexDirection);
 
     if (f.want.fill) add('background', f.want.fill, f.bg, f.bg === f.want.fill);
-    if (f.want.text) add('color', f.want.text, f.color, f.color === f.want.text);
+    // THE GENERATOR DELIBERATELY DROPS SOME TEXT COLOURS, so asserting them all would fail
+    // the library on values it is right not to emit. The colour extract gives a component
+    // ONE text colour; for a composite one that is whichever label Figma happened to record,
+    // and painting it on the class paints every descendant — `.pf-calendar-picker` rendered
+    // its whole calendar white on white. The generator drops such a colour when the child
+    // tree shows more than one label colour, and this mirrors that rule. Mirroring rather
+    // than exempting by name: the same reasoning, read from the same file, so the two cannot
+    // drift the way the State/Hover axis collapsing once did.
+    if (f.want.text && !colourIsOneChilds(s.component)) add('color', f.want.text, f.color, f.color === f.want.text);
     if (f.want.stroke) add('border-color', f.want.stroke, f.borderColor, f.borderColor === f.want.stroke);
   }
   await ctx.close();

@@ -314,6 +314,61 @@ the instance is painted with — so the component carries its own highlight.
 
 ---
 
+## 10. Four components, two names
+
+The Forms page has two component sets called **`Field`**, and the People page has two
+called **`People`**. Nothing in the Figma file distinguishes them but the node id.
+
+| Name | What it is |
+|---|---|
+| `Field` | the 300x42 input box, variants `Right aligned` x `Filled` |
+| `Field` | a 95x42 label-above-value pair, variant `Property 1` |
+| `People` | the avatar, variants `Who?` — one per person |
+| `People` | a 166x91 table entry, variants `Item` x `Type` x `Mobile` |
+
+Every extract here keys a component by name, so the second of each pair landed on the
+first's rows and the result described neither. The pipeline now keeps them apart as
+`Field (second component)` and `People (second component)` — accurate, and unusable as a
+class name, so only the first of each pair ships as a class at all.
+
+This is the third name collision in the file. `Header` is the other: the 1830x86 app header
+and a 20x20 counter badge, which has now cost three separate extracts a fix each.
+
+**Suggested fix:** give each of the four a name that says what it is. The second `Field`
+looks like a read-only detail row and the second `People` like a table entry; whatever they
+are called, two components with one name cannot both be addressed.
+
+---
+
+## 11. One label's colour recorded as the whole component's
+
+Figma records one text colour per component. For a component that is a single box that is
+right. For a composite one it is whichever label the component-level binding names, and
+applying it paints every descendant.
+
+Three components were shipping a class that made their own contents invisible:
+
+| Component | Recorded text colour | What its labels actually bind |
+|---|---|---|
+| `Calendar picker` | `Base colours/White` | white, `Text/Secondary`, `Text/Disabled`, `Text/Primary` |
+| `Time picker` | `Base colours/White` | white, `Text/Primary` |
+| `Repeating group` | `Grey-slate` | grey-slate, `Text/Primary`, `Text/Link`, `Text/Negative` |
+
+In each case the white is the month/hour header's label, and that header's own background
+is a raw primitive (`Base colours/Blue Charade`) — so the surface cannot be carried into a
+system that has to work in both modes, and the white text was left over it. `Calendar
+picker` rendered white on white.
+
+The pipeline now drops a component-level text colour when the child tree shows more than
+one label colour, and the template gives each label its own. Note that `Top bar app
+context` looks identical in the colour extract — white text, no background — and is
+correct, because it sits on the header band. Only the child tree tells the two apart.
+
+**Suggested fix:** bind `Base colours/Blue Charade` to a semantic token so the picker
+headers can keep their surface, and the white text with it. This is the same shape as §9.
+
+---
+
 ## What happens after you fix any of this
 
 Re-extract and rebuild, and the stylesheet, the component list and the example screens all

@@ -38,6 +38,7 @@ AI banner	0	FRAME	Container			2	1071x54	VERTICAL MIN MIN	0 0 0 0	5	0
 AI banner	0.0	FRAME	AI Header			1	1071x27	HORIZONTAL CENTER SPACE_BETWEEN	0 0 0 0	15	0					
 AI banner	0.0.0	FRAME	Heading + icon			2	1071x27	HORIZONTAL MIN MIN	0 0 0 0	10	0					
 AI banner	0.0.0.0	FRAME	Frame 86621			1	25x25	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+AI banner	0.0.0.0.0	INSTANCE	AI Sparkles	AI Sparkles		1	25x25	NONE			0					
 AI banner	0.0.0.1	TEXT	AI Banner			0	92x27	NONE			0	Text/Primary		Desktop text/Sub heading	20px	AI Banner
 AI banner	0.1	FRAME	AI Information			2	1071x22	HORIZONTAL CENTER MIN	0 0 0 35	10	0					
 AI banner	0.1.0	INSTANCE	Warning	Warning		0	24x24	NONE			0					
@@ -87,8 +88,11 @@ Adaptive card	1	FRAME	Adaptive card base/False/False			1	478x368	VERTICAL MIN MI
 Adaptive card	1.0	FRAME	Frame 2018776636			3	438x328	VERTICAL MIN MIN	0 0 0 0	20	0					
 Adaptive card	1.0.0	FRAME	Frame 2018776635			3	438x276	VERTICAL MIN MIN	0 0 0 0	10	0					
 Adaptive card	1.0.0.0	FRAME	Top text			2	438x40	VERTICAL MIN MIN	0 0 0 0	0	0					
+Adaptive card	1.0.0.0.0	TEXT	Title for the card			0	438x22	NONE			0	Text/Primary		Desktop text/Body text (semi bold, 600)	16px SemiBold	Title for th
+Adaptive card	1.0.0.0.1	TEXT	Message			0	438x18	NONE			0	Text/Secondary			13px	Sub heading 
 Adaptive card	1.0.0.1	FRAME	Frame 2018776637			0	438x180	NONE			4	Background/Tertiary				
 Adaptive card	1.0.0.2	FRAME	Frame 2018776634			1	438x36	VERTICAL MIN MIN	0 0 0 0	8	0					
+Adaptive card	1.0.0.2.0	FRAME	Body			1	438x36	VERTICAL MIN MIN	0 0 0 0	4	0					
 Adaptive card	1.0.1	FRAME	Buttons			2	175x32	HORIZONTAL MIN MIN	0 0 0 0	8	0					
 Adaptive card	1.0.1.0	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=Yes	1	84x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
 Adaptive card	1.0.1.1	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=Yes	1	83x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
@@ -157,65 +161,17 @@ Calendar picker	0.1.0	FRAME	Frame 85553			1	43x26	HORIZONTAL CENTER CENTER	4 0 4
 Calendar picker	0.1.0.0	TEXT	Mon			0	28x18	NONE			0	Text/Secondary		EXTERNAL	13px Regular	Mon
 Calendar picker	0.1.1	FRAME	Frame 85554			1	43x26	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary				
 Calendar picker	0.1.1.0	TEXT	Tue			0	23x18	NONE			0	Text/Secondary		EXTERNAL	13px Regular	Tue
-Calendar picker	0.1.2	FRAME	Frame 85555			1	43x26	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary				
-Calendar picker	0.1.2.0	TEXT	Wed			0	28x18	NONE			0	Text/Secondary		EXTERNAL	13px Regular	Wed
-Calendar picker	0.1.3	FRAME	Frame 85556			1	43x26	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary				
-Calendar picker	0.1.3.0	TEXT	Thu			0	24x18	NONE			0	Text/Secondary		EXTERNAL	13px Regular	Thu
-Calendar picker	0.1.4	FRAME	Frame 85557			1	43x26	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary				
-Calendar picker	0.1.4.0	TEXT	Fri			0	16x18	NONE			0	Text/Secondary		EXTERNAL	13px Regular	Fri
-Calendar picker	0.1.5	FRAME	Frame 85558			1	43x26	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary				
-Calendar picker	0.1.5.0	TEXT	Sat			0	19x18	NONE			0	Text/Secondary		EXTERNAL	13px Regular	Sat
-Calendar picker	0.1.6	FRAME	Frame 85559			1	43x26	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary				
-Calendar picker	0.1.6.0	TEXT	Sun			0	24x18	NONE			0	Text/Secondary		EXTERNAL	13px Regular	Sun
 Calendar picker	0.2	FRAME	Frame 85563			6	298x207	VERTICAL MIN MIN	0 0 0 0	0	0					
 Calendar picker	0.2.0	FRAME	Frame 85560			7	298x35	HORIZONTAL MIN MIN	0 0 0 0	0	0					
 Calendar picker	0.2.0.0	FRAME	Frame 85553			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
+Calendar picker	0.2.0.0.0	TEXT	27			0	15x18	NONE			0	Text/Disabled		EXTERNAL	13px Regular	27
 Calendar picker	0.2.0.1	FRAME	Frame 85554			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.0.2	FRAME	Frame 85555			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.0.3	FRAME	Frame 85556			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.0.4	FRAME	Frame 85557			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.0.5	FRAME	Frame 85558			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.0.6	FRAME	Frame 85559			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
+Calendar picker	0.2.0.1.0	TEXT	28			0	15x18	NONE			0	Text/Disabled		EXTERNAL	13px Regular	28
 Calendar picker	0.2.1	FRAME	Frame 85562			7	298x35	HORIZONTAL MIN MIN	0 0 0 0	0	0					
 Calendar picker	0.2.1.0	FRAME	Frame 85553			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
+Calendar picker	0.2.1.0.0	TEXT	04			0	15x18	NONE			0	Text/Primary		EXTERNAL	13px Regular	04
 Calendar picker	0.2.1.1	FRAME	Frame 85553			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.1.2	FRAME	Frame 85555			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.1.3	FRAME	Frame 85556			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.1.4	FRAME	Frame 85557			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.1.5	FRAME	Frame 85558			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.1.6	FRAME	Frame 85559			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.2	FRAME	Frame 85562			7	298x35	HORIZONTAL MIN MIN	0 0 0 0	0	0					
-Calendar picker	0.2.2.0	FRAME	Frame 85553			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.2.1	FRAME	Frame 85560			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.2.2	FRAME	Frame 85555			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.2.3	FRAME	Frame 85556			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.2.4	FRAME	Frame 85557			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.2.5	FRAME	Frame 85558			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.2.6	FRAME	Frame 85559			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.3	FRAME	Frame 85564			7	298x35	HORIZONTAL MIN MIN	0 0 0 0	0	0					
-Calendar picker	0.2.3.0	FRAME	Frame 85553			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.3.1	FRAME	Frame 85560			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.3.2	FRAME	Frame 85555			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.3.3	FRAME	Frame 85556			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.3.4	FRAME	Frame 85557			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.3.5	FRAME	Frame 85558			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.3.6	FRAME	Frame 85559			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.4	FRAME	Frame 85565			7	298x35	HORIZONTAL MIN MIN	0 0 0 0	0	0					
-Calendar picker	0.2.4.0	FRAME	Frame 85553			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.4.1	FRAME	Frame 85560			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.4.2	FRAME	Frame 85555			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.4.3	FRAME	Frame 85556			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.4.4	FRAME	Frame 85557			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.4.5	FRAME	Frame 85558			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.4.6	FRAME	Frame 85559			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.5	FRAME	Frame 85560			7	298x35	HORIZONTAL MIN MIN	0 0 0 0	0	0					
-Calendar picker	0.2.5.0	FRAME	Frame 85553			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.5.1	FRAME	Frame 85554			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.5.2	FRAME	Frame 85555			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.5.3	FRAME	Frame 85556			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.5.4	FRAME	Frame 85557			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.5.5	FRAME	Frame 85558			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
-Calendar picker	0.2.5.6	FRAME	Frame 85559			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
+Calendar picker	0.2.1.1.0	FRAME	Frame 85564			1	37x26	HORIZONTAL CENTER CENTER	4 11 4 11	10	4	Base colours/Blue Charade				
 Calendar picker	0.3	FRAME	Frame 85566			2	298x48	HORIZONTAL MIN SPACE_BETWEEN	8 9 8 9	116	mixed	Background/Tertiary				
 Calendar picker	0.3.0	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=Yes	1	80x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
 Calendar picker	0.3.1	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=Yes	1	84x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
@@ -294,16 +250,16 @@ Configuration	0	FRAME	Frame 83925			2	1600x620	VERTICAL CENTER MIN	40 240 40 240
 Configuration	0.0	FRAME	Row 1			3	1120x260	HORIZONTAL MIN MIN	0 0 0 0	20	0					
 Configuration	0.0.0	INSTANCE	Configuration tile	Configuration tile	Device=Desktop	3	360x260	VERTICAL CENTER CENTER	40 20 40 20	10	8	Background/Secondary				
 Configuration	0.0.1	INSTANCE	Configuration tile	Configuration tile	Device=Desktop	3	360x260	VERTICAL CENTER CENTER	40 20 40 20	10	8	Background/Secondary				
-Configuration	0.0.2	INSTANCE	Configuration tile	Configuration tile	Device=Desktop	3	360x260	VERTICAL CENTER CENTER	40 20 40 20	10	8	Background/Secondary				
 Configuration	0.1	FRAME	Row 3			3	1120x260	HORIZONTAL MIN MIN	0 0 0 0	20	0					
 Configuration	0.1.0	INSTANCE	Configuration tile	Configuration tile	Device=Desktop	3	360x260	VERTICAL CENTER CENTER	40 20 40 20	10	8	Background/Secondary				
 Configuration	0.1.1	INSTANCE	Configuration tile	Configuration tile	Device=Desktop	3	360x260	VERTICAL CENTER CENTER	40 20 40 20	10	8	Background/Secondary				
-Configuration	0.1.2	INSTANCE	Configuration tile	Configuration tile	Device=Desktop	3	360x260	VERTICAL CENTER CENTER	40 20 40 20	10	8	Background/Secondary				
 Configuration	1	FRAME	Config header			1	1600x189	HORIZONTAL CENTER CENTER	20 0 20 0	10	0	Background/Primary				
 Configuration	1.0	FRAME	Config header			2	668x149	HORIZONTAL CENTER CENTER	0 0 0 0	30	0					
 Configuration	1.0.0	FRAME	Settings_Monochromatic (1) 1			30	197x149	NONE			0					
 Configuration	1.0.1	GROUP	Group 82307			1	441x105	NONE			0					
 Configuration	1.0.1.0	GROUP	Group 82306			2	441x105	NONE			0					
+Configuration	1.0.1.0.0	TEXT	Configuration			0	128x27	NONE			0	Text/Theme		Desktop text/Sub heading	20px	Configuratio
+Configuration	1.0.1.0.1	TEXT	Define and manage your system to be tailored to your organisation's requirements. Any changes to this area will be reflected across the system.			0	441x68	NONE			0	Text/Primary		Desktop text/Label text	13px	Define and m
 Confirmation modal		COMPONENT	Mobile=false, Type=Confirmation, Dark mode=False			2	400x413	VERTICAL CENTER MIN	60 10 60 10	36	8	Background/Primary	Border/Default full			
 Confirmation modal	0	FRAME	Frame 82044			3	340x293	VERTICAL CENTER MIN	0 0 0 0	25	0					
 Confirmation modal	0.0	FRAME	Frame			4	124x124	NONE			0					
@@ -391,6 +347,8 @@ Document previewer	2	FRAME	Frame 86755			2	375x48	HORIZONTAL CENTER SPACE_BETWEE
 Document previewer	2.0	FRAME	Frame 86762			1	58x24	HORIZONTAL CENTER MIN	0 0 0 0	0	0					
 Document previewer	2.0.0	FRAME	Frame 86314			1	58x24	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
 Document previewer	2.0.0.0	FRAME	Frame 86759			2	58x24	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Document previewer	2.0.0.0.0	INSTANCE	Zoom out	Zoom out		1	24x24	NONE			0					
+Document previewer	2.0.0.0.1	INSTANCE	Zoom in	Zoom in		1	24x24	NONE			0					
 Document previewer	2.1	INSTANCE	Switcher	Switcher	Property 1=Default	3	135x28	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
 Donut chart with ledger		COMPONENT	Darkmode=False, Mobile=False			2	329x200	HORIZONTAL CENTER MIN	0 0 0 0	21	0					
 Donut chart with ledger	0	INSTANCE	Donut pie chart	Donut pie chart	Segments=4, Icon=False	9	200x200	NONE			0					
@@ -482,7 +440,13 @@ Footer (AG)	0.0.2	TEXT	100			0	23x18	NONE			0	Text/Primary		Desktop text/Label t
 Footer (AG)	0.1	FRAME	Frame 84627			1	1459x18	HORIZONTAL CENTER MAX	0 0 0 0	20	0					
 Footer (AG)	0.1.0	FRAME	Frame 86418			2	135x18	HORIZONTAL CENTER MIN	0 0 0 0	20	0					
 Footer (AG)	0.1.0.0	FRAME	Average			3	56x18	HORIZONTAL CENTER MIN	0 0 0 0	2	0					
+Footer (AG)	0.1.0.0.0	TEXT	Sum:			0	31x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Sum:
+Footer (AG)	0.1.0.0.1	TEXT	: 			0	7x20	NONE			0	color/foregroundColor			13px Regular	: 
+Footer (AG)	0.1.0.0.2	TEXT	100			0	23x18	NONE			0	Text/Primary		Desktop text/Label text (semi bold, 600)	13px SemiBold	100
 Footer (AG)	0.1.0.1	FRAME	Average			3	59x18	HORIZONTAL CENTER MIN	0 0 0 0	2	0					
+Footer (AG)	0.1.0.1.0	TEXT	Total:			0	34x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Total:
+Footer (AG)	0.1.0.1.1	TEXT	: 			0	7x20	NONE			0	color/foregroundColor			13px Regular	: 
+Footer (AG)	0.1.0.1.2	TEXT	100			0	23x18	NONE			0	Text/Primary		Desktop text/Label text (semi bold, 600)	13px SemiBold	100
 Footer (AG)	1	FRAME	Grid-Parts/Pagination			2	1560x48	HORIZONTAL CENTER SPACE_BETWEEN	0 20 0 20	0	0		Table/Border			
 Footer (AG)	1.0	FRAME	Grid-Parts/Pagination Control			1	99x18	HORIZONTAL CENTER MAX	0 0 0 0	40	0					
 Footer (AG)	1.0.0	FRAME	Counter			5	99x18	HORIZONTAL CENTER MAX	0 0 0 0	4	0					
@@ -809,6 +773,8 @@ Notification list	0.0	FRAME	Actions			2	1117x52	HORIZONTAL CENTER SPACE_BETWEEN	
 Notification list	0.0.0	FRAME	Checkbox/Radio item			3	97x22	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
 Notification list	0.0.0.0	INSTANCE	Control	Control	Radio=No	0	23x23	VERTICAL CENTER CENTER	11.5 11.5 11.5 11.5	12	5	Background/Primary	Icons/Icon - Disabled			
 Notification list	0.0.0.1	FRAME	Label			2	64x22	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Notification list	0.0.0.1.0	TEXT	Option			0	64x22	NONE			0	Text/Primary		Desktop text/Body text	16px	Select all
+Notification list	0.0.0.1.1	FRAME	Frame 86765			1	6x22	HORIZONTAL MIN MIN	0 0 0 0	10	0					
 Notification list	0.0.0.2	INSTANCE	Tooltip question	Tooltip question		0	18x18	NONE			0					
 Notification list	0.0.1	INSTANCE	Button	Button	Type=Filter, State=Default, Label=Yes	2	89x32	HORIZONTAL CENTER CENTER	0 15 0 15	10	20		Border/Hollow Button			
 Notification list	0.1	SLOT	Cards			2	1117x678	VERTICAL MIN MIN	20 20 20 20	15	0					
@@ -1054,31 +1020,24 @@ Table (AG)	0.0	FRAME	Fixed columns			2	321x808	HORIZONTAL CENTER MIN	0 0 0 0	0	0
 Table (AG)	0.0.0	FRAME	Selector			2	50x808	VERTICAL MIN MIN	0 0 0 0	0	0					
 Table (AG)	0.0.0.0	INSTANCE	Table header (AG)	Table header (AG)	Alignment=Checkbox	1	50x54	HORIZONTAL CENTER MIN	15 15 15 15	47	0	Table/Header cell				
 Table (AG)	0.0.0.1	FRAME	Checkbox column			13	50x754	VERTICAL MIN MIN	0 0 0 0	0	0					
+Table (AG)	0.0.0.1.0	INSTANCE	Table cell (AG)	Table cell (AG)	Type=Checkbox, Style=Default	1	50x58	HORIZONTAL CENTER MIN	10 15 10 15	10	0	Table/Primary cell				
+Table (AG)	0.0.0.1.1	INSTANCE	Table cell (AG)	Table cell (AG)	Type=Checkbox, Style=Stripe	1	50x58	HORIZONTAL CENTER MIN	10 15 10 15	10	0	Table/Stripe cell				
 Table (AG)	0.0.1	FRAME	Column			2	271x808	VERTICAL MIN MIN	0 0 0 0	0	0					
 Table (AG)	0.0.1.0	INSTANCE	Table header (AG)	Table header (AG)	Alignment=Left	2	271x54	HORIZONTAL CENTER SPACE_BETWEEN	15 15 15 15	47	0	Table/Header cell				
 Table (AG)	0.0.1.1	SLOT	Fixed column rows			13	271x754	VERTICAL MIN MIN	0 0 0 0	0	0					
+Table (AG)	0.0.1.1.0	INSTANCE	Table cell (AG)	Table cell (AG)	Type=Default, Style=Default	2	271x58	HORIZONTAL CENTER MIN	10 15 10 15	10	0	Table/Primary cell				
+Table (AG)	0.0.1.1.1	INSTANCE	Table cell (AG)	Table cell (AG)	Type=Default, Style=Stripe	2	271x58	HORIZONTAL CENTER MIN	10 15 10 15	10	0	Table/Stripe cell				
 Table (AG)	0.1	SLOT	Unfixed columns			7	1384x808	HORIZONTAL CENTER MIN	0 0 0 0	0	0					
 Table (AG)	0.1.0	FRAME	Column			2	198x808	VERTICAL MIN MIN	0 0 0 0	0	0					
 Table (AG)	0.1.0.0	INSTANCE	Table header (AG)	Table header (AG)	Alignment=Left	3	198x54	HORIZONTAL CENTER SPACE_BETWEEN	15 15 15 15	47	0	Table/Header cell				
 Table (AG)	0.1.0.1	FRAME	Content			13	198x754	VERTICAL MIN MIN	0 0 0 0	0	0					
+Table (AG)	0.1.0.1.0	INSTANCE	Table cell (AG)	Table cell (AG)	Type=Default, Style=Default	1	198x58	HORIZONTAL CENTER MIN	10 15 10 15	10	0	Table/Primary cell				
+Table (AG)	0.1.0.1.1	INSTANCE	Table cell (AG)	Table cell (AG)	Type=Default, Style=Stripe	1	198x58	HORIZONTAL CENTER MIN	10 15 10 15	10	0	Table/Stripe cell				
 Table (AG)	0.1.1	FRAME	Column			2	198x808	VERTICAL MIN MIN	0 0 0 0	0	0					
 Table (AG)	0.1.1.0	INSTANCE	Table header (AG)	Table header (AG)	Alignment=Left	3	198x54	HORIZONTAL CENTER SPACE_BETWEEN	15 15 15 15	47	0	Table/Header cell				
 Table (AG)	0.1.1.1	FRAME	Content			13	198x754	VERTICAL MIN MIN	0 0 0 0	0	0					
-Table (AG)	0.1.2	FRAME	Column			2	198x808	VERTICAL MIN MIN	0 0 0 0	0	0					
-Table (AG)	0.1.2.0	INSTANCE	Table header (AG)	Table header (AG)	Alignment=Left	3	198x54	HORIZONTAL CENTER SPACE_BETWEEN	15 15 15 15	47	0	Table/Header cell				
-Table (AG)	0.1.2.1	FRAME	Content			13	198x754	VERTICAL MIN MIN	0 0 0 0	0	0					
-Table (AG)	0.1.3	FRAME	Column			2	198x808	VERTICAL MIN MIN	0 0 0 0	0	0					
-Table (AG)	0.1.3.0	INSTANCE	Table header (AG)	Table header (AG)	Alignment=Left	3	198x54	HORIZONTAL CENTER SPACE_BETWEEN	15 15 15 15	47	0	Table/Header cell				
-Table (AG)	0.1.3.1	FRAME	Content			13	198x754	VERTICAL MIN MIN	0 0 0 0	0	0					
-Table (AG)	0.1.4	FRAME	Column			2	198x808	VERTICAL MIN MIN	0 0 0 0	0	0					
-Table (AG)	0.1.4.0	INSTANCE	Table header (AG)	Table header (AG)	Alignment=Left	3	198x54	HORIZONTAL CENTER SPACE_BETWEEN	15 15 15 15	47	0	Table/Header cell				
-Table (AG)	0.1.4.1	FRAME	Content			13	198x754	VERTICAL MIN MIN	0 0 0 0	0	0					
-Table (AG)	0.1.5	FRAME	Column			2	198x808	VERTICAL MIN MIN	0 0 0 0	0	0					
-Table (AG)	0.1.5.0	INSTANCE	Table header (AG)	Table header (AG)	Alignment=Left	3	198x54	HORIZONTAL CENTER SPACE_BETWEEN	15 15 15 15	47	0	Table/Header cell				
-Table (AG)	0.1.5.1	FRAME	Content			13	198x754	VERTICAL MIN MIN	0 0 0 0	0	0					
-Table (AG)	0.1.6	FRAME	Column			2	198x808	VERTICAL MIN MIN	0 0 0 0	0	0					
-Table (AG)	0.1.6.0	INSTANCE	Table header (AG)	Table header (AG)	Alignment=Left	3	198x54	HORIZONTAL CENTER SPACE_BETWEEN	15 15 15 15	47	0	Table/Header cell				
-Table (AG)	0.1.6.1	FRAME	Content			13	198x754	VERTICAL MIN MIN	0 0 0 0	0	0					
+Table (AG)	0.1.1.1.0	INSTANCE	Table cell (AG)	Table cell (AG)	Type=Default, Style=Default	1	198x58	HORIZONTAL CENTER MIN	10 15 10 15	10	0	Table/Primary cell				
+Table (AG)	0.1.1.1.1	INSTANCE	Table cell (AG)	Table cell (AG)	Type=Default, Style=Stripe	1	198x58	HORIZONTAL CENTER MIN	10 15 10 15	10	0	Table/Stripe cell				
 Table (AG)	1	INSTANCE	Footer (AG)	Footer (AG)	Mobile=False	1	1705x48	VERTICAL MIN MIN	0 0 0 0	0	0	Table/Card				
 Table action bar		COMPONENT	Mobile=False			2	1654x98	VERTICAL MIN CENTER	0 0 0 0	20	0					
 Table action bar	0	SLOT	Filter content			3	413x42	HORIZONTAL CENTER MIN	0 0 0 0	20	0					
@@ -1159,8 +1118,14 @@ Time picker	0.0.0	TEXT	Time			0	37x22	NONE			0	Base colours/White		EXTERNAL	16px
 Time picker	0.1	FRAME	Frame 85943			1	300x176	HORIZONTAL CENTER CENTER	10 10 10 10	10	0	Background/Tertiary				
 Time picker	0.1.0	FRAME	Frame 85948			3	64x110	HORIZONTAL CENTER MIN	0 0 0 0	6	0					
 Time picker	0.1.0.0	FRAME	Frame 85946			3	23x110	VERTICAL CENTER SPACE_BETWEEN	0 0 0 0	6	0					
+Time picker	0.1.0.0.0	INSTANCE	Up chevron	Up chevron		1	22x22	NONE			0					
+Time picker	0.1.0.0.1	TEXT	10			0	23x27	NONE			0	Text/Primary		EXTERNAL	20px Regular	10
+Time picker	0.1.0.0.2	INSTANCE	Up chevron	Up chevron		1	22x22	NONE			0					
 Time picker	0.1.0.1	TEXT	:			0	6x27	NONE			0	Text/Primary		EXTERNAL	20px Regular	:
 Time picker	0.1.0.2	FRAME	Frame 85947			3	23x110	VERTICAL CENTER SPACE_BETWEEN	0 0 0 0	6	0					
+Time picker	0.1.0.2.0	INSTANCE	Up chevron	Up chevron		1	22x22	NONE			0					
+Time picker	0.1.0.2.1	TEXT	56			0	23x27	NONE			0	Text/Primary		EXTERNAL	20px Regular	56
+Time picker	0.1.0.2.2	INSTANCE	Up chevron	Up chevron		1	22x22	NONE			0					
 Time picker	0.2	FRAME	Frame 85945			1	300x52	VERTICAL MAX MIN	10 10 10 10	10	0	Background/Tertiary	Border/Secondary			
 Time picker	0.2.0	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=Yes	1	80x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
 Title panel		COMPONENT	Mobile=true			2	375x135	VERTICAL CENTER CENTER	40 20 40 20	10	0	Background/Tertiary				

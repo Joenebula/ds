@@ -1816,8 +1816,10 @@ strong, b, th, h1, h2, h3, h4, h5, h6, optgroup {
   font-family: var(--pf-font-body);
 }
 .pf-calendar-picker {
-  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
-  color: var(--pf-text-always-white);
+  /* Figma records "Base colours/White" as this component's text colour, but its child
+     tree binds 4 different label colours — this is one of them;
+     promoted to all. Emitting it painted every label alike; the template gives;
+     each its own. See docs/FIGMA-ISSUES.md section 9. */;
 }
 
 /* Card
@@ -6297,8 +6299,10 @@ strong, b, th, h1, h2, h3, h4, h5, h6, optgroup {
   font-family: var(--pf-font-body);
 }
 .pf-repeating-group {
-  /* Figma binds the primitive "Grey-slate" here instead of a semantic token */
-  color: var(--pf-text-always-grey-slate);
+  /* Figma records "Grey-slate" as this component's text colour, but its child
+     tree binds 4 different label colours — this is one of them;
+     promoted to all. Emitting it painted every label alike; the template gives;
+     each its own. See docs/FIGMA-ISSUES.md section 9. */;
 }
 
 /* Required field
@@ -7926,8 +7930,10 @@ strong, b, th, h1, h2, h3, h4, h5, h6, optgroup {
   font-family: var(--pf-font-body);
 }
 .pf-time-picker {
-  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
-  color: var(--pf-text-always-white);
+  /* Figma records "Base colours/White" as this component's text colour, but its child
+     tree binds 2 different label colours — this is one of them;
+     promoted to all. Emitting it painted every label alike; the template gives;
+     each its own. See docs/FIGMA-ISSUES.md section 9. */;
 }
 
 /* Title panel
@@ -9358,6 +9364,7 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
          color:var(--pf-text-primary); }
   .wrap { padding:var(--pf-space-large); display:flex; flex-direction:column; gap:var(--pf-space-xlarge); }
   .item > h2 { margin:0 0 var(--pf-space-small); }
+  .note { margin:var(--pf-space-xsmall) 0 0; font-size:13px; color:var(--pf-text-secondary); }
   .stage { padding:var(--pf-space-large); background:var(--pf-bg-primary);
            border-radius:var(--pf-radius-medium); overflow:auto; }
   pre { margin:var(--pf-space-small) 0 0; padding:var(--pf-space-medium); overflow:auto;
@@ -9494,12 +9501,14 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 </pre>
 </div>
 <div class="item">
-<h2 class="pf-text-sub-heading">AI banner <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">12 nodes</span></h2>
+<h2 class="pf-text-sub-heading">AI banner <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">13 nodes</span></h2>
 <div class="stage"><div class="pf-ai-banner">
   <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:5px">
     <div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:15px">
       <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:10px">
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
+        <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
+          <svg class="pf-icon" width="25" height="25" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M27 4.88C27.62 4.88 28.13 5.38 28.13 6C28.13 6.5 28.32 6.97 28.67 7.33C29.03 7.68 29.5 7.88 30 7.88C30.62 7.88 31.13 8.38 31.13 9C31.13 9.62 30.62 10.13 30 10.13C29.5 10.13 29.03 10.32 28.67 10.67C28.32 11.03 28.13 11.5 28.13 12C28.13 12.62 27.62 13.13 27 13.13C26.38 13.13 25.88 12.62 25.88 12C25.88 11.5 25.68 11.03 25.33 10.67C24.97 10.32 24.5 10.13 24 10.13C23.38 10.13 22.88 9.62 22.88 9C22.88 8.38 23.38 7.88 24 7.88C24.5 7.88 24.97 7.68 25.33 7.33C25.68 6.97 25.88 6.5 25.88 6C25.88 5.38 26.38 4.88 27 4.88ZM27 8.83C26.97 8.86 26.95 8.89 26.92 8.92C26.89 8.95 26.86 8.97 26.83 9C26.86 9.03 26.89 9.06 26.92 9.08C26.95 9.11 26.97 9.14 27 9.17C27.03 9.14 27.06 9.11 27.08 9.08C27.11 9.06 27.14 9.03 27.17 9C27.14 8.97 27.11 8.95 27.08 8.92C27.06 8.89 27.03 8.86 27 8.83ZM13.5 7.88C14.12 7.88 14.63 8.38 14.63 9C14.63 11.09 15.45 13.09 16.93 14.57C18.41 16.05 20.41 16.88 22.5 16.88C23.12 16.88 23.63 17.38 23.63 18C23.63 18.62 23.12 19.13 22.5 19.13C20.41 19.13 18.41 19.95 16.93 21.43C15.45 22.91 14.63 24.91 14.63 27C14.63 27.62 14.12 28.13 13.5 28.13C12.88 28.13 12.38 27.62 12.38 27C12.38 24.91 11.55 22.91 10.07 21.43C8.59 19.95 6.59 19.13 4.5 19.13C3.88 19.13 3.38 18.62 3.38 18C3.38 17.38 3.88 16.88 4.5 16.88C6.59 16.88 8.59 16.05 10.07 14.57C11.55 13.09 12.38 11.09 12.38 9C12.38 8.38 12.88 7.88 13.5 7.88ZM13.5 13.64C13.02 14.56 12.41 15.41 11.66 16.16C10.91 16.91 10.06 17.52 9.14 18C10.06 18.48 10.91 19.09 11.66 19.84C12.41 20.59 13.02 21.44 13.5 22.36C13.98 21.44 14.59 20.59 15.34 19.84C16.09 19.09 16.94 18.48 17.86 18C16.94 17.52 16.09 16.91 15.34 16.16C14.59 15.41 13.98 14.56 13.5 13.64ZM27 22.88C27.62 22.88 28.13 23.38 28.13 24C28.13 24.5 28.32 24.97 28.67 25.33C29.03 25.68 29.5 25.88 30 25.88C30.62 25.88 31.13 26.38 31.13 27C31.13 27.62 30.62 28.13 30 28.13C29.5 28.13 29.03 28.32 28.67 28.67C28.32 29.03 28.13 29.5 28.13 30C28.13 30.62 27.62 31.13 27 31.13C26.38 31.13 25.88 30.62 25.88 30C25.88 29.5 25.68 29.03 25.33 28.67C24.97 28.32 24.5 28.13 24 28.13C23.38 28.13 22.88 27.62 22.88 27C22.88 26.38 23.38 25.88 24 25.88C24.5 25.88 24.97 25.68 25.33 25.33C25.68 24.97 25.88 24.5 25.88 24C25.88 23.38 26.38 22.88 27 22.88ZM27 26.83C26.97 26.86 26.95 26.89 26.92 26.92C26.89 26.95 26.86 26.97 26.83 27C26.86 27.03 26.89 27.06 26.92 27.08C26.95 27.11 26.97 27.14 27 27.17C27.03 27.14 27.06 27.11 27.08 27.08C27.11 27.06 27.14 27.03 27.17 27C27.14 26.97 27.11 26.95 27.08 26.92C27.06 26.89 27.03 26.86 27 26.83Z"/></svg>
+        </div>
         <span class="pf-text-sub-heading" style="color:var(--pf-text-primary)">AI Banner</span>
       </div>
     </div>
@@ -9518,7 +9527,9 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
   &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:5px"&gt;
     &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:15px"&gt;
       &lt;div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:10px"&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
+        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px"&gt;
+          &lt;!--pf-icon:ai-sparkles 25--&gt;
+        &lt;/div&gt;
         &lt;span class="pf-text-sub-heading" style="color:var(--pf-text-primary)"&gt;AI Banner&lt;/span&gt;
       &lt;/div&gt;
     &lt;/div&gt;
@@ -9667,15 +9678,20 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 </pre>
 </div>
 <div class="item">
-<h2 class="pf-text-sub-heading">Adaptive card <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">12 nodes</span></h2>
+<h2 class="pf-text-sub-heading">Adaptive card <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">15 nodes</span></h2>
 <div class="stage"><div class="pf-adaptive-card">
   <span style="color:var(--pf-text-secondary);font-size:12px">8:26 AM</span><!-- 12px is not a text style; see FIGMA-ISSUES.md section 7 -->
   <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:20px;padding:20px 20px 20px 20px;border-radius:8px;background:var(--pf-bg-primary)">
     <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:20px">
       <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:10px">
-        <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"><!-- 2 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
+        <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start">
+          <span class="pf-text-body-text-semibold" style="color:var(--pf-text-primary)">Title for th</span>
+          <span style="color:var(--pf-text-secondary);font-size:13px">Sub heading </span><!-- 13px is not a text style; see FIGMA-ISSUES.md section 7 -->
+        </div>
         <div style="border-radius:4px;background:var(--pf-bg-tertiary);min-height:180px;align-self:stretch"></div>
-        <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:8px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
+        <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:8px">
+          <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:4px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
+        </div>
       </div>
       <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:8px">
         <div class="pf-button" data-type="Hollow" data-state="Default" data-label="Yes">Button</div>
@@ -9691,9 +9707,14 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
   &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:20px;padding:20px 20px 20px 20px;border-radius:8px;background:var(--pf-bg-primary)"&gt;
     &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:20px"&gt;
       &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:10px"&gt;
-        &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;&lt;!-- 2 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
+        &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;
+          &lt;span class="pf-text-body-text-semibold" style="color:var(--pf-text-primary)"&gt;Title for th&lt;/span&gt;
+          &lt;span style="color:var(--pf-text-secondary);font-size:13px"&gt;Sub heading &lt;/span&gt;&lt;!-- 13px is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
+        &lt;/div&gt;
         &lt;div style="border-radius:4px;background:var(--pf-bg-tertiary);min-height:180px;align-self:stretch"&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:8px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
+        &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:8px"&gt;
+          &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:4px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
+        &lt;/div&gt;
       &lt;/div&gt;
       &lt;div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:8px"&gt;
         &lt;div class="pf-button" data-type="Hollow" data-state="Default" data-label="Yes"&gt;Button&lt;/div&gt;
@@ -9882,12 +9903,12 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 </pre>
 </div>
 <div class="item">
-<h2 class="pf-text-sub-heading">Calendar picker <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">73 nodes</span></h2>
+<h2 class="pf-text-sub-heading">Calendar picker <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">25 nodes</span></h2>
 <div class="stage"><div class="pf-calendar-picker">
   <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;border-radius:4px">
     <div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:64px;padding:10px 15px 10px 15px">
       <svg class="pf-icon" width="19" height="19" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M25.92 32.92C25.48 33.36 24.77 33.36 24.33 32.92L10.33 18.92C9.89 18.48 9.89 17.77 10.33 17.33L24.33 3.33C24.77 2.89 25.48 2.89 25.92 3.33C26.36 3.77 26.36 4.48 25.92 4.92L12.72 18.13L25.92 31.33C26.36 31.77 26.36 32.48 25.92 32.92Z"/></svg>
-      <span style="color:var(--pf-base-white);font-size:16px">December 202</span><!-- 16px is not a text style; see FIGMA-ISSUES.md section 7 -->
+      <span style="font-size:16px">December 202</span><!-- 16px is not a text style; see FIGMA-ISSUES.md section 7 --><!-- Figma colours this "Base colours/White" against a surface it fills with a raw primitive. Dropping the surface (it cannot do dark mode) would leave this text invisible, so the colour is left to inherit. Give the surface a semantic token in Figma. -->
       <svg class="pf-icon" width="19" height="19" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M25.92 32.92C25.48 33.36 24.77 33.36 24.33 32.92L10.33 18.92C9.89 18.48 9.89 17.77 10.33 17.33L24.33 3.33C24.77 2.89 25.48 2.89 25.92 3.33C26.36 3.77 26.36 4.48 25.92 4.92L12.72 18.13L25.92 31.33C26.36 31.77 26.36 32.48 25.92 32.92Z"/></svg>
     </div>
     <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start">
@@ -9897,77 +9918,28 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
       <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary)">
         <span style="color:var(--pf-text-secondary);font-size:13px">Tue</span><!-- 13px Regular is not a text style; see FIGMA-ISSUES.md section 7 -->
       </div>
-      <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary)">
-        <span style="color:var(--pf-text-secondary);font-size:13px">Wed</span><!-- 13px Regular is not a text style; see FIGMA-ISSUES.md section 7 -->
-      </div>
-      <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary)">
-        <span style="color:var(--pf-text-secondary);font-size:13px">Thu</span><!-- 13px Regular is not a text style; see FIGMA-ISSUES.md section 7 -->
-      </div>
-      <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary)">
-        <span style="color:var(--pf-text-secondary);font-size:13px">Fri</span><!-- 13px Regular is not a text style; see FIGMA-ISSUES.md section 7 -->
-      </div>
-      <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary)">
-        <span style="color:var(--pf-text-secondary);font-size:13px">Sat</span><!-- 13px Regular is not a text style; see FIGMA-ISSUES.md section 7 -->
-      </div>
-      <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary)">
-        <span style="color:var(--pf-text-secondary);font-size:13px">Sun</span><!-- 13px Regular is not a text style; see FIGMA-ISSUES.md section 7 -->
-      </div>
+      <!-- 5 more of the same in Figma (7 in all) — a repeating run, kept short on purpose. Repeat the elements above for real data. -->
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start">
       <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start">
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
+        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary)">
+          <span style="color:var(--pf-text-disabled);font-size:13px">27</span><!-- 13px Regular is not a text style; see FIGMA-ISSUES.md section 7 -->
+        </div>
+        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary)">
+          <span style="color:var(--pf-text-disabled);font-size:13px">28</span><!-- 13px Regular is not a text style; see FIGMA-ISSUES.md section 7 -->
+        </div>
+        <!-- 5 more of the same in Figma (7 in all) — a repeating run, kept short on purpose. Repeat the elements above for real data. -->
       </div>
       <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start">
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
+        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary)">
+          <span style="color:var(--pf-text-primary);font-size:13px">04</span><!-- 13px Regular is not a text style; see FIGMA-ISSUES.md section 7 -->
+        </div>
+        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary)">
+          <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 11px 4px 11px;border-radius:4px;min-height:26px;width:37px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
+        </div>
+        <!-- 5 more of the same in Figma (7 in all) — a repeating run, kept short on purpose. Repeat the elements above for real data. -->
       </div>
-      <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start">
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-      </div>
-      <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start">
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-      </div>
-      <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start">
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-      </div>
-      <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start">
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-      </div>
+      <!-- 4 more of the same in Figma (6 in all) — a repeating run, kept short on purpose. Repeat the elements above for real data. -->
     </div>
     <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:space-between;gap:116px;padding:8px 9px 8px 9px;background:var(--pf-bg-tertiary)">
       <div class="pf-button" data-type="Hollow" data-state="Default" data-label="Yes">Button</div>
@@ -9980,7 +9952,7 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
   &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;border-radius:4px"&gt;
     &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:64px;padding:10px 15px 10px 15px"&gt;
       &lt;!--pf-icon:left-chevron 19--&gt;
-      &lt;span style="color:var(--pf-base-white);font-size:16px"&gt;December 202&lt;/span&gt;&lt;!-- 16px is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
+      &lt;span style="font-size:16px"&gt;December 202&lt;/span&gt;&lt;!-- 16px is not a text style; see FIGMA-ISSUES.md section 7 --&gt;&lt;!-- Figma colours this "Base colours/White" against a surface it fills with a raw primitive. Dropping the surface (it cannot do dark mode) would leave this text invisible, so the colour is left to inherit. Give the surface a semantic token in Figma. --&gt;
       &lt;!--pf-icon:left-chevron 19--&gt;
     &lt;/div&gt;
     &lt;div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start"&gt;
@@ -9990,77 +9962,28 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
       &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary)"&gt;
         &lt;span style="color:var(--pf-text-secondary);font-size:13px"&gt;Tue&lt;/span&gt;&lt;!-- 13px Regular is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
       &lt;/div&gt;
-      &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary)"&gt;
-        &lt;span style="color:var(--pf-text-secondary);font-size:13px"&gt;Wed&lt;/span&gt;&lt;!-- 13px Regular is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
-      &lt;/div&gt;
-      &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary)"&gt;
-        &lt;span style="color:var(--pf-text-secondary);font-size:13px"&gt;Thu&lt;/span&gt;&lt;!-- 13px Regular is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
-      &lt;/div&gt;
-      &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary)"&gt;
-        &lt;span style="color:var(--pf-text-secondary);font-size:13px"&gt;Fri&lt;/span&gt;&lt;!-- 13px Regular is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
-      &lt;/div&gt;
-      &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary)"&gt;
-        &lt;span style="color:var(--pf-text-secondary);font-size:13px"&gt;Sat&lt;/span&gt;&lt;!-- 13px Regular is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
-      &lt;/div&gt;
-      &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary)"&gt;
-        &lt;span style="color:var(--pf-text-secondary);font-size:13px"&gt;Sun&lt;/span&gt;&lt;!-- 13px Regular is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
-      &lt;/div&gt;
+      &lt;!-- 5 more of the same in Figma (7 in all) — a repeating run, kept short on purpose. Repeat the elements above for real data. --&gt;
     &lt;/div&gt;
     &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;
       &lt;div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start"&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
+        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary)"&gt;
+          &lt;span style="color:var(--pf-text-disabled);font-size:13px"&gt;27&lt;/span&gt;&lt;!-- 13px Regular is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
+        &lt;/div&gt;
+        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary)"&gt;
+          &lt;span style="color:var(--pf-text-disabled);font-size:13px"&gt;28&lt;/span&gt;&lt;!-- 13px Regular is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
+        &lt;/div&gt;
+        &lt;!-- 5 more of the same in Figma (7 in all) — a repeating run, kept short on purpose. Repeat the elements above for real data. --&gt;
       &lt;/div&gt;
       &lt;div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start"&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
+        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary)"&gt;
+          &lt;span style="color:var(--pf-text-primary);font-size:13px"&gt;04&lt;/span&gt;&lt;!-- 13px Regular is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
+        &lt;/div&gt;
+        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary)"&gt;
+          &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 11px 4px 11px;border-radius:4px;min-height:26px;width:37px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;!-- 5 more of the same in Figma (7 in all) — a repeating run, kept short on purpose. Repeat the elements above for real data. --&gt;
       &lt;/div&gt;
-      &lt;div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start"&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-      &lt;/div&gt;
-      &lt;div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start"&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-      &lt;/div&gt;
-      &lt;div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start"&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-      &lt;/div&gt;
-      &lt;div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start"&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:4px 0px 4px 0px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary);min-height:35px;width:43px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-      &lt;/div&gt;
+      &lt;!-- 4 more of the same in Figma (6 in all) — a repeating run, kept short on purpose. Repeat the elements above for real data. --&gt;
     &lt;/div&gt;
     &lt;div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:space-between;gap:116px;padding:8px 9px 8px 9px;background:var(--pf-bg-tertiary)"&gt;
       &lt;div class="pf-button" data-type="Hollow" data-state="Default" data-label="Yes"&gt;Button&lt;/div&gt;
@@ -10333,19 +10256,22 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:20px">
       <div class="pf-configuration-tile" data-device="Desktop">Configuration tile</div>
       <div class="pf-configuration-tile" data-device="Desktop">Configuration tile</div>
-      <div class="pf-configuration-tile" data-device="Desktop">Configuration tile</div>
+      <!-- 1 more of the same in Figma (3 in all) — a repeating run, kept short on purpose. Repeat the elements above for real data. -->
     </div>
     <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:20px">
       <div class="pf-configuration-tile" data-device="Desktop">Configuration tile</div>
       <div class="pf-configuration-tile" data-device="Desktop">Configuration tile</div>
-      <div class="pf-configuration-tile" data-device="Desktop">Configuration tile</div>
+      <!-- 1 more of the same in Figma (3 in all) — a repeating run, kept short on purpose. Repeat the elements above for real data. -->
     </div>
   </div>
   <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:20px 0px 20px 0px;background:var(--pf-bg-primary)">
     <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:30px">
       <div><!-- 30 drawings here in Figma — vector paths, which no markup can carry. Artwork belongs in assets/component-art/, not in a template. --></div>
       <div>
-        <div><!-- 2 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
+        <div>
+          <span class="pf-text-sub-heading" style="color:var(--pf-text-theme)">Configuratio</span>
+          <span class="pf-text-label-text" style="color:var(--pf-text-primary)">Define and m</span>
+        </div>
       </div>
     </div>
   </div>
@@ -10356,19 +10282,22 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     &lt;div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:20px"&gt;
       &lt;div class="pf-configuration-tile" data-device="Desktop"&gt;Configuration tile&lt;/div&gt;
       &lt;div class="pf-configuration-tile" data-device="Desktop"&gt;Configuration tile&lt;/div&gt;
-      &lt;div class="pf-configuration-tile" data-device="Desktop"&gt;Configuration tile&lt;/div&gt;
+      &lt;!-- 1 more of the same in Figma (3 in all) — a repeating run, kept short on purpose. Repeat the elements above for real data. --&gt;
     &lt;/div&gt;
     &lt;div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:20px"&gt;
       &lt;div class="pf-configuration-tile" data-device="Desktop"&gt;Configuration tile&lt;/div&gt;
       &lt;div class="pf-configuration-tile" data-device="Desktop"&gt;Configuration tile&lt;/div&gt;
-      &lt;div class="pf-configuration-tile" data-device="Desktop"&gt;Configuration tile&lt;/div&gt;
+      &lt;!-- 1 more of the same in Figma (3 in all) — a repeating run, kept short on purpose. Repeat the elements above for real data. --&gt;
     &lt;/div&gt;
   &lt;/div&gt;
   &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:20px 0px 20px 0px;background:var(--pf-bg-primary)"&gt;
     &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:30px"&gt;
       &lt;div&gt;&lt;!-- 30 drawings here in Figma — vector paths, which no markup can carry. Artwork belongs in assets/component-art/, not in a template. --&gt;&lt;/div&gt;
       &lt;div&gt;
-        &lt;div&gt;&lt;!-- 2 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
+        &lt;div&gt;
+          &lt;span class="pf-text-sub-heading" style="color:var(--pf-text-theme)"&gt;Configuratio&lt;/span&gt;
+          &lt;span class="pf-text-label-text" style="color:var(--pf-text-primary)"&gt;Define and m&lt;/span&gt;
+        &lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
   &lt;/div&gt;
@@ -10630,7 +10559,7 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 </pre>
 </div>
 <div class="item">
-<h2 class="pf-text-sub-heading">Document previewer <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">11 nodes</span></h2>
+<h2 class="pf-text-sub-heading">Document previewer <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">13 nodes</span></h2>
 <div class="stage"><div class="pf-document-previewer">
   <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px;padding:10px 10px 10px 10px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-default-full)">
     <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px">
@@ -10642,7 +10571,10 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
   <div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:307px;padding:10px 10px 10px 10px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-default-full)">
     <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start">
       <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px"><!-- 2 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
+        <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
+          <svg class="pf-icon" width="24" height="24" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M10.55 4.26C11.96 3.68 13.47 3.38 15 3.38C16.53 3.38 18.04 3.68 19.45 4.26C20.86 4.84 22.14 5.7 23.22 6.78C24.3 7.86 25.16 9.14 25.74 10.55C26.32 11.96 26.63 13.47 26.63 15C26.63 16.53 26.32 18.04 25.74 19.45C25.16 20.86 24.3 22.14 23.22 23.22C22.14 24.3 20.86 25.16 19.45 25.74C18.04 26.32 16.53 26.63 15 26.63C13.47 26.63 11.96 26.32 10.55 25.74C9.14 25.16 7.86 24.3 6.78 23.22C5.7 22.14 4.84 20.86 4.26 19.45C3.68 18.04 3.38 16.53 3.38 15C3.38 13.47 3.68 11.96 4.26 10.55C4.84 9.14 5.7 7.86 6.78 6.78C7.86 5.7 9.14 4.84 10.55 4.26ZM15 5.63C13.77 5.63 12.55 5.87 11.41 6.34C10.27 6.81 9.24 7.5 8.37 8.37C7.5 9.24 6.81 10.27 6.34 11.41C5.87 12.55 5.63 13.77 5.63 15C5.63 16.23 5.87 17.45 6.34 18.59C6.81 19.73 7.5 20.76 8.37 21.63C9.24 22.5 10.27 23.19 11.41 23.66C12.55 24.13 13.77 24.38 15 24.38C16.23 24.38 17.45 24.13 18.59 23.66C19.73 23.19 20.76 22.5 21.63 21.63C22.5 20.76 23.19 19.73 23.66 18.59C24.13 17.45 24.38 16.23 24.38 15C24.38 13.77 24.13 12.55 23.66 11.41C23.19 10.27 22.5 9.24 21.63 8.37C20.76 7.5 19.73 6.81 18.59 6.34C17.45 5.87 16.23 5.63 15 5.63Z"/><path fill-rule="evenodd" d="M9.38 15C9.38 14.38 9.88 13.88 10.5 13.88H19.5C20.12 13.88 20.63 14.38 20.63 15C20.63 15.62 20.12 16.13 19.5 16.13H10.5C9.88 16.13 9.38 15.62 9.38 15Z"/><path fill-rule="evenodd" d="M21.7 21.7C22.14 21.27 22.86 21.27 23.3 21.7L32.3 30.7C32.73 31.14 32.73 31.86 32.3 32.3C31.86 32.73 31.14 32.73 30.7 32.3L21.7 23.3C21.27 22.86 21.27 22.14 21.7 21.7Z"/></svg>
+          <svg class="pf-icon" width="24" height="24" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M10.55 4.26C11.96 3.68 13.47 3.38 15 3.38C16.53 3.38 18.04 3.68 19.45 4.26C20.86 4.84 22.14 5.7 23.22 6.78C24.3 7.86 25.16 9.14 25.74 10.55C26.32 11.96 26.63 13.47 26.63 15C26.63 16.53 26.32 18.04 25.74 19.45C25.16 20.86 24.3 22.14 23.22 23.22C22.14 24.3 20.86 25.16 19.45 25.74C18.04 26.32 16.53 26.63 15 26.63C13.47 26.63 11.96 26.32 10.55 25.74C9.14 25.16 7.86 24.3 6.78 23.22C5.7 22.14 4.84 20.86 4.26 19.45C3.68 18.04 3.38 16.53 3.38 15C3.38 13.47 3.68 11.96 4.26 10.55C4.84 9.14 5.7 7.86 6.78 6.78C7.86 5.7 9.14 4.84 10.55 4.26ZM15 5.63C13.77 5.63 12.55 5.87 11.41 6.34C10.27 6.81 9.24 7.5 8.37 8.37C7.5 9.24 6.81 10.27 6.34 11.41C5.87 12.55 5.63 13.77 5.63 15C5.63 16.23 5.87 17.45 6.34 18.59C6.81 19.73 7.5 20.76 8.37 21.63C9.24 22.5 10.27 23.19 11.41 23.66C12.55 24.13 13.77 24.38 15 24.38C16.23 24.38 17.45 24.13 18.59 23.66C19.73 23.19 20.76 22.5 21.63 21.63C22.5 20.76 23.19 19.73 23.66 18.59C24.13 17.45 24.38 16.23 24.38 15C24.38 13.77 24.13 12.55 23.66 11.41C23.19 10.27 22.5 9.24 21.63 8.37C20.76 7.5 19.73 6.81 18.59 6.34C17.45 5.87 16.23 5.63 15 5.63Z"/><path fill-rule="evenodd" d="M9.38 15C9.38 14.38 9.88 13.88 10.5 13.88H19.5C20.12 13.88 20.63 14.38 20.63 15C20.63 15.62 20.12 16.13 19.5 16.13H10.5C9.88 16.13 9.38 15.62 9.38 15Z"/><path fill-rule="evenodd" d="M15 9.38C15.62 9.38 16.13 9.88 16.13 10.5V19.5C16.13 20.12 15.62 20.63 15 20.63C14.38 20.63 13.88 20.12 13.88 19.5V10.5C13.88 9.88 14.38 9.38 15 9.38Z"/><path fill-rule="evenodd" d="M21.7 21.7C22.14 21.27 22.86 21.27 23.3 21.7L32.3 30.7C32.73 31.14 32.73 31.86 32.3 32.3C31.86 32.73 31.14 32.73 30.7 32.3L21.7 23.3C21.27 22.86 21.27 22.14 21.7 21.7Z"/></svg>
+        </div>
       </div>
     </div>
     <div class="pf-switcher" data-property-1="Default">Switcher</div>
@@ -10660,7 +10592,10 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
   &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:307px;padding:10px 10px 10px 10px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-default-full)"&gt;
     &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start"&gt;
       &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px"&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px"&gt;&lt;!-- 2 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
+        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px"&gt;
+          &lt;!--pf-icon:zoom-out 24--&gt;
+          &lt;!--pf-icon:zoom-in 24--&gt;
+        &lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
     &lt;div class="pf-switcher" data-property-1="Default"&gt;Switcher&lt;/div&gt;
@@ -10944,7 +10879,7 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 </pre>
 </div>
 <div class="item">
-<h2 class="pf-text-sub-heading">Footer (AG) <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">27 nodes</span></h2>
+<h2 class="pf-text-sub-heading">Footer (AG) <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">33 nodes</span></h2>
 <div class="stage"><div class="pf-footer-ag">
   <div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:20px;padding:0px 20px 0px 20px;border:1px solid var(--pf-table-border)">
     <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:2px">
@@ -10954,8 +10889,16 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     </div>
     <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-end;gap:20px">
       <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:20px">
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:2px"><!-- 3 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:2px"><!-- 3 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
+        <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:2px">
+          <span class="pf-text-label-text" style="color:var(--pf-text-primary)">Sum:</span>
+          <span style="font-size:13px">: </span><!-- 13px Regular is not a text style; see FIGMA-ISSUES.md section 7 -->
+          <span class="pf-text-label-text-semibold" style="color:var(--pf-text-primary)">100</span>
+        </div>
+        <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:2px">
+          <span class="pf-text-label-text" style="color:var(--pf-text-primary)">Total:</span>
+          <span style="font-size:13px">: </span><!-- 13px Regular is not a text style; see FIGMA-ISSUES.md section 7 -->
+          <span class="pf-text-label-text-semibold" style="color:var(--pf-text-primary)">100</span>
+        </div>
       </div>
     </div>
   </div>
@@ -10992,8 +10935,16 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     &lt;/div&gt;
     &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-end;gap:20px"&gt;
       &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:20px"&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:2px"&gt;&lt;!-- 3 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:2px"&gt;&lt;!-- 3 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
+        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:2px"&gt;
+          &lt;span class="pf-text-label-text" style="color:var(--pf-text-primary)"&gt;Sum:&lt;/span&gt;
+          &lt;span style="font-size:13px"&gt;: &lt;/span&gt;&lt;!-- 13px Regular is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
+          &lt;span class="pf-text-label-text-semibold" style="color:var(--pf-text-primary)"&gt;100&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:2px"&gt;
+          &lt;span class="pf-text-label-text" style="color:var(--pf-text-primary)"&gt;Total:&lt;/span&gt;
+          &lt;span style="font-size:13px"&gt;: &lt;/span&gt;&lt;!-- 13px Regular is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
+          &lt;span class="pf-text-label-text-semibold" style="color:var(--pf-text-primary)"&gt;100&lt;/span&gt;
+        &lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
   &lt;/div&gt;
@@ -11723,28 +11674,29 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 </div>
 <div class="item">
 <h2 class="pf-text-sub-heading">Multiselect tag <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">9 nodes</span></h2>
-<div class="stage"><div class="pf-multiselect-tag">
+<div class="stage" style="background:var(--pf-navigation-nav-bg-top)"><div class="pf-multiselect-tag">
   <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;padding:0px 0px 0px 5px">
     <svg class="pf-icon" width="17" height="17" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path d="M13.5 10.88C12.88 10.88 12.38 11.38 12.38 12C12.38 12.62 12.88 13.13 13.5 13.13H15C15.62 13.13 16.13 12.62 16.13 12C16.13 11.38 15.62 10.88 15 10.88H13.5Z"/><path d="M12.38 18C12.38 17.38 12.88 16.88 13.5 16.88H15C15.62 16.88 16.13 17.38 16.13 18C16.13 18.62 15.62 19.13 15 19.13H13.5C12.88 19.13 12.38 18.62 12.38 18Z"/><path d="M13.5 22.88C12.88 22.88 12.38 23.38 12.38 24C12.38 24.62 12.88 25.13 13.5 25.13H15C15.62 25.13 16.13 24.62 16.13 24C16.13 23.38 15.62 22.88 15 22.88H13.5Z"/><path d="M19.88 12C19.88 11.38 20.38 10.88 21 10.88H22.5C23.12 10.88 23.63 11.38 23.63 12C23.63 12.62 23.12 13.13 22.5 13.13H21C20.38 13.13 19.88 12.62 19.88 12Z"/><path d="M21 16.88C20.38 16.88 19.88 17.38 19.88 18C19.88 18.62 20.38 19.13 21 19.13H22.5C23.12 19.13 23.63 18.62 23.63 18C23.63 17.38 23.12 16.88 22.5 16.88H21Z"/><path d="M19.88 24C19.88 23.38 20.38 22.88 21 22.88H22.5C23.12 22.88 23.63 23.38 23.63 24C23.63 24.62 23.12 25.13 22.5 25.13H21C20.38 25.13 19.88 24.62 19.88 24Z"/><path fill-rule="evenodd" d="M6.38 30.38H4.5C3.88 30.38 3.38 30.88 3.38 31.5C3.38 32.12 3.88 32.63 4.5 32.63H31.5C32.12 32.63 32.63 32.12 32.63 31.5C32.63 30.88 32.12 30.38 31.5 30.38H29.63V7.5C29.63 6.41 29.19 5.36 28.42 4.58C27.64 3.81 26.59 3.38 25.5 3.38H10.5C9.41 3.38 8.36 3.81 7.58 4.58C6.81 5.36 6.38 6.41 6.38 7.5V30.38ZM9.17 6.17C9.53 5.82 10 5.63 10.5 5.63H25.5C26 5.63 26.47 5.82 26.83 6.17C27.18 6.53 27.38 7 27.38 7.5V30.38H8.63V7.5C8.63 7 8.82 6.53 9.17 6.17Z"/></g></svg>
   </div>
   <div class="pf-people" data-who="S -  Nicholas Smudge"></div><!-- People -->
   <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:3px 5px 3px 5px">
-    <span class="pf-text-label-text" style="color:var(--pf-base-white)">Tag text</span>
-    <span class="pf-text-label-text" style="color:var(--pf-base-white)">Tag text</span>
+    <span class="pf-text-label-text" style="color:var(--pf-text-always-white)">Tag text</span>
+    <span class="pf-text-label-text" style="color:var(--pf-text-always-white)">Tag text</span>
   </div>
   <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-end;padding:0px 5px 0px 0px">
     <svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M27.8 8.2C28.23 8.64 28.23 9.36 27.8 9.8L9.8 27.8C9.36 28.23 8.64 28.23 8.2 27.8C7.77 27.36 7.77 26.64 8.2 26.2L26.2 8.2C26.64 7.77 27.36 7.77 27.8 8.2Z"/><path fill-rule="evenodd" d="M8.2 8.2C8.64 7.77 9.36 7.77 9.8 8.2L27.8 26.2C28.23 26.64 28.23 27.36 27.8 27.8C27.36 28.23 26.64 28.23 26.2 27.8L8.2 9.8C7.77 9.36 7.77 8.64 8.2 8.2Z"/></svg>
   </div>
 </div>
 </div>
+<p class="note">White text and no background of its own — this one is built to sit on the header band, so the stage is the header's colour.</p>
 <pre>&lt;div class="pf-multiselect-tag"&gt;
   &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;padding:0px 0px 0px 5px"&gt;
     &lt;!--pf-icon:department 17--&gt;
   &lt;/div&gt;
   &lt;div class="pf-people" data-who="S -  Nicholas Smudge"&gt;&lt;/div&gt;&lt;!-- People --&gt;
   &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:3px 5px 3px 5px"&gt;
-    &lt;span class="pf-text-label-text" style="color:var(--pf-base-white)"&gt;Tag text&lt;/span&gt;
-    &lt;span class="pf-text-label-text" style="color:var(--pf-base-white)"&gt;Tag text&lt;/span&gt;
+    &lt;span class="pf-text-label-text" style="color:var(--pf-text-always-white)"&gt;Tag text&lt;/span&gt;
+    &lt;span class="pf-text-label-text" style="color:var(--pf-text-always-white)"&gt;Tag text&lt;/span&gt;
   &lt;/div&gt;
   &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-end;padding:0px 5px 0px 0px"&gt;
     &lt;!--pf-icon:close-x-cancel 14--&gt;
@@ -12007,13 +11959,16 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 </pre>
 </div>
 <div class="item">
-<h2 class="pf-text-sub-heading">Notification list <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">11 nodes</span></h2>
+<h2 class="pf-text-sub-heading">Notification list <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">13 nodes</span></h2>
 <div class="stage"><div class="pf-notification-list">
   <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start">
     <div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:10px;padding:20px 20px 0px 40px">
       <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
         <div class="pf-control" data-radio="No"></div><!-- Control -->
-        <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:5px"><!-- 2 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
+        <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:5px">
+          <span class="pf-text-body-text" style="color:var(--pf-text-primary)">Select all</span>
+          <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:10px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
+        </div>
         <svg class="pf-icon" width="18" height="18" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path d="M18 24.38C18.62 24.38 19.13 24.88 19.13 25.5V25.52C19.13 26.14 18.62 26.64 18 26.64C17.38 26.64 16.88 26.14 16.88 25.52V25.5C16.88 24.88 17.38 24.38 18 24.38Z"/><path d="M18.12 9.33C17.34 9.33 16.58 9.51 15.88 9.85C15.18 10.2 14.57 10.7 14.1 11.32C13.73 11.82 13.83 12.52 14.32 12.9C14.82 13.27 15.52 13.18 15.9 12.68C16.16 12.34 16.49 12.06 16.88 11.87C17.26 11.68 17.69 11.58 18.11 11.58C18.54 11.58 18.97 11.68 19.35 11.88C19.74 12.07 20.07 12.35 20.33 12.69C20.58 13.04 20.76 13.43 20.84 13.86C20.91 14.28 20.89 14.71 20.77 15.13C20.65 15.54 20.44 15.92 20.15 16.24C19.86 16.55 19.51 16.79 19.11 16.94C18.43 17.19 17.84 17.65 17.44 18.25C17.03 18.86 16.84 19.58 16.88 20.31C16.91 20.93 17.44 21.41 18.06 21.37C18.68 21.34 19.16 20.81 19.12 20.19C19.11 19.94 19.18 19.7 19.31 19.5C19.45 19.3 19.64 19.14 19.87 19.06C19.88 19.06 19.89 19.05 19.9 19.05C20.63 18.77 21.28 18.33 21.81 17.76C22.33 17.19 22.72 16.5 22.93 15.75C23.15 15 23.19 14.22 23.05 13.45C22.91 12.69 22.59 11.96 22.13 11.34C21.66 10.72 21.06 10.21 20.36 9.87C19.67 9.52 18.9 9.33 18.12 9.33Z"/><path fill-rule="evenodd" d="M3.38 18C3.38 9.92 9.92 3.38 18 3.38C26.08 3.38 32.63 9.92 32.63 18C32.63 26.08 26.08 32.63 18 32.63C9.92 32.63 3.38 26.08 3.38 18ZM18 5.63C11.17 5.63 5.63 11.17 5.63 18C5.63 24.83 11.17 30.38 18 30.38C24.83 30.38 30.38 24.83 30.38 18C30.38 11.17 24.83 5.63 18 5.63Z"/></g></svg>
       </div>
       <div class="pf-button" data-type="Filter" data-state="Default" data-label="Yes">Button</div>
@@ -12030,7 +11985,10 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:10px;padding:20px 20px 0px 40px"&gt;
       &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px"&gt;
         &lt;div class="pf-control" data-radio="No"&gt;&lt;/div&gt;&lt;!-- Control --&gt;
-        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:5px"&gt;&lt;!-- 2 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
+        &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:5px"&gt;
+          &lt;span class="pf-text-body-text" style="color:var(--pf-text-primary)"&gt;Select all&lt;/span&gt;
+          &lt;div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:10px"&gt;&lt;!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
+        &lt;/div&gt;
         &lt;!--pf-icon:tooltip-question--&gt;
       &lt;/div&gt;
       &lt;div class="pf-button" data-type="Filter" data-state="Default" data-label="Yes"&gt;Button&lt;/div&gt;
@@ -12836,48 +12794,45 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 </pre>
 </div>
 <div class="item">
-<h2 class="pf-text-sub-heading">Table (AG) <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">32 nodes</span></h2>
+<h2 class="pf-text-sub-heading">Table (AG) <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">25 nodes</span></h2>
 <div class="stage"><div class="pf-table-ag">
   <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start">
     <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start">
       <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start">
         <div class="pf-table-header-ag" data-alignment="Checkbox">Table header (AG)</div>
-        <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"><!-- 13 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
+        <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start">
+          <div class="pf-table-cell-ag" data-type="Checkbox" data-style="Default">Table cell (AG)</div>
+          <div class="pf-table-cell-ag" data-type="Checkbox" data-style="Stripe">Table cell (AG)</div>
+          <!-- 11 more of the same in Figma (13 in all) — a repeating run, kept short on purpose. Repeat the elements above for real data. -->
+        </div>
       </div>
       <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start">
         <div class="pf-table-header-ag" data-alignment="Left">Table header (AG)</div>
-        <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"><!-- SLOT: Figma marks this as where the component's content goes. --><!-- 13 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
+        <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"><!-- SLOT: Figma marks this as where the component's content goes. -->
+          <div class="pf-table-cell-ag" data-type="Default" data-style="Default">Table cell (AG)</div>
+          <div class="pf-table-cell-ag" data-type="Default" data-style="Stripe">Table cell (AG)</div>
+          <!-- 11 more of the same in Figma (13 in all) — a repeating run, kept short on purpose. Repeat the elements above for real data. -->
+        </div>
       </div>
     </div>
     <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start"><!-- SLOT: Figma marks this as where the component's content goes. -->
       <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start">
         <div class="pf-table-header-ag" data-alignment="Left">Table header (AG)</div>
-        <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"><!-- 13 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
+        <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start">
+          <div class="pf-table-cell-ag" data-type="Default" data-style="Default">Table cell (AG)</div>
+          <div class="pf-table-cell-ag" data-type="Default" data-style="Stripe">Table cell (AG)</div>
+          <!-- 11 more of the same in Figma (13 in all) — a repeating run, kept short on purpose. Repeat the elements above for real data. -->
+        </div>
       </div>
       <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start">
         <div class="pf-table-header-ag" data-alignment="Left">Table header (AG)</div>
-        <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"><!-- 13 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
+        <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start">
+          <div class="pf-table-cell-ag" data-type="Default" data-style="Default">Table cell (AG)</div>
+          <div class="pf-table-cell-ag" data-type="Default" data-style="Stripe">Table cell (AG)</div>
+          <!-- 11 more of the same in Figma (13 in all) — a repeating run, kept short on purpose. Repeat the elements above for real data. -->
+        </div>
       </div>
-      <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start">
-        <div class="pf-table-header-ag" data-alignment="Left">Table header (AG)</div>
-        <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"><!-- 13 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-      </div>
-      <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start">
-        <div class="pf-table-header-ag" data-alignment="Left">Table header (AG)</div>
-        <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"><!-- 13 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-      </div>
-      <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start">
-        <div class="pf-table-header-ag" data-alignment="Left">Table header (AG)</div>
-        <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"><!-- 13 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-      </div>
-      <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start">
-        <div class="pf-table-header-ag" data-alignment="Left">Table header (AG)</div>
-        <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"><!-- 13 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-      </div>
-      <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start">
-        <div class="pf-table-header-ag" data-alignment="Left">Table header (AG)</div>
-        <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"><!-- 13 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
-      </div>
+      <!-- 5 more of the same in Figma (7 in all) — a repeating run, kept short on purpose. Repeat the elements above for real data. -->
     </div>
   </div>
   <div class="pf-footer-ag" data-mobile="False">Footer (AG)</div>
@@ -12888,42 +12843,39 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start"&gt;
       &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;
         &lt;div class="pf-table-header-ag" data-alignment="Checkbox"&gt;Table header (AG)&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;&lt;!-- 13 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
+        &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;
+          &lt;div class="pf-table-cell-ag" data-type="Checkbox" data-style="Default"&gt;Table cell (AG)&lt;/div&gt;
+          &lt;div class="pf-table-cell-ag" data-type="Checkbox" data-style="Stripe"&gt;Table cell (AG)&lt;/div&gt;
+          &lt;!-- 11 more of the same in Figma (13 in all) — a repeating run, kept short on purpose. Repeat the elements above for real data. --&gt;
+        &lt;/div&gt;
       &lt;/div&gt;
       &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;
         &lt;div class="pf-table-header-ag" data-alignment="Left"&gt;Table header (AG)&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;&lt;!-- SLOT: Figma marks this as where the component's content goes. --&gt;&lt;!-- 13 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
+        &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;&lt;!-- SLOT: Figma marks this as where the component's content goes. --&gt;
+          &lt;div class="pf-table-cell-ag" data-type="Default" data-style="Default"&gt;Table cell (AG)&lt;/div&gt;
+          &lt;div class="pf-table-cell-ag" data-type="Default" data-style="Stripe"&gt;Table cell (AG)&lt;/div&gt;
+          &lt;!-- 11 more of the same in Figma (13 in all) — a repeating run, kept short on purpose. Repeat the elements above for real data. --&gt;
+        &lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
     &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start"&gt;&lt;!-- SLOT: Figma marks this as where the component's content goes. --&gt;
       &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;
         &lt;div class="pf-table-header-ag" data-alignment="Left"&gt;Table header (AG)&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;&lt;!-- 13 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
+        &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;
+          &lt;div class="pf-table-cell-ag" data-type="Default" data-style="Default"&gt;Table cell (AG)&lt;/div&gt;
+          &lt;div class="pf-table-cell-ag" data-type="Default" data-style="Stripe"&gt;Table cell (AG)&lt;/div&gt;
+          &lt;!-- 11 more of the same in Figma (13 in all) — a repeating run, kept short on purpose. Repeat the elements above for real data. --&gt;
+        &lt;/div&gt;
       &lt;/div&gt;
       &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;
         &lt;div class="pf-table-header-ag" data-alignment="Left"&gt;Table header (AG)&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;&lt;!-- 13 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
+        &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;
+          &lt;div class="pf-table-cell-ag" data-type="Default" data-style="Default"&gt;Table cell (AG)&lt;/div&gt;
+          &lt;div class="pf-table-cell-ag" data-type="Default" data-style="Stripe"&gt;Table cell (AG)&lt;/div&gt;
+          &lt;!-- 11 more of the same in Figma (13 in all) — a repeating run, kept short on purpose. Repeat the elements above for real data. --&gt;
+        &lt;/div&gt;
       &lt;/div&gt;
-      &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;
-        &lt;div class="pf-table-header-ag" data-alignment="Left"&gt;Table header (AG)&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;&lt;!-- 13 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-      &lt;/div&gt;
-      &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;
-        &lt;div class="pf-table-header-ag" data-alignment="Left"&gt;Table header (AG)&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;&lt;!-- 13 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-      &lt;/div&gt;
-      &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;
-        &lt;div class="pf-table-header-ag" data-alignment="Left"&gt;Table header (AG)&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;&lt;!-- 13 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-      &lt;/div&gt;
-      &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;
-        &lt;div class="pf-table-header-ag" data-alignment="Left"&gt;Table header (AG)&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;&lt;!-- 13 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-      &lt;/div&gt;
-      &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;
-        &lt;div class="pf-table-header-ag" data-alignment="Left"&gt;Table header (AG)&lt;/div&gt;
-        &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;&lt;!-- 13 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
-      &lt;/div&gt;
+      &lt;!-- 5 more of the same in Figma (7 in all) — a repeating run, kept short on purpose. Repeat the elements above for real data. --&gt;
     &lt;/div&gt;
   &lt;/div&gt;
   &lt;div class="pf-footer-ag" data-mobile="False"&gt;Footer (AG)&lt;/div&gt;
@@ -13169,17 +13121,25 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 </pre>
 </div>
 <div class="item">
-<h2 class="pf-text-sub-heading">Time picker <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">11 nodes</span></h2>
+<h2 class="pf-text-sub-heading">Time picker <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">17 nodes</span></h2>
 <div class="stage"><div class="pf-time-picker">
   <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;border-radius:4px">
     <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:9px 10px 9px 10px">
-      <span style="color:var(--pf-base-white);font-size:16px">Time</span><!-- 16px is not a text style; see FIGMA-ISSUES.md section 7 -->
+      <span style="font-size:16px">Time</span><!-- 16px is not a text style; see FIGMA-ISSUES.md section 7 --><!-- Figma colours this "Base colours/White" against a surface it fills with a raw primitive. Dropping the surface (it cannot do dark mode) would leave this text invisible, so the colour is left to inherit. Give the surface a semantic token in Figma. -->
     </div>
     <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:10px 10px 10px 10px;background:var(--pf-bg-tertiary)">
       <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:6px">
-        <div style="display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:6px"><!-- 3 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:6px">
+          <svg class="pf-icon" width="22" height="22" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path fill-rule="evenodd" d="M3.33 25.92C2.89 25.48 2.89 24.77 3.33 24.33L17.33 10.33C17.77 9.89 18.48 9.89 18.92 10.33L32.92 24.33C33.36 24.77 33.36 25.48 32.92 25.92C32.48 26.36 31.77 26.36 31.33 25.92L18.13 12.72L4.92 25.92C4.48 26.36 3.77 26.36 3.33 25.92Z"/></g></svg>
+          <span style="color:var(--pf-text-primary);font-size:20px">10</span><!-- 20px Regular is not a text style; see FIGMA-ISSUES.md section 7 -->
+          <svg class="pf-icon" width="22" height="22" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path fill-rule="evenodd" d="M3.33 25.92C2.89 25.48 2.89 24.77 3.33 24.33L17.33 10.33C17.77 9.89 18.48 9.89 18.92 10.33L32.92 24.33C33.36 24.77 33.36 25.48 32.92 25.92C32.48 26.36 31.77 26.36 31.33 25.92L18.13 12.72L4.92 25.92C4.48 26.36 3.77 26.36 3.33 25.92Z"/></g></svg>
+        </div>
         <span style="color:var(--pf-text-primary);font-size:20px">:</span><!-- 20px Regular is not a text style; see FIGMA-ISSUES.md section 7 -->
-        <div style="display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:6px"><!-- 3 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:6px">
+          <svg class="pf-icon" width="22" height="22" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path fill-rule="evenodd" d="M3.33 25.92C2.89 25.48 2.89 24.77 3.33 24.33L17.33 10.33C17.77 9.89 18.48 9.89 18.92 10.33L32.92 24.33C33.36 24.77 33.36 25.48 32.92 25.92C32.48 26.36 31.77 26.36 31.33 25.92L18.13 12.72L4.92 25.92C4.48 26.36 3.77 26.36 3.33 25.92Z"/></g></svg>
+          <span style="color:var(--pf-text-primary);font-size:20px">56</span><!-- 20px Regular is not a text style; see FIGMA-ISSUES.md section 7 -->
+          <svg class="pf-icon" width="22" height="22" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path fill-rule="evenodd" d="M3.33 25.92C2.89 25.48 2.89 24.77 3.33 24.33L17.33 10.33C17.77 9.89 18.48 9.89 18.92 10.33L32.92 24.33C33.36 24.77 33.36 25.48 32.92 25.92C32.48 26.36 31.77 26.36 31.33 25.92L18.13 12.72L4.92 25.92C4.48 26.36 3.77 26.36 3.33 25.92Z"/></g></svg>
+        </div>
       </div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;justify-content:flex-start;gap:10px;padding:10px 10px 10px 10px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary)">
@@ -13191,13 +13151,21 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 <pre>&lt;div class="pf-time-picker"&gt;
   &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;border-radius:4px"&gt;
     &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:9px 10px 9px 10px"&gt;
-      &lt;span style="color:var(--pf-base-white);font-size:16px"&gt;Time&lt;/span&gt;&lt;!-- 16px is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
+      &lt;span style="font-size:16px"&gt;Time&lt;/span&gt;&lt;!-- 16px is not a text style; see FIGMA-ISSUES.md section 7 --&gt;&lt;!-- Figma colours this "Base colours/White" against a surface it fills with a raw primitive. Dropping the surface (it cannot do dark mode) would leave this text invisible, so the colour is left to inherit. Give the surface a semantic token in Figma. --&gt;
     &lt;/div&gt;
     &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:10px 10px 10px 10px;background:var(--pf-bg-tertiary)"&gt;
       &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:6px"&gt;
-        &lt;div style="display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:6px"&gt;&lt;!-- 3 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
+        &lt;div style="display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:6px"&gt;
+          &lt;!--pf-icon:up-chevron 22--&gt;
+          &lt;span style="color:var(--pf-text-primary);font-size:20px"&gt;10&lt;/span&gt;&lt;!-- 20px Regular is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
+          &lt;!--pf-icon:up-chevron 22--&gt;
+        &lt;/div&gt;
         &lt;span style="color:var(--pf-text-primary);font-size:20px"&gt;:&lt;/span&gt;&lt;!-- 20px Regular is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
-        &lt;div style="display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:6px"&gt;&lt;!-- 3 children here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --&gt;&lt;/div&gt;
+        &lt;div style="display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:6px"&gt;
+          &lt;!--pf-icon:up-chevron 22--&gt;
+          &lt;span style="color:var(--pf-text-primary);font-size:20px"&gt;56&lt;/span&gt;&lt;!-- 20px Regular is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
+          &lt;!--pf-icon:up-chevron 22--&gt;
+        &lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
     &lt;div style="display:flex;flex-direction:column;align-items:flex-end;justify-content:flex-start;gap:10px;padding:10px 10px 10px 10px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary)"&gt;
@@ -13225,7 +13193,7 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 <div class="stage"><div class="pf-toast-message">
   <!-- Tick in circle: detached from the Figma page tree, so the library has no class for it — see uncaptured-reasons.tsv -->
   <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:10px">
-    <span class="pf-text-label-text" style="color:var(--pf-base-grey-slate)">Example text</span>
+    <span class="pf-text-label-text" style="color:var(--pf-text-always-grey-slate)">Example text</span>
   </div>
   <!-- Close x: detached from the Figma page tree, so the library has no class for it — see uncaptured-reasons.tsv -->
   <div style="background:var(--pf-border-positive);min-height:312px;width:10px"></div>
@@ -13234,7 +13202,7 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 <pre>&lt;div class="pf-toast-message"&gt;
   &lt;!-- Tick in circle: detached from the Figma page tree, so the library has no class for it — see uncaptured-reasons.tsv --&gt;
   &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:10px"&gt;
-    &lt;span class="pf-text-label-text" style="color:var(--pf-base-grey-slate)"&gt;Example text&lt;/span&gt;
+    &lt;span class="pf-text-label-text" style="color:var(--pf-text-always-grey-slate)"&gt;Example text&lt;/span&gt;
   &lt;/div&gt;
   &lt;!-- Close x: detached from the Figma page tree, so the library has no class for it — see uncaptured-reasons.tsv --&gt;
   &lt;div style="background:var(--pf-border-positive);min-height:312px;width:10px"&gt;&lt;/div&gt;
@@ -13267,14 +13235,15 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 </div>
 <div class="item">
 <h2 class="pf-text-sub-heading">Top bar app context <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">3 nodes</span></h2>
-<div class="stage"><div class="pf-top-bar-app-context">
+<div class="stage" style="background:var(--pf-navigation-nav-bg-top)"><div class="pf-top-bar-app-context">
   <!-- top bar app icon: not in the library -->
-  <span style="color:var(--pf-base-white);font-size:24px">Administrati</span><!-- 24px is not a text style; see FIGMA-ISSUES.md section 7 -->
+  <span style="color:var(--pf-text-always-white);font-size:24px">Administrati</span><!-- 24px is not a text style; see FIGMA-ISSUES.md section 7 -->
 </div>
 </div>
+<p class="note">White text and no background of its own — this one is built to sit on the header band, so the stage is the header's colour.</p>
 <pre>&lt;div class="pf-top-bar-app-context"&gt;
   &lt;!-- top bar app icon: not in the library --&gt;
-  &lt;span style="color:var(--pf-base-white);font-size:24px"&gt;Administrati&lt;/span&gt;&lt;!-- 24px is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
+  &lt;span style="color:var(--pf-text-always-white);font-size:24px"&gt;Administrati&lt;/span&gt;&lt;!-- 24px is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
 &lt;/div&gt;
 </pre>
 </div>

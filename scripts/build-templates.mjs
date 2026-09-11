@@ -29,6 +29,7 @@
 // unbound paint.
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync, existsSync } from 'node:fs';
 import { buildResolver } from './resolve-component-type.mjs';
+import { PRIMITIVE_ALIAS } from './primitive-alias.mjs';
 
 const tsv = (p) => {
   const [h, ...rows] = readFileSync(p, 'utf8').trim().split('\n');
@@ -138,6 +139,32 @@ function styleFor(component, row) {
   return s;
 }
 
+// WHITE TEXT ON A BACKGROUND WE REFUSED TO PAINT.
+//
+// Two rules that are each right on their own produce something invisible when they meet.
+// `Calendar picker`'s month header binds `Base colours/Blue Charade` as its fill — a raw
+// primitive with no semantic equivalent, so the generator correctly drops it rather than
+// ship something that cannot do dark mode. Its label binds `Base colours/White`, which
+// correctly substitutes `--pf-text-always-white`. The result is white text on the page's
+// own background: legible in neither mode, and every check green.
+//
+// The template cannot represent this pair, so it says so instead of guessing. The test is
+// exact rather than a list of light-looking colours: walk the path's ancestors, find the
+// nearest one Figma gave a fill, and ask whether THAT fill is a primitive the generator
+// dropped. Same shape as FIGMA-ISSUES.md section 9, where `Option` Selected=Yes binds
+// inverted text and no background at all.
+function onDroppedSurface(rows, path) {
+  const parts = path.split('.');
+  for (let i = parts.length - 1; i > 0; i--) {
+    const anc = rows.get(parts.slice(0, i).join('.'));
+    if (!anc || !anc.fill) continue;
+    if (anc.fill === 'LITERAL' || anc.fill === 'IMAGE' || anc.fill === 'GRADIENT') return false;
+    if (!isPrimitive(anc.fill)) return false;              // painted from a token; fine
+    return !(PRIMITIVE_ALIAS[anc.fill] || {}).background;  // dropped, so nothing is behind
+  }
+  return false;
+}
+
 function render(component, rows, path, depth) {
   const row = rows.get(path);
   if (!row) return '';
@@ -209,10 +236,31 @@ function render(component, rows, path, depth) {
 
   if (row.type === 'TEXT') {
     const tc = typeClassFor(component, row);
-    const colour = tokenVar.get(row.fill);
     const bits = [];
-    if (colour) bits.push(`color:var(${colour})`);
-    else if (row.fill) unresolved.push(`${component}: text colour "${row.fill}" has no token`);
+    // A TEXT COLOUR IS SUBJECT TO THE PRIMITIVE RULE TOO — and for a long time it was the
+    // one place here that was not. `styleFor` checks a child's fill and stroke, and this
+    // branch went straight to tokenVar, which resolves a primitive perfectly well: to the
+    // primitive. `Calendar picker`'s month header shipped `color: var(--pf-base-white)`
+    // over a background this same generator had correctly refused to paint for binding a
+    // primitive, so the heading was white on nothing. Six of these were in the templates.
+    // Substitute the semantic token that means the same thing where one exists; otherwise
+    // emit no colour at all and say why, because inheriting the page's text colour is
+    // readable and an unadaptable one is not.
+    const stranded = row.fill && onDroppedSurface(rows, path);
+    if (stranded) {
+      unresolved.push(`${component}: text "${row.text}" binds "${row.fill}" over a surface whose own `
+        + `fill is a primitive with no semantic equivalent — the pair cannot be carried, so the `
+        + `colour is left to inherit`);
+    } else if (row.fill && isPrimitive(row.fill)) {
+      const alias = (PRIMITIVE_ALIAS[row.fill] || {}).color;
+      if (alias) bits.push(`color:var(${alias})`);
+      else unresolved.push(`${component}: text binds the PRIMITIVE "${row.fill}" and no semantic `
+        + `token has that role — left to inherit rather than shipped unable to change between modes`);
+    } else {
+      const colour = tokenVar.get(row.fill);
+      if (colour) bits.push(`color:var(${colour})`);
+      else if (row.fill) unresolved.push(`${component}: text colour "${row.fill}" has no token`);
+    }
     if (!tc) {
       // No type class means the label's style is off the ramp or ambiguous — the same 27
       // labels check-component-type reports. Emitting nothing would leave the text at
@@ -228,7 +276,10 @@ function render(component, rows, path, depth) {
     }
     const style = bits.length ? ` style="${bits.join(';')}"` : '';
     const klass = tc ? ` class="${tc}"` : '';
-    const why = tc ? '' : `<!-- ${esc(row.font || '')} is not a text style; see FIGMA-ISSUES.md section 7 -->`;
+    let why = tc ? '' : `<!-- ${esc(row.font || '')} is not a text style; see FIGMA-ISSUES.md section 7 -->`;
+    if (stranded) why += `<!-- Figma colours this "${esc(row.fill)}" against a surface it fills with `
+      + `a raw primitive. Dropping the surface (it cannot do dark mode) would leave this text `
+      + `invisible, so the colour is left to inherit. Give the surface a semantic token in Figma. -->`;
     return `${pad}<span${klass}${style}>${esc(row.text || 'Text')}</span>${why}`;
   }
 
@@ -252,7 +303,9 @@ function render(component, rows, path, depth) {
     const open = `${pad}<div${style.length ? ` style="${style.join(';')}"` : ''}>`
       + `<!-- SLOT: Figma marks this as where the component's content goes. -->`;
     if (!kids.length) return open + cutNote(row) + '</div>';
-    return [open, ...kids.map(k => render(component, rows, k, depth + 1)), `${pad}</div>`].join('\n');
+    const note = cutNote(row, kids.length);
+    return [open, ...kids.map(k => render(component, rows, k, depth + 1)),
+      ...(note ? [`${pad}  ${note}`] : []), `${pad}</div>`].join('\n');
   }
 
   // A fill Figma records as IMAGE is artwork, not a colour — the same situation as the
@@ -283,7 +336,9 @@ function render(component, rows, path, depth) {
 
   const open = `${pad}<div${style.length ? ` style="${style.join(';')}"` : ''}>`;
   if (!kids.length) return open + cutNote(row) + '</div>';
-  return [open, ...kids.map(k => render(component, rows, k, depth + 1)), `${pad}</div>`].join('\n');
+  const note = cutNote(row, kids.length);
+  return [open, ...kids.map(k => render(component, rows, k, depth + 1)),
+    ...(note ? [`${pad}  ${note}`] : []), `${pad}</div>`].join('\n');
 }
 
 // AN EMPTY BOX HAS TO SAY WHY IT IS EMPTY.
@@ -292,14 +347,23 @@ function render(component, rows, path, depth) {
 // pasted the template had to open Figma to find out which — or, more likely, assume the
 // first and hand-write the contents, which is the whole failure this directory exists to
 // prevent. The row now knows, so the markup says.
-// Two different reasons, and saying the wrong one is worse than saying nothing: a reader
-// told "depth limit" goes looking for structure the walk skipped, while artwork needs the
-// component-art pipeline instead. The path says which — the walk collapses an artwork
-// subtree wherever it finds one, and only stops on depth at level 4.
+// THREE different reasons, and saying the wrong one is worse than saying nothing: a reader
+// told "depth limit" goes looking for structure the walk skipped, artwork needs the
+// component-art pipeline instead, and a collapsed run is not a gap at all — the walk saw
+// every one and kept two on purpose, because thirteen identical table rows teach a reader
+// nothing the second did not.
+//
+// `shown` is how many of the node's children reached the template. Zero means the walk
+// stopped at this node; fewer than `kids` means it kept a sample of a repeating run.
 const WALK_DEPTH = 4;
-function cutNote(row) {
+function cutNote(row, shown = 0) {
   const n = Number(row.kids || 0);
-  if (!n) return '';
+  if (!n || shown >= n) return '';
+  if (shown > 0) {
+    const more = n - shown;
+    return `<!-- ${more} more of the same in Figma (${n} in all) — a repeating run, kept short `
+      + `on purpose. Repeat the ${shown === 1 ? 'element' : 'elements'} above for real data. -->`;
+  }
   const at = (row.path || '').split('.').length >= WALK_DEPTH;
   return at
     ? `<!-- ${n} child${n === 1 ? '' : 'ren'} here in Figma that this walk did not reach `
@@ -383,6 +447,7 @@ g.push(`<style>
          color:var(--pf-text-primary); }
   .wrap { padding:var(--pf-space-large); display:flex; flex-direction:column; gap:var(--pf-space-xlarge); }
   .item > h2 { margin:0 0 var(--pf-space-small); }
+  .note { margin:var(--pf-space-xsmall) 0 0; font-size:13px; color:var(--pf-text-secondary); }
   .stage { padding:var(--pf-space-large); background:var(--pf-bg-primary);
            border-radius:var(--pf-radius-medium); overflow:auto; }
   pre { margin:var(--pf-space-small) 0 0; padding:var(--pf-space-medium); overflow:auto;
@@ -396,7 +461,18 @@ g.push('<p class="pf-text-body-text">Generated from each component&rsquo;s Figma
 for (const m of made) {
   g.push('<div class="item">');
   g.push(`<h2 class="pf-text-sub-heading">${esc(m.component)} <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">${m.nodes} nodes</span></h2>`);
-  g.push(`<div class="stage">${expandIcons(m.html.replace(/^<!--[\s\S]*?-->\n/, ''))}</div>`);
+  // A COMPONENT MADE FOR A DARK SURFACE NEEDS A DARK STAGE.
+  // `Top bar app context` is white text and nothing else: correct, because it sits inside
+  // the app header, whose band is the artwork in assets/component-art/. On the gallery's
+  // light stage it rendered as nothing at all, which reads as a broken template rather than
+  // a correctly-placed one. Detected from the markup rather than a list of names — always-
+  // white text and not one background in the whole template — and stood on the token the
+  // header itself binds, `Navigation/Nav bg top`, rather than a colour picked to suit.
+  const body = expandIcons(m.html.replace(/^<!--[\s\S]*?-->\n/, ''));
+  const onDark = /--pf-text-always-white|--pf-icon-always-white/.test(body) && !/background:/.test(body);
+  g.push(`<div class="stage"${onDark ? ' style="background:var(--pf-navigation-nav-bg-top)"' : ''}>${body}</div>`);
+  if (onDark) g.push('<p class="note">White text and no background of its own — this one is '
+    + 'built to sit on the header band, so the stage is the header\'s colour.</p>');
   g.push(`<pre>${esc(m.html.replace(/^<!--[\s\S]*?-->\n/, ''))}</pre>`);
   g.push('</div>');
 }

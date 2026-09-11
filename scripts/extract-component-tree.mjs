@@ -143,16 +143,24 @@ console.log('  children by kind: ' + Object.entries(kinds).sort((a, b) => b[1] -
 // the depth limit, which is a genuine gap.
 const DEPTH = 4;
 const CONT = new Set(['FRAME', 'GROUP', 'SLOT']);
-let atCap = 0, artwork = 0; const capped = new Set();
+let atCap = 0, artwork = 0, partial = 0; const capped = new Set();
 for (const [component, rows] of trees) {
   const paths = [...rows.keys()];
   for (const [p, line] of rows) {
     const c = line.split('\t');
-    if (!CONT.has(c[2]) || Number(c[6]) === 0) continue;
-    if (paths.some(q => q !== p && q.startsWith(p ? p + '.' : ''))) continue;
+    const kids = Number(c[6]);
+    if (!CONT.has(c[2]) || kids === 0) continue;
+    const shown = paths.filter(q => q !== p
+      && q.startsWith(p ? p + '.' : '')
+      && q.split('.').length === (p ? p.split('.').length + 1 : 1)).length;
+    // A run kept short on purpose is not a gap — the walk saw all thirteen table rows and
+    // recorded two, because the third teaches nothing the second did not. Counted apart
+    // from the cap so that neither number flatters the other.
+    if (shown > 0) { if (shown < kids) partial++; continue; }
     if (p.split('.').length >= DEPTH) { atCap++; capped.add(component); } else artwork++;
   }
 }
 console.log(`  ${atCap} container(s) across ${capped.size} component(s) sit at the depth cap `
   + `with children the walk could not reach`);
-console.log(`  ${artwork} more hold nothing but artwork, which is collapsed on purpose`);
+console.log(`  ${artwork} hold nothing but artwork, and ${partial} keep a sample of a repeating `
+  + `run — both collapsed on purpose`);

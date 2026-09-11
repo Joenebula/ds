@@ -21,7 +21,15 @@ import { readFileSync } from 'node:fs';
 //
 // Raised 69 -> 70 on the People page walk, then CORRECTED to 2 — see below. The number
 // was not measuring what it said.
-const SHELL_BASELINE = 2;
+//
+// Raised 2 -> 5 deliberately. `Calendar picker`, `Time picker` and `Repeating group` each
+// had exactly one colour: a text colour the extract had taken from ONE of their labels and
+// which the class then painted on every descendant, so the calendar rendered white on
+// white. The generator now drops such a colour (see its note on one child's colour recorded
+// for the whole component) and the templates give each label its own. So these three lost
+// their only paint — which is what this check is for noticing, and in this one case is the
+// fix rather than the fault. They were invisible before and are honest now.
+const SHELL_BASELINE = 5;
 
 const css = readFileSync('dist/components.css', 'utf8');
 let failures = 0;

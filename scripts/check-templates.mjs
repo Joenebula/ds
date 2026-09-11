@@ -151,6 +151,30 @@ if (!failures) console.log('  every one has a template, and every template rende
 const bareEmpty = specs.filter((s, i) => got[i].bare <= 1).length;
 console.log(`  ${bareEmpty} of them render NOTHING from the bare class — which is why the templates exist`);
 
+// NO PRIMITIVES IN A TEMPLATE.
+//
+// CLAUDE.md's first rule after "never a raw hex" is "semantic tokens, never primitives" —
+// a primitive has one value in both modes, so using one breaks dark mode. check-off-system
+// enforces that on pages, but a template is not a page and nothing checked it. Six had
+// slipped in, because the generator applied the rule to a child's fill and stroke and not
+// to its text: `Calendar picker` shipped white text over a background the same generator
+// had refused to paint for binding a primitive. Both are fixed; this is what keeps them
+// fixed, and it is the cheapest possible check — a template is markup, and the primitives
+// are all named `--pf-base-*`.
+const primitiveUse = [];
+for (const f of readdirSync('dist/templates')) {
+  const found = [...new Set([...readFileSync('dist/templates/' + f, 'utf8')
+    .matchAll(/var\((--pf-base-[a-z0-9-]+)\)/g)].map(m => m[1]))];
+  if (found.length) primitiveUse.push(`${f} (${found.join(', ')})`);
+}
+if (primitiveUse.length) {
+  console.log(`  FAIL  ${primitiveUse.length} template(s) use a PRIMITIVE token, which has one `
+    + `value in both modes and so cannot do dark mode: ${primitiveUse.join('; ')}`);
+  failures++;
+} else {
+  console.log('  none of them uses a primitive token, so every one adapts between modes');
+}
+
 // EVERY TEMPLATE ON DISK MUST NAME A REAL CLASS. The rule above stops one being written;
 // this catches one that survives a rename or an abandoned component. A template is markup
 // somebody pastes, and its outer element is the component — `<div class="pf-people-second-
@@ -177,7 +201,7 @@ if (orphaned.length) {
 // and not grow: a deeper walk is progress, a shallower one silently un-fills templates
 // that were full. An INSTANCE is not counted — the walk stops at one on purpose, because
 // that component has its own template.
-const CAPPED_BASELINE = 61;
+const CAPPED_BASELINE = 3;
 const DEPTH = 4;
 const CONTAINER = new Set(['FRAME', 'GROUP', 'SLOT']);
 const paths = new Map();
@@ -186,19 +210,28 @@ for (const line of tsvRows) {
   if (!paths.has(component)) paths.set(component, []);
   paths.get(component).push(path);
 }
-let cappedNodes = 0; const cappedIn = new Set();
+let cappedNodes = 0, partialRuns = 0; const cappedIn = new Set();
 for (const line of tsvRows) {
   const c = line.split('\t');
   const [component, path, type] = c;
   const kids = Number(c[6] || 0);
   if (!CONTAINER.has(type) || !kids) continue;
+  // A RUN KEPT SHORT IS NOT A GAP. Table (AG) has thirteen rows per column and the walk
+  // records two, because the third says nothing the second did not. Counting those as
+  // truncations would put 60-odd deliberate decisions in a number that is supposed to
+  // measure what the walk COULDN'T see — and a measure that counts the wrong thing is the
+  // fault this project has now found in four of its own checks.
+  const shown = paths.get(component).filter(q => q !== path
+    && q.startsWith(path ? path + '.' : '')
+    && q.split('.').length === (path ? path.split('.').length + 1 : 1)).length;
+  if (shown > 0) { if (shown < kids) partialRuns++; continue; }
   if (path.split('.').length < DEPTH) continue;
-  if (paths.get(component).some(q => q !== path && q.startsWith(path + '.'))) continue;
   cappedNodes++; cappedIn.add(component);
 }
 console.log(`  ${cappedNodes} container(s) in ${cappedIn.size} component(s) sit at the walk's `
-  + `depth limit holding children it could not reach (baseline ${CAPPED_BASELINE})`);
-console.log(`        ${[...cappedIn].sort().join(', ')}`);
+  + `depth limit holding children it could not reach (baseline ${CAPPED_BASELINE})`
+  + (cappedIn.size ? ': ' + [...cappedIn].sort().join(', ') : ''));
+console.log(`  ${partialRuns} more keep a sample of a repeating run, which is deliberate`);
 if (cappedNodes > CAPPED_BASELINE) {
   console.log('  FAIL  more of the tree is behind the depth cap than before — a template that '
     + 'was full is now a shell.');

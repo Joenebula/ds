@@ -127,14 +127,19 @@ paths, `Information box` wraps an instance of itself — and two have no class t
 template on: Figma has two components called `Field` and two called `People`, and only the
 first of each pair has rules.
 
-**A template is only as deep as the walk that made it, and it now says where it stopped.**
-The walk goes four levels down and records each node's child count, so a container that
-came back empty is distinguishable from one Figma leaves empty — and where the walk did
-stop short, the template carries a comment saying how many children are there in Figma.
-**61 containers in 9 components** are behind that limit (`Table (AG)`'s column rows,
-`Calendar picker`'s weeks, `Time picker`, `Footer (AG)`, `Notification list`, `Adaptive
-card`, `AI banner`, `Configuration`, `Document previewer`). The count is pinned and may
-only shrink. A blank inner div with no comment IS empty in Figma.
+**A template is only as deep as the walk that made it, and it says where it stopped.**
+The walk records each node's child count, so a container that came back empty is
+distinguishable from one Figma leaves empty, and any container it did stop short of carries
+a comment saying how many children Figma has there. **Three** are left, each holding a
+single leaf. A blank inner div with no comment IS empty in Figma.
+
+A run of identical siblings is kept short on purpose — `Table (AG)` has thirteen rows per
+column and the template carries two plus `<!-- 11 more of the same in Figma -->`. Repeat
+the elements above it for real data; the third row never said anything the second did not.
+
+**A template never uses a primitive token** (`--pf-base-*`), and `npm run verify` fails if
+one appears. Six had slipped in, because the rule was applied to a child's fill and stroke
+and not to its text.
 
 (The same section used to cite "69 classes with no paint". That number was wrong —
 `check-component-art.mjs` was counting rules rather than classes. The real figure is 2, and

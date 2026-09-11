@@ -18,6 +18,7 @@
 // so a live control behaves correctly and a gallery can still force any state.
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { buildResolver, WEIGHT } from './resolve-component-type.mjs';
+import { PRIMITIVE_ALIAS } from './primitive-alias.mjs';
 
 // THE TYPE LINK (spec fault 4). Until this existed, components.css carried 410 font-size
 // and 131 font-weight declarations transcribed from measurements, type.css carried the 23
@@ -109,32 +110,8 @@ try {
 // use instead — chosen per CSS property, because the semantic layer names the ROLE.
 // `Grey-slate` is #3e3e3e; `Text/Always grey slate` resolves to exactly that and is a
 // deliberately mode-stable token, so the rendered colour is unchanged.
-const PRIMITIVE_ALIAS = {
-  'Grey-slate': {
-    'color': '--pf-text-always-grey-slate',
-    'background': '--pf-base-grey-slate',
-    'border-color': '--pf-base-grey-slate',
-  },
-  'Base colours/Grey Slate': {
-    'color': '--pf-text-always-grey-slate',
-  },
-  'Base colours/White': {
-    // Bound as text on Pagination buttons, Header navigation and Full page. The semantic
-    // token that means exactly "white text, in both modes" is Text/Always White, and it
-    // resolves to the same value.
-    'color': '--pf-text-always-white',
-    // Deliberately NOT mapped for background or border-color. The only semantic tokens
-    // holding White in both modes are Tags/Fills/Info (a tag fill) and Icons/Icon - Always
-    // white (an icon colour). Borrowing either for a toast background or a button border
-    // would put the right hex behind the wrong meaning, and the next person to change the
-    // tag palette would silently change the toast. Those stay flagged for design.
-  },
-  'Base colours/Grey Dolphin': {
-    // Border/Secondary IS Grey Dolphin in both modes, is scoped STROKE_COLOR in Figma, and
-    // means exactly what the Toggle's border means. A real equivalent, not a near one.
-    'border-color': '--pf-border-secondary',
-  },
-};
+// The primitive-to-semantic substitution table. Shared with build-templates.mjs so the
+// two generators cannot disagree about what a raw primitive stands in for.
 // Every name in the primitive collection. A component binding one of these has reached
 // past the semantic layer to a raw colour, which is what stops it adapting between modes.
 // Detected by collection membership rather than by a list of names, so a new one cannot
@@ -339,6 +316,33 @@ function geometryDecls(g, notes, isVariant = false, composedType = null) {
   return d;
 }
 
+// A COMPONENT-LEVEL TEXT COLOUR THAT IS REALLY ONE CHILD'S.
+//
+// The colour extract gives a component one fill, one stroke and one text colour. For a
+// component that IS one box that is exactly right. For a composite one it takes whichever
+// label Figma recorded and paints EVERY descendant with it: `.pf-calendar-picker` shipped
+// `color: var(--pf-text-always-white)`, so the whole calendar — weekday names, dates,
+// disabled days — rendered white on white, while every check stayed green.
+//
+// Two components can look identical in that extract and mean opposite things.
+// `Top bar app context` also binds white text and no fill, and there it is CORRECT: the
+// component sits on the header band, which is dark. The difference is not in the colour
+// record, it is in the tree — Calendar picker's labels bind four different colours and
+// only one of them is white, Top bar app context's bind one. So the tree decides.
+//
+// Narrow on purpose: only a colour that came from a PRIMITIVE substitution, only where
+// the tree disagrees with it. Everything else keeps the colour the extract recorded.
+const labelColours = new Map();
+try {
+  for (const line of readFileSync('tokens/_raw/component-tree.tsv', 'utf8').trim().split('\n').slice(1)) {
+    const c = line.split('\t');
+    if (!c[1] || c[2] !== 'TEXT' || !c[12]) continue;
+    if (!labelColours.has(c[0])) labelColours.set(c[0], new Set());
+    labelColours.get(c[0]).add(c[12]);
+  }
+} catch { /* the tree is optional input; without it nothing is dropped */ }
+const colourIsOneChilds = (component) => (labelColours.get(component) || new Set()).size > 1;
+
 function colourDecls(row) {
   const d = [];
   const put = (figmaName, prop) => {
@@ -350,6 +354,16 @@ function colourDecls(row) {
     if (PRIMITIVE_NAMES.has(figmaName) || PRIMITIVE_ALIAS[figmaName]) {
       const alias = (PRIMITIVE_ALIAS[figmaName] || {})[prop];
       if (alias) {
+        if (prop === 'color' && colourIsOneChilds(row.component)) {
+          d.push(`/* Figma records "${figmaName}" as this component's text colour, but its child`);
+          d.push(`   tree binds ${labelColours.get(row.component).size} different label colours — this is one of them`);
+          d.push(`   promoted to all. Emitting it painted every label alike; the template gives`);
+          d.push(`   each its own. See docs/FIGMA-ISSUES.md section 9. */`);
+          sourceIssues.set(`${row.component} — ${figmaName} (${prop})`,
+            `dropped — one child's colour recorded for the whole component; the tree has `
+            + `${labelColours.get(row.component).size} label colours`);
+          return;
+        }
         d.push(`/* Figma binds the primitive "${figmaName}" here instead of a semantic token */`);
         d.push(`${prop}: var(${alias})`);
         sourceIssues.set(`${row.component} — ${figmaName} (${prop})`, `substituted ${alias}, same value`);

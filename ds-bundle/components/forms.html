@@ -1251,8 +1251,10 @@
   font-family: var(--pf-font-body);
 }
 .pf-calendar-picker {
-  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
-  color: var(--pf-text-always-white);
+  /* Figma records "Base colours/White" as this component's text colour, but its child
+     tree binds 4 different label colours — this is one of them;
+     promoted to all. Emitting it painted every label alike; the template gives;
+     each its own. See docs/FIGMA-ISSUES.md section 9. */;
 }
 
 /* Time picker
@@ -1274,8 +1276,10 @@
   font-family: var(--pf-font-body);
 }
 .pf-time-picker {
-  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
-  color: var(--pf-text-always-white);
+  /* Figma records "Base colours/White" as this component's text colour, but its child
+     tree binds 2 different label colours — this is one of them;
+     promoted to all. Emitting it painted every label alike; the template gives;
+     each its own. See docs/FIGMA-ISSUES.md section 9. */;
 }
 
 * { box-sizing: border-box; }
