@@ -635,9 +635,13 @@ Genuinely unspecified. Each needs a decision rather than a guess:
    1320/784.
 5. **Sidebar width is 232px, which is not a Figma width.** Figma has `Side navigation` at
    **90 wide** (described in the extract as a "collapsed rail", pairing with the 90×86
-   `Navigation item`) and `Side navigation panel` at **268 wide** (pairing with the 268×48
-   `Side navigation tab` this screen uses). 232px sits between the two. Since the screen
-   uses the tab, 268px is the likely intent — confirm.
+   `Navigation item`). This note used to point at `Side navigation panel` at **268 wide** as
+   the likely intent, since the screen uses the 268×48 `Side navigation tab` — but that
+   component was **deleted from Figma and retired from this repo on 2026-09-11**
+   (`22973:20811`; see `tokens/_raw/gone-components.tsv`), so 268 no longer has a live
+   source and the extract no longer carries it. The question is therefore open in a
+   different way: 232px is a layout choice with nothing in Figma behind it. Either measure
+   the panel this screen actually wants, or record 232 as a deliberate layout decision.
 6. **Avatar has no Figma component.** The 36px/56px circle with initials is drawn locally
    using `--pf-bg-theme` / `--pf-text-theme`. `Profile image` exists in Figma but binds no
    colour variable, so nothing was generated for it.

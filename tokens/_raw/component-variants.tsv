@@ -207,7 +207,6 @@ Navigation	Search navigation	Mobile=Mobile3			Text/Theme	13658:8009
 Navigation	Full page	Breakpoint=Desktop			Text/Secondary	13658:8240
 Navigation	Full page	Breakpoint=Mobile			Base colours/White	13658:8240
 Navigation	Full page	Breakpoint=Tablet			Base colours/White	13658:8240
-Navigation	Side navigation panel		Background/Primary		Text/Theme	22973:20811
 Navigation	Filter tabs				Text/Theme	23069:23560
 Cards and panels	Attachments				Text/Primary	5235:64884
 Cards and panels	Attachment with person			Border/Default	Text/Primary	5235:65181

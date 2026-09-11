@@ -3479,33 +3479,6 @@
   color: var(--pf-text-primary);
 }
 
-/* Side navigation panel
- * 1 variant captured. RE-READ 2026-09-11: the node is GONE. get_variable_defs on 22973:20811 returns "The node ID provided was invalid", which upgrades the pending reason from "no longer published" to "no longer in the file". Its .pf-side-navigation-panel class is still shipped, so the row is kept — but this is now a deletion to confirm with the design lead, not an ambiguity
- * Figma draws this 268px wide; treated as layout, not a rule
- * Figma draws this 416px tall; emitted as a minimum, since content decides the real height
- */
-.pf-side-navigation-panel {
-  min-height: 416px;
-  padding: 10px;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 5px;
-  font-size: 16px;
-  appearance: none;
-  -webkit-appearance: none;
-  background: transparent;
-  margin: 0;
-  border: 0;
-  box-sizing: border-box;
-  font-family: var(--pf-font-body);
-}
-.pf-side-navigation-panel {
-  background: var(--pf-bg-primary);
-  color: var(--pf-text-theme);
-}
-
 /* Side navigation
  * 2 variants captured. RE-READ 2026-09-11: fill Background/Primary -> Navigation/Nav bg left and text Text/Secondary -> Navigation/Nav items, both unextracted; rows left as captured and KNOWN STALE. It also binds four DEPRECATED COLOURS entries and Navigation/Configr nav
  */

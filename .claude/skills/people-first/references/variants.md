@@ -622,12 +622,6 @@ Figma component actually binds.
 | Breakpoint=Mobile | — | — | `var(--pf-base-white)` |
 | Breakpoint=Tablet | — | — | `var(--pf-base-white)` |
 
-### Side navigation panel
-
-| Variant | Background | Border | Text |
-|---|---|---|---|
-|  | `var(--pf-bg-primary)` | — | `var(--pf-text-theme)` |
-
 ### Filter tabs
 
 | Variant | Background | Border | Text |

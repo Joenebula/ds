@@ -22,7 +22,7 @@ case. Colour and shape are independent, and both have to come from Figma.
 | `.claude/skills/people-first/references/geometry.md` | Measured sizes, only if you go off-library |
 
 **2. Build the components from the stylesheet, not by hand.** `dist/components.css`
-carries 139 components and 283 variants as ready classes, generated from Figma and
+carries 138 components and 282 variants as ready classes, generated from Figma and
 checked against it. The component is the class, each Figma variant property is a data
 attribute, and the values keep Figma's own spelling:
 

@@ -116,7 +116,7 @@ export function readConfirmations(file) {
     // keeps failing, because a typo that silently excuses a component is the failure this whole
     // file exists to stop.
     const verdict = g('verdict').toLowerCase();
-    if (verdict !== 'deleted' && verdict !== 'published') continue;
+    if (verdict !== 'deleted' && verdict !== 'published' && verdict !== 'retired') continue;
     out.set(name, { nodeId: g('nodeId'), verdict, checked: g('checked'), evidence: g('evidence') });
   }
   return out;
@@ -230,13 +230,21 @@ export function judge({ figma, captured, declared, inventory, icons = [], confir
   // A GONE row that a Figma read has ALREADY SETTLED does not belong in the same list as one
   // nobody has looked at. Three outcomes, and only the last is still a question.
   const goneConfirmed = [], goneDebt = [], goneUnconfirmed = [], stillPublished = [];
+  const retiredButPresent = [];
   for (const n of gone.sort()) {
     const c = confirmed.get(n);
     // The verdict must be one of the two, HERE and not only in the reader. A caller that builds
     // this map itself would otherwise have anything-but-"published" silently mean "deleted" —
     // a typo excusing a component is the exact failure this file exists to stop, and the reader
     // being careful does not make judge() careful.
-    if (!c || (c.verdict !== 'published' && c.verdict !== 'deleted')) { goneUnconfirmed.push(n); continue; }
+    if (!c || (c.verdict !== 'published' && c.verdict !== 'deleted' && c.verdict !== 'retired')) {
+      goneUnconfirmed.push(n); continue;
+    }
+    // `retired` says "gone from Figma AND dropped from this repo". Reaching here means the second
+    // half is false — the component is still captured, so it is still reported gone. That is a
+    // contradiction between the record and the extracts, and it gets its own line rather than
+    // being filed under a verdict that would read as settled.
+    if (c.verdict === 'retired') { retiredButPresent.push({ name: n, ...c }); continue; }
     if (c.verdict === 'published') { stillPublished.push({ name: n, ...c }); continue; }
     // `pending:` is this repo's visible-debt marker: recorded, waiting on a person, passes and is
     // counted and named every run. Anything else is a confirmed deletion nobody has decided about.
@@ -246,12 +254,22 @@ export function judge({ figma, captured, declared, inventory, icons = [], confir
 
   // A confirmation for a component this run does NOT report gone is folklore — the same rule
   // check-token-drift.mjs applies to a declared token nothing binds.
-  const staleConfirmations = [...confirmed.keys()].filter((n) => !gone.includes(n)).sort();
+  // A `retired` row is the one confirmation that SHOULD outlive the component. It records that
+  // Figma deleted it, that a person decided to drop the class, and when — so it is history
+  // rather than folklore, and the stale rule must not force it to be deleted to keep the gate
+  // green. That would erase exactly what it exists to hold. Counted and named every run.
+  const retired = [...confirmed.entries()]
+    .filter(([, c]) => c.verdict === 'retired')
+    .map(([name, c]) => ({ name, ...c }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+  const staleConfirmations = [...confirmed.keys()]
+    .filter((n) => !gone.includes(n) && !retired.some((r) => r.name === n)).sort();
 
   return {
     renamed: renamed.sort((a, b) => a.from.localeCompare(b.from)),
     isNew, gone: gone.sort(), same,
-    goneConfirmed, goneDebt, goneUnconfirmed, stillPublished, staleConfirmations,
+    goneConfirmed, goneDebt, goneUnconfirmed, stillPublished, staleConfirmations, retired,
+    retiredButPresent,
     newIcons, goneIcons, blindIcons,
     renamedIcons: renamedIcons.sort((a, b) => a.from.localeCompare(b.from)),
     capturedIcons: figIcons.length - newIcons.length,
@@ -267,7 +285,7 @@ export function judge({ figma, captured, declared, inventory, icons = [], confir
     // still a problem until somebody decides what to do about the class; a `pending:` one has
     // been decided and is debt. And a confirmation nothing reports gone any more is stale.
     problems: isNew.length + goneUnconfirmed.length + goneConfirmed.length
-      + staleConfirmations.length + newIcons.length + goneIcons.length,
+      + staleConfirmations.length + retiredButPresent.length + newIcons.length + goneIcons.length,
   };
 }
 
@@ -344,6 +362,17 @@ function main() {
     console.log(`stale    "${n}" has a row in gone-components.tsv and this listing is not reporting `
       + 'it gone — a confirmation kept for something settled is folklore');
   }
+  // Named every run, because the whole point of a retired record is that somebody can still see
+  // what was dropped and when. Deleting it to tidy the output would erase the decision itself.
+  for (const c of r.retired) {
+    console.log(`retired  "${c.name}" was confirmed gone from Figma and its class was removed from `
+      + `this repo (${c.checked}) — ${c.evidence}`);
+  }
+  for (const c of r.retiredButPresent) {
+    console.log(`CONFLICT "${c.name}" is marked retired in gone-components.tsv — gone from Figma `
+      + 'AND dropped from here — but it is still captured in the extracts, so only the first half '
+      + 'is true. Remove its rows, or change the verdict back to "deleted".');
+  }
   for (const m of r.renamedIcons) {
     console.log(`RENAMED ICON "${m.from}" is now called "${m.to}" in Figma (${m.nodeId}) — same `
       + 'glyph, new name; correct icons.tsv rather than importing it as new');
@@ -382,6 +411,7 @@ function main() {
     + `renamed, ${r.isNew.length} new, ${r.gone.length} not in this listing `
     + `(${r.goneUnconfirmed.length} unconfirmed, ${r.goneConfirmed.length} confirmed deleted, `
     + `${r.goneDebt.length} pending, ${r.stillPublished.length} confirmed still published)`
+    + (r.retired.length ? `, ${r.retired.length} retired (gone from Figma and dropped here)` : '')
     + (r.unidentified.length ? `, ${r.unidentified.length} with no id` : ''));
   console.log(`icons     : ${r.capturedIcons} captured, ${r.renamedIcons.length} renamed, `
     + `${r.newIcons.length} new, ${r.goneIcons.length} gone`
@@ -471,6 +501,44 @@ function selfTest() {
       judge({ ...base, figma: [], confirmed: new Map([['Button',
         { verdict: 'probably fine', checked: '2026-09-11', evidence: 'x' }]]) }),
       (r) => r.goneUnconfirmed.length === 1 && r.problems === 1],
+
+    // RETIRED — the one confirmation that outlives its component. Once the class is dropped the
+    // component is no longer captured, so nothing reports it gone, and the plain stale rule would
+    // force the record to be deleted to keep the gate green — erasing the decision it holds.
+    ['a retired record survives its own component and does not fail', () =>
+      judge({ ...base, confirmed: new Map([['Long gone',
+        { verdict: 'retired', checked: '2026-09-11', evidence: 'node not found; class removed' }]]) }),
+      (r) => r.retired.length === 1 && r.staleConfirmations.length === 0 && r.problems === 0],
+
+    ['a retired record is NAMED, not just counted', () =>
+      judge({ ...base, confirmed: new Map([['Long gone',
+        { verdict: 'retired', checked: '2026-09-11', evidence: 'because' }]]) }),
+      (r) => r.retired[0] && r.retired[0].name === 'Long gone' && r.retired[0].evidence === 'because'],
+
+    // ...and it must not become a way to silence a genuine stale row.
+    ['retired excuses only the row that carries it', () =>
+      judge({ ...base, confirmed: new Map([
+        ['Long gone', { verdict: 'retired', checked: '2026-09-11', evidence: 'x' }],
+        ['Folklore', { verdict: 'deleted', checked: '2026-09-01', evidence: 'x' }]]) }),
+      (r) => r.staleConfirmations.length === 1 && r.staleConfirmations[0] === 'Folklore'
+        && r.problems === 1],
+
+    // A component still reported gone that carries `retired` is a contradiction the gate should
+    // not paper over: it is still in the extracts, so it is not retired at all.
+    // `retired` claims two things: gone from Figma AND dropped from here. A component still in the
+    // extracts makes the second half false, so the row contradicts the repo and gets its own line
+    // rather than being filed under a verdict that reads as settled.
+    ['a retired verdict on a component still captured is a CONTRADICTION, named as one', () =>
+      judge({ ...base, figma: [], confirmed: new Map([['Button',
+        { verdict: 'retired', checked: '2026-09-11', evidence: 'x' }]]) }),
+      (r) => r.retiredButPresent.length === 1 && r.retiredButPresent[0].name === 'Button'
+        && r.goneUnconfirmed.length === 0 && r.goneConfirmed.length === 0 && r.problems === 1],
+
+    ['the reader accepts retired as a verdict', () => {
+      const f = join(tmpdir(), `pf-conf3-${process.pid}.tsv`);
+      writeFileSync(f, 'name\tnodeId\tverdict\tchecked\tevidence\nX\t1:2\tretired\t2026-09-11\tgone\n');
+      const m = readConfirmations(f); unlinkSync(f); return m;
+    }, (m) => m.get('X') && m.get('X').verdict === 'retired'],
 
     // A confirmation only excuses the component it names.
     ['a confirmation for one component does not excuse another', () =>
@@ -633,7 +701,9 @@ function selfTest() {
     + 'states only what the listing proves — unconfirmed until a Figma read settles it, a '
     + 'confirmed-still-published one stops failing but is still named, a confirmed deletion keeps '
     + 'failing until a `pending:` reason records the decision, an unrecognised verdict excuses '
-    + 'nothing in the reader OR in judge(), and a confirmation nothing reports gone is stale');
+    + 'nothing in the reader OR in judge(), and a confirmation nothing reports gone is stale — '
+    + 'except a `retired` one, which outlives its own component because it records what was '
+    + 'dropped and when, is named every run, and excuses only the row that carries it');
 }
 
 import { pathToFileURL } from 'node:url';

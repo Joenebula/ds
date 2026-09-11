@@ -13,7 +13,7 @@ packaged so Claude Design — and any HTML/CSS output — generates on-brand UI.
 | `tokens/design-tokens.json` | 177 tokens in W3C DTCG format. Generated. |
 | **`dist/fonts.css`** | **Open Sans variable (wght 300-800), self-hosted and base64-inlined. Generated.** |
 | `dist/tokens.css` | 365 CSS custom properties, light + dark. Generated. |
-| **`dist/components.css`** | **139 components, 283 variants, as ready classes. Generated.** |
+| **`dist/components.css`** | **138 components, 282 variants, as ready classes. Generated.** |
 | **`dist/type.css`** | **23 type classes, one per Figma text style. Generated.** |
 | `assets/icons/` | All 293 People First icons as individual SVGs. |
 | `docs/components.html` | Every component and variant, light and dark. |

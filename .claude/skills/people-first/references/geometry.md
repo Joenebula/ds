@@ -58,7 +58,6 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Navigation item** | 90 x 86 | 0 | 0 | 22 | 13px SemiBold | HORIZONTAL CENTER CENTER |
 | **Side navigation** | 90 wide | 0 | 0 | 0 | 13px | VERTICAL MIN MIN |
 | **Notification tabs** | 268 x 48 | 10 15 | 8 | 20 | 16px | HORIZONTAL CENTER MIN |
-| **Side navigation panel** | 268 x 416 | 10 | 0 | 5 | 16px | VERTICAL MIN MIN |
 | **Tab** | 40 x 34 | 6 0 | 0 | 10 | 16px | VERTICAL CENTER MIN |
 | **Navigation tabs** | auto x 36 | 0 | 0 | 40 | 16px SemiBold | HORIZONTAL CENTER MIN |
 | **Tertiary nav** | auto x 43 | 4 368 | 0 | 40 | 16px SemiBold | HORIZONTAL CENTER CENTER |
