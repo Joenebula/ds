@@ -47,7 +47,7 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Org chart node** | 293 x 48 | 0 | 8 | 0 | 16px |  |
 | **Layout container** | auto | 30 | 0 | 20 | 20px |  |
 | **Title panel** | auto x 135 | 40 20 | 0 | 10 | 18px | VERTICAL CENTER CENTER |
-| **Empty section** | auto x 212 | 0 | 0 | 35 | 20px SemiBold | HORIZONTAL CENTER MIN |
+| **Empty section** | auto x 212 | — | — | 35 | 20px SemiBold | HORIZONTAL CENTER MIN |
 | **Notification card** | auto x 113 | 15 20 | 8 | 15 | 13px SemiBold | HORIZONTAL CENTER MIN |
 | **Toast message** | 350 x 114 | 30 0 30 25 | 4 | 15 | 13px | HORIZONTAL CENTER MIN |
 | **Information box (row)** | auto x 56 | 0 | 0 | 0 | 13px |  |
