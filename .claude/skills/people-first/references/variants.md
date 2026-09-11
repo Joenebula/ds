@@ -450,10 +450,10 @@ Figma component actually binds.
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
-| Type=Information | — | — | `var(--pf-text-primary)` |
-| Type=Warning | — | — | `var(--pf-text-primary)` |
-| Type=Error | — | — | `var(--pf-text-primary)` |
-| Type=Success | — | — | `var(--pf-text-primary)` |
+| Type=Information | — | `var(--pf-border-info)` | `var(--pf-text-primary)` |
+| Type=Warning | — | `var(--pf-border-warning)` | `var(--pf-text-primary)` |
+| Type=Error | — | `var(--pf-border-negative)` | `var(--pf-text-primary)` |
+| Type=Success | — | `var(--pf-border-positive)` | `var(--pf-text-primary)` |
 
 ### Notification card
 

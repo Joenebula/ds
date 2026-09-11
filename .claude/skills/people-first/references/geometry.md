@@ -159,7 +159,7 @@ case, and table rows are far taller than a default table. Look values up here.
 | **AG field** | 140 x 43 | 2 4 | 8 | 10 | 12px | VERTICAL CENTER CENTER |
 | **Table (AG)** | 1705 x auto | — | 8 | — | 13px SemiBold | VERTICAL MIN MIN |
 | **Status** | 22 x 22 | — | 100 | — | — |  |
-| **Information box** | 440 x 56 | — | — | — | 13px | HORIZONTAL MIN MIN |
+| **Information box** | 440 x 56 | 10 10 10 4 | 8 | 10 | 13px Regular | HORIZONTAL CENTER MIN |
 | **Star rating** | auto x auto | — | — | — | 13px | VERTICAL CENTER CENTER |
 | **AI Assistant** | 1628 x auto | — | — | — | 20px | HORIZONTAL CENTER SPACE_BETWEEN |
 | **Adaptive card** | 478 x auto | — | — | 5 | 12px | VERTICAL MIN MIN |
