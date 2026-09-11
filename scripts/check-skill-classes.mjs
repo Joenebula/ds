@@ -129,6 +129,23 @@ const templateCount = readdirSync('dist/templates').filter(f => f.endsWith('.htm
 // that goes stale the moment another layout-NONE component qualifies.
 const innerLines = readFileSync('tokens/_raw/component-inner.tsv', 'utf8').trim().split('\n');
 const nInnerVariants = innerLines.length - 1;
+// The shell census, derived the same way check-component-art derives it — comments stripped
+// first, because a generated comment containing a comma otherwise swallows the rule below it
+// and the number silently undercounts. CLAUDE.md quotes this figure.
+const shellCss = readFileSync('dist/components.css', 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+const painted = new Set(), bareRule = new Set();
+for (const m of shellCss.matchAll(/([^{}@]+)\{([^{}]*)\}/g)) {
+  const paints = [...m[2].matchAll(/(^|;|\s)(background|background-image|background-color|color|border-color|box-shadow)\s*:\s*([^;}]+)/g)]
+    .some(d => !['transparent', 'none', '0'].includes(d[3].trim()));
+  for (const sel of m[1].split(',').map(x => x.trim()).filter(Boolean)) {
+    const c = /^\.(pf-[a-z0-9-]+)$|^\.(pf-[a-z0-9-]+)\[/.exec(sel);
+    if (!c) continue;
+    const name = c[1] || c[2];
+    if (sel === '.' + name) bareRule.add(name);
+    if (paints) painted.add(name);
+  }
+}
+const shellCount = [...bareRule].filter(n => !painted.has(n)).length;
 const nInnerComponents = new Set(innerLines.slice(1).map(l => l.split('\t')[0])).size;
 
 // README's own figures. It is the front door and nothing was checking it: it claimed 198
@@ -224,6 +241,7 @@ const figures = [
   ['icons', nIcons, /All (\d+) are in `assets\/icons\/`/g],
   ['text styles', nTextStyles, /\*\*(\d+) text styles\*\*/g],
   ['inventoried components', nInventory, /\*\*(\d+) published components\*\*/g],
+  ['classes with no paint', shellCount, /\*\*(\d+) classes with no paint\*\*/g],
   ['centred-child variants', nInnerVariants, /\*\*(\d+) variants across \d+ components?\*\*/g],
   ['components with a centred child', nInnerComponents, /\*\*\d+ variants across (\d+) components?\*\*/g],
 ];

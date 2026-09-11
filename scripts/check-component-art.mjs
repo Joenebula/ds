@@ -29,9 +29,26 @@ import { readFileSync } from 'node:fs';
 // for the whole component) and the templates give each label its own. So these three lost
 // their only paint — which is what this check is for noticing, and in this one case is the
 // fix rather than the fault. They were invisible before and are honest now.
-const SHELL_BASELINE = 5;
+//
+// Raised 5 -> 14, and none of the nine lost anything. The scanner below split a rule's
+// selector list on commas, and a generated comment above a bare rule became part of that
+// list whenever the comment contained a comma — which every SHAPE ONLY component's comment
+// does ("...binds a colour variable in Figma, so the class..."). So nine classes were never
+// entered in the census at all, and the check reported 5 of 14. Comments are stripped now.
+// The nine are `Field icons`, `Floaters`, `Horizontal scroll`, `Map`, `Notification image`,
+// `People`, `Stars`, `Tooltip` and `Waffle`: every one shape-only, carrying a measured box
+// and no paint because Figma binds them no colour variable. That is a real gap in what the
+// extract can reach, and it is now a number somebody can watch instead of a silence.
+const SHELL_BASELINE = 14;
 
-const css = readFileSync('dist/components.css', 'utf8');
+// COMMENTS OUT FIRST, because the rule scanner below reads everything between `}` and `{`
+// as a selector list and splits it on commas — and a generated comment sentence containing
+// a comma ("...binds a colour variable in Figma, so the class...") then ends up as the
+// "selector", so the rule that follows it is attributed to nothing. `pf-waffle` sat outside
+// this census for exactly that reason and its bare rule was never tested for paint. The
+// count only moved when an unrelated change happened to put a `}` immediately before it.
+// That is the third time this check has been found counting the wrong set.
+const css = readFileSync('dist/components.css', 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
 let failures = 0;
 
 // ---- 1. artwork reaches the stylesheet --------------------------------------

@@ -9120,6 +9120,146 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
   font-weight: 400;
 }
 
+/* Borders Figma does not draw as a 1px box: per-side weights, widths that are
+ * not 1px, and strokes switched off in the file. Measured into
+ * tokens/_raw/component-stroke-sides.tsv; every component absent from it strokes
+ * 1px on all four sides. */
+.pf-ag-field[data-state="Selected"] {
+  border-width: 2px 2px 2px 2px;
+}
+.pf-ai-button[data-style="Inverted"][data-hover="True"][data-mobile="False"] {
+  border-width: 2px 2px 2px 2px;
+}
+.pf-ai-button[data-style="Inverted"][data-hover="True"][data-mobile="True"] {
+  border-width: 2px 2px 2px 2px;
+}
+.pf-ai-button[data-style="Light mode"][data-hover="False"][data-mobile="False"] {
+  border-width: 2px 2px 2px 2px;
+}
+.pf-ai-button[data-style="Light mode"][data-hover="False"][data-mobile="True"] {
+  border-width: 2px 2px 2px 2px;
+}
+.pf-clock-in[data-type="Hover"] {
+  border-width: 1.5px 1.5px 1.5px 1.5px;
+}
+.pf-clock-in[data-type="Standard"] {
+  border-width: 1.5px 1.5px 1.5px 1.5px;
+}
+.pf-config-parent-menu {
+  border-width: 0 0 1px 0;
+}
+.pf-draggable-card[data-state="Click"] {
+  border-width: 2px 2px 2px 2px;
+}
+.pf-draggable-card[data-state="Drag"] {
+  border-width: 2px 2px 2px 2px;
+}
+.pf-filter-tab-single[data-selected="False"][data-breakpoint="Desktop"][data-state="Default"] {
+  border-width: 0 1px 1px 0;
+}
+.pf-filter-tab-single[data-selected="False"][data-breakpoint="Desktop"][data-state="Hover"] {
+  border-width: 0 1px 1px 0;
+}
+.pf-filter-tab-single[data-selected="False"][data-breakpoint="Mobile"][data-state="Default"] {
+  border-width: 0 1px 1px 0;
+}
+.pf-filter-tab-single[data-selected="False"][data-breakpoint="Mobile"][data-state="Hover"] {
+  border-width: 0 1px 1px 0;
+}
+.pf-filter-tab-single[data-selected="False"][data-breakpoint="Tablet"][data-state="Default"] {
+  border-width: 0 1px 1px 0;
+}
+.pf-filter-tab-single[data-selected="False"][data-breakpoint="Tablet"][data-state="Hover"] {
+  border-width: 0 1px 1px 0;
+}
+.pf-filter-tab-single[data-selected="True"][data-breakpoint="Desktop"][data-state="Default"] {
+  border-width: 0 1px 0 0;
+}
+.pf-filter-tab-single[data-selected="True"][data-breakpoint="Mobile"][data-state="Default"] {
+  border-width: 0 1px 0 0;
+}
+.pf-filter-tab-single[data-selected="True"][data-breakpoint="Tablet"][data-state="Default"] {
+  border-width: 0 1px 0 0;
+}
+.pf-nav-tabs[data-status="Hover"][data-mobile="False"] {
+  border-width: 0 0 1px 0;
+}
+.pf-nav-tabs[data-status="Hover"][data-mobile="True"] {
+  border-width: 0 0 1px 0;
+}
+.pf-nav-tabs[data-status="Selected"][data-mobile="False"] {
+  border-width: 1px 1px 0 1px;
+}
+.pf-nav-tabs[data-status="Selected"][data-mobile="True"] {
+  border-width: 1px 1px 0 1px;
+}
+.pf-nav-tabs[data-status="Unselected"][data-mobile="False"] {
+  border-width: 0 0 1px 0;
+}
+.pf-nav-tabs[data-status="Unselected"][data-mobile="True"] {
+  border-width: 0 0 1px 0;
+}
+.pf-notification-tabs[data-state="Default"][data-selected="No"] {
+  border-width: 0 0 1px 0;
+}
+.pf-notification-tabs[data-state="Hover"][data-selected="No"] {
+  border-width: 0 0 1px 0;
+}
+.pf-notification-tabs[data-state="Selected"][data-selected="Yes"] {
+  border-width: 0 0 1px 0;
+}
+.pf-side-panel-header[data-size="Default"] {
+  border-width: 0 0 1px 0;
+}
+.pf-single-layout-card[data-mobile="false"] {
+  border-width: 0 1px 0 0;
+}
+.pf-single-layout-card[data-mobile="true"] {
+  border-width: 0 0 1px 0;
+}
+.pf-sticky-footer[data-default="Default"] {
+  border-width: 1px 0 0 0;
+}
+.pf-sticky-footer[data-default="Stepper"] {
+  border-width: 1px 0 0 0;
+}
+.pf-table-cell-ag[data-type="Checkbox"][data-style="Default"] {
+  border-width: 0;
+}
+.pf-table-cell-ag[data-type="Checkbox"][data-style="Hover"] {
+  border-width: 0;
+}
+.pf-table-cell-ag[data-type="Checkbox"][data-style="Stripe"] {
+  border-width: 0;
+}
+.pf-table-cell-ag[data-type="Default"][data-style="Default"] {
+  border-width: 0;
+}
+.pf-table-cell-ag[data-type="Default"][data-style="Hover"] {
+  border-width: 0;
+}
+.pf-table-cell-ag[data-type="Default"][data-style="Stripe"] {
+  border-width: 0;
+}
+.pf-table-header-ag[data-alignment="Left"] {
+  border-width: 0;
+}
+.pf-table-header-ag[data-alignment="Right"] {
+  border-width: 0;
+}
+.pf-table-header-icons[data-variant="Context menu"][data-state="Active"] {
+  border-width: 0;
+}
+.pf-table-header-icons[data-variant="Filter"][data-state="Filtered"] {
+  border-width: 0;
+}
+.pf-table-header-icons[data-variant="Sort"][data-state="Ascending"] {
+  border-width: 0;
+}
+.pf-table-header-icons[data-variant="Sort"][data-state="Descending"] {
+  border-width: 0;
+}
+
 /* Boxes that hold one centred child. Figma lays these out as NONE — no auto-
  * layout — so the alignment is not in the geometry extract; it is measured
  * separately in tokens/_raw/component-inner.tsv, along with the child size for
@@ -9189,123 +9329,11 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
   width: 16px;
   height: 16px;
 }
-.pf-waffle[data-theme="Berry pink"] {
+.pf-waffle {
   display: inline-grid;
   place-items: center;
 }
-.pf-waffle[data-theme="Berry pink"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Blue lagoon"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Blue lagoon"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Classic"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Classic"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Cobalt blue"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Cobalt blue"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Cool grey"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Cool grey"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Dark mode"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Dark mode"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Default - Cranberry red"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Default - Cranberry red"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Fern green"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Fern green"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Orange flame"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Orange flame"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Purple iris"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Purple iris"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Purple orchid"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Purple orchid"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Royal purple"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Royal purple"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Striking red"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Striking red"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Teal ocean"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Teal ocean"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Velvet red"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Velvet red"] > * {
+.pf-waffle > * {
   width: 32px;
   height: 32px;
 }

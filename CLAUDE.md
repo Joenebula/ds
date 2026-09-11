@@ -128,6 +128,44 @@ version of this centred nothing while sizing correctly, which looks fixed.
 `npm run verify` runs `check-component-inner.mjs`, which renders each variant and measures
 where the child actually landed.
 
+## Borders: which edges, and how thick
+
+The colour extract records one thing about a stroke — its token — so the generator painted
+every bound stroke as `1px solid <token>`: a box, all four sides, one pixel. Figma says
+otherwise 56 times, and none of it was visible to the pipeline:
+
+- **26 variants stroke some edges and not others.** `Nav tabs` is a FILE-FOLDER tab, not an
+  underlined one: unselected it rules its bottom edge; selected it rules top, left and right
+  and leaves the bottom OPEN so the tab joins the panel below, with 8px top corners. Drawn
+  as a box, every tab in the strip became an outlined rectangle and the selected one stopped
+  reading as selected. `Table cell (AG)`, `Filter tab single`, `Sticky footer`, `Side panel
+  header` and `Config parent menu` are the same mistake: a rule on one edge, drawn as a cage.
+- **12 stroke all four sides at a width that is not 1px** — `AI button`, `AI banner`,
+  `Draggable card` and `AG field` at 2px, `Clock in` at 1.5px. The 1px was not measured by
+  eye; it was a default nobody chose.
+- **18 keep a stroke paint Figma has switched OFF** and draw no border at all. Every
+  `Table cell (AG)` variant is one, so a table rendered as a grid of boxes.
+
+Measured into `tokens/_raw/component-stroke-sides.tsv` by
+`scripts/extract-component-stroke-sides.mjs`. **Any component absent from that file strokes
+1px on all four sides**, which is what the generator already emitted; the file is the
+departures and only the departures. `npm run verify` runs `check-stroke-sides.mjs`, which
+renders each one and reads the border back.
+
+Four components are measured but not emitted — `AI banner`, `AI card modal`, `Mobile bottom
+navigation` and `Status` bind no stroke token at all (two are stroked with a gradient, which
+no colour variable can carry; one keeps a paint switched off; one has no stroke paint), so
+there is no border style to widen. A width with no colour is not a border. The build names
+them rather than skipping them quietly.
+
+**A rule must be written with the axes the STYLESHEET uses, not the axes Figma names.**
+Figma calls a variant `Type=Standard, Darkmode=False`; the stylesheet collapses an axis that
+changes nothing, so the class is `.pf-clock-in[data-type="Standard"]` and a page writes only
+`data-type`. The first version generated the full Figma string, so the rule matched nothing
+any page produces and sat in the file looking correct. `check-stroke-sides` did not catch it
+either — it built its own markup and wrote every axis. `check-off-system` did, by noticing
+the page still had to set the width by hand.
+
 ## What the component classes do and do not carry
 
 A component is modelled as **one outer box plus three colour slots**
@@ -175,11 +213,17 @@ one appears. Six had slipped in, because the rule was applied to a child's fill 
 and not to its text.
 
 (The same section used to cite "69 classes with no paint". That number was wrong —
-`check-component-art.mjs` was counting rules rather than classes. The real figure is **5**,
-and it was never the right measure anyway: a class can have a perfectly good background and
-still be an empty box. It was 2 until `Calendar picker`, `Time picker` and `Repeating group`
-had their one text colour dropped, which is explained in `docs/FIGMA-ISSUES.md` §11 — for
-those three, losing their only paint was the fix rather than the fault.)
+`check-component-art.mjs` was counting rules rather than classes. The real figure is
+**14 classes with no paint**, and it was never the right measure anyway: a class can have a
+perfectly good background and still be an empty box. It read 2 until `Calendar picker`,
+`Time picker` and `Repeating group` had their one text colour dropped, which is explained in
+`docs/FIGMA-ISSUES.md` §11 — for those three, losing their only paint was the fix rather
+than the fault. It then read 5 until the census was found to be splitting a rule's selector
+list on commas, so a generated comment containing one became the "selector" and the rule
+below it was attributed to nothing: nine shape-only classes — `Field icons`, `Floaters`,
+`Horizontal scroll`, `Map`, `Notification image`, `People`, `Stars`, `Tooltip`, `Waffle` —
+had never been in the census at all. None of them lost anything; the check simply could not
+see them. That is the third time this one check has been found counting the wrong set.)
 
 ## The rule: only design-system components
 

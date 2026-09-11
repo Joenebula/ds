@@ -706,6 +706,107 @@ if (composedRules.length) {
 //
 // `inline-grid` rather than `grid` because these sit inline beside a heading, which is
 // where the reported one was; the size variants already set their own box.
+// WHICH SIDES ARE ACTUALLY STROKED, AND HOW THICKLY.
+//
+// The colour extract records a stroke's TOKEN and nothing else, so every component with a
+// bound stroke was painted `border: 1px solid <token>` — a cage, one pixel, all four
+// sides. `component-stroke-sides.tsv` carries the departures, measured from Figma: which
+// edges carry a weight, what that weight is, and whether the paint is switched on at all.
+//
+// `Nav tabs` is the case that surfaced it. It is a file-folder tab: unselected it rules
+// only its BOTTOM edge; selected it rules top, left and right and leaves the bottom OPEN
+// so the tab joins the panel below. Drawn as a box, every tab became an outlined rectangle
+// and the selected one no longer read as selected.
+//
+// These land on the variant selector for the same reason the centred-child rules do — the
+// per-variant geometry rules outrank the bare class whatever the order — and after the
+// colour rules, which set `border-color` and never a width, so the two do not fight.
+// WHICH AXES A CLASS ACTUALLY USES — and why a measured variant string is not the answer.
+//
+// Figma names a variant with every axis it has: `Type=Standard, Darkmode=False`. The
+// stylesheet does not: the colour extract collapses an axis that changes nothing, so the
+// rules for Clock in are `.pf-clock-in[data-type="Standard"]` and a page writes only
+// data-type. A rule generated from the full Figma string therefore reads
+// `[data-type="Standard"][data-darkmode="False"]` and matches NOTHING a page ever writes —
+// it sits in the file looking correct and does nothing, which is this project's oldest
+// failure mode wearing a new hat. check-stroke-sides did not catch it either, because the
+// check builds its own markup and wrote every axis; check-off-system caught it, by noticing
+// the page still had to set the border width by hand.
+//
+// The authority is the stylesheet already generated above: whatever `data-` attributes its
+// own selectors use for this class are the axes a page is expected to write.
+const axesUsedBy = (base) => {
+  const seen = new Set();
+  // A run of attribute selectors, allowing SPACES inside a value: Figma names a size
+  // `XS - 28px`, and a pattern that stopped at whitespace found no axes for Circle icons
+  // at all, so all four sizes collapsed onto the bare class and a 28px circle got the
+  // 52px circle's icon. check-component-inner caught it, which is what it is for.
+  const re = new RegExp(`\\.${base}((?:\\[[^\\]]*\\])+)`, 'g');
+  for (const m of out.join('\n').matchAll(re))
+    for (const a of m[1].matchAll(/\[data-([a-z0-9-]+)=/g)) seen.add(a[1]);
+  return seen;
+};
+// Build a variant selector from a Figma variant string, keeping only the axes the class
+// really uses. Returns null when the component has no attribute selectors at all, which
+// means the class is not variant-addressable and the rule belongs on the bare class.
+const variantSel = (base, variant) => {
+  if (!variant) return '';
+  const axes = axesUsedBy(base);
+  return variant.split(', ').map(v => {
+    const axis = kebab(v.slice(0, v.indexOf('=')));
+    return axes.has(axis) ? `[data-${axis}="${v.slice(v.indexOf('=') + 1)}"]` : '';
+  }).join('');
+};
+
+let strokeSideSkips = [];
+const sideClashes = new Set();
+const sideRows = existsSync('tokens/_raw/component-stroke-sides.tsv')
+  ? tsv('tokens/_raw/component-stroke-sides.tsv') : [];
+if (sideRows.length) {
+  const noStrokeToken = new Set();
+  const sideSeen = new Map();
+  out.push('/* Borders Figma does not draw as a 1px box: per-side weights, widths that are');
+  out.push(' * not 1px, and strokes switched off in the file. Measured into');
+  out.push(' * tokens/_raw/component-stroke-sides.tsv; every component absent from it strokes');
+  out.push(' * 1px on all four sides. */');
+  for (const r of sideRows) {
+    const base = cls(r.component);
+    if (!byComponent.has(r.component)) continue;   // no class to hang it on
+    // A WIDTH WITH NO COLOUR IS NOT A BORDER. A component gets a border STYLE at all only
+    // where some variant binds a stroke token, and four bind none — for three different
+    // reasons: `AI banner` and `AI card modal` are stroked with a GRADIENT, which no colour
+    // variable can carry; `Status` keeps a paint Figma has switched off; `Mobile bottom
+    // navigation` binds no stroke paint at all. Emitting a width on any of them paints
+    // nothing, because border-style stays `none`. They are skipped and NAMED rather than
+    // skipped silently — the missing colour is a real gap in what the extract can carry.
+    if (!byComponent.get(r.component).some(x => x.stroke)) { noStrokeToken.add(r.component); continue; }
+    const at = variantSel(base, r.variant);
+    const px = n => (Number(n) ? `${Number(n)}px` : '0');
+    const width = r.visible === 'no' ? '0'
+      : `${px(r.top)} ${px(r.right)} ${px(r.bottom)} ${px(r.left)}`;
+    // DROPPING AN AXIS CAN MAKE TWO ROWS ONE. Where the two then disagree there is no
+    // honest rule to write — the stylesheet cannot tell the variants apart — so nothing is
+    // written and the clash is named. Where they agree, one rule covers both, which is
+    // what collapsing the axis meant in the first place.
+    const key = `.${base}${at}`;
+    if (sideSeen.has(key)) {
+      if (sideSeen.get(key) !== width) sideClashes.add(`${r.component} (${key})`);
+      continue;
+    }
+    sideSeen.set(key, width);
+    out.push(`${key} {`);
+    // A paint that is switched off in Figma is kept in the file and draws nothing. The
+    // colour rule above still binds its token — mirroring Figma, which also keeps the paint
+    // — and the width is what makes it invisible, exactly as it is in the design.
+    out.push(`  border-width: ${width};`);
+    out.push('}');
+    ruleCount++;
+  }
+  out.push('');
+  if (noStrokeToken.size)
+    strokeSideSkips = [...noStrokeToken].sort();
+}
+
 const innerRows = existsSync('tokens/_raw/component-inner.tsv')
   ? tsv('tokens/_raw/component-inner.tsv') : [];
 if (innerRows.length) {
@@ -726,11 +827,7 @@ if (innerRows.length) {
     // first version of this put `inline-grid` on the bare class, and the icon rendered
     // 18px inside a 28px circle sitting against the top edge: correct size, no centring,
     // which is half the fault the user reported and looks like the whole thing is fixed.
-    const at = r.variant
-      ? r.variant.split(', ').map(v =>
-          `[data-${kebab(v.slice(0, v.indexOf('=')))}="${v.slice(v.indexOf('=') + 1)}"]`).join('')
-      : '';
-    const box = `.${base}${at}`;
+    const box = `.${base}${variantSel(base, r.variant)}`;
     if (!seen.has(box)) {
       seen.add(box);
       out.push(`${box} {`);
@@ -741,6 +838,12 @@ if (innerRows.length) {
     }
     const [w, h] = (r.child || '').split('x').map(Number);
     if (!Number.isFinite(w) || !Number.isFinite(h)) continue;
+    // Where the class is not variant-addressable — `Waffle` is shape-only, so the
+    // stylesheet has no `[data-theme=...]` rule for it and a page cannot select one — all
+    // fifteen of its variants collapse onto the bare class. They measure the same 32px
+    // child, so one rule is the whole truth; fifteen identical copies of it were not.
+    if (seen.has(box + ' > *')) continue;
+    seen.add(box + ' > *');
     out.push(`${box} > * {`);
     out.push(`  width: ${w}px;`);
     out.push(`  height: ${h}px;`);
@@ -754,6 +857,14 @@ mkdirSync('dist', { recursive: true });
 writeFileSync('dist/components.css', out.join('\n'));
 
 console.log(`components.css written — ${componentCount} components, ${ruleCount} rules`);
+if (sideClashes.size)
+  console.log(`  border width NOT emitted for ${sideClashes.size} variant(s) — the stylesheet `
+    + `collapses the axis that tells them apart, so no rule can distinguish them: `
+    + `${[...sideClashes].sort().join(', ')}`);
+if (strokeSideSkips.length)
+  console.log(`  border width measured but NOT emitted for ${strokeSideSkips.length} component(s) — `
+    + `they bind no stroke token, so the class has no border style to widen (gradients and `
+    + `paints switched off in Figma): ${strokeSideSkips.join(', ')}`);
 if (shapeOnly.length) {
   console.log(`  SHAPE ONLY (no colour bound in Figma) : ${shapeOnly.length}`);
   console.log(`    ${shapeOnly.sort().join(', ')}`);

@@ -375,6 +375,32 @@ writing them is not a violation of rule 2:
 Keep that CSS in one block and label it local. If something in it restates a Figma
 value — a colour, a height, a radius — that is a bug, not a local style.
 
+### Never draw a component's border yourself
+
+A class carries the edges Figma strokes and the width it strokes them at. Do not add a
+`border`, a `border-bottom` or an underline to a component class — the class already knows,
+and 56 variants do something a 1px box would get wrong.
+
+`Nav tabs` is the one to remember, because a page got it wrong twice. It is a **file-folder
+tab**, not an underlined one:
+
+```html
+<nav class="pf-secondary-nav" data-mobile="False">
+  <button class="pf-nav-tabs" data-status="Selected"   data-mobile="False">Overview</button>
+  <button class="pf-nav-tabs" data-status="Unselected" data-mobile="False">Profile</button>
+</nav>
+```
+
+Unselected, the tab rules its bottom edge. Selected, it rules top, left and right and leaves
+the bottom OPEN, with 8px top corners, so it joins the panel below. There is no 3px bar —
+every variant has exactly one child, the label. A page that drew its own underline also had
+to hold the tabs at the top of the strip, and they ended up four pixels clear of the rule
+running out to either side.
+
+The strip's alignment is the class's too: `Secondary nav` aligns its tabs to its BOTTOM
+edge (Figma counter-axis MAX). Setting `align-items` on it is an override, and it is what
+made the sub nav look like it was floating.
+
 ### A box that holds one icon centres and sizes it ITSELF
 
 `Circle icons`, `Status` and `Waffle` each hold one smaller thing in their middle. Figma

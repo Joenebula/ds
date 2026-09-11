@@ -9195,6 +9195,146 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
   font-weight: 400;
 }
 
+/* Borders Figma does not draw as a 1px box: per-side weights, widths that are
+ * not 1px, and strokes switched off in the file. Measured into
+ * tokens/_raw/component-stroke-sides.tsv; every component absent from it strokes
+ * 1px on all four sides. */
+.pf-ag-field[data-state="Selected"] {
+  border-width: 2px 2px 2px 2px;
+}
+.pf-ai-button[data-style="Inverted"][data-hover="True"][data-mobile="False"] {
+  border-width: 2px 2px 2px 2px;
+}
+.pf-ai-button[data-style="Inverted"][data-hover="True"][data-mobile="True"] {
+  border-width: 2px 2px 2px 2px;
+}
+.pf-ai-button[data-style="Light mode"][data-hover="False"][data-mobile="False"] {
+  border-width: 2px 2px 2px 2px;
+}
+.pf-ai-button[data-style="Light mode"][data-hover="False"][data-mobile="True"] {
+  border-width: 2px 2px 2px 2px;
+}
+.pf-clock-in[data-type="Hover"] {
+  border-width: 1.5px 1.5px 1.5px 1.5px;
+}
+.pf-clock-in[data-type="Standard"] {
+  border-width: 1.5px 1.5px 1.5px 1.5px;
+}
+.pf-config-parent-menu {
+  border-width: 0 0 1px 0;
+}
+.pf-draggable-card[data-state="Click"] {
+  border-width: 2px 2px 2px 2px;
+}
+.pf-draggable-card[data-state="Drag"] {
+  border-width: 2px 2px 2px 2px;
+}
+.pf-filter-tab-single[data-selected="False"][data-breakpoint="Desktop"][data-state="Default"] {
+  border-width: 0 1px 1px 0;
+}
+.pf-filter-tab-single[data-selected="False"][data-breakpoint="Desktop"][data-state="Hover"] {
+  border-width: 0 1px 1px 0;
+}
+.pf-filter-tab-single[data-selected="False"][data-breakpoint="Mobile"][data-state="Default"] {
+  border-width: 0 1px 1px 0;
+}
+.pf-filter-tab-single[data-selected="False"][data-breakpoint="Mobile"][data-state="Hover"] {
+  border-width: 0 1px 1px 0;
+}
+.pf-filter-tab-single[data-selected="False"][data-breakpoint="Tablet"][data-state="Default"] {
+  border-width: 0 1px 1px 0;
+}
+.pf-filter-tab-single[data-selected="False"][data-breakpoint="Tablet"][data-state="Hover"] {
+  border-width: 0 1px 1px 0;
+}
+.pf-filter-tab-single[data-selected="True"][data-breakpoint="Desktop"][data-state="Default"] {
+  border-width: 0 1px 0 0;
+}
+.pf-filter-tab-single[data-selected="True"][data-breakpoint="Mobile"][data-state="Default"] {
+  border-width: 0 1px 0 0;
+}
+.pf-filter-tab-single[data-selected="True"][data-breakpoint="Tablet"][data-state="Default"] {
+  border-width: 0 1px 0 0;
+}
+.pf-nav-tabs[data-status="Hover"][data-mobile="False"] {
+  border-width: 0 0 1px 0;
+}
+.pf-nav-tabs[data-status="Hover"][data-mobile="True"] {
+  border-width: 0 0 1px 0;
+}
+.pf-nav-tabs[data-status="Selected"][data-mobile="False"] {
+  border-width: 1px 1px 0 1px;
+}
+.pf-nav-tabs[data-status="Selected"][data-mobile="True"] {
+  border-width: 1px 1px 0 1px;
+}
+.pf-nav-tabs[data-status="Unselected"][data-mobile="False"] {
+  border-width: 0 0 1px 0;
+}
+.pf-nav-tabs[data-status="Unselected"][data-mobile="True"] {
+  border-width: 0 0 1px 0;
+}
+.pf-notification-tabs[data-state="Default"][data-selected="No"] {
+  border-width: 0 0 1px 0;
+}
+.pf-notification-tabs[data-state="Hover"][data-selected="No"] {
+  border-width: 0 0 1px 0;
+}
+.pf-notification-tabs[data-state="Selected"][data-selected="Yes"] {
+  border-width: 0 0 1px 0;
+}
+.pf-side-panel-header[data-size="Default"] {
+  border-width: 0 0 1px 0;
+}
+.pf-single-layout-card[data-mobile="false"] {
+  border-width: 0 1px 0 0;
+}
+.pf-single-layout-card[data-mobile="true"] {
+  border-width: 0 0 1px 0;
+}
+.pf-sticky-footer[data-default="Default"] {
+  border-width: 1px 0 0 0;
+}
+.pf-sticky-footer[data-default="Stepper"] {
+  border-width: 1px 0 0 0;
+}
+.pf-table-cell-ag[data-type="Checkbox"][data-style="Default"] {
+  border-width: 0;
+}
+.pf-table-cell-ag[data-type="Checkbox"][data-style="Hover"] {
+  border-width: 0;
+}
+.pf-table-cell-ag[data-type="Checkbox"][data-style="Stripe"] {
+  border-width: 0;
+}
+.pf-table-cell-ag[data-type="Default"][data-style="Default"] {
+  border-width: 0;
+}
+.pf-table-cell-ag[data-type="Default"][data-style="Hover"] {
+  border-width: 0;
+}
+.pf-table-cell-ag[data-type="Default"][data-style="Stripe"] {
+  border-width: 0;
+}
+.pf-table-header-ag[data-alignment="Left"] {
+  border-width: 0;
+}
+.pf-table-header-ag[data-alignment="Right"] {
+  border-width: 0;
+}
+.pf-table-header-icons[data-variant="Context menu"][data-state="Active"] {
+  border-width: 0;
+}
+.pf-table-header-icons[data-variant="Filter"][data-state="Filtered"] {
+  border-width: 0;
+}
+.pf-table-header-icons[data-variant="Sort"][data-state="Ascending"] {
+  border-width: 0;
+}
+.pf-table-header-icons[data-variant="Sort"][data-state="Descending"] {
+  border-width: 0;
+}
+
 /* Boxes that hold one centred child. Figma lays these out as NONE — no auto-
  * layout — so the alignment is not in the geometry extract; it is measured
  * separately in tokens/_raw/component-inner.tsv, along with the child size for
@@ -9264,123 +9404,11 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
   width: 16px;
   height: 16px;
 }
-.pf-waffle[data-theme="Berry pink"] {
+.pf-waffle {
   display: inline-grid;
   place-items: center;
 }
-.pf-waffle[data-theme="Berry pink"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Blue lagoon"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Blue lagoon"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Classic"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Classic"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Cobalt blue"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Cobalt blue"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Cool grey"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Cool grey"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Dark mode"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Dark mode"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Default - Cranberry red"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Default - Cranberry red"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Fern green"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Fern green"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Orange flame"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Orange flame"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Purple iris"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Purple iris"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Purple orchid"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Purple orchid"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Royal purple"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Royal purple"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Striking red"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Striking red"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Teal ocean"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Teal ocean"] > * {
-  width: 32px;
-  height: 32px;
-}
-.pf-waffle[data-theme="Velvet red"] {
-  display: inline-grid;
-  place-items: center;
-}
-.pf-waffle[data-theme="Velvet red"] > * {
+.pf-waffle > * {
   width: 32px;
   height: 32px;
 }
@@ -9695,7 +9723,7 @@ svg { display: block; }
    button renders as an empty outline. That is a fault in the design system, not in this
    page; it is written up in docs/FIGMA-ISSUES.md section 6 with the suggested binding
    (`Text/Always white`, 13.03:1). Overridden here only so the test screen is legible. */
-.pf-clock-in { cursor: pointer; border-width: 1px; border-style: solid; }
+.pf-clock-in { cursor: pointer; }
 :root[data-theme="dark"] .pf-clock-in,
 .pf-clock-in[data-pf-issue="6"] { color: var(--pf-text-always-white); }
 @media (prefers-color-scheme: dark) {
@@ -9720,25 +9748,25 @@ svg { display: block; }
    --pf-bg-primary, which is white in light mode and so looked right, and a DIFFERENT
    grey in dark mode — which is the band that showed up. The component class already
    carries the correct token; using it is the whole fix. */
-/* Layout only — the 44px height, the fill and the text colour come from the class. */
-.pf-secondary-nav { width: 100%; display: flex; align-items: stretch;
-                    justify-content: center; gap: 0; }
+/* Width only. The 44px height, the fill, the text colour AND the vertical alignment all
+   come from the class: Figma's counter-axis alignment on this frame is MAX, so the tabs sit
+   on the strip's bottom edge. This used to say `align-items: stretch`, which is an override
+   of a property the component owns — the tabs then sat at the TOP of the strip, four pixels
+   clear of the rule running out to either side of them, and the sub nav read as floating. */
+.pf-secondary-nav { width: 100%; }
 /* pf-new: the rules running out to either side of the tab group are children of the
-   Secondary nav frame in Figma, not part of its outer box. */
+   Secondary nav frame in Figma (two LINE nodes at y=44), not part of its outer box. */
 .pf-secondary-nav::before, .pf-secondary-nav::after {
   content: ""; flex: 1 1 auto; align-self: flex-end;
   border-bottom: 1px solid var(--pf-border-default-full); }
-/* Layout and behaviour only. Height (40), padding (0 20), gap (10), the 1px stroke and
-   every colour come from the class. Overriding height to 44 and replacing the stroke with
-   a bottom rule was undoing the extract — the 44 belongs to the strip, not the tab. */
+/* Behaviour only. Height, padding, gap, the stroke and every colour come from the class.
+   There is no underline here any more: Nav tabs is a FILE-FOLDER tab in Figma, not an
+   underlined one. Unselected it strokes its bottom edge; selected it strokes top, left and
+   right and leaves the bottom OPEN so the tab joins the panel below, with 8px 8px 0 0
+   corners. The page used to draw a 3px bar under the selected tab and claim in a comment
+   that Figma's Nav tabs had one as its second child — every variant has exactly one child,
+   the label. The class carries the real shape now. */
 .pf-nav-tabs { cursor: pointer; }
-/* pf-new: the selected underline. In Figma Nav tabs is a VERTICAL stack (gap 10) whose
-   second child is a 3px bar; the outer-box extract cannot reach a child, so it is drawn
-   here. Transparent on the unselected tabs keeps every tab the same height. */
-.pf-nav-tabs::after { content: ""; display: block; align-self: stretch; height: 3px;
-                      background: transparent; }
-/* pf-new: as above — the 3px bar is the stack's second child. */
-.pf-nav-tabs[data-status="Selected"]::after { background: var(--pf-bg-theme); }
 
 .content { padding: var(--pf-space-large); display: flex; flex-direction: column;
            gap: var(--pf-space-large); }
