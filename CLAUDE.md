@@ -125,16 +125,22 @@ same defect `component-variants.tsv` was fixed for in `6218a8d`: without an id, 
 indistinguishable from a deletion plus an addition. The first run after the fix reports 5 new and
 8 gone, and almost none of it is either:
 
-| `icons.tsv` | Figma | what it really is |
-|---|---|---|
-| `addres book` | `Address book` | a typo fixed in Figma |
-| `Calendarcross` | `Calendar cross` | spacing fixed in Figma |
-| `Taxes coins` | `Coins` + `Tax` | split into two |
-| `Size=L/M/S/XS - ..px` | `Circle icons` | **not a Figma change at all** — `extract-icons.mjs` captured one component set's four VARIANTS as four separate icons |
-| `unnamed-813678321` | — | an unnamed node captured as an icon |
+| `icons.tsv` | Figma | what it really is | status |
+|---|---|---|---|
+| ~~`addres book`~~ | `Address book` | a typo fixed in Figma | **corrected** — name only, artwork was already right |
+| ~~`Calendarcross`~~ | `Calendar cross` | spacing fixed in Figma | **corrected** — as above |
+| `Taxes coins` | `Coins` + `Tax` | split into two | needs a Figma read for the two new glyphs |
+| `Size=L/M/S/XS - ..px` | `Circle icons` | **not a Figma change at all** — `extract-icons.mjs` captured one component set's four VARIANTS as four separate icons | needs the extractor fixed, then a re-read |
+| `unnamed-813678321` | — | an unnamed node captured as an icon | needs a Figma read to identify or drop |
 
-Pair them by eye before importing anything. Giving `icons.tsv` an id column is the real fix and
-needs a re-extract that carries one.
+The two marked corrected needed no Figma call: the SVG on disk was already the right artwork, and
+only the name was wrong, so it was a rename in `icons.tsv` plus a `git mv`. The rest genuinely
+need a read and are left failing rather than declared — **a gate turned green by declaring a bug
+acceptable is worse than one that is honestly red.** Nine actionable items with a written
+diagnosis is a different thing from 286 unreadable ones.
+
+Pair the two lists by eye before importing anything. Giving `icons.tsv` an id column is the real
+fix and needs a re-extract that carries one.
 
 ## Re-extracting
 
