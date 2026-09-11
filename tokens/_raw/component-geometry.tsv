@@ -24,18 +24,18 @@ Table header icons	24 x 24	10	4	10	—	HORIZONTAL CENTER CENTER	RE-READ 2026-09-
 Selected action banner	auto x 48	8 20	8	—	16px	HORIZONTAL CENTER SPACE_BETWEEN	RE-READ 2026-09-11: UNCHANGED — Background/Tertiary and Text/Primary both still bound (screened with get_variable_defs on 23862:16596)	23862:16596
 AG sort item	auto x 52	16 20	0	20	13px	HORIZONTAL CENTER MIN	RE-READ 2026-09-11: State=Default is UNCHANGED. State=Hover and State=Active have moved Background/Theme -> Background/Light theme and are KNOWN STALE. Text/Primary is unchanged on all three	30792:46426
 AG Filter menus	208 x 252	16	4	20	12px	VERTICAL CENTER MIN	RE-READ 2026-09-11: UNCHANGED — Filter menu/Background, Filter menu/Border, Text/Primary and Text/Disabled all still bound (screened with get_variable_defs on 30782:46404)	30782:46404
-Card	auto	20	8	20	20px title	VERTICAL CENTER MIN	shadow 0 0 4px	5726:69614
-Content cards	auto	20	8	20	16px	VERTICAL MIN MIN		20755:32197
-Settings card	auto	20	8	10	13px SemiBold	VERTICAL MIN MIN	shadow 0 1 3px	6033:65712
-Configuration tile	auto x 260	40 20	8	10	24px	VERTICAL CENTER CENTER	shadow 0 0 4px	7063:83776
-Draggable card	auto x 50	10 15	8	20	16px	HORIZONTAL CENTER MIN		19979:2091
-Accordion	auto x 84	20	8	—	20px	HORIZONTAL CENTER SPACE_BETWEEN		16812:1710
-Side panel	375 wide	0	mixed	0	20px	VERTICAL MIN MIN	shadow 0 0 4px	13909:5302
-Side panel header	auto x 60	10 15	0	10	20px	HORIZONTAL CENTER MAX		18222:8378
-Sticky footer	auto x 52	10 15	0	20	13px SemiBold	HORIZONTAL CENTER MIN		20184:1662
+Card	auto	20	8	20	20px title	VERTICAL CENTER MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	5726:69614
+Content cards	auto	20	8	20	16px	VERTICAL MIN MIN	RE-READ 2026-09-11: stroke has moved Border/Default -> Border/Default full, which is unextracted, so the row is left as captured and is KNOWN STALE	20755:32197
+Settings card	auto	20	8	10	13px SemiBold	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	6033:65712
+Configuration tile	auto x 260	40 20	8	10	24px	VERTICAL CENTER CENTER	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	7063:83776
+Draggable card	auto x 50	10 15	8	20	16px	HORIZONTAL CENTER MIN	RE-READ 2026-09-11, MEASURED per variant: Click and Drag are UNCHANGED. Three rows are KNOWN STALE. Default's stroke Border/Default -> Border/Default hidden and Drop's fill Background/Theme -> Background/Light theme are the two blocked tokens. State=Hover is the one that is NEITHER: its stroke has moved Border/Secondary -> Border/Default hidden, a real colour change (#c1c1c1 -> #e5e5e5, visibly lighter) and not a rename at all. It is blocked only because the token it moved TO is unextracted	19979:2091
+Accordion	auto x 84	20	8	—	20px	HORIZONTAL CENTER SPACE_BETWEEN	RE-READ 2026-09-11: stroke has moved Border/Default -> Border/Default full, which is unextracted, so the row is left as captured and is KNOWN STALE	16812:1710
+Side panel	375 wide	0	mixed	0	20px	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	13909:5302
+Side panel header	auto x 60	10 15	0	10	20px	HORIZONTAL CENTER MAX	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	18222:8378
+Sticky footer	auto x 52	10 15	0	20	13px SemiBold	HORIZONTAL CENTER MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	20184:1662
 Org chart node	293 x 48	0	8	0	16px		shadow 2 2 4px	
 Layout container	auto	30	0	20	20px			
-Title panel	auto x 135	40 20	0	10	18px	VERTICAL CENTER CENTER		5050:63097
+Title panel	auto x 135	40 20	0	10	18px	VERTICAL CENTER CENTER	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	5050:63097
 Empty section	auto x 212			35	20px SemiBold	HORIZONTAL CENTER MIN		19552:92722
 Notification card	auto x 113	15 20	8	15	13px SemiBold	HORIZONTAL CENTER MIN		13846:5504
 Toast message	350 x 114	30 0 30 25	4	15	13px Regular	HORIZONTAL CENTER MIN	fixed light surface — see dark-mode note. TYPE IS A 10px LEFT ACCENT BAR, not a stroke: Success Border/Positive, Info Border/Info, Warning Border/Warning, Error Base colours/Red. The fill/stroke/text model cannot express it — recording it as a stroke would generate border-color and draw a full border — so all four types currently render identically	8213:79219
@@ -105,25 +105,25 @@ Date range visual	371 x auto	0	0	20	16px	HORIZONTAL CENTER MIN		8478:85639
 Image picker	440 x 220	—	0	—	—	NONE	RE-READ 2026-09-11: CORRECTED. Figma paints Border/Form input as the root FILL — the grey placeholder panel IS the component — and the 2026-09-08 capture put it in the STROKE column, so the panel never shipped: .pf-image-picker had background: transparent and a border nobody sees	10306:112952
 Slider	600 x auto	0	0	20	13px	VERTICAL MIN CENTER		14948:93064
 Document previewer	375 x 642	0	0	0	16px	VERTICAL MIN MIN	RE-READ 2026-09-11: stroke has moved Border/Default -> Border/Default full on all three Device variants. Unextracted, so the rows are left as captured and are KNOWN STALE	27479:15917
-Attachments	440 x auto				13px SemiBold	HORIZONTAL MIN MIN		5235:64884
-Attachment with person	440 x auto		8		13px	VERTICAL CENTER MIN		5235:65181
-Note	440 x auto		8		13px	VERTICAL CENTER MIN		5235:65705
-Editable list card	auto x auto		4		13px	HORIZONTAL MIN MIN		5127:69366
-Org chart	293 x auto		8		16px	HORIZONTAL CENTER MIN	shadow 2 2 4px. NODE ID CORRECTED 2026-09-11: was 6237:66512, the Icons-page glyph of the same name. The real set is 31040:34148, whose Type=Org/Manager/Reportee variants are 293 wide — exactly this row and the three captured variants	31040:34148
-Configuration panel	1600 x auto		mixed		20px	VERTICAL CENTER MIN		7064:68025
-Side filter	400 x 885		mixed		20px	VERTICAL CENTER MIN		9374:93485
-Spotlight Card	375 x auto	0 0 10 0	8	10	13px	VERTICAL MIN MIN		26820:17383
-Details	355 x auto			10	13px	HORIZONTAL MIN MIN		30638:22248
-Switcher	auto x auto			10	16px	HORIZONTAL CENTER MIN		27561:5474
-Layout container (magazine style)	1600 x auto	30		20	20px	VERTICAL MIN MIN		16370:9151
-Layout container title	1160 x auto			464	20px	HORIZONTAL CENTER SPACE_BETWEEN		16418:9936
-Layout container tabs	1160 x auto			204	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN		16418:10087
-single layout card	800 x auto	30		20	20px	VERTICAL CENTER MIN		20787:9281
-50/50 layout container	1600 x auto				20px	HORIZONTAL MIN MIN		28405:3050
-[S] Attachment	440 x auto	10 20	8		13px SemiBold	HORIZONTAL CENTER MIN		1455:40546
-Footer	375 x auto	0 10		10	13px Regular	VERTICAL MIN MIN		30637:15576
-Content	375 x auto			10	13px	VERTICAL MIN MIN		30637:15470
-Detail item	162 x auto			5	13px	HORIZONTAL MIN MIN		30637:16556
+Attachments	440 x auto				13px SemiBold	HORIZONTAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	5235:64884
+Attachment with person	440 x auto		8		13px	VERTICAL CENTER MIN	RE-READ 2026-09-11: stroke has moved Border/Default -> Border/Default full, which is unextracted, so the row is left as captured and is KNOWN STALE	5235:65181
+Note	440 x auto		8		13px	VERTICAL CENTER MIN	RE-READ 2026-09-11: stroke has moved Border/Default -> Border/Default full, which is unextracted, so the row is left as captured and is KNOWN STALE	5235:65705
+Editable list card	auto x auto		4		13px	HORIZONTAL MIN MIN	RE-READ 2026-09-11: stroke has moved Border/Default -> Border/Default hidden, which is unextracted, so the row is left as captured and is KNOWN STALE. Border/Default full is also bound, on a child	5127:69366
+Org chart	293 x auto		8		16px	HORIZONTAL CENTER MIN	shadow 2 2 4px. NODE ID CORRECTED 2026-09-11: was 6237:66512, the Icons-page glyph of the same name. The real set is 31040:34148, whose Type=Org/Manager/Reportee variants are 293 wide — exactly this row and the three captured variants RE-READ 2026-09-11 against the corrected id: SCREENED — Background/Primary and Text/Primary still bound, UNCHANGED. Its cards bind Org cards/Fills/BG Dark, BG Light and BG Main on children	31040:34148
+Configuration panel	1600 x auto		mixed		20px	VERTICAL CENTER MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	7064:68025
+Side filter	400 x 885		mixed		20px	VERTICAL CENTER MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	9374:93485
+Spotlight Card	375 x auto	0 0 10 0	8	10	13px	VERTICAL MIN MIN	RE-READ 2026-09-11: stroke has moved Border/Default -> Border/Default hidden, which is unextracted, so the row is left as captured and is KNOWN STALE. It is the ONLY component left on this page still binding Background/Theme itself	26820:17383
+Details	355 x auto			10	13px	HORIZONTAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	30638:22248
+Switcher	auto x auto			10	16px	HORIZONTAL CENTER MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	27561:5474
+Layout container (magazine style)	1600 x auto	30		20	20px	VERTICAL MIN MIN	RE-READ 2026-09-11: fill has moved Background/Theme -> Background/Light theme, which is unextracted, so the row is left as captured and is KNOWN STALE. Invisible in light (both #fcf4f7) and wrong in dark, where Background/Theme is #2c3844	16370:9151
+Layout container title	1160 x auto			464	20px	HORIZONTAL CENTER SPACE_BETWEEN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	16418:9936
+Layout container tabs	1160 x auto			204	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	16418:10087
+single layout card	800 x auto	30		20	20px	VERTICAL CENTER MIN	RE-READ 2026-09-11: stroke has moved Border/Default -> Border/Default full, which is unextracted, so the row is left as captured and is KNOWN STALE	20787:9281
+50/50 layout container	1600 x auto				20px	HORIZONTAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	28405:3050
+[S] Attachment	440 x auto	10 20	8		13px SemiBold	HORIZONTAL CENTER MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	1455:40546
+Footer	375 x auto	0 10		10	13px Regular	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	30637:15576
+Content	375 x auto			10	13px	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	30637:15470
+Detail item	162 x auto			5	13px	HORIZONTAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	30637:16556
 Config child menu	auto x auto				16px	VERTICAL MIN MIN		958:30289
 Config menu items	auto x auto				16px	VERTICAL MIN MIN		958:30298
 Config parent menu	auto x auto	5 20 5 0		5	16px	HORIZONTAL CENTER MIN		4931:63962
