@@ -34,6 +34,12 @@ const key = (name, size) => `${String(name || '').trim()}|${String(size || '').t
 
 // Figma's Weight/* variables are the authoritative weight where the font's own style is unset.
 // Everything else stays blank and is reported, never guessed.
+//
+// `Weight/Bold` MEANS SEMIBOLD (600), NOT BOLD (700). The variable's name is a trap: the design
+// lead's own type specimen (2026-09-11) shows a 16px sample bound to `Weight/Bold` rendering
+// identically to one set literally to `SemiBold`, and the system ships 400 and 600 only — there is
+// no 700 anywhere in it. "Correcting" this mapping to Bold would put a weight in the stylesheet
+// that the design system does not have and that verify-type.mjs would then reject.
 const FROM_VAR = { 'Weight/Regular': 'Regular', 'Weight/Bold': 'SemiBold' };
 
 export function readBatches(batches) {
