@@ -54,7 +54,7 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Confirmation modal** | 400 x 413 | 60 10 | 8 | 36 | 24px Regular | VERTICAL CENTER MIN |
 | **Next actions modal** | 400 x 565 | 0 0 30 0 | 8 | 30 | 24px Regular | VERTICAL CENTER MIN |
 | **Status dot** | 22 x 22 | 0 | 100 | 0 | — |  |
-| **Notification image** | 44 x 44 | 0 | 0 | 0 | — | NONE |
+| **Notification image** | 44 x 44 | — | — | — | — | NONE |
 | **Navigation item** | 90 x 86 | 0 | 0 | 22 | 13px SemiBold | HORIZONTAL CENTER CENTER |
 | **Side navigation** | 90 wide | 0 | 0 | 0 | 13px | VERTICAL MIN MIN |
 | **Notification tabs** | 268 x 48 | 10 15 | 8 | 20 | 16px | HORIZONTAL CENTER MIN |

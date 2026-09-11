@@ -43,7 +43,7 @@ Information box (row)	auto x 56	0	0	0	13px
 Confirmation modal	400 x 413	60 10	8	36	24px Regular	VERTICAL CENTER MIN		5217:64300
 Next actions modal	400 x 565	0 0 30 0	8	30	24px Regular	VERTICAL CENTER MIN		30115:781
 Status dot	22 x 22	0	100	0	—		circle	
-Notification image	44 x 44	0	0	0	—	NONE		3435:66874
+Notification image	44 x 44				—	NONE		3435:66874
 Navigation item	90 x 86	0	0	22	13px SemiBold	HORIZONTAL CENTER CENTER	rail item, icon above label	13658:8027
 Side navigation	90 wide	0	0	0	13px	VERTICAL MIN MIN	collapsed rail	13658:7757
 Notification tabs	268 x 48	10 15	8	20	16px	HORIZONTAL CENTER MIN		22973:20747
