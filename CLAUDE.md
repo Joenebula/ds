@@ -186,6 +186,36 @@ need a read and are left failing rather than declared — **a gate turned green 
 acceptable is worse than one that is honestly red.** Nine actionable items with a written
 diagnosis is a different thing from 286 unreadable ones.
 
+**Four of the ten id-less rows are now pinned, by ARTWORK rather than by name.** `GIF` and
+`Transfer` are each published twice on the icon page, so `backfill-node-ids.mjs` refused them — and
+it was right to: exporting all four shows the pairs are **different drawings**, diverging at
+character 97 of their SVG, not duplicates at all. So each row pins to its own node from a path
+signature, and `scripts/pin-icon-ids.mjs` does it with a rule that keeps it honest: **the signature
+must appear in that row and in no other row of the same name**, or nothing is written and the
+refusal says why.
+
+| `icons.tsv` row | node |
+|---|---|
+| `GIF` / `gif` | `10169:113776` |
+| `GIF` / `gif-2` | `9598:97872` |
+| `Transfer` / `transfer` | `11793:97862` |
+| `Transfer` / `transfer-2` | `8136:78353` |
+
+The generic document outline `M21 3.38C21.62 3.38` occurs in **thirteen** rows — CSV, Doc, JPG, PNG,
+ZIP and friends — so uniqueness across the whole file would have refused a good pin, and no
+uniqueness rule at all would accept anything. Within the two rows named `GIF` it is decisive, and
+that narrower claim is the one the script makes and tests. Seven mutants hold it. Coordinates are
+rounded to 2dp in `icons.tsv` and not in Figma's export, which is why the first probe — Figma's
+`8.625` against the file's `8.63` — matched nothing at all.
+
+**Six rows are left, and every one now has a name and a node to act on:**
+
+| row | what it is | what it needs |
+|---|---|---|
+| `unnamed-813678321` | node **`8136:78321`**, a 36×36 component whose Figma name is a single space — the slug was the node id with its colon dropped | a name from a designer; the artwork exports fine |
+| `Taxes coins` | split into `Coins` **`14334:1477`** and `Tax` **`32530:44518`**, both live | **no longer blocked** — both SVGs are fetchable now; capturing them is still a person's decision |
+| 4 × `Size=…` | variants of `Circle icons` **`6580:66319`** | which size is "the" icon is a designer's call |
+
 Pair the two lists by eye before importing anything.
 
 **A component set's VARIANT is not an icon, and the extractor now knows that.** It had no concept
@@ -213,11 +243,18 @@ drawings that cannot be re-fetched while the asset host is blocked — which siz
 designer's call. The extractor refuses to IMPORT them, so a whole-file rewrite would drop them and
 the existing `WOULD LOSE` guard puts that to a person at exactly the right moment.
 
-**And the asset host is the real wall on the rest.** `Coins`, `Tax` and `Circle icons` cannot be
-added from here, and it is worth being exact about why: the Figma *reads* work, but
-`get_design_context` returns asset URLs rather than inline markup, and both
-`https://www.figma.com/api/mcp/asset/…` and `api.figma.com` answer `CONNECT tunnel failed,
-response 403`. There is no route to a new glyph's SVG until that changes.
+**The asset host was thought to be the wall, and it is not.** This file said flatly that `Coins`,
+`Tax` and `Circle icons` could not be added from here: `get_design_context` returns asset URLs
+rather than inline markup, and both `https://www.figma.com/api/mcp/asset/…` and `api.figma.com`
+answer `CONNECT tunnel failed, response 403`. All of that is still true, and the conclusion drawn
+from it was wrong.
+
+**`node.exportAsync({ format: 'SVG_STRING' })` runs INSIDE the plugin and returns the markup
+directly**, so no asset host is involved at all. `Coins` (`14334:1477`) came back as 3,379 bytes of
+real path data on the first try. The wall was never egress; it was one tool's response format, and
+nothing had tried the other one. A blocker recorded once and never re-tested is indistinguishable
+from a blocker that is still there — which is the same shape as every stale count this file has
+had to correct.
 
 ## Re-extracting
 
