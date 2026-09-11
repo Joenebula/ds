@@ -162,7 +162,7 @@ as layout bugs and neither is one. The default viewport shot shows the truth.
 
 **The classes already carry these.** They are here so you can recognise a page that has
 drifted off-library — if a button in front of you is not a pill, something is wrong.
-Full detail in `geometry.md`:
+Full detail in `.claude/skills/people-first/references/geometry.md`:
 
 1. **Buttons are pills** — `border-radius: 20px`, height 32px, 13px SemiBold,
    **a leading icon on every one**, 10px gap. Icon-only variants are 32×32 circles.

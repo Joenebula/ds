@@ -29,7 +29,7 @@ node scripts/verify-geometry.mjs <page>.html      # measured shapes vs Figma
 
 Then map each element to its Figma origin using
 `.claude/skills/people-first/references/variants.md` (which component and variant) and
-`references/geometry.md` (its measured size, padding, radius, type).
+`.claude/skills/people-first/references/geometry.md` (its measured size, padding, radius, type).
 
 **Name the class as well as the component.** Most elements on a People First page are
 already a class in `dist/components.css` — the class name is written straight off the

@@ -12,7 +12,7 @@
 //   1. every class named in the skill exists in the stylesheet
 //   2. every REAL Figma variant of those components is selected by a rule, using the
 //      attribute spelling the skill documents
-import { readFileSync, writeFileSync, unlinkSync, readdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, unlinkSync, readdirSync, existsSync } from 'node:fs';
 import { chromium } from 'playwright-core';
 
 const md = readFileSync('.claude/skills/people-first/SKILL.md', 'utf8');
@@ -241,6 +241,35 @@ for (const [what, actual, re] of figures) {
 console.log(`${matched} figure(s) in the docs checked — ${classes.size} classes (${nComponents} colour-bound, `
   + `${nVariants} variants) covering ${coveredRows.length} of ${nonIcon.length} non-icon `
   + `components, ${uncovered} with none, ${templateCount} templates`);
+
+// ---- 4. every file the docs point at actually exists ----------------------
+//
+// A skill that sends you to a file that is not there wastes the one moment someone is
+// actually looking something up. Three did: `pf-audit` and `pf-handoff` both said
+// `references/geometry.md`, which resolves relative to themselves and does not exist —
+// the file lives under `people-first` — and `pf-screen` just said `geometry.md`.
+//
+// Bare names in prose are resolved the way a reader would resolve them (`fonts.css` means
+// `dist/fonts.css`, `check-fonts.mjs` means `scripts/check-fonts.mjs`), because flagging
+// those would bury the three real ones in twenty false ones. Globs and bare extensions
+// like `.src.html` are skipped: they are not paths.
+const DOC_FILES = ['CLAUDE.md', 'README.md',
+  ...readdirSync('.claude/skills').map(d => `.claude/skills/${d}/SKILL.md`)];
+const WHERE = p => ['', 'dist/', 'scripts/', 'tokens/_raw/', 'tokens/', 'docs/', 'assets/'];
+let refsChecked = 0;
+for (const doc of DOC_FILES) {
+  const text = readFileSync(doc, 'utf8');
+  const here = doc.slice(0, doc.lastIndexOf('/') + 1);
+  const refs = new Set([...text.matchAll(/`([a-zA-Z0-9_./-]+\.(?:mjs|html|css|json|tsv|md|svg|woff2))`/g)]
+    .map(m => m[1]));
+  for (const ref of refs) {
+    if (ref.includes('<') || ref.includes('*') || ref.startsWith('.')) continue;
+    refsChecked++;
+    if (![...WHERE(ref).map(w => w + ref), here + ref].some(existsSync))
+      problems.push(`${doc} points at \`${ref}\`, which does not exist anywhere it could mean`);
+  }
+}
+console.log(`${refsChecked} file reference(s) in the docs all resolve`);
 
 for (const p of problems) console.log('FAIL ' + p);
 console.log(`\n${documented.size} classes documented, ${cases.length} real variants checked, ${problems.length} problems`);
