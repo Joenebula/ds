@@ -48,8 +48,8 @@ svg { display: block; }
 .rail .spacer { flex: 1; }
 .railtop { width: 90px; height: 86px; display: grid; place-items: center;
            background: var(--pf-bg-theme); color: var(--pf-icon-always-white); }
-.pf-navigation-item { flex-direction: column; gap: 6px; text-decoration: none;
-                      cursor: pointer; position: relative; }
+.pf-navigation-item { flex-direction: column; gap: 5px; text-decoration: none;
+                      cursor: pointer; position: relative; color: var(--pf-text-secondary); }
 /* Figma bolds ONLY the selected rail item; the rest are Regular. The component class
    carries SemiBold for all of them because the geometry extract recorded the selected
    variant's type and applied it to the base — see the note in the header comment. At
@@ -72,24 +72,27 @@ svg { display: block; }
    below AA — but that is a property of the substitute, and what the real image does is
    unknown. Do not read it as a finding about the design. */
 .pf-header { width: 100%; background: var(--pf-bg-theme); }
-.hdrow { height: 86px; display: flex; align-items: center; gap: var(--pf-space-large);
-         padding: 0 var(--pf-space-large); width: 100%; }
+.hdrow { height: 86px; display: flex; align-items: center; width: 100%;
+         padding: 0 20px 0 23px; }   /* Figma: search at x=23, right group ends 20 from edge */
 .hdrow .grow { flex: 1; }
-.hdtitle { display: flex; align-items: center; gap: var(--pf-space-small);
-           color: var(--pf-text-always-white); font-size: 20px; }
-.hdtitle .disc { width: 40px; height: 40px; border-radius: 50%;
+.hdtitle { display: flex; align-items: center; gap: 10px;
+           color: var(--pf-text-always-white); font-size: 24px; }  /* Figma: 109x66, 24px */
+.hdtitle .disc { width: 66px; height: 66px; border-radius: 50%;
                  background: var(--pf-bg-light-theme); color: var(--pf-text-theme);
                  display: grid; place-items: center; }
 .hdicon { color: var(--pf-icon-always-white); }
-.pillbtn { display: inline-flex; align-items: center; gap: 8px; height: 32px;
-           padding: 0 16px; border-radius: 20px; font-size: 13px;
-           font-weight: var(--pf-font-weight-bold); background: transparent;
+.pillbtn { display: inline-flex; align-items: center; gap: 5px; height: 32px;
+           padding: 7px 16px 7px 6px; border-radius: 20px; font-size: 16px;   /* Figma: icon starts at x=6, text at x=33, box 107 wide */
+           letter-spacing: -0.01em;   /* Figma: -1% on Search and Clock-in */
+           font-weight: var(--pf-font-weight-regular); background: transparent;
            color: var(--pf-text-always-white);
            border: 1px solid var(--pf-border-always-white, var(--pf-icon-always-white));
            cursor: pointer; }
-.pf-search-navigation { display: inline-flex; align-items: center; gap: 8px;
-  padding: 0 12px; background: var(--pf-bg-primary); color: var(--pf-text-secondary);
-  font-size: 13px; }
+.pf-search-navigation { display: inline-flex; align-items: center; gap: 7px; width: 150px;
+  height: 32px; padding: 0 7px; background: var(--pf-bg-primary);
+  color: var(--pf-text-secondary); font-size: 16px; letter-spacing: -0.01em; }
+  /* Figma: 150x32, icon 22, text Grey Fog = --pf-text-secondary, -1% tracking */
+.rightgrp { display: flex; align-items: center; gap: 20px; }  /* Figma: Frame 84860 gap 20 */
 
 /* Secondary nav — Figma "[S] Main nav context", 1830x44, which the People First file
    now calls Secondary nav. Its tabs are Nav tabs. */
@@ -104,14 +107,18 @@ svg { display: block; }
 .content { padding: var(--pf-space-large); display: flex; flex-direction: column;
            gap: var(--pf-space-large); }
 
-/* The region that is a screenshot in Figma. Marked, not invented. */
-.gap { background: var(--pf-bg-primary); border: 1px dashed var(--pf-border-secondary);
-       border-radius: var(--pf-radius-medium); padding: var(--pf-space-xlarge);
-       display: flex; flex-direction: column; gap: var(--pf-space-small);
-       align-items: center; justify-content: center; min-height: 380px;
-       color: var(--pf-text-secondary); text-align: center; }
-.gap strong { color: var(--pf-text-primary); }
-.gap code { font-size: var(--pf-font-size-xs); }
+/* The region that is a screenshot in Figma. Sized to the source rectangles so the page
+   keeps its real proportions — a text block here made the layout misleading, which is a
+   different way of being wrong from inventing components. */
+.shotwrap { display: flex; gap: var(--pf-space-large); align-items: flex-start;
+            min-width: 0; }
+.shotwrap .shot { min-width: 0; }
+.shot { background: var(--pf-bg-primary); border: 1px dashed var(--pf-border-secondary);
+        border-radius: var(--pf-radius-medium); display: flex; flex-direction: column;
+        align-items: center; justify-content: center; gap: 6px; padding: var(--pf-space-large);
+        color: var(--pf-text-secondary); text-align: center; }
+.shot strong { color: var(--pf-text-primary); font-size: var(--pf-font-size-s); }
+.shot code { font-size: var(--pf-font-size-xs); }
 
 /* Department insights — Layout container (magazine style) */
 .pf-layout-container-magazine-style { width: 100%; background: var(--pf-bg-primary);
@@ -123,9 +130,9 @@ svg { display: block; }
 .ins-meta .grow { flex: 1; }
 .linkrow { display: flex; gap: var(--pf-space-large); }
 .cats { display: flex; gap: var(--pf-space-large); flex-wrap: wrap; }
-.cat { font-size: 16px; color: var(--pf-text-primary); background: none; border: 0;
+.cat { font-size: 16px; font-weight: var(--pf-font-weight-regular); color: var(--pf-text-primary); background: none; border: 0;
        border-bottom: 2px solid transparent; padding: 0 0 6px; cursor: pointer; }
-.cat[aria-selected="true"] { color: var(--pf-text-theme);
+.cat[aria-selected="true"] { font-weight: var(--pf-font-weight-bold); color: var(--pf-text-theme);
                              border-bottom-color: var(--pf-border-theme); }
 .btnrow { display: flex; gap: var(--pf-space-large); flex-wrap: wrap; }
 .pf-button { cursor: pointer; }
@@ -137,27 +144,29 @@ svg { display: block; }
 
   <!-- Left rail — 8 x Navigation item (90x86), Device=Desktop -->
   <nav class="rail" aria-label="Main">
-    <div class="railtop" aria-hidden="true"><!--pf-icon:app-menu 24--></div>
-    <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:home 24--><span class="lbl">Home</span></a>
-    <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:news 24--><span class="lbl">News</span></a>
-    <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:user 24--><span class="lbl">Me</span></a>
-    <a class="pf-navigation-item" data-device="Desktop" data-state="Selected" aria-current="page" href="#"><!--pf-icon:team 24--><span class="lbl">My team</span></a>
-    <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:notification-bell 24--><span class="lbl">Notifications</span><span class="badge">7</span></a>
+    <div class="railtop" aria-hidden="true"><!--pf-icon:app-menu 32--></div>
+    <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:home 32--><span class="lbl">Home</span></a>
+    <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:news 32--><span class="lbl">News</span></a>
+    <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:user 32--><span class="lbl">Me</span></a>
+    <a class="pf-navigation-item" data-device="Desktop" data-state="Selected" aria-current="page" href="#"><!--pf-icon:team 32--><span class="lbl">My team</span></a>
+    <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:notification-bell 32--><span class="lbl">Notifications</span><span class="badge">7</span></a>
     <div class="spacer"></div>
-    <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:tooltip-question 24--><span class="lbl">Support</span></a>
-    <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:settings 24--><span class="lbl">Settings</span></a>
+    <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:tooltip-question 32--><span class="lbl">Support</span></a>
+    <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:settings 32--><span class="lbl">Settings</span></a>
   </nav>
 
   <div>
     <!-- Header — Figma: Breakpoint=Desktop, Page type=App, Darkmode=False -->
     <header class="pf-header" data-breakpoint="Desktop">
       <div class="hdrow">
-        <span class="pf-search-navigation" data-mobile="False"><!--pf-icon:search 14-->Search</span>
+        <span class="pf-search-navigation" data-mobile="False"><!--pf-icon:search 22-->Search</span>
         <span class="grow"></span>
-        <span class="hdtitle"><span class="disc"><!--pf-icon:team 20--></span>HR</span>
+        <span class="hdtitle"><span class="disc"><!--pf-icon:team 40--></span>HR</span>
         <span class="grow"></span>
-        <button class="pillbtn" type="button"><!--pf-icon:clock 14-->Clock-in</button>
-        <span class="hdicon" aria-label="Tasks"><!--pf-icon:tasks 20--></span>
+        <span class="rightgrp">
+          <button class="pillbtn" type="button"><!--pf-icon:clock 22-->Clock-in</button>
+          <span class="hdicon" aria-label="Tasks"><!--pf-icon:tasks 32--></span>
+        </span>
       </div>
     </header>
 
@@ -171,20 +180,25 @@ svg { display: block; }
 
     <main class="content">
 
-      <!-- In Figma this whole region is a pasted screenshot, not components. -->
-      <section class="gap" data-pf-ignore aria-label="Not buildable from the source">
-        <strong>Top Team Card — not built</strong>
-        <div>The people grid, its tabs and the &ldquo;34 people connected to you&rdquo; heading are
-        two flat images in the Figma file, not components:</div>
-        <code>RECTANGLE &ldquo;Screenshot 2025-12-15 at 11.32.30 1&rdquo; 1526&times;551</code>
-        <code>RECTANGLE &ldquo;Screenshot 2025-12-15 at 11.32.30 2&rdquo; 165&times;373</code>
-        <div>There is nothing to extract, so nothing has been invented here.</div>
-      </section>
+      <!-- In Figma this whole region is two pasted screenshots, not components.
+           Reproduced at their real dimensions so the layout is honest, empty because
+           there is nothing to extract. -->
+      <div class="shotwrap" data-pf-ignore aria-label="Regions the source supplies as images">
+        <div class="shot" style="flex:1 1 1526px;max-width:1526px;height:551px">
+          <strong>People grid &mdash; image in source</strong>
+          <code>RECTANGLE &ldquo;Screenshot 2025-12-15 at 11.32.30 1&rdquo; 1526&times;551</code>
+          <span>Not components, so not built.</span>
+        </div>
+        <div class="shot" style="flex:0 0 165px;height:373px">
+          <strong>image</strong>
+          <code>165&times;373</code>
+        </div>
+      </div>
 
       <!-- Department insights — Layout container (magazine style) -->
       <section class="pf-layout-container-magazine-style" data-row-colour="false" aria-labelledby="ins">
         <div class="ins-head">
-          <h2 id="ins" class="pf-text-heading-3">Department insights</h2>
+          <h2 id="ins" class="pf-text-large-heading">Department insights</h2>
           <div class="ins-rule"></div>
           <div class="ins-meta">
             <span>The data below is based on your reporting department, which may not be all of the people featured above.</span>
