@@ -281,7 +281,7 @@ Figma component actually binds.
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
-| Property 1=Default | — | `var(--pf-border-form-input)` | — |
+| Property 1=Default | `var(--pf-border-form-input)` | — | — |
 
 ### Document previewer
 

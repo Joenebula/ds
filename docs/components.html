@@ -1616,7 +1616,7 @@
 }
 
 /* Control
- * 2 variants captured. the checkbox/radio box itself, 20x20 r4. 2 variants
+ * 2 variants captured. RE-READ 2026-09-11: FLATTENED TO VECTOR ART. Figma now draws both Radio=No and Radio=Yes as an exported SVG and the component binds NO colour variable at all. The captured rows still say Background/Primary + Icons/Icon - Disabled, so .pf-control generates a fill and border from tokens Figma no longer binds — the CSS can now drift from the artwork with nothing able to notice
  * Figma sets 10px padding on a 20px-tall box, leaving -2px for content; dropped, as the size wins
  */
 .pf-control {
@@ -2473,7 +2473,7 @@
 }
 
 /* Image picker
- * 1 variant captured. not auto-layout
+ * 1 variant captured. RE-READ 2026-09-11: CORRECTED. Figma paints Border/Form input as the root FILL — the grey placeholder panel IS the component — and the 2026-09-08 capture put it in the STROKE column, so the panel never shipped: .pf-image-picker had background: transparent and a border nobody sees
  * Figma draws this 440px wide; treated as layout, not a rule
  */
 .pf-image-picker {
@@ -2483,12 +2483,12 @@
   -webkit-appearance: none;
   background: transparent;
   margin: 0;
-  border: 1px solid transparent;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
 .pf-image-picker[data-property-1="Default"] {
-  border-color: var(--pf-border-form-input);
+  background: var(--pf-border-form-input);
 }
 
 /* Information box
@@ -4242,7 +4242,7 @@
 }
 
 /* Toggle
- * 4 variants captured. PILL; knob inset
+ * 4 variants captured. RE-READ 2026-09-11: On=No/Locked=No and On=Yes/Locked=No are UNCHANGED and still bind their tokens. The two Locked=Yes variants have been FLATTENED to images and bind nothing, so their captured Background/Tertiary and Background/Primary Button rows are stale in the same way Control is
  * pill
  */
 .pf-toggle {

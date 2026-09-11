@@ -209,8 +209,22 @@ export function merge(text, byPage, { update = false } = {}) {
       // importing it would silently do nothing at best.
       const want = axesOf(key(mine[0].cells[I.variant]));
       const have = new Map(mine.map((r) => [key(r.cells[I.variant]), r]));
+
+      // THE ONE-ROW CASE. collapse() drops every axis of a component Figma gives a single variant,
+      // so a re-read of `Image picker` yields variant "" while the captured row says
+      // "Property 1=Default". The axis guard then refuses it, and a single-variant component can
+      // never be corrected — which is how `.pf-image-picker` kept shipping `background: transparent`
+      // when Figma paints Border/Form input across the whole panel.
+      //
+      // When the component has exactly ONE captured row and the re-read yields exactly ONE live
+      // row, there is nothing to match ambiguously: they are the same row whatever the axis is
+      // spelled. Pair them and keep the captured spelling, so the class and its data attribute are
+      // untouched. Any other shape still goes through the guard.
+      const onlyRow = mine.length === 1 && live.length === 1 ? key(mine[0].cells[I.variant]) : null;
+
       for (const r of live) {
-        if (axesOf(r.variant) !== want) { skipped.push(`${component} — ${r.variant}: axes differ from the captured rows (${want})`); continue; }
+        if (onlyRow !== null) { r.variant = onlyRow; }
+        else if (axesOf(r.variant) !== want) { skipped.push(`${component} — ${r.variant}: axes differ from the captured rows (${want})`); continue; }
         const target = have.get(r.variant);
         if (!target) {
           const cells = Array(width).fill('');
@@ -397,6 +411,24 @@ Forms\tButton\tType=Hover\tBackground/Secondary Button Hover\t\tText/Inverted pr
   r = merge(src, new Map([['\u{1F4DA} WIKI', [{ component: 'Wiki card', variant: 'Type=A', fill: 'x', stroke: '', text: '', nodeId: '5:5' }]]]), { update: true });
   if (r.added.length) miss('a documentation page must not enter the library');
   if (!r.reasons.has('Wiki card')) miss('an excluded component must get a recorded reason, never a silence');
+
+  // THE ONE-ROW CASE: a single-variant component must be correctable despite collapse() emptying
+  // its axis. Without this, `.pf-image-picker` could never be fixed.
+  const one = `${H}\nControls\tImage picker\tProperty 1=Default\t\tBorder/Form input\t\t10306:112952\n`;
+  r = merge(one, new Map([['Controls', [{ component: 'Image picker', variant: 'Property 1=Default', fill: 'Border/Form input', stroke: '', text: '', nodeId: '10306:112952' }]]]), { update: true });
+  if (r.changed.length !== 1 || !r.changed[0].diffs.some((d) => d.field === 'fill')) {
+    miss(`a single-variant component must be correctable, not refused on axis shape (got ${JSON.stringify(r.changed)})`);
+  }
+  if (!r.text.includes('Property 1=Default')) miss('the CAPTURED variant spelling must be kept, so the class and its data attribute do not move');
+  if (r.skipped.some((x) => /axes differ/.test(x))) miss('the one-row case must not be reported as an axis mismatch');
+
+  // ...but the guard must STILL hold when there is more than one row to match.
+  const two = `${H}\nForms\tX\tA=1\tf1\t\t\t7:7\nForms\tX\tA=2\tf2\t\t\t7:7\n`;
+  r = merge(two, new Map([['Forms', [
+    { component: 'X', variant: 'B=1', fill: 'f1', stroke: '', text: '', nodeId: '7:7' },
+    { component: 'X', variant: 'B=2', fill: 'f2', stroke: '', text: '', nodeId: '7:7' },
+  ]]]), { update: true });
+  if (!r.skipped.some((x) => /axes differ/.test(x))) miss('with more than one row the axis guard must still refuse a different axis shape');
 
   // A component that binds no colour variable at all is excluded WITH A REASON, not dropped.
   r = merge(src, page([{ component: 'Divider', variant: 'Type=A', fill: '', stroke: '', text: '', nodeId: '7:7' }]), { update: true });
