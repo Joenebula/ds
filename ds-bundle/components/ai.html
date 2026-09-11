@@ -464,7 +464,6 @@
 
 /* AI button
  * 4 variants captured. PILL
- * Figma draws this 146px wide; treated as layout, not a rule
  * pill
  */
 .pf-ai-button {
@@ -485,6 +484,93 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-ai-button[data-style="Light mode"][data-mobile="True"],
+.pf-ai-button[data-style="Light mode"][data-mobile="True"][data-hover="False"] {
+  height: 32px;
+  min-height: 0;
+  padding: 3px 6px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.pf-ai-button[data-style="Inverted"][data-mobile="False"],
+.pf-ai-button[data-style="Inverted"][data-mobile="False"][data-hover="False"] {
+  height: 32px;
+  min-height: 0;
+  padding: 3px 15px 3px 10px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-ai-button[data-style="Inverted"][data-mobile="True"],
+.pf-ai-button[data-style="Inverted"][data-mobile="True"][data-hover="False"] {
+  height: 32px;
+  min-height: 0;
+  padding: 3px 6px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.pf-ai-button[data-style="Inverted"][data-mobile="False"]:hover,
+.pf-ai-button[data-style="Inverted"][data-mobile="False"][data-hover="True"] {
+  height: 32px;
+  min-height: 0;
+  padding: 3px 15px 3px 10px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-ai-button[data-style="Inverted"][data-mobile="True"]:hover,
+.pf-ai-button[data-style="Inverted"][data-mobile="True"][data-hover="True"] {
+  height: 32px;
+  min-height: 0;
+  padding: 3px 6px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.pf-ai-button[data-style="Light mode"][data-mobile="False"]:hover,
+.pf-ai-button[data-style="Light mode"][data-mobile="False"][data-hover="True"] {
+  height: 32px;
+  min-height: 0;
+  padding: 3px 15px 3px 10px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-ai-button[data-style="Light mode"][data-mobile="True"]:hover,
+.pf-ai-button[data-style="Light mode"][data-mobile="True"][data-hover="True"] {
+  height: 32px;
+  min-height: 0;
+  padding: 3px 6px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 .pf-ai-button[data-style="Light mode"],
 .pf-ai-button[data-style="Light mode"][data-hover="False"] {
@@ -511,6 +597,7 @@
 /* AI Assistant
  * 3 variants captured
  * Figma draws this 1628px wide; treated as layout, not a rule
+ * Figma draws this 1080px tall — the artboard it sits on, not a rule; dropped
  */
 .pf-ai-assistant {
   display: inline-flex;
@@ -525,6 +612,60 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-ai-assistant[data-mobile="True"][data-darkmode="False"][data-type="Expanded"] {
+  min-height: 0;
+  border-radius: 15px 15px 0 0;
+  display: inline-block;
+  font-size: 16px;
+}
+.pf-ai-assistant[data-mobile="False"][data-darkmode="False"][data-type="Default"] {
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 24px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-ai-assistant[data-mobile="False"][data-darkmode="False"][data-type="Active chat"] {
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 24px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-ai-assistant[data-mobile="True"][data-darkmode="False"][data-type="Default"] {
+  min-height: 0;
+  padding: 0;
+  border-radius: 15px 15px 0 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 24px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-ai-assistant[data-mobile="True"][data-darkmode="False"][data-type="Active chat"] {
+  min-height: 0;
+  padding: 0;
+  border-radius: 15px 15px 0 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 24px;
+  font-weight: var(--pf-font-weight-bold);
 }
 .pf-ai-assistant[data-type="Default"] {
   background: var(--pf-bg-primary);
@@ -544,6 +685,7 @@
 
 /* AI banner
  * 1 variant captured
+ * Figma draws this 1315px wide; treated as layout, not a rule
  */
 .pf-ai-banner {
   height: 94px;
@@ -562,6 +704,18 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-ai-banner[data-darkmode="False"][data-mobile="True"] {
+  height: 159px;
+  min-height: 0;
+  padding: 15px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
+  font-size: 20px;
 }
 .pf-ai-banner,
 .pf-ai-banner[data-darkmode="False"] {
@@ -649,6 +803,18 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-ai-message-bubble[data-type="User chat"] {
+  height: 62px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 4px;
+  font-size: 12px;
+}
 .pf-ai-message-bubble[data-type="AI chat"] {
   color: var(--pf-text-secondary);
 }
@@ -659,8 +825,10 @@
 /* Adaptive card
  * 1 variant captured
  * Figma draws this 478px wide; treated as layout, not a rule
+ * Figma draws this 389px tall; emitted as a minimum, since content decides the real height
  */
 .pf-adaptive-card {
+  min-height: 389px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -674,6 +842,18 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-adaptive-card[data-mobile="True"] {
+  height: auto;
+  min-height: 374px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 12px;
 }
 .pf-adaptive-card {
   color: var(--pf-text-secondary);
@@ -730,7 +910,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
 <h1>AI</h1>
 <p class="sub">8 components from the AI page in Figma, rendered with dist/components.css. Class names mirror Figma's variant panel: the component is the class, each variant property is a data attribute.</p>
 <h2>AI Assistant</h2>
-<p class="sub">.pf-ai-assistant  ·  1628 x auto  ·  3 variants</p>
+<p class="sub">.pf-ai-assistant  ·  1628 x 1080  ·  3 variants</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-ai-assistant" data-type="Default">AI Assistant</div>
@@ -754,7 +934,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>AI banner</h2>
-<p class="sub">.pf-ai-banner  ·  auto x 94  ·  1 variant</p>
+<p class="sub">.pf-ai-banner  ·  1315 x 94  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-ai-banner" data-darkmode="False">AI banner</div>
@@ -762,7 +942,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>AI button</h2>
-<p class="sub">.pf-ai-button  ·  146 x 32  ·  4 variants</p>
+<p class="sub">.pf-ai-button  ·  auto x 32  ·  4 variants</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <button class="pf-ai-button" data-style="Light mode" data-hover="False">Ask AI</button>
@@ -802,7 +982,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Adaptive card</h2>
-<p class="sub">.pf-adaptive-card  ·  478 x auto  ·  1 variant</p>
+<p class="sub">.pf-adaptive-card  ·  478 x 389  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-adaptive-card">Adaptive card</div>

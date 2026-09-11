@@ -428,22 +428,23 @@ Contents: [Buttons and links](#buttons-and-links) · [Forms](#forms) · [Control
 
 | Component | Class | Variants in Figma | Size | Radius | Type |
 |---|---|---|---|---|---|
-| Adaptive card | `.pf-adaptive-card` | Mobile: False · True | 478 x auto | — | 12px |
-| AI Assistant | `.pf-ai-assistant` | Mobile: True · False<br>Darkmode: False<br>Type: Default · Expanded · Active chat | 1628 x auto | — | 20px |
-| AI banner | `.pf-ai-banner` | Darkmode: False · True<br>mobile: True · False | auto x 94 | 8 | 20px |
-| AI button | `.pf-ai-button` | Style: Light mode · Inverted<br>Hover: False · True<br>Mobile: False · True | 146 x 32 | 55 | 13px Regular |
+| Adaptive card | `.pf-adaptive-card` | Mobile: False · True | 478 x 389 | 0 | 12px |
+| AI Assistant | `.pf-ai-assistant` | Mobile: True · False<br>Darkmode: False<br>Type: Default · Expanded · Active chat | 1628 x 1080 | 0 | 20px |
+| AI banner | `.pf-ai-banner` | Darkmode: False · True<br>mobile: True · False | 1315 x 94 | 8 | 20px |
+| AI button | `.pf-ai-button` | Style: Light mode · Inverted<br>Hover: False · True<br>Mobile: False · True | auto x 32 | 55 | 13px Regular |
 | AI card modal | `.pf-ai-card-modal` | Property 1: Default | 440 x 505 | 8 | 20px |
-| AI Gradient component | `.pf-ai-gradient-component` | Property 1: Frame 62710147 · Frame 62710148 · Variant3 | 408 x 408 | — | 24px SemiBold |
+| AI Gradient component | `.pf-ai-gradient-component` | Property 1: Frame 62710147 · Frame 62710148 · Variant3 | 408 x 408 | 0 | 24px SemiBold |
 | AI message bubble | `.pf-ai-message-bubble` | Type: AI chat · User chat | 455 x 149 | 0 | 12px |
 | Clickable AI element | `.pf-clickable-ai-element` | State: default · Hover | 382 x 38 | 8 | 13px |
 
 <details><summary>Notes on these components</summary>
 
-- **Adaptive card** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`
-- **AI Assistant** — **binds a primitive** — Base colours/Default Pink (text) — so this will not adapt between light and dark until Figma binds a semantic token. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`
-- **AI banner** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `mobile`
-- **AI button** — **binds a primitive** — Base colours/White (text), Base colours/Default Pink (text), Base colours/White (border) — so this will not adapt between light and dark until Figma binds a semantic token. PILL. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`
+- **Adaptive card** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`. per-variant sizes: `Mobile=True` 355 x 374
+- **AI Assistant** — **binds a primitive** — Base colours/Default Pink (text) — so this will not adapt between light and dark until Figma binds a semantic token. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`. per-variant sizes: `Mobile=True, Darkmode=False, Type=Expanded` 376 x 770, `Mobile=False, Darkmode=False, Type=Default` 520 x 1080, `Mobile=False, Darkmode=False, Type=Active chat` 520 x 1080, `Mobile=True, Darkmode=False, Type=Default` 375 x 770, `Mobile=True, Darkmode=False, Type=Active chat` 375 x 770
+- **AI banner** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `mobile`. per-variant sizes: `Darkmode=False, mobile=True` 385 x 159
+- **AI button** — **binds a primitive** — Base colours/White (text), Base colours/Default Pink (text), Base colours/White (border) — so this will not adapt between light and dark until Figma binds a semantic token. PILL. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`. per-variant sizes: `Style=Light mode, Hover=False, Mobile=True` auto x 32, `Style=Inverted, Hover=False, Mobile=False` auto x 32, `Style=Inverted, Hover=False, Mobile=True` auto x 32, `Style=Inverted, Hover=True, Mobile=False` auto x 32, `Style=Inverted, Hover=True, Mobile=True` auto x 32, `Style=Light mode, Hover=True, Mobile=False` auto x 32, `Style=Light mode, Hover=True, Mobile=True` auto x 32
 - **AI Gradient component** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Property 1`
+- **AI message bubble** — per-variant sizes: `Type=User chat` 328 x 62
 - **Clickable AI element** — **binds a primitive** — Base colours/Default Pink (text) — so this will not adapt between light and dark until Figma binds a semantic token
 
 </details>
@@ -491,4 +492,8 @@ so nobody has to guess whether one is an oversight — none of them is.
 **1 — node 14990:11954 is a variant child of the Header component set, named "System=People First" — it was never a component in its own right**
 
 `Counter`
+
+**1 — these three pages DESCRIBE the design system rather than belong to it — Storybook links, a "Dos and don'ts" panel, project-status thumbnails, project-info boards, an Avatar in a Medium weight the system does not ship. They also collide: the Style Guide has its own variant-less `Header` (1654x98, 30 padding, 28px) which is not the People First `Header` (1830x86). Both extractors exclude them by name, and `Header` by the absence of a variant.**
+
+`Documentation pages`
 

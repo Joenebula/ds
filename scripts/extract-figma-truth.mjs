@@ -33,11 +33,45 @@ for (const line of readFileSync(file, 'utf8').split('\n')) {
   try { walk(JSON.parse(line)); } catch { /* partial trailing line */ }
 }
 
+// DOCUMENTATION PAGES ARE NOT THE DESIGN SYSTEM. Four of the Figma file's pages —
+// 📚 WIKI, 🎨 STYLE GUIDE, 📄 DOCUMENT MANAGEMENT and the project-info boards — hold
+// components that DESCRIBE the design system rather than belong to it: a Storybook link,
+// a "Dos and don'ts" panel, project-status thumbnails, an Avatar in a Medium weight the
+// system does not ship. uncaptured-reasons.tsv already records `AI link` on exactly this
+// ground. Walking them also collides names: the Style Guide has its own `Header`
+// (1654x98, 30px padding, 28px type) which is not the People First `Header` (1830x86).
+// Excluded by name here so a stray walk of those pages cannot reach the library.
+const DOC_ONLY = new Set(['Thumbnail', 'Thumbnail/Brand logo', 'Document label spec',
+  'Document order spec', 'Prototype cover page', 'Prototype context screen',
+  "Dos and don'ts", 'Storybook link', 'AI link', 'design system header', 'Work item',
+  'Description', 'Logos', 'Avatar', 'Team member', 'Wiki menu', 'Logo', 'Skeleton state',
+  'Project info - Files and Resources', 'Project info - UX PRD summary',
+  'Project info - Meeting notes', 'Project info - Timeframe and schedule',
+  'Project info - Stakeholders and Team']);
+// NAME COLLISION. `Header` exists twice: the People First component on the Navigation
+// page, whose rows always carry a variant (Theme=... or System=...), and a plain
+// variant-less COMPONENT on the Style Guide page that is the documentation site's own
+// masthead — 1654x98, 30px padding, 28px type. A name-only exclusion would delete both.
+// The variant is the discriminator, and it is a property of the data rather than a guess.
+const isDocOnly = (name, variant) =>
+  DOC_ONLY.has(name) || (name === 'Header' && !String(variant).trim());
+
 // component|variant -> row. A later measurement supersedes an earlier one.
+//
+// A block ENDS at the first blank line, and a row must have the header's column count.
+// Without both, a walk that returned this block followed by a GEOM block in one string
+// swallowed the GEOM header and every GEOM row as if they were measurements: the columns
+// line up differently, so `radius` read a gap and `gap` read a font size, and 170 values
+// drifted at once against numbers nothing had ever measured.
+const WIDTH = HEADER.split('\t').length;
 const rows = new Map();
 for (const b of blocks)
-  for (const line of b.split('\n').slice(1))
-    if (line.includes('\t')) rows.set(line.split('\t').slice(0, 2).join('|'), line);
+  for (const line of b.split('\n').slice(1)) {
+    if (!line.trim()) break;
+    if (line.split('\t').length !== WIDTH) continue;
+    if (isDocOnly(line.split('\t')[0], line.split('\t')[1])) continue;
+    rows.set(line.split('\t').slice(0, 2).join('|'), line);
+  }
 
 // CONTENT-DEPENDENT VARIANTS. The People set has 300 variants on an `Item` axis whose
 // values are sample entities — ~25 people plus Organisation, Department, Job, Initials.

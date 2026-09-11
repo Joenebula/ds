@@ -38,3 +38,4 @@ Wiki menu	📚 WIKI	on a documentation page — describes the design system rath
 Work item	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
 Side navigation panel	Navigation	node 22973:20811 no longer exists in Figma — deleted
 Counter	Navigation	node 14990:11954 is a variant child of the Header component set, named "System=People First" — it was never a component in its own right
+Documentation pages	📚 WIKI / 🎨 STYLE GUIDE / 📄 DOCUMENT MANAGEMENT	these three pages DESCRIBE the design system rather than belong to it — Storybook links, a "Dos and don'ts" panel, project-status thumbnails, project-info boards, an Avatar in a Medium weight the system does not ship. They also collide: the Style Guide has its own variant-less `Header` (1654x98, 30 padding, 28px) which is not the People First `Header` (1830x86). Both extractors exclude them by name, and `Header` by the absence of a variant.

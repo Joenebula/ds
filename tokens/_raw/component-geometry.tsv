@@ -12,16 +12,8 @@ Side navigation tab	268 x 48	10 15	8	20	16px	HORIZONTAL CENTER MIN
 People (avatar)	91 x 91	0	0	0	—		
 People (row)	380 x 40	0	0	10	16px		
 People (card)	166 x 91	0	0	0	13px		
-AI card modal	440 x 505	20	8	10	20px	VERTICAL MIN MIN	
-AI button	146 x 32	3 15 3 10	55	10	13px Regular	HORIZONTAL CENTER CENTER	PILL
-AI banner	auto x 94	20	8	10	20px	HORIZONTAL MIN MIN	
-Clickable AI element	382 x 38	10 10 10 20	8	10	13px	HORIZONTAL CENTER MIN	
-AI message bubble	455 x 149	0	0	5	12px	VERTICAL MIN MIN	
 Text template format editor	440 x auto	0	0	5	16px	VERTICAL MIN MIN	2 variants
 Field (second component)	auto x auto	0	0	2	13px	VERTICAL MIN MIN	Figma has two components named Field on the Forms page; this is the smaller one
-AI Assistant	1628 x auto				20px	HORIZONTAL CENTER SPACE_BETWEEN	
-Adaptive card	478 x auto			5	12px	VERTICAL MIN MIN	
-AI Gradient component	408 x 408				24px SemiBold		
 Circle icons	auto x auto	0	999	0	—	NONE	CIRCLE. Four sizes as Size variants; each size row below carries its own box.
 Circle icons|Size=XS - 28px	28 x 28	0	999	0	—	NONE	
 Circle icons|Size=S - 36px	36 x 36	0	999	0	—	NONE	
@@ -40,6 +32,26 @@ AG Filter menus|Variant=Sort, State=Default	208 x 176	10 0	4	0	13px	VERTICAL CEN
 AG field	140 x 43	2 4	8	10	12px	VERTICAL CENTER CENTER	
 AG field|State=Unselected	140 x 36	10 4 10 8	4	6	12px	HORIZONTAL CENTER MIN	
 AG sort item	199 x 52	16 20	0	20	13px	HORIZONTAL CENTER MIN	
+AI Assistant	1628 x 1080	0	0	0	20px	HORIZONTAL CENTER SPACE_BETWEEN	
+AI Assistant|Mobile=True, Darkmode=False, Type=Expanded	376 x 770		15 15 0 0		16px	NONE	
+AI Assistant|Mobile=False, Darkmode=False, Type=Default	520 x 1080	0	0	0	24px SemiBold	VERTICAL CENTER MIN	
+AI Assistant|Mobile=False, Darkmode=False, Type=Active chat	520 x 1080	0	0	0	24px SemiBold	VERTICAL CENTER MIN	
+AI Assistant|Mobile=True, Darkmode=False, Type=Default	375 x 770	0	15 15 0 0	0	24px SemiBold	VERTICAL MIN MIN	
+AI Assistant|Mobile=True, Darkmode=False, Type=Active chat	375 x 770	0	15 15 0 0	0	24px SemiBold	VERTICAL MIN MIN	
+AI Gradient component	408 x 408		0		24px SemiBold	NONE	
+AI banner	1315 x 94	20	8	10	20px	HORIZONTAL MIN MIN	
+AI banner|Darkmode=False, mobile=True	385 x 159	15	8	20	20px	VERTICAL MIN MIN	
+AI button	auto x 32	3 15 3 10	55	10	13px Regular	HORIZONTAL CENTER CENTER	PILL
+AI button|Style=Light mode, Hover=False, Mobile=True	auto x 32	3 6	55	10	—	HORIZONTAL CENTER CENTER	
+AI button|Style=Inverted, Hover=False, Mobile=False	auto x 32	3 15 3 10	55	10	13px	HORIZONTAL CENTER CENTER	
+AI button|Style=Inverted, Hover=False, Mobile=True	auto x 32	3 6	55	10	—	HORIZONTAL CENTER CENTER	
+AI button|Style=Inverted, Hover=True, Mobile=False	auto x 32	3 15 3 10	55	10	13px	HORIZONTAL CENTER CENTER	
+AI button|Style=Inverted, Hover=True, Mobile=True	auto x 32	3 6	55	10	—	HORIZONTAL CENTER CENTER	
+AI button|Style=Light mode, Hover=True, Mobile=False	auto x 32	3 15 3 10	55	10	13px	HORIZONTAL CENTER CENTER	
+AI button|Style=Light mode, Hover=True, Mobile=True	auto x 32	3 6	55	10	—	HORIZONTAL CENTER CENTER	
+AI card modal	440 x 505	20	8	10	20px	VERTICAL MIN MIN	
+AI message bubble	455 x 149	0	0	5	12px	VERTICAL MIN MIN	
+AI message bubble|Type=User chat	328 x 62	0	0	4	12px	VERTICAL MAX CENTER	
 Accordion	1200 x 84	20	8	689	20px	HORIZONTAL CENTER SPACE_BETWEEN	
 Accordion|Expanded=False, Mobile=True	355 x 56	10	8	689	18px	HORIZONTAL CENTER SPACE_BETWEEN	
 Accordion|Expanded=True, Mobile=False	1200 x 428	0	8	0	20px	VERTICAL CENTER MIN	
@@ -47,6 +59,8 @@ Accordion|Expanded=True, Mobile=True	355 x 428	0	8	0	18px	VERTICAL CENTER MIN
 Action menu button	auto x 28	0	0	0	16px	HORIZONTAL CENTER CENTER	
 Action menu button|Circle=true	auto x 28	0	0	5	16px	HORIZONTAL CENTER CENTER	
 Action menu	199 x 136	4 5	4	0	13px	VERTICAL MIN MIN	
+Adaptive card	478 x 389	0	0	5	12px	VERTICAL MIN MIN	
+Adaptive card|Mobile=True	355 x 374	0	0	5	12px	VERTICAL MIN MIN	
 Add attachment	440 x 466	0	0	20	13px SemiBold	VERTICAL CENTER MIN	
 Attachment with person	440 x 112	0	8	0	13px	VERTICAL CENTER MIN	
 Attachments	440 x 56	0	0	0	13px SemiBold	HORIZONTAL MIN MIN	
@@ -87,6 +101,7 @@ Card	520 x 358	20	8	20	20px	VERTICAL CENTER MIN	shadow 0 0 4px
 Checkbox/Radio item	auto x 22	0	0	10	16px	HORIZONTAL CENTER MIN	box + label, 10px gap. 18 variants
 Checkbox/Radio list	194 x 81	0	0	5	16px	VERTICAL MIN MIN	5px between items. 4 variants
 Checkbox/Radio list|State=Error	194 x 101	0	0	5	16px	VERTICAL MIN MIN	
+Clickable AI element	382 x 38	10 10 10 20	8	10	13px	HORIZONTAL CENTER MIN	
 Clock in	107 x 32	7 20 7 10	20	5	16px	HORIZONTAL CENTER CENTER	PILL. CLIP — fixed 107 wide with clipsContent on. Icon 22 at x=6, label 58 at x=33, so the label overruns the right padding by 4px and Figma cuts it off.
 Component 1	432 x 48	10	8	10	20px	HORIZONTAL CENTER MIN	UNNAMED IN FIGMA. It is the row inside Editable list card: a label with a trailing add or remove action. Property 1=Frame 6270951 is the ADD state (no fill, green Plus circle icon); Frame 6270952 is the ADDED state (Background/Tertiary fill, grey Remove icon). The component and both variant values carry Figma default names — raise with design.
 Config child menu	auto x 42	0	0	0	16px	VERTICAL MIN MIN	

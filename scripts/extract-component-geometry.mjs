@@ -40,13 +40,38 @@ for (const line of readFileSync(file, 'utf8').split('\n')) {
   try { walk(JSON.parse(line)); } catch { /* partial trailing line */ }
 }
 
+// DOCUMENTATION PAGES ARE NOT THE DESIGN SYSTEM. Four of the Figma file's pages —
+// 📚 WIKI, 🎨 STYLE GUIDE, 📄 DOCUMENT MANAGEMENT and the project-info boards — hold
+// components that DESCRIBE the design system rather than belong to it: a Storybook link,
+// a "Dos and don'ts" panel, project-status thumbnails, an Avatar in a Medium weight the
+// system does not ship. uncaptured-reasons.tsv already records `AI link` on exactly this
+// ground. Walking them also collides names: the Style Guide has its own `Header`
+// (1654x98, 30px padding, 28px type) which is not the People First `Header` (1830x86).
+// Excluded by name here so a stray walk of those pages cannot reach the library.
+const DOC_ONLY = new Set(['Thumbnail', 'Thumbnail/Brand logo', 'Document label spec',
+  'Document order spec', 'Prototype cover page', 'Prototype context screen',
+  "Dos and don'ts", 'Storybook link', 'AI link', 'design system header', 'Work item',
+  'Description', 'Logos', 'Avatar', 'Team member', 'Wiki menu', 'Logo', 'Skeleton state',
+  'Project info - Files and Resources', 'Project info - UX PRD summary',
+  'Project info - Meeting notes', 'Project info - Timeframe and schedule',
+  'Project info - Stakeholders and Team']);
+
 // component -> variant -> {size,padding,radius,gap,font,layout}
 const measured = new Map();
 for (const b of blocks) {
   for (const line of b.split('\n').slice(1)) {
+    // A block ENDS at the first blank line. A walk that returns two blocks in one string
+    // would otherwise spill the second one's rows into this map under shifted columns.
+    if (!line.trim()) break;
     const c = line.split('\t');
-    if (c.length < 8) continue;
+    if (c.length !== 8) continue;
     const [comp, variant, size, padding, radius, gap, font, layout] = c;
+    // NAME COLLISION. `Header` exists twice: the People First component on the Navigation
+    // page, whose rows always carry a variant (Theme=... or System=...), and a plain
+    // variant-less COMPONENT on the Style Guide page — the documentation site's own
+    // masthead, 1654x98. Excluding by name alone would delete both; the variant is the
+    // discriminator, and it is a property of the data rather than a guess.
+    if (DOC_ONLY.has(comp) || (comp === 'Header' && !String(variant).trim())) continue;
     if (!measured.has(comp)) measured.set(comp, new Map());
     measured.get(comp).set(variant, { size, padding, radius, gap, font, layout });
   }
