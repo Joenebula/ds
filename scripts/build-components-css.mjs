@@ -53,6 +53,32 @@ for (const r of geometryRows) {
 }
 const variants = tsv('tokens/_raw/component-variants.tsv');
 
+// Artwork: a component whose visual IS an image. The colour extract has three slots —
+// fill, stroke, text — and every one of them wants a colour VARIABLE. The header's
+// swoosh is a 1920x86 raster fill bound to no variable at all, so it was recorded in
+// uncaptured-reasons.tsv as "nothing to put in a stylesheet" and the header shipped as
+// an empty transparent box. Anyone building a header then hand-wrote one, and that is
+// where the flat pink band and the wrong font weights came from.
+// Inlined as data: URIs, not url() paths, because an artifact or a .dc.html canvas
+// cannot reference a local file — a link there fails silently, which is the same class
+// of invisible failure all over again.
+const artByComponent = new Map();
+try {
+  for (const r of tsv('tokens/_raw/component-art.tsv')) {
+    const bytes = readFileSync(`assets/component-art/${r.file}`);
+    const mime = r.file.endsWith('.jpg') ? 'image/jpeg'
+      : r.file.endsWith('.png') ? 'image/png'
+      : r.file.endsWith('.svg') ? 'image/svg+xml' : 'application/octet-stream';
+    if (!artByComponent.has(r.component)) artByComponent.set(r.component, []);
+    artByComponent.get(r.component).push({
+      variant: r.variant,
+      uri: `data:${mime};base64,${bytes.toString('base64')}`,
+    });
+  }
+} catch (e) {
+  if (e.code !== 'ENOENT') throw e;
+}
+
 // Primitive names Figma binds directly, and the semantic token of identical value to
 // use instead — chosen per CSS property, because the semantic layer names the ROLE.
 // `Grey-slate` is #3e3e3e; `Text/Always grey slate` resolves to exactly that and is a
@@ -360,6 +386,48 @@ for (const [component, rows] of [...byComponent.entries()].sort()) {
     out.push('}');
     ruleCount++;
   }
+
+  for (const a of artByComponent.get(component) || []) {
+    const props = parseVariant(a.variant);
+    // Figma models light/dark as a variant property. This project models it as
+    // data-theme on the root, the same way every token does. Emit both: the faithful
+    // variant selector, and the theme-driven one so the artwork follows dark mode
+    // without the page having to know a Darkmode attribute exists.
+    const dark = /^true$/i.test(props.Darkmode || '');
+    delete props.Darkmode;
+    // Every remaining axis stays an explicit attribute, except Breakpoint=Desktop,
+    // which also answers to the bare class. Without that, `class="pf-default-header-
+    // background"` on its own renders nothing at all — precisely the silent blank this
+    // whole change exists to stop.
+    const bare = props.Breakpoint === 'Desktop';
+    const rest = { ...props };
+    if (bare) delete rest.Breakpoint;
+    const plains = [selectorsFor(base, props)[0]];
+    if (bare) plains.push(selectorsFor(base, rest)[0]);
+
+    const sels = [];
+    for (const plain of plains) {
+      sels.push(`${plain}[data-darkmode="${dark ? 'True' : 'False'}"]`);
+      if (dark) sels.push(`:root[data-theme="dark"] ${plain}`);
+      else { sels.push(plain); sels.push(`:root[data-theme="light"] ${plain}`); }
+    }
+    out.push(`${sels.join(',\n')} {`);
+    out.push(`  background-image: url("${a.uri}");`);
+    out.push('  background-size: cover;');
+    out.push('  background-position: center;');
+    out.push('  background-repeat: no-repeat;');
+    out.push('}');
+    if (dark) {
+      out.push('@media (prefers-color-scheme: dark) {');
+      for (const plain of plains) {
+        out.push(`  :root:not([data-theme="light"]) ${plain} {`);
+        out.push(`    background-image: url("${a.uri}");`);
+        out.push('  }');
+      }
+      out.push('}');
+    }
+    ruleCount++;
+  }
   out.push('');
   componentCount++;
 }
@@ -371,6 +439,18 @@ for (const [component, rows] of [...byComponent.entries()].sort()) {
 // anonymous one, and the cell's contents stack. It survived on a screen whose cells hold
 // a single value and broke visibly on one whose cells hold three, which is exactly the
 // kind of bug no check catches — the colours and the measured height are still correct.
+// Figma draws the header background as a fixed 1920x86 frame, so the generator emits a
+// fixed height and `display: inline-block` — which on a page is a box with no width, and
+// a background image on a zero-width box is invisible. Same trap as .pf-table-ag: a
+// canvas frame's fixed width is a canvas fact, not a page one. A full-bleed band spans.
+out.push('/* A full-bleed artwork band has to span its container; the fixed width it was');
+out.push('   measured at is a Figma canvas fact, not a page one. */');
+out.push('.pf-default-header-background {');
+out.push('  display: block;');
+out.push('  width: 100%;');
+out.push('}');
+out.push('');
+
 out.push('/* Element fix-ups — a component used AS a table cell must stay a table cell. */');
 out.push('td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {');
 out.push('  display: table-cell;');

@@ -1,0 +1,7 @@
+component	variant	slug	file	bytes
+Default header background	Breakpoint=Desktop, Darkmode=False	header-background-desktop-light	header-background-desktop-light.jpg	39367
+Default header background	Breakpoint=Desktop, Darkmode=True	header-background-desktop-dark	header-background-desktop-dark.jpg	39858
+Default header background	Breakpoint=Mobile, Darkmode=False	header-background-mobile-light	header-background-mobile-light.jpg	9106
+Default header background	Breakpoint=Mobile, Darkmode=True	header-background-mobile-dark	header-background-mobile-dark.jpg	8390
+Default header background	Breakpoint=Tablet, Darkmode=False	header-background-tablet-light	header-background-tablet-light.jpg	16874
+Default header background	Breakpoint=Tablet, Darkmode=True	header-background-tablet-dark	header-background-tablet-dark.jpg	15816

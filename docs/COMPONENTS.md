@@ -453,9 +453,9 @@ so nobody has to guess whether one is an oversight — none of them is.
 
 `AI link` · `Avatar` · `Description` · `Document label spec` · `Document order spec` · `Dos and don'ts` · `Header` · `Logos` · `MHR logo` · `People first logo` · `Project info - Files and Resources` · `Project info - Meeting notes` · `Project info - Stakeholders and Team` · `Project info - Timeframe and schedule` · `Project info - UX PRD summary` · `Prototype context screen` · `Prototype cover page` · `Skeleton state` · `Storybook link` · `Team member` · `Thumbnail` · `Thumbnail/Brand logo` · `Wiki menu` · `Work item` · `design system header` · `iTrent logo`
 
-**11 — no variant binds a colour variable in Figma — nothing to put in a stylesheet**
+**10 — no variant binds a colour variable in Figma — nothing to put in a stylesheet**
 
-`Default header background` · `Field icons` · `Floaters` · `Horizontal scroll` · `Map` · `Menu` · `Mobile key actions` · `Notification image` · `Profile image` · `Stars` · `Tooltip`
+`Field icons` · `Floaters` · `Horizontal scroll` · `Map` · `Menu` · `Mobile key actions` · `Notification image` · `Profile image` · `Stars` · `Tooltip`
 
 **1 — its variants are sample content (one per fictional employee), not design**
 

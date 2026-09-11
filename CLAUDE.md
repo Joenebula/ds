@@ -50,6 +50,46 @@ only.
 
 Dark mode: `data-theme="dark"` / `"light"` on the root, or omit to follow the OS.
 
+## Component artwork
+
+Some components' visual **is an image**, not a colour. The header band
+(`Default header background`) is a 1920x86 raster swoosh with a charcoal dark-mode twin —
+six variants in all. It binds no colour variable, so the colour extract has nothing to put
+in its `fill / stroke / text` slots and used to drop the artwork entirely; the class then
+rendered as an empty transparent box and whoever needed a header hand-wrote one. That is
+where the flat pink band and the wrong font weights came from.
+
+Artwork now lives in `assets/component-art/`, is listed in `tokens/_raw/component-art.tsv`,
+and is **inlined as data: URIs** by `dist/components.css` — a `url()` path would fail
+silently in an artifact or a `.dc.html` canvas, which is the same invisible failure again.
+
+```html
+<div class="pf-default-header-background"></div>          <!-- desktop, follows the theme -->
+<div class="pf-default-header-background" data-breakpoint="Mobile"></div>
+```
+
+Light/dark is automatic via `data-theme`; you never set `data-darkmode` yourself, though
+Figma's own variant attribute still works.
+
+To add artwork for another component: export it through `use_figma` in base64 chunks
+headed `ART\t<slug>\t<format>\t<part>\t<total>`, declare the slug's owning component and
+variant in the `EXPORTS` table in `scripts/extract-component-art.mjs`, run that script,
+then `npm run build`.
+
+## What the component classes do and do not carry
+
+A component is modelled as **one outer box plus three colour slots**
+(`component-geometry.tsv` + `component-variants.tsv`). There is nowhere for a component's
+*contents* to go — no children, no nested instances, no per-child type. So a component that
+IS one box works as a class (`.pf-button`, `.pf-tag`, `.pf-filter-chip`) and a composite one
+does not: `.pf-header`, `.pf-card`, `.pf-metric-card`, `.pf-calendar-picker` and
+`.pf-table-ag` carry a size and nothing inside it.
+
+`npm run verify` now counts the classes with no paint at all — **70** — and fails if that
+number grows. It does not, and cannot, tell you a class is structurally empty. Before
+building anything composite, open `docs/components.html` and look at what the class
+actually renders. If it renders a blank box, say so rather than hand-writing a substitute.
+
 ## Editing tokens
 
 `tokens/_raw/` is the input; everything else is generated. Re-extract from Figma into
