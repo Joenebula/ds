@@ -470,7 +470,7 @@
 }
 
 /* Toggle
- * 4 variants captured. RE-READ 2026-09-11: On=No/Locked=No and On=Yes/Locked=No are UNCHANGED and still bind their tokens. The two Locked=Yes variants have been FLATTENED to images and bind nothing, so their captured Background/Tertiary and Background/Primary Button rows are stale in the same way Control is
+ * 4 variants captured. RE-READ 2026-09-11, CORRECTED SAME DAY: all four variants are UNCHANGED and still bind their captured tokens. The earlier note on this row claimed the two Locked=Yes variants had been flattened and bound nothing; that was read off a get_design_context render, which exports vector art as an <img> and drops its bindings. get_variable_defs on the variants themselves disproves it — 2816:1373 binds Background/Tertiary + Base colours/Grey Dolphin and 2816:1379 binds Background/Primary Button, exactly as captured
  * pill
  */
 .pf-toggle {
@@ -663,7 +663,7 @@
 }
 
 /* Control
- * 2 variants captured. RE-READ 2026-09-11: FLATTENED TO VECTOR ART. Figma now draws both Radio=No and Radio=Yes as an exported SVG and the component binds NO colour variable at all. The captured rows still say Background/Primary + Icons/Icon - Disabled, so .pf-control generates a fill and border from tokens Figma no longer binds — the CSS can now drift from the artwork with nothing able to notice
+ * 2 variants captured. RE-READ 2026-09-11, CORRECTED SAME DAY: UNCHANGED. The earlier note on this row said Figma binds NO colour variable here any more and .pf-control was generating a fill and border from nothing. That was false: get_variable_defs on 30641:14910 returns Background/Primary + Icons/Icon - Disabled, exactly the captured rows. The render draws the control as an exported SVG, which hides the bindings but does not remove them
  * Figma sets 10px padding on a 20px-tall box, leaving -2px for content; dropped, as the size wins
  */
 .pf-control {

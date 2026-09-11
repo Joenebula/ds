@@ -32,8 +32,8 @@ Forms	Form field	Input type=Search, State=Error			Text/Negative	13737:25863
 Forms	Form field	Input type=Search, State=Selected			Text/Link	13737:25863
 Forms	Form field	Input type=Date picker, State=Default			Text/Primary	13737:25863
 Forms	Form field	Input type=Time picker, State=Default			Text/Primary	13737:25863
-Forms	Field	Right aligned=No, Filled=No	Background/Primary	Border/Form input	Text/Secondary	18846:28925
-Forms	Field	Right aligned=No, Filled=Yes	Background/Primary	Border/Form input	Text/Primary	18846:28925
+Forms	Field	Right aligned=No, Filled=No	Background/Primary	Border/Form input	Text/Secondary	13737:25495
+Forms	Field	Right aligned=No, Filled=Yes	Background/Primary	Border/Form input	Text/Primary	13737:25495
 Forms	Text area	Type=Standard			Text/Primary	13740:47785
 Forms	Text area	Type=Read only			Text/Primary	13740:47785
 Forms	Text area	Type=Disabled			Text/Primary	13740:47785
@@ -172,9 +172,9 @@ Cards and panels	Sticky footer	Default=Default	Background/Primary	Border/Seconda
 Cards and panels	Sticky footer	Default=Stepper	Background/Primary	Border/Secondary	Text/Primary	20184:1662
 Cards and panels	Layout container (magazine style)	Row colour=False	Background/Primary		Text/Primary	16370:9151
 Cards and panels	Layout container (magazine style)	Row colour=True	Background/Theme		Text/Primary	16370:9151
-Cards and panels	Org chart	Type=Org	Background/Primary		Text/Primary	6237:66512
-Cards and panels	Org chart	Type=Manager	Background/Primary		Text/Primary	6237:66512
-Cards and panels	Org chart	Type=Reportee	Background/Primary		Text/Primary	6237:66512
+Cards and panels	Org chart	Type=Org	Background/Primary		Text/Primary	31040:34148
+Cards and panels	Org chart	Type=Manager	Background/Primary		Text/Primary	31040:34148
+Cards and panels	Org chart	Type=Reportee	Background/Primary		Text/Primary	31040:34148
 Cards and panels	Note	Property 1=Default		Border/Default	Text/Primary	5235:65705
 Cards and panels	Side filter	Mobile=False	Background/Primary		Text/Primary	9374:93485
 AI	AI button	Style=Light mode, Hover=False			Text/Primary	22814:16542
@@ -193,9 +193,9 @@ AI	AI message bubble	Type=User chat			Text/Secondary	27295:378
 Navigation	Config menu items				Text/Primary	958:30298
 Navigation	Config parent menu			Border/Default	Text/Primary	4931:63962
 Navigation	Navigation tabs				Text/Theme	23086:8084
-Navigation	Header	Breakpoint=Desktop			Text/Secondary	13658:7653
-Navigation	Header	Breakpoint=Tablet			Base colours/White	13658:7653
-Navigation	Header	Breakpoint=Mobile			Base colours/White	13658:7653
+Navigation	Header	Breakpoint=Desktop			Text/Secondary	32488:24634
+Navigation	Header	Breakpoint=Tablet			Base colours/White	32488:24634
+Navigation	Header	Breakpoint=Mobile			Base colours/White	32488:24634
 Navigation	Mobile bottom navigation				Text/Secondary	13658:7742
 Navigation	Header navigation	Breakpoint=Desktop			Text/Secondary	13658:7772
 Navigation	Header navigation	Breakpoint=Tablet			Base colours/White	13658:7772
@@ -218,7 +218,7 @@ Cards and panels	Layout container title				Text/Primary	16418:9936
 Cards and panels	Layout container tabs				Text/Theme	16418:10087
 Cards and panels	50/50 layout container				Text/Primary	28405:3050
 Forms	[S] Text area				Text/Primary	607:90038
-Forms	Signature				Text/Primary	8136:78299
+Forms	Signature				Text/Primary	2834:46484
 Forms	Text template format editor 				Text/Primary	5322:65728
 Buttons and links	Add attachment				Text/Primary	4174:71096
 Buttons and links	Action menu button				Text/Primary	5308:64681
@@ -226,8 +226,8 @@ Buttons and links	Tool tip		Background/Tertiary		Text/Primary	5322:66068
 Buttons and links	Drop down button	Hover=False		Border/Form input	Text/Primary	22421:5021
 Buttons and links	Drop down button	Hover=True	Background/Tertiary	Border/Form input	Text/Secondary	22421:5021
 Navigation	Config child menu	Type=Child + sub			Text/Primary	958:30289
-Forms	Field	Right aligned=Yes, Filled=No	Background/Primary	Border/Form input	Text/Secondary	18846:28925
-Forms	Field	Right aligned=Yes, Filled=Yes	Background/Primary	Border/Form input	Text/Secondary	18846:28925
+Forms	Field	Right aligned=Yes, Filled=No	Background/Primary	Border/Form input	Text/Secondary	13737:25495
+Forms	Field	Right aligned=Yes, Filled=Yes	Background/Primary	Border/Form input	Text/Secondary	13737:25495
 Buttons and links	Button	Type=Hollow, State=Disabled		Border/Disabled	Text/Disabled	1656:44983
 Buttons and links	Button	Type=Filter, State=Disabled		Border/Disabled	Text/Disabled	1656:44983
 Buttons and links	Button	Type=Sort, State=Disabled		Border/Disabled	Text/Disabled	1656:44983
@@ -235,7 +235,7 @@ Buttons and links	Button	Type=Action, State=Disabled	Background/Secondary Button
 Buttons and links	Button	Type=Negative, State=Disabled	Background/Negative Button		Base colours/White	1656:44983
 Buttons and links	Button	Type=Positive, State=Disabled	Background/Primary Button		Base colours/White	1656:44983
 Analytics and charts	Bar				Text/Primary	7649:71538
-Analytics and charts	Bar chart				Text/Primary	6188:65918
+Analytics and charts	Bar chart				Text/Primary	7658:72458
 Analytics and charts	Bar chart with axis				Text/Primary	7667:71127
 Analytics and charts	Donut pie chart				Text/Primary	8135:78219
 Analytics and charts	Donut chart with ledger				Text/Primary	8135:79063

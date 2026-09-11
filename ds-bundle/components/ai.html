@@ -508,7 +508,7 @@
 }
 
 /* AI Assistant
- * 3 variants captured. RE-READ 2026-09-11: Base colours/Default Pink is bound NOWHERE in this component any more, yet the capture records it as the text colour for Type=Default and Type=Active chat — those two rows are STALE. Today it binds Text/Primary, Text/Secondary and Text/Link. Its stroke has moved Border/Default -> Border/Default full, which is unextracted, so the rows were left rather than half-corrected. It also carries 11 raw #007ff3 borders with no variable behind them
+ * 3 variants captured. RE-READ 2026-09-11, CONFIRMED SAME DAY by a sound method: get_variable_defs on the component set 27507:11696 does NOT contain Base colours/Default Pink, and absence from the whole subtree IS absence on the root. So the Type=Default and Type=Active chat text rows are genuinely STALE. Today it binds Text/Primary, Text/Secondary and Text/Link. Its stroke has moved Border/Default -> Border/Default full, which is unextracted, so the rows were left rather than half-corrected. It also carries 11 raw #007ff3 borders with no variable behind them
  * Figma draws this 1628px wide; treated as layout, not a rule
  */
 .pf-ai-assistant {
@@ -566,7 +566,7 @@
 }
 
 /* AI card modal
- * 1 variant captured. RE-READ 2026-09-11: its fill is no longer a flat token. The root paints TWO stacked linear-gradients — an opaque white base under the AI gradient at 5% — so the captured Background/Primary is STALE and no fill token can replace it. Its border is a raw #007ff3 and its shadow binds Border/Border - Drop shadow
+ * 1 variant captured. RE-READ 2026-09-11, QUALIFIED SAME DAY: the render shows the root painted with two stacked linear-gradients and Figma does hold an AI gradient variable for this component. But the earlier claim that the captured Background/Primary is therefore STALE is NOT PROVEN — get_variable_defs on 22814:16588 still returns Background/Primary, so the token is bound somewhere in the component and the render cannot say whether that is the root. Left as captured. Its shadow binds Border/Border - Drop shadow
  * Figma draws this 440px wide; treated as layout, not a rule
  * Figma draws this 505px tall; emitted as a minimum, since content decides the real height
  */

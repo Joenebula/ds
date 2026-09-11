@@ -6,7 +6,7 @@ Links (secondary)	auto x 18	0	0	5	13px
 Filter chip	auto x 42	10 20	76	5	16px, ls -1%	HORIZONTAL CENTER CENTER	RE-READ 2026-09-11: State=Hover has moved Background/Theme -> Background/Light theme. THIRD component with that exact change after Radio tile and Radio card, and the first that the shipped prototypes actually use. Unextracted, so the row is left as captured and is KNOWN STALE. Invisible in light (both #fcf4f7) and wrong in dark, where Background/Theme is #2c3844. Default and Selected rows are unchanged	8433:85634
 Filter chip (mobile)	auto x 34	8 15	76	5	13px		PILL	
 Tags	auto x 28	5 10	4	5	13px Regular	HORIZONTAL CENTER CENTER	SENTENCE CASE, not uppercase	18415:5426
-Field	300 x 42	10 10 10 20	8	10	16px	HORIZONTAL CENTER MAX	the input box itself. Placeholder text is italic, the value is not. 4 variants (Right aligned x Filled). Figma has a second, unrelated component also called Field.	18846:28925
+Field	300 x 42	10 10 10 20	8	10	16px	HORIZONTAL CENTER MAX	the input box itself. Placeholder text is italic, the value is not. 4 variants (Right aligned x Filled). NODE ID CORRECTED 2026-09-11: was 18846:28925, which is the OTHER component Figma also calls Field — a single Property 1=Default variant 95x42, recorded separately on this file's "Field (second component)" row. The real set is 13737:25495, whose four Right aligned x Filled variants are 300x42, exactly this row and the four captured variants	13737:25495
 Primary search	auto x 38	0 10	20	10	13px	HORIZONTAL CENTER MIN	PILL	6584:66405
 Option (dropdown row)	auto x 26	2 10 2 20	4	5	16px		tick icon 14x14	
 Text area	auto x 213	—	8	5	16px	VERTICAL MIN MIN	inner frame r8	13740:47785
@@ -52,23 +52,23 @@ Tab	40 x 34	6 0	0	10	16px	VERTICAL CENTER MIN		13658:7879
 Navigation tabs	auto x 36	0	0	40	16px SemiBold	HORIZONTAL CENTER MIN		23086:8084
 Tertiary nav	auto x 43	4 368	0	40	16px SemiBold	HORIZONTAL CENTER CENTER		13658:7900
 Nav tabs	80 x 40	0 20	mixed	10	16px			13658:7817
-Header	auto x 86	0	0	0	16px	VERTICAL MIN MIN		13658:7653
+Header	auto x 86	0	0	0	16px	VERTICAL MIN MIN	NODE ID CORRECTED 2026-09-11: was 13658:7653, which matches NOTHING in the 475-component inventory. The real set is 32488:24634 on Navigation, whose Mobile=No variants are 86 tall — exactly this row; the other Navigation component called Header (32527:39433) is a 20x20 glyph pair. FIGMA HAS RE-AXED IT: the three captured Breakpoint=Desktop/Tablet/Mobile rows are gone, replaced by Theme(16) x Mobile(2) = 32 variants. Not recaptured — Navigation is blocked on Navigation/Nav bg top and Border/Default full, so its colours cannot be recorded without inventing a token	32488:24634
 Mobile bottom navigation	375 x 76	0	0	0	11px	HORIZONTAL MIN MIN		13658:7742
 Clock in	107 x 32	7 20 7 10	20	5	16px	HORIZONTAL CENTER CENTER	PILL	13658:8019
 Filter tab single	224 x 100	20	0	5	24px Regular	VERTICAL MIN CENTER		23069:23190
 Top bar app context	242 x 66	0	0	0	24px	HORIZONTAL MIN MIN		13658:7955
-Metric card	392 x 89	20	8	165	36px		big-number tile	8206:79577
-Bar chart	415 x 193	0	0	10	13px			6188:65918
-Bar chart with axis	326 x 221	0	0	0	13px Regular			7667:71127
-Donut pie chart	200 x 200	0	0	0	60px Medium		centre figure is 60px	8135:78219
-Donut chart with ledger	329 x 200	0	0	21	60px			8135:79063
-Hemisphere chart	200 x 146	0	0	5	13px			16537:3845
-Graph legend	auto x 33	0	0	5	24px Regular			8117:78197
-Graph axis	492 x 232	0	0	10	13px			7658:72461
-Square progress bar	177 x 34	0	0	10	13px			10239:114074
-Table progress bar	246 x 14	0	0	5	13px			43:261
-Percentage bar	343 x 37	0	0	5	13px			18093:998
-Data variance	41 x 45	0	0	0	13px			8206:79398
+Metric card	392 x 89	20	8	165	36px		RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED	8206:79577
+Bar chart	415 x 193	0	0	10	13px		NODE ID CORRECTED 2026-09-11: was 6188:65918, which is a 36x36 GLYPH on the Icons page, not this chart. Figma publishes two components called Bar chart and backfill-node-ids.mjs let the last one win. The real set is 7658:72458, whose Breakpoint=Desktop variant is 415x193 — exactly this row. RE-READ against the corrected id: Text/Primary and Charts/Chart 1 are both still bound, UNCHANGED. Figma carries Breakpoint(2) x Darkmode axes this capture records as a single blank variant	7658:72458
+Bar chart with axis	326 x 221	0	0	0	13px Regular		RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED. Its axis rules bind Border/Default full, the blocked split token, on children	7667:71127
+Donut pie chart	200 x 200	0	0	0	60px Medium		RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED. Segments bind Charts/Chart 1-4 as children	8135:78219
+Donut chart with ledger	329 x 200	0	0	21	60px		RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED. Segments bind Charts/Chart 1-4 and 6 as children	8135:79063
+Hemisphere chart	200 x 146	0	0	5	13px		RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED. Segments bind Charts/Chart 1, 2, 3, 6 and 7 as children	16537:3845
+Graph legend	auto x 33	0	0	5	24px Regular		RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED	8117:78197
+Graph axis	492 x 232	0	0	10	13px		RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED. Its rules bind Border/Default full, the blocked split token, on children	7658:72461
+Square progress bar	177 x 34	0	0	10	13px		RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED	10239:114074
+Table progress bar	246 x 14	0	0	5	13px		RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED. Its bar binds Charts/Chart 4, Background/Secondary and Progress bar/Border as children	43:261
+Percentage bar	343 x 37	0	0	5	13px		RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED. Binds Charts/Chart 1 and Background/Tertiary on children	18093:998
+Data variance	41 x 45	0	0	0	13px		RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED. Its up/down states bind Text/Positive, Text/Negative and Icons/Icon - Positive as children	8206:79398
 Profile image	93 x 93		47	0	—		CIRCLE	141:142
 People (avatar)	91 x 91	0	0	0	—			
 People (row)	380 x 40	0	0	10	16px			
@@ -88,13 +88,13 @@ Inline search	400 x auto	0	0	6	16px	VERTICAL MIN MIN	2 variants	8478:86031
 People and department drop down	440 x auto	10 5 10 10	0	10	16px	HORIZONTAL MIN CENTER		24963:15286
 Multiselect tag	auto x auto	0	4	0	13px	HORIZONTAL CENTER MIN	the removable tag inside a multiselect	25959:29138
 [S] Text area	300 x 240	0	8	5	16px	VERTICAL MIN MIN	small variant	607:90038
-Signature	auto x auto	0	0	0	16px	VERTICAL MIN MIN		8136:78299
+Signature	auto x auto	0	0	0	16px	VERTICAL MIN MIN	NODE ID CORRECTED 2026-09-11: was 8136:78299, the Icons-page glyph of the same name. The real set is 2834:46484 on Forms, a 789x424 frame with a Mandatory x State axis this capture records as a single blank variant	2834:46484
 Text template format editor	440 x auto	0	0	5	16px	VERTICAL MIN MIN	2 variants	5322:65728
 [S] Post content	520 x auto	0 20 10 73	0	2	20px	VERTICAL MIN MIN	73px left padding leaves room for an avatar	2977:43756
 Map	480 x 200	—	8	—	—	NONE	not auto-layout	1337:35965
 Calendar picker	auto x auto	0	0	0	16px	VERTICAL MIN MIN		17411:5842
 Time picker	auto x auto	0	0	0	16px	VERTICAL MIN MIN		17411:5843
-Field (second component)	auto x auto	0	0	2	13px	VERTICAL MIN MIN	Figma has two components named Field on the Forms page; this is the smaller one	
+Field (second component)	auto x auto	0	0	2	13px	VERTICAL MIN MIN	the unrelated second Field. Given its id 2026-09-11 by elimination: the inventory publishes exactly two components called Field, the main row is now pinned to 13737:25495 on measured evidence, and this is the other — a single Property 1=Default variant, 95x42	18846:28925
 Radio tile	235 x auto	25 0	4	10	16px SemiBold	VERTICAL CENTER MIN	RE-READ 2026-09-11: its theme-tinted state has moved Background/Theme -> Background/Light theme and its resting border Border/Default -> Border/Default full. Both replacements are unextracted, so the rows are left as captured and are KNOWN STALE. The fill change is invisible in light mode (both resolve to #fcf4f7) and changes dark mode, where Background/Theme goes to #2c3844	26746:17352
 Radio card	235 x 152	25 0	4	10	16px SemiBold	VERTICAL CENTER MIN	RE-READ 2026-09-11: its theme-tinted state has moved Background/Theme -> Background/Light theme and its resting border Border/Default -> Border/Default full. Both replacements are unextracted, so the rows are left as captured and are KNOWN STALE. The fill change is invisible in light mode (both resolve to #fcf4f7) and changes dark mode, where Background/Theme goes to #2c3844	30573:16933
 Control	20 x 20	10	4	10	—	VERTICAL CENTER CENTER	RE-READ 2026-09-11, CORRECTED SAME DAY: UNCHANGED. The earlier note on this row said Figma binds NO colour variable here any more and .pf-control was generating a fill and border from nothing. That was false: get_variable_defs on 30641:14910 returns Background/Primary + Icons/Icon - Disabled, exactly the captured rows. The render draws the control as an exported SVG, which hides the bindings but does not remove them	30641:14910
@@ -109,7 +109,7 @@ Attachments	440 x auto				13px SemiBold	HORIZONTAL MIN MIN		5235:64884
 Attachment with person	440 x auto		8		13px	VERTICAL CENTER MIN		5235:65181
 Note	440 x auto		8		13px	VERTICAL CENTER MIN		5235:65705
 Editable list card	auto x auto		4		13px	HORIZONTAL MIN MIN		5127:69366
-Org chart	293 x auto		8		16px	HORIZONTAL CENTER MIN		6237:66512
+Org chart	293 x auto		8		16px	HORIZONTAL CENTER MIN	shadow 2 2 4px. NODE ID CORRECTED 2026-09-11: was 6237:66512, the Icons-page glyph of the same name. The real set is 31040:34148, whose Type=Org/Manager/Reportee variants are 293 wide — exactly this row and the three captured variants	31040:34148
 Configuration panel	1600 x auto		mixed		20px	VERTICAL CENTER MIN		7064:68025
 Side filter	400 x 885		mixed		20px	VERTICAL CENTER MIN		9374:93485
 Spotlight Card	375 x auto	0 0 10 0	8	10	13px	VERTICAL MIN MIN		26820:17383
@@ -156,7 +156,7 @@ AI Gradient component	408 x 408				24px SemiBold			27295:318
 Configuration	1600 x 809		8		24px			13717:37944
 Form	355 x auto	20 10	8	30	18px	VERTICAL CENTER MIN		13717:37949
 Menu-search-settings	1920 x 1080	20		30	24px	VERTICAL CENTER MIN		829:31644
-Bar	29 x 90			5	13px	VERTICAL CENTER MIN		7649:71538
-Data variance alternative	auto x auto			5	20px	HORIZONTAL CENTER MIN		828:31772
+Bar	29 x 90			5	13px	VERTICAL CENTER MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED. Its bars bind Charts/Chart 1 as children	7649:71538
+Data variance alternative	auto x auto			5	20px	HORIZONTAL CENTER MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED. Binds Icons/Icon - Theme and Text/Theme on children	828:31772
 [S] People	380 x auto			10	16px	HORIZONTAL CENTER CENTER		10682:112860
 Text template format editor 	440 x auto			5	16px	VERTICAL MIN MIN		5322:65728

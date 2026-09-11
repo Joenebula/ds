@@ -470,7 +470,7 @@
 }
 
 /* Table header (AG)
- * 3 variants captured
+ * 3 variants captured. RE-READ 2026-09-11: fill Table/Header cell is unchanged on all three Alignment variants. The stroke has moved Border/Default -> Border/Default full, which is unextracted, so all three rows are left as captured and are KNOWN STALE. NOTE THE METHOD: the render emits no border class at all here — the binding was only visible to get_variable_defs on 27719:2334
  */
 .pf-table-header-ag {
   height: 54px;
@@ -505,7 +505,7 @@
 }
 
 /* Table cell (AG)
- * 6 variants captured. rows are TALL
+ * 6 variants captured. rows are TALL. RE-READ 2026-09-11: all six rows are KNOWN STALE and none could be corrected. Stroke Border/Default -> Border/Default full on all six (invisible to the render, found by get_variable_defs on 27719:3033); fill Background/Theme -> Background/Light theme on the two Style=Hover rows. Both replacements are unextracted. The Table/Primary cell and Table/Stripe cell fills are unchanged
  */
 .pf-table-cell-ag {
   height: 58px;
@@ -552,7 +552,7 @@
 }
 
 /* Table (AG)
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: SCREENED, NOT MEASURED. get_design_context refuses this node as too large, so it was checked with get_variable_defs on 27737:47827 instead: Table/Border and Text/Primary are both still bound and no captured token has gone. That screens the component; it does not re-measure which node holds which role. Needs the python extract-from-transcript route to be read properly
  * Figma draws this 1705px wide; treated as layout, not a rule
  */
 .pf-table-ag {
@@ -577,7 +577,7 @@
 }
 
 /* Table card (AG)
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: SCREENED, NOT MEASURED — same as Table (AG), and for the same reason: it embeds a whole table, so its variable set is the table's. Table/Card and Text/Theme are both still bound. Needs the python extract-from-transcript route
  */
 .pf-table-card-ag {
   padding: 20px;
@@ -603,7 +603,7 @@
 }
 
 /* Footer (AG)
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: UNCHANGED — Table/Card and Text/Primary both still bound (screened with get_variable_defs on 27725:51239)
  * Figma draws this 1560px wide; treated as layout, not a rule
  */
 .pf-footer-ag {
@@ -626,7 +626,7 @@
 }
 
 /* Multi-select checkbox
- * 4 variants captured
+ * 4 variants captured. RE-READ 2026-09-11: Default, Selected and Mixed selection are UNCHANGED. State=Hover has moved Background/Theme -> Background/Light theme and is KNOWN STALE. Mixed selection renders as a flat SVG with no bindings in the code, but get_variable_defs on 9099:90323 returns Icons/Icon - Theme exactly as captured — a second demonstration that the render cannot prove an absence
  */
 .pf-multi-select-checkbox {
   width: 20px;
@@ -658,7 +658,7 @@
 }
 
 /* Table header icons
- * 5 variants captured
+ * 5 variants captured. RE-READ 2026-09-11: all four captured coloured rows have moved Background/Theme -> Background/Light theme and are KNOWN STALE. Figma has also GROWN this component from the 5 captured variants to 10: Sort/Hover, Filter/Default, Filter/Hover, Context menu/Default and Context menu/Hover are new. The three new Hover states paint a RAW #e5e5e5 with no variable behind it, matching DEPRECATED COLOURS/Grey steel, while every other state in the component uses a variable. None of the five is captured: the rest of the component cannot be coloured correctly until the token layer lands, and adding a raw hex to the stylesheet is barred outright
  * Figma sets 10px padding on a 24px-tall box, leaving 2px for content; dropped, as the size wins
  */
 .pf-table-header-icons {
@@ -696,7 +696,7 @@
 }
 
 /* AG sort item
- * 3 variants captured
+ * 3 variants captured. RE-READ 2026-09-11: State=Default is UNCHANGED. State=Hover and State=Active have moved Background/Theme -> Background/Light theme and are KNOWN STALE. Text/Primary is unchanged on all three
  */
 .pf-ag-sort-item {
   height: 52px;
@@ -729,7 +729,7 @@
 }
 
 /* AG Filter menus
- * 3 variants captured
+ * 3 variants captured. RE-READ 2026-09-11: UNCHANGED — Filter menu/Background, Filter menu/Border, Text/Primary and Text/Disabled all still bound (screened with get_variable_defs on 30782:46404)
  * Figma draws this 208px wide; treated as layout, not a rule
  */
 .pf-ag-filter-menus {
@@ -767,7 +767,7 @@
 }
 
 /* Selected action banner
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: UNCHANGED — Background/Tertiary and Text/Primary both still bound (screened with get_variable_defs on 23862:16596)
  */
 .pf-selected-action-banner {
   height: 48px;
@@ -792,7 +792,7 @@
 }
 
 /* Manage columns
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: UNCHANGED — Background/Primary and Text/Primary both still bound (screened with get_variable_defs on 20798:19026). A child of it binds Border/Default hidden, the other half of the split token
  * Figma draws this 520px wide; treated as layout, not a rule
  */
 .pf-manage-columns {
@@ -815,7 +815,7 @@
 }
 
 /* Table action bar
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: UNCHANGED — Text/Theme still bound (screened with get_variable_defs on 27742:15071)
  * Figma draws this 1654px wide; treated as layout, not a rule
  */
 .pf-table-action-bar {
@@ -839,7 +839,7 @@
 }
 
 /* AG field
- * 2 variants captured
+ * 2 variants captured. RE-READ 2026-09-11: UNCHANGED — Background/Primary, Filter menu/Border, Icons/Icon - Primary and Text/Disabled all still bound (screened with get_variable_defs on 30794:46519)
  * Figma draws this 140px wide; treated as layout, not a rule
  */
 .pf-ag-field {
