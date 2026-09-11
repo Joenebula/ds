@@ -42,9 +42,29 @@ if (selfTest) {
 // height comes from its content has no height rule, and comparing the probe's rendered
 // height to Figma's frame would measure my test markup, not a drift. Only compare what
 // the library claims.
+// Does the stylesheet make a CLAIM about this property for this class? A reset does not
+// count. A variant rule has to neutralise whichever of height/min-height it does not set
+// — otherwise the base rule's value leaks through the cascade — but `height: auto` is the
+// absence of a claim, not a claim of its own. Counting it as one made every panel whose
+// height is deliberately dropped (Full page, Side filter, Side panel) read as drift
+// against the content height of an empty test div.
+// Only these two are cascade resets. `border-radius: 0`, `padding: 0` and `gap: 0` are
+// real measurements from Figma and must still count as claims — treating every 0 as a
+// reset silently dropped 204 genuine checks.
+const RESET = (prop, val) =>
+  (prop === 'height' && val === 'auto') || (prop === 'min-height' && val === '0');
+// Rules are matched as selector-then-body with no leading `}` required. Requiring one
+// makes each match consume the previous rule's closing brace, so the scan sees only
+// every other rule — the same trap that left check-off-system half-blind.
+const RULE = /([^{}@]+)\{([^{}]*)\}/g;
 const asserts = (base, prop) => {
-  const re = new RegExp(`(^|\\})[^{}]*\\.${base}[\\s{\\[,][^{}]*\\{[^}]*(^|;|\\s)${prop}\\s*:`, 'm');
-  return re.test(css);
+  const sel = new RegExp(`\\.${base}[\\s{\\[,]|\\.${base}$`);
+  for (const m of css.matchAll(RULE)) {
+    if (!sel.test(m[1].trim() + ' ')) continue;
+    const decl = new RegExp(`(^|;|\\s)${prop}\\s*:\\s*([^;}]+)`).exec(m[2]);
+    if (decl && !RESET(prop, decl[2].trim())) return true;
+  }
+  return false;
 };
 
 const specs = [];
@@ -78,6 +98,9 @@ const got = await p.evaluate(ids => ids.map(id => {
     padding: [cs.paddingTop, cs.paddingRight, cs.paddingBottom, cs.paddingLeft]
       .map(v => Math.round(parseFloat(v))).join(' '),
     radius: Math.round(parseFloat(cs.borderTopLeftRadius)),
+    radii: [cs.borderTopLeftRadius, cs.borderTopRightRadius,
+      cs.borderBottomRightRadius, cs.borderBottomLeftRadius]
+      .map(v => Math.round(parseFloat(v))).join(' '),
     gap: cs.gap === 'normal' ? 0 : Math.round(parseFloat(cs.gap)),
     fontSize: Math.round(parseFloat(cs.fontSize)), fontWeight: +cs.fontWeight };
 }), specs.map(s => s.id));
@@ -86,7 +109,7 @@ unlinkSync('tmp-figma-truth-check.html');
 try { unlinkSync('tmp-figma-truth-check.css'); } catch {}
 
 const byId = new Map(got.map(g => [g.id, g]));
-const fails = [], checks = [];
+const fails = [], checks = [], unmeasured = [];
 for (const s of specs) {
   const g = byId.get(s.id), t = s.t;
   const cmp = (prop, want, have) => {
@@ -104,12 +127,26 @@ for (const s of specs) {
   // and no edit to the stylesheet could ever clear it.
   const roundPad = v => String(v).trim().split(/\s+/).map(x => Math.round(parseFloat(x))).join(' ');
   if (asserts(base, 'padding')) cmp('padding', t.padding === '' ? '' : roundPad(t.padding), g.padding);
-  if (asserts(base, 'border-radius')) cmp('radius', t.radius, g.radius);
+  // Figma gives four corner values when they differ. Compare all four rather than the
+  // top-left one, so a panel rounded along one edge is actually checked. The bare word
+  // "mixed" means the walk has not measured that component's corners yet, and asserting
+  // against it can only ever produce noise — it is counted as unmeasured instead.
+  if (asserts(base, 'border-radius')) {
+    if (/^[\d.]+( [\d.]+){3}$/.test(String(t.radius)))
+      cmp('radius', String(t.radius).trim().split(/\s+/).map(x => Math.round(parseFloat(x))).join(' '), g.radii);
+    else if (t.radius === 'mixed') unmeasured.push(`${t.component}${t.variant ? '  ' + t.variant : ''} — corner radius`);
+    else cmp('radius', t.radius, g.radius);
+  }
   if (asserts(base, 'gap')) cmp('gap', t.gap, g.gap);
   if (asserts(base, 'font-size')) cmp('font-size', t.fontSize, g.fontSize);
   if (t.fontStyle && asserts(base, 'font-weight')) cmp('font-weight', WEIGHT[t.fontStyle], g.fontWeight);
 }
 
+if (unmeasured.length) {
+  console.log(`\n  ${unmeasured.length} value(s) Figma reports as varying and the walk has not measured:`);
+  for (const u of unmeasured) console.log('    ' + u);
+  console.log('  These are NOT passes. Re-walk the page emitting the four corners.');
+}
 for (const f of fails.slice(0, 25)) console.log('  DRIFT  ' + f);
 if (fails.length > 25) console.log(`  ... and ${fails.length - 25} more`);
 console.log(`\n${checks.length - fails.length} of ${checks.length} rendered values match an INDEPENDENT measurement of Figma`);

@@ -467,6 +467,7 @@
  * Figma draws this 564px wide; treated as layout, not a rule
  */
 .pf-form-field {
+  height: 69px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -480,6 +481,316 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-form-field[data-input-type="Text"][data-full-width="No"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Text"][data-full-width="No"][data-state="Disabled"],
+.pf-form-field[data-input-type="Text"][data-full-width="No"]:disabled,
+.pf-form-field[data-input-type="Text"][data-full-width="No"][aria-disabled="true"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Text"][data-full-width="Yes"][data-state="Error"] {
+  height: 92px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Text"][data-full-width="No"][data-state="Error"] {
+  height: 92px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Text"][data-full-width="No"][data-state="Selected"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Dropdown"][data-full-width="No"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Dropdown"][data-full-width="No"][data-state="Disabled"],
+.pf-form-field[data-input-type="Dropdown"][data-full-width="No"]:disabled,
+.pf-form-field[data-input-type="Dropdown"][data-full-width="No"][aria-disabled="true"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Dropdown"][data-full-width="Yes"][data-state="Error"] {
+  height: 92px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Dropdown"][data-full-width="No"][data-state="Error"] {
+  height: 92px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Dropdown"][data-full-width="No"][data-state="Selected"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Search"][data-full-width="No"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Search"][data-full-width="No"][data-state="Disabled"],
+.pf-form-field[data-input-type="Search"][data-full-width="No"]:disabled,
+.pf-form-field[data-input-type="Search"][data-full-width="No"][aria-disabled="true"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Search"][data-full-width="Yes"][data-state="Error"] {
+  height: 92px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Search"][data-full-width="No"][data-state="Error"] {
+  height: 92px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Search"][data-full-width="No"][data-state="Selected"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Date picker"][data-full-width="No"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Date picker"][data-full-width="No"][data-state="Disabled"],
+.pf-form-field[data-input-type="Date picker"][data-full-width="No"]:disabled,
+.pf-form-field[data-input-type="Date picker"][data-full-width="No"][aria-disabled="true"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Date picker"][data-full-width="Yes"][data-state="Error"] {
+  height: 92px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Date picker"][data-full-width="No"][data-state="Error"] {
+  height: 92px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Date picker"][data-full-width="No"][data-state="Selected"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Time picker"][data-full-width="No"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Time picker"][data-full-width="No"][data-state="Disabled"],
+.pf-form-field[data-input-type="Time picker"][data-full-width="No"]:disabled,
+.pf-form-field[data-input-type="Time picker"][data-full-width="No"][aria-disabled="true"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Time picker"][data-full-width="Yes"][data-state="Error"] {
+  height: 92px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Time picker"][data-full-width="No"][data-state="Error"] {
+  height: 92px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Time picker"][data-full-width="No"][data-state="Selected"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
 }
 .pf-form-field[data-input-type="Text"] {
   color: var(--pf-text-primary);
@@ -552,6 +863,30 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-field[data-right-aligned="No"][data-filled="Yes"] {
+  height: 42px;
+  min-height: 0;
+  padding: 10px 10px 10px 20px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  font-size: 16px;
+}
+.pf-field[data-property-1="Default"] {
+  height: 42px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 2px;
+  font-size: 13px;
+}
 .pf-field[data-right-aligned="No"][data-filled="No"] {
   background: var(--pf-bg-primary);
   border-color: var(--pf-border-form-input);
@@ -575,10 +910,11 @@
 
 /* Text area
  * 4 variants captured. inner frame r8
+ * Figma draws this 300px wide; treated as layout, not a rule
+ * Figma draws this 267px tall; emitted as a minimum, since content decides the real height
  */
 .pf-text-area {
-  height: 213px;
-  border-radius: 8px;
+  min-height: 267px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -611,6 +947,7 @@
  * Figma draws this 250px wide; treated as layout, not a rule
  */
 .pf-option {
+  height: 26px;
   padding: 2px 10px 2px 20px;
   border-radius: 4px;
   display: inline-flex;
@@ -639,6 +976,7 @@
  * Figma draws this 400px wide; treated as layout, not a rule
  */
 .pf-inline-search {
+  height: 130px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -662,6 +1000,7 @@
 
 /* Primary search
  * 1 variant captured. PILL
+ * Figma draws this 300px wide; treated as layout, not a rule
  * pill
  */
 .pf-primary-search {
@@ -682,6 +1021,18 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-primary-search[data-darkmode="False"][data-icon-only="True"] {
+  width: 36px;
+  height: 36px;
+  min-height: 0;
+  padding: 0 10px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
+}
 .pf-primary-search,
 .pf-primary-search[data-darkmode="False"][data-icon-only="False"] {
   background: var(--pf-bg-primary);
@@ -691,6 +1042,7 @@
 
 /* Message box
  * 1 variant captured
+ * Figma draws this 455px wide; treated as layout, not a rule
  */
 .pf-message-box {
   height: 138px;
@@ -744,8 +1096,10 @@
 
 /* Signature
  * 1 variant captured
+ * Figma draws this 384px tall; emitted as a minimum, since content decides the real height
  */
 .pf-signature {
+  min-height: 384px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -767,6 +1121,7 @@
  * 1 variant captured. the asterisk marker
  */
 .pf-required-field {
+  height: 22px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -790,6 +1145,7 @@
  * Figma draws this 152px wide; treated as layout, not a rule
  */
 .pf-field-label {
+  height: 22px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -813,6 +1169,7 @@
  * Figma draws this 440px wide; treated as layout, not a rule
  */
 .pf-browser-drop-down {
+  height: 222px;
   padding: 5px;
   border-radius: 8px;
   display: inline-flex;
@@ -837,8 +1194,10 @@
 /* People and department drop down
  * 1 variant captured
  * Figma draws this 440px wide; treated as layout, not a rule
+ * Figma draws this 320px tall; emitted as a minimum, since content decides the real height
  */
 .pf-people-and-department-drop-down {
+  min-height: 320px;
   padding: 10px 5px 10px 10px;
   display: inline-flex;
   flex-direction: row;
@@ -864,6 +1223,7 @@
  * 1 variant captured. the removable tag inside a multiselect
  */
 .pf-multiselect-tag {
+  height: 24px;
   border-radius: 4px;
   display: inline-flex;
   flex-direction: row;
@@ -890,6 +1250,7 @@
  * Figma draws this 520px wide; treated as layout, not a rule
  */
 .pf-s-post-content {
+  height: 198px;
   padding: 0 20px 10px 73px;
   display: inline-flex;
   flex-direction: column;
@@ -911,8 +1272,10 @@
 
 /* Calendar picker
  * 1 variant captured
+ * Figma draws this 323px tall; emitted as a minimum, since content decides the real height
  */
 .pf-calendar-picker {
+  min-height: 323px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -933,8 +1296,10 @@
 
 /* Time picker
  * 1 variant captured
+ * Figma draws this 269px tall; emitted as a minimum, since content decides the real height
  */
 .pf-time-picker {
+  min-height: 269px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -982,7 +1347,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
 <h1>Forms</h1>
 <p class="sub">18 components from the Forms page in Figma, rendered with dist/components.css. Class names mirror Figma's variant panel: the component is the class, each variant property is a data attribute.</p>
 <h2>Browser drop down</h2>
-<p class="sub">.pf-browser-drop-down  ·  440 x auto  ·  1 variant</p>
+<p class="sub">.pf-browser-drop-down  ·  440 x 222  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-browser-drop-down">Browser drop down</div>
@@ -990,7 +1355,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Calendar picker</h2>
-<p class="sub">.pf-calendar-picker  ·  auto x auto  ·  1 variant</p>
+<p class="sub">.pf-calendar-picker  ·  auto x 323  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-calendar-picker">Calendar picker</div>
@@ -998,7 +1363,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Field label</h2>
-<p class="sub">.pf-field-label  ·  152 x auto  ·  1 variant</p>
+<p class="sub">.pf-field-label  ·  152 x 22  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-field-label">Field label</div>
@@ -1026,7 +1391,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Form field</h2>
-<p class="sub">.pf-form-field  ·  564 x auto  ·  14 variants</p>
+<p class="sub">.pf-form-field  ·  564 x 69  ·  14 variants</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-form-field" data-input-type="Text" data-state="Default">Manager</div>
@@ -1086,7 +1451,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Inline search</h2>
-<p class="sub">.pf-inline-search  ·  400 x auto  ·  2 variants</p>
+<p class="sub">.pf-inline-search  ·  400 x 130  ·  2 variants</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-inline-search" data-filled="False">Inline search</div>
@@ -1098,7 +1463,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Message box</h2>
-<p class="sub">.pf-message-box  ·  auto x 138  ·  1 variant</p>
+<p class="sub">.pf-message-box  ·  455 x 138  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-message-box" data-property-1="Default">Message box</div>
@@ -1106,7 +1471,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Multiselect tag</h2>
-<p class="sub">.pf-multiselect-tag  ·  auto x auto  ·  1 variant</p>
+<p class="sub">.pf-multiselect-tag  ·  auto x 24  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-multiselect-tag">Multiselect tag</div>
@@ -1114,7 +1479,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Option</h2>
-<p class="sub">.pf-option  ·  250 x auto  ·  2 variants</p>
+<p class="sub">.pf-option  ·  250 x 26  ·  2 variants</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-option" data-selected="No">Annual leave</div>
@@ -1126,7 +1491,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>People and department drop down</h2>
-<p class="sub">.pf-people-and-department-drop-down  ·  440 x auto  ·  1 variant</p>
+<p class="sub">.pf-people-and-department-drop-down  ·  440 x 320  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-people-and-department-drop-down">People and department drop down</div>
@@ -1134,7 +1499,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Primary search</h2>
-<p class="sub">.pf-primary-search  ·  auto x 38  ·  1 variant</p>
+<p class="sub">.pf-primary-search  ·  300 x 38  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-primary-search" data-darkmode="False" data-icon-only="False">Search people</div>
@@ -1142,7 +1507,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Required field</h2>
-<p class="sub">.pf-required-field  ·  auto x auto  ·  1 variant</p>
+<p class="sub">.pf-required-field  ·  auto x 22  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-required-field">Required field</div>
@@ -1150,7 +1515,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Signature</h2>
-<p class="sub">.pf-signature  ·  auto x auto  ·  1 variant</p>
+<p class="sub">.pf-signature  ·  auto x 384  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-signature">Signature</div>
@@ -1158,7 +1523,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Text area</h2>
-<p class="sub">.pf-text-area  ·  auto x 213  ·  4 variants</p>
+<p class="sub">.pf-text-area  ·  300 x 267  ·  4 variants</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-text-area" data-type="Standard">Text area</div>
@@ -1178,7 +1543,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Text template format editor </h2>
-<p class="sub">.pf-text-template-format-editor  ·  440 x auto  ·  1 variant</p>
+<p class="sub">.pf-text-template-format-editor  ·  440 x 246  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-text-template-format-editor">Text template format editor </div>
@@ -1186,7 +1551,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Time picker</h2>
-<p class="sub">.pf-time-picker  ·  auto x auto  ·  1 variant</p>
+<p class="sub">.pf-time-picker  ·  auto x 269  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-time-picker">Time picker</div>
@@ -1194,7 +1559,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>[S] Post content</h2>
-<p class="sub">.pf-s-post-content  ·  520 x auto  ·  1 variant</p>
+<p class="sub">.pf-s-post-content  ·  520 x 198  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-s-post-content">[S] Post content</div>

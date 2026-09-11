@@ -58,44 +58,44 @@ Contents: [Buttons and links](#buttons-and-links) · [Forms](#forms) · [Control
 
 | Component | Class | Variants in Figma | Size | Radius | Type |
 |---|---|---|---|---|---|
-| [S] Post content | `.pf-s-post-content` | — | 520 x auto | 0 | 20px |
+| [S] Post content | `.pf-s-post-content` | — | 520 x 198 | 0 | 20px |
 | [S] Text area | `.pf-s-text-area` | Property 1: Default | 300 x 240 | 8 | 16px |
-| Browser drop down | `.pf-browser-drop-down` | — | 440 x auto | 8 | 16px |
-| Calendar picker | `.pf-calendar-picker` | — | auto x auto | 0 | 16px |
-| Field | `.pf-field` | Right aligned: No · Yes<br>Filled: No · Yes | 300 x 42 | 8 | 16px |
-| Field icons | `.pf-field-icons` | State: Filled · Empty | auto x auto | 0 | — |
-| Field label | `.pf-field-label` | — | 152 x auto | 0 | 16px |
-| Form field | `.pf-form-field` | Input type: Text · Dropdown · Search · Date picker · Time picker<br>State: Default · Disabled · Error · Selected<br>Full width: Yes · No | 564 x auto | 0 | 16px |
-| Inline search | `.pf-inline-search` | Filled: False · True | 400 x auto | 0 | 16px |
+| Browser drop down | `.pf-browser-drop-down` | — | 440 x 222 | 8 | 16px |
+| Calendar picker | `.pf-calendar-picker` | — | auto x 323 | 0 | 16px |
+| Field | `.pf-field` | Right aligned: No · Yes<br>Filled: No · Yes | 300 x 42 | 8 | 16px Italic |
+| Field icons | `.pf-field-icons` | State: Filled · Empty | auto x 28 | 0 | — |
+| Field label | `.pf-field-label` | — | 152 x 22 | 0 | 16px |
+| Form field | `.pf-form-field` | Input type: Text · Dropdown · Search · Date picker · Time picker<br>State: Default · Disabled · Error · Selected<br>Full width: Yes · No | 564 x 69 | 0 | 16px |
+| Inline search | `.pf-inline-search` | Filled: False · True | 400 x 130 | 0 | 16px |
 | Map | `.pf-map` | — | 480 x 200 | 8 | — |
-| Message box | `.pf-message-box` | Property 1: Default | auto x 138 | 8 | 16px |
-| Multiselect tag | `.pf-multiselect-tag` | — | auto x auto | 4 | 13px |
-| Option | `.pf-option` | Selected: No · Yes | 250 x auto | 4 | 16px |
-| People and department drop down | `.pf-people-and-department-drop-down` | — | 440 x auto | 0 | 16px |
-| Primary search | `.pf-primary-search` | Darkmode: False<br>Icon only: False · True | auto x 38 | 20 | 13px |
-| Required field | `.pf-required-field` | — | auto x auto | 0 | 16px |
-| Text area | `.pf-text-area` | Type: Standard · Read only · Disabled · Error | auto x 213 | 8 | 16px |
-| Text template format editor  | `.pf-text-template-format-editor` | Type: Modal · Correspondence | 440 x auto | — | 16px |
-| Time picker | `.pf-time-picker` | — | auto x auto | 0 | 16px |
+| Message box | `.pf-message-box` | Property 1: Default | 455 x 138 | 8 | 16px |
+| Multiselect tag | `.pf-multiselect-tag` | — | auto x 24 | 4 | 13px |
+| Option | `.pf-option` | Selected: No · Yes | 250 x 26 | 4 | 16px |
+| People and department drop down | `.pf-people-and-department-drop-down` | — | 440 x 320 | 0 | 16px |
+| Primary search | `.pf-primary-search` | Darkmode: False<br>Icon only: False · True | 300 x 38 | 20 | 13px |
+| Required field | `.pf-required-field` | — | auto x 22 | 0 | 16px Italic |
+| Text area | `.pf-text-area` | Type: Standard · Read only · Disabled · Error | 300 x 267 | 0 | 16px |
+| Text template format editor  | `.pf-text-template-format-editor` | Type: Modal · Correspondence | 440 x 246 | 0 | 16px |
+| Time picker | `.pf-time-picker` | — | auto x 269 | 0 | 16px |
 
 <details><summary>Notes on these components</summary>
 
 - **[S] Post content** — 73px left padding leaves room for an avatar
 - **[S] Text area** — small variant
 - **Calendar picker** — **binds a primitive** — Base colours/White (text) — so this will not adapt between light and dark until Figma binds a semantic token
-- **Field** — the input box itself. Placeholder text is italic, the value is not. 4 variants (Right aligned x Filled). Figma has a second, unrelated component also called Field.
+- **Field** — the input box itself. Placeholder text is italic, the value is not. 4 variants (Right aligned x Filled). Figma has a second, unrelated component also called Field.. per-variant sizes: `Right aligned=No, Filled=Yes` 300 x 42, `Property 1=Default` auto x 42
 - **Field icons** — **shape only** — no variant of this binds a colour variable in Figma, so the class carries its measured geometry and leaves colour to the page. 2 variants
 - **Field label** — label sits above its input, 5px gap
-- **Form field** — WRAPPER: label + input + helper text. 40 variants (Input type x State) - Text, Dropdown, Search, Date picker, Time picker x Default, Disabled, Error, Selected. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Full width`
+- **Form field** — WRAPPER: label + input + helper text. 40 variants (Input type x State) - Text, Dropdown, Search, Date picker, Time picker x Default, Disabled, Error, Selected. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Full width`. per-variant sizes: `Input type=Text, State=Default, Full width=No` 267 x 69, `Input type=Text, State=Disabled, Full width=No` 267 x 69, `Input type=Text, State=Error, Full width=Yes` 564 x 92, `Input type=Text, State=Error, Full width=No` 267 x 92, `Input type=Text, State=Selected, Full width=No` 267 x 69, `Input type=Dropdown, State=Default, Full width=No` 267 x 69, `Input type=Dropdown, State=Disabled, Full width=No` 267 x 69, `Input type=Dropdown, State=Error, Full width=Yes` 564 x 92, `Input type=Dropdown, State=Error, Full width=No` 267 x 92, `Input type=Dropdown, State=Selected, Full width=No` 267 x 69, `Input type=Search, State=Default, Full width=No` 267 x 69, `Input type=Search, State=Disabled, Full width=No` 267 x 69, `Input type=Search, State=Error, Full width=Yes` 564 x 92, `Input type=Search, State=Error, Full width=No` 267 x 92, `Input type=Search, State=Selected, Full width=No` 267 x 69, `Input type=Date picker, State=Default, Full width=No` 267 x 69, `Input type=Date picker, State=Disabled, Full width=No` 267 x 69, `Input type=Date picker, State=Error, Full width=Yes` 564 x 92, `Input type=Date picker, State=Error, Full width=No` 267 x 92, `Input type=Date picker, State=Selected, Full width=No` 267 x 69, `Input type=Time picker, State=Default, Full width=No` 267 x 69, `Input type=Time picker, State=Disabled, Full width=No` 267 x 69, `Input type=Time picker, State=Error, Full width=Yes` 564 x 92, `Input type=Time picker, State=Error, Full width=No` 267 x 92, `Input type=Time picker, State=Selected, Full width=No` 267 x 69
 - **Inline search** — 2 variants
 - **Map** — **shape only** — no variant of this binds a colour variable in Figma, so the class carries its measured geometry and leaves colour to the page. not auto-layout
 - **Multiselect tag** — **binds a primitive** — Base colours/Blue Ocean (background), Base colours/White (text) — so this will not adapt between light and dark until Figma binds a semantic token. the removable tag inside a multiselect
 - **Option** — dropdown list row. 2 variants
 - **People and department drop down** — **binds a primitive** — Base colours/White (text) — so this will not adapt between light and dark until Figma binds a semantic token
-- **Primary search** — PILL
+- **Primary search** — PILL. per-variant sizes: `Darkmode=False, Icon only=True` 36 x 36
 - **Required field** — the asterisk marker
 - **Text area** — inner frame r8
-- **Text template format editor ** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Type`
+- **Text template format editor ** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Type`. per-variant sizes: `Type=Correspondence` 760 x 366
 - **Time picker** — **binds a primitive** — Base colours/White (text) — so this will not adapt between light and dark until Figma binds a semantic token
 
 </details>
@@ -164,54 +164,59 @@ Contents: [Buttons and links](#buttons-and-links) · [Forms](#forms) · [Control
 
 | Component | Class | Variants in Figma | Size | Radius | Type |
 |---|---|---|---|---|---|
-| [S] Attachment | `.pf-s-attachment` | — | 440 x auto | 8 | 13px SemiBold |
-| 50/50 layout container | `.pf-50-50-layout-container` | Row colour: false · true<br>Mobile: false · true | 1600 x auto | — | 20px |
-| Accordion | `.pf-accordion` | Expanded: False · True<br>Mobile: False · True | auto x 84 | 8 | 20px |
-| Attachment with person | `.pf-attachment-with-person` | Property 1: Default | 440 x auto | 8 | 13px |
-| Attachments | `.pf-attachments` | Actions: Remove · Context menu | 440 x auto | — | 13px SemiBold |
-| Card | `.pf-card` | Property 1: Default | auto | 8 | 20px title |
+| [S] Attachment | `.pf-s-attachment` | — | 440 x 56 | 8 | 13px SemiBold |
+| 50/50 layout container | `.pf-50-50-layout-container` | Row colour: false · true<br>Mobile: false · true | 1600 x 368 | 0 | 20px |
+| Accordion | `.pf-accordion` | Expanded: False · True<br>Mobile: False · True | 1200 x 84 | 8 | 20px |
+| Attachment with person | `.pf-attachment-with-person` | Property 1: Default | 440 x 112 | 8 | 13px |
+| Attachments | `.pf-attachments` | Actions: Remove · Context menu | 440 x 56 | 0 | 13px SemiBold |
+| Card | `.pf-card` | Property 1: Default | 520 x 358 | 8 | 20px |
 | Component 1 | `.pf-component-1` | Property 1: Frame 6270951 · Frame 6270952 | 432 x 48 | 8 | 20px |
-| Configuration panel | `.pf-configuration-panel` | Property 1: Default | 1600 x auto | mixed | 20px |
+| Configuration panel | `.pf-configuration-panel` | Property 1: Default | 1600 x 189 | 8 8 0 0 | 20px |
 | Configuration tile | `.pf-configuration-tile` | Device: Desktop · Mobile | auto x 260 | 8 | 24px |
-| Content | `.pf-content` | — | 375 x auto | — | 13px |
-| Content cards | `.pf-content-cards` | Mobile: false · true | auto | 8 | 16px |
-| Detail item | `.pf-detail-item` | — | 162 x auto | — | 13px |
-| Details | `.pf-details` | Layout: Horizontal · Vertical | 355 x auto | — | 13px |
-| Draggable card | `.pf-draggable-card` | State: Default · Hover · Drag · Click · Drop | auto x 50 | 8 | 16px |
-| Editable list card | `.pf-editable-list-card` | Property 1: Default | auto x auto | 4 | 13px |
-| Floaters | `.pf-floaters` | — | 85 x 40 | 0 | — |
-| Footer | `.pf-footer` | — | 375 x auto | — | 13px Regular |
-| Horizontal scroll | `.pf-horizontal-scroll` | Page: First · Last | auto x 32 | 0 | — |
-| Layout container (magazine style) | `.pf-layout-container-magazine-style` | Row colour: True · False<br>Mobile: False · True | 1600 x auto | — | 20px |
-| Layout container tabs | `.pf-layout-container-tabs` | Property 1: Default | 1160 x auto | — | 16px SemiBold |
-| Layout container title | `.pf-layout-container-title` | Property 1: Default | 1160 x auto | — | 20px |
-| Note | `.pf-note` | Property 1: Default | 440 x auto | 8 | 13px |
-| Settings card | `.pf-settings-card` | Property 1: Default | auto | 8 | 13px SemiBold |
-| Side filter | `.pf-side-filter` | Mobile: False · True | 400 x 885 | mixed | 20px |
-| Side panel | `.pf-side-panel` | Mobile: No · Yes<br>Size: Small · Medium · Large | 375 wide | mixed | 20px |
-| Side panel header | `.pf-side-panel-header` | Size: Default | auto x 60 | 0 | 20px |
-| single layout card | `.pf-single-layout-card` | Mobile: false · true | 800 x auto | — | 20px |
-| Spotlight Card | `.pf-spotlight-card` | Horizontal: False · True<br>Mobile: False · True | 375 x auto | 8 | 13px |
-| Sticky footer | `.pf-sticky-footer` | Default: Default · Stepper | auto x 52 | 0 | 13px SemiBold |
-| Switcher | `.pf-switcher` | Property 1: Default | auto x auto | — | 16px |
-| Title panel | `.pf-title-panel` | Mobile: false · true | auto x 135 | 0 | 18px |
+| Content | `.pf-content` | — | 375 x 74 | 0 | 13px |
+| Content cards | `.pf-content-cards` | Mobile: false · true | auto x 366 | 8 | 16px |
+| Detail item | `.pf-detail-item` | — | 162 x 18 | 0 | 13px |
+| Details | `.pf-details` | Layout: Horizontal · Vertical | 355 x 102 | 0 | 13px |
+| Draggable card | `.pf-draggable-card` | State: Default · Hover · Drag · Click · Drop | 480 x 50 | 8 | 16px |
+| Editable list card | `.pf-editable-list-card` | Property 1: Default | auto x 82 | 4 | 13px |
+| Floaters | `.pf-floaters` | — | auto x 40 | 0 | — |
+| Footer | `.pf-footer` | — | 375 x 28 | 0 | 13px Regular |
+| Horizontal scroll | `.pf-horizontal-scroll` | Page: First · Last | 1160 x 32 | 0 | — |
+| Layout container (magazine style) | `.pf-layout-container-magazine-style` | Row colour: True · False<br>Mobile: False · True | 1600 x 667 | 0 | 20px |
+| Layout container tabs | `.pf-layout-container-tabs` | Property 1: Default | 1160 x 36 | 0 | 16px SemiBold |
+| Layout container title | `.pf-layout-container-title` | Property 1: Default | 1160 x 44 | 0 | 20px |
+| Note | `.pf-note` | Property 1: Default | 440 x 130 | 8 | 13px |
+| Settings card | `.pf-settings-card` | Property 1: Default | 300 x 255 | 8 | 13px SemiBold |
+| Side filter | `.pf-side-filter` | Mobile: False · True | 400 x 885 | 8 0 0 0 | 20px |
+| Side panel | `.pf-side-panel` | Mobile: No · Yes<br>Size: Small · Medium · Large | 375 x 726 | 15 15 0 0 | 20px |
+| Side panel header | `.pf-side-panel-header` | Size: Default | 449 x 60 | 0 | 20px |
+| single layout card | `.pf-single-layout-card` | Mobile: false · true | 800 x 368 | 0 | 20px |
+| Spotlight Card | `.pf-spotlight-card` | Horizontal: False · True<br>Mobile: False · True | 375 x 302 | 8 | 13px |
+| Sticky footer | `.pf-sticky-footer` | Default: Default · Stepper | 446 x 52 | 0 | 13px SemiBold |
+| Switcher | `.pf-switcher` | Property 1: Default | auto x 28 | 0 | 16px |
+| Title panel | `.pf-title-panel` | Mobile: false · true | 375 x 135 | 0 | 18px |
 
 <details><summary>Notes on these components</summary>
 
-- **50/50 layout container** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Row colour`, `Mobile`
-- **Accordion** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`
+- **50/50 layout container** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Row colour`, `Mobile`. per-variant sizes: `Row colour=false, Mobile=true` auto x 774, `Row colour=true, Mobile=true` 355 x 774
+- **Accordion** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`. per-variant sizes: `Expanded=False, Mobile=True` 355 x 56, `Expanded=True, Mobile=False` 1200 x 428, `Expanded=True, Mobile=True` 355 x 428
 - **Attachments** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Actions`
 - **Card** — shadow 0 0 4px
 - **Component 1** — UNNAMED IN FIGMA. It is the row inside Editable list card: a label with a trailing add or remove action. Property 1=Frame 6270951 is the ADD state (no fill, green Plus circle icon); Frame 6270952 is the ADDED state (Background/Tertiary fill, grey Remove icon). The component and both variant values carry Figma default names — raise with design.
-- **Configuration tile** — shadow 0 0 4px
-- **Details** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Layout`
+- **Configuration tile** — shadow 0 0 4px. per-variant sizes: `Device=Mobile` auto x 230
+- **Content cards** — per-variant sizes: `Mobile=true` auto x 333
+- **Details** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Layout`. per-variant sizes: `Layout=Vertical` 355 x 102
+- **Draggable card** — per-variant sizes: `State=Drop` 480 x 50
 - **Floaters** — **shape only** — no variant of this binds a colour variable in Figma, so the class carries its measured geometry and leaves colour to the page. Single component. No colour variable bound in Figma.
 - **Horizontal scroll** — **shape only** — no variant of this binds a colour variable in Figma, so the class carries its measured geometry and leaves colour to the page. 2 variants (Page). Figma draws it 1160px wide — the artboard, not a rule. No colour variable bound.
-- **Layout container (magazine style)** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`
+- **Layout container (magazine style)** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`. per-variant sizes: `Row colour=False, Mobile=True` 375 x 646, `Row colour=True, Mobile=True` 375 x 646
 - **Settings card** — shadow 0 1 3px
-- **Side panel** — shadow 0 0 4px
-- **Spotlight Card** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`
-- **Sticky footer** — **binds a primitive** — Base colours/White (text) — so this will not adapt between light and dark until Figma binds a semantic token
+- **Side filter** — per-variant sizes: `Mobile=True` 375 x 667
+- **Side panel** — shadow 0 0 4px. per-variant sizes: `Mobile=No, Size=Small` 520 x 1080, `Mobile=No, Size=Medium` 960 x 1080, `Mobile=No, Size=Large` 1500 x 1080
+- **single layout card** — per-variant sizes: `Mobile=true` 355 x 347
+- **Spotlight Card** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`. per-variant sizes: `Horizontal=True, Mobile=False` 585 x 218, `Horizontal=True, Mobile=True` 375 x 168
+- **Sticky footer** — **binds a primitive** — Base colours/White (text) — so this will not adapt between light and dark until Figma binds a semantic token. per-variant sizes: `Default=Stepper` 446 x 52
+- **Title panel** — per-variant sizes: `Mobile=false` 1130 x 135
 
 </details>
 
@@ -236,7 +241,7 @@ Contents: [Buttons and links](#buttons-and-links) · [Forms](#forms) · [Control
 | Header navigation | `.pf-header-navigation` | Darkmode: True · False<br>Levels of navigation: 0 · 1 · 2<br>Breakpoint: Desktop · Mobile · Tablet | 1830 x 130 | 0 | 16px |
 | Menu | `.pf-menu` | Size: Large · Small | 50 x 73 | 0 | 13px |
 | Mobile bottom navigation | `.pf-mobile-bottom-navigation` | Darkmode: False · True<br>Breakpoint: Tablet · Mobile | 375 x 76 | 0 | 11px |
-| Nav tabs | `.pf-nav-tabs` | Status: Selected · Unselected · Hover<br>Mobile: True · False | auto x 40 | mixed | 16px |
+| Nav tabs | `.pf-nav-tabs` | Status: Selected · Unselected · Hover<br>Mobile: True · False | auto x 40 | 8 8 0 0 | 16px |
 | Navigation item | `.pf-navigation-item` | State: Hover · Selected · Unselected<br>Device: Desktop · Mobile · Tablet | 90 x 86 | 0 | 13px SemiBold |
 | Navigation tabs | `.pf-navigation-tabs` | Mobile: No · Yes | 202 x 36 | 0 | 16px SemiBold |
 | Notification categories | `.pf-notification-categories` | Mobile: No · Yes | 300 x 1020 | 0 | 16px |
@@ -438,13 +443,14 @@ Contents: [Buttons and links](#buttons-and-links) · [Forms](#forms) · [Control
 |---|---|---|---|---|---|
 | Bar chart | `.pf-bar-chart` | Breakpoint: Desktop · Mobile<br>Darkmode: False | 415 x 193 | 0 | 13px |
 | Circle icons | `.pf-circle-icons` | Size: XS - 28px · S - 36px · M - 44px · L - 52px | auto x auto | 999 | — |
-| Org chart | `.pf-org-chart` | Type: Org · Manager · Reportee | 293 x auto | 8 | 16px |
-| Signature | `.pf-signature` | Mandatory: False<br>State: Default | auto x auto | 0 | 16px |
+| Org chart | `.pf-org-chart` | Type: Org · Manager · Reportee | 293 x 48 | 8 | 16px |
+| Signature | `.pf-signature` | Mandatory: False<br>State: Default | auto x 384 | 0 | 16px |
 
 <details><summary>Notes on these components</summary>
 
 - **Bar chart** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Breakpoint`
 - **Circle icons** — CIRCLE. Four sizes as Size variants; each size row below carries its own box.. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Size`. per-variant sizes: `Size=XS - 28px` 28 x 28, `Size=S - 36px` 36 x 36, `Size=M - 44px` 44 x 44, `Size=L - 52px` 52 x 52
+- **Org chart** — per-variant sizes: `Type=Manager` 293 x 97, `Type=Reportee` 293 x 55
 
 </details>
 

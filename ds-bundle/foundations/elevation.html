@@ -480,8 +480,10 @@
 /* 50/50 layout container
  * 1 variant captured
  * Figma draws this 1600px wide; treated as layout, not a rule
+ * Figma draws this 368px tall; emitted as a minimum, since content decides the real height
  */
 .pf-50-50-layout-container {
+  min-height: 368px;
   display: inline-flex;
   flex-direction: row;
   align-items: flex-start;
@@ -494,6 +496,26 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-50-50-layout-container[data-row-colour="false"][data-mobile="true"] {
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 18px;
+}
+.pf-50-50-layout-container[data-row-colour="true"][data-mobile="true"] {
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 18px;
 }
 .pf-50-50-layout-container {
   color: var(--pf-text-primary);
@@ -789,6 +811,7 @@
 
 /* Accordion
  * 2 variants captured
+ * Figma draws this 1200px wide; treated as layout, not a rule
  */
 .pf-accordion {
   height: 84px;
@@ -798,6 +821,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  gap: 689px;
   font-size: 20px;
   appearance: none;
   -webkit-appearance: none;
@@ -806,6 +830,42 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-accordion[data-expanded="False"][data-mobile="True"] {
+  height: 56px;
+  min-height: 0;
+  padding: 10px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 689px;
+  font-size: 18px;
+}
+.pf-accordion[data-expanded="True"][data-mobile="False"] {
+  height: auto;
+  min-height: 428px;
+  padding: 0;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 20px;
+}
+.pf-accordion[data-expanded="True"][data-mobile="True"] {
+  height: auto;
+  min-height: 428px;
+  padding: 0;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 18px;
 }
 .pf-accordion[data-expanded="False"] {
   background: var(--pf-bg-primary);
@@ -838,6 +898,7 @@
 }
 .pf-action-menu-button[data-circle="true"] {
   height: 28px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -931,6 +992,7 @@
  * Figma draws this 440px wide; treated as layout, not a rule
  */
 .pf-attachment-with-person {
+  height: 112px;
   border-radius: 8px;
   display: inline-flex;
   flex-direction: column;
@@ -955,6 +1017,7 @@
  * Figma draws this 440px wide; treated as layout, not a rule
  */
 .pf-attachments {
+  height: 56px;
   display: inline-flex;
   flex-direction: row;
   align-items: flex-start;
@@ -1046,6 +1109,7 @@
  * Figma draws this 440px wide; treated as layout, not a rule
  */
 .pf-browser-drop-down {
+  height: 222px;
   padding: 5px;
   border-radius: 8px;
   display: inline-flex;
@@ -1093,6 +1157,7 @@
 .pf-button[data-type="Action"][data-label="No"] {
   width: 32px;
   height: 32px;
+  min-height: 0;
   padding: 0 20px;
   border-radius: 999px;
   display: inline-flex;
@@ -1104,6 +1169,7 @@
 .pf-button[data-type="Negative"][data-label="No"] {
   width: 32px;
   height: 32px;
+  min-height: 0;
   padding: 0 20px;
   border-radius: 999px;
   display: inline-flex;
@@ -1115,6 +1181,7 @@
 .pf-button[data-type="Positive"][data-label="No"] {
   width: 32px;
   height: 32px;
+  min-height: 0;
   padding: 0 20px;
   border-radius: 999px;
   display: inline-flex;
@@ -1125,6 +1192,7 @@
 }
 .pf-button[data-type="Filter"][data-label="Yes"] {
   height: 32px;
+  min-height: 0;
   padding: 0 15px;
   border-radius: 999px;
   display: inline-flex;
@@ -1137,6 +1205,7 @@
 }
 .pf-button[data-type="Sort"][data-label="Yes"] {
   height: 32px;
+  min-height: 0;
   padding: 0 15px;
   border-radius: 999px;
   display: inline-flex;
@@ -1149,6 +1218,7 @@
 }
 .pf-button[data-type="Hollow"][data-label="No"] {
   height: 32px;
+  min-height: 0;
   padding: 0 20px;
   border-radius: 999px;
   display: inline-flex;
@@ -1159,6 +1229,7 @@
 }
 .pf-button[data-type="Filter"][data-label="No"] {
   height: 32px;
+  min-height: 0;
   padding: 0 8px;
   border-radius: 999px;
   display: inline-flex;
@@ -1169,6 +1240,7 @@
 }
 .pf-button[data-type="Sort"][data-label="No"] {
   height: 32px;
+  min-height: 0;
   padding: 0 20px;
   border-radius: 999px;
   display: inline-flex;
@@ -1180,6 +1252,7 @@
 .pf-button[data-type="Filter"][data-label="Yes"][data-state="Hover"],
 .pf-button[data-type="Filter"][data-label="Yes"]:hover {
   height: 32px;
+  min-height: 0;
   padding: 0 15px;
   border-radius: 999px;
   display: inline-flex;
@@ -1193,6 +1266,7 @@
 .pf-button[data-type="Sort"][data-label="Yes"][data-state="Hover"],
 .pf-button[data-type="Sort"][data-label="Yes"]:hover {
   height: 32px;
+  min-height: 0;
   padding: 0 15px;
   border-radius: 999px;
   display: inline-flex;
@@ -1206,6 +1280,7 @@
 .pf-button[data-type="Hollow"][data-label="No"][data-state="Hover"],
 .pf-button[data-type="Hollow"][data-label="No"]:hover {
   height: 32px;
+  min-height: 0;
   padding: 0 20px;
   border-radius: 999px;
   display: inline-flex;
@@ -1217,6 +1292,7 @@
 .pf-button[data-type="Filter"][data-label="No"][data-state="Hover"],
 .pf-button[data-type="Filter"][data-label="No"]:hover {
   height: 32px;
+  min-height: 0;
   padding: 0 8px;
   border-radius: 999px;
   display: inline-flex;
@@ -1228,6 +1304,7 @@
 .pf-button[data-type="Sort"][data-label="No"][data-state="Hover"],
 .pf-button[data-type="Sort"][data-label="No"]:hover {
   height: 32px;
+  min-height: 0;
   padding: 0 20px;
   border-radius: 999px;
   display: inline-flex;
@@ -1240,6 +1317,7 @@
 .pf-button[data-type="Filter"][data-label="Yes"]:disabled,
 .pf-button[data-type="Filter"][data-label="Yes"][aria-disabled="true"] {
   height: 32px;
+  min-height: 0;
   padding: 0 15px;
   border-radius: 999px;
   display: inline-flex;
@@ -1254,6 +1332,7 @@
 .pf-button[data-type="Sort"][data-label="Yes"]:disabled,
 .pf-button[data-type="Sort"][data-label="Yes"][aria-disabled="true"] {
   height: 32px;
+  min-height: 0;
   padding: 0 15px;
   border-radius: 999px;
   display: inline-flex;
@@ -1268,6 +1347,7 @@
 .pf-button[data-type="Hollow"][data-label="No"]:disabled,
 .pf-button[data-type="Hollow"][data-label="No"][aria-disabled="true"] {
   height: 32px;
+  min-height: 0;
   padding: 0 20px;
   border-radius: 999px;
   display: inline-flex;
@@ -1280,6 +1360,7 @@
 .pf-button[data-type="Filter"][data-label="No"]:disabled,
 .pf-button[data-type="Filter"][data-label="No"][aria-disabled="true"] {
   height: 32px;
+  min-height: 0;
   padding: 0 8px;
   border-radius: 999px;
   display: inline-flex;
@@ -1292,6 +1373,7 @@
 .pf-button[data-type="Sort"][data-label="No"]:disabled,
 .pf-button[data-type="Sort"][data-label="No"][aria-disabled="true"] {
   height: 32px;
+  min-height: 0;
   padding: 0 20px;
   border-radius: 999px;
   display: inline-flex;
@@ -1304,6 +1386,7 @@
 .pf-button[data-type="Action"][data-label="No"]:hover {
   width: 32px;
   height: 32px;
+  min-height: 0;
   padding: 0 20px;
   border-radius: 999px;
   display: inline-flex;
@@ -1316,6 +1399,7 @@
 .pf-button[data-type="Negative"][data-label="No"]:hover {
   width: 32px;
   height: 32px;
+  min-height: 0;
   padding: 0 20px;
   border-radius: 999px;
   display: inline-flex;
@@ -1328,6 +1412,7 @@
 .pf-button[data-type="Positive"][data-label="No"]:hover {
   width: 32px;
   height: 32px;
+  min-height: 0;
   padding: 0 20px;
   border-radius: 999px;
   display: inline-flex;
@@ -1341,6 +1426,7 @@
 .pf-button[data-type="Action"][data-label="No"][aria-disabled="true"] {
   width: 32px;
   height: 32px;
+  min-height: 0;
   padding: 0 20px;
   border-radius: 999px;
   display: inline-flex;
@@ -1354,6 +1440,7 @@
 .pf-button[data-type="Negative"][data-label="No"][aria-disabled="true"] {
   width: 32px;
   height: 32px;
+  min-height: 0;
   padding: 0 20px;
   border-radius: 999px;
   display: inline-flex;
@@ -1367,6 +1454,7 @@
 .pf-button[data-type="Positive"][data-label="No"][aria-disabled="true"] {
   width: 32px;
   height: 32px;
+  min-height: 0;
   padding: 0 20px;
   border-radius: 999px;
   display: inline-flex;
@@ -1477,8 +1565,10 @@
 
 /* Calendar picker
  * 1 variant captured
+ * Figma draws this 323px tall; emitted as a minimum, since content decides the real height
  */
 .pf-calendar-picker {
+  min-height: 323px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1499,8 +1589,11 @@
 
 /* Card
  * 1 variant captured. shadow 0 0 4px
+ * Figma draws this 520px wide; treated as layout, not a rule
+ * Figma draws this 358px tall; emitted as a minimum, since content decides the real height
  */
 .pf-card {
+  min-height: 358px;
   padding: 20px;
   border-radius: 8px;
   display: inline-flex;
@@ -1611,6 +1704,7 @@
 .pf-circle-icons[data-size="XS - 28px"] {
   width: 28px;
   height: 28px;
+  min-height: 0;
   padding: 0;
   border-radius: 999px;
   display: inline-block;
@@ -1618,6 +1712,7 @@
 .pf-circle-icons[data-size="S - 36px"] {
   width: 36px;
   height: 36px;
+  min-height: 0;
   padding: 0;
   border-radius: 999px;
   display: inline-block;
@@ -1625,6 +1720,7 @@
 .pf-circle-icons[data-size="M - 44px"] {
   width: 44px;
   height: 44px;
+  min-height: 0;
   padding: 0;
   border-radius: 999px;
   display: inline-block;
@@ -1632,6 +1728,7 @@
 .pf-circle-icons[data-size="L - 52px"] {
   width: 52px;
   height: 52px;
+  min-height: 0;
   padding: 0;
   border-radius: 999px;
   display: inline-block;
@@ -1760,6 +1857,7 @@
 }
 .pf-config-child-menu[data-type="Selected"] {
   height: 42px;
+  min-height: 0;
   padding: 0;
   border-radius: 4px;
   display: inline-flex;
@@ -1856,9 +1954,10 @@
 /* Configuration panel
  * 1 variant captured
  * Figma draws this 1600px wide; treated as layout, not a rule
- * corner radius varies per corner in Figma
  */
 .pf-configuration-panel {
+  height: 189px;
+  border-radius: 8px 8px 0 0;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -1896,6 +1995,18 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-configuration-tile[data-device="Mobile"] {
+  height: 230px;
+  min-height: 0;
+  padding: 30px 20px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 24px;
 }
 .pf-configuration-tile,
 .pf-configuration-tile[data-device="Desktop"] {
@@ -1949,6 +2060,7 @@
   font-family: var(--pf-font-body);
 }
 .pf-confirmation-modal[data-mobile="false"][data-type="Success"][data-dark-mode="False"] {
+  height: auto;
   min-height: 413px;
   padding: 60px 10px;
   border-radius: 8px;
@@ -1961,6 +2073,7 @@
   font-weight: var(--pf-font-weight-regular);
 }
 .pf-confirmation-modal[data-mobile="false"][data-type="Information"][data-dark-mode="False"] {
+  height: auto;
   min-height: 550px;
   padding: 60px 10px;
   border-radius: 8px;
@@ -1973,6 +2086,7 @@
   font-weight: var(--pf-font-weight-regular);
 }
 .pf-confirmation-modal[data-mobile="True"][data-type="Confirmation"][data-dark-mode="False"] {
+  height: auto;
   min-height: 695px;
   padding: 0;
   border-radius: 0;
@@ -1985,6 +2099,7 @@
   font-weight: var(--pf-font-weight-regular);
 }
 .pf-confirmation-modal[data-mobile="True"][data-type="Success"][data-dark-mode="False"] {
+  height: auto;
   min-height: 695px;
   padding: 0;
   border-radius: 0;
@@ -1997,6 +2112,7 @@
   font-weight: var(--pf-font-weight-regular);
 }
 .pf-confirmation-modal[data-mobile="True"][data-type="Information"][data-dark-mode="False"] {
+  height: auto;
   min-height: 695px;
   padding: 0;
   border-radius: 0;
@@ -2026,8 +2142,10 @@
 
 /* Content cards
  * 1 variant captured
+ * Figma draws this 366px tall; emitted as a minimum, since content decides the real height
  */
 .pf-content-cards {
+  min-height: 366px;
   padding: 20px;
   border-radius: 8px;
   display: inline-flex;
@@ -2044,6 +2162,18 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-content-cards[data-mobile="true"] {
+  height: auto;
+  min-height: 333px;
+  padding: 10px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 15px;
+  font-size: 16px;
+}
 .pf-content-cards,
 .pf-content-cards[data-mobile="false"] {
   background: var(--pf-bg-primary);
@@ -2056,6 +2186,7 @@
  * Figma draws this 375px wide; treated as layout, not a rule
  */
 .pf-content {
+  height: 74px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -2208,18 +2339,21 @@
 }
 .pf-default-header-background[data-breakpoint="Desktop"] {
   height: 86px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-block;
 }
 .pf-default-header-background[data-breakpoint="Tablet"] {
   height: 74px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-block;
 }
 .pf-default-header-background[data-breakpoint="Mobile"] {
   height: 62px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-block;
@@ -2298,6 +2432,7 @@
  * Figma draws this 162px wide; treated as layout, not a rule
  */
 .pf-detail-item {
+  height: 18px;
   display: inline-flex;
   flex-direction: row;
   align-items: flex-start;
@@ -2321,6 +2456,7 @@
  * Figma draws this 355px wide; treated as layout, not a rule
  */
 .pf-details {
+  height: 102px;
   display: inline-flex;
   flex-direction: row;
   align-items: flex-start;
@@ -2334,6 +2470,18 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-details[data-layout="Vertical"] {
+  height: 102px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
 }
 .pf-details {
   color: var(--pf-text-primary);
@@ -2417,6 +2565,7 @@
 
 /* Draggable card
  * 5 variants captured
+ * Figma draws this 480px wide; treated as layout, not a rule
  */
 .pf-draggable-card {
   height: 50px;
@@ -2435,6 +2584,17 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-draggable-card[data-state="Drop"] {
+  height: 50px;
+  min-height: 0;
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
 }
 .pf-draggable-card {
   background: var(--pf-bg-primary);
@@ -2501,6 +2661,7 @@
  * 1 variant captured
  */
 .pf-editable-list-card {
+  height: 82px;
   border-radius: 4px;
   display: inline-flex;
   flex-direction: row;
@@ -2543,6 +2704,7 @@
   font-family: var(--pf-font-body);
 }
 .pf-empty-section[data-mobile="True"] {
+  height: auto;
   min-height: 351px;
   padding: 0;
   border-radius: 0;
@@ -2564,6 +2726,7 @@
  * carries its measured geometry and leaves colour to the page. 2 variants
  */
 .pf-field-icons {
+  height: 28px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -2583,6 +2746,7 @@
  * Figma draws this 152px wide; treated as layout, not a rule
  */
 .pf-field-label {
+  height: 22px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -2622,6 +2786,30 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-field[data-right-aligned="No"][data-filled="Yes"] {
+  height: 42px;
+  min-height: 0;
+  padding: 10px 10px 10px 20px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  font-size: 16px;
+}
+.pf-field[data-property-1="Default"] {
+  height: 42px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 2px;
+  font-size: 13px;
 }
 .pf-field[data-right-aligned="No"][data-filled="No"] {
   background: var(--pf-bg-primary);
@@ -2669,6 +2857,7 @@
 }
 .pf-filter-chip[data-active="False"][data-mobile="False"] {
   height: 42px;
+  min-height: 0;
   padding: 10px 20px;
   border-radius: 999px;
   display: inline-flex;
@@ -2680,6 +2869,7 @@
 }
 .pf-filter-chip[data-active="True"][data-mobile="True"][data-state="Selected"] {
   height: 34px;
+  min-height: 0;
   padding: 8px 15px;
   border-radius: 999px;
   display: inline-flex;
@@ -2692,6 +2882,7 @@
 }
 .pf-filter-chip[data-active="False"][data-mobile="True"] {
   height: 34px;
+  min-height: 0;
   padding: 8px 15px;
   border-radius: 999px;
   display: inline-flex;
@@ -2704,6 +2895,7 @@
 .pf-filter-chip[data-active="False"][data-mobile="False"][data-state="Hover"],
 .pf-filter-chip[data-active="False"][data-mobile="False"]:hover {
   height: 42px;
+  min-height: 0;
   padding: 10px 20px;
   border-radius: 999px;
   display: inline-flex;
@@ -2716,6 +2908,7 @@
 .pf-filter-chip[data-active="False"][data-mobile="True"][data-state="Hover"],
 .pf-filter-chip[data-active="False"][data-mobile="True"]:hover {
   height: 34px;
+  min-height: 0;
   padding: 8px 15px;
   border-radius: 999px;
   display: inline-flex;
@@ -2766,6 +2959,7 @@
 }
 .pf-filter-tab-single[data-selected="False"][data-breakpoint="Tablet"] {
   height: 74px;
+  min-height: 0;
   padding: 10px;
   border-radius: 0;
   display: inline-flex;
@@ -2778,6 +2972,7 @@
 .pf-filter-tab-single[data-selected="False"][data-breakpoint="Tablet"][data-state="Hover"],
 .pf-filter-tab-single[data-selected="False"][data-breakpoint="Tablet"]:hover {
   height: 74px;
+  min-height: 0;
   padding: 10px;
   border-radius: 0;
   display: inline-flex;
@@ -2789,6 +2984,7 @@
 }
 .pf-filter-tab-single[data-selected="False"][data-breakpoint="Mobile"] {
   height: 70px;
+  min-height: 0;
   padding: 10px;
   border-radius: 0;
   display: inline-flex;
@@ -2801,6 +2997,7 @@
 .pf-filter-tab-single[data-selected="False"][data-breakpoint="Mobile"][data-state="Hover"],
 .pf-filter-tab-single[data-selected="False"][data-breakpoint="Mobile"]:hover {
   height: 70px;
+  min-height: 0;
   padding: 10px;
   border-radius: 0;
   display: inline-flex;
@@ -2812,6 +3009,7 @@
 }
 .pf-filter-tab-single[data-selected="True"][data-breakpoint="Desktop"] {
   height: 100px;
+  min-height: 0;
   padding: 20px;
   border-radius: 0;
   display: inline-flex;
@@ -2824,6 +3022,7 @@
 }
 .pf-filter-tab-single[data-selected="True"][data-breakpoint="Tablet"] {
   height: 74px;
+  min-height: 0;
   padding: 10px;
   border-radius: 0;
   display: inline-flex;
@@ -2836,6 +3035,7 @@
 }
 .pf-filter-tab-single[data-selected="True"][data-breakpoint="Mobile"] {
   height: 70px;
+  min-height: 0;
   padding: 10px;
   border-radius: 0;
   display: inline-flex;
@@ -2885,6 +3085,7 @@
 }
 .pf-filter-tabs[data-breakpoints="Tablet"] {
   height: 74px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -2897,6 +3098,7 @@
 }
 .pf-filter-tabs[data-breakpoints="Mobile"] {
   height: 70px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -2916,12 +3118,11 @@
  * carries its measured geometry and leaves colour to the page. Single component. No colour variable bound in Figma.
  */
 .pf-floaters {
-  width: 85px;
   height: 40px;
   display: inline-flex;
   flex-direction: row;
-  align-items: flex-start;
-  justify-content: center;
+  align-items: center;
+  justify-content: flex-start;
   gap: 5px;
   appearance: none;
   -webkit-appearance: none;
@@ -2961,6 +3162,7 @@
  * Figma draws this 375px wide; treated as layout, not a rule
  */
 .pf-footer {
+  height: 28px;
   padding: 0 10px;
   display: inline-flex;
   flex-direction: column;
@@ -2986,6 +3188,7 @@
  * Figma draws this 564px wide; treated as layout, not a rule
  */
 .pf-form-field {
+  height: 69px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -2999,6 +3202,316 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-form-field[data-input-type="Text"][data-full-width="No"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Text"][data-full-width="No"][data-state="Disabled"],
+.pf-form-field[data-input-type="Text"][data-full-width="No"]:disabled,
+.pf-form-field[data-input-type="Text"][data-full-width="No"][aria-disabled="true"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Text"][data-full-width="Yes"][data-state="Error"] {
+  height: 92px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Text"][data-full-width="No"][data-state="Error"] {
+  height: 92px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Text"][data-full-width="No"][data-state="Selected"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Dropdown"][data-full-width="No"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Dropdown"][data-full-width="No"][data-state="Disabled"],
+.pf-form-field[data-input-type="Dropdown"][data-full-width="No"]:disabled,
+.pf-form-field[data-input-type="Dropdown"][data-full-width="No"][aria-disabled="true"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Dropdown"][data-full-width="Yes"][data-state="Error"] {
+  height: 92px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Dropdown"][data-full-width="No"][data-state="Error"] {
+  height: 92px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Dropdown"][data-full-width="No"][data-state="Selected"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Search"][data-full-width="No"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Search"][data-full-width="No"][data-state="Disabled"],
+.pf-form-field[data-input-type="Search"][data-full-width="No"]:disabled,
+.pf-form-field[data-input-type="Search"][data-full-width="No"][aria-disabled="true"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Search"][data-full-width="Yes"][data-state="Error"] {
+  height: 92px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Search"][data-full-width="No"][data-state="Error"] {
+  height: 92px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Search"][data-full-width="No"][data-state="Selected"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Date picker"][data-full-width="No"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Date picker"][data-full-width="No"][data-state="Disabled"],
+.pf-form-field[data-input-type="Date picker"][data-full-width="No"]:disabled,
+.pf-form-field[data-input-type="Date picker"][data-full-width="No"][aria-disabled="true"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Date picker"][data-full-width="Yes"][data-state="Error"] {
+  height: 92px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Date picker"][data-full-width="No"][data-state="Error"] {
+  height: 92px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Date picker"][data-full-width="No"][data-state="Selected"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Time picker"][data-full-width="No"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Time picker"][data-full-width="No"][data-state="Disabled"],
+.pf-form-field[data-input-type="Time picker"][data-full-width="No"]:disabled,
+.pf-form-field[data-input-type="Time picker"][data-full-width="No"][aria-disabled="true"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Time picker"][data-full-width="Yes"][data-state="Error"] {
+  height: 92px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Time picker"][data-full-width="No"][data-state="Error"] {
+  height: 92px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-form-field[data-input-type="Time picker"][data-full-width="No"][data-state="Selected"] {
+  height: 69px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
 }
 .pf-form-field[data-input-type="Text"] {
   color: var(--pf-text-primary);
@@ -3092,6 +3605,7 @@
   font-family: var(--pf-font-body);
 }
 .pf-full-page[data-system="People First"][data-tablet="No"][data-mobile="Yes"][data-darkmode="Yes"] {
+  height: auto;
   min-height: 667px;
   padding: 0;
   border-radius: 0;
@@ -3103,6 +3617,7 @@
   font-size: 13px;
 }
 .pf-full-page[data-system="People First"][data-tablet="No"][data-mobile="Yes"][data-darkmode="No"] {
+  height: auto;
   min-height: 667px;
   padding: 0;
   border-radius: 0;
@@ -3243,6 +3758,7 @@
 }
 .pf-header-navigation[data-mobile="Yes"][data-tablet="No"] {
   height: 106px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -3254,6 +3770,7 @@
 }
 .pf-header-navigation[data-mobile="No"][data-tablet="Yes"] {
   height: 118px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -3298,6 +3815,7 @@
 }
 .pf-header[data-theme="Configr"][data-mobile="Yes"] {
   height: 62px;
+  min-height: 0;
   padding: 0 10px;
   border-radius: 0;
   display: inline-flex;
@@ -3310,6 +3828,7 @@
 }
 .pf-header[data-theme="Default - Cranberry red"][data-mobile="No"] {
   height: 86px;
+  min-height: 0;
   padding: 10px 20px;
   border-radius: 0;
   display: inline-flex;
@@ -3321,6 +3840,7 @@
 }
 .pf-header[data-theme="Default - Cranberry red"][data-mobile="Yes"] {
   height: 62px;
+  min-height: 0;
   padding: 0 10px;
   border-radius: 0;
   display: inline-flex;
@@ -3332,6 +3852,7 @@
 }
 .pf-header[data-theme="Dark mode"][data-mobile="No"] {
   height: 86px;
+  min-height: 0;
   padding: 10px 20px;
   border-radius: 0;
   display: inline-flex;
@@ -3343,6 +3864,7 @@
 }
 .pf-header[data-theme="Dark mode"][data-mobile="Yes"] {
   height: 62px;
+  min-height: 0;
   padding: 0 10px;
   border-radius: 0;
   display: inline-flex;
@@ -3354,6 +3876,7 @@
 }
 .pf-header[data-theme="Purple orchid"][data-mobile="No"] {
   height: 86px;
+  min-height: 0;
   padding: 10px 20px;
   border-radius: 0;
   display: inline-flex;
@@ -3365,6 +3888,7 @@
 }
 .pf-header[data-theme="Purple orchid"][data-mobile="Yes"] {
   height: 62px;
+  min-height: 0;
   padding: 0 10px;
   border-radius: 0;
   display: inline-flex;
@@ -3377,6 +3901,7 @@
 }
 .pf-header[data-theme="Berry pink"][data-mobile="No"] {
   height: 86px;
+  min-height: 0;
   padding: 10px 20px;
   border-radius: 0;
   display: inline-flex;
@@ -3388,6 +3913,7 @@
 }
 .pf-header[data-theme="Berry pink"][data-mobile="Yes"] {
   height: 62px;
+  min-height: 0;
   padding: 0 10px;
   border-radius: 0;
   display: inline-flex;
@@ -3400,6 +3926,7 @@
 }
 .pf-header[data-theme="Purple iris"][data-mobile="No"] {
   height: 86px;
+  min-height: 0;
   padding: 10px 20px;
   border-radius: 0;
   display: inline-flex;
@@ -3411,6 +3938,7 @@
 }
 .pf-header[data-theme="Purple iris"][data-mobile="Yes"] {
   height: 62px;
+  min-height: 0;
   padding: 0 10px;
   border-radius: 0;
   display: inline-flex;
@@ -3423,6 +3951,7 @@
 }
 .pf-header[data-theme="Royal purple"][data-mobile="No"] {
   height: 86px;
+  min-height: 0;
   padding: 10px 20px;
   border-radius: 0;
   display: inline-flex;
@@ -3434,6 +3963,7 @@
 }
 .pf-header[data-theme="Royal purple"][data-mobile="Yes"] {
   height: 62px;
+  min-height: 0;
   padding: 0 10px;
   border-radius: 0;
   display: inline-flex;
@@ -3446,6 +3976,7 @@
 }
 .pf-header[data-theme="Velvet red"][data-mobile="No"] {
   height: 86px;
+  min-height: 0;
   padding: 10px 20px;
   border-radius: 0;
   display: inline-flex;
@@ -3457,6 +3988,7 @@
 }
 .pf-header[data-theme="Velvet red"][data-mobile="Yes"] {
   height: 62px;
+  min-height: 0;
   padding: 0 10px;
   border-radius: 0;
   display: inline-flex;
@@ -3469,6 +4001,7 @@
 }
 .pf-header[data-theme="Striking red"][data-mobile="No"] {
   height: 86px;
+  min-height: 0;
   padding: 10px 20px;
   border-radius: 0;
   display: inline-flex;
@@ -3480,6 +4013,7 @@
 }
 .pf-header[data-theme="Striking red"][data-mobile="Yes"] {
   height: 62px;
+  min-height: 0;
   padding: 0 10px;
   border-radius: 0;
   display: inline-flex;
@@ -3492,6 +4026,7 @@
 }
 .pf-header[data-theme="Orange flame"][data-mobile="No"] {
   height: 86px;
+  min-height: 0;
   padding: 10px 20px;
   border-radius: 0;
   display: inline-flex;
@@ -3503,6 +4038,7 @@
 }
 .pf-header[data-theme="Orange flame"][data-mobile="Yes"] {
   height: 62px;
+  min-height: 0;
   padding: 0 10px;
   border-radius: 0;
   display: inline-flex;
@@ -3515,6 +4051,7 @@
 }
 .pf-header[data-theme="Cobalt blue"][data-mobile="No"] {
   height: 86px;
+  min-height: 0;
   padding: 10px 20px;
   border-radius: 0;
   display: inline-flex;
@@ -3526,6 +4063,7 @@
 }
 .pf-header[data-theme="Cobalt blue"][data-mobile="Yes"] {
   height: 62px;
+  min-height: 0;
   padding: 0 10px;
   border-radius: 0;
   display: inline-flex;
@@ -3538,6 +4076,7 @@
 }
 .pf-header[data-theme="Blue lagoon"][data-mobile="No"] {
   height: 86px;
+  min-height: 0;
   padding: 10px 20px;
   border-radius: 0;
   display: inline-flex;
@@ -3549,6 +4088,7 @@
 }
 .pf-header[data-theme="Blue lagoon"][data-mobile="Yes"] {
   height: 62px;
+  min-height: 0;
   padding: 0 10px;
   border-radius: 0;
   display: inline-flex;
@@ -3561,6 +4101,7 @@
 }
 .pf-header[data-theme="Cool grey"][data-mobile="No"] {
   height: 86px;
+  min-height: 0;
   padding: 10px 20px;
   border-radius: 0;
   display: inline-flex;
@@ -3572,6 +4113,7 @@
 }
 .pf-header[data-theme="Cool grey"][data-mobile="Yes"] {
   height: 62px;
+  min-height: 0;
   padding: 0 10px;
   border-radius: 0;
   display: inline-flex;
@@ -3584,6 +4126,7 @@
 }
 .pf-header[data-theme="Teal ocean"][data-mobile="No"] {
   height: 86px;
+  min-height: 0;
   padding: 10px 20px;
   border-radius: 0;
   display: inline-flex;
@@ -3595,6 +4138,7 @@
 }
 .pf-header[data-theme="Teal ocean"][data-mobile="Yes"] {
   height: 62px;
+  min-height: 0;
   padding: 0 10px;
   border-radius: 0;
   display: inline-flex;
@@ -3607,6 +4151,7 @@
 }
 .pf-header[data-theme="Fern green"][data-mobile="No"] {
   height: 86px;
+  min-height: 0;
   padding: 10px 20px;
   border-radius: 0;
   display: inline-flex;
@@ -3618,6 +4163,7 @@
 }
 .pf-header[data-theme="Fern green"][data-mobile="Yes"] {
   height: 62px;
+  min-height: 0;
   padding: 0 10px;
   border-radius: 0;
   display: inline-flex;
@@ -3630,6 +4176,7 @@
 }
 .pf-header[data-theme="Classic"][data-mobile="No"] {
   height: 86px;
+  min-height: 0;
   padding: 10px 20px;
   border-radius: 0;
   display: inline-flex;
@@ -3641,6 +4188,7 @@
 }
 .pf-header[data-theme="Classic"][data-mobile="Yes"] {
   height: 62px;
+  min-height: 0;
   padding: 0 10px;
   border-radius: 0;
   display: inline-flex;
@@ -3654,6 +4202,7 @@
 .pf-header[data-system="People First"] {
   width: 20px;
   height: 20px;
+  min-height: 0;
   padding: 0 4px;
   border-radius: 999px;
   display: inline-flex;
@@ -3667,6 +4216,7 @@
 .pf-header[data-system="Configr"] {
   width: 20px;
   height: 20px;
+  min-height: 0;
   padding: 0 4px;
   border-radius: 999px;
   display: inline-flex;
@@ -3715,6 +4265,7 @@
 /* Horizontal scroll
  * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
  * carries its measured geometry and leaves colour to the page. 2 variants (Page). Figma draws it 1160px wide — the artboard, not a rule. No colour variable bound.
+ * Figma draws this 1160px wide; treated as layout, not a rule
  */
 .pf-horizontal-scroll {
   height: 32px;
@@ -3773,6 +4324,7 @@
 }
 .pf-information-box[data-type="Warning"] {
   height: 74px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -3784,6 +4336,7 @@
 }
 .pf-information-box[data-type="Error"] {
   height: 74px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -3795,6 +4348,7 @@
 }
 .pf-information-box[data-type="Success"] {
   height: 74px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -3822,6 +4376,7 @@
  * Figma draws this 400px wide; treated as layout, not a rule
  */
 .pf-inline-search {
+  height: 130px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -3846,8 +4401,10 @@
 /* Layout container (magazine style)
  * 2 variants captured
  * Figma draws this 1600px wide; treated as layout, not a rule
+ * Figma draws this 667px tall; emitted as a minimum, since content decides the real height
  */
 .pf-layout-container-magazine-style {
+  min-height: 667px;
   padding: 30px;
   display: inline-flex;
   flex-direction: column;
@@ -3863,6 +4420,30 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-layout-container-magazine-style[data-row-colour="False"][data-mobile="True"] {
+  height: auto;
+  min-height: 646px;
+  padding: 20px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
+  font-size: 20px;
+}
+.pf-layout-container-magazine-style[data-row-colour="True"][data-mobile="True"] {
+  height: auto;
+  min-height: 646px;
+  padding: 20px 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
+  font-size: 20px;
+}
 .pf-layout-container-magazine-style[data-row-colour="False"] {
   background: var(--pf-bg-primary);
   color: var(--pf-text-primary);
@@ -3877,6 +4458,7 @@
  * Figma draws this 1160px wide; treated as layout, not a rule
  */
 .pf-layout-container-tabs {
+  height: 36px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -3901,6 +4483,7 @@
  * Figma draws this 1160px wide; treated as layout, not a rule
  */
 .pf-layout-container-title {
+  height: 44px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -3941,6 +4524,7 @@
 .pf-links[data-link-type="Secondary"][data-icon-position="Left"],
 .pf-links[data-link-type="Secondary"][data-icon-position="Left"][data-hover="False"] {
   height: 18px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -3953,6 +4537,7 @@
 .pf-links[data-link-type="Secondary"][data-icon-position="Left"]:hover,
 .pf-links[data-link-type="Secondary"][data-icon-position="Left"][data-hover="True"] {
   height: 18px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -3965,6 +4550,7 @@
 .pf-links[data-link-type="Secondary"][data-icon-position="Right"],
 .pf-links[data-link-type="Secondary"][data-icon-position="Right"][data-hover="False"] {
   height: 18px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -3977,6 +4563,7 @@
 .pf-links[data-link-type="Secondary"][data-icon-position="Right"]:hover,
 .pf-links[data-link-type="Secondary"][data-icon-position="Right"][data-hover="True"] {
   height: 18px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -4068,6 +4655,7 @@
 }
 .pf-menu[data-size="Small"] {
   height: 26px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -4114,6 +4702,7 @@
 
 /* Message box
  * 1 variant captured
+ * Figma draws this 455px wide; treated as layout, not a rule
  */
 .pf-message-box {
   height: 138px;
@@ -4187,6 +4776,7 @@
 }
 .pf-mobile-bottom-navigation[data-tablet="Yes"] {
   height: 56px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -4219,18 +4809,21 @@
 }
 .pf-mobile-key-actions[data-link="Social activity"] {
   height: 103px;
+  min-height: 0;
   border-radius: 0;
   display: inline-block;
   font-size: 16px;
 }
 .pf-mobile-key-actions[data-link="Recognition trends"] {
   height: 103px;
+  min-height: 0;
   border-radius: 0;
   display: inline-block;
   font-size: 16px;
 }
 .pf-mobile-key-actions[data-link="MHR"] {
   height: 103px;
+  min-height: 0;
   border-radius: 0;
   display: inline-block;
   font-size: 15px;
@@ -4272,6 +4865,7 @@
  * 1 variant captured. the removable tag inside a multiselect
  */
 .pf-multiselect-tag {
+  height: 24px;
   border-radius: 4px;
   display: inline-flex;
   flex-direction: row;
@@ -4295,11 +4889,11 @@
 
 /* Nav tabs
  * 3 variants captured. 6 variants (Status x Mobile); Mobile does not change the colours.
- * corner radius varies per corner in Figma
  */
 .pf-nav-tabs {
   height: 40px;
   padding: 0 20px;
+  border-radius: 8px 8px 0 0;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -4316,7 +4910,9 @@
 }
 .pf-nav-tabs[data-status="Unselected"][data-mobile="True"] {
   height: 42px;
+  min-height: 0;
   padding: 0 10px;
+  border-radius: 8px 8px 0 0;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -4326,7 +4922,9 @@
 }
 .pf-nav-tabs[data-status="Hover"][data-mobile="True"] {
   height: 42px;
+  min-height: 0;
   padding: 0 10px;
+  border-radius: 8px 8px 0 0;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -4336,7 +4934,9 @@
 }
 .pf-nav-tabs[data-status="Selected"][data-mobile="False"] {
   height: 40px;
+  min-height: 0;
   padding: 0 20px;
+  border-radius: 8px 8px 0 0;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -4347,7 +4947,9 @@
 }
 .pf-nav-tabs[data-status="Selected"][data-mobile="True"] {
   height: 42px;
+  min-height: 0;
   padding: 0 10px;
+  border-radius: 8px 8px 0 0;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -4396,6 +4998,7 @@
 .pf-navigation-item[data-system="People First"][data-device="Desktop"][data-selected="No"] {
   width: 90px;
   height: 86px;
+  min-height: 0;
   padding: 0 25px;
   border-radius: 0;
   display: inline-flex;
@@ -4408,6 +5011,7 @@
 .pf-navigation-item[data-system="Configr"][data-device="Desktop"][data-selected="No"] {
   width: 90px;
   height: 86px;
+  min-height: 0;
   padding: 0 25px;
   border-radius: 0;
   display: inline-flex;
@@ -4420,6 +5024,7 @@
 .pf-navigation-item[data-system="People First"][data-device="Mobile"][data-selected="No"] {
   width: 86px;
   height: 76px;
+  min-height: 0;
   padding: 0 25px;
   border-radius: 0;
   display: inline-flex;
@@ -4432,6 +5037,7 @@
 .pf-navigation-item[data-system="People First"][data-device="Tablet"][data-selected="No"] {
   width: 86px;
   height: 56px;
+  min-height: 0;
   padding: 0 25px;
   border-radius: 0;
   display: inline-flex;
@@ -4445,6 +5051,7 @@
 .pf-navigation-item[data-system="People First"][data-device="Desktop"][data-selected="No"]:hover {
   width: 90px;
   height: 86px;
+  min-height: 0;
   padding: 0 25px;
   border-radius: 0;
   display: inline-flex;
@@ -4458,6 +5065,7 @@
 .pf-navigation-item[data-system="Configr"][data-device="Desktop"][data-selected="No"]:hover {
   width: 90px;
   height: 86px;
+  min-height: 0;
   padding: 0 25px;
   border-radius: 0;
   display: inline-flex;
@@ -4470,6 +5078,7 @@
 .pf-navigation-item[data-system="People First"][data-device="Mobile"][data-selected="No"][data-state="Selected"] {
   width: 86px;
   height: 76px;
+  min-height: 0;
   padding: 0 25px;
   border-radius: 0;
   display: inline-flex;
@@ -4483,6 +5092,7 @@
 .pf-navigation-item[data-system="People First"][data-device="Tablet"][data-selected="No"][data-state="Selected"] {
   width: 86px;
   height: 56px;
+  min-height: 0;
   padding: 0 25px;
   border-radius: 0;
   display: inline-flex;
@@ -4530,6 +5140,7 @@
 }
 .pf-navigation-tabs[data-system="People First"][data-mobile="Yes"] {
   height: 32px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -4542,6 +5153,7 @@
 }
 .pf-navigation-tabs[data-system="Configr"][data-mobile="Yes"] {
   height: 32px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -4594,6 +5206,7 @@
  * Figma draws this 440px wide; treated as layout, not a rule
  */
 .pf-note {
+  height: 130px;
   border-radius: 8px;
   display: inline-flex;
   flex-direction: column;
@@ -4639,6 +5252,7 @@
 }
 .pf-notification-card[data-mobile="Yes"] {
   height: 153px;
+  min-height: 0;
   padding: 15px;
   border-radius: 8px;
   display: inline-flex;
@@ -4678,6 +5292,7 @@
 }
 .pf-notification-categories[data-mobile="Yes"] {
   padding: 0;
+  border-radius: 16px 16px 0 0;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -4713,36 +5328,42 @@
 .pf-notification-image[data-type="Person"][data-with-status="False"][data-mobile="True"][data-status-position="High"] {
   width: 36px;
   height: 36px;
+  min-height: 0;
   border-radius: 0;
   display: inline-block;
 }
 .pf-notification-image[data-type="Custom"][data-with-status="False"][data-mobile="True"][data-status-position="High"] {
   width: 36px;
   height: 36px;
+  min-height: 0;
   border-radius: 0;
   display: inline-block;
 }
 .pf-notification-image[data-type="Custom"][data-with-status="True"][data-mobile="True"][data-status-position="High"] {
   width: 36px;
   height: 36px;
+  min-height: 0;
   border-radius: 0;
   display: inline-block;
 }
 .pf-notification-image[data-type="Custom"][data-with-status="True"][data-mobile="True"][data-status-position="Low"] {
   width: 36px;
   height: 36px;
+  min-height: 0;
   border-radius: 0;
   display: inline-block;
 }
 .pf-notification-image[data-type="Person"][data-with-status="True"][data-mobile="True"][data-status-position="High"] {
   width: 36px;
   height: 36px;
+  min-height: 0;
   border-radius: 0;
   display: inline-block;
 }
 .pf-notification-image[data-type="Person"][data-with-status="True"][data-mobile="True"][data-status-position="Low"] {
   width: 36px;
   height: 36px;
+  min-height: 0;
   border-radius: 0;
   display: inline-block;
 }
@@ -4800,6 +5421,7 @@
 }
 .pf-notification-panel[data-mobile="Yes"] {
   padding: 0;
+  border-radius: 16px 16px 0 0;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -4853,6 +5475,7 @@
  * Figma draws this 250px wide; treated as layout, not a rule
  */
 .pf-option {
+  height: 26px;
   padding: 2px 10px 2px 20px;
   border-radius: 4px;
   display: inline-flex;
@@ -4881,6 +5504,7 @@
  * Figma draws this 293px wide; treated as layout, not a rule
  */
 .pf-org-chart {
+  height: 48px;
   border-radius: 8px;
   display: inline-flex;
   flex-direction: row;
@@ -4894,6 +5518,30 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-org-chart[data-type="Manager"] {
+  height: 97px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 16px;
+}
+.pf-org-chart[data-type="Reportee"] {
+  height: 55px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 16px;
 }
 .pf-org-chart[data-type="Org"] {
   background: var(--pf-bg-primary);
@@ -4937,8 +5585,10 @@
 /* People and department drop down
  * 1 variant captured
  * Figma draws this 440px wide; treated as layout, not a rule
+ * Figma draws this 320px tall; emitted as a minimum, since content decides the real height
  */
 .pf-people-and-department-drop-down {
+  min-height: 320px;
   padding: 10px 5px 10px 10px;
   display: inline-flex;
   flex-direction: row;
@@ -4985,6 +5635,7 @@
 
 /* Primary search
  * 1 variant captured. PILL
+ * Figma draws this 300px wide; treated as layout, not a rule
  * pill
  */
 .pf-primary-search {
@@ -5004,6 +5655,18 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-primary-search[data-darkmode="False"][data-icon-only="True"] {
+  width: 36px;
+  height: 36px;
+  min-height: 0;
+  padding: 0 10px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
 }
 .pf-primary-search,
 .pf-primary-search[data-darkmode="False"][data-icon-only="False"] {
@@ -5033,6 +5696,7 @@
 .pf-profile-image[data-size="Extra large"] {
   width: 93px;
   height: 93px;
+  min-height: 0;
   padding: 0;
   border-radius: 999px;
   display: inline-block;
@@ -5040,6 +5704,7 @@
 .pf-profile-image[data-size="Large"] {
   width: 76px;
   height: 76px;
+  min-height: 0;
   padding: 0;
   border-radius: 999px;
   display: inline-block;
@@ -5047,6 +5712,7 @@
 .pf-profile-image[data-size="Medium plus"] {
   width: 54px;
   height: 54px;
+  min-height: 0;
   padding: 0;
   border-radius: 999px;
   display: inline-block;
@@ -5054,6 +5720,7 @@
 .pf-profile-image[data-size="Medium"] {
   width: 43px;
   height: 43px;
+  min-height: 0;
   padding: 0;
   border-radius: 999px;
   display: inline-block;
@@ -5061,6 +5728,7 @@
 .pf-profile-image[data-size="Small"] {
   width: 28px;
   height: 28px;
+  min-height: 0;
   padding: 0;
   border-radius: 999px;
   display: inline-block;
@@ -5068,6 +5736,7 @@
 .pf-profile-image[data-size="Extra small"] {
   width: 22px;
   height: 22px;
+  min-height: 0;
   padding: 0;
   border-radius: 999px;
   display: inline-block;
@@ -5189,6 +5858,7 @@
  * 1 variant captured. the asterisk marker
  */
 .pf-required-field {
+  height: 22px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -5228,6 +5898,7 @@
 .pf-search-navigation[data-mobile="True"] {
   width: 32px;
   height: 32px;
+  min-height: 0;
   border-radius: 0;
   display: inline-block;
 }
@@ -5259,6 +5930,7 @@
 }
 .pf-secondary-nav[data-mobile="True"] {
   height: 40px;
+  min-height: 0;
   padding: 2px 0 0 0;
   border-radius: 0;
   display: inline-flex;
@@ -5302,8 +5974,10 @@
 
 /* Settings card
  * 1 variant captured. shadow 0 1 3px
+ * Figma draws this 300px wide; treated as layout, not a rule
  */
 .pf-settings-card {
+  height: 255px;
   padding: 20px;
   border-radius: 8px;
   display: inline-flex;
@@ -5331,9 +6005,9 @@
  * 1 variant captured
  * Figma draws this 400px wide; treated as layout, not a rule
  * Figma draws this 885px tall — the artboard it sits on, not a rule; dropped
- * corner radius varies per corner in Figma
  */
 .pf-side-filter {
+  border-radius: 8px 0 0 0;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -5346,6 +6020,18 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-side-filter[data-mobile="True"] {
+  height: auto;
+  min-height: 667px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 18px;
 }
 .pf-side-filter,
 .pf-side-filter[data-mobile="False"] {
@@ -5412,6 +6098,7 @@
 
 /* Side panel header
  * 1 variant captured
+ * Figma draws this 449px wide; treated as layout, not a rule
  */
 .pf-side-panel-header {
   height: 60px;
@@ -5439,9 +6126,11 @@
 
 /* Side panel
  * 3 variants captured. shadow 0 0 4px
- * corner radius varies per corner in Figma
+ * Figma draws this 375px wide; treated as layout, not a rule
+ * Figma draws this 726px tall — the artboard it sits on, not a rule; dropped
  */
 .pf-side-panel {
+  border-radius: 15px 15px 0 0;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -5454,6 +6143,36 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-side-panel[data-mobile="No"][data-size="Small"] {
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 20px;
+}
+.pf-side-panel[data-mobile="No"][data-size="Medium"] {
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 20px;
+}
+.pf-side-panel[data-mobile="No"][data-size="Large"] {
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 20px;
 }
 .pf-side-panel[data-mobile="No"][data-size="Small"] {
   background: var(--pf-bg-primary);
@@ -5470,8 +6189,10 @@
 
 /* Signature
  * 1 variant captured
+ * Figma draws this 384px tall; emitted as a minimum, since content decides the real height
  */
 .pf-signature {
+  min-height: 384px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -5515,8 +6236,10 @@
 /* Spotlight Card
  * 1 variant captured
  * Figma draws this 375px wide; treated as layout, not a rule
+ * Figma draws this 302px tall; emitted as a minimum, since content decides the real height
  */
 .pf-spotlight-card {
+  min-height: 302px;
   padding: 0 0 10px 0;
   border-radius: 8px;
   display: inline-flex;
@@ -5532,6 +6255,30 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-spotlight-card[data-horizontal="True"][data-mobile="False"] {
+  height: 218px;
+  min-height: 0;
+  padding: 10px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-spotlight-card[data-horizontal="True"][data-mobile="True"] {
+  height: 168px;
+  min-height: 0;
+  padding: 10px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
 }
 .pf-spotlight-card,
 .pf-spotlight-card[data-horizontal="False"] {
@@ -5626,6 +6373,7 @@
 .pf-status[data-status-type="Custom"] {
   width: 22px;
   height: 22px;
+  min-height: 0;
   border-radius: 999px;
   display: inline-block;
   font-size: 13px;
@@ -5689,6 +6437,7 @@
 .pf-steps[data-system="People First"][data-position="Middle"][data-current-step="Yes"][data-completed-step="No"][data-state="Selected"] {
   width: 110px;
   height: 48px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -5702,6 +6451,7 @@
 .pf-steps[data-system="People First"][data-position="First"][data-current-step="Yes"][data-completed-step="No"][data-state="Selected"] {
   width: 110px;
   height: 48px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -5715,6 +6465,7 @@
 .pf-steps[data-system="People First"][data-position="Last"][data-current-step="Yes"][data-completed-step="No"][data-state="Selected"] {
   width: 110px;
   height: 48px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -5728,6 +6479,7 @@
 .pf-steps[data-system="Configr"][data-position="Middle"][data-current-step="Yes"][data-completed-step="No"][data-state="Selected"] {
   width: 110px;
   height: 48px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -5741,6 +6493,7 @@
 .pf-steps[data-system="Configr"][data-position="First"][data-current-step="Yes"][data-completed-step="No"][data-state="Selected"] {
   width: 110px;
   height: 48px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -5754,6 +6507,7 @@
 .pf-steps[data-system="Configr"][data-position="Last"][data-current-step="Yes"][data-completed-step="No"][data-state="Selected"] {
   width: 110px;
   height: 48px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -5768,6 +6522,7 @@
 .pf-steps[data-system="People First"][data-position="Middle"][data-current-step="No"][data-completed-step="No"]:hover {
   width: 110px;
   height: 48px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -5782,6 +6537,7 @@
 .pf-steps[data-system="People First"][data-position="First"][data-current-step="No"][data-completed-step="No"]:hover {
   width: 110px;
   height: 48px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -5796,6 +6552,7 @@
 .pf-steps[data-system="People First"][data-position="Last"][data-current-step="No"][data-completed-step="No"]:hover {
   width: 110px;
   height: 48px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -5810,6 +6567,7 @@
 .pf-steps[data-system="Configr"][data-position="Middle"][data-current-step="No"][data-completed-step="No"]:hover {
   width: 110px;
   height: 48px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -5824,6 +6582,7 @@
 .pf-steps[data-system="Configr"][data-position="First"][data-current-step="No"][data-completed-step="No"]:hover {
   width: 110px;
   height: 48px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -5838,6 +6597,7 @@
 .pf-steps[data-system="Configr"][data-position="Last"][data-current-step="No"][data-completed-step="No"]:hover {
   width: 110px;
   height: 48px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -5871,6 +6631,7 @@
 
 /* Sticky footer
  * 2 variants captured
+ * Figma draws this 446px wide; treated as layout, not a rule
  */
 .pf-sticky-footer {
   height: 52px;
@@ -5890,6 +6651,19 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-sticky-footer[data-default="Stepper"] {
+  height: 52px;
+  min-height: 0;
+  padding: 10px 15px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
 .pf-sticky-footer[data-default="Default"] {
   background: var(--pf-bg-primary);
   border-color: var(--pf-border-secondary);
@@ -5906,6 +6680,7 @@
  * 1 variant captured
  */
 .pf-switcher {
+  height: 28px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -5946,6 +6721,7 @@
 }
 .pf-tab[data-system="People First"][data-mobile="Yes"][data-selected="No"] {
   height: 30px;
+  min-height: 0;
   padding: 6px 0;
   border-radius: 0;
   display: inline-flex;
@@ -5957,6 +6733,7 @@
 }
 .pf-tab[data-system="Configr"][data-mobile="Yes"][data-selected="No"] {
   height: 30px;
+  min-height: 0;
   padding: 6px 0;
   border-radius: 0;
   display: inline-flex;
@@ -5969,6 +6746,7 @@
 .pf-tab[data-system="People First"][data-mobile="Yes"][data-selected="No"][data-state="Hover"],
 .pf-tab[data-system="People First"][data-mobile="Yes"][data-selected="No"]:hover {
   height: 30px;
+  min-height: 0;
   padding: 6px 0;
   border-radius: 0;
   display: inline-flex;
@@ -5981,6 +6759,7 @@
 .pf-tab[data-system="Configr"][data-mobile="Yes"][data-selected="No"][data-state="Hover"],
 .pf-tab[data-system="Configr"][data-mobile="Yes"][data-selected="No"]:hover {
   height: 30px;
+  min-height: 0;
   padding: 6px 0;
   border-radius: 0;
   display: inline-flex;
@@ -5992,6 +6771,7 @@
 }
 .pf-tab[data-system="People First"][data-mobile="No"][data-selected="Yes"][data-state="Selected"] {
   height: 36px;
+  min-height: 0;
   padding: 6px 0;
   border-radius: 0;
   display: inline-flex;
@@ -6004,6 +6784,7 @@
 }
 .pf-tab[data-system="People First"][data-mobile="Yes"][data-selected="Yes"][data-state="Selected"] {
   height: 32px;
+  min-height: 0;
   padding: 6px 0;
   border-radius: 0;
   display: inline-flex;
@@ -6016,6 +6797,7 @@
 }
 .pf-tab[data-system="Configr"][data-mobile="No"][data-selected="Yes"][data-state="Selected"] {
   height: 36px;
+  min-height: 0;
   padding: 6px 0;
   border-radius: 0;
   display: inline-flex;
@@ -6028,6 +6810,7 @@
 }
 .pf-tab[data-system="Configr"][data-mobile="Yes"][data-selected="Yes"][data-state="Selected"] {
   height: 32px;
+  min-height: 0;
   padding: 6px 0;
   border-radius: 0;
   display: inline-flex;
@@ -6294,6 +7077,7 @@
 }
 .pf-tags[data-type="Neutral"][data-small="Yes"] {
   height: 22px;
+  min-height: 0;
   padding: 2px 5px;
   border-radius: 4px;
   display: inline-flex;
@@ -6306,6 +7090,7 @@
 }
 .pf-tags[data-type="Expired"][data-small="Yes"] {
   height: 22px;
+  min-height: 0;
   padding: 2px 5px;
   border-radius: 4px;
   display: inline-flex;
@@ -6318,6 +7103,7 @@
 }
 .pf-tags[data-type="Positive"][data-small="Yes"] {
   height: 22px;
+  min-height: 0;
   padding: 2px 5px;
   border-radius: 4px;
   display: inline-flex;
@@ -6330,6 +7116,7 @@
 }
 .pf-tags[data-type="Warning"][data-small="Yes"] {
   height: 22px;
+  min-height: 0;
   padding: 2px 5px;
   border-radius: 4px;
   display: inline-flex;
@@ -6342,6 +7129,7 @@
 }
 .pf-tags[data-type="Negative"][data-small="Yes"] {
   height: 22px;
+  min-height: 0;
   padding: 2px 5px;
   border-radius: 4px;
   display: inline-flex;
@@ -6354,6 +7142,7 @@
 }
 .pf-tags[data-type="Other"][data-small="Yes"] {
   height: 22px;
+  min-height: 0;
   padding: 2px 5px;
   border-radius: 4px;
   display: inline-flex;
@@ -6366,6 +7155,7 @@
 }
 .pf-tags[data-type="Theme"][data-small="Yes"] {
   height: 22px;
+  min-height: 0;
   padding: 2px 5px;
   border-radius: 4px;
   display: inline-flex;
@@ -6436,6 +7226,7 @@
 }
 .pf-tertiary-nav[data-mobile="Yes"][data-page="No"] {
   height: 39px;
+  min-height: 0;
   padding: 0 10px;
   border-radius: 0;
   display: inline-flex;
@@ -6448,6 +7239,7 @@
 }
 .pf-tertiary-nav[data-mobile="No"][data-page="Yes"] {
   height: 45px;
+  min-height: 0;
   padding: 0 20px;
   border-radius: 0;
   display: inline-flex;
@@ -6459,6 +7251,7 @@
 }
 .pf-tertiary-nav[data-mobile="Yes"][data-page="Yes"] {
   height: 41px;
+  min-height: 0;
   padding: 0 10px;
   border-radius: 0;
   display: inline-flex;
@@ -6480,10 +7273,11 @@
 
 /* Text area
  * 4 variants captured. inner frame r8
+ * Figma draws this 300px wide; treated as layout, not a rule
+ * Figma draws this 267px tall; emitted as a minimum, since content decides the real height
  */
 .pf-text-area {
-  height: 213px;
-  border-radius: 8px;
+  min-height: 267px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -6516,6 +7310,7 @@
  * Figma draws this 440px wide; treated as layout, not a rule
  */
 .pf-text-template-format-editor {
+  height: 246px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -6530,14 +7325,28 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-text-template-format-editor[data-type="Correspondence"] {
+  height: auto;
+  min-height: 366px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
+}
 .pf-text-template-format-editor {
   color: var(--pf-text-primary);
 }
 
 /* Time picker
  * 1 variant captured
+ * Figma draws this 269px tall; emitted as a minimum, since content decides the real height
  */
 .pf-time-picker {
+  min-height: 269px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -6558,6 +7367,7 @@
 
 /* Title panel
  * 1 variant captured
+ * Figma draws this 375px wide; treated as layout, not a rule
  */
 .pf-title-panel {
   height: 135px;
@@ -6575,6 +7385,18 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-title-panel[data-mobile="false"] {
+  height: 135px;
+  min-height: 0;
+  padding: 40px 207px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 20px;
 }
 .pf-title-panel,
 .pf-title-panel[data-mobile="false"] {
@@ -6734,6 +7556,7 @@
 }
 .pf-top-bar-app-context[data-area="Administration"][data-mobile="True"] {
   height: 40px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -6746,6 +7569,7 @@
 }
 .pf-top-bar-app-context[data-area="Payroll"][data-mobile="True"] {
   height: 40px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -6758,6 +7582,7 @@
 }
 .pf-top-bar-app-context[data-area="Audit"][data-mobile="True"] {
   height: 40px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -6770,6 +7595,7 @@
 }
 .pf-top-bar-app-context[data-area="Onboarding"][data-mobile="True"] {
   height: 40px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -6782,6 +7608,7 @@
 }
 .pf-top-bar-app-context[data-area="Learning"][data-mobile="True"] {
   height: 40px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -6794,6 +7621,7 @@
 }
 .pf-top-bar-app-context[data-area="Available jobs"][data-mobile="True"] {
   height: 40px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -6806,6 +7634,7 @@
 }
 .pf-top-bar-app-context[data-area="HRM"][data-mobile="True"] {
   height: 40px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -6818,6 +7647,7 @@
 }
 .pf-top-bar-app-context[data-area="General ledger"][data-mobile="True"] {
   height: 40px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -6830,6 +7660,7 @@
 }
 .pf-top-bar-app-context[data-area="Accounts payable"][data-mobile="True"] {
   height: 40px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -6842,6 +7673,7 @@
 }
 .pf-top-bar-app-context[data-area="Accounts receivable"][data-mobile="True"] {
   height: 40px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -6854,6 +7686,7 @@
 }
 .pf-top-bar-app-context[data-area="Taxes"][data-mobile="True"] {
   height: 40px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -6866,6 +7699,7 @@
 }
 .pf-top-bar-app-context[data-area="News"][data-mobile="True"] {
   height: 40px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -6878,6 +7712,7 @@
 }
 .pf-top-bar-app-context[data-area="Data explorer"][data-mobile="True"] {
   height: 40px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -6890,6 +7725,7 @@
 }
 .pf-top-bar-app-context[data-area="Case Management"][data-mobile="True"] {
   height: 40px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -6902,6 +7738,7 @@
 }
 .pf-top-bar-app-context[data-area="Absence"][data-mobile="True"] {
   height: 40px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -6914,6 +7751,7 @@
 }
 .pf-top-bar-app-context[data-area="Goals"][data-mobile="True"] {
   height: 40px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -6926,6 +7764,7 @@
 }
 .pf-top-bar-app-context[data-area="Insights"][data-mobile="True"] {
   height: 40px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -6938,6 +7777,7 @@
 }
 .pf-top-bar-app-context[data-area="Recruitment"][data-mobile="True"] {
   height: 40px;
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -6975,6 +7815,7 @@
  * Figma draws this 440px wide; treated as layout, not a rule
  */
 .pf-s-attachment {
+  height: 56px;
   padding: 10px 20px;
   border-radius: 8px;
   display: inline-flex;
@@ -7060,6 +7901,7 @@
  * Figma draws this 520px wide; treated as layout, not a rule
  */
 .pf-s-post-content {
+  height: 198px;
   padding: 0 20px 10px 73px;
   display: inline-flex;
   flex-direction: column;
@@ -7107,8 +7949,10 @@
 /* single layout card
  * 1 variant captured
  * Figma draws this 800px wide; treated as layout, not a rule
+ * Figma draws this 368px tall; emitted as a minimum, since content decides the real height
  */
 .pf-single-layout-card {
+  min-height: 368px;
   padding: 30px;
   display: inline-flex;
   flex-direction: column;
@@ -7123,6 +7967,18 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-single-layout-card[data-mobile="true"] {
+  height: auto;
+  min-height: 347px;
+  padding: 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 15px;
+  font-size: 18px;
 }
 .pf-single-layout-card,
 .pf-single-layout-card[data-mobile="false"] {

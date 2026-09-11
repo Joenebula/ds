@@ -464,6 +464,7 @@
 
 /* Draggable card
  * 5 variants captured
+ * Figma draws this 480px wide; treated as layout, not a rule
  */
 .pf-draggable-card {
   height: 50px;
@@ -482,6 +483,17 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-draggable-card[data-state="Drop"] {
+  height: 50px;
+  min-height: 0;
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
 }
 .pf-draggable-card {
   background: var(--pf-bg-primary);
@@ -511,6 +523,7 @@
 
 /* Accordion
  * 2 variants captured
+ * Figma draws this 1200px wide; treated as layout, not a rule
  */
 .pf-accordion {
   height: 84px;
@@ -520,6 +533,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  gap: 689px;
   font-size: 20px;
   appearance: none;
   -webkit-appearance: none;
@@ -528,6 +542,42 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-accordion[data-expanded="False"][data-mobile="True"] {
+  height: 56px;
+  min-height: 0;
+  padding: 10px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 689px;
+  font-size: 18px;
+}
+.pf-accordion[data-expanded="True"][data-mobile="False"] {
+  height: auto;
+  min-height: 428px;
+  padding: 0;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 20px;
+}
+.pf-accordion[data-expanded="True"][data-mobile="True"] {
+  height: auto;
+  min-height: 428px;
+  padding: 0;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 18px;
 }
 .pf-accordion[data-expanded="False"] {
   background: var(--pf-bg-primary);
@@ -542,8 +592,11 @@
 
 /* Card
  * 1 variant captured. shadow 0 0 4px
+ * Figma draws this 520px wide; treated as layout, not a rule
+ * Figma draws this 358px tall; emitted as a minimum, since content decides the real height
  */
 .pf-card {
+  min-height: 358px;
   padding: 20px;
   border-radius: 8px;
   display: inline-flex;
@@ -568,8 +621,10 @@
 
 /* Content cards
  * 1 variant captured
+ * Figma draws this 366px tall; emitted as a minimum, since content decides the real height
  */
 .pf-content-cards {
+  min-height: 366px;
   padding: 20px;
   border-radius: 8px;
   display: inline-flex;
@@ -586,6 +641,18 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-content-cards[data-mobile="true"] {
+  height: auto;
+  min-height: 333px;
+  padding: 10px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 15px;
+  font-size: 16px;
+}
 .pf-content-cards,
 .pf-content-cards[data-mobile="false"] {
   background: var(--pf-bg-primary);
@@ -596,8 +663,10 @@
 /* Spotlight Card
  * 1 variant captured
  * Figma draws this 375px wide; treated as layout, not a rule
+ * Figma draws this 302px tall; emitted as a minimum, since content decides the real height
  */
 .pf-spotlight-card {
+  min-height: 302px;
   padding: 0 0 10px 0;
   border-radius: 8px;
   display: inline-flex;
@@ -614,6 +683,30 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-spotlight-card[data-horizontal="True"][data-mobile="False"] {
+  height: 218px;
+  min-height: 0;
+  padding: 10px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-spotlight-card[data-horizontal="True"][data-mobile="True"] {
+  height: 168px;
+  min-height: 0;
+  padding: 10px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
+}
 .pf-spotlight-card,
 .pf-spotlight-card[data-horizontal="False"] {
   background: var(--pf-bg-primary);
@@ -624,8 +717,10 @@
 /* single layout card
  * 1 variant captured
  * Figma draws this 800px wide; treated as layout, not a rule
+ * Figma draws this 368px tall; emitted as a minimum, since content decides the real height
  */
 .pf-single-layout-card {
+  min-height: 368px;
   padding: 30px;
   display: inline-flex;
   flex-direction: column;
@@ -641,6 +736,18 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-single-layout-card[data-mobile="true"] {
+  height: auto;
+  min-height: 347px;
+  padding: 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 15px;
+  font-size: 18px;
+}
 .pf-single-layout-card,
 .pf-single-layout-card[data-mobile="false"] {
   background: var(--pf-bg-primary);
@@ -652,6 +759,7 @@
  * 1 variant captured
  */
 .pf-editable-list-card {
+  height: 82px;
   border-radius: 4px;
   display: inline-flex;
   flex-direction: row;
@@ -675,8 +783,10 @@
 
 /* Settings card
  * 1 variant captured. shadow 0 1 3px
+ * Figma draws this 300px wide; treated as layout, not a rule
  */
 .pf-settings-card {
+  height: 255px;
   padding: 20px;
   border-radius: 8px;
   display: inline-flex;
@@ -721,6 +831,18 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-configuration-tile[data-device="Mobile"] {
+  height: 230px;
+  min-height: 0;
+  padding: 30px 20px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 24px;
+}
 .pf-configuration-tile,
 .pf-configuration-tile[data-device="Desktop"] {
   background: var(--pf-bg-secondary);
@@ -729,6 +851,7 @@
 
 /* Title panel
  * 1 variant captured
+ * Figma draws this 375px wide; treated as layout, not a rule
  */
 .pf-title-panel {
   height: 135px;
@@ -747,6 +870,18 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-title-panel[data-mobile="false"] {
+  height: 135px;
+  min-height: 0;
+  padding: 40px 207px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 20px;
+}
 .pf-title-panel,
 .pf-title-panel[data-mobile="false"] {
   background: var(--pf-bg-tertiary);
@@ -755,9 +890,11 @@
 
 /* Side panel
  * 3 variants captured. shadow 0 0 4px
- * corner radius varies per corner in Figma
+ * Figma draws this 375px wide; treated as layout, not a rule
+ * Figma draws this 726px tall — the artboard it sits on, not a rule; dropped
  */
 .pf-side-panel {
+  border-radius: 15px 15px 0 0;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -770,6 +907,36 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-side-panel[data-mobile="No"][data-size="Small"] {
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 20px;
+}
+.pf-side-panel[data-mobile="No"][data-size="Medium"] {
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 20px;
+}
+.pf-side-panel[data-mobile="No"][data-size="Large"] {
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 20px;
 }
 .pf-side-panel[data-mobile="No"][data-size="Small"] {
   background: var(--pf-bg-primary);
@@ -786,6 +953,7 @@
 
 /* Side panel header
  * 1 variant captured
+ * Figma draws this 449px wide; treated as layout, not a rule
  */
 .pf-side-panel-header {
   height: 60px;
@@ -813,6 +981,7 @@
 
 /* Sticky footer
  * 2 variants captured
+ * Figma draws this 446px wide; treated as layout, not a rule
  */
 .pf-sticky-footer {
   height: 52px;
@@ -832,6 +1001,19 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-sticky-footer[data-default="Stepper"] {
+  height: 52px;
+  min-height: 0;
+  padding: 10px 15px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
 .pf-sticky-footer[data-default="Default"] {
   background: var(--pf-bg-primary);
   border-color: var(--pf-border-secondary);
@@ -847,8 +1029,10 @@
 /* Layout container (magazine style)
  * 2 variants captured
  * Figma draws this 1600px wide; treated as layout, not a rule
+ * Figma draws this 667px tall; emitted as a minimum, since content decides the real height
  */
 .pf-layout-container-magazine-style {
+  min-height: 667px;
   padding: 30px;
   display: inline-flex;
   flex-direction: column;
@@ -864,6 +1048,30 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-layout-container-magazine-style[data-row-colour="False"][data-mobile="True"] {
+  height: auto;
+  min-height: 646px;
+  padding: 20px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
+  font-size: 20px;
+}
+.pf-layout-container-magazine-style[data-row-colour="True"][data-mobile="True"] {
+  height: auto;
+  min-height: 646px;
+  padding: 20px 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
+  font-size: 20px;
+}
 .pf-layout-container-magazine-style[data-row-colour="False"] {
   background: var(--pf-bg-primary);
   color: var(--pf-text-primary);
@@ -878,6 +1086,7 @@
  * Figma draws this 293px wide; treated as layout, not a rule
  */
 .pf-org-chart {
+  height: 48px;
   border-radius: 8px;
   display: inline-flex;
   flex-direction: row;
@@ -891,6 +1100,30 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-org-chart[data-type="Manager"] {
+  height: 97px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 16px;
+}
+.pf-org-chart[data-type="Reportee"] {
+  height: 55px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 16px;
 }
 .pf-org-chart[data-type="Org"] {
   background: var(--pf-bg-primary);
@@ -910,6 +1143,7 @@
  * Figma draws this 440px wide; treated as layout, not a rule
  */
 .pf-note {
+  height: 130px;
   border-radius: 8px;
   display: inline-flex;
   flex-direction: column;
@@ -934,9 +1168,9 @@
  * 1 variant captured
  * Figma draws this 400px wide; treated as layout, not a rule
  * Figma draws this 885px tall — the artboard it sits on, not a rule; dropped
- * corner radius varies per corner in Figma
  */
 .pf-side-filter {
+  border-radius: 8px 0 0 0;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -950,6 +1184,18 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-side-filter[data-mobile="True"] {
+  height: auto;
+  min-height: 667px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 18px;
+}
 .pf-side-filter,
 .pf-side-filter[data-mobile="False"] {
   background: var(--pf-bg-primary);
@@ -961,6 +1207,7 @@
  * Figma draws this 440px wide; treated as layout, not a rule
  */
 .pf-attachments {
+  height: 56px;
   display: inline-flex;
   flex-direction: row;
   align-items: flex-start;
@@ -984,6 +1231,7 @@
  * Figma draws this 440px wide; treated as layout, not a rule
  */
 .pf-attachment-with-person {
+  height: 112px;
   border-radius: 8px;
   display: inline-flex;
   flex-direction: column;
@@ -1006,9 +1254,10 @@
 /* Configuration panel
  * 1 variant captured
  * Figma draws this 1600px wide; treated as layout, not a rule
- * corner radius varies per corner in Figma
  */
 .pf-configuration-panel {
+  height: 189px;
+  border-radius: 8px 8px 0 0;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -1031,6 +1280,7 @@
  * Figma draws this 355px wide; treated as layout, not a rule
  */
 .pf-details {
+  height: 102px;
   display: inline-flex;
   flex-direction: row;
   align-items: flex-start;
@@ -1045,6 +1295,18 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-details[data-layout="Vertical"] {
+  height: 102px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
+}
 .pf-details {
   color: var(--pf-text-primary);
 }
@@ -1053,6 +1315,7 @@
  * 1 variant captured
  */
 .pf-switcher {
+  height: 28px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -1076,6 +1339,7 @@
  * Figma draws this 1160px wide; treated as layout, not a rule
  */
 .pf-layout-container-title {
+  height: 44px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -1099,6 +1363,7 @@
  * Figma draws this 1160px wide; treated as layout, not a rule
  */
 .pf-layout-container-tabs {
+  height: 36px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -1121,8 +1386,10 @@
 /* 50/50 layout container
  * 1 variant captured
  * Figma draws this 1600px wide; treated as layout, not a rule
+ * Figma draws this 368px tall; emitted as a minimum, since content decides the real height
  */
 .pf-50-50-layout-container {
+  min-height: 368px;
   display: inline-flex;
   flex-direction: row;
   align-items: flex-start;
@@ -1136,6 +1403,26 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-50-50-layout-container[data-row-colour="false"][data-mobile="true"] {
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 18px;
+}
+.pf-50-50-layout-container[data-row-colour="true"][data-mobile="true"] {
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 18px;
+}
 .pf-50-50-layout-container {
   color: var(--pf-text-primary);
 }
@@ -1145,6 +1432,7 @@
  * Figma draws this 440px wide; treated as layout, not a rule
  */
 .pf-s-attachment {
+  height: 56px;
   padding: 10px 20px;
   border-radius: 8px;
   display: inline-flex;
@@ -1171,6 +1459,7 @@
  * Figma draws this 375px wide; treated as layout, not a rule
  */
 .pf-footer {
+  height: 28px;
   padding: 0 10px;
   display: inline-flex;
   flex-direction: column;
@@ -1196,6 +1485,7 @@
  * Figma draws this 375px wide; treated as layout, not a rule
  */
 .pf-content {
+  height: 74px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1219,6 +1509,7 @@
  * Figma draws this 162px wide; treated as layout, not a rule
  */
 .pf-detail-item {
+  height: 18px;
   display: inline-flex;
   flex-direction: row;
   align-items: flex-start;
@@ -1298,7 +1589,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
 <h1>Cards and panels</h1>
 <p class="sub">30 components from the Cards and panels page in Figma, rendered with dist/components.css. Class names mirror Figma's variant panel: the component is the class, each variant property is a data attribute.</p>
 <h2>50/50 layout container</h2>
-<p class="sub">.pf-50-50-layout-container  ·  1600 x auto  ·  1 variant</p>
+<p class="sub">.pf-50-50-layout-container  ·  1600 x 368  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-50-50-layout-container">50/50 layout container</div>
@@ -1306,7 +1597,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Accordion</h2>
-<p class="sub">.pf-accordion  ·  auto x 84  ·  2 variants</p>
+<p class="sub">.pf-accordion  ·  1200 x 84  ·  2 variants</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-accordion" data-expanded="False">Accordion</div>
@@ -1318,7 +1609,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Attachment with person</h2>
-<p class="sub">.pf-attachment-with-person  ·  440 x auto  ·  1 variant</p>
+<p class="sub">.pf-attachment-with-person  ·  440 x 112  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-attachment-with-person">Attachment with person</div>
@@ -1326,7 +1617,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Attachments</h2>
-<p class="sub">.pf-attachments  ·  440 x auto  ·  1 variant</p>
+<p class="sub">.pf-attachments  ·  440 x 56  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-attachments">Attachments</div>
@@ -1334,7 +1625,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Card</h2>
-<p class="sub">.pf-card  ·  auto  ·  1 variant</p>
+<p class="sub">.pf-card  ·  520 x 358  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-card" data-property-1="Default">Card</div>
@@ -1354,7 +1645,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Configuration panel</h2>
-<p class="sub">.pf-configuration-panel  ·  1600 x auto  ·  1 variant</p>
+<p class="sub">.pf-configuration-panel  ·  1600 x 189  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-configuration-panel">Configuration panel</div>
@@ -1370,7 +1661,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Content cards</h2>
-<p class="sub">.pf-content-cards  ·  auto  ·  1 variant</p>
+<p class="sub">.pf-content-cards  ·  auto x 366  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-content-cards" data-mobile="false">Content cards</div>
@@ -1378,7 +1669,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Content</h2>
-<p class="sub">.pf-content  ·  375 x auto  ·  1 variant</p>
+<p class="sub">.pf-content  ·  375 x 74  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-content">Content</div>
@@ -1386,7 +1677,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Detail item</h2>
-<p class="sub">.pf-detail-item  ·  162 x auto  ·  1 variant</p>
+<p class="sub">.pf-detail-item  ·  162 x 18  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-detail-item">Detail item</div>
@@ -1394,7 +1685,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Details</h2>
-<p class="sub">.pf-details  ·  355 x auto  ·  1 variant</p>
+<p class="sub">.pf-details  ·  355 x 102  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-details">Details</div>
@@ -1402,7 +1693,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Draggable card</h2>
-<p class="sub">.pf-draggable-card  ·  auto x 50  ·  5 variants</p>
+<p class="sub">.pf-draggable-card  ·  480 x 50  ·  5 variants</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-draggable-card" data-state="Default">Draggable card</div>
@@ -1426,7 +1717,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Editable list card</h2>
-<p class="sub">.pf-editable-list-card  ·  auto x auto  ·  1 variant</p>
+<p class="sub">.pf-editable-list-card  ·  auto x 82  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-editable-list-card" data-property-1="Default">Editable list card</div>
@@ -1434,7 +1725,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Footer</h2>
-<p class="sub">.pf-footer  ·  375 x auto  ·  1 variant</p>
+<p class="sub">.pf-footer  ·  375 x 28  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-footer">Footer</div>
@@ -1442,7 +1733,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Layout container (magazine style)</h2>
-<p class="sub">.pf-layout-container-magazine-style  ·  1600 x auto  ·  2 variants</p>
+<p class="sub">.pf-layout-container-magazine-style  ·  1600 x 667  ·  2 variants</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-layout-container-magazine-style" data-row-colour="False">Layout container (magazine style)</div>
@@ -1454,7 +1745,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Layout container tabs</h2>
-<p class="sub">.pf-layout-container-tabs  ·  1160 x auto  ·  1 variant</p>
+<p class="sub">.pf-layout-container-tabs  ·  1160 x 36  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-layout-container-tabs">Layout container tabs</div>
@@ -1462,7 +1753,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Layout container title</h2>
-<p class="sub">.pf-layout-container-title  ·  1160 x auto  ·  1 variant</p>
+<p class="sub">.pf-layout-container-title  ·  1160 x 44  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-layout-container-title">Layout container title</div>
@@ -1470,7 +1761,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Note</h2>
-<p class="sub">.pf-note  ·  440 x auto  ·  1 variant</p>
+<p class="sub">.pf-note  ·  440 x 130  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-note" data-property-1="Default">Note</div>
@@ -1478,7 +1769,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Org chart</h2>
-<p class="sub">.pf-org-chart  ·  293 x auto  ·  3 variants</p>
+<p class="sub">.pf-org-chart  ·  293 x 48  ·  3 variants</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-org-chart" data-type="Org">Org chart</div>
@@ -1494,7 +1785,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Settings card</h2>
-<p class="sub">.pf-settings-card  ·  auto  ·  1 variant</p>
+<p class="sub">.pf-settings-card  ·  300 x 255  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-settings-card" data-property-1="Default">Settings card</div>
@@ -1510,7 +1801,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Side panel header</h2>
-<p class="sub">.pf-side-panel-header  ·  auto x 60  ·  1 variant</p>
+<p class="sub">.pf-side-panel-header  ·  449 x 60  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-side-panel-header" data-size="Default">Side panel header</div>
@@ -1518,7 +1809,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Side panel</h2>
-<p class="sub">.pf-side-panel  ·  375 wide  ·  3 variants</p>
+<p class="sub">.pf-side-panel  ·  375 x 726  ·  3 variants</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-side-panel" data-mobile="No" data-size="Small">Side panel</div>
@@ -1534,7 +1825,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Spotlight Card</h2>
-<p class="sub">.pf-spotlight-card  ·  375 x auto  ·  1 variant</p>
+<p class="sub">.pf-spotlight-card  ·  375 x 302  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-spotlight-card" data-horizontal="False">Spotlight Card</div>
@@ -1542,7 +1833,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Sticky footer</h2>
-<p class="sub">.pf-sticky-footer  ·  auto x 52  ·  2 variants</p>
+<p class="sub">.pf-sticky-footer  ·  446 x 52  ·  2 variants</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-sticky-footer" data-default="Default">Sticky footer</div>
@@ -1554,7 +1845,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Switcher</h2>
-<p class="sub">.pf-switcher  ·  auto x auto  ·  1 variant</p>
+<p class="sub">.pf-switcher  ·  auto x 28  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-switcher">Switcher</div>
@@ -1562,7 +1853,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Title panel</h2>
-<p class="sub">.pf-title-panel  ·  auto x 135  ·  1 variant</p>
+<p class="sub">.pf-title-panel  ·  375 x 135  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-title-panel" data-mobile="false">Title panel</div>
@@ -1570,7 +1861,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>[S] Attachment</h2>
-<p class="sub">.pf-s-attachment  ·  440 x auto  ·  1 variant</p>
+<p class="sub">.pf-s-attachment  ·  440 x 56  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-s-attachment">[S] Attachment</div>
@@ -1578,7 +1869,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>single layout card</h2>
-<p class="sub">.pf-single-layout-card  ·  800 x auto  ·  1 variant</p>
+<p class="sub">.pf-single-layout-card  ·  800 x 368  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-single-layout-card" data-mobile="false">single layout card</div>

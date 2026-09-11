@@ -194,11 +194,22 @@ function geometryDecls(g, notes, isVariant = false) {
   //                grows. Emit as a floor so the measurement survives without capping it.
   //   above that   the artboard the component was drawn on (1080 is a screen, not a
   //                component). Emitting it would force a page-tall box. Drop and say so.
-  if (h !== null && h <= 260) d.push(`height: ${h}px`);
-  else if (h !== null && h <= 700) {
+  // A variant rule cascades over the base rule, so whichever of the two properties the
+  // variant does NOT set leaks through from the base. Spotlight Card's base is 302 tall
+  // (a min-height) and its Horizontal=True variant is 218 (a height); the base's
+  // min-height won and the variant rendered 302. A variant therefore resets the other
+  // property every time rather than relying on which branch it lands in.
+  if (h !== null && h <= 260) {
+    d.push(`height: ${h}px`);
+    if (isVariant) d.push('min-height: 0');
+  } else if (h !== null && h <= 700) {
+    if (isVariant) d.push('height: auto');
     d.push(`min-height: ${h}px`);
     notes.push(`Figma draws this ${h}px tall; emitted as a minimum, since content decides the real height`);
   } else if (h !== null) {
+    // No reset here. This branch emits nothing, so there is nothing for a base row to
+    // disagree with — and an explicit `height: auto` would collapse a panel to its
+    // content, which is how this fix first broke six of them.
     notes.push(`Figma draws this ${h}px tall — the artboard it sits on, not a rule; dropped`);
   }
 
@@ -222,12 +233,22 @@ function geometryDecls(g, notes, isVariant = false) {
     }
   }
 
-  const r = num(g.radius);
-  if (r !== null) {
+  // The four-corner form has to be tested BEFORE num(), which parseFloats "16 16 0 0"
+  // down to 16 and emits a uniformly rounded box — exactly the shape being corrected.
+  const FOUR = /^[\d.]+( [\d.]+){3}$/;
+  const r = FOUR.test(g.radius || '') ? null : num(g.radius);
+  if (FOUR.test(g.radius || '')) {
+    // Four corners, measured individually. This used to be recorded as the single word
+    // "mixed" and dropped, so a panel Figma rounds along its top edge only rendered
+    // square — the same write-off that lost the header artwork.
+    d.push(`border-radius: ${g.radius.trim().split(/\s+/).map(v => v === '0' ? '0' : v + 'px').join(' ')}`);
+  } else if (r !== null) {
     if (h !== null && r >= h / 2 - 1) { d.push('border-radius: 999px'); notes.push('pill'); }
     else if (r > 0) d.push(`border-radius: ${r}px`);
     else if (isVariant) d.push('border-radius: 0');
-  } else if (g.radius === 'mixed') notes.push('corner radius varies per corner in Figma');
+  } else if (g.radius === 'mixed') {
+    notes.push('corner radius varies per corner in Figma and has not been measured yet');
+  }
 
   // CLIP in the notes means the Figma frame has clipsContent and a FIXED width, so its
   // label overruns and is cut off. On the web the same box WRAPS instead, which is a
