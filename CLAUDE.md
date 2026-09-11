@@ -328,10 +328,28 @@ bind them, because the rule in this file is absolute: *never delete that count t
 What changed is where the knowledge lives, never whether anyone can see it. Five mutants hold that
 line — the loudest being a rule that excuses a retired colour without counting it.
 
-It is not an excuse either. Each of the seven is an **exact duplicate of a live primitive at the
-same value**, so there is nothing to extract — but nine components still bind the retired name,
-`Full page` binds four of them, and `Header` binds a deprecated pink *and* its non-deprecated twin
-in the same component. That is a Figma-side rebinding job which this rule does not touch.
+It is not an excuse either — but **what it is has now been checked against the live file rather
+than against old transcripts, and the previous paragraph here was wrong.** It said nine components
+still bind the retired names, that `Full page` bound four and that `Header` bound a deprecated pink
+alongside its twin. A direct read on 2026-09-11 says:
+
+| | |
+|---|---|
+| `Full page`, `Header`, `Mobile key actions` | **already clean** — no deprecated style at all |
+| `AI Assistant` | **three**, not one |
+| `[S] Config child menu` | **two**, not one |
+| still carrying them | 6 components, **12 style references**, 5 distinct colours |
+
+**And they are PAINT STYLES, not variable bindings** — `fillStyleId` / `strokeStyleId`, which is
+why they never appear in a node's `boundVariables`. That matters more than it sounds: it means the
+fix is NOT the same-value rename this file used to describe. Every one of the five values maps to
+several semantic variables — `#FFFFFF` to nine of them, `#E5E5E5` to both `Border/Default full` and
+`-hidden` — so picking one is a design decision, **invisible in light mode and wrong in dark**,
+which is exactly the failure mode the rest of this file exists to prevent.
+
+Two of the cases have no good answer at all: `Browser drop down` and `Option` fill a selected row
+with `#0075BE`, and every semantic variable at that value is a TEXT or ICON token. There is no
+background token for it, so that is a gap in the token layer rather than a rebinding.
 
 **The name guard was tightened on 2026-09-11, and the reason is the lesson.** It was written to
 reject prose that merely contains `var(--`, and it rejected the single character `…` — one

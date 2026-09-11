@@ -132,21 +132,40 @@ export function classifyDeclared(declared, debt) {
 // The actionable half of what the seven deleted rows carried: WHICH components still bind each
 // retired colour, and what each should be instead. Kept here so removing the rows did not remove
 // the finding. Every value is an exact duplicate of the live primitive named beside it.
+// CHECKED AGAINST THE LIVE FIGMA FILE ON 2026-09-11, and three of the nine were already clean.
+// This map used to be derived from design-context responses in the transcripts and stated as
+// current fact. A direct read says otherwise, so every line below now records what Figma HAS
+// rather than what an old read once showed:
+//
+//   Full page, Header, Mobile key actions   NO deprecated style at all — the extract was stale
+//   AI Assistant                            THREE, not one
+//   [S] Config child menu                   TWO, not one
+//
+// They are PAINT STYLES (fillStyleId / strokeStyleId), not variable bindings, which is why they
+// never appear in a node's boundVariables. That also means the fix is not a same-value rename:
+// every one of these values maps to SEVERAL semantic variables, and choosing between them is a
+// design decision that is invisible in light mode and wrong in dark if guessed.
 export const BOUND_BY = {
   'deprecated-colours/white':
-    '#FFFFFF = Base colours/White — Full page, Side navigation, Header, Mobile key actions',
+    '#FFFFFF — Side navigation (Vector fill x2), [S] Config child menu (Vector fill). '
+    + 'NOT Full page, Header or Mobile key actions: checked 2026-09-11, already clean. '
+    + 'Nine semantic variables share this value',
   'deprecated-colours/grey-steel':
-    '#E5E5E5 = Base colours/Grey Steel — Table header icons (3 Hover states), [S] Config child menu',
+    '#E5E5E5 — Table header icons (3 Hover fills), [S] Config child menu (Line 17 stroke), '
+    + 'AI Assistant (Type=Default stroke). Same value as Border/Default full AND -hidden',
   'deprecated-colours/grey-slate-(a)':
-    '#3E3E3E = Base colours/Grey Slate — Full page, AI Assistant',
+    '#3E3E3E — AI Assistant ("How can I help you today?" fill). NOT Full page: already clean. '
+    + 'Four semantic variables share this value',
   'deprecated-colours/blue-ocean-(a)':
-    '#0075BE = Base colours/Blue Ocean — Browser drop down, Option (the selected row)',
+    '#0075BE — Browser drop down (Option fill), Option (Selected=Yes fill). Every semantic at '
+    + 'this value is a TEXT or ICON token; there is no background token for a selected row',
   'deprecated-colours/blue-turquoise':
-    '#5CC4EA = Base colours/Blue Turquoise — Full page',
+    '#5CC4EA — no component in this file references it any more (checked 2026-09-11)',
   'deprecated-colours/blue-shark':
-    '#1D1F27 = Base colours/Blue Shark — Full page',
+    '#1D1F27 — no component in this file references it any more (checked 2026-09-11)',
   'deprecated-colours/default-theme-pink-(a)':
-    '#CD2359 = Base colours/Default Pink — Header, which binds BOTH names in the same component',
+    '#CD2359 — AI Assistant (the "10" counter fill). NOT Header: checked 2026-09-11, already '
+    + 'clean, so the "binds both names in one component" note was stale too',
 };
 
 // Every `var(--...)` in a chunk of text, as the raw name the decoder takes. `--pf-*` is skipped:
