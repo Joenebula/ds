@@ -80,7 +80,7 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Table progress bar** | 246 x 14 | 0 | 0 | 5 | 13px |  |
 | **Percentage bar** | 343 x 37 | 0 | 0 | 5 | 13px |  |
 | **Data variance** | 41 x 45 | 0 | 0 | 0 | 13px |  |
-| **Profile image** | 93 x 93 | 0 | 47 | 0 | — |  |
+| **Profile image** | 93 x 93 | — | 47 | 0 | — |  |
 | **People (avatar)** | 91 x 91 | 0 | 0 | 0 | — |  |
 | **People (row)** | 380 x 40 | 0 | 0 | 10 | 16px |  |
 | **People (card)** | 166 x 91 | 0 | 0 | 0 | 13px |  |

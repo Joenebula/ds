@@ -69,7 +69,7 @@ Square progress bar	177 x 34	0	0	10	13px			10239:114074
 Table progress bar	246 x 14	0	0	5	13px			43:261
 Percentage bar	343 x 37	0	0	5	13px			18093:998
 Data variance	41 x 45	0	0	0	13px			8206:79398
-Profile image	93 x 93	0	47	0	—		CIRCLE	141:142
+Profile image	93 x 93		47	0	—		CIRCLE	141:142
 People (avatar)	91 x 91	0	0	0	—			
 People (row)	380 x 40	0	0	10	16px			
 People (card)	166 x 91	0	0	0	13px			
