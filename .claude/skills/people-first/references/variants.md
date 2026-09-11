@@ -503,7 +503,7 @@ Figma component actually binds.
 | State=Hover | — | — | `var(--pf-text-theme)` |
 | State=Selected | — | — | `var(--pf-text-theme)` |
 
-### Side navigation tab
+### Notification tabs
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
@@ -518,7 +518,7 @@ Figma component actually binds.
 | Selected=False, State=Hover | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-theme)` |
 | Selected=True, State=Default | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-theme)` |
 
-### [S] Navigation/main tabs
+### Nav tabs
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
@@ -541,7 +541,7 @@ Figma component actually binds.
 | Type=Standard | — | `var(--pf-border-default)` | `var(--pf-text-inverted-primary)` |
 | Type=Hover | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-theme)` |
 
-### Secondary nav
+### Tertiary nav
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
@@ -587,7 +587,7 @@ Figma component actually binds.
 |---|---|---|---|
 |  | — | — | `var(--pf-text-secondary)` |
 
-### Header top navigation
+### Header navigation
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
@@ -595,7 +595,7 @@ Figma component actually binds.
 | Breakpoint=Tablet | — | — | `var(--pf-base-white)` |
 | Breakpoint=Mobile | — | — | `var(--pf-base-white)` |
 
-### [S] Main nav context
+### Secondary nav
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
@@ -607,14 +607,14 @@ Figma component actually binds.
 |---|---|---|---|
 |  | — | — | `var(--pf-base-white)` |
 
-### Search home button
+### Search navigation
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
 | Mobile=False | — | — | `var(--pf-text-secondary)` |
 | Mobile=Mobile3 | — | — | `var(--pf-text-theme)` |
 
-### Full page navigation
+### Full page
 
 | Variant | Background | Border | Text |
 |---|---|---|---|

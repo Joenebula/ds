@@ -133,20 +133,20 @@ Navigation	Navigation item	State=Hover, Device=Desktop	Background/Primary		Text/
 Navigation	Tab	State=Default			Text/Primary	13658:7879
 Navigation	Tab	State=Hover			Text/Theme	13658:7879
 Navigation	Tab	State=Selected			Text/Theme	13658:7879
-Navigation	Side navigation tab	Selected=false			Text/Primary	22973:20747
-Navigation	Side navigation tab	Selected=true	Background/Theme		Text/Theme	22973:20747
+Navigation	Notification tabs	Selected=false			Text/Primary	22973:20747
+Navigation	Notification tabs	Selected=true	Background/Theme		Text/Theme	22973:20747
 Navigation	Filter tab single	Selected=False, State=Default	Background/Primary	Border/Default	Text/Secondary	23069:23190
 Navigation	Filter tab single	Selected=False, State=Hover	Background/Primary	Border/Default	Text/Theme	23069:23190
 Navigation	Filter tab single	Selected=True, State=Default	Background/Primary	Border/Default	Text/Theme	23069:23190
-Navigation	[S] Navigation/main tabs	Status=Unselected	Background/Primary	Border/Default	Text/Primary	13658:7817
-Navigation	[S] Navigation/main tabs	Status=Hover	Background/Primary	Border/Default	Text/Theme	13658:7817
-Navigation	[S] Navigation/main tabs	Status=Selected	Background/Primary	Border/Default	Text/Theme	13658:7817
+Navigation	Nav tabs	Status=Unselected	Background/Primary	Border/Default	Text/Primary	13658:7817
+Navigation	Nav tabs	Status=Hover	Background/Primary	Border/Default	Text/Theme	13658:7817
+Navigation	Nav tabs	Status=Selected	Background/Primary	Border/Default	Text/Theme	13658:7817
 Navigation	Config child menu	Type=Child			Text/Primary	958:30289
 Navigation	Config child menu	Type=Selected	Base colours/Blue Ocean		Text/Inverted primary	958:30289
 Navigation	Clock in	Type=Standard		Border/Default	Text/Inverted primary	13658:8019
 Navigation	Clock in	Type=Hover	Background/Primary	Border/Default	Text/Theme	13658:8019
-Navigation	Secondary nav	Navigation type=Chips			Text/Theme	13658:7900
-Navigation	Secondary nav	Navigation type=Page	Background/Primary		Text/Primary	13658:7900
+Navigation	Tertiary nav	Navigation type=Chips			Text/Theme	13658:7900
+Navigation	Tertiary nav	Navigation type=Page	Background/Primary		Text/Primary	13658:7900
 Navigation	Side navigation	Variant=Default	Background/Primary		Text/Secondary	13658:7757
 Navigation	Side navigation	Variant=Finance	Background/Primary		Text/Secondary	13658:7757
 Cards and panels	Draggable card	State=Default	Background/Primary	Border/Default	Text/Primary	19979:2091
@@ -197,16 +197,16 @@ Navigation	Header	Breakpoint=Desktop			Text/Secondary	13658:7653
 Navigation	Header	Breakpoint=Tablet			Base colours/White	13658:7653
 Navigation	Header	Breakpoint=Mobile			Base colours/White	13658:7653
 Navigation	Mobile bottom navigation				Text/Secondary	13658:7742
-Navigation	Header top navigation	Breakpoint=Desktop			Text/Secondary	13658:7772
-Navigation	Header top navigation	Breakpoint=Tablet			Base colours/White	13658:7772
-Navigation	Header top navigation	Breakpoint=Mobile			Base colours/White	13658:7772
-Navigation	[S] Main nav context		Background/Primary		Text/Theme	13658:7842
+Navigation	Header navigation	Breakpoint=Desktop			Text/Secondary	13658:7772
+Navigation	Header navigation	Breakpoint=Tablet			Base colours/White	13658:7772
+Navigation	Header navigation	Breakpoint=Mobile			Base colours/White	13658:7772
+Navigation	Secondary nav		Background/Primary		Text/Theme	13658:7842
 Navigation	Top bar app context				Base colours/White	13658:7955
-Navigation	Search home button	Mobile=False			Text/Secondary	13658:8009
-Navigation	Search home button	Mobile=Mobile3			Text/Theme	13658:8009
-Navigation	Full page navigation	Breakpoint=Desktop			Text/Secondary	13658:8240
-Navigation	Full page navigation	Breakpoint=Mobile			Base colours/White	13658:8240
-Navigation	Full page navigation	Breakpoint=Tablet			Base colours/White	13658:8240
+Navigation	Search navigation	Mobile=False			Text/Secondary	13658:8009
+Navigation	Search navigation	Mobile=Mobile3			Text/Theme	13658:8009
+Navigation	Full page	Breakpoint=Desktop			Text/Secondary	13658:8240
+Navigation	Full page	Breakpoint=Mobile			Base colours/White	13658:8240
+Navigation	Full page	Breakpoint=Tablet			Base colours/White	13658:8240
 Navigation	Side navigation panel		Background/Primary		Text/Theme	22973:20811
 Navigation	Filter tabs				Text/Theme	23069:23560
 Cards and panels	Attachments				Text/Primary	5235:64884

@@ -5,9 +5,8 @@ Button (icon only)	Buttons and links	a measured sub-part, not a component set Fi
 Checkbox / radio box	Controls	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
 Checkbox/Radio item (row)	Controls	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
 Component 1	Cards and panels	carries a Figma default name — an unnamed component, not part of the system
-Default header background	Navigation	no variant binds a colour variable in Figma — nothing to put in a stylesheet
+Counter	Navigation	pending: no longer published by Figma as a component set (2026-09-11 inventory), but NOT deleted from the design — it is still drawn as a nested part, seen inside Button at node 30644:57536 as a 20x20 badge binding Icons/Icon - Theme and Text/Inverted primary, exactly the captured row. Its .pf-counter class is in the shipped stylesheet. Keep, or redeclare as a measured sub-part: a decision for the design lead, not for this script
 Description	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
-design system header	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
 Document label spec	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
 Document order spec	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
 Dos and don'ts	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
@@ -15,26 +14,28 @@ Field (second component)	Forms	a measured sub-part, not a component set Figma pu
 Field icons	Forms	no variant binds a colour variable in Figma — nothing to put in a stylesheet
 Filter chip (mobile)	Buttons and links	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
 Floaters	Cards and panels	no variant binds a colour variable in Figma — nothing to put in a stylesheet
+Full page/Header navigation/Yes/No	Navigation	pending: newly published in Figma, first seen in the 2026-09-11 inventory refresh. Not yet captured because the Navigation re-read is blocked on a token re-extract — components on this page bind Navigation/Nav bg top and Border/Default full, which Figma uses today and this repo has never extracted into semantic.tsv, so their colours cannot be recorded without inventing a token name
 Header	📚 WIKI	on a documentation page — describes the design system rather than being part of it
 Horizontal scroll	Cards and panels	no variant binds a colour variable in Figma — nothing to put in a stylesheet
 Information box (row)	System messages	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
-iTrent logo	🎨 STYLE GUIDE	on a documentation page — describes the design system rather than being part of it
 Layout container	Cards and panels	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
 Links (primary)	Buttons and links	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
 Links (secondary)	Buttons and links	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
 Logos	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
 Map	Forms	no variant binds a colour variable in Figma — nothing to put in a stylesheet
 Menu	Navigation	no variant binds a colour variable in Figma — nothing to put in a stylesheet
-MHR logo	🎨 STYLE GUIDE	on a documentation page — describes the design system rather than being part of it
 Mobile key actions	Buttons and links	no variant binds a colour variable in Figma — nothing to put in a stylesheet
+Notification categories	Navigation	pending: newly published in Figma, first seen in the 2026-09-11 inventory refresh. Not yet captured because the Navigation re-read is blocked on a token re-extract — components on this page bind Navigation/Nav bg top and Border/Default full, which Figma uses today and this repo has never extracted into semantic.tsv, so their colours cannot be recorded without inventing a token name
 Notification image	System messages	no variant binds a colour variable in Figma — nothing to put in a stylesheet
+Notification list	Navigation	pending: newly published in Figma, first seen in the 2026-09-11 inventory refresh. Not yet captured because the Navigation re-read is blocked on a token re-extract — components on this page bind Navigation/Nav bg top and Border/Default full, which Figma uses today and this repo has never extracted into semantic.tsv, so their colours cannot be recorded without inventing a token name
+Notification panel	Navigation	pending: newly published in Figma, first seen in the 2026-09-11 inventory refresh. Not yet captured because the Navigation re-read is blocked on a token re-extract — components on this page bind Navigation/Nav bg top and Border/Default full, which Figma uses today and this repo has never extracted into semantic.tsv, so their colours cannot be recorded without inventing a token name
 Option (dropdown row)	Forms	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
 Org chart node	Icons	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
+Pagination buttons	Navigation	pending: newly published in Figma, first seen in the 2026-09-11 inventory refresh. Not yet captured because the Navigation re-read is blocked on a token re-extract — components on this page bind Navigation/Nav bg top and Border/Default full, which Figma uses today and this repo has never extracted into semantic.tsv, so their colours cannot be recorded without inventing a token name
 People	People	its variants are sample content (one per fictional employee), not design
 People (avatar)	People	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
 People (card)	People	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
 People (row)	People	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
-People first logo	🎨 STYLE GUIDE	on a documentation page — describes the design system rather than being part of it
 Profile image	People	no variant binds a colour variable in Figma — nothing to put in a stylesheet
 Project info - Files and Resources	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
 Project info - Meeting notes	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
@@ -44,15 +45,19 @@ Project info - UX PRD summary	📄 DOCUMENT MANAGEMENT	on a documentation page �
 Prototype context screen	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
 Prototype cover page	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
 Radio card / Radio tile	Controls	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
-Repeating group	Buttons and links	pending: captured 2026-09-09 with a real .pf-repeating-group class; components.json was read 2026-09-08 and has not been refreshed since, so the inventory has never seen it. Clears on the next re-extract — see npm run sync:check
+Side navigation panel	Navigation	pending: no longer published by Figma as a component set (2026-09-11 inventory). Whether it was deleted, absorbed into another component, or merely unpublished has NOT been verified here. Its .pf-side-navigation-panel class is in the shipped stylesheet, so the row is kept rather than dropped — deleting a captured row on the strength of an absence would be assuming the answer
 Skeleton state	🎨 STYLE GUIDE	on a documentation page — describes the design system rather than being part of it
 Stars	Tags and ratings	no variant binds a colour variable in Figma — nothing to put in a stylesheet
 Status dot	System messages	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
+Stepper	Navigation	pending: newly published in Figma, first seen in the 2026-09-11 inventory refresh. Not yet captured because the Navigation re-read is blocked on a token re-extract — components on this page bind Navigation/Nav bg top and Border/Default full, which Figma uses today and this repo has never extracted into semantic.tsv, so their colours cannot be recorded without inventing a token name
+Steps	Navigation	pending: newly published in Figma, first seen in the 2026-09-11 inventory refresh. Not yet captured because the Navigation re-read is blocked on a token re-extract — components on this page bind Navigation/Nav bg top and Border/Default full, which Figma uses today and this repo has never extracted into semantic.tsv, so their colours cannot be recorded without inventing a token name
 Storybook link	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
 Table (AG) container	Tables	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
 Team member	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
 Thumbnail	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
 Thumbnail/Brand logo	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
 Tooltip	Buttons and links	no variant binds a colour variable in Figma — nothing to put in a stylesheet
+Waffle	Navigation	pending: newly published in Figma, first seen in the 2026-09-11 inventory refresh. Not yet captured because the Navigation re-read is blocked on a token re-extract — components on this page bind Navigation/Nav bg top and Border/Default full, which Figma uses today and this repo has never extracted into semantic.tsv, so their colours cannot be recorded without inventing a token name
 Wiki menu	📚 WIKI	on a documentation page — describes the design system rather than being part of it
 Work item	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
+design system header	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it

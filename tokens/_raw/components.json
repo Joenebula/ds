@@ -21,10 +21,10 @@
     },
     "childInstanceTags": [
       "Left arrow",
-      "Side navigation tab",
+      "Notification tabs",
       "Home",
       "External link",
-      "Counter"
+      "Header"
     ],
     "instanceCount": 26,
     "dependencies": [
@@ -35,7 +35,7 @@
         "assetKey": "20f48b5cce94a9deb2f9cfe9626a5b1803191415"
       },
       {
-        "name": "Side navigation tab",
+        "name": "Notification tabs",
         "external": false,
         "nodeId": "22973:20747",
         "assetKey": "b74619caf013158d2af6bcc604f914c3151f6acf"
@@ -53,10 +53,10 @@
         "assetKey": "2b94d72c20882253148cbb30f8407d49a131d295"
       },
       {
-        "name": "Counter",
+        "name": "Header",
         "external": false,
-        "nodeId": "14990:11954",
-        "assetKey": "e557a697520c110dba2068dfed9dac2f0a0d11c8"
+        "nodeId": "32527:39433",
+        "assetKey": "72101c68df1a721b6e7c39084927f6d458dc3fe1"
       }
     ],
     "assetKey": "d8ef14a704be9708c22769b10d317e2db22d58b8"
@@ -91,43 +91,30 @@
     "assetKey": "d91a2816750c5cbcaed600ff9eb61395e253815f"
   },
   {
-    "name": "People first logo",
-    "nodeId": "6047:65931",
-    "type": "COMPONENT",
+    "name": "Logo",
+    "nodeId": "32559:73310",
+    "type": "COMPONENT_SET",
     "pageId": "4894:64540",
     "pageName": "🎨 STYLE GUIDE ",
-    "hasVariants": false,
-    "properties": {},
+    "hasVariants": true,
+    "properties": {
+      "Name": {
+        "name": "Name",
+        "type": "VARIANT",
+        "key": "Name",
+        "variantOptions": [
+          "People First",
+          "iTrent",
+          "MHR",
+          "Configr"
+        ],
+        "defaultValue": "People First"
+      }
+    },
     "childInstanceTags": [],
-    "instanceCount": 3,
+    "instanceCount": 4,
     "dependencies": [],
-    "assetKey": "09bdf4e115be60dbe48a86037837566ec041697b"
-  },
-  {
-    "name": "iTrent logo",
-    "nodeId": "6047:65929",
-    "type": "COMPONENT",
-    "pageId": "4894:64540",
-    "pageName": "🎨 STYLE GUIDE ",
-    "hasVariants": false,
-    "properties": {},
-    "childInstanceTags": [],
-    "instanceCount": 0,
-    "dependencies": [],
-    "assetKey": "434ce607eeab4b3238d43a02370dac8dc17e56ec"
-  },
-  {
-    "name": "MHR logo",
-    "nodeId": "6047:65930",
-    "type": "COMPONENT",
-    "pageId": "4894:64540",
-    "pageName": "🎨 STYLE GUIDE ",
-    "hasVariants": false,
-    "properties": {},
-    "childInstanceTags": [],
-    "instanceCount": 1,
-    "dependencies": [],
-    "assetKey": "870a51abbae57deaac0578c2728af51df3608968"
+    "assetKey": "f280b2d96c2080705e17c1ffb2781a11f102e35b"
   },
   {
     "name": "Skeleton state",
@@ -475,7 +462,7 @@
     "hasVariants": false,
     "properties": {},
     "childInstanceTags": [],
-    "instanceCount": 102,
+    "instanceCount": 103,
     "dependencies": [],
     "assetKey": "acfd3404859733b05f999c8d980e6adf8ccffa23"
   },
@@ -5086,6 +5073,12 @@
         "key": "Sort label#30644:446",
         "defaultValue": "Sort"
       },
+      "Right icon": {
+        "name": "Right icon",
+        "type": "BOOLEAN",
+        "key": "Right icon#32559:277",
+        "defaultValue": false
+      },
       "Type": {
         "name": "Type",
         "type": "VARIANT",
@@ -5125,16 +5118,16 @@
     "childInstanceTags": [
       "Add plus",
       "Filter",
-      "Counter",
+      "Header",
       "Sort hierachy"
     ],
-    "instanceCount": 263,
+    "instanceCount": 265,
     "dependencies": [
       {
-        "name": "Counter",
+        "name": "Header",
         "external": false,
-        "nodeId": "14990:11954",
-        "assetKey": "e557a697520c110dba2068dfed9dac2f0a0d11c8"
+        "nodeId": "32527:39433",
+        "assetKey": "72101c68df1a721b6e7c39084927f6d458dc3fe1"
       }
     ],
     "assetKey": "611c84c558baf2e772d3ea4b0d00653997e945b9"
@@ -5281,6 +5274,65 @@
       }
     ],
     "assetKey": "471b72cdb072b3cfd010dfd1deec424db176b633"
+  },
+  {
+    "name": "Repeating group",
+    "nodeId": "32392:8259",
+    "type": "COMPONENT",
+    "pageId": "5919:65480",
+    "pageName": "Buttons and links",
+    "hasVariants": false,
+    "properties": {
+      "Content": {
+        "name": "Content",
+        "type": "SLOT",
+        "key": "Content#32392:0",
+        "defaultValue": "-1:-1"
+      },
+      "Add button": {
+        "name": "Add button",
+        "type": "BOOLEAN",
+        "key": "Add button#32392:1",
+        "defaultValue": true
+      },
+      "Remove button": {
+        "name": "Remove button",
+        "type": "BOOLEAN",
+        "key": "Remove button#32392:2",
+        "defaultValue": true
+      }
+    },
+    "childInstanceTags": [
+      "Form field",
+      "Label text",
+      "Inline search box",
+      "Links"
+    ],
+    "instanceCount": 1,
+    "dependencies": [
+      {
+        "name": "Form field",
+        "external": false,
+        "nodeId": "13737:25863",
+        "assetKey": "2fb992e31adc2963b309f518742837d3a064547a"
+      },
+      {
+        "name": "Label text",
+        "external": true,
+        "assetKey": "4967bd2c3caf05f2391b380225793921a9a7ca0e"
+      },
+      {
+        "name": "Inline search box",
+        "external": true,
+        "assetKey": "78688c4e8b54652b171ca07af70362fb6c9497c2"
+      },
+      {
+        "name": "Links",
+        "external": true,
+        "assetKey": "d347b4eaa1bf987423cac3c191ad9427113ee030"
+      }
+    ],
+    "assetKey": "f92b546efaf1ff8698b26b89b4ea9228f7b9e4c2"
   },
   {
     "name": "Action menu button",
@@ -5579,7 +5631,7 @@
     "hasVariants": false,
     "properties": {},
     "childInstanceTags": [],
-    "instanceCount": 67,
+    "instanceCount": 69,
     "dependencies": [],
     "assetKey": "797f069f9b3feb3d502a8c8e970e2bc96f57a896"
   },
@@ -6086,7 +6138,7 @@
     "hasVariants": false,
     "properties": {},
     "childInstanceTags": [],
-    "instanceCount": 14,
+    "instanceCount": 13,
     "dependencies": [],
     "assetKey": "aa0d98954258f6aee177fde92c70cdfd768fa1b1"
   },
@@ -6715,7 +6767,7 @@
     "assetKey": "f7ade8d94ab436277f11556f39ca28a9ca3d94f0"
   },
   {
-    "name": "Calendarcross",
+    "name": "Calendar cross",
     "nodeId": "7992:78188",
     "type": "COMPONENT",
     "pageId": "5919:65494",
@@ -7976,7 +8028,7 @@
     "assetKey": "32f1019ae82bb8357e31236d60d075177c2d96fc"
   },
   {
-    "name": "Taxes coins",
+    "name": "Coins",
     "nodeId": "14334:1477",
     "type": "COMPONENT",
     "pageId": "5919:65494",
@@ -8205,7 +8257,7 @@
     "assetKey": "dbc6719a60da3dbf5090be607204422b78164f5d"
   },
   {
-    "name": "addres book",
+    "name": "Address book",
     "nodeId": "20044:38994",
     "type": "COMPONENT",
     "pageId": "5919:65494",
@@ -8850,7 +8902,7 @@
     "assetKey": "64fe75f9627a85f327c1ec284788125b0dc07f4a"
   },
   {
-    "name": "calendar link",
+    "name": "Calendar link",
     "nodeId": "30339:58",
     "type": "COMPONENT",
     "pageId": "5919:65494",
@@ -9214,6 +9266,55 @@
     "assetKey": "62adeeae8769615bab032a1a2ff64ef0c741dfad"
   },
   {
+    "name": "Tax",
+    "nodeId": "32530:44518",
+    "type": "COMPONENT",
+    "pageId": "5919:65494",
+    "pageName": "Icons ",
+    "hasVariants": false,
+    "properties": {},
+    "childInstanceTags": [],
+    "instanceCount": 0,
+    "dependencies": [],
+    "assetKey": "affd9d11d9f1098d900a9a095919d5c3a5aa3bed"
+  },
+  {
+    "name": "Full page/Header navigation/Yes/No",
+    "nodeId": "32530:49675",
+    "type": "COMPONENT",
+    "pageId": "5919:65483",
+    "pageName": "Navigation ",
+    "hasVariants": false,
+    "properties": {},
+    "childInstanceTags": [
+      "Header",
+      "Secondary nav",
+      "Tertiary nav"
+    ],
+    "instanceCount": 0,
+    "dependencies": [
+      {
+        "name": "Header",
+        "external": false,
+        "nodeId": "32488:24634",
+        "assetKey": "1573cd12b503e5aa2405ab641dbb03c5eae0ea62"
+      },
+      {
+        "name": "Secondary nav",
+        "external": false,
+        "nodeId": "13658:7842",
+        "assetKey": "6c40e372e93b2276bfcc2077fab320cd48c8e980"
+      },
+      {
+        "name": "Tertiary nav",
+        "external": false,
+        "nodeId": "13658:7900",
+        "assetKey": "28dbd8944c14c4ca67fdb407ea389c7d522bf438"
+      }
+    ],
+    "assetKey": "57c56010923c5400557ae5a358d063ca5d5c1d6c"
+  },
+  {
     "name": "Config side menu",
     "nodeId": "5942:65619",
     "type": "COMPONENT",
@@ -9399,16 +9500,46 @@
         "key": "Text#30882:37",
         "defaultValue": "Label"
       },
+      "System": {
+        "name": "System",
+        "type": "VARIANT",
+        "key": "System",
+        "variantOptions": [
+          "People First",
+          "Configr"
+        ],
+        "defaultValue": "People First"
+      },
       "State": {
         "name": "State",
         "type": "VARIANT",
         "key": "State",
         "variantOptions": [
           "Default",
-          "Selected",
-          "Hover"
+          "Hover",
+          "Selected"
         ],
         "defaultValue": "Default"
+      },
+      "Mobile": {
+        "name": "Mobile",
+        "type": "VARIANT",
+        "key": "Mobile",
+        "variantOptions": [
+          "No",
+          "Yes"
+        ],
+        "defaultValue": "No"
+      },
+      "Selected": {
+        "name": "Selected",
+        "type": "VARIANT",
+        "key": "Selected",
+        "variantOptions": [
+          "No",
+          "Yes"
+        ],
+        "defaultValue": "No"
       }
     },
     "childInstanceTags": [],
@@ -9430,6 +9561,16 @@
         "key": "Content#30874:0",
         "defaultValue": "-1:-1"
       },
+      "System": {
+        "name": "System",
+        "type": "VARIANT",
+        "key": "System",
+        "variantOptions": [
+          "People First",
+          "Configr"
+        ],
+        "defaultValue": "People First"
+      },
       "Mobile": {
         "name": "Mobile",
         "type": "VARIANT",
@@ -9444,7 +9585,7 @@
     "childInstanceTags": [
       "Tab"
     ],
-    "instanceCount": 3,
+    "instanceCount": 5,
     "dependencies": [
       {
         "name": "Tab",
@@ -9456,104 +9597,470 @@
     "assetKey": "b6ac6fdab74f31d5a1c757684198f41d71521472"
   },
   {
-    "name": "Default header background",
-    "nodeId": "13658:7639",
+    "name": "Steps",
+    "nodeId": "32462:23898",
     "type": "COMPONENT_SET",
     "pageId": "5919:65483",
     "pageName": "Navigation ",
     "hasVariants": true,
     "properties": {
-      "Breakpoint": {
-        "name": "Breakpoint",
+      "System": {
+        "name": "System",
         "type": "VARIANT",
-        "key": "Breakpoint",
+        "key": "System",
         "variantOptions": [
-          "Tablet",
-          "Desktop",
-          "Mobile"
+          "People First",
+          "Configr"
         ],
-        "defaultValue": "Mobile"
+        "defaultValue": "People First"
       },
-      "Darkmode": {
-        "name": "Darkmode",
+      "State": {
+        "name": "State",
         "type": "VARIANT",
-        "key": "Darkmode",
+        "key": "State",
         "variantOptions": [
-          "False",
-          "True"
+          "Hover",
+          "Completed",
+          "Selected",
+          "Default enabled",
+          "Default disabled"
         ],
-        "defaultValue": "False"
-      }
-    },
-    "childInstanceTags": [],
-    "instanceCount": 13,
-    "dependencies": [],
-    "assetKey": "dd07c7a6c43e66d3839cf4e39c0aac9c531d57df"
-  },
-  {
-    "name": "Header",
-    "nodeId": "13658:7653",
-    "type": "COMPONENT_SET",
-    "pageId": "5919:65483",
-    "pageName": "Navigation ",
-    "hasVariants": true,
-    "properties": {
-      "Breakpoint": {
-        "name": "Breakpoint",
-        "type": "VARIANT",
-        "key": "Breakpoint",
-        "variantOptions": [
-          "Desktop",
-          "Tablet",
-          "Mobile"
-        ],
-        "defaultValue": "Desktop"
+        "defaultValue": "Completed"
       },
-      "Page type": {
-        "name": "Page type",
+      "Position": {
+        "name": "Position",
         "type": "VARIANT",
-        "key": "Page type",
+        "key": "Position",
         "variantOptions": [
-          "Person",
-          "App"
+          "Middle",
+          "First",
+          "Last"
         ],
-        "defaultValue": "Person"
+        "defaultValue": "Middle"
       },
-      "Darkmode": {
-        "name": "Darkmode",
+      "Current step": {
+        "name": "Current step",
         "type": "VARIANT",
-        "key": "Darkmode",
+        "key": "Current step",
         "variantOptions": [
-          "True",
-          "False"
+          "No",
+          "Yes"
         ],
-        "defaultValue": "False"
+        "defaultValue": "No"
+      },
+      "Completed step": {
+        "name": "Completed step",
+        "type": "VARIANT",
+        "key": "Completed step",
+        "variantOptions": [
+          "No",
+          "Yes"
+        ],
+        "defaultValue": "Yes"
       }
     },
     "childInstanceTags": [
-      "Default header background",
-      "Search home button",
-      "Clock in",
-      "Tasks",
-      "People",
-      "Search home button/Mobile6/True",
-      "Top bar app context",
-      "Search",
-      "Org chart"
+      "Tick"
     ],
     "instanceCount": 0,
     "dependencies": [
       {
-        "name": "Default header background",
+        "name": "Tick",
         "external": false,
-        "nodeId": "13658:7639",
-        "assetKey": "dd07c7a6c43e66d3839cf4e39c0aac9c531d57df"
+        "nodeId": "30572:39297",
+        "assetKey": "57d6c75e0c1201fdd3407c4ff9502101ca571614"
+      }
+    ],
+    "assetKey": "9f81aa881103b3ad131437ac87e0a594e68a1261"
+  },
+  {
+    "name": "Pagination buttons",
+    "nodeId": "32559:60567",
+    "type": "COMPONENT",
+    "pageId": "5919:65483",
+    "pageName": "Navigation ",
+    "hasVariants": false,
+    "properties": {
+      "Previous": {
+        "name": "Previous",
+        "type": "BOOLEAN",
+        "key": "Previous#32559:275",
+        "defaultValue": false
+      },
+      "Next": {
+        "name": "Next",
+        "type": "BOOLEAN",
+        "key": "Next#32559:276",
+        "defaultValue": true
+      }
+    },
+    "childInstanceTags": [
+      "Button"
+    ],
+    "instanceCount": 0,
+    "dependencies": [
+      {
+        "name": "Button",
+        "external": false,
+        "nodeId": "1656:44983",
+        "assetKey": "611c84c558baf2e772d3ea4b0d00653997e945b9"
+      }
+    ],
+    "assetKey": "827257ee37d88e91bbdf03691b98575c568fac24"
+  },
+  {
+    "name": "Stepper",
+    "nodeId": "32559:60451",
+    "type": "COMPONENT_SET",
+    "pageId": "5919:65483",
+    "pageName": "Navigation ",
+    "hasVariants": true,
+    "properties": {
+      "Steps": {
+        "name": "Steps",
+        "type": "SLOT",
+        "key": "Steps#32559:274",
+        "defaultValue": "-1:-1"
+      },
+      "Content": {
+        "name": "Content",
+        "type": "SLOT",
+        "key": "Content#32559:314",
+        "defaultValue": "-1:-1"
+      },
+      "Pagination": {
+        "name": "Pagination",
+        "type": "BOOLEAN",
+        "key": "Pagination#32559:317",
+        "defaultValue": true
+      },
+      "System": {
+        "name": "System",
+        "type": "VARIANT",
+        "key": "System",
+        "variantOptions": [
+          "People First",
+          "Configr"
+        ],
+        "defaultValue": "People First"
+      }
+    },
+    "childInstanceTags": [
+      "Steps",
+      "Pagination buttons"
+    ],
+    "instanceCount": 2,
+    "dependencies": [
+      {
+        "name": "Steps",
+        "external": false,
+        "nodeId": "32462:23898",
+        "assetKey": "9f81aa881103b3ad131437ac87e0a594e68a1261"
       },
       {
-        "name": "Search home button",
+        "name": "Pagination buttons",
+        "external": false,
+        "nodeId": "32559:60567",
+        "assetKey": "827257ee37d88e91bbdf03691b98575c568fac24"
+      }
+    ],
+    "assetKey": "616625cfb8d593352819b9a8ff39f969e5249ff0"
+  },
+  {
+    "name": "Mobile bottom navigation",
+    "nodeId": "13658:7742",
+    "type": "COMPONENT_SET",
+    "pageId": "5919:65483",
+    "pageName": "Navigation ",
+    "hasVariants": true,
+    "properties": {
+      "Tablet": {
+        "name": "Tablet",
+        "type": "VARIANT",
+        "key": "Tablet",
+        "variantOptions": [
+          "No",
+          "Yes"
+        ],
+        "defaultValue": "No"
+      }
+    },
+    "childInstanceTags": [
+      "Navigation item"
+    ],
+    "instanceCount": 3,
+    "dependencies": [
+      {
+        "name": "Navigation item",
+        "external": false,
+        "nodeId": "13658:8027",
+        "assetKey": "a4df935ae82e7f4893b4ef4b98b51cafa10086fa"
+      }
+    ],
+    "assetKey": "b27ba27da0d399fd11766dec97bff8fbafb50ebe"
+  },
+  {
+    "name": "Side navigation",
+    "nodeId": "13658:7757",
+    "type": "COMPONENT_SET",
+    "pageId": "5919:65483",
+    "pageName": "Navigation ",
+    "hasVariants": true,
+    "properties": {
+      "System": {
+        "name": "System",
+        "type": "VARIANT",
+        "key": "System",
+        "variantOptions": [
+          "People First",
+          "Finance",
+          "Configr"
+        ],
+        "defaultValue": "People First"
+      }
+    },
+    "childInstanceTags": [
+      "Waffle",
+      "Navigation item",
+      "App menu"
+    ],
+    "instanceCount": 6,
+    "dependencies": [
+      {
+        "name": "Waffle",
+        "external": false,
+        "nodeId": "32517:29171",
+        "assetKey": "d0c150a037d6dc47d5c89fd574f9ae552ba6e933"
+      },
+      {
+        "name": "Navigation item",
+        "external": false,
+        "nodeId": "13658:8027",
+        "assetKey": "a4df935ae82e7f4893b4ef4b98b51cafa10086fa"
+      },
+      {
+        "name": "App menu",
+        "external": true,
+        "assetKey": "87407bb150c15d117e7f74f6c07a4e262f4b739d"
+      }
+    ],
+    "assetKey": "051c3654b6a72881be3ab11b905b2cd78354bd86"
+  },
+  {
+    "name": "Header navigation",
+    "nodeId": "13658:7772",
+    "type": "COMPONENT_SET",
+    "pageId": "5919:65483",
+    "pageName": "Navigation ",
+    "hasVariants": true,
+    "properties": {
+      "Second nav": {
+        "name": "Second nav",
+        "type": "BOOLEAN",
+        "key": "Second nav#32530:202",
+        "defaultValue": true
+      },
+      "Third nav": {
+        "name": "Third nav",
+        "type": "BOOLEAN",
+        "key": "Third nav#32530:220",
+        "defaultValue": false
+      },
+      "Mobile": {
+        "name": "Mobile",
+        "type": "VARIANT",
+        "key": "Mobile",
+        "variantOptions": [
+          "No",
+          "Yes"
+        ],
+        "defaultValue": "No"
+      },
+      "Tablet": {
+        "name": "Tablet",
+        "type": "VARIANT",
+        "key": "Tablet",
+        "variantOptions": [
+          "No",
+          "Yes"
+        ],
+        "defaultValue": "No"
+      }
+    },
+    "childInstanceTags": [
+      "Header",
+      "Secondary nav",
+      "Tertiary nav"
+    ],
+    "instanceCount": 23,
+    "dependencies": [
+      {
+        "name": "Header",
+        "external": false,
+        "nodeId": "32488:24634",
+        "assetKey": "1573cd12b503e5aa2405ab641dbb03c5eae0ea62"
+      },
+      {
+        "name": "Secondary nav",
+        "external": false,
+        "nodeId": "13658:7842",
+        "assetKey": "6c40e372e93b2276bfcc2077fab320cd48c8e980"
+      },
+      {
+        "name": "Tertiary nav",
+        "external": false,
+        "nodeId": "13658:7900",
+        "assetKey": "28dbd8944c14c4ca67fdb407ea389c7d522bf438"
+      }
+    ],
+    "assetKey": "6865604fa4f8fe468d1ad4981ef8a4093de45a4f"
+  },
+  {
+    "name": "Waffle",
+    "nodeId": "32517:29171",
+    "type": "COMPONENT_SET",
+    "pageId": "5919:65483",
+    "pageName": "Navigation ",
+    "hasVariants": true,
+    "properties": {
+      "Theme": {
+        "name": "Theme",
+        "type": "VARIANT",
+        "key": "Theme",
+        "variantOptions": [
+          "Dark mode",
+          "Default - Cranberry red",
+          "Classic",
+          "Fern green",
+          "Teal ocean",
+          "Cool grey",
+          "Blue lagoon",
+          "Cobalt blue",
+          "Orange flame",
+          "Striking red",
+          "Velvet red",
+          "Royal purple",
+          "Purple iris",
+          "Berry pink",
+          "Purple orchid"
+        ],
+        "defaultValue": "Default - Cranberry red"
+      }
+    },
+    "childInstanceTags": [
+      "App menu"
+    ],
+    "instanceCount": 0,
+    "dependencies": [
+      {
+        "name": "App menu",
+        "external": true,
+        "assetKey": "87407bb150c15d117e7f74f6c07a4e262f4b739d"
+      }
+    ],
+    "assetKey": "d0c150a037d6dc47d5c89fd574f9ae552ba6e933"
+  },
+  {
+    "name": "Header",
+    "nodeId": "32488:24634",
+    "type": "COMPONENT_SET",
+    "pageId": "5919:65483",
+    "pageName": "Navigation ",
+    "hasVariants": true,
+    "properties": {
+      "User": {
+        "name": "User",
+        "type": "BOOLEAN",
+        "key": "User#32493:66",
+        "defaultValue": false
+      },
+      "Module": {
+        "name": "Module",
+        "type": "BOOLEAN",
+        "key": "Module#32493:99",
+        "defaultValue": true
+      },
+      "Tasks": {
+        "name": "Tasks",
+        "type": "BOOLEAN",
+        "key": "Tasks#32493:132",
+        "defaultValue": false
+      },
+      "Value": {
+        "name": "Value",
+        "type": "TEXT",
+        "key": "Value#32527:165",
+        "defaultValue": "7"
+      },
+      "Theme": {
+        "name": "Theme",
+        "type": "VARIANT",
+        "key": "Theme",
+        "variantOptions": [
+          "Default - Cranberry red",
+          "Dark mode",
+          "Configr",
+          "Purple orchid",
+          "Classic",
+          "Berry pink",
+          "Purple iris",
+          "Royal purple",
+          "Velvet red",
+          "Striking red",
+          "Orange flame",
+          "Cobalt blue",
+          "Blue lagoon",
+          "Cool grey",
+          "Teal ocean",
+          "Fern green"
+        ],
+        "defaultValue": "Configr"
+      },
+      "Mobile": {
+        "name": "Mobile",
+        "type": "VARIANT",
+        "key": "Mobile",
+        "variantOptions": [
+          "Yes",
+          "No"
+        ],
+        "defaultValue": "Yes"
+      }
+    },
+    "childInstanceTags": [
+      "Top bar app context",
+      "People",
+      "Search navigation",
+      "Clock in",
+      "Tasks",
+      "Org chart",
+      "Search"
+    ],
+    "instanceCount": 0,
+    "dependencies": [
+      {
+        "name": "Top bar app context",
+        "external": false,
+        "nodeId": "13658:7955",
+        "assetKey": "7edadf5373055f0e325af7672df69017cf7cc8b1"
+      },
+      {
+        "name": "People",
+        "external": false,
+        "nodeId": "329:422",
+        "assetKey": "f1a9b6d2168a015961e8e3f03a56796545ddd76e"
+      },
+      {
+        "name": "Search navigation",
         "external": false,
         "nodeId": "13658:8009",
         "assetKey": "f09067786b9b26b7abdbb228ea2772fcded02617"
+      },
+      {
+        "name": "People",
+        "external": false,
+        "nodeId": "10773:126429",
+        "assetKey": "8ecd64926a877e0c7b410e7758f3f94c973f2562"
       },
       {
         "name": "Clock in",
@@ -9567,278 +10074,51 @@
         "assetKey": "d5038358d7856db6ca81c3b803c01515e1dfdcc0"
       },
       {
-        "name": "People",
-        "external": false,
-        "nodeId": "10773:126429",
-        "assetKey": "8ecd64926a877e0c7b410e7758f3f94c973f2562"
-      },
-      {
-        "name": "Clock in/Standard/True",
+        "name": "Org chart",
         "external": true,
-        "assetKey": "732e9364fd959eb381342090496a965ad4eaab39"
-      },
-      {
-        "name": "Search home button/Mobile6/True",
-        "external": true,
-        "assetKey": "84b51d72a523fa7bac4bc4c35bfc728fd4e377f9"
-      },
-      {
-        "name": "Top bar app context",
-        "external": false,
-        "nodeId": "13658:7955",
-        "assetKey": "7edadf5373055f0e325af7672df69017cf7cc8b1"
+        "assetKey": "2691c6ff3b84bb241aa1b671ab0b5a3f13a423ea"
       },
       {
         "name": "Search",
         "external": false,
         "nodeId": "6235:65671",
         "assetKey": "27da042e79d432d793e1bad4fca6bf9f162738fc"
-      },
-      {
-        "name": "Org chart",
-        "external": true,
-        "assetKey": "2691c6ff3b84bb241aa1b671ab0b5a3f13a423ea"
       }
     ],
-    "assetKey": "f53d9f49d6333bcc5b1bad392beaa1568f2a8334"
+    "assetKey": "1573cd12b503e5aa2405ab641dbb03c5eae0ea62"
   },
   {
-    "name": "Mobile bottom navigation",
-    "nodeId": "13658:7742",
+    "name": "Header",
+    "nodeId": "32527:39433",
     "type": "COMPONENT_SET",
     "pageId": "5919:65483",
     "pageName": "Navigation ",
     "hasVariants": true,
-    "properties": {
-      "Darkmode": {
-        "name": "Darkmode",
-        "type": "VARIANT",
-        "key": "Darkmode",
-        "variantOptions": [
-          "False",
-          "True"
-        ],
-        "defaultValue": "False"
-      },
-      "Breakpoint": {
-        "name": "Breakpoint",
-        "type": "VARIANT",
-        "key": "Breakpoint",
-        "variantOptions": [
-          "Tablet",
-          "Mobile"
-        ],
-        "defaultValue": "Mobile"
-      }
-    },
-    "childInstanceTags": [
-      "Navigation item",
-      "Navigation item/Unselected/True/Tablet",
-      "Navigation item/Unselected/True/Mobile"
-    ],
-    "instanceCount": 1,
-    "dependencies": [
-      {
-        "name": "Navigation item",
-        "external": false,
-        "nodeId": "13658:8027",
-        "assetKey": "a4df935ae82e7f4893b4ef4b98b51cafa10086fa"
-      },
-      {
-        "name": "Navigation item/Unselected/True/Tablet",
-        "external": true,
-        "assetKey": "37aa518d5f8d398be02157e29632df4bd860169a"
-      },
-      {
-        "name": "Navigation item/Unselected/True/Mobile",
-        "external": true,
-        "assetKey": "56d499d01310eaf3d7c9cef9b41cb5f1c62b1017"
-      }
-    ],
-    "assetKey": "b27ba27da0d399fd11766dec97bff8fbafb50ebe"
-  },
-  {
-    "name": "Side navigation",
-    "nodeId": "13658:7757",
-    "type": "COMPONENT_SET",
-    "pageId": "5919:65483",
-    "pageName": "Navigation ",
-    "hasVariants": true,
-    "properties": {
-      "Darkmode": {
-        "name": "Darkmode",
-        "type": "VARIANT",
-        "key": "Darkmode",
-        "variantOptions": [
-          "True",
-          "False"
-        ],
-        "defaultValue": "False"
-      },
-      "Variant": {
-        "name": "Variant",
-        "type": "VARIANT",
-        "key": "Variant",
-        "variantOptions": [
-          "Default",
-          "Finance"
-        ],
-        "defaultValue": "Default"
-      }
-    },
-    "childInstanceTags": [
-      "App menu",
-      "Navigation item",
-      "Navigation item/Unselected/True/Desktop"
-    ],
-    "instanceCount": 3,
-    "dependencies": [
-      {
-        "name": "App menu",
-        "external": true,
-        "assetKey": "87407bb150c15d117e7f74f6c07a4e262f4b739d"
-      },
-      {
-        "name": "Navigation item",
-        "external": false,
-        "nodeId": "13658:8027",
-        "assetKey": "a4df935ae82e7f4893b4ef4b98b51cafa10086fa"
-      },
-      {
-        "name": "Navigation item/Unselected/True/Desktop",
-        "external": true,
-        "assetKey": "e59c97d7c7eb00bbac3f32a3d55fcb8eec3e8b58"
-      }
-    ],
-    "assetKey": "051c3654b6a72881be3ab11b905b2cd78354bd86"
-  },
-  {
-    "name": "Header top navigation",
-    "nodeId": "13658:7772",
-    "type": "COMPONENT_SET",
-    "pageId": "5919:65483",
-    "pageName": "Navigation ",
-    "hasVariants": true,
-    "properties": {
-      "Darkmode": {
-        "name": "Darkmode",
-        "type": "VARIANT",
-        "key": "Darkmode",
-        "variantOptions": [
-          "True",
-          "False"
-        ],
-        "defaultValue": "False"
-      },
-      "Levels of navigation": {
-        "name": "Levels of navigation",
-        "type": "VARIANT",
-        "key": "Levels of navigation",
-        "variantOptions": [
-          "0",
-          "1",
-          "2"
-        ],
-        "defaultValue": "2"
-      },
-      "Breakpoint": {
-        "name": "Breakpoint",
-        "type": "VARIANT",
-        "key": "Breakpoint",
-        "variantOptions": [
-          "Desktop",
-          "Mobile",
-          "Tablet"
-        ],
-        "defaultValue": "Desktop"
-      }
-    },
-    "childInstanceTags": [
-      "Header",
-      "[S] Main nav context",
-      "Secondary nav",
-      "[S] Main nav context/False/True",
-      "Secondary nav/False/True/Chips",
-      "[S] Main nav context/True/True",
-      "Secondary nav/True/True/Chips",
-      "Secondary nav/True/True/Page",
-      "Secondary nav/False/True/Page"
-    ],
-    "instanceCount": 6,
-    "dependencies": [
-      {
-        "name": "Header",
-        "external": false,
-        "nodeId": "13658:7653",
-        "assetKey": "f53d9f49d6333bcc5b1bad392beaa1568f2a8334"
-      },
-      {
-        "name": "[S] Main nav context",
-        "external": false,
-        "nodeId": "13658:7842",
-        "assetKey": "6c40e372e93b2276bfcc2077fab320cd48c8e980"
-      },
-      {
-        "name": "Secondary nav",
-        "external": false,
-        "nodeId": "13658:7900",
-        "assetKey": "28dbd8944c14c4ca67fdb407ea389c7d522bf438"
-      },
-      {
-        "name": "[S] Main nav context/False/True",
-        "external": true,
-        "assetKey": "7d702d2dea9c42f6631128e98c681175feea6aaf"
-      },
-      {
-        "name": "Secondary nav/False/True/Chips",
-        "external": true,
-        "assetKey": "a1e07a4859898482bc36cadced50ae6c0e89cd3d"
-      },
-      {
-        "name": "[S] Main nav context/True/True",
-        "external": true,
-        "assetKey": "48cb8450fa2aa06abbc6b0ece3930634c59073b0"
-      },
-      {
-        "name": "Secondary nav/True/True/Chips",
-        "external": true,
-        "assetKey": "989b473de61901984d66d5ba3d60efcc7a6ac537"
-      },
-      {
-        "name": "Secondary nav/True/True/Page",
-        "external": true,
-        "assetKey": "083f18c7bc129455a1166a814652d14f8202bb05"
-      },
-      {
-        "name": "Secondary nav/False/True/Page",
-        "external": true,
-        "assetKey": "d28a1066c18e8ac72f7b220bf877c26006440330"
-      }
-    ],
-    "assetKey": "6865604fa4f8fe468d1ad4981ef8a4093de45a4f"
-  },
-  {
-    "name": "Counter",
-    "nodeId": "14990:11954",
-    "type": "COMPONENT",
-    "pageId": "5919:65483",
-    "pageName": "Navigation ",
-    "hasVariants": false,
     "properties": {
       "Value": {
         "name": "Value",
         "type": "TEXT",
-        "key": "Value#30646:0",
+        "key": "Value#32527:201",
         "defaultValue": "7"
+      },
+      "System": {
+        "name": "System",
+        "type": "VARIANT",
+        "key": "System",
+        "variantOptions": [
+          "People First",
+          "Configr"
+        ],
+        "defaultValue": "People First"
       }
     },
     "childInstanceTags": [],
     "instanceCount": 0,
     "dependencies": [],
-    "assetKey": "e557a697520c110dba2068dfed9dac2f0a0d11c8"
+    "assetKey": "72101c68df1a721b6e7c39084927f6d458dc3fe1"
   },
   {
-    "name": "[S] Navigation/main tabs",
+    "name": "Nav tabs",
     "nodeId": "13658:7817",
     "type": "COMPONENT_SET",
     "pageId": "5919:65483",
@@ -9879,7 +10159,7 @@
     "assetKey": "5f195dfe40669d99e9dca62e816e1f5dcbbc50f8"
   },
   {
-    "name": "[S] Main nav context",
+    "name": "Secondary nav",
     "nodeId": "13658:7842",
     "type": "COMPONENT_SET",
     "pageId": "5919:65483",
@@ -9904,12 +10184,12 @@
       }
     },
     "childInstanceTags": [
-      "[S] Navigation/main tabs"
+      "Nav tabs"
     ],
-    "instanceCount": 15,
+    "instanceCount": 2,
     "dependencies": [
       {
-        "name": "[S] Navigation/main tabs",
+        "name": "Nav tabs",
         "external": false,
         "nodeId": "13658:7817",
         "assetKey": "5f195dfe40669d99e9dca62e816e1f5dcbbc50f8"
@@ -9918,7 +10198,7 @@
     "assetKey": "6c40e372e93b2276bfcc2077fab320cd48c8e980"
   },
   {
-    "name": "Secondary nav",
+    "name": "Tertiary nav",
     "nodeId": "13658:7900",
     "type": "COMPONENT_SET",
     "pageId": "5919:65483",
@@ -9942,27 +10222,27 @@
         "type": "VARIANT",
         "key": "Mobile",
         "variantOptions": [
-          "True",
-          "False"
+          "Yes",
+          "No"
         ],
-        "defaultValue": "False"
+        "defaultValue": "No"
       },
-      "Navigation type": {
-        "name": "Navigation type",
+      "Page": {
+        "name": "Page",
         "type": "VARIANT",
-        "key": "Navigation type",
+        "key": "Page",
         "variantOptions": [
-          "Chips",
-          "Page"
+          "Yes",
+          "No"
         ],
-        "defaultValue": "Chips"
+        "defaultValue": "No"
       }
     },
     "childInstanceTags": [
       "Tab",
       "Back"
     ],
-    "instanceCount": 2,
+    "instanceCount": 3,
     "dependencies": [
       {
         "name": "Tab",
@@ -10024,25 +10304,20 @@
       }
     },
     "childInstanceTags": [
-      "[S] Top bar app context"
+      "top bar app icon"
     ],
     "instanceCount": 0,
     "dependencies": [
       {
-        "name": "[S] Top bar app context",
+        "name": "top bar app icon",
         "external": true,
-        "assetKey": "5803d55622b37ed8a440e2bf75c42ebb09d65a6b"
-      },
-      {
-        "name": "[S] Top bar app context",
-        "external": true,
-        "assetKey": "6fb9ee1e020b075bc610671c1255be9a7d3896b0"
+        "assetKey": "60660afe4fc9a60cd154741525f670c3968757a2"
       }
     ],
     "assetKey": "7edadf5373055f0e325af7672df69017cf7cc8b1"
   },
   {
-    "name": "Search home button",
+    "name": "Search navigation",
     "nodeId": "13658:8009",
     "type": "COMPONENT_SET",
     "pageId": "5919:65483",
@@ -10055,17 +10330,6 @@
         "key": "Mobile",
         "variantOptions": [
           "True",
-          "False",
-          "Mobile3",
-          "Mobile4"
-        ],
-        "defaultValue": "False"
-      },
-      "Darkmode": {
-        "name": "Darkmode",
-        "type": "VARIANT",
-        "key": "Darkmode",
-        "variantOptions": [
           "False"
         ],
         "defaultValue": "False"
@@ -10075,13 +10339,8 @@
       "Search",
       "Header icon"
     ],
-    "instanceCount": 13,
+    "instanceCount": 0,
     "dependencies": [
-      {
-        "name": "Search",
-        "external": true,
-        "assetKey": "de98d2852ee27bdba147ea53adbab272373156ec"
-      },
       {
         "name": "Search",
         "external": true,
@@ -10126,7 +10385,7 @@
     "childInstanceTags": [
       "Clock"
     ],
-    "instanceCount": 13,
+    "instanceCount": 0,
     "dependencies": [
       {
         "name": "Clock",
@@ -10162,16 +10421,26 @@
         "key": "Instance#30874:29",
         "defaultValue": "6188:65913"
       },
+      "System": {
+        "name": "System",
+        "type": "VARIANT",
+        "key": "System",
+        "variantOptions": [
+          "People First",
+          "Configr"
+        ],
+        "defaultValue": "People First"
+      },
       "State": {
         "name": "State",
         "type": "VARIANT",
         "key": "State",
         "variantOptions": [
+          "Default",
           "Hover",
-          "Selected",
-          "Unselected"
+          "Selected"
         ],
-        "defaultValue": "Unselected"
+        "defaultValue": "Default"
       },
       "Device": {
         "name": "Device",
@@ -10183,56 +10452,86 @@
           "Tablet"
         ],
         "defaultValue": "Desktop"
+      },
+      "Selected": {
+        "name": "Selected",
+        "type": "VARIANT",
+        "key": "Selected",
+        "variantOptions": [
+          "No",
+          "Yes"
+        ],
+        "defaultValue": "No"
       }
     },
     "childInstanceTags": [
       "Home",
-      "Counter"
+      "Header"
     ],
-    "instanceCount": 21,
+    "instanceCount": 24,
     "dependencies": [
       {
-        "name": "Counter",
+        "name": "Header",
         "external": false,
-        "nodeId": "14990:11954",
-        "assetKey": "e557a697520c110dba2068dfed9dac2f0a0d11c8"
+        "nodeId": "32527:39433",
+        "assetKey": "72101c68df1a721b6e7c39084927f6d458dc3fe1"
       }
     ],
     "assetKey": "a4df935ae82e7f4893b4ef4b98b51cafa10086fa"
   },
   {
-    "name": "Full page navigation",
+    "name": "Full page",
     "nodeId": "13658:8240",
     "type": "COMPONENT_SET",
     "pageId": "5919:65483",
     "pageName": "Navigation ",
     "hasVariants": true,
     "properties": {
+      "System": {
+        "name": "System",
+        "type": "VARIANT",
+        "key": "System",
+        "variantOptions": [
+          "People First",
+          "Configr"
+        ],
+        "defaultValue": "People First"
+      },
+      "Tablet": {
+        "name": "Tablet",
+        "type": "VARIANT",
+        "key": "Tablet",
+        "variantOptions": [
+          "No",
+          "Yes"
+        ],
+        "defaultValue": "No"
+      },
+      "Mobile": {
+        "name": "Mobile",
+        "type": "VARIANT",
+        "key": "Mobile",
+        "variantOptions": [
+          "Yes",
+          "No"
+        ],
+        "defaultValue": "No"
+      },
       "Darkmode": {
         "name": "Darkmode",
         "type": "VARIANT",
         "key": "Darkmode",
         "variantOptions": [
-          "False",
-          "True"
+          "No",
+          "Yes"
         ],
-        "defaultValue": "False"
-      },
-      "Breakpoint": {
-        "name": "Breakpoint",
-        "type": "VARIANT",
-        "key": "Breakpoint",
-        "variantOptions": [
-          "Desktop",
-          "Tablet",
-          "Mobile"
-        ],
-        "defaultValue": "Desktop"
+        "defaultValue": "No"
       }
     },
     "childInstanceTags": [
       "Side navigation",
-      "Header top navigation",
+      "Header navigation",
+      "Full page/Header navigation/Yes/No",
       "Mobile bottom navigation"
     ],
     "instanceCount": 0,
@@ -10244,10 +10543,21 @@
         "assetKey": "051c3654b6a72881be3ab11b905b2cd78354bd86"
       },
       {
-        "name": "Header top navigation",
+        "name": "Header navigation",
         "external": false,
         "nodeId": "13658:7772",
         "assetKey": "6865604fa4f8fe468d1ad4981ef8a4093de45a4f"
+      },
+      {
+        "name": "Full page/Header navigation/Yes/No",
+        "external": false,
+        "nodeId": "32530:49675",
+        "assetKey": "57c56010923c5400557ae5a358d063ca5d5c1d6c"
+      },
+      {
+        "name": "Mobile bottom navigation/True/Mobile",
+        "external": true,
+        "assetKey": "56aa73f3d9a204101842105cdf5c25d9e4da9286"
       },
       {
         "name": "Mobile bottom navigation",
@@ -10259,7 +10569,7 @@
     "assetKey": "6ac608d51ba39ad95570ef187784ff71ce281c2b"
   },
   {
-    "name": "Side navigation tab",
+    "name": "Notification tabs",
     "nodeId": "22973:20747",
     "type": "COMPONENT_SET",
     "pageId": "5919:65483",
@@ -10268,9 +10578,9 @@
     "properties": {
       "Icon": {
         "name": "Icon",
-        "type": "BOOLEAN",
-        "key": "Icon#23086:3",
-        "defaultValue": true
+        "type": "INSTANCE_SWAP",
+        "key": "Icon#23086:13",
+        "defaultValue": "6188:65913"
       },
       "Counter": {
         "name": "Counter",
@@ -10278,69 +10588,242 @@
         "key": "Counter#23086:8",
         "defaultValue": true
       },
-      "Change icon": {
-        "name": "Change icon",
-        "type": "INSTANCE_SWAP",
-        "key": "Change icon#23086:13",
-        "defaultValue": "6188:65913"
+      "Text": {
+        "name": "Text",
+        "type": "TEXT",
+        "key": "Text#32559:323",
+        "defaultValue": "Label"
+      },
+      "State": {
+        "name": "State",
+        "type": "VARIANT",
+        "key": "State",
+        "variantOptions": [
+          "Default",
+          "Hover",
+          "Selected"
+        ],
+        "defaultValue": "Default"
       },
       "Selected": {
         "name": "Selected",
         "type": "VARIANT",
         "key": "Selected",
         "variantOptions": [
-          "false",
-          "true"
+          "No",
+          "Yes"
         ],
-        "defaultValue": "false"
+        "defaultValue": "No"
       }
     },
     "childInstanceTags": [
       "Home",
-      "Counter"
+      "Header"
     ],
-    "instanceCount": 2,
+    "instanceCount": 0,
     "dependencies": [
       {
-        "name": "Counter",
+        "name": "Header",
         "external": false,
-        "nodeId": "14990:11954",
-        "assetKey": "e557a697520c110dba2068dfed9dac2f0a0d11c8"
+        "nodeId": "32527:39433",
+        "assetKey": "72101c68df1a721b6e7c39084927f6d458dc3fe1"
       }
     ],
     "assetKey": "b74619caf013158d2af6bcc604f914c3151f6acf"
   },
   {
-    "name": "Side navigation panel",
-    "nodeId": "22973:20811",
+    "name": "Notification categories",
+    "nodeId": "32559:69378",
     "type": "COMPONENT_SET",
     "pageId": "5919:65483",
     "pageName": "Navigation ",
     "hasVariants": true,
     "properties": {
-      "Property 1": {
-        "name": "Property 1",
+      "Content": {
+        "name": "Content",
+        "type": "SLOT",
+        "key": "Content#32559:361",
+        "defaultValue": "-1:-1"
+      },
+      "Mobile": {
+        "name": "Mobile",
         "type": "VARIANT",
-        "key": "Property 1",
+        "key": "Mobile",
         "variantOptions": [
-          "Default"
+          "No",
+          "Yes"
         ],
-        "defaultValue": "Default"
+        "defaultValue": "No"
       }
     },
     "childInstanceTags": [
-      "Side navigation tab"
+      "Notification tabs",
+      "Side panel header",
+      "Close x cancel",
+      "Notification categories",
+      "Sticky footer"
     ],
-    "instanceCount": 1,
+    "instanceCount": 2,
     "dependencies": [
       {
-        "name": "Side navigation tab",
+        "name": "Notification tabs",
         "external": false,
         "nodeId": "22973:20747",
         "assetKey": "b74619caf013158d2af6bcc604f914c3151f6acf"
+      },
+      {
+        "name": "Side panel header",
+        "external": false,
+        "nodeId": "18222:8378",
+        "assetKey": "6a057135f1c26f3657527dbc589434c872ffbd67"
+      },
+      {
+        "name": "Close x cancel",
+        "external": false,
+        "nodeId": "6237:66647",
+        "assetKey": "aa0d98954258f6aee177fde92c70cdfd768fa1b1"
+      },
+      {
+        "name": "Notification categories",
+        "external": false,
+        "nodeId": "32559:69378",
+        "assetKey": "49121759d392947505fa1f2884963bb687b66a73"
+      },
+      {
+        "name": "Sticky footer",
+        "external": false,
+        "nodeId": "20184:1662",
+        "assetKey": "8127035c6eaeac9d4c142b22628de238f93e0b65"
       }
     ],
-    "assetKey": "60647f5efd7dd219e2cf4f3df5ed4f5ce37ab22c"
+    "assetKey": "49121759d392947505fa1f2884963bb687b66a73"
+  },
+  {
+    "name": "Notification list",
+    "nodeId": "32559:70451",
+    "type": "COMPONENT_SET",
+    "pageId": "5919:65483",
+    "pageName": "Navigation ",
+    "hasVariants": true,
+    "properties": {
+      "Cards": {
+        "name": "Cards",
+        "type": "SLOT",
+        "key": "Cards#32559:369",
+        "defaultValue": "-1:-1"
+      },
+      "Checkbox": {
+        "name": "Checkbox",
+        "type": "BOOLEAN",
+        "key": "Checkbox#32559:370",
+        "defaultValue": true
+      },
+      "Mobile": {
+        "name": "Mobile",
+        "type": "VARIANT",
+        "key": "Mobile",
+        "variantOptions": [
+          "No",
+          "Yes"
+        ],
+        "defaultValue": "No"
+      }
+    },
+    "childInstanceTags": [
+      "Control",
+      "Tooltip question",
+      "Button",
+      "Notification card",
+      "Hamburger menu",
+      "Notification list"
+    ],
+    "instanceCount": 0,
+    "dependencies": [
+      {
+        "name": "Control",
+        "external": false,
+        "nodeId": "30641:14910",
+        "assetKey": "9057f7678810dd13e65a8703023857ac7c22e07a"
+      },
+      {
+        "name": "Tooltip question",
+        "external": false,
+        "nodeId": "7763:73430",
+        "assetKey": "ea1d53be92ba8ff3ccae8d7e8ac72fedfe4cafe2"
+      },
+      {
+        "name": "Button",
+        "external": false,
+        "nodeId": "1656:44983",
+        "assetKey": "611c84c558baf2e772d3ea4b0d00653997e945b9"
+      },
+      {
+        "name": "Notification card",
+        "external": false,
+        "nodeId": "13846:5504",
+        "assetKey": "60b4581d256538f379b9ea40ae1203161ba46ee1"
+      },
+      {
+        "name": "Hamburger menu",
+        "external": false,
+        "nodeId": "21269:51",
+        "assetKey": "77e675c17c781cb82732c7a26f5afd98a7d4f9b2"
+      },
+      {
+        "name": "Notification list",
+        "external": false,
+        "nodeId": "32559:70451",
+        "assetKey": "dea79a6b75af512a2cdc5936ee8b0a5609ddb3a1"
+      }
+    ],
+    "assetKey": "dea79a6b75af512a2cdc5936ee8b0a5609ddb3a1"
+  },
+  {
+    "name": "Notification panel",
+    "nodeId": "32559:69672",
+    "type": "COMPONENT_SET",
+    "pageId": "5919:65483",
+    "pageName": "Navigation ",
+    "hasVariants": true,
+    "properties": {
+      "Mobile": {
+        "name": "Mobile",
+        "type": "VARIANT",
+        "key": "Mobile",
+        "variantOptions": [
+          "Yes",
+          "No"
+        ],
+        "defaultValue": "No"
+      }
+    },
+    "childInstanceTags": [
+      "Side panel header",
+      "Notification categories",
+      "Notification list"
+    ],
+    "instanceCount": 2,
+    "dependencies": [
+      {
+        "name": "Side panel header",
+        "external": false,
+        "nodeId": "18222:8378",
+        "assetKey": "6a057135f1c26f3657527dbc589434c872ffbd67"
+      },
+      {
+        "name": "Notification categories",
+        "external": false,
+        "nodeId": "32559:69378",
+        "assetKey": "49121759d392947505fa1f2884963bb687b66a73"
+      },
+      {
+        "name": "Notification list",
+        "external": false,
+        "nodeId": "32559:70451",
+        "assetKey": "dea79a6b75af512a2cdc5936ee8b0a5609ddb3a1"
+      }
+    ],
+    "assetKey": "240eeb99a7b1e529683ab60bd8be4865a2846117"
   },
   {
     "name": "Filter tab single",
@@ -10580,7 +11063,7 @@
     "childInstanceTags": [
       "Menu",
       "Close x",
-      "People first logo",
+      "Logo",
       "Tabs navigation",
       "Search",
       "Up_arrow",
@@ -10609,10 +11092,10 @@
         "assetKey": "cd883e1fc7d0104f6c6126ea03ca0a07d3fef8f7"
       },
       {
-        "name": "People first logo",
+        "name": "Logo",
         "external": false,
-        "nodeId": "6047:65931",
-        "assetKey": "09bdf4e115be60dbe48a86037837566ec041697b"
+        "nodeId": "32559:73310",
+        "assetKey": "f280b2d96c2080705e17c1ffb2781a11f102e35b"
       },
       {
         "name": "Tabs navigation",
@@ -10900,7 +11383,7 @@
     "childInstanceTags": [
       "[S] People"
     ],
-    "instanceCount": 13,
+    "instanceCount": 0,
     "dependencies": [
       {
         "name": "[S] People",
@@ -11087,20 +11570,81 @@
     "pageName": "System messages  ",
     "hasVariants": true,
     "properties": {
+      "Avatar": {
+        "name": "Avatar",
+        "type": "BOOLEAN",
+        "key": "Avatar#32559:328",
+        "defaultValue": false
+      },
+      "Icon": {
+        "name": "Icon",
+        "type": "BOOLEAN",
+        "key": "Icon#32559:331",
+        "defaultValue": true
+      },
+      "Status": {
+        "name": "Status",
+        "type": "BOOLEAN",
+        "key": "Status#32559:334",
+        "defaultValue": true
+      },
+      "Date": {
+        "name": "Date",
+        "type": "BOOLEAN",
+        "key": "Date#32559:337",
+        "defaultValue": true
+      },
+      "Time": {
+        "name": "Time",
+        "type": "BOOLEAN",
+        "key": "Time#32559:340",
+        "defaultValue": false
+      },
+      "Checkbox": {
+        "name": "Checkbox",
+        "type": "BOOLEAN",
+        "key": "Checkbox#32559:343",
+        "defaultValue": true
+      },
+      "Details": {
+        "name": "Details",
+        "type": "TEXT",
+        "key": "Details#32559:346",
+        "defaultValue": "Example notification text example notification text"
+      },
+      "Title": {
+        "name": "Title",
+        "type": "TEXT",
+        "key": "Title#32559:349",
+        "defaultValue": "Title"
+      },
+      "d Mon": {
+        "name": "d Mon",
+        "type": "TEXT",
+        "key": "d Mon#32559:352",
+        "defaultValue": "8 Sep"
+      },
+      "hh:mm": {
+        "name": "hh:mm",
+        "type": "TEXT",
+        "key": "hh:mm#32559:355",
+        "defaultValue": "10:03"
+      },
       "Mobile": {
         "name": "Mobile",
         "type": "VARIANT",
         "key": "Mobile",
         "variantOptions": [
-          "False",
-          "True"
+          "No",
+          "Yes"
         ],
-        "defaultValue": "False"
+        "defaultValue": "No"
       }
     },
     "childInstanceTags": [
-      "Control button",
       "Notification image",
+      "Checkbox/Radio item",
+      "Warning",
       "Tags",
       "Up_arrow",
       "Close x"
@@ -11108,15 +11652,22 @@
     "instanceCount": 6,
     "dependencies": [
       {
-        "name": "Control button",
-        "external": true,
-        "assetKey": "a11c744f67b32af82113de9a80fe2686f8a83bbe"
-      },
-      {
         "name": "Notification image",
         "external": false,
         "nodeId": "3435:66874",
         "assetKey": "9ffd013e9ad6d71d92c393f164537c0e261328ce"
+      },
+      {
+        "name": "Checkbox/Radio item",
+        "external": false,
+        "nodeId": "30643:20637",
+        "assetKey": "0d29980bf836a942e567d10420bb2d9d22ee907e"
+      },
+      {
+        "name": "Warning",
+        "external": false,
+        "nodeId": "7963:79675",
+        "assetKey": "63b9fdfec18f7c3a4d048b14ee61f56598baaf8e"
       },
       {
         "name": "Tags",

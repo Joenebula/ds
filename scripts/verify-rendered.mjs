@@ -67,9 +67,12 @@ const CHECKS = [
   [".pf-form-field[data-state='Error'] .lbl",     'color',          'Form field', 'Input type=Text, State=Error', 5],
   [".pf-form-field[data-state='Selected'] .lbl",  'color',          'Form field', 'Input type=Text, State=Selected', 5],
   [".pf-filter-chip[data-state='Selected']",'color',         'Filter chip', 'State=Selected, Active=True', 5],
-  // The sidebar row is `Side navigation tab` (268x48, horizontal). `Navigation item` is a
+  // The sidebar row is node 22973:20747 (268x48, horizontal). `Navigation item` is a
   // 90x86 rail item with the icon ABOVE the label — a different component entirely.
-  [".pf-side-navigation-tab[data-selected='true']", 'color', 'Side navigation tab', 'Selected=true', 5],
+  // Figma RENAMED this component `Side navigation tab` -> `Notification tabs` (seen in the
+  // 2026-09-11 inventory). Same node id, same rules; only the name and so the class moved.
+  // Worth a designer's eye: the screens use it as a sidebar row, and the new name says tabs.
+  [".pf-notification-tabs[data-selected='true']", 'color', 'Notification tabs', 'Selected=true', 5],
 ];
 
 const file = 'file://' + resolve(process.argv[2]);

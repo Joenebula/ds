@@ -536,11 +536,11 @@
   color: var(--pf-text-theme);
 }
 
-/* Side navigation tab
+/* Notification tabs
  * 2 variants captured
  * Figma draws this 268px wide; treated as layout, not a rule
  */
-.pf-side-navigation-tab {
+.pf-notification-tabs {
   height: 48px;
   padding: 10px 15px;
   border-radius: 8px;
@@ -558,10 +558,10 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
-.pf-side-navigation-tab[data-selected="false"] {
+.pf-notification-tabs[data-selected="false"] {
   color: var(--pf-text-primary);
 }
-.pf-side-navigation-tab[data-selected="true"] {
+.pf-notification-tabs[data-selected="true"] {
   background: var(--pf-bg-theme);
   color: var(--pf-text-theme);
 }
@@ -605,12 +605,12 @@
   color: var(--pf-text-theme);
 }
 
-/* [S] Navigation/main tabs
+/* Nav tabs
  * 3 variants captured
  * corner radius varies per corner in Figma
  * layout direction not captured; assumed a row
  */
-.pf-s-navigation-main-tabs {
+.pf-nav-tabs {
   width: 80px;
   height: 40px;
   padding: 0 20px;
@@ -626,17 +626,17 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
-.pf-s-navigation-main-tabs[data-status="Unselected"] {
+.pf-nav-tabs[data-status="Unselected"] {
   background: var(--pf-bg-primary);
   border-color: var(--pf-border-default);
   color: var(--pf-text-primary);
 }
-.pf-s-navigation-main-tabs[data-status="Hover"] {
+.pf-nav-tabs[data-status="Hover"] {
   background: var(--pf-bg-primary);
   border-color: var(--pf-border-default);
   color: var(--pf-text-theme);
 }
-.pf-s-navigation-main-tabs[data-status="Selected"] {
+.pf-nav-tabs[data-status="Selected"] {
   background: var(--pf-bg-primary);
   border-color: var(--pf-border-default);
   color: var(--pf-text-theme);
@@ -703,10 +703,10 @@
   color: var(--pf-text-theme);
 }
 
-/* Secondary nav
+/* Tertiary nav
  * 2 variants captured
  */
-.pf-secondary-nav {
+.pf-tertiary-nav {
   height: 43px;
   padding: 4px 368px;
   display: inline-flex;
@@ -724,10 +724,10 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
-.pf-secondary-nav[data-navigation-type="Chips"] {
+.pf-tertiary-nav[data-navigation-type="Chips"] {
   color: var(--pf-text-theme);
 }
-.pf-secondary-nav[data-navigation-type="Page"] {
+.pf-tertiary-nav[data-navigation-type="Page"] {
   background: var(--pf-bg-primary);
   color: var(--pf-text-primary);
 }
@@ -878,11 +878,11 @@
   color: var(--pf-text-secondary);
 }
 
-/* Header top navigation
+/* Header navigation
  * 3 variants captured
  * Figma draws this 1834px wide; treated as layout, not a rule
  */
-.pf-header-top-navigation {
+.pf-header-navigation {
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -896,21 +896,21 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
-.pf-header-top-navigation[data-breakpoint="Desktop"] {
+.pf-header-navigation[data-breakpoint="Desktop"] {
   color: var(--pf-text-secondary);
 }
-.pf-header-top-navigation[data-breakpoint="Tablet"] {
+.pf-header-navigation[data-breakpoint="Tablet"] {
   color: var(--pf-base-white);
 }
-.pf-header-top-navigation[data-breakpoint="Mobile"] {
+.pf-header-navigation[data-breakpoint="Mobile"] {
   color: var(--pf-base-white);
 }
 
-/* [S] Main nav context
+/* Secondary nav
  * 1 variant captured
  * Figma draws this 947px wide; treated as layout, not a rule
  */
-.pf-s-main-nav-context {
+.pf-secondary-nav {
   height: 44px;
   display: inline-flex;
   flex-direction: row;
@@ -926,7 +926,7 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
-.pf-s-main-nav-context {
+.pf-secondary-nav {
   background: var(--pf-bg-primary);
   color: var(--pf-text-theme);
 }
@@ -954,11 +954,11 @@
   color: var(--pf-base-white);
 }
 
-/* Search home button
+/* Search navigation
  * 2 variants captured
  * Figma draws this 150px wide; treated as layout, not a rule
  */
-.pf-search-home-button {
+.pf-search-navigation {
   height: 32px;
   display: inline-block;
   font-size: 16px;
@@ -970,19 +970,19 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
-.pf-search-home-button[data-mobile="False"] {
+.pf-search-navigation[data-mobile="False"] {
   color: var(--pf-text-secondary);
 }
-.pf-search-home-button[data-mobile="Mobile3"] {
+.pf-search-navigation[data-mobile="Mobile3"] {
   color: var(--pf-text-theme);
 }
 
-/* Full page navigation
+/* Full page
  * 3 variants captured
  * Figma draws this 1920px wide; treated as layout, not a rule
  * Figma draws this 1080px tall — the artboard it sits on, not a rule; dropped
  */
-.pf-full-page-navigation {
+.pf-full-page {
   display: inline-flex;
   flex-direction: row;
   align-items: flex-start;
@@ -996,13 +996,13 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
-.pf-full-page-navigation[data-breakpoint="Desktop"] {
+.pf-full-page[data-breakpoint="Desktop"] {
   color: var(--pf-text-secondary);
 }
-.pf-full-page-navigation[data-breakpoint="Mobile"] {
+.pf-full-page[data-breakpoint="Mobile"] {
   color: var(--pf-base-white);
 }
-.pf-full-page-navigation[data-breakpoint="Tablet"] {
+.pf-full-page[data-breakpoint="Tablet"] {
   color: var(--pf-base-white);
 }
 
@@ -1245,35 +1245,35 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
         <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">default</span>
       </div>
 </div>
-<h2>Full page navigation</h2>
-<p class="sub">.pf-full-page-navigation  ·  1920 x 1080  ·  3 variants</p>
+<h2>Full page</h2>
+<p class="sub">.pf-full-page  ·  1920 x 1080  ·  3 variants</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
-        <div class="pf-full-page-navigation" data-breakpoint="Desktop">Full page navigation</div>
+        <div class="pf-full-page" data-breakpoint="Desktop">Full page</div>
         <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Breakpoint=Desktop</span>
       </div>
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
-        <div class="pf-full-page-navigation" data-breakpoint="Mobile">Full page navigation</div>
+        <div class="pf-full-page" data-breakpoint="Mobile">Full page</div>
         <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Breakpoint=Mobile</span>
       </div>
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
-        <div class="pf-full-page-navigation" data-breakpoint="Tablet">Full page navigation</div>
+        <div class="pf-full-page" data-breakpoint="Tablet">Full page</div>
         <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Breakpoint=Tablet</span>
       </div>
 </div>
-<h2>Header top navigation</h2>
-<p class="sub">.pf-header-top-navigation  ·  1834 x auto  ·  3 variants</p>
+<h2>Header navigation</h2>
+<p class="sub">.pf-header-navigation  ·  1834 x auto  ·  3 variants</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
-        <div class="pf-header-top-navigation" data-breakpoint="Desktop">Header top navigation</div>
+        <div class="pf-header-navigation" data-breakpoint="Desktop">Header navigation</div>
         <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Breakpoint=Desktop</span>
       </div>
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
-        <div class="pf-header-top-navigation" data-breakpoint="Tablet">Header top navigation</div>
+        <div class="pf-header-navigation" data-breakpoint="Tablet">Header navigation</div>
         <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Breakpoint=Tablet</span>
       </div>
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
-        <div class="pf-header-top-navigation" data-breakpoint="Mobile">Header top navigation</div>
+        <div class="pf-header-navigation" data-breakpoint="Mobile">Header navigation</div>
         <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Breakpoint=Mobile</span>
       </div>
 </div>
@@ -1301,6 +1301,22 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
         <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">default</span>
       </div>
 </div>
+<h2>Nav tabs</h2>
+<p class="sub">.pf-nav-tabs  ·  80 x 40  ·  3 variants</p>
+<div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
+<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
+        <div class="pf-nav-tabs" data-status="Unselected">Nav tabs</div>
+        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Status=Unselected</span>
+      </div>
+<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
+        <div class="pf-nav-tabs" data-status="Hover">Nav tabs</div>
+        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Status=Hover</span>
+      </div>
+<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
+        <div class="pf-nav-tabs" data-status="Selected">Nav tabs</div>
+        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Status=Selected</span>
+      </div>
+</div>
 <h2>Navigation item</h2>
 <p class="sub">.pf-navigation-item  ·  90 x 86  ·  3 variants</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
@@ -1325,28 +1341,36 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
         <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">default</span>
       </div>
 </div>
-<h2>Search home button</h2>
-<p class="sub">.pf-search-home-button  ·  150 x 32  ·  2 variants</p>
+<h2>Notification tabs</h2>
+<p class="sub">.pf-notification-tabs  ·  268 x 48  ·  2 variants</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
-        <div class="pf-search-home-button" data-mobile="False">Search home button</div>
+        <div class="pf-notification-tabs" data-selected="false">Notification tabs</div>
+        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Selected=false</span>
+      </div>
+<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
+        <div class="pf-notification-tabs" data-selected="true">Notification tabs</div>
+        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Selected=true</span>
+      </div>
+</div>
+<h2>Search navigation</h2>
+<p class="sub">.pf-search-navigation  ·  150 x 32  ·  2 variants</p>
+<div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
+<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
+        <div class="pf-search-navigation" data-mobile="False">Search navigation</div>
         <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Mobile=False</span>
       </div>
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
-        <div class="pf-search-home-button" data-mobile="Mobile3">Search home button</div>
+        <div class="pf-search-navigation" data-mobile="Mobile3">Search navigation</div>
         <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Mobile=Mobile3</span>
       </div>
 </div>
 <h2>Secondary nav</h2>
-<p class="sub">.pf-secondary-nav  ·  auto x 43  ·  2 variants</p>
+<p class="sub">.pf-secondary-nav  ·  947 x 44  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
-        <div class="pf-secondary-nav" data-navigation-type="Chips">Secondary nav</div>
-        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Navigation type=Chips</span>
-      </div>
-<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
-        <div class="pf-secondary-nav" data-navigation-type="Page">Secondary nav</div>
-        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Navigation type=Page</span>
+        <div class="pf-secondary-nav">Secondary nav</div>
+        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">default</span>
       </div>
 </div>
 <h2>Side navigation panel</h2>
@@ -1355,18 +1379,6 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-side-navigation-panel">Side navigation panel</div>
         <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">default</span>
-      </div>
-</div>
-<h2>Side navigation tab</h2>
-<p class="sub">.pf-side-navigation-tab  ·  268 x 48  ·  2 variants</p>
-<div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
-<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
-        <div class="pf-side-navigation-tab" data-selected="false">Absence</div>
-        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Selected=false</span>
-      </div>
-<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
-        <div class="pf-side-navigation-tab" data-selected="true">Absence</div>
-        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Selected=true</span>
       </div>
 </div>
 <h2>Side navigation</h2>
@@ -1397,6 +1409,18 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
         <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">State=Selected</span>
       </div>
 </div>
+<h2>Tertiary nav</h2>
+<p class="sub">.pf-tertiary-nav  ·  auto x 43  ·  2 variants</p>
+<div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
+<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
+        <div class="pf-tertiary-nav" data-navigation-type="Chips">Tertiary nav</div>
+        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Navigation type=Chips</span>
+      </div>
+<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
+        <div class="pf-tertiary-nav" data-navigation-type="Page">Tertiary nav</div>
+        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Navigation type=Page</span>
+      </div>
+</div>
 <h2>Top bar app context</h2>
 <p class="sub">.pf-top-bar-app-context  ·  242 x 66  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
@@ -1411,30 +1435,6 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-s-config-child-menu">[S] Config child menu</div>
         <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">default</span>
-      </div>
-</div>
-<h2>[S] Main nav context</h2>
-<p class="sub">.pf-s-main-nav-context  ·  947 x 44  ·  1 variant</p>
-<div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
-<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
-        <div class="pf-s-main-nav-context">[S] Main nav context</div>
-        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">default</span>
-      </div>
-</div>
-<h2>[S] Navigation/main tabs</h2>
-<p class="sub">.pf-s-navigation-main-tabs  ·  80 x 40  ·  3 variants</p>
-<div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
-<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
-        <div class="pf-s-navigation-main-tabs" data-status="Unselected">[S] Navigation/main tabs</div>
-        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Status=Unselected</span>
-      </div>
-<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
-        <div class="pf-s-navigation-main-tabs" data-status="Hover">[S] Navigation/main tabs</div>
-        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Status=Hover</span>
-      </div>
-<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
-        <div class="pf-s-navigation-main-tabs" data-status="Selected">[S] Navigation/main tabs</div>
-        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Status=Selected</span>
       </div>
 </div>
 </body>

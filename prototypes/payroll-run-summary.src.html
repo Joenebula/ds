@@ -72,15 +72,15 @@ svg { display: block; }
 }
 
 /* Navigation item — State=Selected|Unselected|Hover, Device=Desktop */
-.pf-side-navigation-tab { text-decoration: none;
+.pf-notification-tabs { text-decoration: none;
   display: flex; align-items: center; gap: var(--pf-space-small);
   padding: var(--pf-space-small) var(--pf-space-large);
   background: var(--pf-bg-primary); color: var(--pf-text-secondary);
   text-decoration: none; font-size: var(--pf-font-size-s);
   border-left: 3px solid transparent; transition: color .12s, border-color .12s;
 }
-.pf-side-navigation-tab:hover { color: var(--pf-text-theme); }
-.pf-side-navigation-tab[data-selected="true"] { color: var(--pf-text-theme); border-left-color: var(--pf-border-theme); font-weight: var(--pf-font-weight-bold); }
+.pf-notification-tabs:hover { color: var(--pf-text-theme); }
+.pf-notification-tabs[data-selected="true"] { color: var(--pf-text-theme); border-left-color: var(--pf-border-theme); font-weight: var(--pf-font-weight-bold); }
 
 /* ---------- header ---------- */
 .topbar {
@@ -280,14 +280,14 @@ select.control { appearance: none; background-image:
   <!-- Side navigation -->
   <nav class="side" aria-label="Main">
     <div class="brand"><span class="mark"></span> People First</div>
-    <a class="pf-side-navigation-tab" data-selected="false" href="#">Dashboard</a>
-    <a class="pf-side-navigation-tab" data-selected="false" href="#">My team</a>
-    <a class="pf-side-navigation-tab" data-selected="false" href="#">Absence</a>
-    <a class="pf-side-navigation-tab" data-selected="false" href="#">Timesheets</a>
-    <a class="pf-side-navigation-tab" data-selected="true" href="#" aria-current="page">Payroll</a>
-    <a class="pf-side-navigation-tab" data-selected="false" href="#">Recruitment</a>
-    <a class="pf-side-navigation-tab" data-selected="false" href="#">Learning</a>
-    <a class="pf-side-navigation-tab" data-selected="false" href="#">Reports</a>
+    <a class="pf-notification-tabs" data-selected="false" href="#">Dashboard</a>
+    <a class="pf-notification-tabs" data-selected="false" href="#">My team</a>
+    <a class="pf-notification-tabs" data-selected="false" href="#">Absence</a>
+    <a class="pf-notification-tabs" data-selected="false" href="#">Timesheets</a>
+    <a class="pf-notification-tabs" data-selected="true" href="#" aria-current="page">Payroll</a>
+    <a class="pf-notification-tabs" data-selected="false" href="#">Recruitment</a>
+    <a class="pf-notification-tabs" data-selected="false" href="#">Learning</a>
+    <a class="pf-notification-tabs" data-selected="false" href="#">Reports</a>
   </nav>
 
   <div class="main">

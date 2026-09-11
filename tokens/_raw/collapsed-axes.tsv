@@ -28,32 +28,42 @@ Filter tab single	Breakpoint	Desktop/Tablet/Mobile	context
 Filter tabs	Breakpoints	Desktop/Tablet/Mobile	state
 Form field	Full width	Yes/No	context
 Form	Mobile	False/True	context
-Full page navigation	Darkmode	False/True	context
+Full page	System	People First/Configr	state
+Full page	Tablet	No/Yes	state
+Full page	Mobile	Yes/No	context
+Full page	Darkmode	No/Yes	context
 Graph axis	Breakpoint	Mobile/Desktop	context
 Graph legend	Mobile	True/False	context
 Graph legend	Key type	Donut graph/Line graph	state
-Header top navigation	Darkmode	True/False	context
-Header top navigation	Levels of navigation	0/1/2	context
+Header navigation	Mobile	No/Yes	context
+Header navigation	Tablet	No/Yes	state
 Hemisphere chart	Status	None/Negative/Warning/Neutral/Positive	state
 Layout container (magazine style)	Mobile	False/True	context
 Links	Icon position	Right/Left	state
 Metric card	Mobile	True/False	context
-Mobile bottom navigation	Darkmode	False/True	context
-Mobile bottom navigation	Breakpoint	Tablet/Mobile	context
+Mobile bottom navigation	Tablet	No/Yes	state
+Nav tabs	Mobile	True/False	context
+Navigation item	System	People First/Configr	state
+Navigation item	Selected	No/Yes	state
+Navigation tabs	System	People First/Configr	state
 Navigation tabs	Mobile	No/Yes	context
+Notification tabs	State	Default/Hover/Selected	state
 Percentage bar	Percentage	0/25/50/75/100	state
-Secondary nav	Mobile	True/False	context
-Side navigation	Darkmode	True/False	context
+Secondary nav	Mobile	False/True	context
+Side navigation	System	People First/Finance/Configr	state
 Spotlight Card	Mobile	False/True	context
 Square progress bar	Variant	Default/Inline/Bottom label	state
 Square progress bar	Progress	0%/25%/50%/75%/100%	state
 Star rating	Read only	No/Yes	state
+Tab	System	People First/Configr	state
+Tab	Mobile	No/Yes	context
+Tab	Selected	No/Yes	state
 Table progress bar	Completion	0%/25%/50%/75%/100%	state
 Table progress bar	Dark cell background	No/Yes	state
 Tags	Small	No/Yes	state
+Tertiary nav	Mobile	Yes/No	context
+Tertiary nav	Page	Yes/No	state
 Text template format editor 	Type	Modal/Correspondence	state
 Top bar app context	Area	Administration/Insights/Recruitment/Goals/Payroll/Audit/Available jobs/Learning/Onboarding/HRM/General ledger/Accounts payable/Accounts receivable/Taxes/News/Data explorer/Case Management/Absence	context
 Top bar app context	Mobile	False/True	context
-[S] Main nav context	Mobile	False/True	context
-[S] Navigation/main tabs	Mobile	True/False	context
 [S] People	Mobile	False/True	context
