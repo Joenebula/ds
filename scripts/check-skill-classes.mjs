@@ -124,6 +124,27 @@ const sharedNames = [...coveredRows.reduce((m, c) => {
 }, new Map())].filter(([, n]) => n > 1).map(([k]) => k);
 const templateCount = readdirSync('dist/templates').filter(f => f.endsWith('.html')).length;
 
+// README's own figures. It is the front door and nothing was checking it: it claimed 198
+// tokens (196), 420 custom properties (414), 52 primitive colours (56), 96 semantic
+// colours (111, and the build has printed that number for months) and 469 components
+// (477). Five wrong numbers in the first thing anybody reads.
+const lines = f => readFileSync(f, 'utf8').trim().split('\n');
+const nPrimitives = lines('tokens/_raw/primitives.tsv').length;      // headerless
+const nSemantic = lines('tokens/_raw/semantic.tsv').length;          // headerless
+const nTypeClasses = new Set([...readFileSync('dist/type.css', 'utf8')
+  .matchAll(/\.(pf-text-[a-z0-9-]+)/g)].map(m => m[1])).size;
+const nDecls = (readFileSync('dist/tokens.css', 'utf8').match(/--pf-[a-z0-9-]+:/g) || []).length;
+const nIcons = readdirSync('assets/icons').filter(f => f.endsWith('.svg')).length;
+const nTextStyles = lines('tokens/_raw/text-styles.tsv').length - 1;
+const nInventory = JSON.parse(readFileSync('tokens/_raw/components.json', 'utf8')).length;
+let nDtcg = 0;
+(function walkTokens(o) {
+  for (const v of Object.values(o)) {
+    if (!v || typeof v !== 'object') continue;
+    if (v.$value !== undefined) nDtcg++; else walkTokens(v);
+  }
+})(JSON.parse(readFileSync('tokens/design-tokens.json', 'utf8')));
+
 // The two derivations must reconcile exactly, or one of them is measuring the wrong thing.
 // `pf-circle-icons` is the one class whose component lives on the Icons page, which the
 // non-icon list deliberately excludes.
@@ -186,6 +207,16 @@ const figures = [
   ['shape-only classes', shapeOnly, /plus (\d+) the extract carries as shape only/g],
   ['product-page components walked', walked, /\*\*Coverage: (\d+) of the \d+ product-page/g],
   ['product-page components', productPage.length, /Coverage: \d+ of the (\d+) product-page/g],
+  ['tokens in design-tokens.json', nDtcg, /(\d+) tokens in W3C DTCG format/g],
+  ['CSS custom properties', nDecls, /(\d+) CSS custom properties/g],
+  ['semantic tokens', nSemantic, /(\d+) semantic tokens x 2 modes/g],
+  ['semantic colours', nSemantic, /\*\*(\d+) semantic colours\*\*/g],
+  ['primitive colours', nPrimitives, /\*\*(\d+) primitive colours\*\*/g],
+  ['type classes', nTypeClasses, /\*\*(\d+) type classes/g],
+  ['icons', nIcons, /All (\d+) People First icons/g],
+  ['icons', nIcons, /All (\d+) are in `assets\/icons\/`/g],
+  ['text styles', nTextStyles, /\*\*(\d+) text styles\*\*/g],
+  ['inventoried components', nInventory, /\*\*(\d+) published components\*\*/g],
 ];
 // A PATTERN THAT MATCHES NOTHING PASSES VACUOUSLY, which is the "check that cannot fail"
 // fault this project has found in itself three times — check-icon-fidelity reporting
