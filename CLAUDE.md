@@ -751,6 +751,27 @@ whole generated script as an async function body with `figma` in scope, and also
 restructured rule module THROWS rather than quietly inlining the wrong span. **A builder that emits
 unusable bytes and reports success is the `--` problem in a new place.**
 
+### The verdict line stopped asserting a number it never measured
+
+`tokens:check` ended every run with *"...but nine components still bind the retired NAME"*. Nine was
+true of the extracted components when it was written, was never re-measured, and the live file holds
+46 retired styles. A hardcoded figure in a verdict line is the thing this file keeps diagnosing in
+other people's mechanisms — **a number people learn to read past** — and it was sitting in ours.
+
+It now names the dated snapshot instead: `censusNote()` reads the `# checked:` header of both
+census files and prints *"1429 references as at 2026-09-11 … re-sweep with
+`docs/figma-rebind-deprecated.js` before trusting either"*. A census that is MISSING is said out
+loud, and one carrying no date is called out as unable to be aged. This check reads transcripts and
+cannot re-count Figma; pretending otherwise is how the nine got there. Four mutants hold it, and the
+same numbers came out of the comment above `isDeprecatedCollection` for the same reason.
+
+**And the first version of those four assertions could only ever PASS.** They were written at the
+top of `selfTest`, above its own `const miss` — and `if (!ok) miss(...)` never touches `miss` while
+it is passing, so the temporal-dead-zone error appears only once something is genuinely broken.
+Every mutant died of a `ReferenceError` instead of a recorded MISS, and only the harness rule that
+**a mutant must die of a MISS, never of a crash** caught it. A test that cannot fail reports green
+for both states, which is this repo's own recurring failure aimed at its own test suite.
+
 **And `Border/Default hidden` has a light value and no dark value at all** — worth knowing, since
 three components map onto it.
 

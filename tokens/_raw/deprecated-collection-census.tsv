@@ -1,3 +1,10 @@
+# checked: 2026-09-11
+# references-at-last-sweep: 1429
+# A SNAPSHOT, not a live reading. Nothing in this repo can re-count it: every check here
+# reads transcripts or TSVs, and these numbers came from sweeping the live Figma file. If
+# this date is old, the file has moved on and the only way to know by how much is to sweep
+# again with docs/figma-rebind-deprecated.js.
+#
 # Every paint style in Figma's DEPRECATED COLOURS collection in aRWjBnTvdLiG50xtwodGwH, with how
 # many nodes in the file still reference it. Swept 2026-09-11, twice, agreeing at 1940. Read by
 # nobody — a worklist for a person, like deprecated-white-census.tsv beside it.

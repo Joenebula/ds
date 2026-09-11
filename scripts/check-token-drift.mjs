@@ -47,6 +47,7 @@ import { TRANSCRIPT_DIR, transcriptFiles, scrapeFigma } from './lib/transcript.m
 import { buildIndex, knownNames, decode } from './lib/decode-var.mjs';
 
 const DEBT = 'tokens/_raw/uncaptured-tokens.tsv';
+const safeRead = (f) => { try { return readFileSync(f, 'utf8'); } catch { return null; } };
 // This design system's Figma file. A transcript can hold reads of OTHER files — the Pathway test
 // file is in this one — and their variables are not this system's to be missing.
 export const FILE_KEY = 'aRWjBnTvdLiG50xtwodGwH';
@@ -104,11 +105,46 @@ export const debtKey = (figmaName) => String(figmaName).toLowerCase().trim().rep
 // never whether anyone can see it.
 //
 // It is also not an excuse. Each of the seven is an exact duplicate of a live primitive at the
-// same value — DEPRECATED COLOURS/White is #FFFFFF, and so is Base colours/White. Nine components
-// still bind the retired name, `Full page` binds four of them, and `Header` binds a deprecated
-// pink AND its non-deprecated twin in the same component. That is a Figma-side rebinding job, and
-// the rule below does not make it go away; it stops it being restated seven times here.
+// same value — DEPRECATED COLOURS/White is #FFFFFF, and so is Base colours/White. It is a
+// Figma-side rebinding job, and the rule below does not make it go away; it stops it being
+// restated seven times here.
+//
+// This paragraph used to carry numbers — "nine components still bind the retired name, `Full page`
+// binds four of them" — measured once from the extracted components and never again. A sweep of the
+// live file on 2026-09-11 found 46 retired styles and 1,940 references, and `Full page` was clean of
+// the colours that sentence was about. The numbers are gone from here on purpose: this file cannot
+// measure them, and a figure a mechanism cannot re-derive is a figure that will be wrong later and
+// believed anyway. `censusNote` below points at the dated snapshot that CAN.
 export const isDeprecatedCollection = (key) => /^deprecated-colours\//.test(String(key));
+
+// WHAT THIS CHECK CANNOT SEE, said in the verdict line rather than assumed away.
+//
+// The line here used to end "...but nine components still bind the retired NAME". Nine was true of
+// the EXTRACTED components when it was written, it was never re-measured, and a sweep of the live
+// file on 2026-09-11 found the retired collection is 46 styles carrying 1,940 references — 511 of
+// which have since been rebound. A hardcoded number in a verdict line is the thing this repo keeps
+// diagnosing in other people's mechanisms: a figure people learn to read past.
+//
+// So it names the census instead of a number, and REPORTS THE CENSUS'S OWN DATE. A snapshot with no
+// staleness signal rots in silence, which is the same failure one layer up. A missing or undated
+// census is said out loud rather than skipped — this check cannot re-count Figma, and pretending
+// otherwise is how the nine got here.
+export function censusNote(read) {
+  const files = ['tokens/_raw/deprecated-collection-census.tsv', 'tokens/_raw/deprecated-white-census.tsv'];
+  const seen = [];
+  for (const f of files) {
+    const text = read(f);
+    if (text === null) { seen.push(`${f} IS MISSING`); continue; }
+    const date = (text.match(/^# checked:\s*(\S+)/m) || [])[1];
+    const refs = (text.match(/^# references-at-last-sweep:\s*(\d+)/m) || [])[1];
+    if (!date) { seen.push(`${f} carries no "# checked:" date, so nothing can say how stale it is`); continue; }
+    seen.push(`${f} — ${refs || '?'} references as at ${date}`);
+  }
+  return 'this check reads TRANSCRIPTS, so it cannot see a retired style used anywhere Figma has not '
+    + 'been read into one. The live count lives in a dated snapshot instead: '
+    + seen.join('; ')
+    + '. Re-sweep with docs/figma-rebind-deprecated.js before trusting either.';
+}
 
 // A declaration nothing binds any more. Normally that is FOLKLORE — a reason kept for something
 // gone — and it fails.
@@ -376,16 +412,33 @@ function main() {
     + (unverifiable.length ? `, ${unverifiable.length} unverifiable (the read is no longer on disk)` : ''));
   if (deprecated.size) {
     console.log('the retired ones are each an exact duplicate of a live primitive at the same '
-      + 'value — nothing to extract, but nine components still bind the retired NAME, which is a '
-      + 'Figma-side rebinding job');
+      + 'value — nothing to extract, and the rebinding job is Figma-side. ' + censusNote(safeRead));
   }
   process.exit(unknown.size || stale.length ? 1 : 0);
 }
 
 // ---------------------------------------------------------------------------
 function selfTest() {
+
   let failures = 0;
   const miss = (m) => { failures++; console.log(`  MISS ${m}`); };
+
+  // These sat ABOVE `miss` when first written, and every one of them could only ever PASS: an
+  // assertion of the shape `if (!ok) miss(...)` never touches `miss` while it is passing, so the
+  // temporal-dead-zone error only appears once something is actually broken. Five mutants all
+  // "died" of a ReferenceError and proved nothing until the harness insisted a mutant must die of
+  // a recorded MISS. A test that cannot fail is worse than no test: it reports green for both
+  // states, which is this file's own recurring diagnosis.
+  const ok = censusNote((f) => f.includes('collection')
+    ? '# checked: 2026-09-11\n# references-at-last-sweep: 1429\n'
+    : '# checked: 2026-09-11\n# references-at-last-sweep: 141\n');
+  if (!/1429 references as at 2026-09-11/.test(ok)) miss('the note must carry the census COUNT and DATE, not a number of its own');
+  if (!/re-sweep/i.test(ok)) miss('the note must say the snapshot has to be re-swept to be trusted');
+  if (/\bnine\b/.test(ok)) miss('no hardcoded count may come back into this line');
+  const missingCensus = censusNote(() => null);
+  if (!/IS MISSING/.test(missingCensus)) miss('a census this line points at, that is not there, must be REPORTED not skipped');
+  const undated = censusNote(() => 'style\tvalue\trefs\n');
+  if (!/no "# checked:" date/.test(undated)) miss('an undated census must be called out — a snapshot with no date rots in silence');
   const idx = buildIndex(['Text/Primary', 'Base colours/White']);
 
   // Prose that merely CONTAINS `var(--` is not a binding. This repo's own source explains itself

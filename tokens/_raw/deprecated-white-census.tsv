@@ -1,3 +1,10 @@
+# checked: 2026-09-11
+# references-at-last-sweep: 141
+# A SNAPSHOT, not a live reading. Nothing in this repo can re-count it: every check here
+# reads transcripts or TSVs, and these numbers came from sweeping the live Figma file. If
+# this date is old, the file has moved on and the only way to know by how much is to sweep
+# again with docs/figma-rebind-deprecated.js.
+#
 # Every node in aRWjBnTvdLiG50xtwodGwH still carrying the paint style DEPRECATED COLOURS/White
 # (S:026ae8f5dcb56fe34998d453f7cc1492255e5254,) as at 2026-09-11, AFTER the 270 waffle vectors
 # were rebound. Read by nobody: this is a worklist for a person, not an input to a check.
