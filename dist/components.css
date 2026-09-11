@@ -902,14 +902,17 @@
 }
 
 /* Clock in
- * 2 variants captured. PILL
+ * 2 variants captured. PILL. CLIP — fixed 107 wide with clipsContent on. Icon 22 at x=6, label 58 at x=33, so the label overruns the right padding by 4px and Figma cuts it off.
  * pill
+ * Figma clips this frame and its label overruns; nowrap + hidden reproduces that
  */
 .pf-clock-in {
   width: 107px;
   height: 32px;
   padding: 7px 20px 7px 10px;
   border-radius: 999px;
+  overflow: hidden;
+  white-space: nowrap;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -4639,6 +4642,12 @@
 .pf-default-header-background {
   display: block;
   width: 100%;
+}
+
+/* A fixed-size icon inside a clipping flex box must not shrink; in Figma it
+   keeps its size and the frame cuts it off. */
+.pf-clock-in > svg, .pf-clock-in > img {
+  flex: none;
 }
 
 /* Element fix-ups — a component used AS a table cell must stay a table cell. */

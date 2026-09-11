@@ -51,7 +51,7 @@ Tab	40 x 34	6 0	0	10	16px	VERTICAL CENTER MIN
 Navigation tabs	auto x 36	0	0	40	16px SemiBold	HORIZONTAL CENTER MIN	
 Header	auto x 86	0	0	0	16px	VERTICAL MIN MIN	
 Mobile bottom navigation	375 x 76	0	0	0	11px	HORIZONTAL MIN MIN	
-Clock in	107 x 32	7 20 7 10	20	5	16px	HORIZONTAL CENTER CENTER	PILL
+Clock in	107 x 32	7 20 7 10	20	5	16px	HORIZONTAL CENTER CENTER	PILL. CLIP — fixed 107 wide with clipsContent on. Icon 22 at x=6, label 58 at x=33, so the label overruns the right padding by 4px and Figma cuts it off.
 Filter tab single	224 x 100	20	0	5	24px Regular	VERTICAL MIN CENTER	
 Top bar app context	242 x 66	0	0	0	24px	HORIZONTAL MIN MIN	
 Metric card	392 x 89	20	8	165	36px		big-number tile

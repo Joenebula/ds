@@ -144,6 +144,36 @@ Listed so the count moving from 149 to 147 has an explanation.
 
 ---
 
+## 6. `Clock in` is unreadable in dark mode — 1.05:1
+
+`Clock in` binds **`Text/Inverted primary`** for its label. That token resolves to White in
+light mode and **Grey Slate `#3e3e3e`** in dark mode.
+
+The component sits on the header band, which in dark mode is the charcoal artwork. Measured
+against the band's own range:
+
+| Mode | Label colour | Band | Contrast |
+|---|---|---|---|
+| Light | White | crimson `#c8102e` | **5.88:1** — passes AA |
+| Dark | Grey Slate `#3e3e3e` | `#2c313c` | **1.22:1** |
+| Dark | Grey Slate `#3e3e3e` | `#343a47` | **1.07:1** |
+| Dark | Grey Slate `#3e3e3e` | `#3a4150` | **1.05:1** |
+
+1.05:1 is not "low contrast", it is invisible. The button renders as an empty outline.
+
+**Why it happens:** "inverted" means *the opposite of the page*, and it does that correctly.
+But this label does not sit on the page — it sits on artwork that is dark in BOTH modes. A
+token that flips with the theme is the wrong kind of token for a surface that does not flip.
+
+**Suggested fix:** bind **`Text/Always white`**, which is White in both modes and gives
+**13.03:1** on `#2c313c` and **11.40:1** on `#343a47`, while leaving light mode unchanged.
+The same question applies to anything else sitting on the header band.
+
+This is the same shape of fault as the two in §3: a token that adapts, paired with a surface
+that does not.
+
+---
+
 ## What happens after you fix any of this
 
 Re-extract and rebuild, and the stylesheet, the component list and the example screens all

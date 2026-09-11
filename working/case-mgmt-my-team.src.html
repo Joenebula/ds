@@ -109,13 +109,23 @@ svg { display: block; }
                  background: var(--pf-bg-light-theme); color: var(--pf-text-theme);
                  display: grid; place-items: center; }
 .hdicon { color: var(--pf-icon-always-white); }
-.pillbtn { display: inline-flex; align-items: center; gap: 5px; height: 32px;
-           padding: 7px 16px 7px 6px; border-radius: 20px; font-size: 16px;   /* Figma: icon starts at x=6, text at x=33, box 107 wide */
-           letter-spacing: -0.01em;   /* Figma: -1% on Search and Clock-in */
-           font-weight: var(--pf-font-weight-regular); background: transparent;
-           color: var(--pf-text-always-white);
-           border: 1px solid var(--pf-border-always-white, var(--pf-icon-always-white));
-           cursor: pointer; }
+/* Clock-in is a component. The hand-written version here had padding 7 16 7 6 from my
+   own measuring; the component says 7 20 7 10. Layout only now — the class owns the box. */
+/* The class carries the component's real box and colours. Only the stroke width and the
+   cursor are page concerns.
+
+   THE ONE OVERRIDE, AND WHY: Clock in binds `Text/Inverted primary`, which is White in
+   light mode and Grey Slate in dark. It sits on the header artwork, which is dark
+   in BOTH modes — so in dark the label measures 1.05-1.22:1 against the band and the
+   button renders as an empty outline. That is a fault in the design system, not in this
+   page; it is written up in docs/FIGMA-ISSUES.md section 6 with the suggested binding
+   (`Text/Always white`, 13.03:1). Overridden here only so the test screen is legible. */
+.pf-clock-in { cursor: pointer; border-width: 1px; border-style: solid; }
+:root[data-theme="dark"] .pf-clock-in,
+.pf-clock-in[data-pf-issue="6"] { color: var(--pf-text-always-white); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .pf-clock-in { color: var(--pf-text-always-white); }
+}
 .pf-search-navigation { display: inline-flex; align-items: center; gap: 7px; width: 150px;
   height: 32px; padding: 0 7px; background: var(--pf-bg-primary);
   color: var(--pf-text-secondary); font-size: 16px; letter-spacing: -0.01em; }
@@ -124,11 +134,18 @@ svg { display: block; }
 
 /* Secondary nav — Figma "[S] Main nav context", 1830x44, which the People First file
    now calls Secondary nav. Its tabs are Nav tabs. */
-.secnav { background: var(--pf-bg-primary); height: 44px;
-          border-bottom: 1px solid var(--pf-border-default-full);
-          display: flex; align-items: stretch; justify-content: center; gap: 0; }
+/* Measured: Secondary nav is 44px, fill `Navigation/Nav bg top`, with a
+   `Border/Default full` rule to either side of the tabs. The hand-written version used
+   --pf-bg-primary, which is white in light mode and so looked right, and a DIFFERENT
+   grey in dark mode — which is the band that showed up. The component class already
+   carries the correct token; using it is the whole fix. */
+.pf-secondary-nav { width: 100%; height: 44px; display: flex; align-items: stretch;
+                    justify-content: center; gap: 0; }
+.pf-secondary-nav::before, .pf-secondary-nav::after {
+  content: ""; flex: 1 1 auto; align-self: flex-end;
+  border-bottom: 1px solid var(--pf-border-default-full); }
 .pf-nav-tabs { height: 44px; justify-content: center; padding: 0 20px; cursor: pointer;
-               font-size: 16px; background: transparent; border: 0;
+               font-size: 16px; border: 0;
                border-bottom: 3px solid transparent; }
 .pf-nav-tabs[data-status="Selected"] { border-bottom-color: var(--pf-border-theme); }
 
@@ -145,7 +162,14 @@ svg { display: block; }
 .ppl-mark { width: 32px; height: 32px; border-radius: 999px; display: grid;
   place-items: center; background: var(--pf-bg-light-theme);
   color: var(--pf-icon-theme); flex: 0 0 auto; }
+/* Tab binds no fill, so it sits on the card. Nav tabs binds `Navigation/Nav bg top` and
+   belongs in the top strip; using it here put a lighter box behind the unselected tab in
+   dark mode. The underline is a child of the Selected variant in Figma, so it is page CSS. */
 .ppl-tabs { display: flex; gap: var(--pf-space-medium); }
+.ppl-tabs .pf-tab, .cats .pf-tab { width: auto; cursor: pointer;
+  border-bottom: 2px solid transparent; }
+.ppl-tabs .pf-tab[data-state="Selected"], .cats .pf-tab[data-state="Selected"] {
+  border-bottom-color: var(--pf-border-theme); }
 .ppl-count { margin: 0; }
 .ppl-grid { list-style: none; margin: 0; padding: 0;
   display: grid; grid-template-columns: repeat(9, minmax(0, 1fr));
@@ -157,14 +181,22 @@ svg { display: block; }
    the Profile image component, so they are page markup here rather than component CSS. */
 .dot { position: absolute; top: 2px; left: 2px; width: 14px; height: 14px;
   border-radius: 999px; border: 2px solid var(--pf-bg-primary); }
-.dot[data-presence="Available"] { background: var(--pf-bg-positive); }
+/* Background/Primary Button and Background/Negative Button — the design system's solid
+   green and red. --pf-bg-positive is Green Panache, a pale wash meant for a surface, and
+   using it made the dot nearly invisible. The dot's OWN binding could not be read: it is
+   in the Case Management frame, which no longer resolves through the plugin API. */
+.dot[data-presence="Available"] { background: var(--pf-bg-primary-button); }
 .dot[data-presence="Away"] { background: var(--pf-bg-negative-button); }
 .kebab { position: absolute; top: 0; right: -14px; width: 20px; height: 20px;
   display: grid; place-items: center; background: none; border: 0; padding: 0;
   cursor: pointer; color: var(--pf-icon-secondary); }
-.pname { font-size: var(--pf-font-size-s); font-weight: var(--pf-font-weight-bold);
+/* Measured on the People component: #Name is 13px Regular Text/Primary and #ID is
+   13px Regular Text/Secondary. Both were guessed here — bold and 11px — and both were
+   wrong. Nothing in this tile is SemiBold. */
+.pname { font-size: 13px; font-weight: var(--pf-font-weight-regular);
   color: var(--pf-text-primary); }
-.prole { font-size: var(--pf-font-size-xs); color: var(--pf-text-secondary); }
+.prole { font-size: 13px; font-weight: var(--pf-font-weight-regular);
+  color: var(--pf-text-secondary); }
 
 /* Department insights — Layout container (magazine style) */
 .pf-layout-container-magazine-style { width: 100%; background: var(--pf-bg-primary);
@@ -176,10 +208,6 @@ svg { display: block; }
 .ins-meta .grow { flex: 1; }
 .linkrow { display: flex; gap: var(--pf-space-large); }
 .cats { display: flex; gap: var(--pf-space-large); flex-wrap: wrap; }
-.cat { font-size: 16px; font-weight: var(--pf-font-weight-regular); color: var(--pf-text-primary); background: none; border: 0;
-       border-bottom: 2px solid transparent; padding: 0 0 6px; cursor: pointer; }
-.cat[aria-selected="true"] { font-weight: var(--pf-font-weight-bold); color: var(--pf-text-theme);
-                             border-bottom-color: var(--pf-border-theme); }
 .btnrow { display: flex; gap: var(--pf-space-large); flex-wrap: wrap; }
 .pf-button { cursor: pointer; }
 .pf-links { text-decoration: none; cursor: pointer; display: inline-flex;
@@ -212,14 +240,14 @@ svg { display: block; }
         <span class="hdtitle"><span class="disc"><!--pf-icon:team 40--></span>HR</span>
         <span class="grow"></span>
         <span class="rightgrp">
-          <button class="pillbtn" type="button"><!--pf-icon:clock 22-->Clock-in</button>
+          <button class="pf-clock-in" data-type="Standard" data-pf-issue="6" type="button"><!--pf-icon:clock 22-->Clock-in</button>
           <span class="hdicon" aria-label="Tasks"><!--pf-icon:tasks 32--></span>
         </span>
       </div>
     </header>
 
     <!-- [S] Main nav context (1830x44) — tabs are Nav tabs -->
-    <nav class="secnav" aria-label="Section">
+    <nav class="pf-secondary-nav" data-mobile="False" aria-label="Section">
       <button class="pf-nav-tabs" data-status="Selected" data-mobile="False" aria-current="page" type="button">Overview</button>
       <button class="pf-nav-tabs" data-status="Unselected" data-mobile="False" type="button">Profile</button>
       <button class="pf-nav-tabs" data-status="Unselected" data-mobile="False" type="button">Schedule</button>
@@ -240,8 +268,8 @@ svg { display: block; }
           <h2 id="ppl" class="pf-text-medium-heading">People</h2>
         </div>
         <nav class="ppl-tabs" aria-label="People view">
-          <button class="pf-nav-tabs" data-status="Selected" data-mobile="False" aria-current="page" type="button">My team</button>
-          <button class="pf-nav-tabs" data-status="Unselected" data-mobile="False" type="button">Out of office</button>
+          <button class="pf-tab" data-state="Selected" data-mobile="No" aria-current="page" type="button">My team</button>
+          <button class="pf-tab" data-state="Default" data-mobile="No" type="button">Out of office</button>
         </nav>
         <p class="ppl-count pf-text-large-heading">34 people connected to you</p>
         <ul class="ppl-grid">
@@ -426,19 +454,19 @@ svg { display: block; }
         </div>
 
         <div class="cats" role="tablist" aria-label="Insight categories">
-          <button class="cat" role="tab" aria-selected="true" type="button">People</button>
-          <button class="cat" role="tab" aria-selected="false" type="button">Time</button>
-          <button class="cat" role="tab" aria-selected="false" type="button">Talent</button>
-          <button class="cat" role="tab" aria-selected="false" type="button">Learning</button>
-          <button class="cat" role="tab" aria-selected="false" type="button">Surveys</button>
-          <button class="cat" role="tab" aria-selected="false" type="button">Recruitment</button>
+          <button class="pf-tab" data-state="Selected" role="tab" aria-selected="true" type="button">People</button>
+          <button class="pf-tab" data-state="Default" role="tab" aria-selected="false" type="button">Time</button>
+          <button class="pf-tab" data-state="Default" role="tab" aria-selected="false" type="button">Talent</button>
+          <button class="pf-tab" data-state="Default" role="tab" aria-selected="false" type="button">Learning</button>
+          <button class="pf-tab" data-state="Default" role="tab" aria-selected="false" type="button">Surveys</button>
+          <button class="pf-tab" data-state="Default" role="tab" aria-selected="false" type="button">Recruitment</button>
         </div>
 
         <div class="btnrow">
-          <button class="pf-button" data-type="Action" type="button"><!--pf-icon:add-plus 14-->Action</button>
-          <button class="pf-button" data-type="Positive" type="button"><!--pf-icon:sort-arrow-ag-grid 14-->Action</button>
-          <button class="pf-button" data-type="Hollow" type="button"><!--pf-icon:edit 14-->Action</button>
-          <button class="pf-button" data-type="Negative" type="button"><!--pf-icon:bin-delete 14-->Action</button>
+          <button class="pf-button" data-type="Action" type="button"><!--pf-icon:add-plus 16-->Action</button>
+          <button class="pf-button" data-type="Positive" type="button"><!--pf-icon:sort-arrow-ag-grid 16-->Action</button>
+          <button class="pf-button" data-type="Hollow" type="button"><!--pf-icon:edit 16-->Action</button>
+          <button class="pf-button" data-type="Negative" type="button"><!--pf-icon:bin-delete 16-->Action</button>
         </div>
       </section>
     </main>

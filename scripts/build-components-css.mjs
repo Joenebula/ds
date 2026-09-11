@@ -166,6 +166,9 @@ function selectorsFor(base, props) {
 // ---- geometry -> declarations ----------------------------------------------
 const num = s => { const n = parseFloat(s); return Number.isFinite(n) ? n : null; };
 
+// Components whose Figma frame clips. Their icons must not shrink — see the fix-up below.
+const clipComponents = new Set();
+
 function geometryDecls(g, notes) {
   if (!g) return [];
   const d = [];
@@ -218,6 +221,18 @@ function geometryDecls(g, notes) {
     if (h !== null && r >= h / 2 - 1) { d.push('border-radius: 999px'); notes.push('pill'); }
     else if (r > 0) d.push(`border-radius: ${r}px`);
   } else if (g.radius === 'mixed') notes.push('corner radius varies per corner in Figma');
+
+  // CLIP in the notes means the Figma frame has clipsContent and a FIXED width, so its
+  // label overruns and is cut off. On the web the same box WRAPS instead, which is a
+  // different shape entirely — Clock in went from one line to two and lost its pill.
+  // A Figma text node with textAutoResize WIDTH_AND_HEIGHT never wraps, so nowrap plus
+  // the clip is the faithful translation, not an embellishment.
+  if (/\bCLIP\b/.test(g.notes || '')) {
+    d.push('overflow: hidden');
+    d.push('white-space: nowrap');
+    notes.push('Figma clips this frame and its label overruns; nowrap + hidden reproduces that');
+    clipComponents.add(cls(g.component));
+  }
 
   // Auto-layout. Direction matters even when the gap is 0 — without it a vertical
   // stack like `Form field` (label above input) lays out sideways.
@@ -476,6 +491,18 @@ out.push('  display: block;');
 out.push('  width: 100%;');
 out.push('}');
 out.push('');
+
+// A clipping flex box squeezes its children instead of overflowing them, so the icon
+// inside Clock in collapsed to a sliver — the box was right and the contents were not.
+// In Figma the icon is a fixed 22x22 and simply overruns. flex:none says the same thing.
+if (clipComponents.size) {
+  out.push('/* A fixed-size icon inside a clipping flex box must not shrink; in Figma it');
+  out.push('   keeps its size and the frame cuts it off. */');
+  out.push([...clipComponents].sort().map(c => `.${c} > svg, .${c} > img`).join(',\n') + ' {');
+  out.push('  flex: none;');
+  out.push('}');
+  out.push('');
+}
 
 out.push('/* Element fix-ups — a component used AS a table cell must stay a table cell. */');
 out.push('td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {');

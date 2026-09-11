@@ -257,7 +257,7 @@ Contents: [Buttons and links](#buttons-and-links) · [Forms](#forms) · [Control
 
 <details><summary>Notes on these components</summary>
 
-- **Clock in** — PILL
+- **Clock in** — PILL. CLIP — fixed 107 wide with clipsContent on. Icon 22 at x=6, label 58 at x=33, so the label overruns the right padding by 4px and Figma cuts it off.
 - **Config child menu** — **binds a primitive** — Base colours/Blue Ocean (background) — so this will not adapt between light and dark until Figma binds a semantic token
 - **Config parent menu** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `open`
 - **Default header background** — **shape only** — no variant of this binds a colour variable in Figma, so the class carries its measured geometry and leaves colour to the page. node 13658:7639 exists in Figma and reads fine — 6 variants across Breakpoint x Darkmode — but it is not among the Navigation page's components, so which page it lives on is unconfirmed. Kept: a live node is not a gap.. Full-bleed header bar; height varies by Breakpoint (see size rows). Fill is a raw colour in Figma, not a variable.. per-variant sizes: `Breakpoint=Desktop` auto x 86, `Breakpoint=Tablet` auto x 74, `Breakpoint=Mobile` auto x 62

@@ -1406,14 +1406,17 @@
 }
 
 /* Clock in
- * 2 variants captured. PILL
+ * 2 variants captured. PILL. CLIP — fixed 107 wide with clipsContent on. Icon 22 at x=6, label 58 at x=33, so the label overruns the right padding by 4px and Figma cuts it off.
  * pill
+ * Figma clips this frame and its label overruns; nowrap + hidden reproduces that
  */
 .pf-clock-in {
   width: 107px;
   height: 32px;
   padding: 7px 20px 7px 10px;
   border-radius: 999px;
+  overflow: hidden;
+  white-space: nowrap;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -5145,6 +5148,12 @@
   width: 100%;
 }
 
+/* A fixed-size icon inside a clipping flex box must not shrink; in Figma it
+   keeps its size and the frame cuts it off. */
+.pf-clock-in > svg, .pf-clock-in > img {
+  flex: none;
+}
+
 /* Element fix-ups — a component used AS a table cell must stay a table cell. */
 td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
   display: table-cell;
@@ -5423,13 +5432,23 @@ svg { display: block; }
                  background: var(--pf-bg-light-theme); color: var(--pf-text-theme);
                  display: grid; place-items: center; }
 .hdicon { color: var(--pf-icon-always-white); }
-.pillbtn { display: inline-flex; align-items: center; gap: 5px; height: 32px;
-           padding: 7px 16px 7px 6px; border-radius: 20px; font-size: 16px;   /* Figma: icon starts at x=6, text at x=33, box 107 wide */
-           letter-spacing: -0.01em;   /* Figma: -1% on Search and Clock-in */
-           font-weight: var(--pf-font-weight-regular); background: transparent;
-           color: var(--pf-text-always-white);
-           border: 1px solid var(--pf-border-always-white, var(--pf-icon-always-white));
-           cursor: pointer; }
+/* Clock-in is a component. The hand-written version here had padding 7 16 7 6 from my
+   own measuring; the component says 7 20 7 10. Layout only now — the class owns the box. */
+/* The class carries the component's real box and colours. Only the stroke width and the
+   cursor are page concerns.
+
+   THE ONE OVERRIDE, AND WHY: Clock in binds `Text/Inverted primary`, which is White in
+   light mode and Grey Slate in dark. It sits on the header artwork, which is dark
+   in BOTH modes — so in dark the label measures 1.05-1.22:1 against the band and the
+   button renders as an empty outline. That is a fault in the design system, not in this
+   page; it is written up in docs/FIGMA-ISSUES.md section 6 with the suggested binding
+   (`Text/Always white`, 13.03:1). Overridden here only so the test screen is legible. */
+.pf-clock-in { cursor: pointer; border-width: 1px; border-style: solid; }
+:root[data-theme="dark"] .pf-clock-in,
+.pf-clock-in[data-pf-issue="6"] { color: var(--pf-text-always-white); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .pf-clock-in { color: var(--pf-text-always-white); }
+}
 .pf-search-navigation { display: inline-flex; align-items: center; gap: 7px; width: 150px;
   height: 32px; padding: 0 7px; background: var(--pf-bg-primary);
   color: var(--pf-text-secondary); font-size: 16px; letter-spacing: -0.01em; }
@@ -5438,11 +5457,18 @@ svg { display: block; }
 
 /* Secondary nav — Figma "[S] Main nav context", 1830x44, which the People First file
    now calls Secondary nav. Its tabs are Nav tabs. */
-.secnav { background: var(--pf-bg-primary); height: 44px;
-          border-bottom: 1px solid var(--pf-border-default-full);
-          display: flex; align-items: stretch; justify-content: center; gap: 0; }
+/* Measured: Secondary nav is 44px, fill `Navigation/Nav bg top`, with a
+   `Border/Default full` rule to either side of the tabs. The hand-written version used
+   --pf-bg-primary, which is white in light mode and so looked right, and a DIFFERENT
+   grey in dark mode — which is the band that showed up. The component class already
+   carries the correct token; using it is the whole fix. */
+.pf-secondary-nav { width: 100%; height: 44px; display: flex; align-items: stretch;
+                    justify-content: center; gap: 0; }
+.pf-secondary-nav::before, .pf-secondary-nav::after {
+  content: ""; flex: 1 1 auto; align-self: flex-end;
+  border-bottom: 1px solid var(--pf-border-default-full); }
 .pf-nav-tabs { height: 44px; justify-content: center; padding: 0 20px; cursor: pointer;
-               font-size: 16px; background: transparent; border: 0;
+               font-size: 16px; border: 0;
                border-bottom: 3px solid transparent; }
 .pf-nav-tabs[data-status="Selected"] { border-bottom-color: var(--pf-border-theme); }
 
@@ -5459,7 +5485,14 @@ svg { display: block; }
 .ppl-mark { width: 32px; height: 32px; border-radius: 999px; display: grid;
   place-items: center; background: var(--pf-bg-light-theme);
   color: var(--pf-icon-theme); flex: 0 0 auto; }
+/* Tab binds no fill, so it sits on the card. Nav tabs binds `Navigation/Nav bg top` and
+   belongs in the top strip; using it here put a lighter box behind the unselected tab in
+   dark mode. The underline is a child of the Selected variant in Figma, so it is page CSS. */
 .ppl-tabs { display: flex; gap: var(--pf-space-medium); }
+.ppl-tabs .pf-tab, .cats .pf-tab { width: auto; cursor: pointer;
+  border-bottom: 2px solid transparent; }
+.ppl-tabs .pf-tab[data-state="Selected"], .cats .pf-tab[data-state="Selected"] {
+  border-bottom-color: var(--pf-border-theme); }
 .ppl-count { margin: 0; }
 .ppl-grid { list-style: none; margin: 0; padding: 0;
   display: grid; grid-template-columns: repeat(9, minmax(0, 1fr));
@@ -5471,14 +5504,22 @@ svg { display: block; }
    the Profile image component, so they are page markup here rather than component CSS. */
 .dot { position: absolute; top: 2px; left: 2px; width: 14px; height: 14px;
   border-radius: 999px; border: 2px solid var(--pf-bg-primary); }
-.dot[data-presence="Available"] { background: var(--pf-bg-positive); }
+/* Background/Primary Button and Background/Negative Button — the design system's solid
+   green and red. --pf-bg-positive is Green Panache, a pale wash meant for a surface, and
+   using it made the dot nearly invisible. The dot's OWN binding could not be read: it is
+   in the Case Management frame, which no longer resolves through the plugin API. */
+.dot[data-presence="Available"] { background: var(--pf-bg-primary-button); }
 .dot[data-presence="Away"] { background: var(--pf-bg-negative-button); }
 .kebab { position: absolute; top: 0; right: -14px; width: 20px; height: 20px;
   display: grid; place-items: center; background: none; border: 0; padding: 0;
   cursor: pointer; color: var(--pf-icon-secondary); }
-.pname { font-size: var(--pf-font-size-s); font-weight: var(--pf-font-weight-bold);
+/* Measured on the People component: #Name is 13px Regular Text/Primary and #ID is
+   13px Regular Text/Secondary. Both were guessed here — bold and 11px — and both were
+   wrong. Nothing in this tile is SemiBold. */
+.pname { font-size: 13px; font-weight: var(--pf-font-weight-regular);
   color: var(--pf-text-primary); }
-.prole { font-size: var(--pf-font-size-xs); color: var(--pf-text-secondary); }
+.prole { font-size: 13px; font-weight: var(--pf-font-weight-regular);
+  color: var(--pf-text-secondary); }
 
 /* Department insights — Layout container (magazine style) */
 .pf-layout-container-magazine-style { width: 100%; background: var(--pf-bg-primary);
@@ -5490,10 +5531,6 @@ svg { display: block; }
 .ins-meta .grow { flex: 1; }
 .linkrow { display: flex; gap: var(--pf-space-large); }
 .cats { display: flex; gap: var(--pf-space-large); flex-wrap: wrap; }
-.cat { font-size: 16px; font-weight: var(--pf-font-weight-regular); color: var(--pf-text-primary); background: none; border: 0;
-       border-bottom: 2px solid transparent; padding: 0 0 6px; cursor: pointer; }
-.cat[aria-selected="true"] { font-weight: var(--pf-font-weight-bold); color: var(--pf-text-theme);
-                             border-bottom-color: var(--pf-border-theme); }
 .btnrow { display: flex; gap: var(--pf-space-large); flex-wrap: wrap; }
 .pf-button { cursor: pointer; }
 .pf-links { text-decoration: none; cursor: pointer; display: inline-flex;
@@ -5526,14 +5563,14 @@ svg { display: block; }
         <span class="hdtitle"><span class="disc"><svg class="pf-icon" width="40" height="40" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M8.56 19.28C9.29 19.28 10 19.57 10.52 20.09C11.04 20.61 11.33 21.32 11.33 22.06C11.33 22.61 11.78 23.06 12.33 23.06C12.89 23.06 13.33 22.61 13.33 22.06C13.33 20.79 12.83 19.57 11.93 18.68C11.04 17.78 9.82 17.28 8.56 17.28H4.78C3.51 17.28 2.3 17.78 1.4 18.68C.5 19.57 0 20.79 0 22.06V23.94C0 24.5 .45 24.94 1 24.94C1.55 24.94 2 24.5 2 23.94V22.06C2 21.32 2.29 20.61 2.81 20.09C3.33 19.57 4.04 19.28 4.78 19.28H8.56Z"/><path fill-rule="evenodd" d="M7.14 8.89C5.87 8.89 4.83 9.92 4.83 11.19C4.83 12.47 5.87 13.5 7.14 13.5C8.41 13.5 9.44 12.47 9.44 11.19C9.44 9.92 8.41 8.89 7.14 8.89ZM2.83 11.19C2.83 8.82 4.76 6.89 7.14 6.89C9.52 6.89 11.44 8.82 11.44 11.19C11.44 13.57 9.52 15.5 7.14 15.5C4.76 15.5 2.83 13.57 2.83 11.19Z"/><path fill-rule="evenodd" d="M28.86 8.89C27.59 8.89 26.56 9.92 26.56 11.19C26.56 12.47 27.59 13.5 28.86 13.5C30.13 13.5 31.17 12.47 31.17 11.19C31.17 9.92 30.13 8.89 28.86 8.89ZM24.56 11.19C24.56 8.82 26.48 6.89 28.86 6.89C31.24 6.89 33.17 8.82 33.17 11.19C33.17 13.57 31.24 15.5 28.86 15.5C26.48 15.5 24.56 13.57 24.56 11.19Z"/><path fill-rule="evenodd" d="M27.44 19.28C26.71 19.28 26 19.57 25.48 20.09C24.96 20.61 24.67 21.32 24.67 22.06C24.67 22.61 24.22 23.06 23.67 23.06C23.11 23.06 22.67 22.61 22.67 22.06C22.67 20.79 23.17 19.57 24.07 18.68C24.96 17.78 26.18 17.28 27.44 17.28H31.22C32.49 17.28 33.7 17.78 34.6 18.68C35.5 19.57 36 20.79 36 22.06V23.94C36 24.5 35.55 24.94 35 24.94C34.45 24.94 34 24.5 34 23.94V22.06C34 21.32 33.71 20.61 33.19 20.09C32.67 19.57 31.96 19.28 31.22 19.28H27.44Z"/><path fill-rule="evenodd" d="M18 7C15.77 7 13.96 8.81 13.96 11.04C13.96 13.27 15.77 15.07 18 15.07C20.23 15.07 22.04 13.27 22.04 11.04C22.04 8.81 20.23 7 18 7ZM11.96 11.04C11.96 7.7 14.67 5 18 5C21.33 5 24.04 7.7 24.04 11.04C24.04 14.37 21.33 17.07 18 17.07C14.67 17.07 11.96 14.37 11.96 11.04Z"/><path fill-rule="evenodd" d="M15.48 22.11C14.41 22.11 13.38 22.54 12.63 23.29C11.87 24.05 11.44 25.08 11.44 26.15V28.67C11.44 29.22 11 29.67 10.44 29.67C9.89 29.67 9.44 29.22 9.44 28.67V26.15C9.44 24.55 10.08 23.01 11.21 21.88C12.34 20.75 13.88 20.11 15.48 20.11H20.52C22.12 20.11 23.66 20.75 24.79 21.88C25.92 23.01 26.56 24.55 26.56 26.15V28.67C26.56 29.22 26.11 29.67 25.56 29.67C25 29.67 24.56 29.22 24.56 28.67V26.15C24.56 25.08 24.13 24.05 23.37 23.29C22.62 22.54 21.59 22.11 20.52 22.11H15.48Z"/></svg></span>HR</span>
         <span class="grow"></span>
         <span class="rightgrp">
-          <button class="pillbtn" type="button"><svg class="pf-icon" width="22" height="22" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M18 5.63C11.17 5.63 5.63 11.17 5.63 18C5.63 24.83 11.17 30.38 18 30.38C24.83 30.38 30.38 24.83 30.38 18C30.38 11.17 24.83 5.63 18 5.63ZM3.38 18C3.38 9.92 9.92 3.38 18 3.38C26.08 3.38 32.63 9.92 32.63 18C32.63 26.08 26.08 32.63 18 32.63C9.92 32.63 3.38 26.08 3.38 18Z"/><path fill-rule="evenodd" d="M18 9.38C18.62 9.38 19.13 9.88 19.13 10.5V17.53L23.3 21.7C23.73 22.14 23.73 22.86 23.3 23.3C22.86 23.73 22.14 23.73 21.7 23.3L17.2 18.8C16.99 18.58 16.88 18.3 16.88 18V10.5C16.88 9.88 17.38 9.38 18 9.38Z"/></svg>Clock-in</button>
+          <button class="pf-clock-in" data-type="Standard" data-pf-issue="6" type="button"><svg class="pf-icon" width="22" height="22" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M18 5.63C11.17 5.63 5.63 11.17 5.63 18C5.63 24.83 11.17 30.38 18 30.38C24.83 30.38 30.38 24.83 30.38 18C30.38 11.17 24.83 5.63 18 5.63ZM3.38 18C3.38 9.92 9.92 3.38 18 3.38C26.08 3.38 32.63 9.92 32.63 18C32.63 26.08 26.08 32.63 18 32.63C9.92 32.63 3.38 26.08 3.38 18Z"/><path fill-rule="evenodd" d="M18 9.38C18.62 9.38 19.13 9.88 19.13 10.5V17.53L23.3 21.7C23.73 22.14 23.73 22.86 23.3 23.3C22.86 23.73 22.14 23.73 21.7 23.3L17.2 18.8C16.99 18.58 16.88 18.3 16.88 18V10.5C16.88 9.88 17.38 9.38 18 9.38Z"/></svg>Clock-in</button>
           <span class="hdicon" aria-label="Tasks"><svg class="pf-icon" width="32" height="32" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M10.5 7.13C10 7.13 9.53 7.32 9.17 7.67C8.82 8.03 8.63 8.5 8.63 9V27C8.63 27.5 8.82 27.97 9.17 28.33C9.53 28.68 10 28.88 10.5 28.88H14.42C15.04 28.88 15.55 29.38 15.55 30C15.55 30.62 15.04 31.13 14.42 31.13H10.5C9.41 31.13 8.36 30.69 7.58 29.92C6.81 29.14 6.38 28.09 6.38 27V9C6.38 7.91 6.81 6.86 7.58 6.08C8.36 5.31 9.41 4.88 10.5 4.88H22.5C23.59 4.88 24.64 5.31 25.42 6.08C26.19 6.86 26.63 7.91 26.63 9V21C26.63 21.62 26.12 22.13 25.5 22.13C24.88 22.13 24.38 21.62 24.38 21V9C24.38 8.5 24.18 8.03 23.83 7.67C23.47 7.32 23 7.13 22.5 7.13H10.5Z"/><path fill-rule="evenodd" d="M30.8 23.7C31.23 24.14 31.23 24.86 30.8 25.3L24.8 31.3C24.36 31.73 23.64 31.73 23.2 31.3L20.2 28.3C19.77 27.86 19.77 27.14 20.2 26.7C20.64 26.27 21.36 26.27 21.8 26.7L24 28.91L29.2 23.7C29.64 23.27 30.36 23.27 30.8 23.7Z"/><path fill-rule="evenodd" d="M12.38 13C12.38 12.38 12.88 11.88 13.5 11.88H19.5C20.12 11.88 20.63 12.38 20.63 13C20.63 13.62 20.12 14.13 19.5 14.13H13.5C12.88 14.13 12.38 13.62 12.38 13Z"/><path fill-rule="evenodd" d="M12.38 19.13C12.38 18.5 12.88 18 13.5 18H19.5C20.12 18 20.63 18.5 20.63 19.13C20.63 19.75 20.12 20.25 19.5 20.25H13.5C12.88 20.25 12.38 19.75 12.38 19.13Z"/><path fill-rule="evenodd" d="M12.38 25.13C12.38 24.5 12.88 24 13.5 24H16.5C17.12 24 17.63 24.5 17.63 25.13C17.63 25.75 17.12 26.25 16.5 26.25H13.5C12.88 26.25 12.38 25.75 12.38 25.13Z"/></svg></span>
         </span>
       </div>
     </header>
 
     <!-- [S] Main nav context (1830x44) — tabs are Nav tabs -->
-    <nav class="secnav" aria-label="Section">
+    <nav class="pf-secondary-nav" data-mobile="False" aria-label="Section">
       <button class="pf-nav-tabs" data-status="Selected" data-mobile="False" aria-current="page" type="button">Overview</button>
       <button class="pf-nav-tabs" data-status="Unselected" data-mobile="False" type="button">Profile</button>
       <button class="pf-nav-tabs" data-status="Unselected" data-mobile="False" type="button">Schedule</button>
@@ -5554,8 +5591,8 @@ svg { display: block; }
           <h2 id="ppl" class="pf-text-medium-heading">People</h2>
         </div>
         <nav class="ppl-tabs" aria-label="People view">
-          <button class="pf-nav-tabs" data-status="Selected" data-mobile="False" aria-current="page" type="button">My team</button>
-          <button class="pf-nav-tabs" data-status="Unselected" data-mobile="False" type="button">Out of office</button>
+          <button class="pf-tab" data-state="Selected" data-mobile="No" aria-current="page" type="button">My team</button>
+          <button class="pf-tab" data-state="Default" data-mobile="No" type="button">Out of office</button>
         </nav>
         <p class="ppl-count pf-text-large-heading">34 people connected to you</p>
         <ul class="ppl-grid">
@@ -5740,19 +5777,19 @@ svg { display: block; }
         </div>
 
         <div class="cats" role="tablist" aria-label="Insight categories">
-          <button class="cat" role="tab" aria-selected="true" type="button">People</button>
-          <button class="cat" role="tab" aria-selected="false" type="button">Time</button>
-          <button class="cat" role="tab" aria-selected="false" type="button">Talent</button>
-          <button class="cat" role="tab" aria-selected="false" type="button">Learning</button>
-          <button class="cat" role="tab" aria-selected="false" type="button">Surveys</button>
-          <button class="cat" role="tab" aria-selected="false" type="button">Recruitment</button>
+          <button class="pf-tab" data-state="Selected" role="tab" aria-selected="true" type="button">People</button>
+          <button class="pf-tab" data-state="Default" role="tab" aria-selected="false" type="button">Time</button>
+          <button class="pf-tab" data-state="Default" role="tab" aria-selected="false" type="button">Talent</button>
+          <button class="pf-tab" data-state="Default" role="tab" aria-selected="false" type="button">Learning</button>
+          <button class="pf-tab" data-state="Default" role="tab" aria-selected="false" type="button">Surveys</button>
+          <button class="pf-tab" data-state="Default" role="tab" aria-selected="false" type="button">Recruitment</button>
         </div>
 
         <div class="btnrow">
-          <button class="pf-button" data-type="Action" type="button"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path d="M19.13 7.5C19.13 6.88 18.62 6.38 18 6.38C17.38 6.38 16.88 6.88 16.88 7.5V16.88H7.5C6.88 16.88 6.38 17.38 6.38 18C6.38 18.62 6.88 19.13 7.5 19.13H16.88V28.5C16.88 29.12 17.38 29.63 18 29.63C18.62 29.63 19.13 29.12 19.13 28.5V19.13H28.5C29.12 19.13 29.63 18.62 29.63 18C29.63 17.38 29.12 16.88 28.5 16.88H19.13V7.5Z"/></g></svg>Action</button>
-          <button class="pf-button" data-type="Positive" type="button"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M7.96 15.43C7.79 15.01 7.88 14.53 8.2 14.2L17.2 5.2C17.64 4.76 18.36 4.76 18.8 5.2L27.8 14.2C28.12 14.53 28.21 15.01 28.04 15.43C27.86 15.85 27.45 16.13 27 16.13L9 16.13C8.55 16.13 8.14 15.85 7.96 15.43ZM24.28 13.88L18 7.59L11.72 13.88L24.28 13.88Z"/><path d="M8.2 21.8C7.88 21.47 7.79 20.99 7.96 20.57C8.14 20.15 8.55 19.88 9 19.88L27 19.88C27.45 19.88 27.86 20.15 28.04 20.57C28.21 20.99 28.12 21.47 27.8 21.8L18.8 30.8C18.36 31.24 17.64 31.24 17.2 30.8L8.2 21.8ZM18 28.41L24.28 22.13L11.72 22.13L18 28.41Z"/></svg>Action</button>
-          <button class="pf-button" data-type="Hollow" type="button"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M20.95 7.45C21.96 6.45 23.33 5.88 24.75 5.88C26.17 5.88 27.54 6.45 28.55 7.45C29.55 8.46 30.12 9.83 30.12 11.25C30.12 12.67 29.55 14.04 28.55 15.05L12.8 30.8C12.58 31.01 12.3 31.13 12 31.13H6C5.38 31.13 4.88 30.62 4.88 30V24C4.88 23.7 4.99 23.42 5.2 23.2L20.95 7.45ZM24.75 8.13C23.92 8.13 23.13 8.46 22.55 9.05L7.13 24.47V28.88H11.53L26.95 13.45C27.54 12.87 27.87 12.08 27.87 11.25C27.87 10.42 27.54 9.63 26.95 9.05C26.37 8.46 25.58 8.13 24.75 8.13Z"/><path fill-rule="evenodd" d="M19.45 8.95C19.89 8.52 20.61 8.52 21.05 8.95L27.05 14.95C27.48 15.39 27.48 16.11 27.05 16.55C26.61 16.98 25.89 16.98 25.45 16.55L19.45 10.55C19.02 10.11 19.02 9.39 19.45 8.95Z"/><path fill-rule="evenodd" d="M12.2 28.8L6.2 22.8L7.8 21.2L13.8 27.2L12.2 28.8Z"/></svg>Action</button>
-          <button class="pf-button" data-type="Negative" type="button"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path d="M15 15.38C15.62 15.38 16.13 15.88 16.13 16.5V25.5C16.13 26.12 15.62 26.63 15 26.63C14.38 26.63 13.88 26.12 13.88 25.5V16.5C13.88 15.88 14.38 15.38 15 15.38Z"/><path d="M22.13 16.5C22.13 15.88 21.62 15.38 21 15.38C20.38 15.38 19.88 15.88 19.88 16.5V25.5C19.88 26.12 20.38 26.63 21 26.63C21.62 26.63 22.13 26.12 22.13 25.5V16.5Z"/><path fill-rule="evenodd" d="M12.38 9.38V6C12.38 5.3 12.65 4.64 13.14 4.14C13.64 3.65 14.3 3.38 15 3.38H21C21.7 3.38 22.36 3.65 22.86 4.14C23.35 4.64 23.63 5.3 23.63 6V9.38H28.48C28.49 9.37 28.5 9.37 28.52 9.38H30C30.62 9.38 31.13 9.88 31.13 10.5C31.13 11.12 30.62 11.63 30 11.63H29.54L28.12 28.55C28.11 29.63 27.68 30.66 26.92 31.42C26.14 32.19 25.09 32.62 24 32.62H12C10.91 32.62 9.86 32.19 9.08 31.42C8.32 30.66 7.89 29.63 7.88 28.55L6.46 11.63H6C5.38 11.63 4.88 11.12 4.88 10.5C4.88 9.88 5.38 9.38 6 9.38H7.48C7.5 9.37 7.51 9.37 7.52 9.38H12.38ZM14.73 5.73C14.81 5.66 14.9 5.63 15 5.63H21C21.1 5.63 21.19 5.66 21.27 5.73C21.34 5.81 21.38 5.9 21.38 6V9.38H14.63V6C14.63 5.9 14.66 5.81 14.73 5.73ZM8.72 11.63L10.12 28.41C10.12 28.44 10.13 28.47 10.13 28.5C10.13 29 10.32 29.47 10.67 29.83C11.03 30.18 11.5 30.37 12 30.37H24C24.5 30.37 24.97 30.18 25.33 29.83C25.68 29.47 25.88 29 25.88 28.5C25.88 28.47 25.88 28.44 25.88 28.41L27.28 11.63H8.72Z"/></g></svg>Action</button>
+          <button class="pf-button" data-type="Action" type="button"><svg class="pf-icon" width="16" height="16" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path d="M19.13 7.5C19.13 6.88 18.62 6.38 18 6.38C17.38 6.38 16.88 6.88 16.88 7.5V16.88H7.5C6.88 16.88 6.38 17.38 6.38 18C6.38 18.62 6.88 19.13 7.5 19.13H16.88V28.5C16.88 29.12 17.38 29.63 18 29.63C18.62 29.63 19.13 29.12 19.13 28.5V19.13H28.5C29.12 19.13 29.63 18.62 29.63 18C29.63 17.38 29.12 16.88 28.5 16.88H19.13V7.5Z"/></g></svg>Action</button>
+          <button class="pf-button" data-type="Positive" type="button"><svg class="pf-icon" width="16" height="16" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M7.96 15.43C7.79 15.01 7.88 14.53 8.2 14.2L17.2 5.2C17.64 4.76 18.36 4.76 18.8 5.2L27.8 14.2C28.12 14.53 28.21 15.01 28.04 15.43C27.86 15.85 27.45 16.13 27 16.13L9 16.13C8.55 16.13 8.14 15.85 7.96 15.43ZM24.28 13.88L18 7.59L11.72 13.88L24.28 13.88Z"/><path d="M8.2 21.8C7.88 21.47 7.79 20.99 7.96 20.57C8.14 20.15 8.55 19.88 9 19.88L27 19.88C27.45 19.88 27.86 20.15 28.04 20.57C28.21 20.99 28.12 21.47 27.8 21.8L18.8 30.8C18.36 31.24 17.64 31.24 17.2 30.8L8.2 21.8ZM18 28.41L24.28 22.13L11.72 22.13L18 28.41Z"/></svg>Action</button>
+          <button class="pf-button" data-type="Hollow" type="button"><svg class="pf-icon" width="16" height="16" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M20.95 7.45C21.96 6.45 23.33 5.88 24.75 5.88C26.17 5.88 27.54 6.45 28.55 7.45C29.55 8.46 30.12 9.83 30.12 11.25C30.12 12.67 29.55 14.04 28.55 15.05L12.8 30.8C12.58 31.01 12.3 31.13 12 31.13H6C5.38 31.13 4.88 30.62 4.88 30V24C4.88 23.7 4.99 23.42 5.2 23.2L20.95 7.45ZM24.75 8.13C23.92 8.13 23.13 8.46 22.55 9.05L7.13 24.47V28.88H11.53L26.95 13.45C27.54 12.87 27.87 12.08 27.87 11.25C27.87 10.42 27.54 9.63 26.95 9.05C26.37 8.46 25.58 8.13 24.75 8.13Z"/><path fill-rule="evenodd" d="M19.45 8.95C19.89 8.52 20.61 8.52 21.05 8.95L27.05 14.95C27.48 15.39 27.48 16.11 27.05 16.55C26.61 16.98 25.89 16.98 25.45 16.55L19.45 10.55C19.02 10.11 19.02 9.39 19.45 8.95Z"/><path fill-rule="evenodd" d="M12.2 28.8L6.2 22.8L7.8 21.2L13.8 27.2L12.2 28.8Z"/></svg>Action</button>
+          <button class="pf-button" data-type="Negative" type="button"><svg class="pf-icon" width="16" height="16" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path d="M15 15.38C15.62 15.38 16.13 15.88 16.13 16.5V25.5C16.13 26.12 15.62 26.63 15 26.63C14.38 26.63 13.88 26.12 13.88 25.5V16.5C13.88 15.88 14.38 15.38 15 15.38Z"/><path d="M22.13 16.5C22.13 15.88 21.62 15.38 21 15.38C20.38 15.38 19.88 15.88 19.88 16.5V25.5C19.88 26.12 20.38 26.63 21 26.63C21.62 26.63 22.13 26.12 22.13 25.5V16.5Z"/><path fill-rule="evenodd" d="M12.38 9.38V6C12.38 5.3 12.65 4.64 13.14 4.14C13.64 3.65 14.3 3.38 15 3.38H21C21.7 3.38 22.36 3.65 22.86 4.14C23.35 4.64 23.63 5.3 23.63 6V9.38H28.48C28.49 9.37 28.5 9.37 28.52 9.38H30C30.62 9.38 31.13 9.88 31.13 10.5C31.13 11.12 30.62 11.63 30 11.63H29.54L28.12 28.55C28.11 29.63 27.68 30.66 26.92 31.42C26.14 32.19 25.09 32.62 24 32.62H12C10.91 32.62 9.86 32.19 9.08 31.42C8.32 30.66 7.89 29.63 7.88 28.55L6.46 11.63H6C5.38 11.63 4.88 11.12 4.88 10.5C4.88 9.88 5.38 9.38 6 9.38H7.48C7.5 9.37 7.51 9.37 7.52 9.38H12.38ZM14.73 5.73C14.81 5.66 14.9 5.63 15 5.63H21C21.1 5.63 21.19 5.66 21.27 5.73C21.34 5.81 21.38 5.9 21.38 6V9.38H14.63V6C14.63 5.9 14.66 5.81 14.73 5.73ZM8.72 11.63L10.12 28.41C10.12 28.44 10.13 28.47 10.13 28.5C10.13 29 10.32 29.47 10.67 29.83C11.03 30.18 11.5 30.37 12 30.37H24C24.5 30.37 24.97 30.18 25.33 29.83C25.68 29.47 25.88 29 25.88 28.5C25.88 28.47 25.88 28.44 25.88 28.41L27.28 11.63H8.72Z"/></g></svg>Action</button>
         </div>
       </section>
     </main>
