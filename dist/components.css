@@ -36,7 +36,7 @@
 }
 
 /* AG Filter menus
- * 3 variants captured
+ * 3 variants captured. RE-READ 2026-09-11: UNCHANGED — Filter menu/Background, Filter menu/Border, Text/Primary and Text/Disabled all still bound (screened with get_variable_defs on 30782:46404)
  * Figma draws this 208px wide; treated as layout, not a rule
  */
 .pf-ag-filter-menus {
@@ -74,7 +74,7 @@
 }
 
 /* AG field
- * 2 variants captured
+ * 2 variants captured. RE-READ 2026-09-11: UNCHANGED — Background/Primary, Filter menu/Border, Icons/Icon - Primary and Text/Disabled all still bound (screened with get_variable_defs on 30794:46519)
  * Figma draws this 140px wide; treated as layout, not a rule
  */
 .pf-ag-field {
@@ -106,7 +106,7 @@
 }
 
 /* AG sort item
- * 3 variants captured
+ * 3 variants captured. RE-READ 2026-09-11: State=Default is UNCHANGED. State=Hover and State=Active have moved Background/Theme -> Background/Light theme and are KNOWN STALE. Text/Primary is unchanged on all three
  */
 .pf-ag-sort-item {
   height: 52px;
@@ -139,7 +139,7 @@
 }
 
 /* AI Assistant
- * 3 variants captured. RE-READ 2026-09-11: Base colours/Default Pink is bound NOWHERE in this component any more, yet the capture records it as the text colour for Type=Default and Type=Active chat — those two rows are STALE. Today it binds Text/Primary, Text/Secondary and Text/Link. Its stroke has moved Border/Default -> Border/Default full, which is unextracted, so the rows were left rather than half-corrected. It also carries 11 raw #007ff3 borders with no variable behind them
+ * 3 variants captured. RE-READ 2026-09-11, CONFIRMED SAME DAY by a sound method: get_variable_defs on the component set 27507:11696 does NOT contain Base colours/Default Pink, and absence from the whole subtree IS absence on the root. So the Type=Default and Type=Active chat text rows are genuinely STALE. Today it binds Text/Primary, Text/Secondary and Text/Link. Its stroke has moved Border/Default -> Border/Default full, which is unextracted, so the rows were left rather than half-corrected. It also carries 11 raw #007ff3 borders with no variable behind them
  * Figma draws this 1628px wide; treated as layout, not a rule
  */
 .pf-ai-assistant {
@@ -257,7 +257,7 @@
 }
 
 /* AI card modal
- * 1 variant captured. RE-READ 2026-09-11: its fill is no longer a flat token. The root paints TWO stacked linear-gradients — an opaque white base under the AI gradient at 5% — so the captured Background/Primary is STALE and no fill token can replace it. Its border is a raw #007ff3 and its shadow binds Border/Border - Drop shadow
+ * 1 variant captured. RE-READ 2026-09-11, QUALIFIED SAME DAY: the render shows the root painted with two stacked linear-gradients and Figma does hold an AI gradient variable for this component. But the earlier claim that the captured Background/Primary is therefore STALE is NOT PROVEN — get_variable_defs on 22814:16588 still returns Background/Primary, so the token is bound somewhere in the component and the render cannot say whether that is the root. Left as captured. Its shadow binds Border/Border - Drop shadow
  * Figma draws this 440px wide; treated as layout, not a rule
  * Figma draws this 505px tall; emitted as a minimum, since content decides the real height
  */
@@ -412,7 +412,7 @@
 }
 
 /* Add attachment
- * 1 variant captured. RE-READ 2026-09-11: root binds nothing (no fill, no stroke) — UNCHANGED. Figma-side: the note body is Open Sans Medium (500) and an italic line, both outside the 400/600 system; the attachment and note cards bind Border/Default full, the blocked split token, on their card borders rather than on the root
+ * 1 variant captured. RE-READ 2026-09-11: UNCHANGED. The root is an ordinary auto-layout frame and the render gives it no fill and no stroke, which matches the captured blank columns either way. Figma-side: the note body is Open Sans Medium (500) and an italic line, both outside the 400/600 system; the attachment and note cards bind Border/Default full, the blocked split token, on their card borders
  * Figma draws this 440px wide; treated as layout, not a rule
  */
 .pf-add-attachment {
@@ -1132,7 +1132,7 @@
 }
 
 /* Control
- * 2 variants captured. RE-READ 2026-09-11: FLATTENED TO VECTOR ART. Figma now draws both Radio=No and Radio=Yes as an exported SVG and the component binds NO colour variable at all. The captured rows still say Background/Primary + Icons/Icon - Disabled, so .pf-control generates a fill and border from tokens Figma no longer binds — the CSS can now drift from the artwork with nothing able to notice
+ * 2 variants captured. RE-READ 2026-09-11, CORRECTED SAME DAY: UNCHANGED. The earlier note on this row said Figma binds NO colour variable here any more and .pf-control was generating a fill and border from nothing. That was false: get_variable_defs on 30641:14910 returns Background/Primary + Icons/Icon - Disabled, exactly the captured rows. The render draws the control as an exported SVG, which hides the bindings but does not remove them
  * Figma sets 10px padding on a 20px-tall box, leaving -2px for content; dropped, as the size wins
  */
 .pf-control {
@@ -1693,7 +1693,7 @@
 }
 
 /* Footer (AG)
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: UNCHANGED — Table/Card and Text/Primary both still bound (screened with get_variable_defs on 27725:51239)
  * Figma draws this 1560px wide; treated as layout, not a rule
  */
 .pf-footer-ag {
@@ -2181,7 +2181,7 @@
 }
 
 /* Manage columns
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: UNCHANGED — Background/Primary and Text/Primary both still bound (screened with get_variable_defs on 20798:19026). A child of it binds Border/Default hidden, the other half of the split token
  * Figma draws this 520px wide; treated as layout, not a rule
  */
 .pf-manage-columns {
@@ -2314,7 +2314,7 @@
 }
 
 /* Multi-select checkbox
- * 4 variants captured
+ * 4 variants captured. RE-READ 2026-09-11: Default, Selected and Mixed selection are UNCHANGED. State=Hover has moved Background/Theme -> Background/Light theme and is KNOWN STALE. Mixed selection renders as a flat SVG with no bindings in the code, but get_variable_defs on 9099:90323 returns Icons/Icon - Theme exactly as captured — a second demonstration that the render cannot prove an absence
  */
 .pf-multi-select-checkbox {
   width: 20px;
@@ -2798,7 +2798,7 @@
 }
 
 /* Repeating group
- * 1 variant captured. RE-READ 2026-09-11: root binds NO fill and NO stroke — the Background/Primary and Border/Form input in this component are on its descendant form fields, not on the root. Confirms the cleared row from b80a234
+ * 1 variant captured. RE-READ 2026-09-11: UNCHANGED. The Background/Primary and Border/Form input this component holds are on its descendant form fields — every one of them appears on a child in the render — so the captured blank fill and stroke stand. Confirms the cleared row from b80a234
  */
 .pf-repeating-group {
   display: inline-flex;
@@ -2890,7 +2890,7 @@
 }
 
 /* Selected action banner
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: UNCHANGED — Background/Tertiary and Text/Primary both still bound (screened with get_variable_defs on 23862:16596)
  */
 .pf-selected-action-banner {
   height: 48px;
@@ -3311,7 +3311,7 @@
 }
 
 /* Table (AG)
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: SCREENED, NOT MEASURED. get_design_context refuses this node as too large, so it was checked with get_variable_defs on 27737:47827 instead: Table/Border and Text/Primary are both still bound and no captured token has gone. That screens the component; it does not re-measure which node holds which role. Needs the python extract-from-transcript route to be read properly
  * Figma draws this 1705px wide; treated as layout, not a rule
  */
 .pf-table-ag {
@@ -3336,7 +3336,7 @@
 }
 
 /* Table action bar
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: UNCHANGED — Text/Theme still bound (screened with get_variable_defs on 27742:15071)
  * Figma draws this 1654px wide; treated as layout, not a rule
  */
 .pf-table-action-bar {
@@ -3360,7 +3360,7 @@
 }
 
 /* Table card (AG)
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: SCREENED, NOT MEASURED — same as Table (AG), and for the same reason: it embeds a whole table, so its variable set is the table's. Table/Card and Text/Theme are both still bound. Needs the python extract-from-transcript route
  */
 .pf-table-card-ag {
   padding: 20px;
@@ -3386,7 +3386,7 @@
 }
 
 /* Table cell (AG)
- * 6 variants captured. rows are TALL
+ * 6 variants captured. rows are TALL. RE-READ 2026-09-11: all six rows are KNOWN STALE and none could be corrected. Stroke Border/Default -> Border/Default full on all six (invisible to the render, found by get_variable_defs on 27719:3033); fill Background/Theme -> Background/Light theme on the two Style=Hover rows. Both replacements are unextracted. The Table/Primary cell and Table/Stripe cell fills are unchanged
  */
 .pf-table-cell-ag {
   height: 58px;
@@ -3433,7 +3433,7 @@
 }
 
 /* Table header (AG)
- * 3 variants captured
+ * 3 variants captured. RE-READ 2026-09-11: fill Table/Header cell is unchanged on all three Alignment variants. The stroke has moved Border/Default -> Border/Default full, which is unextracted, so all three rows are left as captured and are KNOWN STALE. NOTE THE METHOD: the render emits no border class at all here — the binding was only visible to get_variable_defs on 27719:2334
  */
 .pf-table-header-ag {
   height: 54px;
@@ -3468,7 +3468,7 @@
 }
 
 /* Table header icons
- * 5 variants captured
+ * 5 variants captured. RE-READ 2026-09-11: all four captured coloured rows have moved Background/Theme -> Background/Light theme and are KNOWN STALE. Figma has also GROWN this component from the 5 captured variants to 10: Sort/Hover, Filter/Default, Filter/Hover, Context menu/Default and Context menu/Hover are new. The three new Hover states paint a RAW #e5e5e5 with no variable behind it, matching DEPRECATED COLOURS/Grey steel, while every other state in the component uses a variable. None of the five is captured: the rest of the component cannot be coloured correctly until the token layer lands, and adding a raw hex to the stylesheet is barred outright
  * Figma sets 10px padding on a 24px-tall box, leaving 2px for content; dropped, as the size wins
  */
 .pf-table-header-icons {
@@ -3758,7 +3758,7 @@
 }
 
 /* Toggle
- * 4 variants captured. RE-READ 2026-09-11: On=No/Locked=No and On=Yes/Locked=No are UNCHANGED and still bind their tokens. The two Locked=Yes variants have been FLATTENED to images and bind nothing, so their captured Background/Tertiary and Background/Primary Button rows are stale in the same way Control is
+ * 4 variants captured. RE-READ 2026-09-11, CORRECTED SAME DAY: all four variants are UNCHANGED and still bind their captured tokens. The earlier note on this row claimed the two Locked=Yes variants had been flattened and bound nothing; that was read off a get_design_context render, which exports vector art as an <img> and drops its bindings. get_variable_defs on the variants themselves disproves it — 2816:1373 binds Background/Tertiary + Base colours/Grey Dolphin and 2816:1379 binds Background/Primary Button, exactly as captured
  * pill
  */
 .pf-toggle {

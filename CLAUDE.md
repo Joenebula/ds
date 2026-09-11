@@ -138,6 +138,29 @@ fill that moved in Figma was dropped, and the run said it had succeeded. A diffe
 always REPORTED; `--update` applies it. Without the flag it prints `WOULD CHANGE` — silence was
 the bug, not the caution.
 
+**`get_design_context` CANNOT PROVE A BINDING IS GONE. Only `get_variable_defs` can.** The
+design-context response is a code-generation view: where Figma exports a node as artwork — vector
+illustration, a flattened group, a rotated divider, and sometimes a plain frame's own stroke — the
+generated code carries an `<img>` and no class, and the variable the node is bound to simply is
+not in the output. Read as a measurement, that is indistinguishable from the binding having been
+removed, which is this repo's recurring failure exactly: *a mechanism that cannot distinguish two
+states reports the wrong one confidently.*
+
+It has already put two wrong conclusions in this file. `Toggle`'s two Locked=Yes variants were
+recorded as *"FLATTENED to images and bind nothing"* and `Control` as *"binds NO colour variable
+at all"*. Both were false — `get_variable_defs` on 2816:1373, 2816:1379 and 30641:14910 returns
+exactly the captured tokens. `Table header (AG)` and `Table cell (AG)` render with no border class
+whatsoever and both bind `Border/Default full`.
+
+So: **a PRESENCE may be read off the render** — that is where the role (fill / stroke / text) comes
+from, and the render is faithful about what it does emit. **An ABSENCE must be confirmed with
+`get_variable_defs`**, which returns every variable in the node's subtree. Absence from that set IS
+absence on the root, so it is sound in the one direction that matters; presence in it says only
+that something under the node binds the token, not which node or in which role.
+
+Screening a component with `get_variable_defs` alone is cheap and catches every rename and split,
+but it is a SCREEN, not a measurement — say so in the notes when that is all a component got.
+
 **A captured variant absent from a re-read is reported, never deleted.** A batch legitimately
 covers part of a page — the original extraction read variant sets first and plain components
 later — so absence from one read is not absence from Figma. Same rule as an uncaptured
