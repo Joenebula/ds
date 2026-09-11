@@ -3,12 +3,15 @@
 // .src.html and verifies token discipline.
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 const src = process.argv[2], out = process.argv[3];
+// Fonts first: a face declared after the rules that use it means the first paint
+// borrows a fallback, and on a screenshot that IS the result.
+const fonts = readFileSync('dist/fonts.css', 'utf8');
 const tokens = readFileSync('dist/tokens.css', 'utf8');
 const components = readFileSync('dist/components.css', 'utf8');
 const type = readFileSync('dist/type.css', 'utf8');
 let html = readFileSync(src, 'utf8');
 if (!html.includes('/*__TOKENS__*/')) { console.error('no /*__TOKENS__*/ placeholder'); process.exit(1); }
-html = html.replace('/*__TOKENS__*/', tokens);
+html = html.replace('/*__TOKENS__*/', fonts + '\n' + tokens);
 if (html.includes('/*__COMPONENTS__*/')) html = html.replace('/*__COMPONENTS__*/', components);
 if (html.includes('/*__TYPE__*/')) html = html.replace('/*__TYPE__*/', type);
 

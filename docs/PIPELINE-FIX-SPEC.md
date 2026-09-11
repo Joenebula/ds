@@ -12,7 +12,7 @@ every check validates that summary against itself. Four faults compound:
 
 | # | Fault | Effect | Severity |
 |---|---|---|---|
-| 1 | The typeface is never shipped | **Every screen renders in DejaVu Sans, and weight 600 renders as Bold** | Critical |
+| 1 | ~~The typeface is never shipped~~ | **FIXED** — Open Sans 400/600 vendored and inlined; `check-fonts.mjs` guards it | ~~Critical~~ |
 | 2 | Checks compare the build to its own source | A wrong transcription passes forever, with a green tick | Critical |
 | 3 | One geometry row per component | Whichever variant was measured wins; produced 4 separate bugs this session | High |
 | 4 | Component type is not linked to the text styles | Component type can drift from the type layer, both "passing" | Medium |
@@ -22,7 +22,7 @@ nobody noticed.
 
 ---
 
-## 1. The typeface is never shipped — CRITICAL
+## 1. The typeface is never shipped — CRITICAL — **FIXED**
 
 `CLAUDE.md` says *"Open Sans only, weights 400 and 600"*. `--pf-font-body` is
 `Open Sans, system-ui, sans-serif`. **Open Sans is not installed, not embedded, and not
@@ -74,9 +74,30 @@ asks *which face actually rendered*.
 3. Inline it alongside the other three stylesheets in `build-prototype.mjs`, and add it to
    the documented `<link>` set in `CLAUDE.md`.
 
+### Done
+
+Open Sans 400/600 (latin, Apache-2.0) vendored to `assets/fonts/` and inlined by
+`dist/fonts.css` as data: URIs. Not a dependency — an asset, like the 293 icons.
+
+Implementing it found three more instances of the same fault:
+
+- **Ten text styles record no weight in Figma.** The generator emitted nothing and left it
+  to inherit, so an `<h2>` took the UA default of 700. Now 400 is emitted; the pairing
+  (`Sub heading` alongside `Sub heading (semi bold, 600)`) settles that the plain one is
+  Regular.
+- **`<strong>`, `<th>` and every heading element default to 700**, which no shipped face
+  provides, so the browser synthesised one. `fonts.css` now maps UA bold onto 600. It sits
+  there rather than in `type.css` because `type.css` is opt-in — `timesheet-approvals` has
+  no `/*__TYPE__*/` placeholder at all, and its `<strong>` stayed 700 when the reset lived
+  there. Faces are not opt-in.
+- **All three prototypes fetched Open Sans from Google Fonts.** That request is blocked by
+  this environment's egress policy and would also fail inside an artifact, so they had been
+  silently falling back since they were written. Links removed.
+
 ### Verification
 
-`scripts/check-fonts.mjs` — renders a page and **fails** unless:
+`scripts/check-fonts.mjs`, wired into `npm run verify` — renders a page and **fails**
+unless:
 - `document.fonts.check('600 13px "Open Sans"')` is true **and** a real face is loaded
   (`document.fonts.size > 0`);
 - the measured width of a probe string at 600 matches the Open Sans metric within 0.5px
@@ -84,7 +105,8 @@ asks *which face actually rendered*.
   substitute;
 - no weight outside {400, 600} appears in any generated stylesheet.
 
-Deliberately break it by removing the `@font-face` block; the check must fail.
+Deliberately break it by removing the `@font-face` block; the check must fail. It already
+proved itself by catching the 700s above, which nothing else could see.
 
 ---
 

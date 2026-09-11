@@ -25,13 +25,23 @@ Non-negotiables from that skill:
 
 ## Using the tokens, components and type
 
-Three stylesheets. For a page:
+Four stylesheets. For a page:
 
 ```html
+<link rel="stylesheet" href="dist/fonts.css">       <!-- the typeface — load FIRST -->
 <link rel="stylesheet" href="dist/tokens.css">      <!-- the colours -->
 <link rel="stylesheet" href="dist/components.css">  <!-- the components -->
 <link rel="stylesheet" href="dist/type.css">        <!-- the type -->
 ```
+
+`fonts.css` ships Open Sans 400 and 600 (vendored in `assets/fonts/`, inlined as data:
+URIs). Never link Google Fonts — the request fails in an artifact and behind an egress
+policy, and the page then falls back silently. It also maps the UA stylesheet's 700 onto
+600, because no 700 face exists and the browser would synthesise one.
+
+`npm run verify` runs `check-fonts.mjs`, which asks the one question no other check asks:
+**which face actually rendered.** For the whole life of this project the answer was DejaVu
+Sans, with weight 600 painting as DejaVu Bold, while every check was green.
 
 For a self-contained artifact or `.dc.html` canvas artboard: inline the contents of
 all three into a `<style>` block. Artifacts and canvases can't reference local files, so the

@@ -4,9 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Payroll run summary</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;1,400&display=swap">
+<!-- Open Sans used to be fetched from Google Fonts here. That request is blocked by
+     this environment's egress policy and would also fail inside an artifact, so the page
+     silently fell back to DejaVu Sans and weight 600 rendered as synthesised Bold. The
+     font now ships with the build, inlined by dist/fonts.css. -->
 <style>
 /*__TOKENS__*/
 /*__COMPONENTS__*/

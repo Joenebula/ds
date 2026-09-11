@@ -14,14 +14,13 @@ const sh = c => { try { return execSync(c, { encoding: 'utf8', stdio: ['ignore',
 const count = (f, re) => (readFileSync(f, 'utf8').match(re) || []).length;
 
 const claims = [
-  ['1', 'Open Sans is not installed — fc-match falls back',
-    () => /DejaVu/.test(sh('fc-match "Open Sans"'))],
-  ['1', 'weight 600 has no SemiBold face and snaps to Bold',
-    () => /Bold/.test(sh('fc-match "Open Sans:weight=demibold"'))],
-  ['1', 'no @font-face in the built page',
-    () => count('working/case-mgmt-my-team.html', /@font-face/g) === 0],
-  ['1', 'the repo ships no font file',
-    () => sh('find . -iname "*.woff*" -o -iname "*.ttf" | grep -v node_modules').trim() === ''],
+  // Fault 1 is fixed. The OS still has no Open Sans installed — that is true and no longer
+  // relevant, because the face is embedded rather than looked up. What must stay true is
+  // that the build ships it; these two assert the fix, so they FAIL if it regresses.
+  ['1', 'FIX HOLDS: the build ships the typeface',
+    () => count('working/case-mgmt-my-team.html', /@font-face/g) > 0],
+  ['1', 'FIX HOLDS: both weights are vendored',
+    () => sh('ls assets/fonts/open-sans-400.woff2 assets/fonts/open-sans-600.woff2').split('\n').filter(Boolean).length === 2],
   ['2', 'verify-components reads the same two files the build reads',
     () => ['scripts/verify-components.mjs', 'scripts/build-components-css.mjs']
       .every(f => /_raw\/component-geometry\.tsv/.test(readFileSync(f, 'utf8'))
@@ -38,10 +37,22 @@ const claims = [
     () => sh('grep -rln textStyleId scripts/ --exclude=verify-spec.mjs').trim() === ''],
 ];
 
-let open = 0, fixed = 0;
+// A claim is one of two kinds. A FAULT claim asserts something is still broken — when it
+// stops being true, the fault is fixed and the spec needs updating. A FIX HOLDS claim
+// asserts a completed fix is still in place — when it stops being true, something has
+// regressed. Both are "the claim is true", so they are tested the same way and reported
+// differently.
+let held = 0, changed = 0;
 for (const [fault, claim, test] of claims) {
-  const stillTrue = test();
-  if (stillTrue) { open++; console.log(`  OPEN   fault ${fault}  ${claim}`); }
-  else { fixed++; console.log(`  FIXED  fault ${fault}  ${claim} — update the spec`); }
+  const isFix = claim.startsWith('FIX HOLDS: ');
+  const text = claim.replace('FIX HOLDS: ', '');
+  if (test()) {
+    held++;
+    console.log(`  ${isFix ? 'HOLDS ' : 'OPEN  '} fault ${fault}  ${text}`);
+  } else {
+    changed++;
+    console.log(`  ${isFix ? 'BROKEN' : 'FIXED '} fault ${fault}  ${text} — ${isFix ? 'the fix has regressed' : 'update the spec'}`);
+  }
 }
-console.log(`\n${open} of ${claims.length} spec claims still hold; ${fixed} no longer apply.`);
+console.log(`\n${held} of ${claims.length} verified as written; ${changed} changed.`);
+process.exit(claims.some(([, c, t]) => c.startsWith('FIX HOLDS: ') && !t()) ? 1 : 0);
