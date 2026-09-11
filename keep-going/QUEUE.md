@@ -877,11 +877,30 @@ Four things the work turned up, each now handled rather than papered over:
 - **Off-ramp text keeps its measurement.** "More details" is 13px bound to no style;
   emitting no size left it at the browser's 16.
 
-**Coverage: 32 components, 31 of them composite.** System messages, Cards and panels,
-Analytics and Forms are walked.
+**Coverage: 139 of the 161 non-icon components walked; 136 have templates.** Every product
+page has been through it.
 
-**Remaining:** the other ~126. One call per page; the extractor, generator and check do not
-change.
+**Remaining: 22.** Most are not composite and correctly have none — `Tooltip` is vector
+paths, `Default header background` is artwork, `Information box` wraps itself,
+`Side navigation tab` is a rename. The rest are the large layout containers (`Accordion`,
+`Side panel`, `Layout container (magazine style)`, `50/50 layout container`,
+`Horizontal scroll`, `Menu-search-settings`, `Full page`, `Repeating group`, the
+Notification panels, `Filter tabs`), each of which is big enough to need a call of its own.
+
+Three more faults the widening turned up, all now fixed:
+
+- **A truncated walk left a partial tree that read as complete.** `Time picker` came back
+  as a root plus one empty frame, and its template rendered an empty box —
+  indistinguishable from a component that genuinely has no contents. The walk now marks its
+  position before each component and rolls back if it would not fit whole.
+- **The `Header` name collision, for the third time.** Two component sets are called
+  `Header`: the 1830x86 app header and a 20x20 badge. Keyed by name, the badge's tree
+  overwrote the header's and the header's template became a two-node badge. The badge is
+  already recorded in `uncaptured-reasons.tsv` as `Counter`; the root row's variant axis is
+  the discriminator, as it is in the other extracts.
+- **A decorative box collapsed to nothing.** A template gives children no dimensions on
+  purpose, but a box with no content that exists only to be seen — a progress track, a
+  coloured bar — needs its height. `Percentage bar` rendered as four empty divs.
 
 Two more things the widened walk turned up:
 

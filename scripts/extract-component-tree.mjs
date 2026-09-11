@@ -62,13 +62,24 @@ const WIDTH = HEADER.split('\t').length - 1;
 // rather than merging, because a tree is only meaningful as a whole: merging an old walk
 // with a new one would leave orphan children whose parent no longer exists.
 const trees = new Map();
+let skipHeaderBadge = false;
 for (const b of blocks) {
   const fresh = new Map();
+  skipHeaderBadge = false;
   for (const line of b.split('\n').slice(1)) {
     if (!line.trim()) break;
     const c = line.split('\t');
     if (c.length !== WIDTH) continue;
     if (DOC_ONLY.has(c[0])) continue;
+    // NAME COLLISION, AGAIN. Two different component sets are called `Header`: the
+    // 1830x86 app header, whose variants are Theme x Mobile, and a 20x20 badge whose
+    // variant axis is `System`. uncaptured-reasons.tsv already records the second as
+    // `Counter` — "a variant child of the Header component set, never a component in its
+    // own right". Keyed by name alone the badge's tree overwrote the header's, and the
+    // header's template became a two-node badge. The root row's `name` holds the variant,
+    // so the axis is the discriminator, exactly as it is in the other extracts.
+    if (c[0] === 'Header' && !c[1] && /^System=/.test(c[3])) { skipHeaderBadge = true; }
+    if (c[0] === 'Header' && skipHeaderBadge) continue;
     if (!fresh.has(c[0])) fresh.set(c[0], new Map());
     fresh.get(c[0]).set(c[1], line);
   }

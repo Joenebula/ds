@@ -118,10 +118,13 @@ template or if a template renders an empty box. It also reports how many of them
 NOTHING from the bare class — currently **all 11 of them**, which is exactly why this
 exists.
 
-**Coverage is 12 components so far, not all of them.** A component with no template has not
-been walked yet; open `docs/components.html` and look at what the class actually renders
-before building on it. If it renders a blank box, say so rather than hand-writing a
-substitute.
+**Coverage: 139 of the 161 non-icon components are walked, and 136 have templates.** The
+22 without one are either not composite — `Tooltip` is drawn from vector paths,
+`Default header background` is artwork, `Information box` wraps an instance of itself — or
+are the large layout containers (`Accordion`, `Side panel`, `50/50 layout container`,
+`Menu-search-settings` and friends), which are still to walk. If a component has no
+template, open `docs/components.html` and look at what its class actually renders before
+building on it. If it renders a blank box, say so rather than hand-writing a substitute.
 
 (The same section used to cite "69 classes with no paint". That number was wrong —
 `check-component-art.mjs` was counting rules rather than classes. The real figure is 2, and
