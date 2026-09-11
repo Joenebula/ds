@@ -3709,7 +3709,7 @@
 }
 
 /* Status
- * 4 variants captured
+ * 4 variants captured. Status type=Custom binds a RAW HEX (#3e3e3e, a DEPRECATED COLOURS style), not a variable, so it cannot be recorded; Status type=New social group binds no fill at all. Both are real Figma variants absent from this extract for that reason
  * pill
  */
 .pf-status {
@@ -4232,7 +4232,7 @@
 }
 
 /* Toast message
- * 4 variants captured. fixed light surface — see dark-mode note
+ * 4 variants captured. fixed light surface — see dark-mode note. TYPE IS A 10px LEFT ACCENT BAR, not a stroke: Success Border/Positive, Info Border/Info, Warning Border/Warning, Error Base colours/Red. The fill/stroke/text model cannot express it — recording it as a stroke would generate border-color and draw a full border — so all four types currently render identically
  * Figma draws this 350px wide; treated as layout, not a rule
  */
 .pf-toast-message {
@@ -4245,6 +4245,7 @@
   justify-content: flex-start;
   gap: 15px;
   font-size: 13px;
+  font-weight: var(--pf-font-weight-regular);
   appearance: none;
   -webkit-appearance: none;
   background: transparent;

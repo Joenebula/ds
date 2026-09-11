@@ -2484,29 +2484,37 @@
  */
 .pf-information-box {
   height: 56px;
+  padding: 10px 10px 10px 4px;
+  border-radius: 8px;
   display: inline-flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
+  gap: 10px;
   font-size: 13px;
+  font-weight: var(--pf-font-weight-regular);
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
   margin: 0;
-  border: 0;
+  border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
 .pf-information-box[data-type="Information"] {
+  border-color: var(--pf-border-info);
   color: var(--pf-text-primary);
 }
 .pf-information-box[data-type="Warning"] {
+  border-color: var(--pf-border-warning);
   color: var(--pf-text-primary);
 }
 .pf-information-box[data-type="Error"] {
+  border-color: var(--pf-border-negative);
   color: var(--pf-text-primary);
 }
 .pf-information-box[data-type="Success"] {
+  border-color: var(--pf-border-positive);
   color: var(--pf-text-primary);
 }
 

@@ -7,3 +7,4 @@ color/grey/18	pending: NOT ATTRIBUTED to this file — same reason as blue-ocean
 spacing/sizing-md	pending: NOT ATTRIBUTED to this file — same reason as blue-ocean. This file spells its spacing Spacing/sizing-medium (15), not -md. An abbreviated parallel scale points at the other file
 spacing/sizing-sm	pending: NOT ATTRIBUTED to this file — same reason as blue-ocean. This file spells it Spacing/sizing-small (10)
 spacing/sizing-xs	pending: NOT ATTRIBUTED to this file — same reason as blue-ocean. This file spells it Spacing/sizing-xsmall (5)
+border/default-hidden	pending: VERIFIED in this file — bound by Notification card (13846:5504) on the System messages page, where the 2026-09-08 capture recorded Border/Default. Found automatically by this check on the second page read, not by luck. Same blocker as the other two verified tokens: light value readable, dark value not, api.figma.com denied by the egress policy
