@@ -215,13 +215,45 @@ unknowns here. Six of the current eight are that: they come from the Pathway tes
 reasons say so and why (this file has no `color/*` collection; it spells spacing
 `Spacing/sizing-small`, not `-sm`).
 
-**The token layer cannot currently be re-extracted.** `semantic.tsv` needs a light value, a dark
-value and scopes per token. `get_variable_defs` resolves ONE mode and takes no mode parameter, and
-the Figma Variables REST API that carries both modes plus scopes is on `api.figma.com`, which this
-environment's egress policy denies (`CONNECT tunnel failed, response 403`) — the same wall that
-blocks `download_assets`. So a missing token's light value is recoverable and its dark value is
-not, and adding it with a guessed dark value would break dark mode. It waits for a route that can
-read both.
+**The token layer needs a file this environment cannot fetch.** `semantic.tsv` needs a light
+value, a dark value and scopes per token. `get_variable_defs` resolves ONE mode and takes no mode
+parameter, and the Figma Variables REST API that carries both modes plus scopes is on
+`api.figma.com`, which this environment's egress policy denies (`CONNECT tunnel failed, response
+403`) — the same wall that blocks `download_assets`. So a missing token's light value is
+recoverable here and its dark value is not, and adding it with a guessed dark value would break
+dark mode while passing every check in this repo.
+
+`scripts/extract-tokens.mjs` is the other half, and it is built and proved. It makes NO network
+calls: a person runs the request and drops the response in.
+
+```
+GET https://api.figma.com/v1/files/aRWjBnTvdLiG50xtwodGwH/variables/local
+X-Figma-Token: <a PAT with the file_variables:read scope — Enterprise plan only>
+  -> tokens/_raw/figma-variables.json
+node scripts/extract-tokens.mjs            # dry run: reports, writes nothing
+node scripts/extract-tokens.mjs --write --update
+npm run build && npm run check && npm run verify
+```
+
+Without that file it exits **2** — vacuous, measured nothing — rather than reporting a clean run.
+
+Four of its rules are the ones that matter, and each is proved by a mutant:
+
+- **Light and dark are resolved by mode NAME, never by position or `defaultModeId`.** "Default" is
+  whichever mode a designer left selected, and a dark-first collection resolved by position would
+  invert the entire system in one silent run. A collection whose modes cannot be identified FAILS
+  and says so; a single-mode collection is mode-stable, which is what the ten chart colours are.
+- **An unknown collection is REFUSED, not imported.** The file also holds `DEPRECATED COLOURS`, the
+  Configr theme and the raw `1st (light)` / `2nd (light)` ramps. Importing them wholesale would put
+  into the shipped system exactly what is being retired. Same gate `sync-check.mjs` applies to a new
+  component: it is reported by name and a person decides.
+- **An alias keeps its `@Name` form** — 145 of the current rows are aliases, and 16 of those point
+  at another semantic token rather than a primitive. An alias the response does not contain is an
+  error, never a raw value in its place. A primitive that aliases is refused: `primitives.tsv` holds
+  literals and every reader of it expects one.
+- **It refuses to shrink**, like `text-styles.tsv` and `icons.tsv`. A partial response is
+  indistinguishable from a deletion, so a write that would drop a captured token names what it
+  would have lost; `--shrink` is the deliberate override.
 
 ## Editing tokens
 
