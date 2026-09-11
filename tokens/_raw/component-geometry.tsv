@@ -73,11 +73,11 @@ Profile image	93 x 93		47	0	—		CIRCLE	141:142
 People (avatar)	91 x 91	0	0	0	—			
 People (row)	380 x 40	0	0	10	16px			
 People (card)	166 x 91	0	0	0	13px			
-AI card modal	440 x 505	20	8	10	20px	VERTICAL MIN MIN		22814:16588
+AI card modal	440 x 505	20	8	10	20px	VERTICAL MIN MIN	RE-READ 2026-09-11: its fill is no longer a flat token. The root paints TWO stacked linear-gradients — an opaque white base under the AI gradient at 5% — so the captured Background/Primary is STALE and no fill token can replace it. Its border is a raw #007ff3 and its shadow binds Border/Border - Drop shadow	22814:16588
 AI button	146 x 32	3 15 3 10	55	10	13px Regular	HORIZONTAL CENTER CENTER	Figma binds RAW HEXES here, not variables: the Light mode border is #007ff3 and the desktop Inverted fill is a bare white while the MOBILE variant of the same fill uses Base colours/White. The Hover fill is a linear-gradient (the AI gradient style). None of the three can be recorded as a token, so the shipped class has no border and no hover fill. Figma also labels the pink DEPRECATED COLOURS/Default theme pink (A)	22814:16542
 AI banner	auto x 94	20	8	10	20px	HORIZONTAL MIN MIN		25225:6175
 Clickable AI element	382 x 38	10 10 10 20	8	10	13px	HORIZONTAL CENTER MIN		26970:14559
-AI message bubble	455 x 149	0	0	5	12px	VERTICAL MIN MIN		27295:378
+AI message bubble	455 x 149	0	0	5	12px	VERTICAL MIN MIN	RE-READ 2026-09-11: both types render IDENTICALLY in the stylesheet — background transparent, border 0, colour Text/Secondary twice. The painted box is a CHILD of the component, not its root: the root is a column holding a timestamp AND a bubble, so recording the bubble fill (AI chat Background/Primary, User chat Background/Secondary) on the component class would paint the timestamp too. The captured Text/Secondary correctly describes the timestamp. User chat also binds Border/Default full, which is unextracted	27295:378
 Form field	564 x auto	0	0	5	16px	VERTICAL MIN MIN	WRAPPER: label + input + helper text. 40 variants (Input type x State) - Text, Dropdown, Search, Date picker, Time picker x Default, Disabled, Error, Selected	13737:25863
 Required field	auto x auto	0	0	8	16px	HORIZONTAL CENTER MIN	the asterisk marker	14921:25589
 Field label	152 x auto	0	0	42	16px	HORIZONTAL CENTER SPACE_BETWEEN	label sits above its input, 5px gap	607:8116
@@ -151,7 +151,7 @@ Status	22 x 22		100				Status type=Custom binds a RAW HEX (#3e3e3e, a DEPRECATED
 Information box	440 x 56	10 10 10 4	8	10	13px Regular	HORIZONTAL CENTER MIN		3341:64984
 Star rating	auto x auto				13px	VERTICAL CENTER CENTER		30806:31238
 AI Assistant	1628 x auto				20px	HORIZONTAL CENTER SPACE_BETWEEN	RE-READ 2026-09-11: Base colours/Default Pink is bound NOWHERE in this component any more, yet the capture records it as the text colour for Type=Default and Type=Active chat — those two rows are STALE. Today it binds Text/Primary, Text/Secondary and Text/Link. Its stroke has moved Border/Default -> Border/Default full, which is unextracted, so the rows were left rather than half-corrected. It also carries 11 raw #007ff3 borders with no variable behind them	27507:11696
-Adaptive card	478 x auto			5	12px	VERTICAL MIN MIN		27309:772
+Adaptive card	478 x auto			5	12px	VERTICAL MIN MIN	Same wrapper shape as AI message bubble: the root is a column holding a timestamp and a card, and the captured Text/Secondary is the timestamp. The card child binds Background/Primary with a raw #007ff3 border. Unchanged on re-read	27309:772
 AI Gradient component	408 x 408				24px SemiBold			27295:318
 Configuration	1600 x 809		8		24px			13717:37944
 Form	355 x auto	20 10	8	30	18px	VERTICAL CENTER MIN		13717:37949
