@@ -1,0 +1,25 @@
+# Every node changed by the guarded scope-rule run, 2026-09-11. Written because the run before it
+# logged only a count, and eighteen edits then could not be told apart from the bindings that were
+# already there. A batch write must record its ids or its verification is guesswork.
+#
+nodeId	role	wasStyle	nowVariable
+18255:96124	fill	Green leaf	Charts/Chart 3
+18255:96129	fill	Red (A)	Background/Negative Button
+18262:96585	fill	Green leaf	Charts/Chart 3
+18262:96700	fill	Red (A)	Background/Negative Button
+18255:95884	fill	Green leaf	Charts/Chart 3
+18255:95835	fill	Red (A)	Background/Negative Button
+18255:96021	fill	Green leaf	Charts/Chart 3
+18255:95896	fill	Red (A)	Background/Negative Button
+I19499:92173;8070:78142	fill	Green leaf	Charts/Chart 3
+I19499:92173;8070:78143	fill	Green leaf	Charts/Chart 3
+3479:69378	fill	Blue ocean (A)	Charts/Chart 1
+I5937:65793;262:267	fill	Button blue (A)	Background/Secondary Button
+I5937:65796;262:267	fill	Button blue (A)	Background/Secondary Button
+I5937:65814;1656:45036	fill	Button blue (A)	Background/Secondary Button
+I5937:65815;1656:45042	fill	Button blue (A)	Background/Secondary Button
+I5937:65818;1656:44996	fill	Red (A)	Background/Negative Button
+18235:41074	fill	Red (A)	Background/Negative Button
+I13658:8249;13658:7756;14990:13384	fill	Blue Turquoise	Charts/Chart 4
+19334:20152	fill	Blue sky	Icons/Icon - Info
+19334:20155	fill	Green leaf	Charts/Chart 3

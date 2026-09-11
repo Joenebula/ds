@@ -665,6 +665,40 @@ subtrees before under-reports on its first pass, however warm the file is for ot
 **Two agreeing runs, for every query, every time — including the query that is checking another
 query.**
 
+### The guard that stops the mistake I had just made
+
+The next run kept the scope rule and added the lesson to it as a **dark-mode contrast guard**:
+having found the single scope-matched candidate, resolve both the candidate and the node's own
+backdrop in Darkmode and refuse the write if the pair falls under 3:1. Plus the other lesson —
+every id written is logged, to `tokens/_raw/deprecated-rebinds-applied.tsv`.
+
+Collection **1,514 to 1,429**; 20 edits cleared 85 nodes. **And the guard earned its place on its
+first run**, holding 13 nodes whose one legal candidate would have been unreadable in dark against
+their own backdrop: 12 `Green leaf` → `Charts/Chart 3` at 2.82:1 and 2.94:1, one `Blue sky` →
+`Icons/Icon - Info` at 2.36:1. That is exactly the mistake the `Grey` `#868686` run made eighteen
+times. The rule that picks the token is unchanged; what changed is that it must now survive a
+measurement before it is written.
+
+**Four colours have no semantic at their value at all**, and they are one kind of thing rather than
+four odd cases:
+
+| | | |
+|---|---|---|
+| `Blue Charade` | `#2C313C` | 13 — the DARK value of `Background/Primary` |
+| `Blue shark` | `#1D1F27` | 4 — the DARK value of `Navigation/Nav bg left` |
+| `Black` | `#1A1A1A` | 2 — the DARK value of `Progress bar/Border` |
+| `Blue deep ocean (A)` | `#2066AF` | 1 |
+
+Someone painted a dark-mode colour statically into a light-mode design. **There is no token to
+rebind them to, because what they want is "the dark value of X", and a variable expresses that by
+MODE rather than by name.** They need redrawing, not rebinding — and no amount of sweeping will
+ever clear them.
+
+**The biggest hold is still the surfaces**: 110 `Grey slate (A)` text (`Text/Primary` against
+`Text/Always grey slate`), 16 `White` text with four candidates, 15 `Blue ocean (A)` rectangles, 12
+`White` vectors with seven. Every one is a case where the candidates agree in light and differ in
+dark, so none can be settled from the render anyone actually looks at.
+
 **And `Border/Default hidden` has a light value and no dark value at all** — worth knowing, since
 three components map onto it.
 

@@ -214,3 +214,36 @@ Darkmode theme	#33B5E5	0
 # The fix for all 86 is one decision, not eighteen: these are secondary icons, not disabled ones,
 # and Icons/Icon - Secondary (#656565 light, #C1C1C1 dark) is the role-correct token. That is a
 # designer call on 86 nodes across seven pages, so it is recorded here rather than applied.
+#
+# ── THE GUARDED RUN, 2026-09-11 ───────────────────────────────────────────────
+# Scope rule plus a DARK-MODE CONTRAST GUARD, over every remaining deprecated style on component
+# pages. Collection 1514 -> 1429; 20 edits cleared 85 nodes. Every id is in
+# tokens/_raw/deprecated-rebinds-applied.tsv.
+#
+# THE GUARD EARNED ITS PLACE ON THE FIRST RUN. It held 13 nodes whose single scope-matched
+# candidate would have been unreadable in dark against their own backdrop:
+#	12	Green leaf -> Charts/Chart 3	2.82:1 and 2.94:1
+#	1	Blue sky -> Icons/Icon - Info	2.36:1
+# That is exactly the mistake the Grey #868686 run made 18 times. The rule that found the token is
+# the same rule; what changed is that it now has to survive a measurement before it is written.
+#
+# ── FOUR COLOURS HAVE NO SEMANTIC AT THEIR VALUE AT ALL ───────────────────────
+#	13	Blue Charade	#2C313C
+#	4	Blue shark	#1D1F27
+#	2	Black	#1A1A1A
+#	1	Blue deep ocean (A)	#2066AF
+# The first three are the DARK-MODE values of live semantic tokens — #2C313C is Background/Primary
+# in dark, #1D1F27 is Navigation/Nav bg left in dark, #1A1A1A is Progress bar/Border in dark. So
+# someone painted a dark-mode colour statically into a light-mode design. There is no token to
+# rebind them to, because the thing they want is "the dark value of X", which a variable expresses
+# by MODE and not by name. These need redrawing, not rebinding.
+#
+# ── THE BIGGEST HOLD IS STILL THE SURFACES ───────────────────────────────────
+#	110	Grey slate (A) fill:TEXT	Text/Primary vs Text/Always grey slate
+#	16	White fill:TEXT	4 candidates
+#	15	Blue ocean (A) fill:RECTANGLE	Icons/Icon - Link vs Charts/Chart 1
+#	12	White fill:VECTOR	7 candidates
+#	12	Light ivory fill:FRAME	Background/Secondary vs Table/Stripe cell
+# Every one of these is a two-or-more-candidate case where the candidates agree in light and differ
+# in dark. None can be settled from a light-mode render, which is the whole reason they are listed
+# rather than applied.
