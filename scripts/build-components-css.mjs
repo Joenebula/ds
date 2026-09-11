@@ -71,6 +71,16 @@ const PRIMITIVE_ALIAS = {
     // token that means exactly "white text, in both modes" is Text/Always White, and it
     // resolves to the same value.
     'color': '--pf-text-always-white',
+    // Deliberately NOT mapped for background or border-color. The only semantic tokens
+    // holding White in both modes are Tags/Fills/Info (a tag fill) and Icons/Icon - Always
+    // white (an icon colour). Borrowing either for a toast background or a button border
+    // would put the right hex behind the wrong meaning, and the next person to change the
+    // tag palette would silently change the toast. Those stay flagged for design.
+  },
+  'Base colours/Grey Dolphin': {
+    // Border/Secondary IS Grey Dolphin in both modes, is scoped STROKE_COLOR in Figma, and
+    // means exactly what the Toggle's border means. A real equivalent, not a near one.
+    'border-color': '--pf-border-secondary',
   },
 };
 // Every name in the primitive collection. A component binding one of these has reached

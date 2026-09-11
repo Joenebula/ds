@@ -15,6 +15,7 @@ packaged so Claude Design — and any HTML/CSS output — generates on-brand UI.
 | **`dist/components.css`** | **147 components, 302 variants, as ready classes, plus 12 shape-only. Generated.** |
 | **`dist/type.css`** | **23 type classes, one per Figma text style. Generated.** |
 | `assets/icons/` | All 293 People First icons as individual SVGs. |
+| **`docs/FIGMA-ISSUES.md`** | **What the design team needs to fix in Figma — with measured contrast figures. Hand-written.** |
 | **`docs/COMPONENTS.md`** | **Every component in one readable list — class, variants, size, and what needs attention. Generated.** |
 | `docs/components.html` | Every component and variant, rendered, light and dark. |
 | `docs/icons.html` | Every icon, browsable. |
