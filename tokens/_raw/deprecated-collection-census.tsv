@@ -1,0 +1,75 @@
+# Every paint style in Figma's DEPRECATED COLOURS collection in aRWjBnTvdLiG50xtwodGwH, with how
+# many nodes in the file still reference it. Swept 2026-09-11, twice, agreeing at 1940. Read by
+# nobody — a worklist for a person, like deprecated-white-census.tsv beside it.
+#
+# THE COLLECTION IS 46 STYLES AND 1940 REFERENCES. This repo's model of it was SEVEN names, because
+# seven is what the extracted components bind. The white census — 203 nodes, now 141 — was 7% of
+# the problem and the only part anyone had looked at.
+#
+# `refs` counts nodes whose fillStyleId or strokeStyleId is this style, across every page. A style
+# at 0 is referenced by no node in THIS file; it may still be used in another file, so 0 means
+# "nothing here points at it", not "safe to delete" on its own.
+#
+style	value	refs	pages
+Grey slate (A)	#3E3E3E	681	AI, Analytics and charts, Buttons and links, Cards and panels, Controls, Forms, Icons, Navigation, Pages and Layouts, People, System messages, Tables, Tags and ratings, STYLE GUIDE, DOCUMENT MANAGEMENT, WIKI
+Grey steel	#E5E5E5	259	AI, Analytics and charts, Buttons and links, Cards and panels, Controls, Forms, Icons, Navigation, Pages and Layouts, People, System messages, Tables, Tags and ratings, STYLE GUIDE, DOCUMENT MANAGEMENT, WIKI
+Grey fog (A)	#656565	178	AI, Buttons and links, Icons, Tables, STYLE GUIDE, DOCUMENT MANAGEMENT, WIKI
+White	#FFFFFF	141	AI, Buttons and links, Navigation, System messages, STYLE GUIDE, DOCUMENT MANAGEMENT, WIKI
+Default theme pink (A)	#CD2359	125	AI, Analytics and charts, Buttons and links, Cards and panels, Controls, Forms, Icons, Navigation, Pages and Layouts, System messages, Tables, Tags and ratings, STYLE GUIDE, DOCUMENT MANAGEMENT, WIKI
+White Ivory	#F2F2F2	87	Analytics and charts, Controls, STYLE GUIDE, DOCUMENT MANAGEMENT, WIKI
+Grey dolphin	#FFFFFF	75	AI, Analytics and charts, STYLE GUIDE, WIKI
+Black	#1A1A1A	70	Buttons and links, STYLE GUIDE, DOCUMENT MANAGEMENT
+Light ivory	#FAFAFA	49	AI, Analytics and charts, Buttons and links, System messages, STYLE GUIDE, DOCUMENT MANAGEMENT, WIKI
+Orange	#FC8700	37	System messages, STYLE GUIDE, DOCUMENT MANAGEMENT, WIKI
+Grey	#868686	36	Analytics and charts, Buttons and links, Icons, Pages and Layouts, DOCUMENT MANAGEMENT
+Green leaf	#00AD60	35	AI, Analytics and charts, Cards and panels, System messages, STYLE GUIDE, DOCUMENT MANAGEMENT, WIKI
+Blue ocean (A)	#0075BE	34	AI, Analytics and charts, Forms, WIKI
+Colour blue	#363A46	29	STYLE GUIDE, WIKI
+Red (A)	#BE2028	26	AI, Analytics and charts, Buttons and links, System messages, DOCUMENT MANAGEMENT, WIKI
+Blue Charade	#2C313C	24	AI, Analytics and charts, Buttons and links, Cards and panels, Controls, Forms, People, STYLE GUIDE, WIKI
+Green button (A)	#517A38	9	Buttons and links, DOCUMENT MANAGEMENT
+Blue shark	#1D1F27	6	Navigation, STYLE GUIDE, WIKI
+Fern green	#306348	6	STYLE GUIDE
+Blue Turquoise	#5CC4EA	5	Navigation, STYLE GUIDE, WIKI
+Purple orchid	#B0187E	5	STYLE GUIDE, WIKI
+Button blue (A)	#4E6998	4	Buttons and links
+Blue deep ocean (A)	#2066AF	2	Icons, DOCUMENT MANAGEMENT
+Blue sky	#33B5E5	2	System messages
+Default 5% theme	#FCF4F7	2	STYLE GUIDE, WIKI
+Red Dark Mode	#FF8080	2	STYLE GUIDE, WIKI
+Purple iris	#77438D	2	STYLE GUIDE, DOCUMENT MANAGEMENT
+Copper (A)	#B05E00	1	DOCUMENT MANAGEMENT
+Striking red	#BE2028	1	STYLE GUIDE
+Velvet red	#A70000	1	STYLE GUIDE
+Berry pink	#9E326C	1	STYLE GUIDE
+Royal purple	#583069	1	STYLE GUIDE
+Cobalt blue	#2066AF	1	STYLE GUIDE
+Blue lagoon	#22447E	1	STYLE GUIDE
+Teal ocean	#325759	1	STYLE GUIDE
+Orange flame	#C03900	1	STYLE GUIDE
+Blue iceberg	#D3EEF7	0	
+Pink candy	#F06292	0	
+White lilac	#F0F2F6	0	
+Light purple (A)	#9E5BBA	0	
+Green mint	#53BDA7	0	
+Pink Rhubarb	#CB0D6B	0	
+Blue marine	#2E3548	0	
+Cranberry red	#CD2359	0	
+Cool grey	#3E3E3E	0	
+Darkmode theme	#33B5E5	0	
+#
+# SIX PAIRS SHARE A VALUE UNDER TWO NAMES, and every pair is one heavily-used name beside a dead
+# one — which is what a half-finished rename looks like:
+#   #FFFFFF   White 141          / Grey dolphin 75      <- BOTH live. A second deprecated white
+#                                                          the white census never counted.
+#   #3E3E3E   Grey slate (A) 681 / Cool grey 0
+#   #CD2359   Default theme pink (A) 125 / Cranberry red 0
+#   #BE2028   Red (A) 26         / Striking red 1
+#   #2066AF   Blue deep ocean (A) 2 / Cobalt blue 1
+#   #33B5E5   Blue sky 2         / Darkmode theme 0
+#
+# AND CLAUDE.md WAS WRONG ABOUT TWO OF THESE. It records that `Grey slate (A)` and
+# `Default theme pink (A)` "now have no references at all" after the AI Assistant rebinds on
+# 2026-09-11. File-wide they have 681 and 125. The claim was true of the EXTRACTED COMPONENTS and
+# was written as though it were true of Figma — the same scope error the white census found, at
+# five times the size. Corrected in CLAUDE.md.

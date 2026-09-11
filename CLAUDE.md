@@ -360,8 +360,9 @@ two of the seven colours outright:
 
 `Text/Theme` rather than `Background/Theme` is the whole lesson in one line: they share `#CD2359`
 in light and diverge in dark (`#5CC4EA` against `#33B5E5`), so matching the ROLE is what makes the
-swap safe. Left unpublished for review. `Grey slate (A)` and `Default theme pink (A)` now have no
-references at all.
+swap safe. Left unpublished for review. `Grey slate (A)` and `Default theme pink (A)` have no
+references left **among the extracted components** — and this file used to say they had none at
+all, which is wrong by a factor of sixty. File-wide they have **681 and 125**. See below.
 
 **What is left is not rebinding work.** Two cases have no correct token:
 
@@ -486,6 +487,43 @@ light, which is exactly what a static white cannot express. Applying it would ch
 invisible to grey, so it goes to a designer rather than into a commit. `Status type=New social
 group` is the same shape with a different cause: `fills[0].visible === false`, so the badge
 background is switched off and its glyph renders on nothing.
+
+## The retired collection is 46 styles, not 7
+
+Everything above treats `DEPRECATED COLOURS` as seven names, because seven is what the extracted
+components bind. A sweep of the live file on 2026-09-11 — every page, twice, agreeing — says the
+collection holds **46 paint styles carrying 1,940 references**. The white census that took a week's
+worth of care was **7% of it**, and the only part anyone had looked at.
+
+`tokens/_raw/deprecated-collection-census.tsv` has the lot. The shape of the work:
+
+| | | |
+|---|---|---|
+| `Grey slate (A)` | `#3E3E3E` | **681** refs across 16 pages |
+| `Grey steel` | `#E5E5E5` | 259 |
+| `Grey fog (A)` | `#656565` | 178 |
+| `White` | `#FFFFFF` | 141 (was 203) |
+| `Default theme pink (A)` | `#CD2359` | 125 |
+| the other 41 | | 556, of which **10 styles have no reference in this file at all** |
+
+**Two of this file's own claims did not survive that sweep.** It said `Grey slate (A)` and
+`Default theme pink (A)` "now have no references at all" after the AI Assistant rebinds. They have
+681 and 125. The statement was true of the extracted components and was written as though it were
+true of Figma — the same scope error the white census found, five times larger. The sentence above
+is corrected rather than deleted, because *"a verdict-line count is scoped to what was extracted"*
+is a rule this file now states twice and broke twice.
+
+**Six pairs share a value under two names, and every pair is one live name beside a dead one** —
+which is what a half-finished rename looks like: `#3E3E3E` is `Grey slate (A)` 681 and `Cool grey`
+0; `#CD2359` is `Default theme pink (A)` 125 and `Cranberry red` 0; `#BE2028`, `#2066AF` and
+`#33B5E5` the same shape.
+
+**The exception is the one that matters. `#FFFFFF` is `White` at 141 AND `Grey dolphin` at 75, and
+both are live** — a second deprecated white that the white census never counted, because that
+census was written from a single style id. A sweep keyed on one name cannot see the other, which is
+this repo's recurring failure in its purest form: *a mechanism that cannot distinguish two states
+reports the wrong one confidently.* The collection-wide sweep keys on the COLLECTION, so it cannot
+miss a sibling by construction.
 
 **And `Border/Default hidden` has a light value and no dark value at all** — worth knowing, since
 three components map onto it.
