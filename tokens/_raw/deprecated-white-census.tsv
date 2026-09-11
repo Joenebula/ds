@@ -66,3 +66,37 @@ leave	1	loose annotation	📄 DOCUMENT MANAGEMENT	Labelling up designs	fill	no	N
 # more (`Tags` 18415:5427, `[S] Button X` 236:2205) do not resolve to a page at all. So `follows`
 # is the honest reading of most of that bucket and a guess for some of it. It affects the order of
 # work, never the total: 203 is measured directly and twice.
+#
+# ── WORKED 2026-09-11 ──────────────────────────────────────────────────────────
+# 22 nodes rebound. 203 -> 141, measured by two sweeps that agree (and a cold sweep in between
+# returned 92, which is the same under-report this file warns about — it is not the answer).
+# 22 edits cleared 62 nodes, because 40 of them were instances that inherit. Tables, Controls
+# and Analytics and charts are now completely clear; System messages is down to 1.
+#
+# done	13	chart + Status + Notification card glyphs	-> Icons/Icon - Always white
+# done	4	Image picker outline strokes	-> Icons/Icon - Always white
+# done	2	Manage columns Side panel footer	-> Background/Primary
+# done	2	Menu chip surface (Frame 80044)	-> Background/Primary
+# done	1	Tags label (TEXT, on fixed #707070)	-> Text/Always White
+#
+# Every one preserves today\'s appearance exactly. That was the bar: a rebind that changes how
+# light mode looks is a design decision, not a rebind.
+#
+# ── THE REST OF THE FIX BUCKET IS NOT TOKEN WORK ──────────────────────────────
+# Three nodes are WHITE ARTWORK ON A WHITE SURFACE — invisible as drawn. A token cannot be
+# chosen for them without knowing the intent, and "preserving appearance" would preserve a bug.
+#
+# ask	2	Header @32488:24634 — a white `Folder organiser` app icon in the Configr top bar. The
+#		Configr header variant\'s own fill is a plain unbound #FFFFFF, so the icon is invisible.
+#		The likely answer is `Navigation/Configr nav` (#656565 light, #FFFFFF dark): white is
+#		right in dark and wrong in light, which is exactly what a static white cannot express.
+#		Applying it CHANGES light mode from invisible to grey, so it needs a designer.
+# ask	1	[S] Config child menu @930:30367 — a white 14x7 Vector on a white row. Same shape.
+# bug	1	`Status type=New social group` (3435:66953): fills[0].visible === false. The badge
+#		background is switched OFF, so its white glyph renders on nothing — the variant shows a
+#		transparent checkerboard where the other five show a coloured disc. Not a token choice.
+#
+# wcag	4	White on `Icons/Icon - Info` #33B5E5 is 2.36:1 and on `Icons/Icon - Warning` #FC8700
+#		is 2.44:1; WCAG wants 3:1 for non-text. PRE-EXISTING and unchanged by the rebind — the
+#		deprecated style was the same white — but now measured, so recorded. The badge colour is
+#		the fix, not the glyph.

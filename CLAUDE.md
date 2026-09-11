@@ -433,6 +433,60 @@ from instance override lists and does not fully close — `Warning` and `App men
 origins for nodes while carrying the style on no descendant of their own. That changes the ORDER of
 the work and never the total, and saying so in the file is cheaper than a reader discovering it.
 
+**Twenty-two of the `fix` bucket were rebound on 2026-09-11, and 203 became 141.** Twenty-two edits
+cleared sixty-two nodes, because forty were instances that inherit. `Tables`, `Controls` and
+`Analytics and charts` are completely clear; `System messages` is down to one. Every rebind
+preserves today's appearance exactly, which was the bar: a rebind that changes how light mode looks
+is a design decision, not a rebind.
+
+**The biggest thing that run found is that the role matching this file keeps agonising over is
+DECLARED.** Every variable carries `scopes` — `TEXT_FILL`, `SHAPE_FILL`, `STROKE_COLOR`,
+`FRAME_FILL` — so "which of the twelve white tokens belongs on this node" is a lookup, not a
+judgement. Twelve semantics resolve to `#FFFFFF` in light and they fan out in dark from `#1D1F27`
+to `#FFFFFF`; scopes cut that to two or three candidates before anyone has to think. A text node
+takes `Text/Always White` or `Text/Inverted primary` and nothing else can even be offered.
+
+**A guard must test the risk, not a proxy for it — and mine did not.** Before rebinding glyphs onto
+coloured badges I gated on backdrop luminance, and it ABORTED the run: `Icons/Icon - Info` `#33B5E5`
+measures 0.615, comfortably "light". But that backdrop is `#33B5E5` in BOTH modes. The risk being
+guarded against is a backdrop that FLIPS — that is what makes a static white wrong — and brightness
+is not that. Rewritten as *white's contrast against this backdrop must be no worse in dark than in
+light*, it passed the same four backdrops honestly. A guard that fires on the wrong question is not
+cautious, it is a stopped clock.
+
+It did surface something real on the way past. White on `Icons/Icon - Info` is **2.36:1** and on
+`Icons/Icon - Warning` **2.44:1**, where WCAG wants 3:1 for non-text. That is PRE-EXISTING — the
+deprecated style was the same white — and unchanged by the rebind, but it had never been measured
+before. It is recorded, and the fix is the badge colour rather than the glyph.
+
+**Three Figma API facts that cost a cycle each**, worth having in writing:
+
+- **Instance vector data cannot be overridden.** `setVectorNetworkAsync` on a vector inside an
+  instance throws *"This property cannot be overridden in an instance: vector-data"*. The fix goes
+  on the node's own `fills`, not into the geometry.
+- **A vector whose regions differ reports `fills` as `figma.mixed`**, and the idiom
+  `JSON.parse(JSON.stringify(node.fills))` then throws `SyntaxError: unexpected token: 'undefined'`
+  — `JSON.stringify` of a Symbol is `undefined`. Construct the paint instead of cloning it. Eight
+  nodes failed this way in one batch while seven succeeded, which is what made it visible.
+- **Setting node-level `fills` does not fill an unfilled region.** Region 0 of those eight was
+  empty before and after, so the artwork is untouched — checked, not assumed, because the
+  alternative was flattening eight icons.
+
+**The cold-`findAll` under-report came back after an MCP reconnect**, which is worth knowing because
+it means the warm-up is per connection and not per file: the first sweep after reconnecting returned
+**92** against a settled **143**. Two agreeing sweeps is the rule, every time, not just the first
+time in a session.
+
+**And the last three `fix` nodes are not token work at all.** They are white artwork on a white
+surface — invisible as drawn — so there is nothing to preserve and a token cannot be chosen without
+knowing the intent. `Header`'s Configr app icon is the clear one: the Configr header variant's own
+fill is a plain unbound `#FFFFFF`, and the token that fits is almost certainly
+`Navigation/Configr nav` (`#656565` light, `#FFFFFF` dark) — white is right in dark and wrong in
+light, which is exactly what a static white cannot express. Applying it would change light mode from
+invisible to grey, so it goes to a designer rather than into a commit. `Status type=New social
+group` is the same shape with a different cause: `fills[0].visible === false`, so the badge
+background is switched off and its glyph renders on nothing.
+
 **And `Border/Default hidden` has a light value and no dark value at all** — worth knowing, since
 three components map onto it.
 
