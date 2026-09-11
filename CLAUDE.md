@@ -166,6 +166,38 @@ any page produces and sat in the file looking correct. `check-stroke-sides` did 
 either — it built its own markup and wrote every axis. `check-off-system` did, by noticing
 the page still had to set the width by hand.
 
+## Shadows
+
+`dist/components.css` contained the string `box-shadow` **zero times**. Figma casts a drop
+shadow on **47 component variants** — `Card`, `Side panel`, `Side filter`, `Toast message`,
+`Tool tip`, `Action menu`, `Table card (AG)`, `Header navigation`, `Side navigation`: every
+floating surface in the system, all of them rendering flat against the page. Same shape as
+the border fault — the colour extract knows a fill, a stroke and a text token, and a shadow
+is none of the three.
+
+Measured into `tokens/_raw/component-shadow.tsv` by `scripts/extract-component-shadow.mjs`.
+All twelve product pages were swept and four have no effects at all, so absence from that
+file means "measured, has none", not "not looked at".
+
+**The design system has exactly two shadow tokens and the pipeline does not invent a third.**
+`--pf-shadow-drop-shadow` and `--pf-shadow-modal-header-shadow`. **29 of the 47 match one
+exactly** and are emitted as `box-shadow: var(--pf-shadow-*)`. The other **18 match neither**,
+and nothing is emitted for them — writing Figma's rgba into the stylesheet would put a raw
+colour in generated CSS and freeze it across both modes. The build names all 18 and they are
+written up in `docs/FIGMA-ISSUES.md` §12, with the four shadow shapes that would clear them.
+
+A page never writes a `box-shadow` on a component class. `npm run verify` runs
+`check-shadows.mjs`, which measures the RENDERED shadow against Figma's numbers rather than
+against the token name the generator picked — a wrong token, a selector matching nothing and
+a token whose value drifts are three faults that all show up as the same wrong pixels. It
+also asserts the negative: if one of the 18 ever starts painting, that rule was hand-written.
+
+Neither shadow token changes between modes — both are defined once in `:root`, and
+`--pf-shadow-drop-shadow` is `#c1c1c1`, a light glow that does not read on a dark ground.
+That is a gap in the design system rather than in the pipeline, recorded in §12; the file
+already has a mode-aware `Border/Border - Drop shadow` colour that the shadow tokens do not
+use.
+
 ## What the component classes do and do not carry
 
 A component is modelled as **one outer box plus three colour slots**

@@ -212,6 +212,18 @@ box-shadow: var(--pf-shadow-modal-header-shadow);  /* 0 4px 4px rgba(0,0,0,.1) �
 
 Only these two exist. There is no elevation ramp — do not invent one.
 
+**The component classes already cast their own shadow.** `.pf-card`, `.pf-side-panel`,
+`.pf-side-filter`, `.pf-tool-tip`, `.pf-action-menu`, `.pf-table-card-ag`,
+`.pf-header-navigation`, `.pf-config-side-menu` and the rest carry it from Figma's own
+measurement. Do not add a `box-shadow` to a component class — that is an override, and
+`npm run verify` measures the rendered shadow against Figma.
+
+The two tokens above are for **your own layout surfaces** — a page shell, a sticky bar you
+built yourself — not for re-shadowing a component. And 18 variants cast a shadow the design
+system has no token for, so they deliberately cast none here; if a panel looks flat and you
+think it should lift, check `docs/FIGMA-ISSUES.md` §12 before adding one, because the fix
+belongs in Figma.
+
 ## Layout grid
 
 24 columns @ 1588px · 22 @ 1454px · 18 @ 1320px · 12 @ 784px.

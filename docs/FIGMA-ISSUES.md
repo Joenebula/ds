@@ -369,6 +369,50 @@ headers can keep their surface, and the white text with it. This is the same sha
 
 ---
 
+## 12. Eighteen shadows the design system has no token for
+
+`Elevation` in the design system is two tokens and nothing else:
+
+| Token | Value |
+|---|---|
+| `--pf-shadow-drop-shadow` | `0 0 4px #c1c1c1` |
+| `--pf-shadow-modal-header-shadow` | `0 4px 4px rgba(0,0,0,.1)` |
+
+Figma casts a drop shadow on **47 component variants**. Twenty-nine match one of those two
+exactly and are emitted as `box-shadow: var(--pf-shadow-*)`. The other **eighteen do not
+match either token**, and the pipeline deliberately emits nothing for them rather than
+writing Figma's rgba into the stylesheet — that would put a raw colour in generated CSS and
+freeze it across both modes.
+
+| Component | Shadow in Figma |
+|---|---|
+| `Toast message` (4 variants) | `0 0 25px rgba(0,0,0,.2)` |
+| `Side navigation` (3) | `0 0 4px rgba(0,0,0,.2)` |
+| `Org chart` (3) | `2 2 4px rgba(0,0,0,.3)` |
+| `Configuration` (2), `Configuration tile` (2) | `0 0 4px rgba(0,0,0,.2)` |
+| `Notification categories`, `Notification list` | `2 0 4px rgba(0,0,0,.1)` |
+| `Browser drop down` | `0 2 4px rgba(0,0,0,.3)` |
+| `Settings card` | `0 1 3px rgba(0,0,0,.25)` |
+
+Four shapes account for all eighteen: a soft black at .2, .25 and .3, and two directional
+ones. `0 0 4px rgba(0,0,0,.2)` alone covers seven variants across three components and is
+plainly meant to be the same shadow each time.
+
+**Suggested fix:** publish these as effect styles bound to variables, the way the two
+existing ones are, and the pipeline picks them up on the next extract with no code change.
+Naming the `0 0 4px rgba(0,0,0,.2)` one would clear seven of the eighteen on its own.
+
+**Second, separate problem: neither existing shadow token changes between modes.** Both are
+defined once in `:root`. `--pf-shadow-drop-shadow` is `#c1c1c1` — a light grey glow, which
+is correct on a white page and wrong on a dark one, where a shadow should be darker than its
+surface rather than lighter. The file already has a mode-aware colour for exactly this:
+`Border/Border - Drop shadow`, which is Grey Dolphin in light and Grey Slate in dark. The
+shadow tokens do not use it. The pipeline emits the tokens as published rather than
+recomposing them, because composing a shadow the design system has not stated would be
+inventing an elevation ramp — which the skill explicitly forbids.
+
+---
+
 ## What happens after you fix any of this
 
 Re-extract and rebuild, and the stylesheet, the component list and the example screens all

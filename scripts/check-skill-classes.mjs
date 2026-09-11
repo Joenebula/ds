@@ -146,6 +146,22 @@ for (const m of shellCss.matchAll(/([^{}@]+)\{([^{}]*)\}/g)) {
   }
 }
 const shellCount = [...bareRule].filter(n => !painted.has(n)).length;
+
+// The shadow census: how many variants Figma casts one on, and how many the design system
+// has a token for. CLAUDE.md and FIGMA-ISSUES.md quote both, and the second is the number
+// that should FALL as Figma publishes effect styles.
+const fxLines = readFileSync('tokens/_raw/component-shadow.tsv', 'utf8').trim().split('\n');
+const fxHead = fxLines[0].split('\t');
+const fxRows = fxLines.slice(1).map(l => Object.fromEntries(fxHead.map((h, i) => [h, l.split('\t')[i]])));
+const drops = fxRows.filter(r => r.type === 'DROP_SHADOW');
+const SHADOW_TOKEN_GEO = [[0, 0, 4, 0, '193,193,193,1'], [0, 4, 4, 0, '0,0,0,0.102']];
+const tokened = drops.filter(r => SHADOW_TOKEN_GEO.some(t =>
+  t[0] === Number(r.x) && t[1] === Number(r.y) && t[2] === Number(r.blur) && t[3] === Number(r.spread)
+  && (() => { const a = r.colour.split(','), b = t[4].split(',');
+    return a[0] === b[0] && a[1] === b[1] && a[2] === b[2]
+      && Math.abs(Number(a[3]) - Number(b[3])) < 0.006; })()));
+const nDropShadows = drops.length;
+const nUntokenedShadows = drops.length - tokened.length;
 const nInnerComponents = new Set(innerLines.slice(1).map(l => l.split('\t')[0])).size;
 
 // README's own figures. It is the front door and nothing was checking it: it claimed 198
@@ -241,6 +257,14 @@ const figures = [
   ['icons', nIcons, /All (\d+) are in `assets\/icons\/`/g],
   ['text styles', nTextStyles, /\*\*(\d+) text styles\*\*/g],
   ['inventoried components', nInventory, /\*\*(\d+) published components\*\*/g],
+  // Whitespace-tolerant, because a figure in prose lands wherever the line happens to wrap:
+  // "18 variants cast a shadow the design\nsystem has no token for" broke a pattern written
+  // with a literal space, and the match-at-least-once guard below caught it immediately —
+  // which is precisely the silence that guard exists to prevent.
+  ['variants Figma casts a shadow on', nDropShadows, /\*\*(\d+)\s+component\s+variants\*\*/g],
+  ['shadows with a matching token', nDropShadows - nUntokenedShadows, /\*\*(\d+)\s+of\s+the\s+\d+\s+match\s+one\s+exactly\*\*/g],
+  ['shadows with no token', nUntokenedShadows, /\*\*(\d+)\s+match\s+neither\*\*/g],
+  ['shadows with no token', nUntokenedShadows, /(\d+)\s+variants\s+cast\s+a\s+shadow\s+the\s+design\s+system\s+has\s+no\s+token\s+for/g],
   ['classes with no paint', shellCount, /\*\*(\d+) classes with no paint\*\*/g],
   ['centred-child variants', nInnerVariants, /\*\*(\d+) variants across \d+ components?\*\*/g],
   ['components with a centred child', nInnerComponents, /\*\*\d+ variants across (\d+) components?\*\*/g],

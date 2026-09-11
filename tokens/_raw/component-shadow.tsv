@@ -1,0 +1,51 @@
+component	variant	n	type	x	y	blur	spread	colour
+Action menu		0	DROP_SHADOW	0	0	4	0	193,193,193,1
+AI Assistant	Mobile=False, Darkmode=False, Type=Expanded	0	DROP_SHADOW	0	0	4	0	193,193,193,1
+AI Assistant	Mobile=True, Darkmode=False, Type=Active chat	0	DROP_SHADOW	0	0	4	0	193,193,193,1
+AI Assistant	Mobile=True, Darkmode=False, Type=Default	0	DROP_SHADOW	0	0	4	0	193,193,193,1
+AI Assistant	Mobile=True, Darkmode=False, Type=Expanded	0	DROP_SHADOW	0	0	4	0	193,193,193,1
+AI card modal	Property 1=Default	0	DROP_SHADOW	0	0	4	0	193,193,193,1
+Browser drop down		0	DROP_SHADOW	0	2	4	0	0,0,0,0.3
+Card	Property 1=Default	0	DROP_SHADOW	0	0	4	0	193,193,193,1
+Config side menu		0	DROP_SHADOW	0	0	4	0	193,193,193,1
+Configuration tile	Device=Desktop	0	DROP_SHADOW	0	0	4	0	0,0,0,0.2
+Configuration tile	Device=Mobile	0	DROP_SHADOW	0	0	4	0	0,0,0,0.2
+Configuration	Mobile=False	0	DROP_SHADOW	0	0	4	0	0,0,0,0.2
+Configuration	Mobile=True	0	DROP_SHADOW	0	0	4	0	0,0,0,0.2
+Form	Mobile=False	0	DROP_SHADOW	0	0	4	0	193,193,193,1
+Form	Mobile=True	0	DROP_SHADOW	0	0	4	0	193,193,193,1
+Full page/Header navigation/Yes/No		0	DROP_SHADOW	0	4	4	0	0,0,0,0.1
+Header navigation	Mobile=No, Tablet=No	0	DROP_SHADOW	0	4	4	0	0,0,0,0.1
+Header navigation	Mobile=No, Tablet=Yes	0	DROP_SHADOW	0	4	4	0	0,0,0,0.1
+Header navigation	Mobile=Yes, Tablet=No	0	DROP_SHADOW	0	4	4	0	0,0,0,0.1
+Manage columns	Mobile=False, Darkmode=False	0	DROP_SHADOW	0	0	4	0	193,193,193,1
+Manage columns	Mobile=True, Darkmode=False	0	DROP_SHADOW	0	0	4	0	193,193,193,1
+Menu-search-settings	Page=Menu, Darkmode=False	0	BACKGROUND_BLUR	0	0	50	0	
+Menu-search-settings	Page=Search, Darkmode=False	0	BACKGROUND_BLUR	0	0	50	0	
+Menu-search-settings	Page=Settings, Darkmode=False	0	BACKGROUND_BLUR	0	0	50	0	
+Notification categories	Mobile=No	0	DROP_SHADOW	2	0	4	0	0,0,0,0.1
+Notification categories	Mobile=Yes	0	DROP_SHADOW	0	0	4	0	193,193,193,1
+Notification list	Mobile=No	0	DROP_SHADOW	2	0	4	0	0,0,0,0.1
+Notification panel	Mobile=No	0	DROP_SHADOW	0	0	4	0	193,193,193,1
+Notification panel	Mobile=Yes	0	DROP_SHADOW	0	0	4	0	193,193,193,1
+Org chart	Type=Manager	0	DROP_SHADOW	2	2	4	0	0,0,0,0.3
+Org chart	Type=Org	0	DROP_SHADOW	2	2	4	0	0,0,0,0.3
+Org chart	Type=Reportee	0	DROP_SHADOW	2	2	4	0	0,0,0,0.3
+People and department drop down		0	DROP_SHADOW	0	0	4	0	193,193,193,1
+Settings card	Property 1=Default	0	DROP_SHADOW	0	1	3	0	0,0,0,0.25
+Side filter	Mobile=False	0	DROP_SHADOW	0	0	4	0	193,193,193,1
+Side filter	Mobile=True	0	DROP_SHADOW	0	0	4	0	193,193,193,1
+Side navigation	System=Configr	0	DROP_SHADOW	0	0	4	0	0,0,0,0.2
+Side navigation	System=Finance	0	DROP_SHADOW	0	0	4	0	0,0,0,0.2
+Side navigation	System=People First	0	DROP_SHADOW	0	0	4	0	0,0,0,0.2
+Side panel	Mobile=No, Size=Large	0	DROP_SHADOW	0	0	4	0	193,193,193,1
+Side panel	Mobile=No, Size=Medium	0	DROP_SHADOW	0	0	4	0	193,193,193,1
+Side panel	Mobile=No, Size=Small	0	DROP_SHADOW	0	0	4	0	193,193,193,1
+Side panel	Mobile=Yes, Size=Medium	0	DROP_SHADOW	0	0	4	0	193,193,193,1
+Table card (AG)	Mobile=False	0	DROP_SHADOW	0	0	4	0	193,193,193,1
+Table card (AG)	Mobile=True	0	DROP_SHADOW	0	0	4	0	193,193,193,1
+Toast message	Message type=Error	0	DROP_SHADOW	0	0	25	0	0,0,0,0.2
+Toast message	Message type=Info	0	DROP_SHADOW	0	0	25	0	0,0,0,0.2
+Toast message	Message type=Success	0	DROP_SHADOW	0	0	25	0	0,0,0,0.2
+Toast message	Message type=Warning	0	DROP_SHADOW	0	0	25	0	0,0,0,0.2
+Tool tip	Property 1=Default	0	DROP_SHADOW	0	0	4	0	193,193,193,1

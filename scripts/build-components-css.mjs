@@ -853,10 +853,80 @@ if (innerRows.length) {
   out.push('');
 }
 
+// THE SHADOW A COMPONENT CASTS.
+//
+// This file used to contain the string "box-shadow" zero times, while Figma put a drop
+// shadow on 50 component variants — `Card`, `Side panel`, `Side filter`, `Toast message`,
+// `Tool tip`, `Action menu`, `Table card (AG)`, `Header navigation`, `Side navigation`:
+// every floating surface in the system, rendering flat against the page.
+//
+// THE DESIGN SYSTEM HAS EXACTLY TWO SHADOW TOKENS and this does not invent a third. Where a
+// measurement matches a token exactly, the token is emitted. Where it does not, NOTHING is
+// emitted and the shadow is reported: writing Figma`s rgba straight into the rule would put
+// a raw colour in generated CSS, which is this project`s first rule, and freeze it across
+// both modes into the bargain. A shadow the design system has no token for is a gap in the
+// design system, and the build says so rather than papering over it.
+const SHADOW_TOKENS = [
+  // token, [x, y, blur, spread], r,g,b,a — read from dist/tokens.css, not from memory.
+  ['--pf-shadow-drop-shadow', [0, 0, 4, 0], '193,193,193,1'],
+  ['--pf-shadow-modal-header-shadow', [0, 4, 4, 0], '0,0,0,0.102'],
+];
+const shadowRows = existsSync('tokens/_raw/component-shadow.tsv')
+  ? tsv('tokens/_raw/component-shadow.tsv') : [];
+const shadowUnmatched = new Map(), shadowNotAShadow = new Map();
+if (shadowRows.length) {
+  const byVariant = new Map();
+  for (const r of shadowRows) {
+    if (!byComponent.has(r.component)) continue;      // no class to hang it on
+    if (r.type !== `DROP_SHADOW`) {
+      shadowNotAShadow.set(`${r.component} ${r.variant || `*`}`, r.type);
+      continue;
+    }
+    // Figma`s alpha is rounded to three places; the token`s comes from an 8-digit hex, so
+    // #0000001a is 26/255 = 0.10196. Compare at the precision both can express.
+    const near = (a, b) => Math.abs(a - b) < 0.006;
+    const [cr, cg, cb, ca] = (r.colour || ``).split(`,`).map(Number);
+    const hit = SHADOW_TOKENS.find(([, geo, col]) => {
+      const [tr, tg, tb, ta] = col.split(`,`).map(Number);
+      return geo[0] === Number(r.x) && geo[1] === Number(r.y)
+        && geo[2] === Number(r.blur) && geo[3] === Number(r.spread)
+        && tr === cr && tg === cg && tb === cb && near(ta, ca);
+    });
+    if (!hit) {
+      shadowUnmatched.set(`${r.component} ${r.variant || `*`}`,
+        `${r.x} ${r.y} ${r.blur} ${r.spread} rgba(${r.colour})`);
+      continue;
+    }
+    const sel = `.${cls(r.component)}${variantSel(cls(r.component), r.variant)}`;
+    if (!byVariant.has(sel)) byVariant.set(sel, []);
+    byVariant.get(sel).push(hit[0]);
+  }
+  if (byVariant.size) {
+    out.push(`/* Drop shadows. Figma puts one on every floating surface; the design system has`);
+    out.push(` * two shadow tokens and a measurement is emitted only where it matches one`);
+    out.push(` * exactly. Measured into tokens/_raw/component-shadow.tsv. */`);
+    for (const [sel, tokens] of [...byVariant.entries()].sort()) {
+      out.push(`${sel} {`);
+      out.push(`  box-shadow: ${[...new Set(tokens)].map(t => `var(${t})`).join(`, `)};`);
+      out.push(`}`);
+      ruleCount++;
+    }
+    out.push(``);
+  }
+}
+
 mkdirSync('dist', { recursive: true });
 writeFileSync('dist/components.css', out.join('\n'));
 
 console.log(`components.css written — ${componentCount} components, ${ruleCount} rules`);
+if (shadowUnmatched.size)
+  console.log(`  SHADOWS with no token   : ${shadowUnmatched.size} variant(s) cast a drop shadow `
+    + `the design system has no token for, so none is emitted (writing the rgba would be a raw `
+    + `colour, frozen across both modes)`)
+  || [...shadowUnmatched].sort().forEach(([k, v]) => console.log(`    ${k} — ${v}`));
+if (shadowNotAShadow.size)
+  console.log(`  ${shadowNotAShadow.size} effect(s) are not a shadow and have no box-shadow form: `
+    + `${[...shadowNotAShadow].sort().map(([k, v]) => `${k} (${v})`).join(', ')}`);
 if (sideClashes.size)
   console.log(`  border width NOT emitted for ${sideClashes.size} variant(s) — the stylesheet `
     + `collapses the axis that tells them apart, so no rule can distinguish them: `
