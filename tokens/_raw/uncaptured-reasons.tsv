@@ -26,7 +26,7 @@ Logo	🎨 STYLE GUIDE	on a documentation page — describes the design system ra
 Logos	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
 Map	Forms	no variant binds a colour variable in Figma — nothing to put in a stylesheet
 Menu	Navigation	no variant binds a colour variable in Figma — nothing to put in a stylesheet
-Mobile key actions	Buttons and links	no variant binds a colour variable in Figma — nothing to put in a stylesheet
+Mobile key actions	Buttons and links	no variant binds a colour variable in Figma — nothing to put in a stylesheet. CONFIRMED by re-read 2026-09-11 (1536:44461): raw white, five raw rgba() tints and the DEPRECATED COLOURS/White style, plus Open Sans Medium (500) text
 Notification categories	Navigation	pending: newly published in Figma, first seen in the 2026-09-11 inventory refresh. Not yet captured because the Navigation re-read is blocked on a token re-extract — components on this page bind Navigation/Nav bg top and Border/Default full, which Figma uses today and this repo has never extracted into semantic.tsv, so their colours cannot be recorded without inventing a token name
 Notification image	System messages	no variant binds a colour variable in Figma — nothing to put in a stylesheet
 Notification list	Navigation	pending: newly published in Figma, first seen in the 2026-09-11 inventory refresh. Not yet captured because the Navigation re-read is blocked on a token re-extract — components on this page bind Navigation/Nav bg top and Border/Default full, which Figma uses today and this repo has never extracted into semantic.tsv, so their colours cannot be recorded without inventing a token name
@@ -58,7 +58,7 @@ Table (AG) container	Tables	a measured sub-part, not a component set Figma publi
 Team member	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
 Thumbnail	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
 Thumbnail/Brand logo	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
-Tooltip	Buttons and links	no variant binds a colour variable in Figma — nothing to put in a stylesheet
+Tooltip	Buttons and links	no variant binds a colour variable in Figma — nothing to put in a stylesheet. CONFIRMED by re-read 2026-09-11 (18235:41129): a 28x28 icon, both variants pure SVG, the only colour is the DEPRECATED COLOURS/Grey style #868686
 Waffle	Navigation	pending: newly published in Figma, first seen in the 2026-09-11 inventory refresh. Not yet captured because the Navigation re-read is blocked on a token re-extract — components on this page bind Navigation/Nav bg top and Border/Default full, which Figma uses today and this repo has never extracted into semantic.tsv, so their colours cannot be recorded without inventing a token name
 Wiki menu	📚 WIKI	on a documentation page — describes the design system rather than being part of it
 Work item	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it

@@ -136,12 +136,12 @@ Config side menu	325 x 980		8		16px	VERTICAL MIN MIN		5942:65619
 [S] Config child menu	auto x auto	10 0 0 11		10	16px	VERTICAL MIN MIN		930:30367
 Counter	20 x 20	0 4	38	10	11px SemiBold	VERTICAL CENTER CENTER		14990:11954
 Links	auto x auto			5	16px	HORIZONTAL CENTER MIN		9707:98838
-Add attachment	440 x auto			20	13px SemiBold	VERTICAL CENTER MIN		4174:71096
-Action menu button	auto x auto				16px	HORIZONTAL CENTER CENTER		5308:64681
-Tool tip	auto x auto	10	4		13px	VERTICAL MIN MIN		5322:66068
+Add attachment	440 x auto			20	13px SemiBold	VERTICAL CENTER MIN	RE-READ 2026-09-11: root binds nothing (no fill, no stroke) — UNCHANGED. Figma-side: the note body is Open Sans Medium (500) and an italic line, both outside the 400/600 system; the attachment and note cards bind Border/Default full, the blocked split token, on their card borders rather than on the root	4174:71096
+Action menu button	auto x auto				16px	HORIZONTAL CENTER CENTER	RE-READ 2026-09-11: UNCHANGED. Figma carries a Circle boolean variant not captured as an axis — both variants bind the same single token (Text/Primary) and differ only by a 5px gap	5308:64681
+Tool tip	auto x auto	10	4		13px	VERTICAL MIN MIN	RE-READ 2026-09-11: UNCHANGED. Drop shadow binds the effect colour Border/Border - Drop shadow, which the variants extract has no column for	5322:66068
 Drop down button	192 x auto	7 10 7 20	48		13px Regular	HORIZONTAL CENTER MIN		22421:5021
-Repeating group	auto x auto			20	16px Italic	VERTICAL MIN MIN	RE-READ 2026-09-11: CORRECTED. The capture recorded its text as "Grey-slate", which is no token at all — the build reported it as the one UNMAPPED Figma token on every run. Figma binds Text/Primary. The nearest real name to "Grey-slate" is the PRIMITIVE Base colours/Grey Slate, same #3e3e3e in light but wrong in dark, so the semantic token is right twice over	32392:8259
-Action menu	199 x auto	4 5	4		13px	VERTICAL MIN MIN		5308:64663
+Repeating group	auto x auto			20	16px Italic	VERTICAL MIN MIN	RE-READ 2026-09-11: root binds NO fill and NO stroke — the Background/Primary and Border/Form input in this component are on its descendant form fields, not on the root. Confirms the cleared row from b80a234	32392:8259
+Action menu	199 x auto	4 5	4		13px	VERTICAL MIN MIN	RE-READ 2026-09-11: UNCHANGED. Its option separators bind Border/Default full, the blocked split token, but on children rather than the root, so the captured row is unaffected	5308:64663
 Manage columns	520 x auto				20px	VERTICAL MIN MIN		20798:19026
 Footer (AG)	1560 x auto				13px	VERTICAL MIN MIN		27725:51239
 Table action bar	1654 x auto			20	16px SemiBold	VERTICAL MIN CENTER		27742:15071

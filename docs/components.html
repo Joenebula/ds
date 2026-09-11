@@ -827,7 +827,7 @@
 }
 
 /* Action menu button
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: UNCHANGED. Figma carries a Circle boolean variant not captured as an axis — both variants bind the same single token (Text/Primary) and differ only by a 5px gap
  */
 .pf-action-menu-button {
   display: inline-flex;
@@ -848,7 +848,7 @@
 }
 
 /* Action menu
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: UNCHANGED. Its option separators bind Border/Default full, the blocked split token, but on children rather than the root, so the captured row is unaffected
  * Figma draws this 199px wide; treated as layout, not a rule
  */
 .pf-action-menu {
@@ -896,7 +896,7 @@
 }
 
 /* Add attachment
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: root binds nothing (no fill, no stroke) — UNCHANGED. Figma-side: the note body is Open Sans Medium (500) and an italic line, both outside the 400/600 system; the attachment and note cards bind Border/Default full, the blocked split token, on their card borders rather than on the root
  * Figma draws this 440px wide; treated as layout, not a rule
  */
 .pf-add-attachment {
@@ -3282,7 +3282,7 @@
 }
 
 /* Repeating group
- * 1 variant captured. RE-READ 2026-09-11: CORRECTED. The capture recorded its text as "Grey-slate", which is no token at all — the build reported it as the one UNMAPPED Figma token on every run. Figma binds Text/Primary. The nearest real name to "Grey-slate" is the PRIMITIVE Base colours/Grey Slate, same #3e3e3e in light but wrong in dark, so the semantic token is right twice over
+ * 1 variant captured. RE-READ 2026-09-11: root binds NO fill and NO stroke — the Background/Primary and Border/Form input in this component are on its descendant form fields, not on the root. Confirms the cleared row from b80a234
  */
 .pf-repeating-group {
   display: inline-flex;
@@ -4281,7 +4281,7 @@
 }
 
 /* Tool tip
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: UNCHANGED. Drop shadow binds the effect colour Border/Border - Drop shadow, which the variants extract has no column for
  */
 .pf-tool-tip {
   padding: 10px;
@@ -6624,10 +6624,8 @@ so nobody has to guess whether one is an oversight — most are deliberate.</p>
   <div>Thumbnail/Brand logo <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
   <div>Work item <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
 </div>
-<h3 style="margin-top:20px">10 — no variant binds a colour variable in Figma — nothing to put in a stylesheet</h3>
+<h3 style="margin-top:20px">8 — no variant binds a colour variable in Figma — nothing to put in a stylesheet</h3>
 <div class="gaps">
-  <div>Mobile key actions <span style="opacity:.6">— Buttons and links</span></div>
-  <div>Tooltip <span style="opacity:.6">— Buttons and links</span></div>
   <div>Floaters <span style="opacity:.6">— Cards and panels</span></div>
   <div>Horizontal scroll <span style="opacity:.6">— Cards and panels</span></div>
   <div>Field icons <span style="opacity:.6">— Forms, geometry measured</span></div>
@@ -6651,6 +6649,14 @@ so nobody has to guess whether one is an oversight — most are deliberate.</p>
 <h3 style="margin-top:20px">1 — carries a Figma default name — an unnamed component, not part of the system</h3>
 <div class="gaps">
   <div>Component 1 <span style="opacity:.6">— Cards and panels</span></div>
+</div>
+<h3 style="margin-top:20px">1 — no variant binds a colour variable in Figma — nothing to put in a stylesheet. CONFIRMED by re-read 2026-09-11 (1536:44461): raw white, five raw rgba() tints and the DEPRECATED COLOURS/White style, plus Open Sans Medium (500) text</h3>
+<div class="gaps">
+  <div>Mobile key actions <span style="opacity:.6">— Buttons and links</span></div>
+</div>
+<h3 style="margin-top:20px">1 — no variant binds a colour variable in Figma — nothing to put in a stylesheet. CONFIRMED by re-read 2026-09-11 (18235:41129): a 28x28 icon, both variants pure SVG, the only colour is the DEPRECATED COLOURS/Grey style #868686</h3>
+<div class="gaps">
+  <div>Tooltip <span style="opacity:.6">— Buttons and links</span></div>
 </div>
 <h3 style="margin-top:20px">1 — its variants are sample content (one per fictional employee), not design</h3>
 <div class="gaps">
