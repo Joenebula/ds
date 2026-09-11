@@ -528,6 +528,36 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-information-box[data-type="Warning"] {
+  height: 74px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 13px;
+}
+.pf-information-box[data-type="Error"] {
+  height: 74px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 13px;
+}
+.pf-information-box[data-type="Success"] {
+  height: 74px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 13px;
+}
 .pf-information-box[data-type="Information"] {
   color: var(--pf-text-primary);
 }
@@ -543,17 +573,18 @@
 
 /* Notification card
  * 1 variant captured
+ * Figma draws this 1160px wide; treated as layout, not a rule
  */
 .pf-notification-card {
-  height: 113px;
+  height: 117px;
   padding: 15px 20px;
   border-radius: 8px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  gap: 15px;
-  font-size: 13px;
+  gap: 10px;
+  font-size: 16px;
   font-weight: var(--pf-font-weight-bold);
   appearance: none;
   -webkit-appearance: none;
@@ -562,6 +593,18 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-notification-card[data-mobile="Yes"] {
+  height: 153px;
+  padding: 15px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
 }
 .pf-notification-card,
 .pf-notification-card[data-mobile="False"] {
@@ -593,6 +636,66 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-confirmation-modal[data-mobile="false"][data-type="Success"][data-dark-mode="False"] {
+  min-height: 413px;
+  padding: 60px 10px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 65px;
+  font-size: 24px;
+  font-weight: var(--pf-font-weight-regular);
+}
+.pf-confirmation-modal[data-mobile="false"][data-type="Information"][data-dark-mode="False"] {
+  min-height: 550px;
+  padding: 60px 10px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 65px;
+  font-size: 24px;
+  font-weight: var(--pf-font-weight-regular);
+}
+.pf-confirmation-modal[data-mobile="True"][data-type="Confirmation"][data-dark-mode="False"] {
+  min-height: 695px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 71px;
+  font-size: 24px;
+  font-weight: var(--pf-font-weight-regular);
+}
+.pf-confirmation-modal[data-mobile="True"][data-type="Success"][data-dark-mode="False"] {
+  min-height: 695px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 71px;
+  font-size: 24px;
+  font-weight: var(--pf-font-weight-regular);
+}
+.pf-confirmation-modal[data-mobile="True"][data-type="Information"][data-dark-mode="False"] {
+  min-height: 695px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 71px;
+  font-size: 24px;
+  font-weight: var(--pf-font-weight-regular);
 }
 .pf-confirmation-modal[data-type="Confirmation"] {
   background: var(--pf-bg-primary);
@@ -659,6 +762,13 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-status[data-status-type="Custom"] {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  display: inline-block;
+  font-size: 13px;
 }
 .pf-status[data-status-type="Like"] {
   background: var(--pf-icon-info);
@@ -751,7 +861,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Notification card</h2>
-<p class="sub">.pf-notification-card  ·  auto x 113  ·  1 variant</p>
+<p class="sub">.pf-notification-card  ·  1160 x 117  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-notification-card" data-mobile="False">Notification card</div>

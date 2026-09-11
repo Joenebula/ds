@@ -169,7 +169,12 @@ const num = s => { const n = parseFloat(s); return Number.isFinite(n) ? n : null
 // Components whose Figma frame clips. Their icons must not shrink — see the fix-up below.
 const clipComponents = new Set();
 
-function geometryDecls(g, notes) {
+// `isVariant` matters for ZERO. On a base row, "no padding" and "padding: 0" look the
+// same and emitting nothing is tidier. On a VARIANT row it is an override, and emitting
+// nothing means the base's padding leaks through — Confirmation modal Mobile=True resets
+// padding and radius to 0 in Figma and rendered with the desktop variant's 60 10 and its
+// 8px radius. Zero is a real value in an override.
+function geometryDecls(g, notes, isVariant = false) {
   if (!g) return [];
   const d = [];
   const m = (g.size || '').match(/^(auto|\d+)\s*x\s*(auto|\d+)$/);
@@ -197,7 +202,8 @@ function geometryDecls(g, notes) {
     notes.push(`Figma draws this ${h}px tall — the artboard it sits on, not a rule; dropped`);
   }
 
-  if (g.padding && g.padding !== '—' && g.padding !== '0') {
+  if (isVariant && g.padding === '0') d.push('padding: 0');
+  else if (g.padding && g.padding !== '—' && g.padding !== '0') {
     const parts = g.padding.trim().split(/\s+/).map(Number);
     // top/bottom, expanded from CSS shorthand
     const [pt, pb] = parts.length === 1 ? [parts[0], parts[0]]
@@ -220,6 +226,7 @@ function geometryDecls(g, notes) {
   if (r !== null) {
     if (h !== null && r >= h / 2 - 1) { d.push('border-radius: 999px'); notes.push('pill'); }
     else if (r > 0) d.push(`border-radius: ${r}px`);
+    else if (isVariant) d.push('border-radius: 0');
   } else if (g.radius === 'mixed') notes.push('corner radius varies per corner in Figma');
 
   // CLIP in the notes means the Figma frame has clipsContent and a FIXED width, so its
@@ -396,7 +403,7 @@ for (const [component, rows] of [...byComponent.entries()].sort()) {
 
   for (const vg of geometryByVariant.get(component) || []) {
     const vnotes = [];
-    const vdecls = geometryDecls(vg, vnotes);
+    const vdecls = geometryDecls(vg, vnotes, true);
     if (!vdecls.length) continue;
     const sels = selectorsFor(base, parseVariant(vg.variant));
     out.push(`${sels.join(',\n')} {`);

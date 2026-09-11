@@ -9,16 +9,36 @@ Button	Type=Filter, State=Default, Label=No	32	32	0 8 0 8	20	5
 Button	Type=Filter, State=Default, Label=Yes	89	32	0 15 0 15	20	10	13	SemiBold
 Button	Type=Hollow, State=Default, Label=No	32	32	0 20 0 20	20	5		
 Button	Type=Sort, State=Default, Label=Yes	82	32	0 15 0 15	20	10	13	SemiBold
+Confirmation modal	Mobile=True, Type=Confirmation, Dark mode=False	375	695	0 0 0 0	0	71	24	Regular
+Confirmation modal	Mobile=false, Type=Confirmation, Dark mode=False	400	413	60 10 60 10	8	36	24	Regular
+Confirmation modal	Mobile=false, Type=Information, Dark mode=False	400	550	60 10 60 10	8	65	24	Regular
+Confirmation modal	Mobile=false, Type=Success, Dark mode=False	400	413	60 10 60 10	8	65	24	Regular
 Drop down button	Hover=False	192	32	7 10 7 20	48	0	13	Regular
+Empty section	Mobile=False	587	212	0 0 0 0	0	35	20	SemiBold
+Empty section	Mobile=True	263	351	0 0 0 0	0	20	18	SemiBold
 Filter chip	State=Default, Active=False, Mobile=False	113	42	10 20 10 20	78	5	16	
 Filter chip	State=Default, Active=False, Mobile=True	91	34	8 15 8 15	78	5	13	
 Filter chip	State=Selected, Active=True, Mobile=False	147	42	10 20 10 20	76	10	16	SemiBold
 Filter chip	State=Selected, Active=True, Mobile=True	121	34	8 15 8 15	76	10	13	SemiBold
+Information box	Type=Information	440	56	0 0 0 0	0	0	13	
+Information box	Type=Warning	440	74	0 0 0 0	0	0	13	
 Links	Link type=Primary, Hover=False, Icon position=Left	58	22	0 0 0 0	0	5	16	
 Links	Link type=Secondary, Hover=False, Icon position=Left	48	18	0 0 0 0	0	5	13	
 Mobile key actions	Link=Key actions	126	103	0 0 0 0	0	0	16	
 Mobile key actions	Link=MHR	126	103	0 0 0 0	0	0	15	
 Mobile key actions	Link=Social activity	132	103	0 0 0 0	0	0	16	
+Next actions modal	Mobile=false, Type=Warning	400	565	0 0 30 0	8	30	24	Regular
+Notification card	Mobile=No	1160	117	15 20 15 20	8	10	16	SemiBold
+Notification card	Mobile=Yes	355	153	15 15 15 15	8	10	16	SemiBold
+Notification image	Type=Person, With status?=False, Mobile=False, Status position=High	44	44	0 0 0 0	0	0		
+Notification image	Type=Person, With status?=False, Mobile=True, Status position=High	36	36	0 0 0 0	0	0		
 Repeating group		480	258	0 0 0 0	0	20	16	Italic
+Star rating	Rating=0, State=Default, Read only=No	133	24	0 0 0 0	0	0	13	
+Stars	Active=No	25	24	0 0 0 0	0	0		
+Status	Status type=Custom	22	22	0 0 0 0	100	0	13	
+Status	Status type=Like	22	22	0 0 0 0	100	0		
+Tags	Type=Neutral, Small=No	58	28	5 10 5 10	4	5	13	Regular
+Tags	Type=Neutral, Small=Yes	48	22	2 5 2 5	4	5	13	Regular
+Toast message	Message type=Success	350	114	30 0 30 25	4	15	13	
 Tool tip	Property 1=Default	255	92	10 10 10 10	4	0	13	
 Tooltip	Hover=False	28	28	0 0 0 0	0	0		

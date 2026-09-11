@@ -49,11 +49,26 @@ const libCss = readFileSync('dist/components.css', 'utf8') + '\n'
              + readFileSync('dist/type.css', 'utf8');
 
 // Every class the design system defines, and which properties each one sets.
+//
+// Comments must go FIRST. A naive scan treats the text before a `{` as the selector, so a
+// `/* ... */` block ahead of a rule is swallowed into it and the rule's classes are lost.
+// This check reported .pf-text-label-text, .pf-text-sub-heading and .pf-text-large-heading
+// as INVENTED while they were sitting in type.css — it was finding 12 of the 23 type
+// classes. A checker that quietly indexes two thirds of the library is worse than none.
+const stripComments = css => css.replace(/\/\*[\s\S]*?\*\//g, ' ');
+// @media wrappers nest braces, which the flat scan cannot see past. Unwrap them so the
+// rules inside are indexed like any other.
+const unwrapAtRules = css => css.replace(/@[a-z-]+[^{]*\{/gi, ' ');
+
+// The prefix `(^|\})` this used to carry made the scan consume one rule's CLOSING brace
+// as the next rule's opening delimiter, so it matched every OTHER rule — 12 of the 23 type
+// classes, half the library, silently. No prefix: a selector is whatever sits between the
+// last brace and the next `{`.
 const libClasses = new Map();
-for (const m of libCss.matchAll(/(^|\})([^{}@]+)\{([^}]*)\}/g)) {
-  const body = m[3];
+for (const m of unwrapAtRules(stripComments(libCss)).matchAll(/([^{}@]+)\{([^{}]*)\}/g)) {
+  const body = m[2];
   const props = new Set([...body.matchAll(/(^|;)\s*([a-z-]+)\s*:/g)].map(x => x[2]));
-  for (const cm of m[2].matchAll(/\.(pf-[a-z0-9-]+)/g)) {
+  for (const cm of m[1].matchAll(/\.(pf-[a-z0-9-]+)/g)) {
     if (!libClasses.has(cm[1])) libClasses.set(cm[1], new Set());
     for (const p of props) libClasses.get(cm[1]).add(p);
   }
@@ -75,17 +90,35 @@ for (const file of process.argv.slice(2)) {
 
   // ---- 2 & 3. the page's own CSS --------------------------------------------
   const styleBlocks = [...src.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi)].map(m => m[1]);
+  // NOTE: the page's own CSS is scanned WITH its comments intact, because the pf-new
+  // marker is a comment and has to be visible to the scan.
   for (const css of styleBlocks) {
-    for (const m of css.matchAll(/(^|\}|\*\/)([^{}@]+)\{([^}]*)\}/g)) {
-      const selector = m[2].trim();
+    for (const m of css.matchAll(/([^{}@]+)\{([^{}]*)\}/g)) {
+      const selector = m[1].replace(/\/\*[\s\S]*?\*\//g, '').trim();
       if (!selector || selector.startsWith('/*') || selector.startsWith(':root')) continue;
-      const before = css.slice(0, m.index + m[0].indexOf(selector));
-      const marked = /\/\*\s*pf-new:[\s\S]*?\*\/\s*$/.test(before);
+      // The marker is the comment that CLOSES immediately before the selector. Finding it
+      // by indexOf(selector) was wrong: a marker that mentions the selector's own name
+      // ("no component for the <body> element") matched inside its own comment, cut the
+      // slice short, and the exemption silently stopped applying to the rule it was
+      // written for. Walk back from the last `*/` in the pre-selector text instead.
+      const raw = m[1];
+      const close = raw.lastIndexOf('*/');
+      let marked = false;
+      if (close !== -1 && raw.slice(close + 2).trim() === selector) {
+        const open = raw.lastIndexOf('/*', close);
+        marked = open !== -1 && /^\/\*\s*pf-new:/.test(raw.slice(open, close));
+      }
       if (marked) continue;
 
-      const decls = [...m[3].matchAll(/(^|;)\s*([a-z-]+)\s*:\s*([^;}]+)/g)]
+      const decls = [...m[2].matchAll(/(^|;)\s*([a-z-]+)\s*:\s*([^;}]+)/g)]
         .map(d => [d[2].trim(), d[3].trim()]);
-      const targetsComponent = /\.(pf-[a-z0-9-]+)/.exec(selector);
+      // A ::before/::after on a component class is a CHILD the page draws, not the
+      // component's own box — the library never defines one. Reporting it as an override
+      // was wrong twice over: it named a property the pseudo-element does not share with
+      // the component, and it offered no way to declare a legitimate child. It is
+      // hand-written work, so it needs a pf-new marker like any other.
+      const pseudo = /::(before|after)\b/.test(selector);
+      const targetsComponent = pseudo ? null : /\.(pf-[a-z0-9-]+)/.exec(selector);
 
       for (const [prop, val] of decls) {
         if (FREE.has(prop)) continue;

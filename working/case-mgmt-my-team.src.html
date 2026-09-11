@@ -52,6 +52,8 @@
 
 /* ---------- local: page layout and anything drawn INSIDE a component ---------- */
 * { box-sizing: border-box; }
+/* pf-new: the page ground. Figma's canvas fill and default text colour; there is no
+   component for the <body> element itself. */
 body { margin: 0; font-family: var(--pf-font-body); background: var(--pf-bg-secondary);
        color: var(--pf-text-primary); }
 svg { display: block; }
@@ -74,6 +76,9 @@ svg { display: block; }
    a column and the icon is pushed out of the 86px item — which is exactly what happened
    the moment the library started emitting the Selected variant's real geometry. The
    inner frame's own gap is 5. */
+/* pf-new: the inner VERTICAL stack (32x55, gap 5) is a CHILD of the rail item in Figma.
+   The outer-box extract reaches the item, never the stack, so the stack's own direction,
+   gap and padding are written here. */
 .pf-navigation-item,
 .pf-navigation-item[data-selected="Yes"] {
   flex-direction: column; gap: 5px; padding: 0 25px; text-decoration: none;
@@ -81,6 +86,8 @@ svg { display: block; }
 /* Weight now comes from the class: base is Regular, [data-selected="Yes"] is SemiBold,
    exactly as Figma has it. Only the two CHILDREN the extract cannot reach are written
    here — the inner vertical stack above, and the 3x132 selected bar below. */
+/* pf-new: the selected bar is a 3x132 sibling RECTANGLE in Figma, not part of the item's
+   own box, so no class carries it. */
 .pf-navigation-item[data-selected="Yes"]::before {
   content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
   background: var(--pf-bg-theme);
@@ -88,7 +95,13 @@ svg { display: block; }
 /* Figma's 0 25 padding is sized for the 32px ICON, and the label simply overflows it —
    a Figma text node does not wrap or clip unless told to. nowrap reproduces that; letting
    it wrap would invent a two-line rail item the design does not have. */
+/* pf-new: the label is a TEXT child inside that stack. 13px is measured on the child, not
+   inherited from the item's outer box. */
 .pf-navigation-item .lbl { font-size: 13px; white-space: nowrap; }
+/* pf-new: the notification count on a rail item. Figma's `Counter` is not a component —
+   uncaptured-reasons.tsv records it as a variant child of the Header set ("System=People
+   First"), never a component in its own right — so there is no class to use. Measured off
+   that child. */
 .badge { position: absolute; top: 14px; right: 22px; min-width: 18px; height: 18px;
          border-radius: 9px; background: var(--pf-bg-theme); color: var(--pf-text-always-white);
          font-size: 11px; font-weight: var(--pf-font-weight-bold);
@@ -101,14 +114,25 @@ svg { display: block; }
 .pf-header { width: 100%; position: relative; }
 .pf-header > .pf-default-header-background {
   position: absolute; inset: 0; height: 100%; }   /* Figma: child 0 of Header, behind the row */
+/* pf-new: the 86px row of header content is a CHILD frame of Header, sitting over the
+   artwork. The extract captures Header's outer box only. */
 .hdrow { height: 86px; display: flex; align-items: center; width: 100%; position: relative;
          padding: 0 20px 0 23px; }   /* Figma: search at x=23, right group ends 20 from edge */
 .hdrow .grow { flex: 1; }
-.hdtitle { display: flex; align-items: center; gap: 10px;
-           color: var(--pf-text-always-white); font-size: 24px; }  /* Figma: 109x66, 24px */
+/* Size now comes from `.pf-text-large-heading` — Figma's Desktop text/Large heading is
+   24px Regular, which is exactly what was hand-written here.
+   The colour is marked below. */
+/* pf-new: the title sits ON the header artwork, which is dark in both modes, so it takes
+   Text/Always white rather than any component's bound colour. */
+.hdtitle { display: flex; align-items: center; gap: var(--pf-space-small);
+           color: var(--pf-text-always-white); }  /* Figma: 109x66 */
+/* pf-new: the 66px avatar disc is a child of the header title group in Figma, with no
+   component of its own. */
 .hdtitle .disc { width: 66px; height: 66px; border-radius: 50%;
                  background: var(--pf-bg-light-theme); color: var(--pf-text-theme);
                  display: grid; place-items: center; }
+/* pf-new: header icons are loose instances on the band, not a component. Always-white
+   for the same reason as the title — the artwork behind them is dark in both modes. */
 .hdicon { color: var(--pf-icon-always-white); }
 /* Clock-in is a component. The hand-written version here had padding 7 16 7 6 from my
    own measuring; the component says 7 20 7 10. Layout only now — the class owns the box. */
@@ -134,7 +158,7 @@ svg { display: block; }
    INTERNAL arrangement, which the outer-box extract does not reach. */
 .pf-search-navigation { display: inline-flex; align-items: center; gap: 7px; width: 150px;
   padding: 0 7px; font-size: 16px; letter-spacing: -0.01em; }
-.rightgrp { display: flex; align-items: center; gap: 20px; }  /* Figma: Frame 84860 gap 20 */
+.rightgrp { display: flex; align-items: center; gap: var(--pf-space-large); }  /* Figma: Frame 84860 gap 20 */
 
 /* Secondary nav — Figma "[S] Main nav context", 1830x44, which the People First file
    now calls Secondary nav. Its tabs are Nav tabs. */
@@ -143,15 +167,25 @@ svg { display: block; }
    --pf-bg-primary, which is white in light mode and so looked right, and a DIFFERENT
    grey in dark mode — which is the band that showed up. The component class already
    carries the correct token; using it is the whole fix. */
-.pf-secondary-nav { width: 100%; height: 44px; display: flex; align-items: stretch;
+/* Layout only — the 44px height, the fill and the text colour come from the class. */
+.pf-secondary-nav { width: 100%; display: flex; align-items: stretch;
                     justify-content: center; gap: 0; }
+/* pf-new: the rules running out to either side of the tab group are children of the
+   Secondary nav frame in Figma, not part of its outer box. */
 .pf-secondary-nav::before, .pf-secondary-nav::after {
   content: ""; flex: 1 1 auto; align-self: flex-end;
   border-bottom: 1px solid var(--pf-border-default-full); }
-.pf-nav-tabs { height: 44px; justify-content: center; padding: 0 20px; cursor: pointer;
-               font-size: 16px; border: 0;
-               border-bottom: 3px solid transparent; }
-.pf-nav-tabs[data-status="Selected"] { border-bottom-color: var(--pf-border-theme); }
+/* Layout and behaviour only. Height (40), padding (0 20), gap (10), the 1px stroke and
+   every colour come from the class. Overriding height to 44 and replacing the stroke with
+   a bottom rule was undoing the extract — the 44 belongs to the strip, not the tab. */
+.pf-nav-tabs { cursor: pointer; font-size: 16px; }
+/* pf-new: the selected underline. In Figma Nav tabs is a VERTICAL stack (gap 10) whose
+   second child is a 3px bar; the outer-box extract cannot reach a child, so it is drawn
+   here. Transparent on the unselected tabs keeps every tab the same height. */
+.pf-nav-tabs::after { content: ""; display: block; align-self: stretch; height: 3px;
+                      background: transparent; }
+/* pf-new: as above — the 3px bar is the stack's second child. */
+.pf-nav-tabs[data-status="Selected"]::after { background: var(--pf-bg-theme); }
 
 .content { padding: var(--pf-space-large); display: flex; flex-direction: column;
            gap: var(--pf-space-large); }
@@ -162,7 +196,7 @@ svg { display: block; }
 /* .pf-card owns the fill, radius, padding and gap. Figma hugs and centres its contents;
    on a page it is a full-width block. */
 .peoplecard { width: 100%; display: flex; align-items: stretch; }
-.ppl-head { display: flex; align-items: center; gap: 10px; }
+.ppl-head { display: flex; align-items: center; gap: var(--pf-space-small); }
 .ppl-mark { display: grid; place-items: center; flex: 0 0 auto; }
 /* Tab binds no fill, so it sits on the card. Nav tabs binds `Navigation/Nav bg top` and
    belongs in the top strip; using it here put a lighter box behind the unselected tab in
@@ -176,7 +210,7 @@ svg { display: block; }
 .ppl-grid { list-style: none; margin: 0; padding: 0;
   display: grid; grid-template-columns: repeat(9, minmax(0, 1fr));
   gap: var(--pf-space-large) var(--pf-space-medium); }
-.person { display: flex; flex-direction: column; align-items: center; gap: 5px;
+.person { display: flex; flex-direction: column; align-items: center; gap: var(--pf-space-xsmall);
   text-align: center; min-width: 0; }
 /* pf-new: a positioning context for the dot and kebab. Sized to the Large avatar so the
    two children can be placed against it. */
@@ -191,7 +225,9 @@ svg { display: block; }
    green and red. --pf-bg-positive is Green Panache, a pale wash meant for a surface, and
    using it made the dot nearly invisible. The dot's OWN binding could not be read: it is
    in the Case Management frame, which no longer resolves through the plugin API. */
+/* pf-new: the dot is a child of the tile, and its own binding is unreadable. */
 .dot[data-presence="Available"] { background: var(--pf-bg-primary-button); }
+/* pf-new: as above — the dot is a child of the tile, and its own binding is unreadable. */
 .dot[data-presence="Away"] { background: var(--pf-bg-negative-button); }
 /* pf-new: the kebab is likewise a child of the tile, with no component of its own. */
 .kebab { position: absolute; top: 0; right: -14px; width: 20px; height: 20px;
@@ -200,10 +236,15 @@ svg { display: block; }
 /* Measured on the People component: #Name is 13px Regular Text/Primary and #ID is
    13px Regular Text/Secondary. 13px Regular IS `.pf-text-label-text`, so the type layer
    carries both and only the secondary colour is set here. */
+/* pf-new: #ID is a second TEXT child of the People tile; the type class carries its size
+   and weight, and only this colour has nowhere else to live. */
 .prole { color: var(--pf-text-secondary); }
 
 /* Department insights — Layout container (magazine style) */
-.pf-layout-container-magazine-style { width: 100%; background: var(--pf-bg-primary);
+/* The fill is the component's own, behind Row colour=False — set in the markup, not
+   here. Hand-writing --pf-bg-primary was the sub-nav fault again: correct in light mode,
+   a different grey in dark. */
+.pf-layout-container-magazine-style { width: 100%;
   border-radius: var(--pf-radius-medium); padding: var(--pf-space-large);
   display: flex; flex-direction: column; gap: var(--pf-space-large); }
 .ins-head { display: flex; flex-direction: column; gap: var(--pf-space-small); }
@@ -216,8 +257,9 @@ svg { display: block; }
 .cats { display: flex; gap: var(--pf-space-large); flex-wrap: wrap; }
 .btnrow { display: flex; gap: var(--pf-space-large); flex-wrap: wrap; }
 .pf-button { cursor: pointer; }
-.pf-links { text-decoration: none; cursor: pointer; display: inline-flex;
-            align-items: center; gap: 6px; }
+/* Behaviour only. The component owns the box, the 5px gap and the alignment; the 6px
+   written here was measured by eye and quietly disagreed with Figma. */
+.pf-links { text-decoration: none; cursor: pointer; }
 </style>
 
 <div class="app">
@@ -243,7 +285,7 @@ svg { display: block; }
       <div class="hdrow">
         <span class="pf-search-navigation" data-mobile="False"><!--pf-icon:search 22-->Search</span>
         <span class="grow"></span>
-        <span class="hdtitle"><span class="disc"><!--pf-icon:team 40--></span>HR</span>
+        <span class="hdtitle pf-text-large-heading"><span class="disc"><!--pf-icon:team 40--></span>HR</span>
         <span class="grow"></span>
         <span class="rightgrp">
           <button class="pf-clock-in" data-type="Standard" data-pf-issue="6" type="button"><!--pf-icon:clock 22-->Clock-in</button>
@@ -445,7 +487,7 @@ svg { display: block; }
       </section>
 
       <!-- Department insights — Layout container (magazine style) -->
-      <section class="pf-layout-container-magazine-style" data-row-colour="false" aria-labelledby="ins">
+      <section class="pf-layout-container-magazine-style" data-row-colour="False" aria-labelledby="ins">
         <div class="ins-head">
           <h2 id="ins" class="pf-text-large-heading">Department insights</h2>
           <div class="ins-rule"></div>

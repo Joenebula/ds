@@ -18,7 +18,15 @@ const tsv = (p) => {
   return rows.map(r => Object.fromEntries(r.split('\t').map((v, i) => [keys[i], v ?? ''])));
 };
 
-const geometry = new Map(tsv('tokens/_raw/component-geometry.tsv').map(r => [r.component, r]));
+const geometryRows = tsv('tokens/_raw/component-geometry.tsv');
+const geometry = new Map(geometryRows.filter(r => !r.component.includes('|')).map(r => [r.component, r]));
+// Per-variant rows. This file used to hold one row per component, so every variant was
+// checked against the same expectation — which was the fault, not the check. Now a
+// variant with its own row must be checked against THAT row: Information box is 56px in
+// its default Type=Information and 74px in Warning, Error and Success, and comparing all
+// four to the base reported four failures that were the checker's, not the library's.
+const geometryVariant = new Map(geometryRows.filter(r => r.component.includes('|'))
+  .map(r => [r.component, r]));
 const variants = tsv('tokens/_raw/component-variants.tsv');
 
 const tokenVar = new Map();
@@ -42,7 +50,7 @@ const parseVariant = v => v.split(',').map(p => p.trim()).filter(Boolean).map(p 
 // ---- expectations + specimen markup -----------------------------------------
 const specs = [];
 variants.forEach((r, i) => {
-  const g = geometry.get(r.component);
+  const g = geometryVariant.get(`${r.component}|${r.variant}`) || geometry.get(r.component);
   const base = 'pf-' + kebab(r.component);
   const attrs = parseVariant(r.variant).map(([k, v]) => ` data-${kebab(k)}="${esc(v)}"`).join('');
   const id = 's' + i;

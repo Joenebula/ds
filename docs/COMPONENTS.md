@@ -296,15 +296,16 @@ Contents: [Buttons and links](#buttons-and-links) · [Forms](#forms) · [Control
 | Component | Class | Variants in Figma | Size | Radius | Type |
 |---|---|---|---|---|---|
 | Empty section | `.pf-empty-section` | Mobile: False · True | auto x 212 | 0 | 20px SemiBold |
-| Star rating | `.pf-star-rating` | Rating: 0 · 1 · 2 · 3 · 4 · 5<br>State: Default · Hover<br>Read only: No · Yes | auto x auto | — | 13px |
+| Star rating | `.pf-star-rating` | Rating: 0 · 1 · 2 · 3 · 4 · 5<br>State: Default · Hover<br>Read only: No · Yes | auto x 24 | 0 | 13px |
 | Stars | `.pf-stars` | Active: No · Yes | 25 x 24 | 0 | — |
 | Tags | `.pf-tags` | Type: Neutral · Expired · Positive · Warning · Negative · Theme · Other<br>Small: No · Yes | auto x 28 | 4 | 13px Regular |
 
 <details><summary>Notes on these components</summary>
 
+- **Empty section** — per-variant sizes: `Mobile=True` auto x 351
 - **Star rating** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Read only`
 - **Stars** — **shape only** — no variant of this binds a colour variable in Figma, so the class carries its measured geometry and leaves colour to the page. 2 variants (Active). No colour variable bound in Figma.
-- **Tags** — SENTENCE CASE, not uppercase. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Small`
+- **Tags** — SENTENCE CASE, not uppercase. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Small`. per-variant sizes: `Type=Neutral, Small=Yes` auto x 22, `Type=Expired, Small=Yes` auto x 22, `Type=Positive, Small=Yes` auto x 22, `Type=Warning, Small=Yes` auto x 22, `Type=Negative, Small=Yes` auto x 22, `Type=Other, Small=Yes` auto x 22, `Type=Theme, Small=Yes` auto x 22
 
 </details>
 
@@ -315,18 +316,20 @@ Contents: [Buttons and links](#buttons-and-links) · [Forms](#forms) · [Control
 | Component | Class | Variants in Figma | Size | Radius | Type |
 |---|---|---|---|---|---|
 | Confirmation modal | `.pf-confirmation-modal` | Mobile: false · True<br>Type: Confirmation · Success · Information<br>Dark mode: False | 400 x 413 | 8 | 24px Regular |
-| Information box | `.pf-information-box` | Type: Success · Information · Warning · Error | 440 x 56 | — | 13px |
+| Information box | `.pf-information-box` | Type: Success · Information · Warning · Error | 440 x 56 | 0 | 13px |
 | Next actions modal | `.pf-next-actions-modal` | Mobile: false<br>Type: Success · Warning | 400 x 565 | 8 | 24px Regular |
-| Notification card | `.pf-notification-card` | Mobile: False · True | auto x 113 | 8 | 13px SemiBold |
+| Notification card | `.pf-notification-card` | Mobile: False · True | 1160 x 117 | 8 | 16px SemiBold |
 | Notification image | `.pf-notification-image` | Type: Person · Custom<br>With status?: False · True<br>Mobile: False · True<br>Status position: High · Low | 44 x 44 | 0 | — |
 | Status | `.pf-status` | Status type: Like · Recognition · Comment · New social group · Custom · Absence | 22 x 22 | 100 | — |
 | Toast message | `.pf-toast-message` | Message type: Success · Info · Warning · Error | 350 x 114 | 4 | 13px |
 
 <details><summary>Notes on these components</summary>
 
-- **Confirmation modal** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`
-- **Notification image** — **shape only** — no variant of this binds a colour variable in Figma, so the class carries its measured geometry and leaves colour to the page
-- **Status** — **binds a primitive** — Base colours/Light Purple (background) — so this will not adapt between light and dark until Figma binds a semantic token
+- **Confirmation modal** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`. per-variant sizes: `Mobile=false, Type=Success, Dark mode=False` 400 x 413, `Mobile=false, Type=Information, Dark mode=False` 400 x 550, `Mobile=True, Type=Confirmation, Dark mode=False` 375 x 695, `Mobile=True, Type=Success, Dark mode=False` 375 x 695, `Mobile=True, Type=Information, Dark mode=False` 375 x 695
+- **Information box** — per-variant sizes: `Type=Warning` auto x 74, `Type=Error` 440 x 74, `Type=Success` 440 x 74
+- **Notification card** — per-variant sizes: `Mobile=Yes` 355 x 153
+- **Notification image** — **shape only** — no variant of this binds a colour variable in Figma, so the class carries its measured geometry and leaves colour to the page. per-variant sizes: `Type=Person, With status?=False, Mobile=True, Status position=High` 36 x 36, `Type=Custom, With status?=False, Mobile=True, Status position=High` 36 x 36, `Type=Custom, With status?=True, Mobile=True, Status position=High` 36 x 36, `Type=Custom, With status?=True, Mobile=True, Status position=Low` 36 x 36, `Type=Person, With status?=True, Mobile=True, Status position=High` 36 x 36, `Type=Person, With status?=True, Mobile=True, Status position=Low` 36 x 36
+- **Status** — **binds a primitive** — Base colours/Light Purple (background) — so this will not adapt between light and dark until Figma binds a semantic token. per-variant sizes: `Status type=Custom` 22 x 22
 - **Toast message** — **binds a primitive** — Base colours/White (background), Base colours/Grey Slate (text) — so this will not adapt between light and dark until Figma binds a semantic token. fixed light surface — see dark-mode note
 
 </details>

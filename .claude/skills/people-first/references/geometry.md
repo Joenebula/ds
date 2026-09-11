@@ -10,7 +10,6 @@ case, and table rows are far taller than a default table. Look values up here.
 
 | Component | Size (w × h) | Padding | Radius | Gap | Type | Notes |
 |---|---|---|---|---|---|---|
-| **Tags** | auto x 28 | 5 10 | 4 | 5 | 13px Regular | HORIZONTAL CENTER CENTER |
 | **Field** | 300 x 42 | 10 10 10 20 | 8 | 10 | 16px | HORIZONTAL CENTER MAX |
 | **Primary search** | auto x 38 | 0 10 | 20 | 10 | 13px | HORIZONTAL CENTER MIN |
 | **Option (dropdown row)** | auto x 26 | 2 10 2 20 | 4 | 5 | 16px |  |
@@ -41,14 +40,8 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Org chart node** | 293 x 48 | 0 | 8 | 0 | 16px |  |
 | **Layout container** | auto | 30 | 0 | 20 | 20px |  |
 | **Title panel** | auto x 135 | 40 20 | 0 | 10 | 18px | VERTICAL CENTER CENTER |
-| **Empty section** | auto x 212 | 0 | 0 | 35 | 20px SemiBold | HORIZONTAL CENTER MIN |
-| **Notification card** | auto x 113 | 15 20 | 8 | 15 | 13px SemiBold | HORIZONTAL CENTER MIN |
-| **Toast message** | 350 x 114 | 30 0 30 25 | 4 | 15 | 13px | HORIZONTAL CENTER MIN |
 | **Information box (row)** | auto x 56 | 0 | 0 | 0 | 13px |  |
-| **Confirmation modal** | 400 x 413 | 60 10 | 8 | 36 | 24px Regular | VERTICAL CENTER MIN |
-| **Next actions modal** | 400 x 565 | 0 0 30 0 | 8 | 30 | 24px Regular | VERTICAL CENTER MIN |
 | **Status dot** | 22 x 22 | 0 | 100 | 0 | — |  |
-| **Notification image** | 44 x 44 | 0 | 0 | 0 | — | NONE |
 | **Navigation item** | 90 x 86 | 0 25 | 0 | 10 | 13px Regular | HORIZONTAL CENTER CENTER |
 | **Side navigation** | 90 wide | 0 | 0 | 0 | 13px | VERTICAL MIN MIN |
 | **Side navigation tab** | 268 x 48 | 10 15 | 8 | 20 | 16px | HORIZONTAL CENTER MIN |
@@ -137,9 +130,6 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Table action bar** | 1654 x auto | — | — | 20 | 16px SemiBold | VERTICAL MIN CENTER |
 | **AG field** | 140 x 43 | 2 4 | 8 | 10 | 12px | VERTICAL CENTER CENTER |
 | **Table (AG)** | 1705 x auto | — | 8 | — | 13px SemiBold | VERTICAL MIN MIN |
-| **Status** | 22 x 22 | — | 100 | — | — |  |
-| **Information box** | 440 x 56 | — | — | — | 13px | HORIZONTAL MIN MIN |
-| **Star rating** | auto x auto | — | — | — | 13px | VERTICAL CENTER CENTER |
 | **AI Assistant** | 1628 x auto | — | — | — | 20px | HORIZONTAL CENTER SPACE_BETWEEN |
 | **Adaptive card** | 478 x auto | — | — | 5 | 12px | VERTICAL MIN MIN |
 | **AI Gradient component** | 408 x 408 | — | — | — | 24px SemiBold |  |
@@ -156,7 +146,6 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Circle icons|Size=M - 44px** | 44 x 44 | 0 | 999 | 0 | — | NONE |
 | **Circle icons|Size=L - 52px** | 52 x 52 | 0 | 999 | 0 | — | NONE |
 | **Menu** | 50 x 73 | 0 | 0 | 5 | — | VERTICAL MIN CENTER |
-| **Stars** | 25 x 24 | 0 | 0 | 0 | — | NONE |
 | **Floaters** | 85 x 40 | 0 | 0 | 5 | — | HORIZONTAL MIN CENTER |
 | **Horizontal scroll** | auto x 32 | 0 | 0 | 390 | — | HORIZONTAL CENTER CENTER |
 | **Default header background** | auto x 86 | 0 | 0 | 0 | — | NONE |
@@ -217,13 +206,25 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Button|Type=Action, State=Disabled, Label=No** | 32 x 32 | 0 20 | 20 | 10 | — | HORIZONTAL CENTER CENTER |
 | **Button|Type=Negative, State=Disabled, Label=No** | 32 x 32 | 0 20 | 20 | 10 | — | HORIZONTAL CENTER CENTER |
 | **Button|Type=Positive, State=Disabled, Label=No** | 32 x 32 | 0 20 | 20 | 10 | — | HORIZONTAL CENTER CENTER |
+| **Confirmation modal** | 400 x 413 | 60 10 | 8 | 36 | 24px Regular | VERTICAL CENTER MIN |
+| **Confirmation modal|Mobile=false, Type=Success, Dark mode=False** | 400 x 413 | 60 10 | 8 | 65 | 24px Regular | VERTICAL CENTER MIN |
+| **Confirmation modal|Mobile=false, Type=Information, Dark mode=False** | 400 x 550 | 60 10 | 8 | 65 | 24px Regular | VERTICAL CENTER MIN |
+| **Confirmation modal|Mobile=True, Type=Confirmation, Dark mode=False** | 375 x 695 | 0 | 0 | 71 | 24px Regular | VERTICAL CENTER CENTER |
+| **Confirmation modal|Mobile=True, Type=Success, Dark mode=False** | 375 x 695 | 0 | 0 | 71 | 24px Regular | VERTICAL CENTER CENTER |
+| **Confirmation modal|Mobile=True, Type=Information, Dark mode=False** | 375 x 695 | 0 | 0 | 71 | 24px Regular | VERTICAL CENTER CENTER |
 | **Drop down button** | 192 x 32 | 7 10 7 20 | 48 | 0 | 13px Regular | HORIZONTAL CENTER MIN |
+| **Empty section** | auto x 212 | 0 | 0 | 35 | 20px SemiBold | HORIZONTAL CENTER MIN |
+| **Empty section|Mobile=True** | auto x 351 | 0 | 0 | 20 | 18px SemiBold | VERTICAL CENTER MIN |
 | **Filter chip** | auto x 42 | 10 20 | 76 | 10 | 16px SemiBold | HORIZONTAL CENTER CENTER |
 | **Filter chip|State=Default, Active=False, Mobile=False** | auto x 42 | 10 20 | 78 | 5 | 16px | HORIZONTAL CENTER CENTER |
 | **Filter chip|State=Selected, Active=True, Mobile=True** | auto x 34 | 8 15 | 76 | 10 | 13px SemiBold | HORIZONTAL CENTER CENTER |
 | **Filter chip|State=Default, Active=False, Mobile=True** | auto x 34 | 8 15 | 78 | 5 | 13px | HORIZONTAL CENTER CENTER |
 | **Filter chip|State=Hover, Active=False, Mobile=False** | auto x 42 | 10 20 | 78 | 5 | 16px | HORIZONTAL CENTER CENTER |
 | **Filter chip|State=Hover, Active=False, Mobile=True** | auto x 34 | 8 15 | 78 | 5 | 13px | HORIZONTAL CENTER CENTER |
+| **Information box** | 440 x 56 | 0 | 0 | 0 | 13px | HORIZONTAL MIN MIN |
+| **Information box|Type=Warning** | auto x 74 | 0 | 0 | 0 | 13px | HORIZONTAL MIN MIN |
+| **Information box|Type=Error** | 440 x 74 | 0 | 0 | 0 | 13px | HORIZONTAL MIN MIN |
+| **Information box|Type=Success** | 440 x 74 | 0 | 0 | 0 | 13px | HORIZONTAL CENTER MIN |
 | **Links** | auto x 22 | 0 | 0 | 5 | 16px | HORIZONTAL CENTER MIN |
 | **Links|Link type=Secondary, Hover=False, Icon position=Left** | auto x 18 | 0 | 0 | 5 | 13px | HORIZONTAL CENTER MIN |
 | **Links|Link type=Secondary, Hover=True, Icon position=Left** | auto x 18 | 0 | 0 | 5 | 13px | HORIZONTAL CENTER MIN |
@@ -233,7 +234,30 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Mobile key actions|Link=Social activity** | 132 x 103 | — | 0 | — | 16px | NONE |
 | **Mobile key actions|Link=Recognition trends** | 132 x 103 | — | 0 | — | 16px | NONE |
 | **Mobile key actions|Link=MHR** | 126 x 103 | — | 0 | — | 15px | NONE |
+| **Next actions modal** | 400 x 565 | 0 0 30 0 | 8 | 30 | 24px Regular | VERTICAL CENTER MIN |
+| **Notification card** | 1160 x 117 | 15 20 | 8 | 10 | 16px SemiBold | HORIZONTAL CENTER MIN |
+| **Notification card|Mobile=Yes** | 355 x 153 | 15 | 8 | 10 | 16px SemiBold | HORIZONTAL MIN MIN |
+| **Notification image** | 44 x 44 | — | 0 | — | — | NONE |
+| **Notification image|Type=Person, With status?=False, Mobile=True, Status position=High** | 36 x 36 | — | 0 | — | — | NONE |
+| **Notification image|Type=Custom, With status?=False, Mobile=True, Status position=High** | 36 x 36 | — | 0 | — | — | NONE |
+| **Notification image|Type=Custom, With status?=True, Mobile=True, Status position=High** | 36 x 36 | — | 0 | — | — | NONE |
+| **Notification image|Type=Custom, With status?=True, Mobile=True, Status position=Low** | 36 x 36 | — | 0 | — | — | NONE |
+| **Notification image|Type=Person, With status?=True, Mobile=True, Status position=High** | 36 x 36 | — | 0 | — | — | NONE |
+| **Notification image|Type=Person, With status?=True, Mobile=True, Status position=Low** | 36 x 36 | — | 0 | — | — | NONE |
 | **Repeating group** | auto x 258 | 0 | 0 | 20 | 16px Italic | VERTICAL MIN MIN |
+| **Star rating** | auto x 24 | 0 | 0 | 0 | 13px | VERTICAL CENTER CENTER |
+| **Stars** | 25 x 24 | — | 0 | — | — | NONE |
+| **Status** | 22 x 22 | — | 100 | — | — | NONE |
+| **Status|Status type=Custom** | 22 x 22 | — | 100 | — | 13px | NONE |
+| **Tags** | auto x 28 | 5 10 | 4 | 5 | 13px Regular | HORIZONTAL CENTER CENTER |
+| **Tags|Type=Neutral, Small=Yes** | auto x 22 | 2 5 | 4 | 5 | 13px Regular | HORIZONTAL CENTER CENTER |
+| **Tags|Type=Expired, Small=Yes** | auto x 22 | 2 5 | 4 | 5 | 13px Regular | HORIZONTAL CENTER CENTER |
+| **Tags|Type=Positive, Small=Yes** | auto x 22 | 2 5 | 4 | 5 | 13px Regular | HORIZONTAL CENTER CENTER |
+| **Tags|Type=Warning, Small=Yes** | auto x 22 | 2 5 | 4 | 5 | 13px Regular | HORIZONTAL CENTER CENTER |
+| **Tags|Type=Negative, Small=Yes** | auto x 22 | 2 5 | 4 | 5 | 13px Regular | HORIZONTAL CENTER CENTER |
+| **Tags|Type=Other, Small=Yes** | auto x 22 | 2 5 | 4 | 5 | 13px Regular | HORIZONTAL CENTER CENTER |
+| **Tags|Type=Theme, Small=Yes** | auto x 22 | 2 5 | 4 | 5 | 13px Regular | HORIZONTAL CENTER CENTER |
+| **Toast message** | 350 x 114 | 30 0 30 25 | 4 | 15 | 13px | HORIZONTAL CENTER MIN |
 | **Tool tip** | auto x 92 | 10 | 4 | 0 | 13px | VERTICAL MIN MIN |
 | **Tooltip** | 28 x 28 | — | 0 | — | — | NONE |
 
