@@ -43,10 +43,13 @@
 // why, the same visible-debt pattern as uncaptured-reasons.tsv: a `pending:` reason PASSES and is
 // counted and named in the verdict line on every run. An UNEXPLAINED absence fails.
 import { readFileSync } from 'node:fs';
-import { TRANSCRIPT_DIR, transcriptFiles, scrapeBatches } from './lib/transcript.mjs';
+import { TRANSCRIPT_DIR, transcriptFiles, scrapeFigma } from './lib/transcript.mjs';
 import { buildIndex, knownNames, decode } from './lib/decode-var.mjs';
 
 const DEBT = 'tokens/_raw/uncaptured-tokens.tsv';
+// This design system's Figma file. A transcript can hold reads of OTHER files — the Pathway test
+// file is in this one — and their variables are not this system's to be missing.
+export const FILE_KEY = 'aRWjBnTvdLiG50xtwodGwH';
 
 // What makes a string Figma speaking rather than this repo's own code or CSS quoted in the
 // conversation. NOT the "SUPER CRITICAL" trailer: that arrives as its OWN output block, separate
@@ -106,6 +109,25 @@ export const debtKey = (figmaName) => String(figmaName).toLowerCase().trim().rep
 // pink AND its non-deprecated twin in the same component. That is a Figma-side rebinding job, and
 // the rule below does not make it go away; it stops it being restated seven times here.
 export const isDeprecatedCollection = (key) => /^deprecated-colours\//.test(String(key));
+
+// A declaration nothing binds any more. Normally that is FOLKLORE — a reason kept for something
+// gone — and it fails.
+//
+// But provenance surfaced a second state. A transcript ROTATES; the TSVs are the durable record,
+// not it. `grey` is the case: recorded as bound by Menu-search-settings (829:31644), and that read
+// is simply not on disk any longer. Absence from a rotated transcript is not absence from Figma,
+// and deleting a row on that basis would be exactly the silent deletion this repo forbids
+// everywhere else — the same rule as "a captured variant absent from a re-read is reported, never
+// deleted".
+//
+// So `unverifiable:` is the marker for it, beside `pending:`. It passes and is COUNTED AND NAMED
+// every run. It is not an excuse: it says nobody can check this here, which is a different and
+// more honest claim than either "it is fine" or "it is gone".
+export function classifyDeclared(declared, debt) {
+  const gone = [...declared.keys()].filter((k) => !debt.has(k));
+  const isUnverifiable = (k) => /^unverifiable:/i.test(declared.get(k) || '');
+  return { stale: gone.filter((k) => !isUnverifiable(k)), unverifiable: gone.filter(isUnverifiable) };
+}
 
 // The actionable half of what the seven deleted rows carried: WHICH components still bind each
 // retired colour, and what each should be instead. Kept here so removing the rows did not remove
@@ -205,10 +227,24 @@ export function judge(rawNames, index, declared, exactNames = [], knownExact = n
 function main() {
   const files = transcriptFiles(TRANSCRIPT_DIR);
   const paths = files.map((f) => f.path);
-  const texts = scrapeBatches(paths, DESIGN_CONTEXT);
+  // PROVENANCE, NOT SHAPE. These two scrapes used to keep any string matching, wherever it sat,
+  // which is how this check kept reading its OWN comments as bound Figma variables — 133 unknowns
+  // for a real 2, then the ellipsis five times, then two more spellings of it. scrapeFigma keeps
+  // only what came back from an `mcp__Figma__*` tool, which closes the class rather than a spelling.
+  const dc = scrapeFigma(paths, DESIGN_CONTEXT);
+  const vd = scrapeFigma(paths, /^\s*\{\s*"/);
+
+  // ...AND ONLY THIS DESIGN SYSTEM'S FILE. A design-context response does not carry its file key,
+  // which is why this was recorded as impossible; the CALL carries it, and the join supplies it.
+  // The transcript holds three Figma files, so a fifth of these reads were another file's — which
+  // is exactly what the six Pathway rows in uncaptured-tokens.tsv were written to excuse.
+  const ours = (r) => !r.fileKey || r.fileKey === FILE_KEY;
+  const foreign = [...dc.reads, ...vd.reads].filter((r) => !ours(r));
+  const texts = dc.reads.filter(ours).map((r) => r.text);
   const raw = texts.flatMap(scanVars);
-  const defsTexts = scrapeBatches(paths, /^\s*\{\s*"/);
+  const defsTexts = vd.reads.filter(ours).map((r) => r.text);
   const exact = defsTexts.flatMap(scanVariableDefs);
+  const unattributed = dc.unattributed + vd.unattributed;
 
   const names = allKnownNames();
   const index = buildIndex(names);
@@ -223,7 +259,19 @@ function main() {
   const { unknown, known, debt, deprecated } = judge(raw, index, declared, exact, new Set(names));
 
   console.log(`transcripts read   : ${files.length}`);
-  console.log(`design reads seen  : ${texts.length}`);
+  console.log(`design reads seen  : ${texts.length} from Figma`
+    + (foreign.length ? `, ${foreign.length} from ANOTHER Figma file (excluded)` : '')
+    + (unattributed ? `, ${unattributed} unattributable` : ''));
+  // Counted and named every run. A read this cannot attribute is a read it did not measure, and a
+  // quietly shrunken haystack looks exactly like a clean run.
+  if (foreign.length) {
+    const byKey = new Map();
+    for (const r of foreign) byKey.set(r.fileKey, (byKey.get(r.fileKey) || 0) + 1);
+    for (const [k, n] of byKey) {
+      console.log(`  other file  ${n} read(s) of Figma file ${k} are in this transcript and are NOT `
+        + 'this design system — its variables are not ours to be missing');
+    }
+  }
   console.log(`variable-def reads : ${defsTexts.filter(isVariableDefs).length}`);
   console.log(`variables bound    : ${raw.length} kebab + ${exact.length} exact `
     + '(--pf-* excluded: that is this repo\'s output, not Figma\'s)');
@@ -246,11 +294,26 @@ function main() {
       + 'nor primitives.tsv — extract it, or give it a line in uncaptured-tokens.tsv saying why not');
   }
   // Declared debt that nothing binds any more: a reason kept for something gone is folklore.
-  const stale = [...declared.keys()].filter((k) => !debt.has(k));
+  // A declaration nothing binds is normally FOLKLORE — a reason kept for something gone.
+  //
+  // But there is a second state, and it surfaced the moment provenance made these reads
+  // attributable: a row whose evidence was in a transcript THAT IS NO LONGER ON DISK. Transcripts
+  // rotate; the TSVs are the durable record, not them. `grey` is the case — recorded as bound by
+  // Menu-search-settings (829:31644), and that read is simply not here any more. Absence from a
+  // rotated transcript is not absence from Figma, and deleting a row on that basis is exactly the
+  // silent deletion this repo forbids everywhere else.
+  //
+  // So `unverifiable:` is the marker for it, beside `pending:`. It PASSES and is counted and named
+  // every run — never a reason to stop reporting it, only a reason not to call it folklore.
+  const { stale, unverifiable } = classifyDeclared(declared, debt);
   for (const k of stale) console.log(`  stale    "${k}" has a line in uncaptured-tokens.tsv and nothing binds it`);
+  for (const k of unverifiable) {
+    console.log(`  unverifiable  "${k}" — ${declared.get(k)}`);
+  }
 
   console.log(`\n${known.size} resolved, ${unknown.size} unknown, ${debt.size} declared, `
-    + `${deprecated.size} retired (out by rule), ${stale.length} stale`);
+    + `${deprecated.size} retired (out by rule), ${stale.length} stale`
+    + (unverifiable.length ? `, ${unverifiable.length} unverifiable (the read is no longer on disk)` : ''));
   if (deprecated.size) {
     console.log('the retired ones are each an exact duplicate of a live primitive at the same '
       + 'value — nothing to extract, but nine components still bind the retired NAME, which is a '
@@ -376,6 +439,32 @@ function selfTest() {
   // A declaration must not make a DIFFERENT token pass.
   r = judge(['--something\\/else'], idx, new Map([['navigation/nav-bg-top', 'pending: because']]));
   if (!r.unknown.has('something/else')) miss('a declaration must only excuse the token it names');
+
+  // A DECLARATION NOTHING BINDS. Folklore by default — and the one exception, which provenance
+  // created: a transcript rotates, so a row whose read is no longer on disk is unverifiable here
+  // rather than gone. Deleting it on that basis is the silent deletion this repo forbids.
+  {
+    const decl = new Map([
+      ['still/bound', 'pending: because'],
+      ['nothing/binds', 'pending: because'],
+      ['read/rotated', 'unverifiable: the read that established this is no longer on disk'],
+    ]);
+    const bound = new Map([['still/bound', 'pending: because']]);
+    const c = classifyDeclared(decl, bound);
+    if (!c.stale.includes('nothing/binds')) miss('a declaration nothing binds is STALE and must fail');
+    if (c.stale.includes('read/rotated')) {
+      miss('a row whose read has rotated off disk is not folklore — absence from a rotated '
+        + 'transcript is not absence from Figma');
+    }
+    if (!c.unverifiable.includes('read/rotated')) {
+      miss('an `unverifiable:` row must be COUNTED and NAMED, not silently passed');
+    }
+    if (c.stale.includes('still/bound') || c.unverifiable.includes('still/bound')) {
+      miss('a declaration something still binds is neither stale nor unverifiable');
+    }
+    // And the marker must not be a way to excuse anything: only the row that carries it.
+    if (c.unverifiable.includes('nothing/binds')) miss('`unverifiable:` excuses only the row it is on');
+  }
 
   // THIS REPO'S OWN OUTPUT IS NOT FIGMA'S INPUT. `--pf-*` is emitted by build-css.mjs. Counting
   // it is how the first version of this check reported 133 unknown tokens for a real 2.

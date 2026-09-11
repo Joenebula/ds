@@ -23,13 +23,20 @@
 // extract's value came from the style definition and this one comes from a usage, and where those
 // differ the definition is the better source.
 import { readFileSync, writeFileSync } from 'node:fs';
-import { TRANSCRIPT_DIR, transcriptFiles, scrapeBatches } from './lib/transcript.mjs';
+import { TRANSCRIPT_DIR, transcriptFiles, scrapeFigma } from './lib/transcript.mjs';
 
 const TSV = 'tokens/_raw/text-styles.tsv';
 const MARKER = /These styles are contained in the design:/;
+// This design system's file — the transcripts hold reads of two others.
+const FILE_KEY = 'aRWjBnTvdLiG50xtwodGwH';
 
 // The extract's vocabulary for a weight, as extract-text-styles.mjs writes it.
 const WORD = { 300: 'Light', 400: 'Regular', 500: 'Medium', 600: 'SemiBold', 700: 'Bold' };
+
+// The weight column also carries a SLANT, and that is deliberate rather than a mistake — see the
+// note in backfill(). This is the one vocabulary the builder, the verifier and this script now
+// share: a slant recorded in the weight column IS the weight beside it, in italic.
+const SLANT = { Italic: 400 };
 
 export function scanStyles(texts) {
   const found = new Map();
@@ -60,7 +67,18 @@ export function backfill(text, found) {
     if (cells[iWeight]) {
       // Already recorded. NEVER overwritten — the extract's value came from the style definition,
       // this one from a usage of it, and the definition is the better source where they differ.
-      if (cells[iWeight] !== word) disagree.push({ name: cells[iName], had: cells[iWeight], figma: word });
+      //
+      // EXCEPT THAT THE WEIGHT COLUMN ALSO HOLDS A SLANT, and this was the only reader that did not
+      // know. `Italic` is not a weight: Figma reports the two italic styles as `style: Italic,
+      // weight: 400`, and the extract records the slant in the weight column deliberately —
+      // build-type-css.mjs says so in as many words and emits `font-weight: 400; font-style:
+      // italic`, and verify-type.mjs checks exactly that. So comparing WORD[400] = 'Regular'
+      // against 'Italic' reported a DISAGREEMENT on every run for ever: a verdict line carrying a
+      // permanent false alarm is a number people learn to read past, which is this repo's own
+      // diagnosis of the 286-NEW case.
+      const agrees = cells[iWeight] === word || (SLANT[cells[iWeight]] !== undefined
+        && SLANT[cells[iWeight]] === hit.weight && /italic/i.test(hit.style || ''));
+      if (!agrees) disagree.push({ name: cells[iName], had: cells[iWeight], figma: word });
       untouched++; out.push(raw); continue;
     }
     cells[iWeight] = word;
@@ -74,11 +92,19 @@ export function backfill(text, found) {
 function main() {
   const write = process.argv.includes('--write');
   const files = transcriptFiles(TRANSCRIPT_DIR);
-  const texts = scrapeBatches(files.map((f) => f.path), MARKER);
+  // PROVENANCE. This is the only one of the three readers of this marker that WRITES, and its
+  // name regex is the loosest of them — so a weight filled out of this repo's own quoted
+  // documentation would land in text-styles.tsv, which the whole type layer is generated from.
+  // Only Figma's own answers, and only this file's.
+  const dc = scrapeFigma(files.map((f) => f.path), MARKER);
+  const texts = dc.reads.filter((r) => !r.fileKey || r.fileKey === FILE_KEY).map((r) => r.text);
+  const foreign = dc.reads.length - texts.length;
   const found = scanStyles(texts);
 
   console.log(`transcripts read : ${files.length}`);
-  console.log(`style lists seen : ${texts.length}`);
+  console.log(`style lists seen : ${texts.length} from Figma`
+    + (foreign ? `, ${foreign} from ANOTHER Figma file (excluded)` : '')
+    + (dc.unattributed ? `, ${dc.unattributed} unattributable` : ''));
   console.log(`styles reported  : ${found.size}`);
   if (!found.size) {
     console.log('\nno style list was found in these transcripts, so NOTHING WAS MEASURED — this is '
@@ -110,6 +136,32 @@ function selfTest() {
   const found = scanStyles([line]);
   if (found.size !== 2) miss(`both styles on one line must be parsed (got ${found.size})`);
   if (found.get('Desktop text/Large heading (light)')?.weight !== 300) miss('a Light style must report weight 300');
+
+  // THE WEIGHT COLUMN ALSO HOLDS A SLANT. `Italic` is not a weight — Figma reports the two italic
+  // styles as `style: Italic, weight: 400`, and the extract records the slant there deliberately.
+  // This was the only reader that did not know, so it reported a DISAGREEMENT every run for ever.
+  {
+    const it = scanStyles(['These styles are contained in the design: Desktop text/Body text (italic): '
+      + 'Font(family: "Open Sans", style: Italic, size: 16, weight: 400, lineHeight: 100, letterSpacing: -1).']);
+    const r2 = backfill(`${H}\nDesktop text/Body text (italic)\t16\tItalic\tAUTO\t-1%\tORIGINAL\n`, it);
+    if (r2.disagree.length) {
+      miss(`a slant recorded in the weight column is not a disagreement with the weight beside it `
+        + `(got ${JSON.stringify(r2.disagree)})`);
+    }
+    // And it must not become a way to wave anything through: a REAL difference on an italic row
+    // still has to be reported.
+    const wrong = scanStyles(['These styles are contained in the design: Desktop text/Body text (italic): '
+      + 'Font(family: "Open Sans", style: Italic, size: 16, weight: 600, lineHeight: 100, letterSpacing: -1).']);
+    if (!backfill(`${H}\nDesktop text/Body text (italic)\t16\tItalic\tAUTO\t-1%\tORIGINAL\n`, wrong).disagree.length) {
+      miss('an italic row whose WEIGHT really differs must still be reported');
+    }
+    // A non-italic usage reported against an Italic row is a real disagreement too.
+    const upright = scanStyles(['These styles are contained in the design: Desktop text/Body text (italic): '
+      + 'Font(family: "Open Sans", style: Regular, size: 16, weight: 400, lineHeight: 100, letterSpacing: -1).']);
+    if (!backfill(`${H}\nDesktop text/Body text (italic)\t16\tItalic\tAUTO\t-1%\tORIGINAL\n`, upright).disagree.length) {
+      miss('a row recorded Italic that Figma reports upright IS a disagreement');
+    }
+  }
 
   // THE CASE THIS EXISTS FOR: a blank weight Figma actually knows.
   let r = backfill(`${H}\nDesktop text/Label text\t13\t\tAUTO\t0%\tORIGINAL\n`, found);

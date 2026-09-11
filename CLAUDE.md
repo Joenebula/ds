@@ -344,11 +344,73 @@ a dot and none contains a backslash**, so the dot is gone and a backslash is leg
 `\/` pair a kebab variable uses to escape its separator. Four mutants hold it, including one that
 allows the dot back and one that rejects the real names too.
 
-**It cannot attribute a read to a Figma file.** A design-context response does not carry its file
-key, so a transcript that also read another Figma file will show that file's variables as
-unknowns here. Six of the current eight are that: they come from the Pathway test file, and their
-reasons say so and why (this file has no `color/*` collection; it spells spacing
-`Spacing/sizing-small`, not `-sm`).
+## Provenance: who said it
+
+Every content heuristic above closed a SPELLING. None closed the class, and the class kept
+reappearing — five times now, the last being the very prompt that investigated it. The fix is
+structural and it lives in `scripts/lib/transcript.mjs`.
+
+`scrapeBatches` keeps any string matching a regex, wherever it sits. That is right for the BATCH
+markers, which are `^`-anchored. It is wrong for a Figma RESPONSE, whose markers sit in the middle
+of a generated file — so a string that merely *contains* one matches, and this repo's own comments
+quote those formats verbatim on purpose.
+
+A transcript records who said it. `scrapeFigma(paths, re)` uses that:
+
+| | |
+|---|---|
+| a tool result | `type:"user"`, a `tool_result` block in `message.content[]`, carrying `tool_use_id` |
+| its tool | that id equals the `id` of an assistant `tool_use` block, which has `name` and `input` |
+
+Counted over the real transcript: of 156 strings matching the style marker, **127 are under an
+`mcp__Figma__*` result and 29 are not** — and every one of the 29 resolves to `Bash`, `Write` or
+`Agent`. For `data-node-id=`, 302 against 24. **100% of the contamination removed, 0% of the real
+data lost.** `type:check` went from 18 rejected occurrences to **0**: every one was this repo's own
+source, never a Figma truncation.
+
+**It also dedupes.** Every result is stored twice — `message.content[].tool_result.content` and the
+top-level `toolUseResult` mirror. Only the canonical path is walked, so every count these checks
+printed was roughly halved, and was roughly doubled before.
+
+**It is a separate function, not an option on `scrapeBatches`.** The five `extract-*.mjs` scripts
+must keep the old behaviour exactly: their batches arrive as **Bash results** — a script printed
+them — so a `mcp__Figma__` rule would zero them out. 0 of the 8 batches in this transcript survive
+it. Keeping the two apart is the whole point, and a mutant holds it.
+
+**The transcript is not the durable record; the TSVs are.** `tokens/_raw/` holds 284 variant rows,
+162 geometry rows and 294 icon rows, and the only transcript on disk contains 4 `PAGE` batches and
+1 `GEOMETRY` batch. The batches those files were built from are in sessions that no longer exist —
+which is what the refuse-to-shrink guards have been protecting all along.
+
+### It CAN attribute a read to a Figma file after all
+
+This file used to say flatly that it could not. That was true of the response and false of the
+call: `tool_use.input.fileKey` carries it, and the join is exact. The transcript holds **three**
+Figma files — `aRWjBnTvdLiG50xtwodGwH` (ours), `kuX4KDIN0u4axsKTELYlzW` and
+`3GENMC1nb7BxGNFfU0nBVW` — and about a fifth of the marker-bearing reads were not ours. Both drift
+checks now filter to this file and **count and name what they excluded**.
+
+That settled ten `pending:` rows in `uncaptured-tokens.tsv` written to excuse exactly this, and
+**three of them said the opposite of what the evidence shows**: `shark`,
+`progress-bar---text-percentage-(light)` and `1st-(light)/default-5%-theme` were recorded as
+verified in this file, and every read that binds them is of `3GENMC1nb7BxGNFfU0nBVW`. Nine rows
+were proven foreign and removed.
+
+**The tenth was not, and that distinction is the point.** `grey` appears in NO read now — its
+evidence was in a transcript that has since rotated away. Absence from a rotated transcript is not
+absence from Figma, and deleting a row on that basis is the silent deletion this repo forbids
+everywhere else. So `unverifiable:` joins `pending:` as a marker: it PASSES, is **counted and named
+in the verdict line every run**, and says the honest thing — nobody can check this here. It is not
+an excuse; a plain declaration nothing binds is still STALE and still fails. Four mutants hold the
+difference.
+
+**One more thing it found.** `backfill-text-weights.mjs` is the third reader of the style marker,
+has the loosest name regex of the three, and is the only one that **writes** — to `text-styles.tsv`,
+which the whole type layer is generated from. It also reported a permanent false alarm on every
+run: `Italic` is a slant, not a weight, and sits in the weight column deliberately
+(`build-type-css.mjs` emits `font-weight: 400; font-style: italic`, `verify-type.mjs` checks it).
+It was the only reader that did not know. A verdict line carrying a permanent false alarm is a
+number people learn to read past — this repo's own diagnosis of the 286-NEW case.
 
 **The token layer needs a file this environment cannot fetch.** `semantic.tsv` needs a light
 value, a dark value and scopes per token. `get_variable_defs` resolves ONE mode and takes no mode

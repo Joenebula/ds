@@ -69,10 +69,13 @@
 // of them" is the `--` problem — a check that measured nothing reading exactly like one that
 // passed. The unobserved ones are counted AND NAMED on every run.
 import { readFileSync } from 'node:fs';
-import { TRANSCRIPT_DIR, transcriptFiles, scrapeBatches } from './lib/transcript.mjs';
+import { TRANSCRIPT_DIR, transcriptFiles, scrapeFigma } from './lib/transcript.mjs';
 
 const TSV = 'tokens/_raw/text-styles.tsv';
 const OTHER = 'tokens/_raw/other.json';
+// This design system's file. The transcripts hold reads of two others, and their text styles
+// are not this system's to disagree with.
+const FILE_KEY = 'aRWjBnTvdLiG50xtwodGwH';
 
 // The marker Figma appends to a design-context response that carries styles. Unanchored, because
 // it sits at the end of the generated code rather than at the start of the string.
@@ -236,7 +239,14 @@ export function readCaptured(text) {
 // ---------------------------------------------------------------------------
 function main() {
   const files = transcriptFiles(TRANSCRIPT_DIR);
-  const texts = scrapeBatches(files.map((f) => f.path), STYLE_BLOCK);
+  // PROVENANCE, NOT SHAPE. The three mechanisms in the header above are still here and still
+  // needed for truncation — but the CONTAMINATION half of their job is gone, because this now
+  // reads only what came back from an `mcp__Figma__*` tool. The unanchorable marker no longer
+  // matters when the haystack is Figma's own answers rather than every string in the file.
+  const dc = scrapeFigma(files.map((f) => f.path), STYLE_BLOCK);
+  const ours = dc.reads.filter((r) => !r.fileKey || r.fileKey === FILE_KEY);
+  const foreign = dc.reads.length - ours.length;
+  const texts = ours.map((r) => r.text);
 
   const styles = []; const rejected = [];
   for (const t of texts) {
@@ -250,7 +260,9 @@ function main() {
   const r = judge(observed, captured);
 
   console.log(`transcripts read  : ${files.length}`);
-  console.log(`style blocks seen : ${texts.length}`);
+  console.log(`style blocks seen : ${texts.length} from Figma`
+    + (foreign ? `, ${foreign} from ANOTHER Figma file (excluded)` : '')
+    + (dc.unattributed ? `, ${dc.unattributed} unattributable` : ''));
   console.log(`reports scraped   : ${styles.length} usable, ${rejected.length} rejected`);
   console.log(`styles observed   : ${observed.length} distinct, ${captured.length} captured`);
 
