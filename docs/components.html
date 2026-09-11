@@ -623,7 +623,7 @@
 }
 
 /* AI Assistant
- * 3 variants captured
+ * 3 variants captured. RE-READ 2026-09-11: Base colours/Default Pink is bound NOWHERE in this component any more, yet the capture records it as the text colour for Type=Default and Type=Active chat — those two rows are STALE. Today it binds Text/Primary, Text/Secondary and Text/Link. Its stroke has moved Border/Default -> Border/Default full, which is unextracted, so the rows were left rather than half-corrected. It also carries 11 raw #007ff3 borders with no variable behind them
  * Figma draws this 1628px wide; treated as layout, not a rule
  */
 .pf-ai-assistant {
@@ -703,7 +703,7 @@
 }
 
 /* AI button
- * 4 variants captured. PILL
+ * 4 variants captured. Figma binds RAW HEXES here, not variables: the Light mode border is #007ff3 and the desktop Inverted fill is a bare white while the MOBILE variant of the same fill uses Base colours/White. The Hover fill is a linear-gradient (the AI gradient style). None of the three can be recorded as a token, so the shipped class has no border and no hover fill. Figma also labels the pink DEPRECATED COLOURS/Default theme pink (A)
  * Figma draws this 146px wide; treated as layout, not a rule
  * pill
  */
