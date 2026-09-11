@@ -216,13 +216,13 @@ function colourDecls(row) {
       if (alias) {
         d.push(`/* Figma binds the primitive "${figmaName}" here instead of a semantic token */`);
         d.push(`${prop}: var(${alias})`);
-        sourceIssues.set(`${figmaName} (${prop})`, `bound directly on ${row.component}; using ${alias}, same value`);
+        sourceIssues.set(`${row.component} — ${figmaName} (${prop})`, `substituted ${alias}, same value`);
         return;
       }
       if (v) {
         d.push(`/* Figma binds the primitive "${figmaName}" here; no semantic token has this role */`);
         d.push(`${prop}: var(${v})`);
-        sourceIssues.set(`${figmaName} (${prop})`, `bound directly on ${row.component}; NO semantic equivalent — will not adapt between modes`);
+        sourceIssues.set(`${row.component} — ${figmaName} (${prop})`, `NO semantic equivalent — will not adapt between modes`);
         return;
       }
     }
@@ -407,7 +407,8 @@ if (shapeOnly.length) {
 }
 console.log(`  with measured geometry : ${[...byComponent.keys()].filter(c => geometry.has(c)).length}`);
 if (sourceIssues.size) {
-  console.log(`  Figma SOURCE ISSUES    : ${sourceIssues.size}  (primitive bound where a semantic token belongs)`);
+  const affected = new Set([...sourceIssues.keys()].map(k => k.split(' — ')[0])).size;
+  console.log(`  Figma SOURCE ISSUES    : ${sourceIssues.size} bindings across ${affected} components  (primitive bound where a semantic token belongs)`);
   for (const [k, v] of [...sourceIssues].sort()) console.log(`    ${k} — ${v}`);
 }
 if (unmapped.size) {

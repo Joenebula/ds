@@ -10,12 +10,13 @@ packaged so Claude Design — and any HTML/CSS output — generates on-brand UI.
 | Path | What it is |
 |---|---|
 | `tokens/_raw/` | Verbatim extract from Figma. The evidence trail. |
-| `tokens/design-tokens.json` | 177 tokens in W3C DTCG format. Generated. |
-| `dist/tokens.css` | 365 CSS custom properties, light + dark. Generated. |
+| `tokens/design-tokens.json` | 198 tokens in W3C DTCG format. Generated. |
+| `dist/tokens.css` | 420 CSS custom properties, light + dark. Generated. |
 | **`dist/components.css`** | **147 components, 302 variants, as ready classes, plus 12 shape-only. Generated.** |
 | **`dist/type.css`** | **23 type classes, one per Figma text style. Generated.** |
 | `assets/icons/` | All 293 People First icons as individual SVGs. |
-| `docs/components.html` | Every component and variant, light and dark. |
+| **`docs/COMPONENTS.md`** | **Every component in one readable list — class, variants, size, and what needs attention. Generated.** |
+| `docs/components.html` | Every component and variant, rendered, light and dark. |
 | `docs/icons.html` | Every icon, browsable. |
 | `.claude/skills/` | Four skills: `people-first`, `pf-screen`, `pf-audit`, `pf-handoff`. |
 | `reference/index.html` | Visual proof sheet — every token rendered, with a dark-mode toggle. |
