@@ -147,9 +147,15 @@ export function classifyDeclared(declared, debt) {
 // design decision that is invisible in light mode and wrong in dark if guessed.
 export const BOUND_BY = {
   'deprecated-colours/white':
-    '#FFFFFF — Side navigation (18 waffle-icon vectors), [S] Config child menu (Vector fill). '
-    + 'NOT Full page, Header or Mobile key actions: checked 2026-09-11, already clean. '
-    + 'Nine semantic variables share this value',
+    '#FFFFFF — [S] Config child menu (Vector fill), and Side navigation\'s 18 waffle vectors, '
+    + 'WHICH CANNOT BE FIXED IN THIS FILE. Checked 2026-09-11: they sit inside `App menu`, a '
+    + 'REMOTE component (key 87407bb150c15d117e7f74f6c07a4e262f4b739d) published from another '
+    + 'library, and the instance carries 0 overrides — so the deprecated style is inherited from '
+    + 'that component, not set here. Editing it here would create overrides that mask the problem '
+    + 'and drift from source. When it is fixed in the owning library the token is '
+    + 'Icons/Icon - Always white, NOT Icon - Primary inverted: the waffle sits on a fixed '
+    + 'cranberry red #B90C2A, so the dots must stay white in both modes. '
+    + 'NOT Full page, Header or Mobile key actions: already clean',
   'deprecated-colours/grey-steel':
     '#E5E5E5 — Table header icons (3 Hover FILLS). The AI Assistant stroke and the '
     + '[S] Config child menu divider were rebound to Border/Default full on 2026-09-11. What is '

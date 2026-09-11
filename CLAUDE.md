@@ -369,9 +369,17 @@ references at all.
   colour.
 - `Table header icons` fills three Hover states with `#E5E5E5`, where the only semantics are
   `Border/*`. `Background/Tertiary` is role-correct at `#F2F2F2` — again a different colour.
-- `Side navigation`'s 18 white waffle vectors sit inside a `Waffle` instance inside an `App menu`
-  instance, so the fix belongs on the `Waffle` component, not here; and `Icons/Icon - Primary
-  inverted` and `Icons/Icon - Always white` are both plausible and differ in dark.
+- `Side navigation`'s 18 white waffle vectors **cannot be fixed in this file at all**. They sit
+  inside `App menu`, a REMOTE component (key `87407bb150c15d117e7f74f6c07a4e262f4b739d`) published
+  from another library, and the instance carries **0 overrides** — so the deprecated style is
+  inherited from that component rather than set here. Editing it here would create overrides that
+  mask the problem and drift from source. The fix belongs to whoever owns that library.
+
+  The token, when they make it, is **`Icons/Icon - Always white`** and not `Icon - Primary
+  inverted`. The waffle sits on a fixed cranberry red `#B90C2A` — an earlier reading of "white on
+  white" was a too-shallow parent lookup — so the dots must stay white in both modes. That is this
+  system's own rule: the `always-*` tokens deliberately do not flip, and you pick by intent rather
+  than by how it looks in light mode.
 
 **And `Border/Default hidden` has a light value and no dark value at all** — worth knowing, since
 three components map onto it.
