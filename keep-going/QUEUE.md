@@ -847,12 +847,19 @@ It fails when an element is clipped by an ancestor. It passes when content overf
 
 **Done when:** a deliberately overflowing element fails the check.
 
-## C. Two Figma components share the name `Header` — `pending`
+## C. Two Figma components share the name `Header` — `done`
 
-`13658:7653` on Navigation (the app header) and one on the WIKI page (a docs header).
-Both generate `.pf-header`; one silently wins. Node ID is the identity, not the name.
+Confirmed by walking both: the People First `Header` on Navigation is 1830x86 with `10 20`
+padding, and the Style Guide page has its own variant-less `Header` at 1654x98 with 30px
+padding and 28px type — the documentation site's masthead. The second silently replaced the
+first the moment the Style Guide page was walked.
 
-**Done when:** colliding names either disambiguate in the class name or fail the build.
+**Done when:** met, though not the way this item assumed. The Style Guide, WIKI and
+DOCUMENT MANAGEMENT pages describe the design system rather than belong to it, so the fix
+is not to disambiguate a class name — it is to keep those pages out of the pipeline
+entirely. Both extractors now exclude them by name, and `Header` specifically by the
+absence of a variant, which is the discriminator the data itself provides. Recorded in
+`uncaptured-reasons.tsv`.
 
 ## D. `Tabs navigation` — `pending`
 
@@ -884,15 +891,13 @@ passes `--self-test`. Every other check now says "match the extract" rather than
 
 # Still open, in spec order
 
-## E. Per-variant geometry — `done for the covered page` (spec fault 3)
+## E. Per-variant geometry — `done` (spec fault 3)
 
-**Done when:** met for Buttons and links. `extract-component-geometry.mjs` walks per
-variant; drift went **14 to 0**, 90 of 90, baseline locked at 0. 53 variant-qualified rows
-now, up from 16.
-
-**Not done for the other twelve pages.** 226 rows, of which most are still
-one-per-component — the same fault, just not yet visible because nothing measures it.
-That is item G, and it is now the blocker for calling fault 3 finished.
+**Done when:** met, for the whole design system rather than one page. Every Figma page that
+IS the design system has been walked. **321 variant-qualified rows**, up from 16 when this
+started, and drift is **0 of 1407** against the independent measurement with the baseline
+locked. `verify-spec.mjs` proves it: the claim that the rest of the library was still
+one-row-per-component has stopped being true, which is what closed the fault.
 
 ## F. Component type from the text styles — `pending` (spec fault 4)
 
@@ -902,13 +907,28 @@ That is item G, and it is now the blocker for calling fault 3 finished.
 **Done when:** components compose a `.pf-text-*` class instead of carrying their own type,
 and every unbound label is reported to `docs/FIGMA-ISSUES.md`.
 
-## G. Truth-snapshot coverage — `pending`
+## G. Truth-snapshot coverage — `done`
 
-`figma-truth.tsv` covers 23 shapes across 11 components — one Figma page. Everything else
-is unchecked against an independent source.
+**Done when:** met. `figma-truth.tsv` covers **348 shapes across 158 components**, up from
+23 across 11. **160 of the 187 non-icon components are measured**, and every product page
+is complete: Buttons and links 11/11, Tags and ratings 4/4, System messages 7/7,
+Cards and panels 32/32, Forms 21/21, Tables 13/13, Controls 11/11, Analytics and charts
+14/14, People 4/4, Pages and Layouts 3/3, AI 8/8, Navigation 31/33.
 
-**Done when:** the snapshot covers every page the component inventory lists.
+The two walks stayed separate throughout, as required.
 
-This is now the gating item. Both walks — `extract-figma-truth.mjs` (the check) and
-`extract-component-geometry.mjs` (the build) — need running page by page. They must stay
-separate: merging them would rebuild the circularity fault 2 removed.
+**The 27 not measured are accounted for, not missing** — all in `uncaptured-reasons.tsv`:
+
+- 25 are on the three documentation pages (item C).
+- `Side navigation tab` was renamed in Figma to `Notification tabs` and IS measured;
+  `components.json` still carries the old name.
+- `Default header background` is **detached from the document tree**: the Plugin API
+  resolves node 13658:7639 by id but reports `parent=null` and `page=null`, so
+  `page.findAllWithCriteria()` can never reach it. That is a second, independent reason the
+  header artwork went missing, on top of it binding no colour variable. Measured by node id
+  directly; all six variants now checked.
+
+Also recorded while doing this: `People`'s `Item` axis is 300 sample entities whose height
+depends on the length of the name rather than on the component — "Nolan George" is 91px at
+Type=Table/Mobile=True and "Corey Franci" is 109 because it wraps. No class can be right for
+both, so the axis is excluded with that measurement as the reason.

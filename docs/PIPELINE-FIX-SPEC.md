@@ -14,7 +14,7 @@ every check validates that summary against itself. Four faults compound:
 |---|---|---|---|
 | 1 | ~~The typeface is never shipped~~ | **FIXED** — Open Sans 400/600 vendored and inlined; `check-fonts.mjs` guards it | ~~Critical~~ |
 | 2 | ~~Checks compare the build to its own source~~ | **FIXED** — `verify-against-figma.mjs` has an independent source; wording corrected | ~~Critical~~ |
-| 3 | ~~One geometry row per component~~ | **FIXED for the covered page** — extraction is per-variant; drift 14 → 0 | ~~High~~ |
+| 3 | ~~One geometry row per component~~ | **FIXED** — per-variant across the library; 348 shapes / 158 components independently measured, drift 0 | ~~High~~ |
 | 4 | Component type is not linked to the text styles | Component type can drift from the type layer, both "passing" | Medium |
 
 Fault 1 alone explains the reported button and title problems. Faults 2–4 explain why
@@ -170,13 +170,16 @@ at, every one an instance of fault 3:
 | `Filter chip Selected` | gap 10 | gap 5 |
 | `Links Secondary` | 13px | 16px |
 
-The count is pinned at 14 and fails if it rises. **Coverage is 23 shapes across 11
-components** — the Buttons and links page. The snapshot grows a page at a time; that is a
-real limit and is why the count is a baseline rather than a pass.
+The count is pinned at 0 and fails if it rises. **Coverage is 348 shapes across 158
+components** — every Figma page that IS the design system, walked one page at a time. When
+this was written it was 23 shapes across 11, on the Buttons and links page alone, and the
+baseline was a count rather than a pass precisely because of that limit. The baseline is
+now 0 and it is still a baseline, because a component the walk has not reached cannot be
+checked and must not be mistaken for one that passed.
 
 ---
 
-## 3. One geometry row per component — HIGH — **FIXED where measured**
+## 3. One geometry row per component — HIGH — **FIXED**
 
 `component-geometry.tsv` holds **one row per component**. Whichever variant happened to be
 measured is applied to all of them.
@@ -230,12 +233,40 @@ baseline is locked at 0 so it cannot rise. `--self-test` still catches a deliber
 No visual regression: the button specimen, the working screen and the prototypes all
 re-shot and checked.
 
-### The honest limit
+### Closed — the walk now covers the whole design system
 
-**11 components on one Figma page are per-variant. 178 rows are still one-per-component.**
-Everything outside Buttons and links carries the old shape and is unchecked against an
-independent source — the same fault, just not yet visible. Extending both walks page by
-page is item G in the queue, and until that is done "fixed" means *fixed where measured*.
+The limit recorded here was **11 components on one page, 178 rows still one-per-component**.
+Both walks have since been extended page by page across every Figma page that IS the design
+system. Coverage is now **348 shapes across 158 components**, measured independently, with
+**1407 of 1407 rendered values matching** and the drift baseline still locked at 0.
+
+**160 of the 187 non-icon components are measured.** Every product page is complete:
+
+| Page | Measured |
+|---|---|
+| Buttons and links, Tags and ratings, System messages | 11 / 11, 4 / 4, 7 / 7 |
+| Navigation | 31 / 33 (see below) |
+| Cards and panels, Forms, Tables, Controls | 32 / 32, 21 / 21, 13 / 13, 11 / 11 |
+| Analytics and charts, People, Pages and Layouts, AI | 14 / 14, 4 / 4, 3 / 3, 8 / 8 |
+
+The 27 not measured are accounted for in `uncaptured-reasons.tsv`, not missing:
+
+- **25 are documentation** — 📚 WIKI, 🎨 STYLE GUIDE and 📄 DOCUMENT MANAGEMENT describe
+  the design system rather than belong to it. Both extractors exclude them, because walking
+  them let the Style Guide's own `Header` (1654x98) silently replace the People First one
+  (1830x86).
+- **`Side navigation tab`** was renamed in Figma to `Notification tabs` and IS measured;
+  `components.json` still lists the old name.
+- **`Default header background`** is DETACHED from the document tree. The Plugin API
+  resolves node 13658:7639 by id but reports `parent=null` and `page=null`, so
+  `page.findAllWithCriteria()` never reaches it and no page walk could have measured it.
+  This is a second, independent reason the header artwork went missing, on top of it
+  binding no colour variable. It is now measured by node id directly, and its six variants
+  are checked: 1920x86 desktop, 768x74 tablet, 390x62 mobile, light and dark.
+
+The remaining per-component limit is `People`, whose `Item` axis is 300 sample entities
+whose height depends on the length of the name rather than on the component — recorded in
+`uncaptured-reasons.tsv` with the measurements that prove it.
 
 ---
 

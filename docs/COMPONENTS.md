@@ -497,3 +497,11 @@ so nobody has to guess whether one is an oversight — none of them is.
 
 `Documentation pages`
 
+**1 — DETACHED from the document tree — the Plugin API resolves node 13658:7639 by id but reports parent=null and page=null, so page.findAllWithCriteria() never reaches it and no page walk could ever measure it. It is the header swoosh artwork, and this is a second reason the artwork went missing on top of binding no colour variable. Now measured by node id directly: 1920x86 desktop, 768x74 tablet, 390x62 mobile, light and dark.**
+
+`Default header background`
+
+**1 — RENAMED in Figma to `Notification tabs` (node 22973:20747, unchanged). components.json still lists the old name, so it reads as an unmeasured component; it is measured, under its current name.**
+
+`Side navigation tab`
+

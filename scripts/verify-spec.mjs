@@ -31,13 +31,23 @@ const claims = [
   ['2', 'FIX HOLDS: only the independent check claims "match Figma"',
     () => sh('grep -l "match Figma" scripts/verify-rendered.mjs scripts/verify-type.mjs scripts/verify-geometry.mjs').trim() === ''],
   // Fault 3 is fixed WHERE MEASURED. The row count is still below the variant count
-  // because only one Figma page has been re-walked; what must hold is that the
-  // components that were measured carry per-variant rows, and that drift stays at zero.
+  // Fault 3 was "FIXED where measured" while only one Figma page had been re-walked. Every
+  // page that IS the design system has since been walked, so the claim that the rest of the
+  // library is still one row per component has stopped being true — which is what closed
+  // the fault. Two things must now hold: measured components carry per-variant rows, and
+  // the independent walk covers the library rather than a corner of it.
   ['3', 'FIX HOLDS: measured components carry per-variant rows',
     () => (readFileSync('tokens/_raw/component-geometry.tsv', 'utf8').match(/^Button\|/gm) || []).length > 5],
-  ['3', 'the rest of the library is still one row per component',
-    () => readFileSync('tokens/_raw/component-geometry.tsv', 'utf8').trim().split('\n').length
-        < readFileSync('tokens/_raw/component-variants.tsv', 'utf8').trim().split('\n').length],
+  ['3', 'FIX HOLDS: per-variant rows span the library, not one page',
+    () => (readFileSync('tokens/_raw/component-geometry.tsv', 'utf8').match(/^[^\t|]+\|/gm) || []).length > 250],
+  ['3', 'FIX HOLDS: the independent walk covers most non-icon components',
+    () => {
+      const measured = new Set(readFileSync('tokens/_raw/figma-truth.tsv', 'utf8')
+        .split('\n').slice(1).map(l => l.split('\t')[0]).filter(Boolean));
+      const nonIcon = JSON.parse(readFileSync('tokens/_raw/components.json', 'utf8'))
+        .filter(c => (c.pageName || '').trim() !== 'Icons');
+      return nonIcon.filter(c => measured.has(c.name)).length / nonIcon.length > 0.8;
+    }],
   ['4', 'components emit their own type rather than composing a text style',
     () => count('dist/components.css', /font-size:/g) > 100],
   ['4', 'nothing in scripts/ reads textStyleId',

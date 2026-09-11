@@ -80,6 +80,12 @@ Data variance alternative	Property 1=Default	104	27	0 0 0 0	0	5	20
 Date picker period	Type=Date	274	27	0 0 0 0	0	10	20	
 Date picker period	Type=Record	128	27	0 0 0 0	0	10	20	
 Date range visual	Property 1=Default	371	42	0 0 0 0	0	20	16	
+Default header background	Breakpoint=Desktop, Darkmode=False	1920	86	0 0 0 0	0	0		
+Default header background	Breakpoint=Desktop, Darkmode=True	1920	86	0 0 0 0	0	0		
+Default header background	Breakpoint=Mobile, Darkmode=False	390	62	0 0 0 0	0	0		
+Default header background	Breakpoint=Mobile, Darkmode=True	390	62	0 0 0 0	0	0		
+Default header background	Breakpoint=Tablet, Darkmode=False	768	74	0 0 0 0	0	0		
+Default header background	Breakpoint=Tablet, Darkmode=True	768	74	0 0 0 0	0	0		
 Detail item		162	18	0 0 0 0	0	5	13	
 Details	Layout=Horizontal	355	102	0 0 0 0	0	10	13	
 Document previewer	Device=Desktop	960	1433	0 0 0 0	0	0	16	
@@ -197,6 +203,8 @@ Notification list	Mobile=Yes	390	779	0 0 0 0	0	0	16
 Notification panel	Mobile=No	1500	1080	0 0 0 0	0	0	20	
 Notification panel	Mobile=Yes	390	824	0 0 0 0	16 16 0 0	0	18	
 Notification tabs	State=Default, Selected=No	279	65	18.5 15 18.5 15	0	20	16	
+Notification tabs	State=Hover, Selected=No	279	65	18.5 15 18.5 15	0	20	16	
+Notification tabs	State=Selected, Selected=Yes	279	65	18.5 15 18.5 15	0	20	16	
 Option	Selected=No	250	26	2 10 2 20	4	5	16	
 Org chart	Type=Manager	293	97	0 0 0 0	8	0	16	
 Org chart	Type=Org	293	48	0 0 0 0	8	0	16	
