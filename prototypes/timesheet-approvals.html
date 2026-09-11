@@ -1254,7 +1254,7 @@
 }
 
 /* Checkbox/Radio item
- * 5 variants captured. box + label, 10px gap. 18 variants
+ * 5 variants captured. RE-READ 2026-09-11: all five captured State colours are unchanged. Figma’s matrix is now State(5) x Radio(2) x Filled(2) = 20, and the colour depends on State alone for 19 of them. The exception is State=Default, Radio=Yes, Filled=Yes, which binds Text/Link (link blue) where every other Default binds Text/Primary. That reads like a Figma slip rather than a decision — a default, unhovered radio should not be link-coloured — and it is why collapse() cannot drop the Radio and Filled axes, so the extractor reports "axes differ" rather than extending the rows
  */
 .pf-checkbox-radio-item {
   height: 22px;
@@ -1838,7 +1838,7 @@
 }
 
 /* Document previewer
- * 3 variants captured. 3 variants
+ * 3 variants captured. RE-READ 2026-09-11: stroke has moved Border/Default -> Border/Default full on all three Device variants. Unextracted, so the rows are left as captured and are KNOWN STALE
  * Figma draws this 375px wide; treated as layout, not a rule
  * Figma draws this 642px tall; emitted as a minimum, since content decides the real height
  */

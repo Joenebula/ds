@@ -98,13 +98,13 @@ Field (second component)	auto x auto	0	0	2	13px	VERTICAL MIN MIN	Figma has two c
 Radio tile	235 x auto	25 0	4	10	16px SemiBold	VERTICAL CENTER MIN	RE-READ 2026-09-11: its theme-tinted state has moved Background/Theme -> Background/Light theme and its resting border Border/Default -> Border/Default full. Both replacements are unextracted, so the rows are left as captured and are KNOWN STALE. The fill change is invisible in light mode (both resolve to #fcf4f7) and changes dark mode, where Background/Theme goes to #2c3844	26746:17352
 Radio card	235 x 152	25 0	4	10	16px SemiBold	VERTICAL CENTER MIN	RE-READ 2026-09-11: its theme-tinted state has moved Background/Theme -> Background/Light theme and its resting border Border/Default -> Border/Default full. Both replacements are unextracted, so the rows are left as captured and are KNOWN STALE. The fill change is invisible in light mode (both resolve to #fcf4f7) and changes dark mode, where Background/Theme goes to #2c3844	30573:16933
 Control	20 x 20	10	4	10	—	VERTICAL CENTER CENTER	the checkbox/radio box itself, 20x20 r4. 2 variants	30641:14910
-Checkbox/Radio item	auto x 22	0	0	10	16px	HORIZONTAL CENTER MIN	box + label, 10px gap. 18 variants	30643:20637
+Checkbox/Radio item	auto x 22	0	0	10	16px	HORIZONTAL CENTER MIN	RE-READ 2026-09-11: all five captured State colours are unchanged. Figma’s matrix is now State(5) x Radio(2) x Filled(2) = 20, and the colour depends on State alone for 19 of them. The exception is State=Default, Radio=Yes, Filled=Yes, which binds Text/Link (link blue) where every other Default binds Text/Primary. That reads like a Figma slip rather than a decision — a default, unhovered radio should not be link-coloured — and it is why collapse() cannot drop the Radio and Filled axes, so the extractor reports "axes differ" rather than extending the rows	30643:20637
 Checkbox/Radio list	194 x auto	0	0	5	16px	VERTICAL MIN MIN	5px between items. 4 variants	30644:37303
 Date picker period	auto x auto	0	0	10	20px	HORIZONTAL CENTER CENTER		13717:57349
 Date range visual	371 x auto	0	0	20	16px	HORIZONTAL CENTER MIN		8478:85639
 Image picker	440 x 220	—	0	—	—	NONE	not auto-layout	10306:112952
 Slider	600 x auto	0	0	20	13px	VERTICAL MIN CENTER		14948:93064
-Document previewer	375 x 642	0	0	0	16px	VERTICAL MIN MIN	3 variants	27479:15917
+Document previewer	375 x 642	0	0	0	16px	VERTICAL MIN MIN	RE-READ 2026-09-11: stroke has moved Border/Default -> Border/Default full on all three Device variants. Unextracted, so the rows are left as captured and are KNOWN STALE	27479:15917
 Attachments	440 x auto				13px SemiBold	HORIZONTAL MIN MIN		5235:64884
 Attachment with person	440 x auto		8		13px	VERTICAL CENTER MIN		5235:65181
 Note	440 x auto		8		13px	VERTICAL CENTER MIN		5235:65705
