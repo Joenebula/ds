@@ -2,6 +2,12 @@
 // Builds .claude/skills/people-first/references/geometry.md from the measured
 // component geometry, so the skill can cite real numbers rather than infer them.
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { dirname } from 'node:path';
+
+// OUTPUT PATH IS OVERRIDABLE so a gate can rebuild this into a temp directory and byte-compare
+// it against what is committed, the way verify-built.mjs already does for the screens. The
+// default is unchanged, so every existing caller behaves exactly as before.
+const OUT = process.argv[2] || '.claude/skills/people-first/references/geometry.md';
 const rows = readFileSync('tokens/_raw/component-geometry.tsv', 'utf8')
   .trim().split('\n').slice(1).map(l => l.split('\t'));
 
@@ -47,5 +53,6 @@ difference between a page that reads as People First and one that doesn't:
 `;
 
 mkdirSync('.claude/skills/people-first/references', { recursive: true });
-writeFileSync('.claude/skills/people-first/references/geometry.md', md);
+mkdirSync(dirname(OUT), { recursive: true });
+writeFileSync(OUT, md);
 console.log(`geometry.md written — ${rows.length} components`);

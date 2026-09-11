@@ -294,7 +294,20 @@ source; the built file is an output. Editing it directly is overwritten on the n
 until then the screen and its source disagree.
 
 `npm run verify` checks every screen in `prototypes/` on eleven axes, plus the component
-library, the type layer and the docs, each on a different axis. They are not
+library, the type layer, the docs, and every GENERATED FILE THAT SOMEBODY READS, each on a
+different axis.
+
+That last one is `verify-generated.mjs`, and it closes a gap commit `223f4d1` named and deferred:
+*"verify-built.mjs gates prototypes/ and nothing gates ds-bundle/ or docs/."* It rebuilds
+`docs/components.html`, `reference/index.html` and the two `people-first` skill references into a
+temp directory and compares bytes — never touching the real file, because a check that writes is
+not a check. These four are gated because they have READERS: `CLAUDE.md` tells people to open the
+gallery rather than guess whether a class exists, and the skill quotes its references as fact. A
+stale one is not a stale preview, it is a confident wrong answer.
+
+Each builder takes an optional output path so the rebuild can go somewhere else, and the
+self-test checks that every one of them actually honours it — a builder that ignored the argument
+would make the gate compare a file against itself and pass for ever. They are not
 interchangeable — on this project every one of them has passed while the page was
 visibly wrong on an axis it does not measure.
 

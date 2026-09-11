@@ -3,6 +3,12 @@
 // variant with its token bindings, translated from Figma names to CSS vars,
 // so a prototype can render any named variant correctly.
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { dirname } from 'node:path';
+
+// OUTPUT PATH IS OVERRIDABLE so a gate can rebuild this into a temp directory and byte-compare
+// it against what is committed, the way verify-built.mjs already does for the screens. The
+// default is unchanged, so every existing caller behaves exactly as before.
+const OUT = process.argv[2] || '.claude/skills/people-first/references/variants.md';
 
 const t = JSON.parse(readFileSync('tokens/design-tokens.json', 'utf8'));
 
@@ -103,7 +109,8 @@ Carried through from Figma rather than silently corrected:
 `;
 
 mkdirSync('.claude/skills/people-first/references', { recursive: true });
-writeFileSync('.claude/skills/people-first/references/variants.md', md);
+mkdirSync(dirname(OUT), { recursive: true });
+writeFileSync(OUT, md);
 
 console.log(`variants.md written — ${componentCount} components, ${rows.length} variants, ${pages.length} pages`);
 if (unmapped.size) console.log('unmapped token names:', [...unmapped].join(', '));

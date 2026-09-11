@@ -1,7 +1,13 @@
 #!/usr/bin/env node
 // Generates reference/index.html — a visual proof sheet of every token, in both modes.
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { dirname } from 'node:path';
 import { execSync } from 'node:child_process';
+
+// OUTPUT PATH IS OVERRIDABLE so a gate can rebuild this into a temp directory and byte-compare
+// it against what is committed, the way verify-built.mjs already does for the screens. The
+// default is unchanged, so every existing caller behaves exactly as before.
+const OUT = process.argv[2] || 'reference/index.html';
 
 const t = JSON.parse(readFileSync('tokens/design-tokens.json', 'utf8'));
 const css = readFileSync('dist/tokens.css', 'utf8');
@@ -175,6 +181,7 @@ ${Object.entries(semanticGroups).map(([g, list]) =>
 </body></html>`;
 
 mkdirSync('reference', { recursive: true });
-writeFileSync('reference/index.html', html);
+mkdirSync(dirname(OUT), { recursive: true });
+writeFileSync(OUT, html);
 const pass = contrast.filter(r => r.verdict === 'AA').length;
 console.log(`reference/index.html written — ${contrast.length} contrast pairs, ${pass} pass AA`);

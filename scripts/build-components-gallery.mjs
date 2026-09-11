@@ -8,6 +8,12 @@
 // something the stylesheet does not actually produce. It also reports what is NOT
 // captured, because a gallery that quietly omits the gaps is worse than no gallery.
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { dirname } from 'node:path';
+
+// OUTPUT PATH IS OVERRIDABLE so a gate can rebuild this into a temp directory and byte-compare
+// it against what is committed, the way verify-built.mjs already does for the screens. The
+// default is unchanged, so every existing caller behaves exactly as before.
+const OUT = process.argv[2] || 'docs/components.html';
 
 const tsv = (p) => {
   const [h, ...rows] = readFileSync(p, 'utf8').trim().split('\n');
@@ -247,6 +253,7 @@ out.push(`<script>
 </script>`);
 
 mkdirSync('docs', { recursive: true });
-writeFileSync('docs/components.html', out.join('\n'));
+mkdirSync(dirname(OUT), { recursive: true });
+writeFileSync(OUT, out.join('\n'));
 console.log(`components.html written — ${byPage.size} pages, ${captured.size} components, ${totalVariants} variants`);
 console.log(`  not yet captured: ${uncaptured.length}`);
