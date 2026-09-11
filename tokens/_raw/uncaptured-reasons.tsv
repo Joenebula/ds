@@ -1,6 +1,9 @@
 component	page	reason
 AI link	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
 Avatar	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
+Button (icon only)	Buttons and links	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
+Checkbox / radio box	Controls	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
+Checkbox/Radio item (row)	Controls	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
 Component 1	Cards and panels	carries a Figma default name — an unnamed component, not part of the system
 Default header background	Navigation	no variant binds a colour variable in Figma — nothing to put in a stylesheet
 Description	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
@@ -8,18 +11,29 @@ design system header	📄 DOCUMENT MANAGEMENT	on a documentation page — descri
 Document label spec	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
 Document order spec	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
 Dos and don'ts	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
+Field (second component)	Forms	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
 Field icons	Forms	no variant binds a colour variable in Figma — nothing to put in a stylesheet
+Filter chip (mobile)	Buttons and links	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
 Floaters	Cards and panels	no variant binds a colour variable in Figma — nothing to put in a stylesheet
 Header	📚 WIKI	on a documentation page — describes the design system rather than being part of it
 Horizontal scroll	Cards and panels	no variant binds a colour variable in Figma — nothing to put in a stylesheet
+Information box (row)	System messages	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
 iTrent logo	🎨 STYLE GUIDE	on a documentation page — describes the design system rather than being part of it
+Layout container	Cards and panels	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
+Links (primary)	Buttons and links	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
+Links (secondary)	Buttons and links	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
 Logos	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
 Map	Forms	no variant binds a colour variable in Figma — nothing to put in a stylesheet
 Menu	Navigation	no variant binds a colour variable in Figma — nothing to put in a stylesheet
 MHR logo	🎨 STYLE GUIDE	on a documentation page — describes the design system rather than being part of it
 Mobile key actions	Buttons and links	no variant binds a colour variable in Figma — nothing to put in a stylesheet
 Notification image	System messages	no variant binds a colour variable in Figma — nothing to put in a stylesheet
+Option (dropdown row)	Forms	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
+Org chart node	Icons	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
 People	People	its variants are sample content (one per fictional employee), not design
+People (avatar)	People	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
+People (card)	People	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
+People (row)	People	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
 People first logo	🎨 STYLE GUIDE	on a documentation page — describes the design system rather than being part of it
 Profile image	People	no variant binds a colour variable in Figma — nothing to put in a stylesheet
 Project info - Files and Resources	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
@@ -29,9 +43,13 @@ Project info - Timeframe and schedule	📄 DOCUMENT MANAGEMENT	on a documentatio
 Project info - UX PRD summary	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
 Prototype context screen	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
 Prototype cover page	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
+Radio card / Radio tile	Controls	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
+Repeating group	Buttons and links	pending: captured 2026-09-09 with a real .pf-repeating-group class; components.json was read 2026-09-08 and has not been refreshed since, so the inventory has never seen it. Clears on the next re-extract — see npm run sync:check
 Skeleton state	🎨 STYLE GUIDE	on a documentation page — describes the design system rather than being part of it
 Stars	Tags and ratings	no variant binds a colour variable in Figma — nothing to put in a stylesheet
+Status dot	System messages	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
 Storybook link	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
+Table (AG) container	Tables	a measured sub-part, not a component set Figma publishes — its geometry is recorded so a prototype can build the piece, and it will never appear in components.json
 Team member	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
 Thumbnail	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
 Thumbnail/Brand logo	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it

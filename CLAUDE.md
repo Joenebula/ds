@@ -58,6 +58,45 @@ only.
 
 Dark mode: `data-theme="dark"` / `"light"` on the root, or omit to follow the OS.
 
+## Keeping up with Figma
+
+The Figma file keeps moving. New components are occasional rather than weekly, which is exactly
+what makes drift dangerous — nobody is watching, because most weeks there is nothing to watch.
+`components.json` was read on 2026-09-08 and the variant extract moved on the 9th; `Repeating
+group` fell in the gap and shipped a `.pf-repeating-group` class that no inventory had heard of.
+
+Two questions, two costs, two mechanisms:
+
+**Do this repo's extracts agree with each other?** `check-catalogue-drift.mjs`, first in
+`npm run verify`, no Figma calls. A component with a class must be in `components.json`; a
+measured shape must belong to something; anything in Figma with no rules must have a line in
+`tokens/_raw/uncaptured-reasons.tsv` saying why. **An unexplained absence fails.** That file is
+load-bearing now, not a comment.
+
+A reason beginning `pending:` is DEBT — known, recorded, waiting on a re-extract. It passes and
+is **counted and named in the verdict line on every run**. Never delete that count to tidy the
+output; it is the only thing keeping a known gap from becoming a forgotten one.
+
+**Has Figma changed since we last looked?** One call, on demand:
+
+```
+1. list_file_components_for_code_connect  fileKey aRWjBnTvdLiG50xtwodGwH
+   (despite the name it takes only a file key and returns every published component — it is a
+    listing, and reads no Code Connect map. D-019 bars using Code Connect as a source; this is
+    not that.)
+2. Save the response to tokens/_raw/figma-components.json
+3. npm run sync:check
+```
+
+It reports three numbers — unchanged, new, gone. **A component new in Figma FAILS rather than
+being captured automatically**: it might be real, half-finished, or an experiment somebody left
+on a page, and nothing enters the published library without a person deciding. Capture it, or
+add a row to `uncaptured-reasons.tsv` saying why it stays out.
+
+Re-extracting the variants and geometry themselves is a bigger, deliberate job — the
+`extract-*.mjs` scripts read Figma reads out of the session transcript, so it needs a live
+session, roughly one read per Figma page.
+
 ## Editing tokens
 
 `tokens/_raw/` is the input; everything else is generated. Re-extract from Figma into
