@@ -413,14 +413,22 @@ Three things a template tells you that nothing else does:
 
 ### When a component is not in the library
 
-162 of the 187 non-icon Figma components are classes in the stylesheet. The 25 that are
-not are listed in `docs/components.html` under **Not in the library**, each with its reason
-— and every one of them is on a documentation page (Storybook and Miro logos, "dos and
-don'ts" panels, project info): they describe the design system rather than belonging to it.
+The stylesheet carries **160 classes**, and they cover 162 of the 187 non-icon Figma
+components. The 25 with no class are listed in `docs/components.html` under **Not in the
+library**, each with its reason — and every one is on a documentation page (Storybook and
+Miro logos, "dos and don'ts" panels, project info): they describe the design system rather
+than belonging to it. Nothing on a product page is missing.
 
-Of the 162, **147 carry colour variants** — 302 of them — and the other 15 are shape-only,
-because Figma binds them no colour variable at all. A shape-only class is still a real
-class with the right size, padding and radius; it just has nothing to paint.
+Three numbers, all true, none interchangeable — quote the one you mean:
+
+- **160 classes.** 147 of them carry colour variants (302 in all); the other 13 are
+  **shape-only**, because Figma binds them no colour variable anywhere. A shape-only class
+  is still real — right size, padding and radius — it just has nothing to paint.
+- **162 components covered**, which is higher than 160 because three names are each shared
+  by two different Figma components: `Header`, `Field` and `People`. One class serves both,
+  so for those three you must check you have the one you meant. See
+  `docs/FIGMA-ISSUES.md` §10.
+- **187 non-icon components** in the file altogether.
 
 Nothing on a product page is missing any more. `Tooltip`, `Menu`, `Stars`, `Field icons`
 and `Component 1` were all in this list once and have since been captured.

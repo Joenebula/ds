@@ -23,9 +23,9 @@ case. Colour and shape are independent, and both have to come from Figma.
 | `docs/templates.html` | The markup INSIDE each composite component — a card, table or panel is not its class |
 
 **2. Build the components from the stylesheet, not by hand.** `dist/components.css`
-carries 147 components and 302 variants as ready classes, plus 15 more that are shape-only
-because Figma binds them no colour — 162 classes in all, generated from Figma and checked
-against it. The component is the class, each Figma variant property is a data
+carries 160 classes, generated from Figma and checked against it: 147 components and 302
+variants with colour bindings, plus 13 the extract carries as shape only because Figma
+binds them no colour at all. The component is the class, each Figma variant property is a data
 attribute, and the values keep Figma's own spelling:
 
 ```html

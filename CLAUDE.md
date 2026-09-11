@@ -142,9 +142,11 @@ one appears. Six had slipped in, because the rule was applied to a child's fill 
 and not to its text.
 
 (The same section used to cite "69 classes with no paint". That number was wrong —
-`check-component-art.mjs` was counting rules rather than classes. The real figure is 2, and
-it was never the right measure anyway: a class can have a perfectly good background and
-still be an empty box.)
+`check-component-art.mjs` was counting rules rather than classes. The real figure is **5**,
+and it was never the right measure anyway: a class can have a perfectly good background and
+still be an empty box. It was 2 until `Calendar picker`, `Time picker` and `Repeating group`
+had their one text colour dropped, which is explained in `docs/FIGMA-ISSUES.md` §11 — for
+those three, losing their only paint was the fix rather than the fault.)
 
 ## The rule: only design-system components
 
@@ -203,8 +205,8 @@ Figma (`aRWjBnTvdLiG50xtwodGwH`) and turn a Figma design into correct, tagged ou
 **`prototypes/` are rough test fixtures.** They exist to exercise the token layer and a
 subset of components, and their page composition — sidebar shell, top bar, metric tiles,
 side-panel rows — is hand-built rather than taken from Figma. Measured: about 78–86% of
-what paints on them uses a real library class, and 125 of the 147 components are never used
-by any of them. That is acceptable for what they are. Do not describe them as reference
+what paints on them uses a real library class, and **136 of the 160 classes are never used
+by any of them** — the three screens between them reach for 24. That is acceptable for what they are. Do not describe them as reference
 implementations, do not hand them to a developer as one, and do not rebuild them to chase
 component fidelity unless asked — the user has explicitly said they are not real screens.
 
