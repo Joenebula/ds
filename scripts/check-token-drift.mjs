@@ -14,10 +14,18 @@
 // neither semantic.tsv nor primitives.tsv. They were caught only because the kebab decoder
 // refused to guess at a near miss and said so. Luck is not a mechanism.
 //
-// NO FIGMA CALLS. It reads the design-context responses already durable in the session
-// transcripts — the same trick the extractors use — pulls every `var(--…)` out of them, and
-// resolves each against the tokens the repo holds. So it measures exactly what has been read,
-// and gets stronger as more pages are read.
+// NO FIGMA CALLS. It reads responses already durable in the session transcripts — the same trick
+// the extractors use — and resolves what they bind against the tokens the repo holds. So it
+// measures exactly what has been read, and gets stronger as more pages are read.
+//
+// TWO SOURCES, AND THE SECOND ONE WAS MISSING FOR A WHILE. Design-context responses carry kebab
+// CSS variables (`var(--navigation\/nav-bg-top)`) that have to be decoded back to a Figma name.
+// get_variable_defs responses carry the Figma names VERBATIM as JSON keys, which needs no
+// decoding and cannot be near-missed — a strictly better source. This check read only the first,
+// so a whole page screened with get_variable_defs was invisible to it. Re-reading Navigation on
+// 2026-09-11 surfaced five more missing tokens by hand — Navigation/Nav items, Nav bg left,
+// Search bg, Notification selected and Configr nav — and the check could not see one of them.
+// Finding a token by hand that the mechanism cannot find is the mechanism failing.
 //
 // THE FIRST VERSION OF THIS FILE MEASURED THE WRONG THING, CONFIDENTLY. It scanned every string
 // in the transcript, so it counted this repo's OWN `--pf-*` output variables, and fragments of
@@ -48,11 +56,53 @@ const DEBT = 'tokens/_raw/uncaptured-tokens.tsv';
 // in this repo's own output.
 export const DESIGN_CONTEXT = /data-node-id=/;
 
-// Every `var(--…)` in a chunk of text, as the raw name the decoder takes. `--pf-*` is skipped:
+// What makes a string a get_variable_defs response: a JSON object, every value a string, and at
+// least one value shaped like something only Figma writes — a hex colour, a Font(...) or an
+// Effect(...). This repo's own JSON never matches: components.json is an array, other.json and
+// the live-sets files hold arrays as values.
+export function isVariableDefs(text) {
+  if (!/^\s*\{/.test(text)) return null;
+  let o; try { o = JSON.parse(text); } catch { return null; }
+  if (!o || typeof o !== 'object' || Array.isArray(o)) return null;
+  const vals = Object.values(o);
+  if (vals.length < 2 || !vals.every((v) => typeof v === 'string')) return null;
+  const figmaish = (v) => /^#[0-9a-fA-F]{3,8}$/.test(v) || /^(Font|Effect)\(/.test(v);
+  return vals.some(figmaish) ? o : null;
+}
+
+// The COLOUR entries of a get_variable_defs response, by their exact Figma names.
+//
+// Deliberately only the colours. Such a response also carries fonts, sizes, effects, booleans and
+// even a component's prose property values ("Description": "Change is a constant in today's…").
+// Judging those against this repo's colour files would manufacture unknowns out of things that
+// are not colours and were never missing — the exact mistake the first version of this file made
+// at a larger scale.
+export function scanVariableDefs(text) {
+  const o = isVariableDefs(text);
+  if (!o) return [];
+  return Object.entries(o).filter(([, v]) => /^#[0-9a-fA-F]{3,8}$/.test(v)).map(([k]) => k);
+}
+
+// The key a person writes in uncaptured-tokens.tsv, from an exact Figma name. One vocabulary for
+// the debt file whichever source found the token: `Navigation/Nav bg top` -> `navigation/nav-bg-top`,
+// which is what the kebab decoder would have produced from the design-context side.
+export const debtKey = (figmaName) => String(figmaName).toLowerCase().trim().replace(/\s+/g, '-');
+
+// Every `var(--...)` in a chunk of text, as the raw name the decoder takes. `--pf-*` is skipped:
 // that is this repo's OWN output namespace, emitted by build-css.mjs, and can never be a Figma
 // variable name. Counting it was how the first version of this check reported 133 for 2.
+//
+// AND THE NAME MUST LOOK LIKE A NAME. The data-node-id gate says "this string is a design-context
+// response", but a string can contain one AND contain prose. This file's own header explains
+// itself with the literal text `var(--` followed by an ellipsis; read into a transcript beside a
+// component, it was scraped as a bound variable called "..." and reported as an UNKNOWN token,
+// five times. A Figma variable name is word characters, spaces and a little punctuation — never
+// an ellipsis, never a sentence. Rejecting anything else costs nothing and closes the whole class,
+// not just the one character that found it.
+const NAME_SHAPE = /^--[A-Za-z0-9\\/_.%+()-][A-Za-z0-9\\/_.%+() -]*$/;
 export function scanVars(text) {
-  return [...text.matchAll(/var\((--[^,)]+)/g)].map((m) => m[1]).filter((v) => !/^--pf-/.test(v));
+  return [...text.matchAll(/var\((--[^,)]+)/g)].map((m) => m[1])
+    .filter((v) => !/^--pf-/.test(v) && NAME_SHAPE.test(v));
 }
 
 // Every Figma name the repo holds, across all of its extracts — not just the colour files.
@@ -69,8 +119,18 @@ export function allKnownNames(dir = 'tokens/_raw') {
   return names;
 }
 
-export function judge(rawNames, index, declared) {
+export function judge(rawNames, index, declared, exactNames = [], knownExact = new Set()) {
   const unknown = new Map(); const known = new Set(); const debt = new Map();
+  // Exact Figma names from get_variable_defs. No decoding: they are compared to the names the
+  // repo holds directly, so there is no near-miss to guess at.
+  const norm = (n) => String(n).toLowerCase().replace(/\s+/g, ' ').trim();
+  const haveExact = new Set([...knownExact].map(norm));
+  for (const name of exactNames) {
+    if (haveExact.has(norm(name))) { known.add(name); continue; }
+    const key = debtKey(name);
+    if (declared.has(key)) { debt.set(key, declared.get(key)); continue; }
+    unknown.set(key, (unknown.get(key) || 0) + 1);
+  }
   for (const raw of rawNames) {
     const d = decode(raw, index);
     if (d.name) { known.add(d.name); continue; }
@@ -84,10 +144,14 @@ export function judge(rawNames, index, declared) {
 
 function main() {
   const files = transcriptFiles(TRANSCRIPT_DIR);
-  const texts = scrapeBatches(files.map((f) => f.path), DESIGN_CONTEXT);
+  const paths = files.map((f) => f.path);
+  const texts = scrapeBatches(paths, DESIGN_CONTEXT);
   const raw = texts.flatMap(scanVars);
+  const defsTexts = scrapeBatches(paths, /^\s*\{\s*"/);
+  const exact = defsTexts.flatMap(scanVariableDefs);
 
-  const index = buildIndex(allKnownNames());
+  const names = allKnownNames();
+  const index = buildIndex(names);
   let declared = new Map();
   try {
     for (const l of readFileSync(DEBT, 'utf8').trim().split('\n').slice(1)) {
@@ -96,14 +160,16 @@ function main() {
     }
   } catch { /* no debt file yet */ }
 
-  const { unknown, known, debt } = judge(raw, index, declared);
+  const { unknown, known, debt } = judge(raw, index, declared, exact, new Set(names));
 
   console.log(`transcripts read   : ${files.length}`);
   console.log(`design reads seen  : ${texts.length}`);
-  console.log(`variables bound    : ${raw.length} (--pf-* excluded: that is this repo's output, not Figma's)`);
+  console.log(`variable-def reads : ${defsTexts.filter(isVariableDefs).length}`);
+  console.log(`variables bound    : ${raw.length} kebab + ${exact.length} exact `
+    + '(--pf-* excluded: that is this repo\'s output, not Figma\'s)');
   // Measuring nothing is not a pass — whether because no component was read, or because every
   // read yielded no variable. Both look exactly like a clean bill of health and neither is one.
-  if (!texts.length || !raw.length) {
+  if ((!texts.length || !raw.length) && !exact.length) {
     console.log(`\n${texts.length} design read(s) yielded ${raw.length} bound variable(s), so `
       + 'NOTHING WAS MEASURED — this is not a pass. Re-run in a session that has read components '
       + 'with get_design_context.');
@@ -128,6 +194,44 @@ function selfTest() {
   let failures = 0;
   const miss = (m) => { failures++; console.log(`  MISS ${m}`); };
   const idx = buildIndex(['Text/Primary', 'Base colours/White']);
+
+  // Prose that merely CONTAINS `var(--` is not a binding. This repo's own source explains itself
+  // with an ellipsis inside one, and it was scraped as a token five times.
+  if (scanVars('pulls every `var(--\u2026)` out of them').length !== 0) {
+    miss('a var() whose name is not name-shaped must be rejected, not reported as a Figma token');
+  }
+  if (scanVars(String.raw`var(--navigation\/nav-bg-top,#fff)`).length !== 1) {
+    miss('a real kebab variable name must still be accepted');
+  }
+  // get_variable_defs: only the COLOUR entries, by their exact Figma names.
+  const defs = JSON.stringify({ 'Navigation/Nav items': '#656565', 'Size/S': '16',
+    Description: 'Change is a constant', 'Drop shadow': 'Effect(type: DROP_SHADOW)' });
+  if (JSON.stringify(scanVariableDefs(defs)) !== JSON.stringify(['Navigation/Nav items'])) {
+    miss(`only hex-valued entries of a variable-defs response are colours `
+      + `(got ${JSON.stringify(scanVariableDefs(defs))})`);
+  }
+  // The array values must be REJECTED BY TYPE, not by luck. A one-element array stringifies to
+  // its element, so `['#656565']` passes a hex test the moment the type guard is dropped — and a
+  // live-sets file with a single-token component is exactly that shape. This fixture fails if the
+  // guard is removed; an `['x']` fixture does not, and passed a mutant that deserved to die.
+  const arrayish = JSON.stringify({ 'Navigation/Nav items': ['#656565'], Other: ['#3e3e3e'] });
+  if (scanVariableDefs(arrayish).length !== 0) {
+    miss('an object whose values are ARRAYS is this repo\'s own JSON (tokens/_raw/live-sets-*.json), '
+      + 'never a variable-defs response — and a one-element array must not sneak through by '
+      + 'stringifying to its element');
+  }
+  if (debtKey('Navigation/Nav bg top') !== 'navigation/nav-bg-top') {
+    miss(`an exact Figma name must fold to the same debt key the kebab side produces `
+      + `(got ${debtKey('Navigation/Nav bg top')})`);
+  }
+  {
+    const decl = new Map([['navigation/nav-items', 'pending: blocked']]);
+    const j = judge([], idx, decl, ['Navigation/Nav items', 'Navigation/Nav bg left', 'Text/Primary'],
+      new Set(['Text/Primary']));
+    if (!j.debt.has('navigation/nav-items')) miss('a declared exact-name token must count as debt, not unknown');
+    if (!j.unknown.has('navigation/nav-bg-left')) miss('an undeclared exact-name token must be reported UNKNOWN');
+    if (!j.known.has('Text/Primary')) miss('an exact name the repo holds must resolve');
+  }
 
   if (JSON.stringify(scanVars(String.raw`bg-[var(--text\/primary,#3e3e3e)] x`)) !== JSON.stringify(['--text\\/primary'])) {
     miss(`a var() must be pulled out whole (got ${JSON.stringify(scanVars(String.raw`bg-[var(--text\/primary,#3e3e3e)] x`))})`);

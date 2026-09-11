@@ -44,19 +44,19 @@ Confirmation modal	400 x 413	60 10	8	36	24px Regular	VERTICAL CENTER MIN		5217:6
 Next actions modal	400 x 565	0 0 30 0	8	30	24px Regular	VERTICAL CENTER MIN		30115:781
 Status dot	22 x 22	0	100	0	—		circle	
 Notification image	44 x 44				—	NONE		3435:66874
-Navigation item	90 x 86	0	0	22	13px SemiBold	HORIZONTAL CENTER CENTER	rail item, icon above label	13658:8027
-Side navigation	90 wide	0	0	0	13px	VERTICAL MIN MIN	collapsed rail	13658:7757
-Notification tabs	268 x 48	10 15	8	20	16px	HORIZONTAL CENTER MIN		22973:20747
-Side navigation panel	268 x 416	10	0	5	16px	VERTICAL MIN MIN		22973:20811
-Tab	40 x 34	6 0	0	10	16px	VERTICAL CENTER MIN		13658:7879
-Navigation tabs	auto x 36	0	0	40	16px SemiBold	HORIZONTAL CENTER MIN		23086:8084
-Tertiary nav	auto x 43	4 368	0	40	16px SemiBold	HORIZONTAL CENTER CENTER		13658:7900
-Nav tabs	80 x 40	0 20	mixed	10	16px			13658:7817
+Navigation item	90 x 86	0	0	22	13px SemiBold	HORIZONTAL CENTER CENTER	RE-READ 2026-09-11: BOTH captured colours have moved into the unextracted Navigation/* collection — fill Background/Primary -> Navigation/Nav bg left, text Text/Secondary -> Navigation/Nav items. Both are identical in light (#ffffff, #656565) and neither is readable in dark. It also binds the Configr theme (Icons/Icon - Configr, Text/Configr Theme, Background/Configr Theme), a second product theme this design system has never held	13658:8027
+Side navigation	90 wide	0	0	0	13px	VERTICAL MIN MIN	RE-READ 2026-09-11: fill Background/Primary -> Navigation/Nav bg left and text Text/Secondary -> Navigation/Nav items, both unextracted; rows left as captured and KNOWN STALE. It also binds four DEPRECATED COLOURS entries and Navigation/Configr nav	13658:7757
+Notification tabs	268 x 48	10 15	8	20	16px	HORIZONTAL CENTER MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	22973:20747
+Side navigation panel	268 x 416	10	0	5	16px	VERTICAL MIN MIN	RE-READ 2026-09-11: the node is GONE. get_variable_defs on 22973:20811 returns "The node ID provided was invalid", which upgrades the pending reason from "no longer published" to "no longer in the file". Its .pf-side-navigation-panel class is still shipped, so the row is kept — but this is now a deletion to confirm with the design lead, not an ambiguity	22973:20811
+Tab	40 x 34	6 0	0	10	16px	VERTICAL CENTER MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	13658:7879
+Navigation tabs	auto x 36	0	0	40	16px SemiBold	HORIZONTAL CENTER MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	23086:8084
+Tertiary nav	auto x 43	4 368	0	40	16px SemiBold	HORIZONTAL CENTER CENTER	RE-READ 2026-09-11: fill Background/Primary -> Navigation/Nav bg top, and it is NOT a rename of a token this repo holds — the whole Navigation/* collection is unextracted. Row left as captured and KNOWN STALE. Light value #ffffff either way, so a light-mode check cannot see it	13658:7900
+Nav tabs	80 x 40	0 20	mixed	10	16px		RE-READ 2026-09-11: stroke Border/Default -> Border/Default full, unextracted, so the row is left as captured and is KNOWN STALE, and fill Background/Primary -> Navigation/Nav bg top, also unextracted	13658:7817
 Header	auto x 86	0	0	0	16px	VERTICAL MIN MIN	NODE ID CORRECTED 2026-09-11: was 13658:7653, which matches NOTHING in the 475-component inventory. The real set is 32488:24634 on Navigation, whose Mobile=No variants are 86 tall — exactly this row; the other Navigation component called Header (32527:39433) is a 20x20 glyph pair. FIGMA HAS RE-AXED IT: the three captured Breakpoint=Desktop/Tablet/Mobile rows are gone, replaced by Theme(16) x Mobile(2) = 32 variants. Not recaptured — Navigation is blocked on Navigation/Nav bg top and Border/Default full, so its colours cannot be recorded without inventing a token	32488:24634
-Mobile bottom navigation	375 x 76	0	0	0	11px	HORIZONTAL MIN MIN		13658:7742
-Clock in	107 x 32	7 20 7 10	20	5	16px	HORIZONTAL CENTER CENTER	PILL	13658:8019
-Filter tab single	224 x 100	20	0	5	24px Regular	VERTICAL MIN CENTER		23069:23190
-Top bar app context	242 x 66	0	0	0	24px	HORIZONTAL MIN MIN		13658:7955
+Mobile bottom navigation	375 x 76	0	0	0	11px	HORIZONTAL MIN MIN	RE-READ 2026-09-11: text Text/Secondary -> Navigation/Nav items. Both resolve to #656565 in LIGHT, so this is invisible to every light-mode check — the same trap as Background/Light theme. The Navigation/* collection is unextracted; row left as captured and KNOWN STALE	13658:7742
+Clock in	107 x 32	7 20 7 10	20	5	16px	HORIZONTAL CENTER CENTER	RE-READ 2026-09-11: stroke Border/Default -> Border/Default full, unextracted, so the row is left as captured and is KNOWN STALE	13658:8019
+Filter tab single	224 x 100	20	0	5	24px Regular	VERTICAL MIN CENTER	RE-READ 2026-09-11: stroke Border/Default -> Border/Default full, unextracted, so the row is left as captured and is KNOWN STALE	23069:23190
+Top bar app context	242 x 66	0	0	0	24px	HORIZONTAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	13658:7955
 Metric card	392 x 89	20	8	165	36px		RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED	8206:79577
 Bar chart	415 x 193	0	0	10	13px		NODE ID CORRECTED 2026-09-11: was 6188:65918, which is a 36x36 GLYPH on the Icons page, not this chart. Figma publishes two components called Bar chart and backfill-node-ids.mjs let the last one win. The real set is 7658:72458, whose Breakpoint=Desktop variant is 415x193 — exactly this row. RE-READ against the corrected id: Text/Primary and Charts/Chart 1 are both still bound, UNCHANGED. Figma carries Breakpoint(2) x Darkmode axes this capture records as a single blank variant	7658:72458
 Bar chart with axis	326 x 221	0	0	0	13px Regular		RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED. Its axis rules bind Border/Default full, the blocked split token, on children	7667:71127
@@ -124,17 +124,17 @@ single layout card	800 x auto	30		20	20px	VERTICAL CENTER MIN	RE-READ 2026-09-11
 Footer	375 x auto	0 10		10	13px Regular	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	30637:15576
 Content	375 x auto			10	13px	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	30637:15470
 Detail item	162 x auto			5	13px	HORIZONTAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	30637:16556
-Config child menu	auto x auto				16px	VERTICAL MIN MIN		958:30289
-Config menu items	auto x auto				16px	VERTICAL MIN MIN		958:30298
-Config parent menu	auto x auto	5 20 5 0		5	16px	HORIZONTAL CENTER MIN		4931:63962
-Header navigation	1834 x auto				16px	VERTICAL MIN MIN		13658:7772
-Secondary nav	947 x 44				16px SemiBold	HORIZONTAL MAX CENTER		13658:7842
-Search navigation	150 x 32				16px			13658:8009
-Full page	1920 x 1080				13px	HORIZONTAL MIN MIN		13658:8240
-Filter tabs	1600 x auto				24px SemiBold	HORIZONTAL MIN MIN		23069:23560
-Config side menu	325 x 980		8		16px	VERTICAL MIN MIN		5942:65619
-[S] Config child menu	auto x auto	10 0 0 11		10	16px	VERTICAL MIN MIN		930:30367
-Counter	20 x 20	0 4	38	10	11px SemiBold	VERTICAL CENTER CENTER		14990:11954
+Config child menu	auto x auto				16px	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	958:30289
+Config menu items	auto x auto				16px	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	958:30298
+Config parent menu	auto x auto	5 20 5 0		5	16px	HORIZONTAL CENTER MIN	RE-READ 2026-09-11: stroke Border/Default -> Border/Default full, unextracted, so the row is left as captured and is KNOWN STALE	4931:63962
+Header navigation	1834 x auto				16px	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	13658:7772
+Secondary nav	947 x 44				16px SemiBold	HORIZONTAL MAX CENTER	RE-READ 2026-09-11: fill Background/Primary -> Navigation/Nav bg top, and it is NOT a rename of a token this repo holds — the whole Navigation/* collection is unextracted. Row left as captured and KNOWN STALE. Light value #ffffff either way, so a light-mode check cannot see it	13658:7842
+Search navigation	150 x 32				16px		RE-READ 2026-09-11: the captured Text/Theme is no longer bound anywhere in this component — CONFIRMED by both tools, the render and get_variable_defs agreeing, which is what this repo now requires before calling an absence. Today it binds Text/Secondary, Icons/Icon - Theme and Navigation/Search bg (#ffffffe5, a TRANSLUCENT white with no equivalent in the token layer). The row is STALE; it is left rather than half-corrected because the replacement is unextracted	13658:8009
+Full page	1920 x 1080				13px	HORIZONTAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	13658:8240
+Filter tabs	1600 x auto				24px SemiBold	HORIZONTAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	23069:23560
+Config side menu	325 x 980		8		16px	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	5942:65619
+[S] Config child menu	auto x auto	10 0 0 11		10	16px	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	930:30367
+Counter	20 x 20	0 4	38	10	11px SemiBold	VERTICAL CENTER CENTER	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	14990:11954
 Links	auto x auto			5	16px	HORIZONTAL CENTER MIN		9707:98838
 Add attachment	440 x auto			20	13px SemiBold	VERTICAL CENTER MIN	RE-READ 2026-09-11: UNCHANGED. The root is an ordinary auto-layout frame and the render gives it no fill and no stroke, which matches the captured blank columns either way. Figma-side: the note body is Open Sans Medium (500) and an italic line, both outside the 400/600 system; the attachment and note cards bind Border/Default full, the blocked split token, on their card borders	4174:71096
 Action menu button	auto x auto				16px	HORIZONTAL CENTER CENTER	RE-READ 2026-09-11: UNCHANGED. Figma carries a Circle boolean variant not captured as an axis — both variants bind the same single token (Text/Primary) and differ only by a 5px gap	5308:64681

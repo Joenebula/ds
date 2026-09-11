@@ -1326,7 +1326,7 @@
 }
 
 /* Clock in
- * 2 variants captured. PILL
+ * 2 variants captured. RE-READ 2026-09-11: stroke Border/Default -> Border/Default full, unextracted, so the row is left as captured and is KNOWN STALE
  * pill
  */
 .pf-clock-in {
@@ -1359,7 +1359,7 @@
 }
 
 /* Config child menu
- * 3 variants captured
+ * 3 variants captured. RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED
  */
 .pf-config-child-menu {
   display: inline-flex;
@@ -1387,7 +1387,7 @@
 }
 
 /* Config menu items
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED
  */
 .pf-config-menu-items {
   display: inline-flex;
@@ -1408,7 +1408,7 @@
 }
 
 /* Config parent menu
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: stroke Border/Default -> Border/Default full, unextracted, so the row is left as captured and is KNOWN STALE
  */
 .pf-config-parent-menu {
   padding: 5px 20px 5px 0;
@@ -1432,7 +1432,7 @@
 }
 
 /* Config side menu
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED
  * Figma draws this 325px wide; treated as layout, not a rule
  * Figma draws this 980px tall — the artboard it sits on, not a rule; dropped
  */
@@ -1646,7 +1646,7 @@
 }
 
 /* Counter
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED
  * pill
  */
 .pf-counter {
@@ -2115,7 +2115,7 @@
 }
 
 /* Filter tab single
- * 3 variants captured
+ * 3 variants captured. RE-READ 2026-09-11: stroke Border/Default -> Border/Default full, unextracted, so the row is left as captured and is KNOWN STALE
  * Figma draws this 224px wide; treated as layout, not a rule
  */
 .pf-filter-tab-single {
@@ -2154,7 +2154,7 @@
 }
 
 /* Filter tabs
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED
  * Figma draws this 1600px wide; treated as layout, not a rule
  */
 .pf-filter-tabs {
@@ -2319,7 +2319,7 @@
 }
 
 /* Full page
- * 3 variants captured
+ * 3 variants captured. RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED
  * Figma draws this 1920px wide; treated as layout, not a rule
  * Figma draws this 1080px tall — the artboard it sits on, not a rule; dropped
  */
@@ -2394,7 +2394,7 @@
 }
 
 /* Header navigation
- * 3 variants captured
+ * 3 variants captured. RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED
  * Figma draws this 1834px wide; treated as layout, not a rule
  */
 .pf-header-navigation {
@@ -2775,7 +2775,7 @@
 }
 
 /* Mobile bottom navigation
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: text Text/Secondary -> Navigation/Nav items. Both resolve to #656565 in LIGHT, so this is invisible to every light-mode check — the same trap as Background/Light theme. The Navigation/* collection is unextracted; row left as captured and KNOWN STALE
  * Figma draws this 375px wide; treated as layout, not a rule
  */
 .pf-mobile-bottom-navigation {
@@ -2853,7 +2853,7 @@
 }
 
 /* Nav tabs
- * 3 variants captured
+ * 3 variants captured. RE-READ 2026-09-11: stroke Border/Default -> Border/Default full, unextracted, so the row is left as captured and is KNOWN STALE, and fill Background/Primary -> Navigation/Nav bg top, also unextracted
  * corner radius varies per corner in Figma
  * layout direction not captured; assumed a row
  */
@@ -2890,7 +2890,7 @@
 }
 
 /* Navigation item
- * 3 variants captured. rail item, icon above label
+ * 3 variants captured. RE-READ 2026-09-11: BOTH captured colours have moved into the unextracted Navigation/* collection — fill Background/Primary -> Navigation/Nav bg left, text Text/Secondary -> Navigation/Nav items. Both are identical in light (#ffffff, #656565) and neither is readable in dark. It also binds the Configr theme (Icons/Icon - Configr, Text/Configr Theme, Background/Configr Theme), a second product theme this design system has never held
  */
 .pf-navigation-item {
   width: 90px;
@@ -2925,7 +2925,7 @@
 }
 
 /* Navigation tabs
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED
  */
 .pf-navigation-tabs {
   height: 36px;
@@ -3034,7 +3034,7 @@
 }
 
 /* Notification tabs
- * 2 variants captured
+ * 2 variants captured. RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED
  * Figma draws this 268px wide; treated as layout, not a rule
  */
 .pf-notification-tabs {
@@ -3326,7 +3326,7 @@
 }
 
 /* Search navigation
- * 2 variants captured
+ * 2 variants captured. RE-READ 2026-09-11: the captured Text/Theme is no longer bound anywhere in this component — CONFIRMED by both tools, the render and get_variable_defs agreeing, which is what this repo now requires before calling an absence. Today it binds Text/Secondary, Icons/Icon - Theme and Navigation/Search bg (#ffffffe5, a TRANSLUCENT white with no equivalent in the token layer). The row is STALE; it is left rather than half-corrected because the replacement is unextracted
  * Figma draws this 150px wide; treated as layout, not a rule
  */
 .pf-search-navigation {
@@ -3349,7 +3349,7 @@
 }
 
 /* Secondary nav
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: fill Background/Primary -> Navigation/Nav bg top, and it is NOT a rename of a token this repo holds — the whole Navigation/* collection is unextracted. Row left as captured and KNOWN STALE. Light value #ffffff either way, so a light-mode check cannot see it
  * Figma draws this 947px wide; treated as layout, not a rule
  */
 .pf-secondary-nav {
@@ -3450,7 +3450,7 @@
 }
 
 /* Side navigation panel
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: the node is GONE. get_variable_defs on 22973:20811 returns "The node ID provided was invalid", which upgrades the pending reason from "no longer published" to "no longer in the file". Its .pf-side-navigation-panel class is still shipped, so the row is kept — but this is now a deletion to confirm with the design lead, not an ambiguity
  * Figma draws this 268px wide; treated as layout, not a rule
  * Figma draws this 416px tall; emitted as a minimum, since content decides the real height
  */
@@ -3477,7 +3477,7 @@
 }
 
 /* Side navigation
- * 2 variants captured. collapsed rail
+ * 2 variants captured. RE-READ 2026-09-11: fill Background/Primary -> Navigation/Nav bg left and text Text/Secondary -> Navigation/Nav items, both unextracted; rows left as captured and KNOWN STALE. It also binds four DEPRECATED COLOURS entries and Navigation/Configr nav
  */
 .pf-side-navigation {
   display: inline-flex;
@@ -3763,7 +3763,7 @@
 }
 
 /* Tab
- * 3 variants captured
+ * 3 variants captured. RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED
  */
 .pf-tab {
   width: 40px;
@@ -4071,7 +4071,7 @@
 }
 
 /* Tertiary nav
- * 2 variants captured
+ * 2 variants captured. RE-READ 2026-09-11: fill Background/Primary -> Navigation/Nav bg top, and it is NOT a rename of a token this repo holds — the whole Navigation/* collection is unextracted. Row left as captured and KNOWN STALE. Light value #ffffff either way, so a light-mode check cannot see it
  */
 .pf-tertiary-nav {
   height: 43px;
@@ -4305,7 +4305,7 @@
 }
 
 /* Top bar app context
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED
  * Figma draws this 242px wide; treated as layout, not a rule
  */
 .pf-top-bar-app-context {
@@ -4354,7 +4354,7 @@
 }
 
 /* [S] Config child menu
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED
  */
 .pf-s-config-child-menu {
   padding: 10px 0 0 11px;
