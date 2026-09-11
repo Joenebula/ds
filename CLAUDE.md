@@ -726,6 +726,31 @@ It now has an assertion of its own — a surface is not even MEASURED against it
 card on a page is quiet by design and a note there is noise. *A guard nothing can falsify is a line
 nobody can trust.*
 
+### And the driver is generated from the rule, so the two cannot drift
+
+A rule nothing can run is half a mechanism. `docs/figma-rebind-deprecated.js` is the Figma-side
+driver: set `STYLE_NAME`, paste it into `use_figma`, read the report. It is **generated** by
+`scripts/build-figma-rebind.mjs`, which inlines `rebind-rule.mjs` verbatim — a plugin sandbox cannot
+import a module, and a hand-copied second copy is how a fixed rule keeps being run in its broken
+form. `verify-generated.mjs` gates it as a fifth file, so changing the rule without rebuilding fails
+`npm run verify` rather than leaving a stale copy to be pasted into Figma and believed.
+
+The driver's own job is only the three things the rule cannot do for itself, and each one cost a
+cycle today:
+
+- **Sweep twice and REFUSE to write unless the counts agree.** Not warn — refuse, and return the
+  two numbers.
+- **Resolve light and dark by mode NAME**, never by position or `defaultModeId`.
+- **Log every node id it writes**, in the exact four columns
+  `tokens/_raw/deprecated-rebinds-applied.tsv` takes.
+
+**Its self-test exists because the first build was broken and said it had succeeded.** The inliner
+carried the rule's `#!/usr/bin/env node` shebang into the generated file, which is a syntax error on
+its second line — and nothing parsed the output, so nothing noticed. The self-test now compiles the
+whole generated script as an async function body with `figma` in scope, and also checks that a
+restructured rule module THROWS rather than quietly inlining the wrong span. **A builder that emits
+unusable bytes and reports success is the `--` problem in a new place.**
+
 **And `Border/Default hidden` has a light value and no dark value at all** — worth knowing, since
 three components map onto it.
 

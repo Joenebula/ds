@@ -20,6 +20,10 @@
 //   reference/index.html                     the token reference
 //   .claude/skills/.../references/variants.md the people-first SKILL loads it — 139 components
 //   .claude/skills/.../references/geometry.md the people-first SKILL loads it — the shapes
+//   docs/figma-rebind-deprecated.js          the Figma driver, with the rebind rule INLINED from
+//                                            scripts/lib/rebind-rule.mjs because a plugin sandbox
+//                                            cannot import — a stale copy is a fixed rule still
+//                                            being run in its broken form, pasted by hand
 //
 // A stale file here is worse than a stale preview page: the skill quotes it as fact, and a
 // designer reading the gallery takes it for the library. Both would be confidently wrong.
@@ -40,6 +44,7 @@ export const GENERATED = [
   ['reference/index.html', 'scripts/build-reference.mjs'],
   ['.claude/skills/people-first/references/variants.md', 'scripts/build-variants-ref.mjs'],
   ['.claude/skills/people-first/references/geometry.md', 'scripts/build-geometry-ref.mjs'],
+  ['docs/figma-rebind-deprecated.js', 'scripts/build-figma-rebind.mjs'],
 ];
 
 // ---------------------------------------------------------------------------
