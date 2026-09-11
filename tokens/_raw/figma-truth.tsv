@@ -1,6 +1,12 @@
 component	variant	w	h	padding	radius	gap	fontSize	fontStyle
 50/50 layout container	Row colour=false, Mobile=false	1600	368	0 0 0 0	0	0	20	
 50/50 layout container	Row colour=false, Mobile=true	355	774	0 0 0 0	0	0	18	
+AG Filter menus	Variant=Date, State=Default	477	260	20 20 20 20	4	30	16	
+AG Filter menus	Variant=Multi & search, State=Default	208	252	16 16 16 16	4	20	12	
+AG Filter menus	Variant=Sort, State=Default	208	176	10 0 10 0	4	0	13	
+AG field	State=Selected	140	43	2 4 2 4	8	10	12	
+AG field	State=Unselected	140	36	10 4 10 8	4	6	12	
+AG sort item	State=Default	199	52	16 20 16 20	0	20	13	
 Accordion	Expanded=False, Mobile=False	1200	84	20 20 20 20	8	689	20	
 Accordion	Expanded=False, Mobile=True	355	56	10 10 10 10	8	689	18	
 Accordion	Expanded=True, Mobile=False	1200	428	0 0 0 0	8	0	20	
@@ -20,6 +26,9 @@ Button	Type=Hollow, State=Default, Label=No	32	32	0 20 0 20	20	5
 Button	Type=Sort, State=Default, Label=Yes	82	32	0 15 0 15	20	10	13	SemiBold
 Calendar picker		298	323	0 0 0 0	0	0	16	
 Card	Property 1=Default	520	358	20 20 20 20	8	20	20	
+Checkbox/Radio item	State=Default, Radio=No, Filled=No	81	22	0 0 0 0	0	10	16	
+Checkbox/Radio list	State=Default	194	81	0 0 0 0	0	5	16	
+Checkbox/Radio list	State=Error	194	101	0 0 0 0	0	5	16	
 Clock in	Type=Standard, Darkmode=False	107	32	7 20 7 10	20	5	16	
 Component 1	Property 1=Frame 6270952	432	48	10 10 10 10	8	10	20	
 Config child menu	Type=Child	381	42	0 0 0 0	0	0	16	
@@ -38,8 +47,16 @@ Confirmation modal	Mobile=false, Type=Success, Dark mode=False	400	413	60 10 60 
 Content		375	74	0 0 0 0	0	10	13	
 Content cards	Mobile=false	363	366	20 20 20 20	8	20	16	
 Content cards	Mobile=true	343	333	10 10 10 10	8	15	16	
+Control	Radio=No	20	20	10 10 10 10	4	10		
+Control	Radio=Yes	20	20	0 0 0 0	50	0		
+Date picker period	Type=Date	274	27	0 0 0 0	0	10	20	
+Date picker period	Type=Record	128	27	0 0 0 0	0	10	20	
+Date range visual	Property 1=Default	371	42	0 0 0 0	0	20	16	
 Detail item		162	18	0 0 0 0	0	5	13	
 Details	Layout=Horizontal	355	102	0 0 0 0	0	10	13	
+Document previewer	Device=Desktop	960	1433	0 0 0 0	0	0	16	
+Document previewer	Device=Mobile	375	642	0 0 0 0	0	0	16	
+Document previewer	Device=Tablet	801	1049	0 0 0 0	0	0	16	
 Draggable card	State=Default	480	50	10 15 10 15	8	20	16	
 Draggable card	State=Drop	480	50	10 15 10 15	8	20		
 Drop down button	Hover=False	192	32	7 10 7 20	48	0	13	Regular
@@ -67,6 +84,8 @@ Filter tabs	Breakpoints=Mobile	375	70	0 0 0 0	0	0	20	SemiBold
 Filter tabs	Breakpoints=Tablet	761	74	0 0 0 0	0	0	20	SemiBold
 Floaters		85	40	0 0 0 0	0	5		
 Footer		375	28	0 10 0 10	0	10	13	Regular
+Footer (AG)	Mobile=False	1560	48	0 0 0 0	0	0	13	
+Footer (AG)	Mobile=True	355	48	0 0 0 0	0	0	13	
 Form field	Input type=Text, State=Default, Full width=No	267	69	0 0 0 0	0	5	16	
 Form field	Input type=Text, State=Default, Full width=Yes	564	69	0 0 0 0	0	5	16	
 Form field	Input type=Text, State=Error, Full width=No	267	92	0 0 0 0	0	5	16	
@@ -84,6 +103,7 @@ Header navigation	Mobile=No, Tablet=No	1830	130	0 0 0 0	0	0	16
 Header navigation	Mobile=No, Tablet=Yes	768	118	0 0 0 0	0	0	13	
 Header navigation	Mobile=Yes, Tablet=No	390	106	0 0 0 0	0	0	13	
 Horizontal scroll	Page=First	1160	32	0 0 0 0	0	390		
+Image picker	Property 1=Default	440	220	0 0 0 0	0	10		
 Information box	Type=Information	440	56	0 0 0 0	0	0	13	
 Information box	Type=Warning	440	74	0 0 0 0	0	0	13	
 Inline search	Filled=False	400	130	0 0 0 0	0	6	16	
@@ -94,6 +114,8 @@ Layout container tabs	Property 1=Default	1160	36	0 0 0 0	0	204	16	SemiBold
 Layout container title	Property 1=Default	1160	44	0 0 0 0	0	464	20	
 Links	Link type=Primary, Hover=False, Icon position=Left	58	22	0 0 0 0	0	5	16	
 Links	Link type=Secondary, Hover=False, Icon position=Left	48	18	0 0 0 0	0	5	13	
+Manage columns	Mobile=False, Darkmode=False	520	1078	0 0 0 0	0	0	20	
+Manage columns	Mobile=True, Darkmode=False	375	726	0 0 0 0	15 15 0 0	0	20	
 Map		480	200	0 0 0 0	8	0		
 Menu	Size=Large	50	73	0 0 0 0	0	5	13	
 Menu	Size=Small	317	26	0 0 0 0	0	5	13	
@@ -103,6 +125,8 @@ Mobile bottom navigation	Tablet=Yes	768	56	0 0 0 0	0	0	11
 Mobile key actions	Link=Key actions	126	103	0 0 0 0	0	0	16	
 Mobile key actions	Link=MHR	126	103	0 0 0 0	0	0	15	
 Mobile key actions	Link=Social activity	132	103	0 0 0 0	0	0	16	
+Multi-select checkbox	State=Default, Darkmode=False	20	20	0 0 0 0	4	0		
+Multi-select checkbox	State=Selected, Darkmode=False	20	20	5 5 5 5	4	10		
 Multiselect tag		100	24	0 0 0 0	4	0	13	
 Nav tabs	Status=Selected, Mobile=False	82	40	0 20 0 20	8 8 0 0	5	16	SemiBold
 Nav tabs	Status=Selected, Mobile=True	54	42	0 10 0 10	8 8 0 0	5	13	SemiBold
@@ -137,12 +161,16 @@ Pagination buttons		358	32	0 0 0 0	0	30	13	SemiBold
 People and department drop down		440	320	10 5 10 10	0	10	16	
 Primary search	Darkmode=False, Icon only=False	300	38	0 10 0 10	20	10	13	
 Primary search	Darkmode=False, Icon only=True	36	36	0 10 0 10	20	0		
+Radio card	State=Enabled, Selected=No	235	152	25 0 25 0	4	10	16	SemiBold
+Radio tile	State=Default	235	152	25 0 25 0	4	10	16	SemiBold
 Repeating group		480	258	0 0 0 0	0	20	16	Italic
 Required field		180	22	0 0 0 0	0	8	16	Italic
 Search navigation	Mobile=False	150	32	0 0 0 0	50	0	16	
 Search navigation	Mobile=True	32	32	0 0 0 0	0	0		
 Secondary nav	Mobile=False	562	44	0 0 0 0	0	0	16	SemiBold
 Secondary nav	Mobile=True	375	40	2 0 0 0	0	0	13	SemiBold
+Selected action banner	Darkmode=False, Mobile=False	1560	48	8 20 8 20	8	899	16	
+Selected action banner	Darkmode=False, Mobile=True	335	48	8 20 8 20	4	899	16	
 Settings card	Property 1=Default	300	255	20 20 20 20	8	10	13	SemiBold
 Side filter	Mobile=False	400	885	0 0 0 0	8 0 0 0	0	20	
 Side filter	Mobile=True	375	667	0 0 0 0	0	0	18	
@@ -153,6 +181,7 @@ Side panel	Mobile=No, Size=Small	520	1080	0 0 0 0	0	0	20
 Side panel	Mobile=Yes, Size=Medium	375	726	0 0 0 0	15 15 0 0	0	20	
 Side panel header	Size=Default	449	60	10 15 10 15	0	10	20	
 Signature	Mandatory=False, State=Default	749	384	0 0 0 0	0	0	16	
+Slider	Property 1=Default	600	81	0 0 0 0	0	20	13	
 Spotlight Card	Horizontal=False, Mobile=False	375	302	0 0 10 0	8	10	13	
 Spotlight Card	Horizontal=True, Mobile=False	585	218	10 10 10 10	8	10	13	
 Spotlight Card	Horizontal=True, Mobile=True	375	168	10 10 10 10	8	10	13	
@@ -169,6 +198,18 @@ Tab	System=People First, State=Default, Mobile=No, Selected=No	40	34	6 0 6 0	0	1
 Tab	System=People First, State=Default, Mobile=Yes, Selected=No	33	30	6 0 6 0	0	10	13	
 Tab	System=People First, State=Selected, Mobile=No, Selected=Yes	42	36	6 0 6 0	0	2	16	SemiBold
 Tab	System=People First, State=Selected, Mobile=Yes, Selected=Yes	34	32	6 0 6 0	0	2	13	SemiBold
+Table (AG)	Mobile=False	1705	856	0 0 0 0	8	0	13	SemiBold
+Table (AG)	Mobile=True	370	576	0 0 0 0	8	0	13	SemiBold
+Table action bar	Mobile=False	1654	98	0 0 0 0	0	20	16	SemiBold
+Table action bar	Mobile=True	335	90	0 0 0 0	0	20	13	SemiBold
+Table card (AG)	Mobile=False	1600	1014	20 20 20 20	8	20	16	SemiBold
+Table card (AG)	Mobile=True	370	726	20 20 20 20	0	20	13	SemiBold
+Table cell (AG)	Type=Checkbox, Style=Default	50	58	10 15 10 15	0	10		
+Table cell (AG)	Type=Default, Style=Default	300	58	10 15 10 15	0	10	13	
+Table cell (AG)	Type=Default, Style=Hover	300	58	10 15 10 15	0	10	13	Italic
+Table header (AG)	Alignment=Checkbox	50	54	15 15 15 15	0	47		
+Table header (AG)	Alignment=Left	300	54	15 15 15 15	0	47	13	SemiBold
+Table header icons	Variant=Sort, State=Default	24	24	10 10 10 10	4	10		
 Tags	Type=Neutral, Small=No	58	28	5 10 5 10	4	5	13	Regular
 Tags	Type=Neutral, Small=Yes	48	22	2 5 2 5	4	5	13	Regular
 Tertiary nav	Mobile=No, Page=No	562	55	0 20 0 20	0	40	16	SemiBold
@@ -182,6 +223,10 @@ Time picker		300	269	0 0 0 0	0	0	16
 Title panel	Mobile=false	1130	135	40 207 40 207	0	10	20	
 Title panel	Mobile=true	375	135	40 20 40 20	0	10	18	
 Toast message	Message type=Success	350	114	30 0 30 25	4	15	13	
+Toggle	On=No, Locked=No	55	25	0 7 0 2	13	0	13	
+Toggle	On=No, Locked=Yes	55	25	0 5 0 2	13	6		
+Toggle	On=Yes, Locked=No	55	25	0 2 0 7	13	0	13	
+Toggle	On=Yes, Locked=Yes	55	25	0 2 0 7	13	0		
 Tool tip	Property 1=Default	255	92	10 10 10 10	4	0	13	
 Tooltip	Hover=False	28	28	0 0 0 0	0	0		
 Top bar app context	Area=Absence, Mobile=False	171	66	0 0 0 0	0	10	24	

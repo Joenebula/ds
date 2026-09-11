@@ -464,6 +464,7 @@
 
 /* Table header (AG)
  * 3 variants captured
+ * Figma draws this 300px wide; treated as layout, not a rule
  */
 .pf-table-header-ag {
   height: 54px;
@@ -483,6 +484,17 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-table-header-ag[data-alignment="Checkbox"] {
+  height: 54px;
+  min-height: 0;
+  padding: 15px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 47px;
+}
 .pf-table-header-ag[data-alignment="Left"] {
   background: var(--pf-table-header-cell);
   border-color: var(--pf-border-default-full);
@@ -499,6 +511,7 @@
 
 /* Table cell (AG)
  * 6 variants captured. rows are TALL
+ * Figma draws this 300px wide; treated as layout, not a rule
  */
 .pf-table-cell-ag {
   height: 58px;
@@ -516,6 +529,51 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-table-cell-ag[data-type="Default"][data-style="Hover"] {
+  height: 58px;
+  min-height: 0;
+  padding: 10px 15px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-table-cell-ag[data-type="Checkbox"][data-style="Default"] {
+  height: 58px;
+  min-height: 0;
+  padding: 10px 15px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+.pf-table-cell-ag[data-type="Checkbox"][data-style="Stripe"] {
+  height: 58px;
+  min-height: 0;
+  padding: 10px 15px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+.pf-table-cell-ag[data-type="Checkbox"][data-style="Hover"] {
+  height: 58px;
+  min-height: 0;
+  padding: 10px 15px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
 }
 .pf-table-cell-ag[data-type="Default"][data-style="Default"] {
   background: var(--pf-table-primary-cell);
@@ -547,6 +605,7 @@
 /* Table (AG)
  * 1 variant captured
  * Figma draws this 1705px wide; treated as layout, not a rule
+ * Figma draws this 856px tall — the artboard it sits on, not a rule; dropped
  */
 .pf-table-ag {
   border-radius: 8px;
@@ -564,6 +623,19 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-table-ag[data-mobile="True"] {
+  height: auto;
+  min-height: 576px;
+  padding: 0;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
 .pf-table-ag,
 .pf-table-ag[data-mobile="False"] {
   border-color: var(--pf-table-border);
@@ -572,6 +644,8 @@
 
 /* Table card (AG)
  * 1 variant captured
+ * Figma draws this 1600px wide; treated as layout, not a rule
+ * Figma draws this 1014px tall — the artboard it sits on, not a rule; dropped
  */
 .pf-table-card-ag {
   padding: 20px;
@@ -591,6 +665,18 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-table-card-ag[data-mobile="True"] {
+  min-height: 0;
+  padding: 20px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
 .pf-table-card-ag,
 .pf-table-card-ag[data-mobile="False"] {
   background: var(--pf-table-card);
@@ -602,6 +688,7 @@
  * Figma draws this 1560px wide; treated as layout, not a rule
  */
 .pf-footer-ag {
+  height: 48px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -614,6 +701,18 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-footer-ag[data-mobile="True"] {
+  height: 48px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 13px;
 }
 .pf-footer-ag,
 .pf-footer-ag[data-mobile="False"] {
@@ -636,6 +735,30 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-multi-select-checkbox[data-darkmode="False"][data-state="Selected"] {
+  width: 20px;
+  height: 20px;
+  min-height: 0;
+  padding: 5px;
+  border-radius: 4px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.pf-multi-select-checkbox[data-darkmode="False"][data-state="Mixed selection"] {
+  width: 20px;
+  height: 20px;
+  min-height: 0;
+  padding: 5px;
+  border-radius: 4px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 .pf-multi-select-checkbox {
   background: var(--pf-bg-primary);
@@ -693,6 +816,7 @@
 
 /* AG sort item
  * 3 variants captured
+ * Figma draws this 199px wide; treated as layout, not a rule
  */
 .pf-ag-sort-item {
   height: 52px;
@@ -746,6 +870,30 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-ag-filter-menus[data-variant="Date"] {
+  height: 260px;
+  min-height: 0;
+  padding: 20px;
+  border-radius: 4px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 30px;
+  font-size: 16px;
+}
+.pf-ag-filter-menus[data-variant="Sort"] {
+  height: 176px;
+  min-height: 0;
+  padding: 10px 0;
+  border-radius: 4px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 13px;
+}
 .pf-ag-filter-menus[data-variant="Multi & search"] {
   background: var(--pf-filter-menu-background);
   border-color: var(--pf-filter-menu-border);
@@ -764,6 +912,7 @@
 
 /* Selected action banner
  * 1 variant captured
+ * Figma draws this 1560px wide; treated as layout, not a rule
  */
 .pf-selected-action-banner {
   height: 48px;
@@ -773,6 +922,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  gap: 899px;
   font-size: 16px;
   appearance: none;
   -webkit-appearance: none;
@@ -781,6 +931,18 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-selected-action-banner[data-darkmode="False"][data-mobile="True"] {
+  height: 48px;
+  min-height: 0;
+  padding: 8px 20px;
+  border-radius: 4px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 899px;
+  font-size: 16px;
 }
 .pf-selected-action-banner,
 .pf-selected-action-banner[data-mobile="False"] {
@@ -791,6 +953,7 @@
 /* Manage columns
  * 1 variant captured
  * Figma draws this 520px wide; treated as layout, not a rule
+ * Figma draws this 1078px tall — the artboard it sits on, not a rule; dropped
  */
 .pf-manage-columns {
   display: inline-flex;
@@ -806,6 +969,17 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-manage-columns[data-mobile="True"][data-darkmode="False"] {
+  min-height: 0;
+  padding: 0;
+  border-radius: 15px 15px 0 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 20px;
+}
 .pf-manage-columns,
 .pf-manage-columns[data-mobile="False"] {
   background: var(--pf-bg-primary);
@@ -817,6 +991,7 @@
  * Figma draws this 1654px wide; treated as layout, not a rule
  */
 .pf-table-action-bar {
+  height: 98px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -831,6 +1006,19 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-table-action-bar[data-mobile="True"] {
+  height: 90px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
 }
 .pf-table-action-bar,
 .pf-table-action-bar[data-mobile="False"] {
@@ -858,6 +1046,18 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-ag-field[data-state="Unselected"] {
+  height: 36px;
+  min-height: 0;
+  padding: 10px 4px 10px 8px;
+  border-radius: 4px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  font-size: 12px;
 }
 .pf-ag-field[data-state="Selected"] {
   border-color: var(--pf-icon-primary);
@@ -926,7 +1126,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>AG sort item</h2>
-<p class="sub">.pf-ag-sort-item  ·  auto x 52  ·  3 variants</p>
+<p class="sub">.pf-ag-sort-item  ·  199 x 52  ·  3 variants</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-ag-sort-item" data-state="Default">AG sort item</div>
@@ -942,7 +1142,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Footer (AG)</h2>
-<p class="sub">.pf-footer-ag  ·  1560 x auto  ·  1 variant</p>
+<p class="sub">.pf-footer-ag  ·  1560 x 48  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-footer-ag" data-mobile="False">Footer (AG)</div>
@@ -950,7 +1150,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Manage columns</h2>
-<p class="sub">.pf-manage-columns  ·  520 x auto  ·  1 variant</p>
+<p class="sub">.pf-manage-columns  ·  520 x 1078  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-manage-columns" data-mobile="False">Manage columns</div>
@@ -978,7 +1178,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Selected action banner</h2>
-<p class="sub">.pf-selected-action-banner  ·  auto x 48  ·  1 variant</p>
+<p class="sub">.pf-selected-action-banner  ·  1560 x 48  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-selected-action-banner" data-mobile="False">Selected action banner</div>
@@ -986,7 +1186,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Table (AG)</h2>
-<p class="sub">.pf-table-ag  ·  1705 x auto  ·  1 variant</p>
+<p class="sub">.pf-table-ag  ·  1705 x 856  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-table-ag" data-mobile="False">Table (AG)</div>
@@ -994,7 +1194,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Table action bar</h2>
-<p class="sub">.pf-table-action-bar  ·  1654 x auto  ·  1 variant</p>
+<p class="sub">.pf-table-action-bar  ·  1654 x 98  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-table-action-bar" data-mobile="False">Table action bar</div>
@@ -1002,7 +1202,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Table card (AG)</h2>
-<p class="sub">.pf-table-card-ag  ·  —  ·  1 variant</p>
+<p class="sub">.pf-table-card-ag  ·  1600 x 1014  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-table-card-ag" data-mobile="False">Table card (AG)</div>
@@ -1010,7 +1210,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Table cell (AG)</h2>
-<p class="sub">.pf-table-cell-ag  ·  auto x 58  ·  6 variants</p>
+<p class="sub">.pf-table-cell-ag  ·  300 x 58  ·  6 variants</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-table-cell-ag" data-type="Default" data-style="Default">Jane Okafor</div>
@@ -1038,7 +1238,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Table header (AG)</h2>
-<p class="sub">.pf-table-header-ag  ·  auto x 54  ·  3 variants</p>
+<p class="sub">.pf-table-header-ag  ·  300 x 54  ·  3 variants</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-table-header-ag" data-alignment="Left">Employee</div>

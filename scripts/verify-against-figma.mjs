@@ -53,19 +53,14 @@ if (selfTest) {
 // reset silently dropped 204 genuine checks.
 const RESET = (prop, val) =>
   (prop === 'height' && val === 'auto') || (prop === 'min-height' && val === '0');
-// Rules are matched as selector-then-body with no leading `}` required. Requiring one
-// makes each match consume the previous rule's closing brace, so the scan sees only
-// every other rule — the same trap that left check-off-system half-blind.
-const RULE = /([^{}@]+)\{([^{}]*)\}/g;
-const asserts = (base, prop) => {
-  const sel = new RegExp(`\\.${base}[\\s{\\[,]|\\.${base}$`);
-  for (const m of css.matchAll(RULE)) {
-    if (!sel.test(m[1].trim() + ' ')) continue;
-    const decl = new RegExp(`(^|;|\\s)${prop}\\s*:\\s*([^;}]+)`).exec(m[2]);
-    if (decl && !RESET(prop, decl[2].trim())) return true;
-  }
-  return false;
-};
+// Which properties does the stylesheet actually CLAIM for a given element? This used to
+// be answered per CLASS by scanning the CSS text, which cannot tell one variant from
+// another: `Control Radio=Yes` declares `padding: 0`, so the class looked like it
+// asserted padding, and `Radio=No` — whose padding the generator deliberately drops,
+// because 10px on a 20px box leaves nothing for content — was then compared against a
+// value it never claimed and reported as drift. Twice before, the same approximation
+// produced a false result. It is now answered per ELEMENT, in the browser, by walking
+// the rules that actually match it, where the cascade is a fact rather than a guess.
 
 const specs = [];
 for (const [i, t] of truth.entries()) {
@@ -77,10 +72,13 @@ for (const [i, t] of truth.entries()) {
   specs.push({ id: 'c' + i, t, html: `<div id="c${i}" class="${base}"${attrs}>Ag</div>` });
 }
 
+// Both stylesheets are INLINED, not linked. Over file:// a linked sheet's cssRules
+// throws a security error, so the rule walk that decides what the stylesheet claims
+// would silently see nothing and every check would vanish — 0 of 0, reported as a pass.
 writeFileSync('tmp-figma-truth-check.html',
   `<style>${readFileSync('dist/fonts.css', 'utf8')}</style>
-<link rel="stylesheet" href="dist/tokens.css"><link rel="stylesheet" href="dist/components.css">
-<style>#out${css.length ? '' : ''}{}</style>
+<style>${readFileSync('dist/tokens.css', 'utf8')}</style>
+<style>${readFileSync('dist/components.css', 'utf8')}</style>
 <body style="margin:0">${specs.map(s => s.html).join('\n')}</body>`);
 // the stylesheet under test is the one on disk unless we are self-testing
 if (selfTest) writeFileSync('tmp-figma-truth-check.css', css);
@@ -91,10 +89,49 @@ await p.goto('file://' + process.cwd() + '/tmp-figma-truth-check.html');
 if (selfTest) await p.addStyleTag({ content: css });
 await p.evaluate(() => document.fonts.ready);
 
-const got = await p.evaluate(ids => ids.map(id => {
+const got = await p.evaluate(({ ids }) => {
+  // Every rule in every sheet, in document order, so the last match wins like the cascade.
+  const rules = [];
+  for (const sheet of document.styleSheets) {
+    let list; try { list = sheet.cssRules; } catch { continue; }
+    // Collect first, THEN recurse. Since nested CSS landed, every CSSStyleRule carries
+    // its own (usually empty) cssRules, so an `if (r.cssRules) recurse; else collect`
+    // walk descends into all of them and collects nothing — 741 readable rules became 0
+    // matched, every check silently disappeared, and the run reported 0 of 0 as success.
+    const walk = rs => { for (const r of rs) {
+      if (r.selectorText) rules.push(r);
+      if (r.cssRules && r.cssRules.length) walk(r.cssRules);
+    } };
+    walk(list);
+  }
+  const declaredFor = el => {
+    const out = {};
+    for (const r of rules) {
+      let hit = false;
+      for (const sel of r.selectorText.split(',')) {
+        // A rule keyed on a pseudo-class the test div can never be in (:hover) is not a
+        // claim about its resting state.
+        const plain = sel.trim();
+        if (/:(hover|focus|active|focus-visible)\b/.test(plain)) continue;
+        try { if (el.matches(plain)) { hit = true; break; } } catch { /* unsupported selector */ }
+      }
+      if (!hit) continue;
+      for (const prop of r.style) {
+        const val = r.style.getPropertyValue(prop).trim();
+        // The browser normalises values, so `min-height: 0` comes back as "0px". Match
+        // the shape, not the literal text — comparing against "0" quietly classified
+        // every reset as a real claim and put twelve dropped heights back under test.
+        const isReset = (prop === 'height' && val === 'auto')
+          || (prop === 'min-height' && /^0(px|%)?$/.test(val));
+        out[prop] = !isReset;
+      }
+    }
+    return out;
+  };
+  return ids.map(id => {
   const el = document.getElementById(id);
   const cs = getComputedStyle(el);
-  return { id, height: Math.round(el.getBoundingClientRect().height),
+  return { id, declared: declaredFor(el), height: Math.round(el.getBoundingClientRect().height),
     padding: [cs.paddingTop, cs.paddingRight, cs.paddingBottom, cs.paddingLeft]
       .map(v => Math.round(parseFloat(v))).join(' '),
     radius: Math.round(parseFloat(cs.borderTopLeftRadius)),
@@ -103,7 +140,8 @@ const got = await p.evaluate(ids => ids.map(id => {
       .map(v => Math.round(parseFloat(v))).join(' '),
     gap: cs.gap === 'normal' ? 0 : Math.round(parseFloat(cs.gap)),
     fontSize: Math.round(parseFloat(cs.fontSize)), fontWeight: +cs.fontWeight };
-}), specs.map(s => s.id));
+});
+}, { ids: specs.map(s => s.id) });
 await browser.close();
 unlinkSync('tmp-figma-truth-check.html');
 try { unlinkSync('tmp-figma-truth-check.css'); } catch {}
@@ -120,26 +158,26 @@ for (const s of specs) {
     if (String(want) !== String(have))
       fails.push(`${t.component}${t.variant ? '  ' + t.variant : ''}\n       ${prop}: Figma ${want}, rendered ${have}`);
   };
-  const base = cls(t.component);
-  if (asserts(base, 'height')) cmp('height', t.h, g.height);
+  const declared = p => g.declared[p] === true;
+  if (declared('height') || declared('min-height')) cmp('height', t.h, g.height);
   // Both sides must be rounded the same way. The rendered padding is rounded above; a
   // Figma value of 18.5 compared against a rendered 19 is a unit mismatch, not drift,
   // and no edit to the stylesheet could ever clear it.
   const roundPad = v => String(v).trim().split(/\s+/).map(x => Math.round(parseFloat(x))).join(' ');
-  if (asserts(base, 'padding')) cmp('padding', t.padding === '' ? '' : roundPad(t.padding), g.padding);
+  if (declared('padding') || declared('padding-top')) cmp('padding', t.padding === '' ? '' : roundPad(t.padding), g.padding);
   // Figma gives four corner values when they differ. Compare all four rather than the
   // top-left one, so a panel rounded along one edge is actually checked. The bare word
   // "mixed" means the walk has not measured that component's corners yet, and asserting
   // against it can only ever produce noise — it is counted as unmeasured instead.
-  if (asserts(base, 'border-radius')) {
+  if (declared('border-radius') || declared('border-top-left-radius')) {
     if (/^[\d.]+( [\d.]+){3}$/.test(String(t.radius)))
       cmp('radius', String(t.radius).trim().split(/\s+/).map(x => Math.round(parseFloat(x))).join(' '), g.radii);
     else if (t.radius === 'mixed') unmeasured.push(`${t.component}${t.variant ? '  ' + t.variant : ''} — corner radius`);
     else cmp('radius', t.radius, g.radius);
   }
-  if (asserts(base, 'gap')) cmp('gap', t.gap, g.gap);
-  if (asserts(base, 'font-size')) cmp('font-size', t.fontSize, g.fontSize);
-  if (t.fontStyle && asserts(base, 'font-weight')) cmp('font-weight', WEIGHT[t.fontStyle], g.fontWeight);
+  if (declared('gap') || declared('row-gap')) cmp('gap', t.gap, g.gap);
+  if (declared('font-size')) cmp('font-size', t.fontSize, g.fontSize);
+  if (t.fontStyle && declared('font-weight')) cmp('font-weight', WEIGHT[t.fontStyle], g.fontWeight);
 }
 
 if (unmeasured.length) {

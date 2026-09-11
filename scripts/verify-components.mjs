@@ -25,8 +25,23 @@ const geometry = new Map(geometryRows.filter(r => !r.component.includes('|')).ma
 // variant with its own row must be checked against THAT row: Information box is 56px in
 // its default Type=Information and 74px in Warning, Error and Success, and comparing all
 // four to the base reported four failures that were the checker's, not the library's.
-const geometryVariant = new Map(geometryRows.filter(r => r.component.includes('|'))
-  .map(r => [r.component, r]));
+// Key these exactly the way the generator builds its selectors. selectorsFor() drops the
+// State and Hover axes — they become CSS states, not attributes — so the rule for
+// "AG Filter menus|Variant=Sort, State=Default" is emitted as [data-variant="Sort"].
+// Looking the colour row "Variant=Sort" up by its literal key therefore missed, fell
+// back to the base row, and reported the 252px default against a correctly rendered
+// 176px. Later rows win, as they do in the cascade.
+const dropStateAxes = v => String(v).split(',').map(x => x.trim()).filter(Boolean)
+  .filter(a => !/^(State|Hover)=/.test(a)).join(', ');
+const geometryVariant = new Map();
+for (const r of geometryRows) {
+  if (!r.component.includes('|')) continue;
+  const i = r.component.indexOf('|');
+  geometryVariant.set(r.component, r);                                   // literal key
+  const collapsed = `${r.component.slice(0, i)}|${dropStateAxes(r.component.slice(i + 1))}`;
+  if (collapsed !== r.component && dropStateAxes(r.component.slice(i + 1)))
+    geometryVariant.set(collapsed, r);
+}
 const variants = tsv('tokens/_raw/component-variants.tsv');
 
 const tokenVar = new Map();

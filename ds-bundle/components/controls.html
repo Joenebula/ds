@@ -484,6 +484,43 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-toggle[data-on="No"][data-locked="Yes"] {
+  width: 55px;
+  height: 25px;
+  min-height: 0;
+  padding: 0 5px 0 2px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+}
+.pf-toggle[data-on="Yes"][data-locked="No"] {
+  width: 55px;
+  height: 25px;
+  min-height: 0;
+  padding: 0 2px 0 7px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0px;
+  font-size: 13px;
+}
+.pf-toggle[data-on="Yes"][data-locked="Yes"] {
+  width: 55px;
+  height: 25px;
+  min-height: 0;
+  padding: 0 2px 0 7px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0px;
+}
 .pf-toggle[data-on="No"][data-locked="No"] {
   background: var(--pf-bg-tertiary);
   /* Figma binds the primitive "Base colours/Grey Dolphin" here instead of a semantic token */
@@ -509,6 +546,7 @@
  * Figma draws this 235px wide; treated as layout, not a rule
  */
 .pf-radio-tile {
+  height: 152px;
   padding: 25px 0;
   border-radius: 4px;
   display: inline-flex;
@@ -629,6 +667,7 @@
  * Figma draws this 194px wide; treated as layout, not a rule
  */
 .pf-checkbox-radio-list {
+  height: 81px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -642,6 +681,18 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-checkbox-radio-list[data-state="Error"] {
+  height: 101px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
 }
 .pf-checkbox-radio-list {
   color: var(--pf-text-primary);
@@ -678,6 +729,18 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-control[data-radio="Yes"] {
+  width: 20px;
+  height: 20px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
 }
 .pf-control[data-radio="No"] {
   background: var(--pf-bg-primary);
@@ -728,6 +791,28 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-document-previewer[data-device="Tablet"] {
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 16px;
+}
+.pf-document-previewer[data-device="Desktop"] {
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 16px;
+}
 .pf-document-previewer[data-device="Mobile"] {
   border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
@@ -745,6 +830,7 @@
  * 1 variant captured
  */
 .pf-date-picker-period {
+  height: 27px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -768,6 +854,7 @@
  * Figma draws this 371px wide; treated as layout, not a rule
  */
 .pf-date-range-visual {
+  height: 42px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -791,6 +878,7 @@
  * Figma draws this 600px wide; treated as layout, not a rule
  */
 .pf-slider {
+  height: 81px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -862,7 +950,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Checkbox/Radio list</h2>
-<p class="sub">.pf-checkbox-radio-list  ·  194 x auto  ·  4 variants</p>
+<p class="sub">.pf-checkbox-radio-list  ·  194 x 81  ·  4 variants</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-checkbox-radio-list" data-state="Default">Checkbox/Radio list</div>
@@ -894,7 +982,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Date picker period</h2>
-<p class="sub">.pf-date-picker-period  ·  auto x auto  ·  1 variant</p>
+<p class="sub">.pf-date-picker-period  ·  auto x 27  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-date-picker-period">Date picker period</div>
@@ -902,7 +990,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Date range visual</h2>
-<p class="sub">.pf-date-range-visual  ·  371 x auto  ·  1 variant</p>
+<p class="sub">.pf-date-range-visual  ·  371 x 42  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-date-range-visual">Date range visual</div>
@@ -954,7 +1042,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Radio tile</h2>
-<p class="sub">.pf-radio-tile  ·  235 x auto  ·  2 variants</p>
+<p class="sub">.pf-radio-tile  ·  235 x 152  ·  2 variants</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-radio-tile" data-state="Default">Radio tile</div>
@@ -966,7 +1054,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Slider</h2>
-<p class="sub">.pf-slider  ·  600 x auto  ·  1 variant</p>
+<p class="sub">.pf-slider  ·  600 x 81  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-slider">Slider</div>

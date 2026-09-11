@@ -207,9 +207,12 @@ function geometryDecls(g, notes, isVariant = false) {
     d.push(`min-height: ${h}px`);
     notes.push(`Figma draws this ${h}px tall; emitted as a minimum, since content decides the real height`);
   } else if (h !== null) {
-    // No reset here. This branch emits nothing, so there is nothing for a base row to
-    // disagree with — and an explicit `height: auto` would collapse a panel to its
-    // content, which is how this fix first broke six of them.
+    // The height is dropped, but a variant still has to clear the base row's floor:
+    // Document previewer's base is the 642px Mobile variant and its Tablet and Desktop
+    // variants are artboard-tall, so with nothing emitted they inherited 642 and every
+    // device rendered the phone. `min-height: 0` and not `height: auto` — the former
+    // reads as the absence of a claim, the latter collapses the box to its content.
+    if (isVariant) d.push('min-height: 0');
     notes.push(`Figma draws this ${h}px tall — the artboard it sits on, not a rule; dropped`);
   }
 

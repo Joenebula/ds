@@ -107,28 +107,28 @@ Contents: [Buttons and links](#buttons-and-links) · [Forms](#forms) · [Control
 | Component | Class | Variants in Figma | Size | Radius | Type |
 |---|---|---|---|---|---|
 | Checkbox/Radio item | `.pf-checkbox-radio-item` | State: Default · Disabled · Error · Selected · Hover<br>Radio: No · Yes<br>Filled: No · Yes | auto x 22 | 0 | 16px |
-| Checkbox/Radio list | `.pf-checkbox-radio-list` | State: Default · Disabled · Error · Selected | 194 x auto | 0 | 16px |
+| Checkbox/Radio list | `.pf-checkbox-radio-list` | State: Default · Disabled · Error · Selected | 194 x 81 | 0 | 16px |
 | Control | `.pf-control` | Radio: No · Yes | 20 x 20 | 4 | — |
-| Date picker period | `.pf-date-picker-period` | Type: Date · Record | auto x auto | 0 | 20px |
-| Date range visual | `.pf-date-range-visual` | Property 1: Default | 371 x auto | 0 | 16px |
+| Date picker period | `.pf-date-picker-period` | Type: Date · Record | auto x 27 | 0 | 20px |
+| Date range visual | `.pf-date-range-visual` | Property 1: Default | 371 x 42 | 0 | 16px |
 | Document previewer | `.pf-document-previewer` | Device: Desktop · Tablet · Mobile | 375 x 642 | 0 | 16px |
 | Image picker | `.pf-image-picker` | Property 1: Default | 440 x 220 | 0 | — |
 | Radio card | `.pf-radio-card` | State: Enabled · Disabled<br>Selected: Yes · No | 235 x 152 | 4 | 16px SemiBold |
-| Radio tile | `.pf-radio-tile` | State: Default · Hover | 235 x auto | 4 | 16px SemiBold |
-| Slider | `.pf-slider` | Property 1: Default | 600 x auto | 0 | 13px |
+| Radio tile | `.pf-radio-tile` | State: Default · Hover | 235 x 152 | 4 | 16px SemiBold |
+| Slider | `.pf-slider` | Property 1: Default | 600 x 81 | 0 | 13px |
 | Toggle | `.pf-toggle` | On: Yes · No<br>Locked: Yes · No | 55 x 25 | 13 | 13px |
 
 <details><summary>Notes on these components</summary>
 
 - **Checkbox/Radio item** — box + label, 10px gap. 18 variants. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Radio`, `Filled`
-- **Checkbox/Radio list** — 5px between items. 4 variants
-- **Control** — the checkbox/radio box itself, 20x20 r4. 2 variants
+- **Checkbox/Radio list** — 5px between items. 4 variants. per-variant sizes: `State=Error` 194 x 101
+- **Control** — the checkbox/radio box itself, 20x20 r4. 2 variants. per-variant sizes: `Radio=Yes` 20 x 20
 - **Date picker period** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Type`
-- **Document previewer** — 3 variants
+- **Document previewer** — 3 variants. per-variant sizes: `Device=Tablet` 801 x 1049, `Device=Desktop` 960 x 1433
 - **Image picker** — not auto-layout
 - **Radio card** — 4 variants
 - **Radio tile** — 2 variants
-- **Toggle** — **binds a primitive** — Base colours/Grey Dolphin (border), Base colours/White (text) — so this will not adapt between light and dark until Figma binds a semantic token. PILL; knob inset
+- **Toggle** — **binds a primitive** — Base colours/Grey Dolphin (border), Base colours/White (text) — so this will not adapt between light and dark until Figma binds a semantic token. PILL; knob inset. per-variant sizes: `On=No, Locked=Yes` 55 x 25, `On=Yes, Locked=No` 55 x 25, `On=Yes, Locked=Yes` 55 x 25
 
 </details>
 
@@ -140,21 +140,31 @@ Contents: [Buttons and links](#buttons-and-links) · [Forms](#forms) · [Control
 |---|---|---|---|---|---|
 | AG field | `.pf-ag-field` | State: Selected · Unselected | 140 x 43 | 8 | 12px |
 | AG Filter menus | `.pf-ag-filter-menus` | Variant: Multi & search · Date · Sort<br>State: Default | 208 x 252 | 4 | 12px |
-| AG sort item | `.pf-ag-sort-item` | State: Default · Hover · Active | auto x 52 | 0 | 13px |
-| Footer (AG) | `.pf-footer-ag` | Mobile: False · True | 1560 x auto | — | 13px |
-| Manage columns | `.pf-manage-columns` | Mobile: False · True<br>Darkmode: False | 520 x auto | — | 20px |
+| AG sort item | `.pf-ag-sort-item` | State: Default · Hover · Active | 199 x 52 | 0 | 13px |
+| Footer (AG) | `.pf-footer-ag` | Mobile: False · True | 1560 x 48 | 0 | 13px |
+| Manage columns | `.pf-manage-columns` | Mobile: False · True<br>Darkmode: False | 520 x 1078 | 0 | 20px |
 | Multi-select checkbox | `.pf-multi-select-checkbox` | State: Default · Selected · Mixed selection · Hover<br>Darkmode: False | 20 x 20 | 4 | — |
-| Selected action banner | `.pf-selected-action-banner` | Darkmode: False<br>Mobile: False · True | auto x 48 | 8 | 16px |
-| Table (AG) | `.pf-table-ag` | Mobile: False · True | 1705 x auto | 8 | 13px SemiBold |
-| Table action bar | `.pf-table-action-bar` | Mobile: False · True | 1654 x auto | — | 16px SemiBold |
-| Table card (AG) | `.pf-table-card-ag` | Mobile: False · True | — | 8 | 16px SemiBold |
-| Table cell (AG) | `.pf-table-cell-ag` | Type: Default · Checkbox<br>Style: Default · Hover · Stripe | auto x 58 | 0 | 13px |
-| Table header (AG) | `.pf-table-header-ag` | Alignment: Left · Right · Checkbox | auto x 54 | 0 | 13px SemiBold |
+| Selected action banner | `.pf-selected-action-banner` | Darkmode: False<br>Mobile: False · True | 1560 x 48 | 8 | 16px |
+| Table (AG) | `.pf-table-ag` | Mobile: False · True | 1705 x 856 | 8 | 13px SemiBold |
+| Table action bar | `.pf-table-action-bar` | Mobile: False · True | 1654 x 98 | 0 | 16px SemiBold |
+| Table card (AG) | `.pf-table-card-ag` | Mobile: False · True | 1600 x 1014 | 8 | 16px SemiBold |
+| Table cell (AG) | `.pf-table-cell-ag` | Type: Default · Checkbox<br>Style: Default · Hover · Stripe | 300 x 58 | 0 | 13px |
+| Table header (AG) | `.pf-table-header-ag` | Alignment: Left · Right · Checkbox | 300 x 54 | 0 | 13px SemiBold |
 | Table header icons | `.pf-table-header-icons` | Variant: Sort · Filter · Context menu<br>State: Default · Hover · Ascending · Descending · Filtered · Active | 24 x 24 | 4 | — |
 
 <details><summary>Notes on these components</summary>
 
-- **Table cell (AG)** — rows are TALL
+- **AG field** — per-variant sizes: `State=Unselected` 140 x 36
+- **AG Filter menus** — per-variant sizes: `Variant=Date, State=Default` auto x 260, `Variant=Sort, State=Default` 208 x 176
+- **Footer (AG)** — per-variant sizes: `Mobile=True` 355 x 48
+- **Manage columns** — per-variant sizes: `Mobile=True, Darkmode=False` 375 x 726
+- **Multi-select checkbox** — per-variant sizes: `State=Selected, Darkmode=False` 20 x 20, `State=Mixed selection, Darkmode=False` 20 x 20
+- **Selected action banner** — per-variant sizes: `Darkmode=False, Mobile=True` 335 x 48
+- **Table (AG)** — per-variant sizes: `Mobile=True` 370 x 576
+- **Table action bar** — per-variant sizes: `Mobile=True` 335 x 90
+- **Table card (AG)** — per-variant sizes: `Mobile=True` 370 x 726
+- **Table cell (AG)** — rows are TALL. per-variant sizes: `Type=Default, Style=Hover` 300 x 58, `Type=Checkbox, Style=Default` auto x 58, `Type=Checkbox, Style=Stripe` auto x 58, `Type=Checkbox, Style=Hover` auto x 58
+- **Table header (AG)** — per-variant sizes: `Alignment=Checkbox` auto x 54
 
 </details>
 

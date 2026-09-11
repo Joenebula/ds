@@ -11,19 +11,10 @@ case, and table rows are far taller than a default table. Look values up here.
 | Component | Size (w × h) | Padding | Radius | Gap | Type | Notes |
 |---|---|---|---|---|---|---|
 | **Option (dropdown row)** | auto x 26 | 2 10 2 20 | 4 | 5 | 16px |  |
-| **Toggle** | 55 x 25 | 0 7 0 2 | 13 | 0 | 13px | HORIZONTAL CENTER SPACE_BETWEEN |
 | **Checkbox / radio box** | 20 x 20 | — | 4 | — | — |  |
 | **Checkbox/Radio item (row)** | auto x 22 | 0 | 0 | 10 | 16px |  |
 | **Radio card / Radio tile** | 235 x 152 | 25 0 | 4 | 10 | 16px SemiBold |  |
-| **Table header (AG)** | auto x 54 | 15 | 0 | 47 | 13px SemiBold | HORIZONTAL CENTER SPACE_BETWEEN |
-| **Table cell (AG)** | auto x 58 | 10 15 | 0 | 10 | 13px | HORIZONTAL CENTER MIN |
 | **Table (AG) container** | — | 0 | 8 | 0 | 13px SemiBold |  |
-| **Table card (AG)** | — | 20 | 8 | 20 | 16px SemiBold | VERTICAL CENTER MIN |
-| **Multi-select checkbox** | 20 x 20 | 0 | 4 | 0 | — | NONE |
-| **Table header icons** | 24 x 24 | 10 | 4 | 10 | — | HORIZONTAL CENTER CENTER |
-| **Selected action banner** | auto x 48 | 8 20 | 8 | — | 16px | HORIZONTAL CENTER SPACE_BETWEEN |
-| **AG sort item** | auto x 52 | 16 20 | 0 | 20 | 13px | HORIZONTAL CENTER MIN |
-| **AG Filter menus** | 208 x 252 | 16 | 4 | 20 | 12px | VERTICAL CENTER MIN |
 | **Org chart node** | 293 x 48 | 0 | 8 | 0 | 16px |  |
 | **Layout container** | auto | 30 | 0 | 20 | 20px |  |
 | **Information box (row)** | auto x 56 | 0 | 0 | 0 | 13px |  |
@@ -52,21 +43,6 @@ case, and table rows are far taller than a default table. Look values up here.
 | **AI message bubble** | 455 x 149 | 0 | 0 | 5 | 12px | VERTICAL MIN MIN |
 | **Text template format editor** | 440 x auto | 0 | 0 | 5 | 16px | VERTICAL MIN MIN |
 | **Field (second component)** | auto x auto | 0 | 0 | 2 | 13px | VERTICAL MIN MIN |
-| **Radio tile** | 235 x auto | 25 0 | 4 | 10 | 16px SemiBold | VERTICAL CENTER MIN |
-| **Radio card** | 235 x 152 | 25 0 | 4 | 10 | 16px SemiBold | VERTICAL CENTER MIN |
-| **Control** | 20 x 20 | 10 | 4 | 10 | — | VERTICAL CENTER CENTER |
-| **Checkbox/Radio item** | auto x 22 | 0 | 0 | 10 | 16px | HORIZONTAL CENTER MIN |
-| **Checkbox/Radio list** | 194 x auto | 0 | 0 | 5 | 16px | VERTICAL MIN MIN |
-| **Date picker period** | auto x auto | 0 | 0 | 10 | 20px | HORIZONTAL CENTER CENTER |
-| **Date range visual** | 371 x auto | 0 | 0 | 20 | 16px | HORIZONTAL CENTER MIN |
-| **Image picker** | 440 x 220 | — | 0 | — | — | NONE |
-| **Slider** | 600 x auto | 0 | 0 | 20 | 13px | VERTICAL MIN CENTER |
-| **Document previewer** | 375 x 642 | 0 | 0 | 0 | 16px | VERTICAL MIN MIN |
-| **Manage columns** | 520 x auto | — | — | — | 20px | VERTICAL MIN MIN |
-| **Footer (AG)** | 1560 x auto | — | — | — | 13px | VERTICAL MIN MIN |
-| **Table action bar** | 1654 x auto | — | — | 20 | 16px SemiBold | VERTICAL MIN CENTER |
-| **AG field** | 140 x 43 | 2 4 | 8 | 10 | 12px | VERTICAL CENTER CENTER |
-| **Table (AG)** | 1705 x auto | — | 8 | — | 13px SemiBold | VERTICAL MIN MIN |
 | **AI Assistant** | 1628 x auto | — | — | — | 20px | HORIZONTAL CENTER SPACE_BETWEEN |
 | **Adaptive card** | 478 x auto | — | — | 5 | 12px | VERTICAL MIN MIN |
 | **AI Gradient component** | 408 x 408 | — | — | — | 24px SemiBold |  |
@@ -94,6 +70,12 @@ case, and table rows are far taller than a default table. Look values up here.
 | **50/50 layout container** | 1600 x 368 | 0 | 0 | 0 | 20px | HORIZONTAL MIN MIN |
 | **50/50 layout container|Row colour=false, Mobile=true** | auto x 774 | 0 | 0 | 0 | 18px | VERTICAL MIN MIN |
 | **50/50 layout container|Row colour=true, Mobile=true** | 355 x 774 | 0 | 0 | 0 | 18px | VERTICAL MIN MIN |
+| **AG Filter menus** | 208 x 252 | 16 | 4 | 20 | 12px | VERTICAL CENTER MIN |
+| **AG Filter menus|Variant=Date, State=Default** | auto x 260 | 20 | 4 | 30 | 16px | VERTICAL MIN MIN |
+| **AG Filter menus|Variant=Sort, State=Default** | 208 x 176 | 10 0 | 4 | 0 | 13px | VERTICAL CENTER MIN |
+| **AG field** | 140 x 43 | 2 4 | 8 | 10 | 12px | VERTICAL CENTER CENTER |
+| **AG field|State=Unselected** | 140 x 36 | 10 4 10 8 | 4 | 6 | 12px | HORIZONTAL CENTER MIN |
+| **AG sort item** | 199 x 52 | 16 20 | 0 | 20 | 13px | HORIZONTAL CENTER MIN |
 | **Accordion** | 1200 x 84 | 20 | 8 | 689 | 20px | HORIZONTAL CENTER SPACE_BETWEEN |
 | **Accordion|Expanded=False, Mobile=True** | 355 x 56 | 10 | 8 | 689 | 18px | HORIZONTAL CENTER SPACE_BETWEEN |
 | **Accordion|Expanded=True, Mobile=False** | 1200 x 428 | 0 | 8 | 0 | 20px | VERTICAL CENTER MIN |
@@ -132,6 +114,9 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Button|Type=Positive, State=Disabled, Label=No** | 32 x 32 | 0 20 | 20 | 10 | — | HORIZONTAL CENTER CENTER |
 | **Calendar picker** | auto x 323 | 0 | 0 | 0 | 16px | VERTICAL MIN MIN |
 | **Card** | 520 x 358 | 20 | 8 | 20 | 20px | VERTICAL CENTER MIN |
+| **Checkbox/Radio item** | auto x 22 | 0 | 0 | 10 | 16px | HORIZONTAL CENTER MIN |
+| **Checkbox/Radio list** | 194 x 81 | 0 | 0 | 5 | 16px | VERTICAL MIN MIN |
+| **Checkbox/Radio list|State=Error** | 194 x 101 | 0 | 0 | 5 | 16px | VERTICAL MIN MIN |
 | **Clock in** | 107 x 32 | 7 20 7 10 | 20 | 5 | 16px | HORIZONTAL CENTER CENTER |
 | **Component 1** | 432 x 48 | 10 | 8 | 10 | 20px | HORIZONTAL CENTER MIN |
 | **Config child menu** | auto x 42 | 0 | 0 | 0 | 16px | VERTICAL MIN MIN |
@@ -151,9 +136,16 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Content cards** | auto x 366 | 20 | 8 | 20 | 16px | VERTICAL MIN MIN |
 | **Content cards|Mobile=true** | auto x 333 | 10 | 8 | 15 | 16px | VERTICAL MIN MIN |
 | **Content** | 375 x 74 | 0 | 0 | 10 | 13px | VERTICAL MIN MIN |
+| **Control** | 20 x 20 | 10 | 4 | 10 | — | VERTICAL CENTER CENTER |
+| **Control|Radio=Yes** | 20 x 20 | 0 | 50 | 0 | — | HORIZONTAL CENTER CENTER |
+| **Date picker period** | auto x 27 | 0 | 0 | 10 | 20px | HORIZONTAL CENTER CENTER |
+| **Date range visual** | 371 x 42 | 0 | 0 | 20 | 16px | HORIZONTAL CENTER MIN |
 | **Detail item** | 162 x 18 | 0 | 0 | 5 | 13px | HORIZONTAL MIN MIN |
 | **Details** | 355 x 102 | 0 | 0 | 10 | 13px | HORIZONTAL MIN MIN |
 | **Details|Layout=Vertical** | 355 x 102 | 0 | 0 | 10 | 13px | VERTICAL MIN MIN |
+| **Document previewer** | 375 x 642 | 0 | 0 | 0 | 16px | VERTICAL MIN MIN |
+| **Document previewer|Device=Tablet** | 801 x 1049 | 0 | 0 | 0 | 16px | VERTICAL MIN MIN |
+| **Document previewer|Device=Desktop** | 960 x 1433 | 0 | 0 | 0 | 16px | VERTICAL MIN MIN |
 | **Draggable card** | 480 x 50 | 10 15 | 8 | 20 | 16px | HORIZONTAL CENTER MIN |
 | **Draggable card|State=Drop** | 480 x 50 | 10 15 | 8 | 20 | — | HORIZONTAL CENTER MIN |
 | **Drop down button** | 192 x 32 | 7 10 7 20 | 48 | 0 | 13px Regular | HORIZONTAL CENTER MIN |
@@ -183,6 +175,8 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Filter tabs|Breakpoints=Tablet** | 761 x 74 | 0 | 0 | 0 | 20px SemiBold | HORIZONTAL MIN MIN |
 | **Filter tabs|Breakpoints=Mobile** | 375 x 70 | 0 | 0 | 0 | 20px SemiBold | HORIZONTAL MIN MIN |
 | **Floaters** | auto x 40 | 0 | 0 | 5 | — | HORIZONTAL CENTER MIN |
+| **Footer (AG)** | 1560 x 48 | 0 | 0 | 0 | 13px | VERTICAL MIN MIN |
+| **Footer (AG)|Mobile=True** | 355 x 48 | 0 | 0 | 0 | 13px | VERTICAL MIN MIN |
 | **Footer** | 375 x 28 | 0 10 | 0 | 10 | 13px Regular | VERTICAL MIN MIN |
 | **Form field** | 564 x 69 | 0 | 0 | 5 | 16px | VERTICAL MIN MIN |
 | **Form field|Input type=Text, State=Default, Full width=No** | 267 x 69 | 0 | 0 | 5 | 16px | VERTICAL MIN MIN |
@@ -254,6 +248,7 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Header|System=People First** | 20 x 20 | 0 4 | 38 | 10 | 11px SemiBold | VERTICAL CENTER CENTER |
 | **Header|System=Configr** | 20 x 20 | 0 4 | 38 | 10 | 11px SemiBold | VERTICAL CENTER CENTER |
 | **Horizontal scroll** | 1160 x 32 | 0 | 0 | 390 | — | HORIZONTAL CENTER CENTER |
+| **Image picker** | 440 x 220 | — | 0 | — | — | NONE |
 | **Information box** | 440 x 56 | 0 | 0 | 0 | 13px | HORIZONTAL MIN MIN |
 | **Information box|Type=Warning** | auto x 74 | 0 | 0 | 0 | 13px | HORIZONTAL MIN MIN |
 | **Information box|Type=Error** | 440 x 74 | 0 | 0 | 0 | 13px | HORIZONTAL MIN MIN |
@@ -269,6 +264,8 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Links|Link type=Secondary, Hover=True, Icon position=Left** | auto x 18 | 0 | 0 | 5 | 13px | HORIZONTAL CENTER MIN |
 | **Links|Link type=Secondary, Hover=False, Icon position=Right** | auto x 18 | 0 | 0 | 5 | 13px | HORIZONTAL CENTER MIN |
 | **Links|Link type=Secondary, Hover=True, Icon position=Right** | auto x 18 | 0 | 0 | 5 | 13px | HORIZONTAL CENTER MIN |
+| **Manage columns** | 520 x 1078 | 0 | 0 | 0 | 20px | VERTICAL MIN MIN |
+| **Manage columns|Mobile=True, Darkmode=False** | 375 x 726 | 0 | 15 15 0 0 | 0 | 20px | VERTICAL MIN MIN |
 | **Map** | 480 x 200 | — | 8 | — | — | NONE |
 | **Menu** | 50 x 73 | 0 | 0 | 5 | 13px | VERTICAL CENTER MIN |
 | **Menu|Size=Small** | 317 x 26 | 0 | 0 | 5 | 13px | HORIZONTAL CENTER MIN |
@@ -279,6 +276,9 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Mobile key actions|Link=Social activity** | 132 x 103 | — | 0 | — | 16px | NONE |
 | **Mobile key actions|Link=Recognition trends** | 132 x 103 | — | 0 | — | 16px | NONE |
 | **Mobile key actions|Link=MHR** | 126 x 103 | — | 0 | — | 15px | NONE |
+| **Multi-select checkbox** | 20 x 20 | — | 4 | — | — | NONE |
+| **Multi-select checkbox|State=Selected, Darkmode=False** | 20 x 20 | 5 | 4 | 10 | — | HORIZONTAL CENTER CENTER |
+| **Multi-select checkbox|State=Mixed selection, Darkmode=False** | 20 x 20 | 5 | 4 | 10 | — | HORIZONTAL CENTER CENTER |
 | **Multiselect tag** | auto x 24 | 0 | 4 | 0 | 13px | HORIZONTAL CENTER MIN |
 | **Nav tabs** | auto x 40 | 0 20 | 8 8 0 0 | 10 | 16px | VERTICAL CENTER CENTER |
 | **Nav tabs|Status=Unselected, Mobile=True** | auto x 42 | 0 10 | 8 8 0 0 | 10 | 13px | VERTICAL CENTER CENTER |
@@ -323,12 +323,16 @@ case, and table rows are far taller than a default table. Look values up here.
 | **People and department drop down** | 440 x 320 | 10 5 10 10 | 0 | 10 | 16px | HORIZONTAL MIN CENTER |
 | **Primary search** | 300 x 38 | 0 10 | 20 | 10 | 13px | HORIZONTAL CENTER MIN |
 | **Primary search|Darkmode=False, Icon only=True** | 36 x 36 | 0 10 | 20 | 0 | — | HORIZONTAL CENTER CENTER |
+| **Radio card** | 235 x 152 | 25 0 | 4 | 10 | 16px SemiBold | VERTICAL CENTER MIN |
+| **Radio tile** | 235 x 152 | 25 0 | 4 | 10 | 16px SemiBold | VERTICAL CENTER MIN |
 | **Repeating group** | auto x 258 | 0 | 0 | 20 | 16px Italic | VERTICAL MIN MIN |
 | **Required field** | auto x 22 | 0 | 0 | 8 | 16px Italic | HORIZONTAL CENTER MIN |
 | **Search navigation** | 150 x 32 | — | 50 | — | 16px | NONE |
 | **Search navigation|Mobile=True** | 32 x 32 | — | 0 | — | — | NONE |
 | **Secondary nav** | 562 x 44 | 0 | 0 | 0 | 16px SemiBold | HORIZONTAL MAX CENTER |
 | **Secondary nav|Mobile=True** | 375 x 40 | 2 0 0 0 | 0 | 0 | 13px SemiBold | HORIZONTAL MAX CENTER |
+| **Selected action banner** | 1560 x 48 | 8 20 | 8 | 899 | 16px | HORIZONTAL CENTER SPACE_BETWEEN |
+| **Selected action banner|Darkmode=False, Mobile=True** | 335 x 48 | 8 20 | 4 | 899 | 16px | HORIZONTAL CENTER SPACE_BETWEEN |
 | **Settings card** | 300 x 255 | 20 | 8 | 10 | 13px SemiBold | VERTICAL MIN MIN |
 | **Side filter** | 400 x 885 | 0 | 8 0 0 0 | 0 | 20px | VERTICAL CENTER MIN |
 | **Side filter|Mobile=True** | 375 x 667 | 0 | 0 | 0 | 18px | VERTICAL CENTER MIN |
@@ -339,6 +343,7 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Side panel|Mobile=No, Size=Medium** | 960 x 1080 | 0 | 0 | 0 | 20px | VERTICAL MIN MIN |
 | **Side panel|Mobile=No, Size=Large** | 1500 x 1080 | 0 | 0 | 0 | 20px | VERTICAL MIN MIN |
 | **Signature** | auto x 384 | 0 | 0 | 0 | 16px | VERTICAL MIN MIN |
+| **Slider** | 600 x 81 | 0 | 0 | 20 | 13px | VERTICAL MIN CENTER |
 | **Spotlight Card** | 375 x 302 | 0 0 10 0 | 8 | 10 | 13px | VERTICAL MIN MIN |
 | **Spotlight Card|Horizontal=True, Mobile=False** | 585 x 218 | 10 | 8 | 10 | 13px | VERTICAL MIN MIN |
 | **Spotlight Card|Horizontal=True, Mobile=True** | 375 x 168 | 10 | 8 | 10 | 13px | VERTICAL MIN MIN |
@@ -372,6 +377,20 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Tab|System=People First, State=Selected, Mobile=Yes, Selected=Yes** | auto x 32 | 6 0 | 0 | 2 | 13px SemiBold | VERTICAL CENTER MIN |
 | **Tab|System=Configr, State=Selected, Mobile=No, Selected=Yes** | auto x 36 | 6 0 | 0 | 2 | 16px SemiBold | VERTICAL CENTER MIN |
 | **Tab|System=Configr, State=Selected, Mobile=Yes, Selected=Yes** | auto x 32 | 6 0 | 0 | 2 | 13px SemiBold | VERTICAL CENTER MIN |
+| **Table (AG)** | 1705 x 856 | 0 | 8 | 0 | 13px SemiBold | VERTICAL MIN MIN |
+| **Table (AG)|Mobile=True** | 370 x 576 | 0 | 8 | 0 | 13px SemiBold | VERTICAL MIN MIN |
+| **Table action bar** | 1654 x 98 | 0 | 0 | 20 | 16px SemiBold | VERTICAL MIN CENTER |
+| **Table action bar|Mobile=True** | 335 x 90 | 0 | 0 | 20 | 13px SemiBold | VERTICAL MIN CENTER |
+| **Table card (AG)** | 1600 x 1014 | 20 | 8 | 20 | 16px SemiBold | VERTICAL CENTER MIN |
+| **Table card (AG)|Mobile=True** | 370 x 726 | 20 | 0 | 20 | 13px SemiBold | VERTICAL CENTER MIN |
+| **Table cell (AG)** | 300 x 58 | 10 15 | 0 | 10 | 13px | HORIZONTAL CENTER MIN |
+| **Table cell (AG)|Type=Default, Style=Hover** | 300 x 58 | 10 15 | 0 | 10 | 13px Italic | HORIZONTAL CENTER MIN |
+| **Table cell (AG)|Type=Checkbox, Style=Default** | auto x 58 | 10 15 | 0 | 10 | — | HORIZONTAL CENTER MIN |
+| **Table cell (AG)|Type=Checkbox, Style=Stripe** | auto x 58 | 10 15 | 0 | 10 | — | HORIZONTAL CENTER MIN |
+| **Table cell (AG)|Type=Checkbox, Style=Hover** | auto x 58 | 10 15 | 0 | 10 | — | HORIZONTAL CENTER MIN |
+| **Table header (AG)** | 300 x 54 | 15 | 0 | 47 | 13px SemiBold | HORIZONTAL CENTER SPACE_BETWEEN |
+| **Table header (AG)|Alignment=Checkbox** | auto x 54 | 15 | 0 | 47 | — | HORIZONTAL CENTER MIN |
+| **Table header icons** | 24 x 24 | 10 | 4 | 10 | — | HORIZONTAL CENTER CENTER |
 | **Tags** | auto x 28 | 5 10 | 4 | 5 | 13px Regular | HORIZONTAL CENTER CENTER |
 | **Tags|Type=Neutral, Small=Yes** | auto x 22 | 2 5 | 4 | 5 | 13px Regular | HORIZONTAL CENTER CENTER |
 | **Tags|Type=Expired, Small=Yes** | auto x 22 | 2 5 | 4 | 5 | 13px Regular | HORIZONTAL CENTER CENTER |
@@ -391,6 +410,10 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Title panel** | 375 x 135 | 40 20 | 0 | 10 | 18px | VERTICAL CENTER CENTER |
 | **Title panel|Mobile=false** | 1130 x 135 | 40 207 | 0 | 10 | 20px | VERTICAL CENTER CENTER |
 | **Toast message** | 350 x 114 | 30 0 30 25 | 4 | 15 | 13px | HORIZONTAL CENTER MIN |
+| **Toggle** | 55 x 25 | 0 7 0 2 | 13 | 0 | 13px | HORIZONTAL CENTER SPACE_BETWEEN |
+| **Toggle|On=No, Locked=Yes** | 55 x 25 | 0 5 0 2 | 13 | 6 | — | HORIZONTAL CENTER MIN |
+| **Toggle|On=Yes, Locked=No** | 55 x 25 | 0 2 0 7 | 13 | 0 | 13px | HORIZONTAL CENTER SPACE_BETWEEN |
+| **Toggle|On=Yes, Locked=Yes** | 55 x 25 | 0 2 0 7 | 13 | 0 | — | HORIZONTAL CENTER SPACE_BETWEEN |
 | **Tool tip** | auto x 92 | 10 | 4 | 0 | 13px | VERTICAL MIN MIN |
 | **Tooltip** | 28 x 28 | — | 0 | — | — | NONE |
 | **Top bar app context** | auto x 66 | 0 | 0 | 10 | 24px | HORIZONTAL CENTER MIN |

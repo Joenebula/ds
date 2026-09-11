@@ -498,6 +498,7 @@
   font-family: var(--pf-font-body);
 }
 .pf-50-50-layout-container[data-row-colour="false"][data-mobile="true"] {
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -508,6 +509,7 @@
   font-size: 18px;
 }
 .pf-50-50-layout-container[data-row-colour="true"][data-mobile="true"] {
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -542,6 +544,30 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-ag-filter-menus[data-variant="Date"] {
+  height: 260px;
+  min-height: 0;
+  padding: 20px;
+  border-radius: 4px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 30px;
+  font-size: 16px;
+}
+.pf-ag-filter-menus[data-variant="Sort"] {
+  height: 176px;
+  min-height: 0;
+  padding: 10px 0;
+  border-radius: 4px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 13px;
 }
 .pf-ag-filter-menus[data-variant="Multi & search"] {
   background: var(--pf-filter-menu-background);
@@ -581,6 +607,18 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-ag-field[data-state="Unselected"] {
+  height: 36px;
+  min-height: 0;
+  padding: 10px 4px 10px 8px;
+  border-radius: 4px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  font-size: 12px;
+}
 .pf-ag-field[data-state="Selected"] {
   border-color: var(--pf-icon-primary);
   color: var(--pf-text-disabled);
@@ -593,6 +631,7 @@
 
 /* AG sort item
  * 3 variants captured
+ * Figma draws this 199px wide; treated as layout, not a rule
  */
 .pf-ag-sort-item {
   height: 52px;
@@ -1659,6 +1698,7 @@
  * Figma draws this 194px wide; treated as layout, not a rule
  */
 .pf-checkbox-radio-list {
+  height: 81px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1672,6 +1712,18 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-checkbox-radio-list[data-state="Error"] {
+  height: 101px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 16px;
 }
 .pf-checkbox-radio-list {
   color: var(--pf-text-primary);
@@ -2226,6 +2278,18 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-control[data-radio="Yes"] {
+  width: 20px;
+  height: 20px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
+}
 .pf-control[data-radio="No"] {
   background: var(--pf-bg-primary);
   border-color: var(--pf-icon-disabled);
@@ -2281,6 +2345,7 @@
  * 1 variant captured
  */
 .pf-date-picker-period {
+  height: 27px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -2304,6 +2369,7 @@
  * Figma draws this 371px wide; treated as layout, not a rule
  */
 .pf-date-range-visual {
+  height: 42px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -2506,6 +2572,28 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-document-previewer[data-device="Tablet"] {
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 16px;
+}
+.pf-document-previewer[data-device="Desktop"] {
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 16px;
 }
 .pf-document-previewer[data-device="Mobile"] {
   border-color: var(--pf-border-default-full);
@@ -3138,6 +3226,7 @@
  * Figma draws this 1560px wide; treated as layout, not a rule
  */
 .pf-footer-ag {
+  height: 48px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -3150,6 +3239,18 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-footer-ag[data-mobile="True"] {
+  height: 48px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 13px;
 }
 .pf-footer-ag,
 .pf-footer-ag[data-mobile="False"] {
@@ -3629,6 +3730,7 @@
   font-size: 13px;
 }
 .pf-full-page[data-system="People First"][data-tablet="Yes"][data-mobile="No"][data-darkmode="No"] {
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -3639,6 +3741,7 @@
   font-size: 13px;
 }
 .pf-full-page[data-system="People First"][data-tablet="Yes"][data-mobile="No"][data-darkmode="Yes"] {
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -4593,6 +4696,7 @@
 /* Manage columns
  * 1 variant captured
  * Figma draws this 520px wide; treated as layout, not a rule
+ * Figma draws this 1078px tall — the artboard it sits on, not a rule; dropped
  */
 .pf-manage-columns {
   display: inline-flex;
@@ -4607,6 +4711,17 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-manage-columns[data-mobile="True"][data-darkmode="False"] {
+  min-height: 0;
+  padding: 0;
+  border-radius: 15px 15px 0 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 20px;
 }
 .pf-manage-columns,
 .pf-manage-columns[data-mobile="False"] {
@@ -4844,6 +4959,30 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-multi-select-checkbox[data-darkmode="False"][data-state="Selected"] {
+  width: 20px;
+  height: 20px;
+  min-height: 0;
+  padding: 5px;
+  border-radius: 4px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.pf-multi-select-checkbox[data-darkmode="False"][data-state="Mixed selection"] {
+  width: 20px;
+  height: 20px;
+  min-height: 0;
+  padding: 5px;
+  border-radius: 4px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 .pf-multi-select-checkbox {
   background: var(--pf-bg-primary);
@@ -5291,6 +5430,7 @@
   font-family: var(--pf-font-body);
 }
 .pf-notification-categories[data-mobile="Yes"] {
+  min-height: 0;
   padding: 0;
   border-radius: 16px 16px 0 0;
   display: inline-flex;
@@ -5388,6 +5528,7 @@
   font-family: var(--pf-font-body);
 }
 .pf-notification-list[data-mobile="Yes"] {
+  min-height: 0;
   border-radius: 0;
   display: inline-block;
   font-size: 16px;
@@ -5420,6 +5561,7 @@
   font-family: var(--pf-font-body);
 }
 .pf-notification-panel[data-mobile="Yes"] {
+  min-height: 0;
   padding: 0;
   border-radius: 16px 16px 0 0;
   display: inline-flex;
@@ -5801,6 +5943,7 @@
  * Figma draws this 235px wide; treated as layout, not a rule
  */
 .pf-radio-tile {
+  height: 152px;
   padding: 25px 0;
   border-radius: 4px;
   display: inline-flex;
@@ -5948,6 +6091,7 @@
 
 /* Selected action banner
  * 1 variant captured
+ * Figma draws this 1560px wide; treated as layout, not a rule
  */
 .pf-selected-action-banner {
   height: 48px;
@@ -5957,6 +6101,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  gap: 899px;
   font-size: 16px;
   appearance: none;
   -webkit-appearance: none;
@@ -5965,6 +6110,18 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-selected-action-banner[data-darkmode="False"][data-mobile="True"] {
+  height: 48px;
+  min-height: 0;
+  padding: 8px 20px;
+  border-radius: 4px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 899px;
+  font-size: 16px;
 }
 .pf-selected-action-banner,
 .pf-selected-action-banner[data-mobile="False"] {
@@ -6145,6 +6302,7 @@
   font-family: var(--pf-font-body);
 }
 .pf-side-panel[data-mobile="No"][data-size="Small"] {
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -6155,6 +6313,7 @@
   font-size: 20px;
 }
 .pf-side-panel[data-mobile="No"][data-size="Medium"] {
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -6165,6 +6324,7 @@
   font-size: 20px;
 }
 .pf-side-panel[data-mobile="No"][data-size="Large"] {
+  min-height: 0;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -6215,6 +6375,7 @@
  * Figma draws this 600px wide; treated as layout, not a rule
  */
 .pf-slider {
+  height: 81px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -6835,6 +6996,7 @@
 /* Table (AG)
  * 1 variant captured
  * Figma draws this 1705px wide; treated as layout, not a rule
+ * Figma draws this 856px tall — the artboard it sits on, not a rule; dropped
  */
 .pf-table-ag {
   border-radius: 8px;
@@ -6852,6 +7014,19 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-table-ag[data-mobile="True"] {
+  height: auto;
+  min-height: 576px;
+  padding: 0;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
 .pf-table-ag,
 .pf-table-ag[data-mobile="False"] {
   border-color: var(--pf-table-border);
@@ -6863,6 +7038,7 @@
  * Figma draws this 1654px wide; treated as layout, not a rule
  */
 .pf-table-action-bar {
+  height: 98px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -6878,6 +7054,19 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-table-action-bar[data-mobile="True"] {
+  height: 90px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
 .pf-table-action-bar,
 .pf-table-action-bar[data-mobile="False"] {
   color: var(--pf-text-theme);
@@ -6885,6 +7074,8 @@
 
 /* Table card (AG)
  * 1 variant captured
+ * Figma draws this 1600px wide; treated as layout, not a rule
+ * Figma draws this 1014px tall — the artboard it sits on, not a rule; dropped
  */
 .pf-table-card-ag {
   padding: 20px;
@@ -6904,6 +7095,18 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-table-card-ag[data-mobile="True"] {
+  min-height: 0;
+  padding: 20px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
 .pf-table-card-ag,
 .pf-table-card-ag[data-mobile="False"] {
   background: var(--pf-table-card);
@@ -6912,6 +7115,7 @@
 
 /* Table cell (AG)
  * 6 variants captured. rows are TALL
+ * Figma draws this 300px wide; treated as layout, not a rule
  */
 .pf-table-cell-ag {
   height: 58px;
@@ -6929,6 +7133,51 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-table-cell-ag[data-type="Default"][data-style="Hover"] {
+  height: 58px;
+  min-height: 0;
+  padding: 10px 15px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-table-cell-ag[data-type="Checkbox"][data-style="Default"] {
+  height: 58px;
+  min-height: 0;
+  padding: 10px 15px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+.pf-table-cell-ag[data-type="Checkbox"][data-style="Stripe"] {
+  height: 58px;
+  min-height: 0;
+  padding: 10px 15px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+.pf-table-cell-ag[data-type="Checkbox"][data-style="Hover"] {
+  height: 58px;
+  min-height: 0;
+  padding: 10px 15px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
 }
 .pf-table-cell-ag[data-type="Default"][data-style="Default"] {
   background: var(--pf-table-primary-cell);
@@ -6959,6 +7208,7 @@
 
 /* Table header (AG)
  * 3 variants captured
+ * Figma draws this 300px wide; treated as layout, not a rule
  */
 .pf-table-header-ag {
   height: 54px;
@@ -6977,6 +7227,17 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-table-header-ag[data-alignment="Checkbox"] {
+  height: 54px;
+  min-height: 0;
+  padding: 15px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 47px;
 }
 .pf-table-header-ag[data-alignment="Left"] {
   background: var(--pf-table-header-cell);
@@ -7472,6 +7733,43 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-toggle[data-on="No"][data-locked="Yes"] {
+  width: 55px;
+  height: 25px;
+  min-height: 0;
+  padding: 0 5px 0 2px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+}
+.pf-toggle[data-on="Yes"][data-locked="No"] {
+  width: 55px;
+  height: 25px;
+  min-height: 0;
+  padding: 0 2px 0 7px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0px;
+  font-size: 13px;
+}
+.pf-toggle[data-on="Yes"][data-locked="Yes"] {
+  width: 55px;
+  height: 25px;
+  min-height: 0;
+  padding: 0 2px 0 7px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0px;
 }
 .pf-toggle[data-on="No"][data-locked="No"] {
   background: var(--pf-bg-tertiary);
