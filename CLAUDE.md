@@ -108,9 +108,44 @@ being captured automatically**: it might be real, half-finished, or an experimen
 on a page, and nothing enters the published library without a person deciding. Capture it, or
 add a row to `uncaptured-reasons.tsv` saying why it stays out.
 
-Re-extracting the variants and geometry themselves is a bigger, deliberate job — the
-`extract-*.mjs` scripts read Figma reads out of the session transcript, so it needs a live
-session, roughly one read per Figma page.
+## Re-extracting
+
+A bigger, deliberate job. The `extract-*.mjs` scripts read Figma reads out of the session
+transcripts rather than calling Figma, so it needs a live session — roughly one read per Figma
+page. Run `npm run selftest` first; all four extractors are proved able to fail.
+
+**A batch carries every column, including the empty trailing ones.** Not the file's convention —
+the file drops them — but the wire format's, and it is load-bearing. Batches are emitted under a
+20KB truncation cap, and a batch cut off mid-row has the right number of lines; only the column
+count gives it away. A row of the wrong width is a hard failure, never a dropped row.
+
+```
+PAGE	<page>        COUNT <n>   component  variant  fill  stroke  text                    nodeId
+GEOMETRY	<page>    COUNT <n>   component  size  padding  radius  gap  font  layout        nodeId
+TEXTSTYLES	<group> COUNT <n>   name  size  style  lineHeight  letterSpacing  textCase
+TEXTBOUND	<group>  COUNT <n>   name  size  style  fontWeightVar  fontStyleVar  -  sizeVar
+FROM <a> NEXT <b> OF <total> COUNT <n>   index  figmaName  svg
+```
+
+**`--update` is what makes it a re-extract rather than an append.** Both component extractors
+used to read `if (known.has(component)) continue` and report the skipped rows as *"already
+measured (left alone)"*. So a re-read could add a component and never correct one: a radius or a
+fill that moved in Figma was dropped, and the run said it had succeeded. A difference is now
+always REPORTED; `--update` applies it. Without the flag it prints `WOULD CHANGE` — silence was
+the bug, not the caution.
+
+**A captured variant absent from a re-read is reported, never deleted.** A batch legitimately
+covers part of a page — the original extraction read variant sets first and plain components
+later — so absence from one read is not absence from Figma. Same rule as an uncaptured
+component: an unexplained absence is a question for a person, not a silent deletion.
+
+**The two whole-file extracts refuse to shrink.** `text-styles.tsv` and `icons.tsv` are written
+whole, so a partial read would delete the rest. A write that would drop a captured style or icon
+is refused and names what it would have lost; `--shrink` is the deliberate override for something
+genuinely gone from Figma.
+
+And every transcript is read, oldest first, not the one with the lexicographically-last filename.
+That is what lets a re-extract span more than one session, which at ~30 heavy reads it will.
 
 ## Editing tokens
 

@@ -9,11 +9,12 @@
     "check": "node scripts/check-contrast.mjs",
     "verify": "node scripts/check-catalogue-drift.mjs && node scripts/verify-screens.mjs && node scripts/verify-components.mjs && node scripts/verify-type.mjs && node scripts/check-skill-classes.mjs",
     "audit": "node scripts/pf-audit.mjs",
-    "icons": "node scripts/extract-icons.mjs && node scripts/verify-icons.mjs --sheet docs/icons.html",
+    "icons": "node scripts/extract-icons.mjs --write && node scripts/verify-icons.mjs --sheet docs/icons.html",
     "verify:screens": "node scripts/verify-screens.mjs",
     "shot": "node scripts/screenshot-screen.mjs",
     "build:screens": "node scripts/build-prototypes.mjs",
-    "sync:check": "node scripts/sync-check.mjs tokens/_raw/figma-components.json"
+    "sync:check": "node scripts/sync-check.mjs tokens/_raw/figma-components.json",
+    "selftest": "node scripts/lib/transcript.mjs --self-test && node scripts/extract-variants.mjs --self-test && node scripts/extract-geometry.mjs --self-test && node scripts/extract-text-styles.mjs --self-test && node scripts/extract-icons.mjs --self-test && node scripts/backfill-node-ids.mjs --self-test && node scripts/check-catalogue-drift.mjs --self-test && node scripts/sync-check.mjs --self-test"
   },
   "devDependencies": {
     "playwright-core": "^1.49.0"

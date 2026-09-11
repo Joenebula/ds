@@ -509,7 +509,7 @@
 }
 
 /* Information box
- * 4 variants captured. 3341:64984
+ * 4 variants captured
  * Figma draws this 440px wide; treated as layout, not a rule
  */
 .pf-information-box {
@@ -635,49 +635,40 @@
 .pf-next-actions-modal[data-type="Warning"] {
   background: var(--pf-bg-primary);
   border-color: var(--pf-border-default);
-  /* unmapped Figma token: 30115:781 */
 }
 .pf-next-actions-modal[data-type="Success"] {
   background: var(--pf-bg-primary);
   border-color: var(--pf-border-default);
-  /* unmapped Figma token: 30115:781 */
 }
 
 /* Status
  * 4 variants captured
  * pill
- * layout direction not captured; assumed a row
  */
 .pf-status {
   width: 22px;
   height: 22px;
   border-radius: 999px;
-  display: inline-flex;
-  align-items: center;
-  gap: 3435px;
+  display: inline-block;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
   margin: 0;
-  border: 1px solid transparent;
+  border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
 .pf-status[data-status-type="Like"] {
   background: var(--pf-icon-info);
-  /* unmapped Figma token: 3435:66939 */
 }
 .pf-status[data-status-type="Absence"] {
   background: var(--pf-icon-warning);
-  /* unmapped Figma token: 3435:66939 */
 }
 .pf-status[data-status-type="Recognition"] {
   background: var(--pf-base-light-purple);
-  /* unmapped Figma token: 3435:66939 */
 }
 .pf-status[data-status-type="Comment"] {
   background: var(--pf-icon-info);
-  /* unmapped Figma token: 3435:66939 */
 }
 
 * { box-sizing: border-box; }
