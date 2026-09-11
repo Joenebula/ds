@@ -17,10 +17,19 @@
   are now in assets/component-art/ and inlined by dist/components.css, so the band here is
   `class="pf-default-header-background"` and nothing else.
 
-  WHAT IS NOT: the people grid. In the Figma file that whole region is two pasted
-  screenshots (`Screenshot 2025-12-15 at 11.32.30 1`, 1526x551, and `...2`, 165x373),
-  not components. It is marked as a gap rather than invented, because inventing it is how
-  a build stops being an extraction and starts being a guess.
+  THE PEOPLE GRID IS NOW BUILT, AND IT IS ONE CARD, NOT TWO. It was two dashed
+  placeholder boxes because the region reads as pasted screenshots in the source and I
+  wrote it off as "not components, nothing to extract" — the same reasoning that lost the
+  header swoosh, made twice. What it is: one white container holding the People title,
+  the My team / Out of office tabs, the count and eighteen person tiles. Each avatar is
+  `.pf-profile-image[data-size="Large"]`, the real People First component, now carrying
+  the real default-avatar artwork instead of an empty circle.
+
+  STILL NOT REAL: the individual photographs. In the design six of the eighteen people
+  have a photo rather than the default avatar. Those are content in the Case Management
+  file, not People First components, and that file's frame cannot be reached through the
+  plugin API from here — only its screenshot resolves. The default avatar is used for all
+  eighteen and the presence states (two red, sixteen green) follow the design.
 
   LIBRARY ISSUE FOUND WHILE BUILDING — NOW FIXED IN THE LIBRARY: `.pf-navigation-item`
   set `font-weight: bold` on the base class, but in Figma only Selected=Yes is SemiBold.
@@ -126,18 +135,36 @@ svg { display: block; }
 .content { padding: var(--pf-space-large); display: flex; flex-direction: column;
            gap: var(--pf-space-large); }
 
-/* The region that is a screenshot in Figma. Sized to the source rectangles so the page
-   keeps its real proportions — a text block here made the layout misleading, which is a
-   different way of being wrong from inventing components. */
-.shotwrap { display: flex; gap: var(--pf-space-large); align-items: flex-start;
-            min-width: 0; }
-.shotwrap .shot { min-width: 0; }
-.shot { background: var(--pf-bg-primary); border: 1px dashed var(--pf-border-secondary);
-        border-radius: var(--pf-radius-medium); display: flex; flex-direction: column;
-        align-items: center; justify-content: center; gap: 6px; padding: var(--pf-space-large);
-        color: var(--pf-text-secondary); text-align: center; }
-.shot strong { color: var(--pf-text-primary); font-size: var(--pf-font-size-s); }
-.shot code { font-size: var(--pf-font-size-xs); }
+/* The People card. One container, as in Figma. Layout only — every painted thing here
+   is a component class or a token. The avatar is `.pf-profile-image[data-size="Large"]`,
+   which is 76px and now carries the real artwork rather than an empty circle. */
+.peoplecard { width: 100%; background: var(--pf-bg-primary);
+  border-radius: var(--pf-radius-medium); padding: var(--pf-space-large);
+  display: flex; flex-direction: column; gap: var(--pf-space-medium); }
+.ppl-head { display: flex; align-items: center; gap: 10px; }
+.ppl-mark { width: 32px; height: 32px; border-radius: 999px; display: grid;
+  place-items: center; background: var(--pf-bg-light-theme);
+  color: var(--pf-icon-theme); flex: 0 0 auto; }
+.ppl-tabs { display: flex; gap: var(--pf-space-medium); }
+.ppl-count { margin: 0; }
+.ppl-grid { list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: var(--pf-space-large) var(--pf-space-medium); }
+.person { display: flex; flex-direction: column; align-items: center; gap: 5px;
+  text-align: center; min-width: 0; }
+.pav { position: relative; display: block; width: 76px; height: 76px; }
+/* Presence dot and kebab sit on the avatar. Both are Figma children of the tile, not of
+   the Profile image component, so they are page markup here rather than component CSS. */
+.dot { position: absolute; top: 2px; left: 2px; width: 14px; height: 14px;
+  border-radius: 999px; border: 2px solid var(--pf-bg-primary); }
+.dot[data-presence="Available"] { background: var(--pf-bg-positive); }
+.dot[data-presence="Away"] { background: var(--pf-bg-negative-button); }
+.kebab { position: absolute; top: 0; right: -14px; width: 20px; height: 20px;
+  display: grid; place-items: center; background: none; border: 0; padding: 0;
+  cursor: pointer; color: var(--pf-icon-secondary); }
+.pname { font-size: var(--pf-font-size-s); font-weight: var(--pf-font-weight-bold);
+  color: var(--pf-text-primary); }
+.prole { font-size: var(--pf-font-size-xs); color: var(--pf-text-secondary); }
 
 /* Department insights — Layout container (magazine style) */
 .pf-layout-container-magazine-style { width: 100%; background: var(--pf-bg-primary);
@@ -201,20 +228,187 @@ svg { display: block; }
 
     <main class="content">
 
-      <!-- In Figma this whole region is two pasted screenshots, not components.
-           Reproduced at their real dimensions so the layout is honest, empty because
-           there is nothing to extract. -->
-      <div class="shotwrap" data-pf-ignore aria-label="Regions the source supplies as images">
-        <div class="shot" style="flex:1 1 1526px;max-width:1526px;height:551px">
-          <strong>People grid &mdash; image in source</strong>
-          <code>RECTANGLE &ldquo;Screenshot 2025-12-15 at 11.32.30 1&rdquo; 1526&times;551</code>
-          <span>Not components, so not built.</span>
+      <!-- ONE card. In Figma this is a single white container holding the People title,
+           the My team / Out of office tabs, the count and the 18-person grid. The build
+           had TWO dashed placeholder boxes here because the grid was written off as
+           "a screenshot, nothing to extract" — the same reasoning that lost the header
+           swoosh. The avatars are the real `Profile image` component; only the individual
+           photographs are content, and those are not in the People First library. -->
+      <section class="peoplecard" aria-labelledby="ppl">
+        <div class="ppl-head">
+          <span class="ppl-mark"><!--pf-icon:team 22--></span>
+          <h2 id="ppl" class="pf-text-medium-heading">People</h2>
         </div>
-        <div class="shot" style="flex:0 0 165px;height:373px">
-          <strong>image</strong>
-          <code>165&times;373</code>
-        </div>
-      </div>
+        <nav class="ppl-tabs" aria-label="People view">
+          <button class="pf-nav-tabs" data-status="Selected" data-mobile="False" aria-current="page" type="button">My team</button>
+          <button class="pf-nav-tabs" data-status="Unselected" data-mobile="False" type="button">Out of office</button>
+        </nav>
+        <p class="ppl-count pf-text-large-heading">34 people connected to you</p>
+        <ul class="ppl-grid">
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Alice Smith"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Alice Smith"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pname">Alice Smith</span>
+            <span class="prole"></span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Zach Da Rosa"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Zach Da Rosa"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pname">Zach Da Rosa</span>
+            <span class="prole"></span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="anna anna"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for anna anna"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pname">anna anna</span>
+            <span class="prole">Business Analyst</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="anna anna"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for anna anna"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pname">anna anna</span>
+            <span class="prole">Goal Keeper3</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Amelie Bennett"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Amelie Bennett"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pname">Amelie Bennett</span>
+            <span class="prole">Probation manager</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Ariel Castro"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Ariel Castro"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pname">Ariel Castro</span>
+            <span class="prole">Sales admin</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Penelope Furst"></span>
+              <span class="dot" data-presence="Away" title="Away"></span>
+              <button class="kebab" type="button" aria-label="Actions for Penelope Furst"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pname">Penelope Furst</span>
+            <span class="prole">HR Consultant</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Rebecca Jacobs"></span>
+              <span class="dot" data-presence="Away" title="Away"></span>
+              <button class="kebab" type="button" aria-label="Actions for Rebecca Jacobs"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pname">Rebecca Jacobs</span>
+            <span class="prole">HR Systems Lead</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="anna anna"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for anna anna"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pname">anna anna</span>
+            <span class="prole">Goal Keeper3</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Jane Jones"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Jane Jones"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pname">Jane Jones</span>
+            <span class="prole">Business Partner 3</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Jackson Keegan"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Jackson Keegan"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pname">Jackson Keegan</span>
+            <span class="prole">Business Partner Lead</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Jackson Keegan"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Jackson Keegan"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pname">Jackson Keegan</span>
+            <span class="prole">Developer BBB testing</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Jackson Keegan"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Jackson Keegan"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pname">Jackson Keegan</span>
+            <span class="prole">Business Partner 2</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Mark Keeling"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Mark Keeling"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pname">Mark Keeling</span>
+            <span class="prole">Campaign Admin</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Mary Kirby"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Mary Kirby"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pname">Mary Kirby</span>
+            <span class="prole">HR assistant</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Jonathon Lomax"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Jonathon Lomax"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pname">Jonathon Lomax</span>
+            <span class="prole">HR assistant</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Jonathon Lomax"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Jonathon Lomax"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pname">Jonathon Lomax</span>
+            <span class="prole">Employee Support</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Jackson Keegan"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Jackson Keegan"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pname">Jackson Keegan</span>
+            <span class="prole">Business Partner 2</span>
+          </li>
+        </ul>
+      </section>
 
       <!-- Department insights — Layout container (magazine style) -->
       <section class="pf-layout-container-magazine-style" data-row-colour="false" aria-labelledby="ins">
@@ -242,7 +436,7 @@ svg { display: block; }
 
         <div class="btnrow">
           <button class="pf-button" data-type="Action" type="button"><!--pf-icon:add-plus 14-->Action</button>
-          <button class="pf-button" data-type="Positive" type="button"><!--pf-icon:settings 14-->Action</button>
+          <button class="pf-button" data-type="Positive" type="button"><!--pf-icon:sort-arrow-ag-grid 14-->Action</button>
           <button class="pf-button" data-type="Hollow" type="button"><!--pf-icon:edit 14-->Action</button>
           <button class="pf-button" data-type="Negative" type="button"><!--pf-icon:bin-delete 14-->Action</button>
         </div>

@@ -77,7 +77,7 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Table progress bar** | 246 x 14 | 0 | 0 | 5 | 13px |  |
 | **Percentage bar** | 343 x 37 | 0 | 0 | 5 | 13px |  |
 | **Data variance** | 41 x 45 | 0 | 0 | 0 | 13px |  |
-| **Profile image** | 93 x 93 | 0 | 47 | 0 | — |  |
+| **Profile image** | 43 x 43 | 0 | 999 | 0 | — | NONE |
 | **People (avatar)** | 91 x 91 | 0 | 0 | 0 | — |  |
 | **People (row)** | 380 x 40 | 0 | 0 | 10 | 16px |  |
 | **People (card)** | 166 x 91 | 0 | 0 | 0 | 13px |  |
@@ -175,6 +175,12 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Horizontal scroll** | auto x 32 | 0 | 0 | 390 | — | HORIZONTAL CENTER CENTER |
 | **Mobile key actions** | 126 x 103 | 0 | 0 | 0 | — | NONE |
 | **Default header background** | auto x 86 | 0 | 0 | 0 | — | NONE |
+| **Profile image|Size=Extra large** | 93 x 93 | 0 | 999 | 0 | — | NONE |
+| **Profile image|Size=Large** | 76 x 76 | 0 | 999 | 0 | — | NONE |
+| **Profile image|Size=Medium plus** | 54 x 54 | 0 | 999 | 0 | — | NONE |
+| **Profile image|Size=Medium** | 43 x 43 | 0 | 999 | 0 | — | NONE |
+| **Profile image|Size=Small** | 28 x 28 | 0 | 999 | 0 | — | NONE |
+| **Profile image|Size=Extra small** | 22 x 22 | 0 | 999 | 0 | — | NONE |
 | **Navigation item|Selected=Yes** | 90 x 86 | 0 | 0 | 22 | 13px SemiBold | HORIZONTAL CENTER CENTER |
 | **Navigation item|Device=Mobile** | 86 x 76 | 0 25 | 0 | 10 | 11px Regular | HORIZONTAL CENTER CENTER |
 | **Navigation item|Device=Tablet** | 86 x 56 | 0 25 | 0 | 10 | 11px Regular | HORIZONTAL CENTER CENTER |

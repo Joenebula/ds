@@ -66,7 +66,7 @@ Square progress bar	177 x 34	0	0	10	13px
 Table progress bar	246 x 14	0	0	5	13px		
 Percentage bar	343 x 37	0	0	5	13px		
 Data variance	41 x 45	0	0	0	13px		
-Profile image	93 x 93	0	47	0	—		CIRCLE
+Profile image	43 x 43	0	999	0	—	NONE	CIRCLE. Six sizes; Medium is the default. The base row used to carry Extra large's 93px, so every avatar rendered at the largest size. The picture itself is a raster fill bound to no colour variable — see assets/component-art/.
 People (avatar)	91 x 91	0	0	0	—		
 People (row)	380 x 40	0	0	10	16px		
 People (card)	166 x 91	0	0	0	13px		
@@ -164,6 +164,12 @@ Floaters	85 x 40	0	0	5	—	HORIZONTAL MIN CENTER	Single component. No colour var
 Horizontal scroll	auto x 32	0	0	390	—	HORIZONTAL CENTER CENTER	2 variants (Page). Figma draws it 1160px wide — the artboard, not a rule. No colour variable bound.
 Mobile key actions	126 x 103	0	0	0	—	NONE	6 variants (Link). No colour variable bound in Figma.
 Default header background	auto x 86	0	0	0	—	NONE	Full-bleed header bar; height varies by Breakpoint (see size rows). Fill is a raw colour in Figma, not a variable.
+Profile image|Size=Extra large	93 x 93	0	999	0	—	NONE	
+Profile image|Size=Large	76 x 76	0	999	0	—	NONE	
+Profile image|Size=Medium plus	54 x 54	0	999	0	—	NONE	
+Profile image|Size=Medium	43 x 43	0	999	0	—	NONE	
+Profile image|Size=Small	28 x 28	0	999	0	—	NONE	
+Profile image|Size=Extra small	22 x 22	0	999	0	—	NONE	
 Navigation item|Selected=Yes	90 x 86	0	0	22	13px SemiBold	HORIZONTAL CENTER CENTER	the selected rail item: no side padding, wider gap, and the only SemiBold state
 Navigation item|Device=Mobile	86 x 76	0 25	0	10	11px Regular	HORIZONTAL CENTER CENTER	
 Navigation item|Device=Tablet	86 x 56	0 25	0	10	11px Regular	HORIZONTAL CENTER CENTER	

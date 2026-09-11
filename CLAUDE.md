@@ -71,7 +71,8 @@ silently in an artifact or a `.dc.html` canvas, which is the same invisible fail
 Light/dark is automatic via `data-theme`; you never set `data-darkmode` yourself, though
 Figma's own variant attribute still works.
 
-To add artwork for another component: export it through `use_figma` in base64 chunks
+A component whose artwork is the same at every variant uses `*` as its variant, and the
+rule lands on the bare class. To add artwork for another component: export it through `use_figma` in base64 chunks
 headed `ART\t<slug>\t<format>\t<part>\t<total>`, declare the slug's owning component and
 variant in the `EXPORTS` table in `scripts/extract-component-art.mjs`, run that script,
 then `npm run build`.
@@ -85,7 +86,7 @@ IS one box works as a class (`.pf-button`, `.pf-tag`, `.pf-filter-chip`) and a c
 does not: `.pf-header`, `.pf-card`, `.pf-metric-card`, `.pf-calendar-picker` and
 `.pf-table-ag` carry a size and nothing inside it.
 
-`npm run verify` now counts the classes with no paint at all — **70** — and fails if that
+`npm run verify` now counts the classes with no paint at all — **69** — and fails if that
 number grows. It does not, and cannot, tell you a class is structurally empty. Before
 building anything composite, open `docs/components.html` and look at what the class
 actually renders. If it renders a blank box, say so rather than hand-writing a substitute.

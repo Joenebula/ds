@@ -18,7 +18,7 @@ import { readFileSync } from 'node:fs';
 // freely — that is the extract capturing more of each component. It may not go up
 // without someone deciding to raise it, because up means a component quietly lost
 // its paint.
-const SHELL_BASELINE = 70;
+const SHELL_BASELINE = 69;
 
 const css = readFileSync('dist/components.css', 'utf8');
 let failures = 0;

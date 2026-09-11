@@ -375,12 +375,12 @@ Contents: [Buttons and links](#buttons-and-links) · [Forms](#forms) · [Control
 | Component | Class | Variants in Figma | Size | Radius | Type |
 |---|---|---|---|---|---|
 | [S] People | `.pf-s-people` | Property 1: Header · Inline · Large card · Small card · Table<br>Mobile: False · True | 380 x auto | — | 16px |
-| Profile image | `.pf-profile-image` | Size: Extra large · Large · Medium plus · Medium · Small · Extra small | 93 x 93 | 47 | — |
+| Profile image | `.pf-profile-image` | Size: Extra large · Large · Medium plus · Medium · Small · Extra small | 43 x 43 | 999 | — |
 
 <details><summary>Notes on these components</summary>
 
 - **[S] People** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`
-- **Profile image** — **shape only** — no variant of this binds a colour variable in Figma, so the class carries its measured geometry and leaves colour to the page. CIRCLE
+- **Profile image** — **shape only** — no variant of this binds a colour variable in Figma, so the class carries its measured geometry and leaves colour to the page. CIRCLE. Six sizes; Medium is the default. The base row used to carry Extra large's 93px, so every avatar rendered at the largest size. The picture itself is a raster fill bound to no colour variable — see assets/component-art/.. per-variant sizes: `Size=Extra large` 93 x 93, `Size=Large` 76 x 76, `Size=Medium plus` 54 x 54, `Size=Medium` 43 x 43, `Size=Small` 28 x 28, `Size=Extra small` 22 x 22
 
 </details>
 

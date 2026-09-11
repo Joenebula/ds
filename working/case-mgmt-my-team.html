@@ -17,10 +17,19 @@
   are now in assets/component-art/ and inlined by dist/components.css, so the band here is
   `class="pf-default-header-background"` and nothing else.
 
-  WHAT IS NOT: the people grid. In the Figma file that whole region is two pasted
-  screenshots (`Screenshot 2025-12-15 at 11.32.30 1`, 1526x551, and `...2`, 165x373),
-  not components. It is marked as a gap rather than invented, because inventing it is how
-  a build stops being an extraction and starts being a guess.
+  THE PEOPLE GRID IS NOW BUILT, AND IT IS ONE CARD, NOT TWO. It was two dashed
+  placeholder boxes because the region reads as pasted screenshots in the source and I
+  wrote it off as "not components, nothing to extract" — the same reasoning that lost the
+  header swoosh, made twice. What it is: one white container holding the People title,
+  the My team / Out of office tabs, the count and eighteen person tiles. Each avatar is
+  `.pf-profile-image[data-size="Large"]`, the real People First component, now carrying
+  the real default-avatar artwork instead of an empty circle.
+
+  STILL NOT REAL: the individual photographs. In the design six of the eighteen people
+  have a photo rather than the default avatar. Those are content in the Case Management
+  file, not People First components, and that file's frame cannot be reached through the
+  plugin API from here — only its screenshot resolves. The default avatar is used for all
+  eighteen and the presence states (two red, sixteen green) follow the design.
 
   LIBRARY ISSUE FOUND WHILE BUILDING — NOW FIXED IN THE LIBRARY: `.pf-navigation-item`
   set `font-weight: bold` on the base class, but in Figma only Selected=Yes is SemiBold.
@@ -739,17 +748,21 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-ai-button[data-style="Light mode"],
 .pf-ai-button[data-style="Light mode"][data-hover="False"] {
   color: var(--pf-text-primary);
 }
+.pf-ai-button[data-style="Light mode"]:hover,
 .pf-ai-button[data-style="Light mode"][data-hover="True"] {
   /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
   color: var(--pf-text-always-white);
 }
+.pf-ai-button[data-style="Inverted"],
 .pf-ai-button[data-style="Inverted"][data-hover="False"] {
   /* Figma binds the primitive "Base colours/Default Pink" here; no semantic token has this role */
   color: var(--pf-base-default-pink);
 }
+.pf-ai-button[data-style="Inverted"]:hover,
 .pf-ai-button[data-style="Inverted"][data-hover="True"] {
   /* Figma binds the primitive "Base colours/White" here; no semantic token has this role */
   border-color: var(--pf-base-white);
@@ -2118,10 +2131,12 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-drop-down-button,
 .pf-drop-down-button[data-hover="False"] {
   border-color: var(--pf-border-form-input);
   color: var(--pf-text-primary);
 }
+.pf-drop-down-button:hover,
 .pf-drop-down-button[data-hover="True"] {
   background: var(--pf-bg-tertiary);
   border-color: var(--pf-border-form-input);
@@ -2888,15 +2903,19 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-links[data-link-type="Primary"],
 .pf-links[data-link-type="Primary"][data-hover="False"] {
   color: var(--pf-text-link);
 }
+.pf-links[data-link-type="Primary"]:hover,
 .pf-links[data-link-type="Primary"][data-hover="True"] {
   color: var(--pf-text-link);
 }
+.pf-links[data-link-type="Secondary"],
 .pf-links[data-link-type="Secondary"][data-hover="False"] {
   color: var(--pf-text-link);
 }
+.pf-links[data-link-type="Secondary"]:hover,
 .pf-links[data-link-type="Secondary"][data-hover="True"] {
   color: var(--pf-text-link);
 }
@@ -3646,12 +3665,12 @@
 
 /* Profile image
  * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
- * carries its measured geometry and leaves colour to the page. CIRCLE
+ * carries its measured geometry and leaves colour to the page. CIRCLE. Six sizes; Medium is the default. The base row used to carry Extra large's 93px, so every avatar rendered at the largest size. The picture itself is a raster fill bound to no colour variable — see assets/component-art/.
  * pill
  */
 .pf-profile-image {
-  width: 93px;
-  height: 93px;
+  width: 43px;
+  height: 43px;
   border-radius: 999px;
   display: inline-block;
   appearance: none;
@@ -3661,6 +3680,48 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-profile-image[data-size="Extra large"] {
+  width: 93px;
+  height: 93px;
+  border-radius: 999px;
+  display: inline-block;
+}
+.pf-profile-image[data-size="Large"] {
+  width: 76px;
+  height: 76px;
+  border-radius: 999px;
+  display: inline-block;
+}
+.pf-profile-image[data-size="Medium plus"] {
+  width: 54px;
+  height: 54px;
+  border-radius: 999px;
+  display: inline-block;
+}
+.pf-profile-image[data-size="Medium"] {
+  width: 43px;
+  height: 43px;
+  border-radius: 999px;
+  display: inline-block;
+}
+.pf-profile-image[data-size="Small"] {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  display: inline-block;
+}
+.pf-profile-image[data-size="Extra small"] {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  display: inline-block;
+}
+.pf-profile-image {
+  background-image: url("data:image/png;base64,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");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* Radio card
@@ -5388,18 +5449,36 @@ svg { display: block; }
 .content { padding: var(--pf-space-large); display: flex; flex-direction: column;
            gap: var(--pf-space-large); }
 
-/* The region that is a screenshot in Figma. Sized to the source rectangles so the page
-   keeps its real proportions — a text block here made the layout misleading, which is a
-   different way of being wrong from inventing components. */
-.shotwrap { display: flex; gap: var(--pf-space-large); align-items: flex-start;
-            min-width: 0; }
-.shotwrap .shot { min-width: 0; }
-.shot { background: var(--pf-bg-primary); border: 1px dashed var(--pf-border-secondary);
-        border-radius: var(--pf-radius-medium); display: flex; flex-direction: column;
-        align-items: center; justify-content: center; gap: 6px; padding: var(--pf-space-large);
-        color: var(--pf-text-secondary); text-align: center; }
-.shot strong { color: var(--pf-text-primary); font-size: var(--pf-font-size-s); }
-.shot code { font-size: var(--pf-font-size-xs); }
+/* The People card. One container, as in Figma. Layout only — every painted thing here
+   is a component class or a token. The avatar is `.pf-profile-image[data-size="Large"]`,
+   which is 76px and now carries the real artwork rather than an empty circle. */
+.peoplecard { width: 100%; background: var(--pf-bg-primary);
+  border-radius: var(--pf-radius-medium); padding: var(--pf-space-large);
+  display: flex; flex-direction: column; gap: var(--pf-space-medium); }
+.ppl-head { display: flex; align-items: center; gap: 10px; }
+.ppl-mark { width: 32px; height: 32px; border-radius: 999px; display: grid;
+  place-items: center; background: var(--pf-bg-light-theme);
+  color: var(--pf-icon-theme); flex: 0 0 auto; }
+.ppl-tabs { display: flex; gap: var(--pf-space-medium); }
+.ppl-count { margin: 0; }
+.ppl-grid { list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: var(--pf-space-large) var(--pf-space-medium); }
+.person { display: flex; flex-direction: column; align-items: center; gap: 5px;
+  text-align: center; min-width: 0; }
+.pav { position: relative; display: block; width: 76px; height: 76px; }
+/* Presence dot and kebab sit on the avatar. Both are Figma children of the tile, not of
+   the Profile image component, so they are page markup here rather than component CSS. */
+.dot { position: absolute; top: 2px; left: 2px; width: 14px; height: 14px;
+  border-radius: 999px; border: 2px solid var(--pf-bg-primary); }
+.dot[data-presence="Available"] { background: var(--pf-bg-positive); }
+.dot[data-presence="Away"] { background: var(--pf-bg-negative-button); }
+.kebab { position: absolute; top: 0; right: -14px; width: 20px; height: 20px;
+  display: grid; place-items: center; background: none; border: 0; padding: 0;
+  cursor: pointer; color: var(--pf-icon-secondary); }
+.pname { font-size: var(--pf-font-size-s); font-weight: var(--pf-font-weight-bold);
+  color: var(--pf-text-primary); }
+.prole { font-size: var(--pf-font-size-xs); color: var(--pf-text-secondary); }
 
 /* Department insights — Layout container (magazine style) */
 .pf-layout-container-magazine-style { width: 100%; background: var(--pf-bg-primary);
@@ -5463,20 +5542,187 @@ svg { display: block; }
 
     <main class="content">
 
-      <!-- In Figma this whole region is two pasted screenshots, not components.
-           Reproduced at their real dimensions so the layout is honest, empty because
-           there is nothing to extract. -->
-      <div class="shotwrap" data-pf-ignore aria-label="Regions the source supplies as images">
-        <div class="shot" style="flex:1 1 1526px;max-width:1526px;height:551px">
-          <strong>People grid &mdash; image in source</strong>
-          <code>RECTANGLE &ldquo;Screenshot 2025-12-15 at 11.32.30 1&rdquo; 1526&times;551</code>
-          <span>Not components, so not built.</span>
+      <!-- ONE card. In Figma this is a single white container holding the People title,
+           the My team / Out of office tabs, the count and the 18-person grid. The build
+           had TWO dashed placeholder boxes here because the grid was written off as
+           "a screenshot, nothing to extract" — the same reasoning that lost the header
+           swoosh. The avatars are the real `Profile image` component; only the individual
+           photographs are content, and those are not in the People First library. -->
+      <section class="peoplecard" aria-labelledby="ppl">
+        <div class="ppl-head">
+          <span class="ppl-mark"><svg class="pf-icon" width="22" height="22" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M8.56 19.28C9.29 19.28 10 19.57 10.52 20.09C11.04 20.61 11.33 21.32 11.33 22.06C11.33 22.61 11.78 23.06 12.33 23.06C12.89 23.06 13.33 22.61 13.33 22.06C13.33 20.79 12.83 19.57 11.93 18.68C11.04 17.78 9.82 17.28 8.56 17.28H4.78C3.51 17.28 2.3 17.78 1.4 18.68C.5 19.57 0 20.79 0 22.06V23.94C0 24.5 .45 24.94 1 24.94C1.55 24.94 2 24.5 2 23.94V22.06C2 21.32 2.29 20.61 2.81 20.09C3.33 19.57 4.04 19.28 4.78 19.28H8.56Z"/><path fill-rule="evenodd" d="M7.14 8.89C5.87 8.89 4.83 9.92 4.83 11.19C4.83 12.47 5.87 13.5 7.14 13.5C8.41 13.5 9.44 12.47 9.44 11.19C9.44 9.92 8.41 8.89 7.14 8.89ZM2.83 11.19C2.83 8.82 4.76 6.89 7.14 6.89C9.52 6.89 11.44 8.82 11.44 11.19C11.44 13.57 9.52 15.5 7.14 15.5C4.76 15.5 2.83 13.57 2.83 11.19Z"/><path fill-rule="evenodd" d="M28.86 8.89C27.59 8.89 26.56 9.92 26.56 11.19C26.56 12.47 27.59 13.5 28.86 13.5C30.13 13.5 31.17 12.47 31.17 11.19C31.17 9.92 30.13 8.89 28.86 8.89ZM24.56 11.19C24.56 8.82 26.48 6.89 28.86 6.89C31.24 6.89 33.17 8.82 33.17 11.19C33.17 13.57 31.24 15.5 28.86 15.5C26.48 15.5 24.56 13.57 24.56 11.19Z"/><path fill-rule="evenodd" d="M27.44 19.28C26.71 19.28 26 19.57 25.48 20.09C24.96 20.61 24.67 21.32 24.67 22.06C24.67 22.61 24.22 23.06 23.67 23.06C23.11 23.06 22.67 22.61 22.67 22.06C22.67 20.79 23.17 19.57 24.07 18.68C24.96 17.78 26.18 17.28 27.44 17.28H31.22C32.49 17.28 33.7 17.78 34.6 18.68C35.5 19.57 36 20.79 36 22.06V23.94C36 24.5 35.55 24.94 35 24.94C34.45 24.94 34 24.5 34 23.94V22.06C34 21.32 33.71 20.61 33.19 20.09C32.67 19.57 31.96 19.28 31.22 19.28H27.44Z"/><path fill-rule="evenodd" d="M18 7C15.77 7 13.96 8.81 13.96 11.04C13.96 13.27 15.77 15.07 18 15.07C20.23 15.07 22.04 13.27 22.04 11.04C22.04 8.81 20.23 7 18 7ZM11.96 11.04C11.96 7.7 14.67 5 18 5C21.33 5 24.04 7.7 24.04 11.04C24.04 14.37 21.33 17.07 18 17.07C14.67 17.07 11.96 14.37 11.96 11.04Z"/><path fill-rule="evenodd" d="M15.48 22.11C14.41 22.11 13.38 22.54 12.63 23.29C11.87 24.05 11.44 25.08 11.44 26.15V28.67C11.44 29.22 11 29.67 10.44 29.67C9.89 29.67 9.44 29.22 9.44 28.67V26.15C9.44 24.55 10.08 23.01 11.21 21.88C12.34 20.75 13.88 20.11 15.48 20.11H20.52C22.12 20.11 23.66 20.75 24.79 21.88C25.92 23.01 26.56 24.55 26.56 26.15V28.67C26.56 29.22 26.11 29.67 25.56 29.67C25 29.67 24.56 29.22 24.56 28.67V26.15C24.56 25.08 24.13 24.05 23.37 23.29C22.62 22.54 21.59 22.11 20.52 22.11H15.48Z"/></svg></span>
+          <h2 id="ppl" class="pf-text-medium-heading">People</h2>
         </div>
-        <div class="shot" style="flex:0 0 165px;height:373px">
-          <strong>image</strong>
-          <code>165&times;373</code>
-        </div>
-      </div>
+        <nav class="ppl-tabs" aria-label="People view">
+          <button class="pf-nav-tabs" data-status="Selected" data-mobile="False" aria-current="page" type="button">My team</button>
+          <button class="pf-nav-tabs" data-status="Unselected" data-mobile="False" type="button">Out of office</button>
+        </nav>
+        <p class="ppl-count pf-text-large-heading">34 people connected to you</p>
+        <ul class="ppl-grid">
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Alice Smith"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Alice Smith"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button>
+            </span>
+            <span class="pname">Alice Smith</span>
+            <span class="prole"></span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Zach Da Rosa"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Zach Da Rosa"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button>
+            </span>
+            <span class="pname">Zach Da Rosa</span>
+            <span class="prole"></span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="anna anna"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for anna anna"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button>
+            </span>
+            <span class="pname">anna anna</span>
+            <span class="prole">Business Analyst</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="anna anna"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for anna anna"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button>
+            </span>
+            <span class="pname">anna anna</span>
+            <span class="prole">Goal Keeper3</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Amelie Bennett"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Amelie Bennett"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button>
+            </span>
+            <span class="pname">Amelie Bennett</span>
+            <span class="prole">Probation manager</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Ariel Castro"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Ariel Castro"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button>
+            </span>
+            <span class="pname">Ariel Castro</span>
+            <span class="prole">Sales admin</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Penelope Furst"></span>
+              <span class="dot" data-presence="Away" title="Away"></span>
+              <button class="kebab" type="button" aria-label="Actions for Penelope Furst"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button>
+            </span>
+            <span class="pname">Penelope Furst</span>
+            <span class="prole">HR Consultant</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Rebecca Jacobs"></span>
+              <span class="dot" data-presence="Away" title="Away"></span>
+              <button class="kebab" type="button" aria-label="Actions for Rebecca Jacobs"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button>
+            </span>
+            <span class="pname">Rebecca Jacobs</span>
+            <span class="prole">HR Systems Lead</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="anna anna"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for anna anna"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button>
+            </span>
+            <span class="pname">anna anna</span>
+            <span class="prole">Goal Keeper3</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Jane Jones"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Jane Jones"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button>
+            </span>
+            <span class="pname">Jane Jones</span>
+            <span class="prole">Business Partner 3</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Jackson Keegan"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Jackson Keegan"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button>
+            </span>
+            <span class="pname">Jackson Keegan</span>
+            <span class="prole">Business Partner Lead</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Jackson Keegan"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Jackson Keegan"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button>
+            </span>
+            <span class="pname">Jackson Keegan</span>
+            <span class="prole">Developer BBB testing</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Jackson Keegan"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Jackson Keegan"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button>
+            </span>
+            <span class="pname">Jackson Keegan</span>
+            <span class="prole">Business Partner 2</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Mark Keeling"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Mark Keeling"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button>
+            </span>
+            <span class="pname">Mark Keeling</span>
+            <span class="prole">Campaign Admin</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Mary Kirby"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Mary Kirby"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button>
+            </span>
+            <span class="pname">Mary Kirby</span>
+            <span class="prole">HR assistant</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Jonathon Lomax"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Jonathon Lomax"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button>
+            </span>
+            <span class="pname">Jonathon Lomax</span>
+            <span class="prole">HR assistant</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Jonathon Lomax"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Jonathon Lomax"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button>
+            </span>
+            <span class="pname">Jonathon Lomax</span>
+            <span class="prole">Employee Support</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Jackson Keegan"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Jackson Keegan"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button>
+            </span>
+            <span class="pname">Jackson Keegan</span>
+            <span class="prole">Business Partner 2</span>
+          </li>
+        </ul>
+      </section>
 
       <!-- Department insights — Layout container (magazine style) -->
       <section class="pf-layout-container-magazine-style" data-row-colour="false" aria-labelledby="ins">
@@ -5504,7 +5750,7 @@ svg { display: block; }
 
         <div class="btnrow">
           <button class="pf-button" data-type="Action" type="button"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path d="M19.13 7.5C19.13 6.88 18.62 6.38 18 6.38C17.38 6.38 16.88 6.88 16.88 7.5V16.88H7.5C6.88 16.88 6.38 17.38 6.38 18C6.38 18.62 6.88 19.13 7.5 19.13H16.88V28.5C16.88 29.12 17.38 29.63 18 29.63C18.62 29.63 19.13 29.12 19.13 28.5V19.13H28.5C29.12 19.13 29.63 18.62 29.63 18C29.63 17.38 29.12 16.88 28.5 16.88H19.13V7.5Z"/></g></svg>Action</button>
-          <button class="pf-button" data-type="Positive" type="button"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path fill-rule="evenodd" d="M18 12.38C14.89 12.38 12.38 14.89 12.38 18C12.38 21.11 14.89 23.63 18 23.63C21.11 23.63 23.63 21.11 23.63 18C23.63 14.89 21.11 12.38 18 12.38ZM14.63 18C14.63 16.14 16.14 14.63 18 14.63C19.86 14.63 21.38 16.14 21.38 18C21.38 19.86 19.86 21.38 18 21.38C16.14 21.38 14.63 19.86 14.63 18Z"/><path fill-rule="evenodd" d="M21.61 6.21C20.69 2.43 15.31 2.43 14.39 6.21C14.16 7.17 13.06 7.63 12.21 7.11C8.89 5.09 5.09 8.89 7.11 12.21C7.23 12.41 7.31 12.63 7.32 12.86C7.34 13.09 7.3 13.32 7.22 13.53C7.13 13.75 6.99 13.93 6.82 14.08C6.64 14.23 6.43 14.34 6.21 14.39C2.43 15.31 2.43 20.69 6.21 21.61C6.43 21.66 6.64 21.77 6.81 21.92C6.99 22.07 7.13 22.25 7.21 22.47C7.3 22.68 7.34 22.91 7.32 23.14C7.3 23.37 7.23 23.59 7.11 23.79C5.09 27.11 8.89 30.91 12.21 28.89C12.41 28.77 12.63 28.69 12.86 28.68C13.09 28.66 13.32 28.7 13.53 28.78C13.75 28.87 13.93 29.01 14.08 29.18C14.23 29.36 14.34 29.57 14.39 29.79C15.31 33.57 20.69 33.57 21.61 29.79C21.66 29.57 21.77 29.36 21.92 29.19C22.07 29.01 22.25 28.87 22.47 28.79C22.68 28.7 22.91 28.66 23.14 28.68C23.37 28.7 23.59 28.77 23.79 28.89C27.11 30.91 30.91 27.11 28.89 23.79C28.77 23.59 28.69 23.37 28.68 23.14C28.66 22.91 28.7 22.68 28.78 22.47C28.87 22.25 29.01 22.07 29.18 21.92C29.36 21.77 29.57 21.66 29.79 21.61C33.57 20.69 33.57 15.31 29.79 14.39C29.57 14.34 29.36 14.23 29.19 14.08C29.01 13.93 28.87 13.75 28.79 13.53C28.7 13.32 28.66 13.09 28.68 12.86C28.7 12.63 28.77 12.41 28.89 12.21C30.91 8.89 27.11 5.09 23.79 7.11C23.59 7.23 23.37 7.31 23.14 7.32C22.91 7.34 22.68 7.3 22.47 7.22C22.25 7.13 22.07 6.99 21.92 6.82C21.77 6.64 21.66 6.43 21.61 6.21ZM16.58 6.74C16.94 5.25 19.06 5.25 19.42 6.74C19.56 7.31 19.83 7.84 20.21 8.28C20.59 8.72 21.07 9.07 21.61 9.29C22.15 9.52 22.73 9.61 23.31 9.57C23.9 9.52 24.46 9.34 24.96 9.04C26.26 8.24 27.76 9.74 26.97 11.04C26.66 11.54 26.48 12.11 26.44 12.69C26.39 13.27 26.48 13.86 26.71 14.39C26.93 14.93 27.28 15.41 27.72 15.79C28.16 16.17 28.69 16.44 29.26 16.58C30.75 16.94 30.75 19.06 29.26 19.42C28.69 19.56 28.16 19.83 27.72 20.21C27.28 20.59 26.93 21.07 26.71 21.61C26.48 22.15 26.39 22.73 26.43 23.31C26.48 23.9 26.66 24.46 26.96 24.96C27.76 26.26 26.26 27.76 24.96 26.97C24.46 26.66 23.89 26.48 23.31 26.44C22.73 26.39 22.15 26.48 21.61 26.71C21.07 26.93 20.59 27.28 20.21 27.72C19.83 28.16 19.56 28.69 19.42 29.26C19.06 30.75 16.94 30.75 16.58 29.26C16.44 28.69 16.17 28.16 15.79 27.72C15.41 27.28 14.93 26.93 14.39 26.71C13.85 26.48 13.27 26.39 12.69 26.43C12.11 26.48 11.54 26.66 11.04 26.96C9.74 27.76 8.24 26.26 9.03 24.96C9.34 24.46 9.52 23.89 9.56 23.31C9.61 22.73 9.52 22.15 9.29 21.61C9.07 21.07 8.72 20.59 8.28 20.21C7.84 19.83 7.31 19.56 6.74 19.42C5.25 19.06 5.25 16.94 6.74 16.58C7.31 16.44 7.84 16.17 8.28 15.79C8.72 15.41 9.07 14.93 9.29 14.39C9.52 13.85 9.61 13.27 9.57 12.69C9.52 12.11 9.34 11.54 9.04 11.04C8.24 9.74 9.74 8.24 11.04 9.03C13.19 10.34 15.99 9.18 16.58 6.74Z"/></g></svg>Action</button>
+          <button class="pf-button" data-type="Positive" type="button"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M7.96 15.43C7.79 15.01 7.88 14.53 8.2 14.2L17.2 5.2C17.64 4.76 18.36 4.76 18.8 5.2L27.8 14.2C28.12 14.53 28.21 15.01 28.04 15.43C27.86 15.85 27.45 16.13 27 16.13L9 16.13C8.55 16.13 8.14 15.85 7.96 15.43ZM24.28 13.88L18 7.59L11.72 13.88L24.28 13.88Z"/><path d="M8.2 21.8C7.88 21.47 7.79 20.99 7.96 20.57C8.14 20.15 8.55 19.88 9 19.88L27 19.88C27.45 19.88 27.86 20.15 28.04 20.57C28.21 20.99 28.12 21.47 27.8 21.8L18.8 30.8C18.36 31.24 17.64 31.24 17.2 30.8L8.2 21.8ZM18 28.41L24.28 22.13L11.72 22.13L18 28.41Z"/></svg>Action</button>
           <button class="pf-button" data-type="Hollow" type="button"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M20.95 7.45C21.96 6.45 23.33 5.88 24.75 5.88C26.17 5.88 27.54 6.45 28.55 7.45C29.55 8.46 30.12 9.83 30.12 11.25C30.12 12.67 29.55 14.04 28.55 15.05L12.8 30.8C12.58 31.01 12.3 31.13 12 31.13H6C5.38 31.13 4.88 30.62 4.88 30V24C4.88 23.7 4.99 23.42 5.2 23.2L20.95 7.45ZM24.75 8.13C23.92 8.13 23.13 8.46 22.55 9.05L7.13 24.47V28.88H11.53L26.95 13.45C27.54 12.87 27.87 12.08 27.87 11.25C27.87 10.42 27.54 9.63 26.95 9.05C26.37 8.46 25.58 8.13 24.75 8.13Z"/><path fill-rule="evenodd" d="M19.45 8.95C19.89 8.52 20.61 8.52 21.05 8.95L27.05 14.95C27.48 15.39 27.48 16.11 27.05 16.55C26.61 16.98 25.89 16.98 25.45 16.55L19.45 10.55C19.02 10.11 19.02 9.39 19.45 8.95Z"/><path fill-rule="evenodd" d="M12.2 28.8L6.2 22.8L7.8 21.2L13.8 27.2L12.2 28.8Z"/></svg>Action</button>
           <button class="pf-button" data-type="Negative" type="button"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path d="M15 15.38C15.62 15.38 16.13 15.88 16.13 16.5V25.5C16.13 26.12 15.62 26.63 15 26.63C14.38 26.63 13.88 26.12 13.88 25.5V16.5C13.88 15.88 14.38 15.38 15 15.38Z"/><path d="M22.13 16.5C22.13 15.88 21.62 15.38 21 15.38C20.38 15.38 19.88 15.88 19.88 16.5V25.5C19.88 26.12 20.38 26.63 21 26.63C21.62 26.63 22.13 26.12 22.13 25.5V16.5Z"/><path fill-rule="evenodd" d="M12.38 9.38V6C12.38 5.3 12.65 4.64 13.14 4.14C13.64 3.65 14.3 3.38 15 3.38H21C21.7 3.38 22.36 3.65 22.86 4.14C23.35 4.64 23.63 5.3 23.63 6V9.38H28.48C28.49 9.37 28.5 9.37 28.52 9.38H30C30.62 9.38 31.13 9.88 31.13 10.5C31.13 11.12 30.62 11.63 30 11.63H29.54L28.12 28.55C28.11 29.63 27.68 30.66 26.92 31.42C26.14 32.19 25.09 32.62 24 32.62H12C10.91 32.62 9.86 32.19 9.08 31.42C8.32 30.66 7.89 29.63 7.88 28.55L6.46 11.63H6C5.38 11.63 4.88 11.12 4.88 10.5C4.88 9.88 5.38 9.38 6 9.38H7.48C7.5 9.37 7.51 9.37 7.52 9.38H12.38ZM14.73 5.73C14.81 5.66 14.9 5.63 15 5.63H21C21.1 5.63 21.19 5.66 21.27 5.73C21.34 5.81 21.38 5.9 21.38 6V9.38H14.63V6C14.63 5.9 14.66 5.81 14.73 5.73ZM8.72 11.63L10.12 28.41C10.12 28.44 10.13 28.47 10.13 28.5C10.13 29 10.32 29.47 10.67 29.83C11.03 30.18 11.5 30.37 12 30.37H24C24.5 30.37 24.97 30.18 25.33 29.83C25.68 29.47 25.88 29 25.88 28.5C25.88 28.47 25.88 28.44 25.88 28.41L27.28 11.63H8.72Z"/></g></svg>Action</button>
         </div>

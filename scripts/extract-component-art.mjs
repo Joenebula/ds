@@ -29,6 +29,11 @@ const EXPORTS = {
   'header-background-tablet-dark':   ['Default header background', 'Breakpoint=Tablet, Darkmode=True'],
   'header-background-mobile-light':  ['Default header background', 'Breakpoint=Mobile, Darkmode=False'],
   'header-background-mobile-dark':   ['Default header background', 'Breakpoint=Mobile, Darkmode=True'],
+  // The default avatar. Profile image stacks a sample photo over it, so the avatar
+  // alone is the component and the photo is content. Same trap as the header band:
+  // it is a raster fill bound to no colour variable, so the colour extract had
+  // nothing to say about it and .pf-profile-image rendered an empty circle.
+  'profile-image-default-avatar':    ['Profile image', '*'],
 };
 
 const dir = '/root/.claude/projects/-home-user-ds';
@@ -58,6 +63,10 @@ for (const c of chunks) {
   const body = c.slice(nl + 1);
   if (!assets.has(slug)) assets.set(slug, { format, total: +total, parts: new Map() });
   const a = assets.get(slug);
+  // A re-export supersedes. If it comes in a different number of chunks it is a
+  // DIFFERENT picture, so the old chunks have to go — otherwise they survive in the
+  // map and the reassembly silently splices two images together.
+  if (a.total !== +total || a.format !== format) a.parts = new Map();
   a.format = format;
   a.total = +total;
   a.parts.set(+part, body);

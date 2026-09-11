@@ -139,9 +139,23 @@ const parseVariant = v => Object.fromEntries(
 function selectorsFor(base, props) {
   let sel = '.' + base;
   for (const [k, val] of Object.entries(props)) {
-    if (k === 'State') continue;
+    if (k === 'State' || k === 'Hover') continue;
     sel += `[data-${kebab(k)}="${val}"]`;
   }
+
+  // A boolean Hover axis is a CSS state, not something a page should have to declare.
+  // Emitting it as a required attribute meant `.pf-links` painted NOTHING unless the
+  // markup carried data-hover="False" — so a link fell through to the browser's default
+  // blue, which is unreadable on a dark surface. The page cannot be expected to know
+  // that. False is the resting state and belongs on the bare selector; True is :hover.
+  if (props.Hover !== undefined) {
+    const on = /^(true|yes)$/i.test(props.Hover);
+    const withState = props.State && !/^default$/i.test(props.State)
+      ? `${sel}[data-state="${props.State}"]` : sel;
+    if (!on) return [withState, `${withState}[data-hover="False"]`];
+    return [`${withState}:hover`, `${withState}[data-hover="True"]`];
+  }
+
   const state = props.State;
   if (!state || /^default$/i.test(state)) return [sel];
   const out = [`${sel}[data-state="${state}"]`];
@@ -388,6 +402,18 @@ for (const [component, rows] of [...byComponent.entries()].sort()) {
   }
 
   for (const a of artByComponent.get(component) || []) {
+    // "*" means the artwork belongs to the component itself, not to one variant —
+    // the default avatar is the same picture at every size.
+    if (a.variant === '*') {
+      out.push(`.${base} {`);
+      out.push(`  background-image: url("${a.uri}");`);
+      out.push('  background-size: cover;');
+      out.push('  background-position: center;');
+      out.push('  background-repeat: no-repeat;');
+      out.push('}');
+      ruleCount++;
+      continue;
+    }
     const props = parseVariant(a.variant);
     // Figma models light/dark as a variant property. This project models it as
     // data-theme on the root, the same way every token does. Emit both: the faithful
