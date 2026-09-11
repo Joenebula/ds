@@ -633,11 +633,37 @@ they now resolve to `#F2F2F2` in DARK MODE, near-white and effectively invisible
 is unchanged at `#868686` — which is precisely why nobody would notice.
 
 **The real mistake was not the rule. It was writing without recording what was written.** Nothing
-logged which node ids changed, so the 18 cannot now be separated from the 242 that were already
-bound. Every earlier run here logged its targets; this one logged a count. **A batch write must
-record its ids, or its verification is guesswork** — and a verification that cannot address the
-thing it verified is the `--` problem wearing yet another hat. The edits are unpublished and
-reviewable in Figma, and the census says so at the top of its own warning.
+logged which node ids changed, so the 18 cannot now be separated from the others already bound.
+Every earlier run here logged its targets; this one logged a count. **A batch write must record its
+ids, or its verification is guesswork.**
+
+**So the going-back audited the whole population instead, and found something larger.** Warm, two
+agreeing runs: **277 nodes on component pages are bound to `Icons/Icon - Disabled`, 13 of them sit
+anywhere named Disabled, and 86 of the remaining 264 fail WCAG 3:1 in DARK MODE** against their own
+backdrop — 45 of those on a static `#FFFFFF` panel at **1.12:1**, which is the surfaces problem
+compounding: a raw-hex panel does not darken, so a near-white icon lands on a white ground. The
+worst clusters are `Dashboard star < Stars` (30), `Union < Vector` (12) and
+`Icon viewport/Icon_Template` (12).
+
+**259 of the 277 predate today, so this is a file-wide pattern rather than my bug — and my 18
+joined it.** The pattern is a grey icon taking the Disabled token because the value matches, with
+nobody seeing the consequence because it only exists in dark mode.
+
+**My 18 did make their own nodes worse, and that deserves precision rather than comfort.** Before
+the rebind they were a static `#868686` in both modes — about 3.6:1 on a white panel, readable.
+After it they are `#F2F2F2` in dark, 1.12:1, not. Light mode is identical either way, so no
+screenshot in the mode anyone actually looks at would have shown it. The fix for all 86 is one
+decision rather than eighteen: these are secondary icons, not disabled ones, and
+`Icons/Icon - Secondary` (`#656565` light, `#C1C1C1` dark) is role-correct. That is a designer's
+call across seven pages, so it is recorded rather than applied.
+
+**And the cold-`findAll` under-report bit the going-back itself.** The first audit returned **38**;
+re-running the identical count three times gave **37, 260, 260**. So the warm-up is not merely per
+session or per connection — it is per PREDICATE: a `findAll` with a filter that has not walked those
+subtrees before under-reports on its first pass, however warm the file is for other queries. The
+38-node audit was published to nobody only because the number looked wrong beside an earlier one.
+**Two agreeing runs, for every query, every time — including the query that is checking another
+query.**
 
 **And `Border/Default hidden` has a light value and no dark value at all** — worth knowing, since
 three components map onto it.

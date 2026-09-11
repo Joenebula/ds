@@ -182,3 +182,35 @@ Darkmode theme	#33B5E5	0
 #
 # These edits are UNPUBLISHED, so they are reviewable in Figma before they reach anyone. Open the
 # Grey #868686 usages, confirm each is genuinely a disabled state, and revert any that are not.
+#
+# ── GOING BACK OVER THE 18, 2026-09-11 ────────────────────────────────────────
+# I could not isolate my 18 from the nodes already bound to Icons/Icon - Disabled, so I audited
+# the whole population instead. Warm, two agreeing runs.
+#
+#	277	nodes on COMPONENT pages bound to Icons/Icon - Disabled
+#	13	of them sit in a context named Disabled / inactive / read-only
+#	264	do not
+#	86	of those 264 FAIL WCAG 3:1 in DARK MODE against their own backdrop
+#
+# Icons/Icon - Disabled is #868686 light and #F2F2F2 dark. The failures by backdrop:
+#	45	static #FFFFFF	1.12:1	the surfaces problem again — a raw-hex panel does not
+#				darken, so a near-white icon lands on a white panel
+#	28	Icons/Icon - Secondary	1.61:1
+#	12	Border/Secondary	1.61:1
+#	1	Icons/Icon - Disabled	1:1	an icon on itself
+#
+# Worst clusters: Dashboard star < Stars 30, Union < Vector 12, Icon viewport/Icon_Template 12,
+# then chevrons, dropdowns, calendars, clocks and tooltip glyphs in ones and twos.
+#
+# SO THIS IS NOT MY BUG — IT IS A FILE-WIDE ONE, AND MY 18 JOINED IT. 259 of the 277 predate
+# today. The pattern was already there: a grey icon gets the Disabled token because the value
+# matches, and nobody sees the consequence because it only appears in dark mode.
+#
+# MY 18 DID MAKE IT WORSE FOR THEIR OWN NODES, AND THAT IS WORTH BEING EXACT ABOUT. Before the
+# rebind those vectors were a STATIC #868686 in both modes, which on a white panel is about
+# 3.6:1 — readable. After it they are #F2F2F2 in dark, 1.12:1 — not. Light mode is identical
+# either way, so no screenshot in the mode anyone looks at would show it.
+#
+# The fix for all 86 is one decision, not eighteen: these are secondary icons, not disabled ones,
+# and Icons/Icon - Secondary (#656565 light, #C1C1C1 dark) is the role-correct token. That is a
+# designer call on 86 nodes across seven pages, so it is recorded here rather than applied.
