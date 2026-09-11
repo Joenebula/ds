@@ -449,11 +449,19 @@ number people learn to read past — this repo's own diagnosis of the 286-NEW ca
 `Border/Default full` and `Border/Default hidden`; the design lead confirmed on 2026-09-11 that this
 is deliberate. All 21 components whose stroke rows still record the old name — 38 rows — have been
 resolved: **13 came from `get_variable_defs` reads already durable in the transcripts**, which is
-what the provenance join bought; 5 were read fresh, 3 came from the earlier re-read. Seventeen bind
-`-full`, two bind `-hidden`, and **two bind BOTH** (`Editable list card`, `Spotlight Card`) — for
-those, `get_variable_defs` cannot say which variant or role, so they stay unresolved rather than
-guessed. The 17 carry the standing caveat: that tool proves a binding is PRESENT, never that one is
-absent, so a `-hidden` binding on a boolean-hidden layer is not ruled out.
+what the provenance join bought; 5 were read fresh, 3 came from the earlier re-read, and the last
+**2 needed `get_design_context`**. Eighteen bind `-full` on their root, three bind `-hidden`.
+
+**The last two are the two-tool rule paying off exactly as written.** `Editable list card` and
+`Spotlight Card` each bind BOTH names, and `get_variable_defs` gives a component's set of bindings
+without saying which node or which role — so it could not choose. `get_design_context` gives both:
+`Editable list card` binds `-full` on its root and `-hidden` on an inner panel's `border-r`, so its
+row is `-full`; `Spotlight Card` binds `-hidden` on its own root. Neither was guessed, and neither
+needed to be.
+
+The 13 screened with `get_variable_defs` carry the standing caveat: that tool proves a binding is
+PRESENT, never that one is absent, so a `-hidden` binding on a boolean-hidden layer is not ruled
+out for them.
 
 **Confirming the split did not unblock applying it**, and the reason is worth knowing.
 `build-components-css.mjs` emits `/* unmapped Figma token: X */` instead of a declaration when the
@@ -530,27 +538,25 @@ Three things make the naive version of this check wrong, and each is a mutant:
   and `Weight/Bold` is SemiBold, both in `other.json`.
 - **Two styles share one name.** `Desktop text/Button text` is captured twice, 16 sentence-case and
   13 UPPER. Matching pairs on name AND size; a name alone compares the wrong row and passes.
-- **The marker cannot be anchored, so this repo's own source is in the haystack.** `scrapeBatches`
-  uses `^` precisely so a format quoted in prose is not mistaken for data, and that is unavailable
-  here: Figma appends this marker at the END of generated code. The first live run scraped six
-  occurrences of this repo's own comments and fixtures — a `Font(...)`, a `family: ' + '"Open Sans"`
-  from a wrapped string literal, a `weight: 300, …` from an ellipsis — and one of them, being LAST,
-  won and reported a difference that did not exist.
+- **This repo's own source USED to be in the haystack.** The marker cannot be anchored — Figma
+  appends it at the END of generated code — so the first live run scraped six occurrences of this
+  repo's own comments and fixtures, and one of them, being LAST, won and reported a difference that
+  did not exist.
 
-  Two mechanisms answer that, and neither is sufficient alone. A **shape guard**: a report always
-  carries family, style, size and weight, so an occurrence missing one — or carrying an ellipsis or
-  a string seam — measured nothing, and is rejected and **counted**, never read as evidence of
-  absence. (Written for truncation too: batches come under a 20KB cap and a half-arrived `Font()`
-  is indistinguishable from a style that lost its letterSpacing.) And **agreement instead of
-  last-wins**: occurrences collate by name and resolved size, repeats reinforce, and a genuine
-  disagreement is reported as a CONFLICT naming both sides and their counts — never resolved by
-  picking the popular one. A check whose verdict can be steered by whatever was scraped last is not
-  measuring Figma.
+  **Provenance closed that, and the paragraph that used to sit here is now wrong.** It named a
+  residual limit: that a verbatim, well-formed report quoted in a source comment is byte-identical
+  to a real one and slips past every content check. True when written; false since the checks began
+  reading only `mcp__Figma__*` results. Byte-identical or not, a source comment did not come from
+  Figma, so it is never in the haystack to be weighed. Rejections went **18 → 0** on the run that
+  landed it. The claim is corrected rather than left standing, because a limit that no longer exists
+  is how the next unnecessary content heuristic gets written to close it.
 
-  What it still cannot do: a verbatim, well-formed report quoted in a source comment is
-  byte-identical to a real one. `build-type-css.mjs`'s fixture is one, and it agrees with Figma, so
-  it changes nothing today. A stale one would surface as a CONFLICT of 1 against 80-odd rather than
-  as a verdict — the right failure mode, but a limit, not a solved problem.
+  Both mechanisms stay, for the narrower jobs that are still real. The **shape guard** now earns its
+  place on TRUNCATION alone: batches come under a 20KB cap, so a half-arrived `Font()` inside a
+  genuine response is possible and is indistinguishable from a style that lost its letterSpacing.
+  **Agreement instead of last-wins** now earns its place on a disagreement between two GENUINE
+  reads — a stale page, a mid-edit file — which is a question for a person, so a conflict names both
+  sides and their counts rather than picking the popular one.
 
 **A mutation test corrected this file's own comment.** The regex requires a style name to start
 `Desktop text/` or `Mobile text/`, and the comment said that was what kept the effect styles
