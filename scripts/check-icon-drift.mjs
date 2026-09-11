@@ -23,22 +23,19 @@
 // and returns the markup directly, so no host is involved. A blocker recorded once and never
 // re-tested is indistinguishable from a blocker that is still there.
 //
-// NO NETWORK CALLS. Like extract-tokens.mjs, this reads a response someone else fetched. Run this
-// in a session with Figma, paste the result into tokens/_raw/figma-icon-digests.json:
+// NO NETWORK CALLS. Like extract-tokens.mjs, this reads a response someone else fetched. Run
+// `docs/figma-icon-digest.js` in a session with Figma — paste it into use_figma — and save the
+// result to tokens/_raw/figma-icon-digests.json.
 //
-//   const norm = (svg) => {
-//     const ds = (svg.match(/ d="[^"]*"/g) || []).map((m) => m.slice(4, -1));
-//     return ds.join('|').replace(/-?\d+\.?\d*/g, (x) => String(Math.round(parseFloat(x) * 100) / 100));
-//   };
-//   const hash = (s) => { let h = 5381; for (let i = 0; i < s.length; i++) h = ((h * 33) ^ s.charCodeAt(i)) >>> 0; return h.toString(36); };
-//   const page = figma.root.children.find((p) => p.name.trim() === 'Icons');
-//   await page.loadAsync();
-//   const out = [];
-//   for (const n of page.findAll((x) => x.type === 'COMPONENT')) {
-//     const s = norm(await n.exportAsync({ format: 'SVG_STRING' }));
-//     out.push({ id: n.id, name: n.name, len: s.length, h: hash(s) });
-//   }
-//   return JSON.stringify(out);
+// THAT COLLECTOR IS GENERATED FROM THIS FILE, and it is generated because the hand-copy was wrong.
+// It used to live here as a snippet: a `norm`/`hash` pair that rounded to 2dp and emitted
+// `{id, name, len, h}`. The comparison below was then rewritten twice — see NUMBER — and the
+// snippet was not, so the documented instructions produced a digest file in a format `formatError`
+// now REFUSES outright. It failed safe and it was still wrong, and a reader following it would
+// have lost an afternoon. `scripts/build-figma-icon-digest.mjs` inlines `digest()`, `shape()`,
+// `NUMBER` and `BUDGET_PER_NUMBER` verbatim from this file, and `verify-generated.mjs` gates the
+// output — so changing the comparison without rebuilding fails `npm run verify` rather than
+// leaving a stale recipe here to be followed and believed.
 //
 // WHAT A DIGEST IS, AND THE THREE THINGS IT DELIBERATELY IGNORES.
 //

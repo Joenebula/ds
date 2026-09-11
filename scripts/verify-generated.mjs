@@ -12,7 +12,7 @@
 //    a rebuild. verify-built.mjs gates prototypes/ and nothing gates ds-bundle/ or docs/ — the
 //    same F-025 in a place the gate does not reach. Rebuilt here; the gate is still missing."
 //
-// `ds-bundle/` has since been deleted: it had no reader anywhere. These four DO have readers, and
+// `ds-bundle/` has since been deleted: it had no reader anywhere. These six DO have readers, and
 // that is the whole reason they are the ones gated:
 //
 //   docs/components.html                     CLAUDE.md tells people to open it rather than guess
@@ -24,6 +24,10 @@
 //                                            scripts/lib/rebind-rule.mjs because a plugin sandbox
 //                                            cannot import — a stale copy is a fixed rule still
 //                                            being run in its broken form, pasted by hand
+//   docs/figma-icon-digest.js                the icon-drift collector, with the digest definition
+//                                            INLINED from scripts/check-icon-drift.mjs. It was a
+//                                            snippet in that file's header until the comparison
+//                                            was rewritten twice under it and the snippet was not
 //
 // A stale file here is worse than a stale preview page: the skill quotes it as fact, and a
 // designer reading the gallery takes it for the library. Both would be confidently wrong.
@@ -45,6 +49,7 @@ export const GENERATED = [
   ['.claude/skills/people-first/references/variants.md', 'scripts/build-variants-ref.mjs'],
   ['.claude/skills/people-first/references/geometry.md', 'scripts/build-geometry-ref.mjs'],
   ['docs/figma-rebind-deprecated.js', 'scripts/build-figma-rebind.mjs'],
+  ['docs/figma-icon-digest.js', 'scripts/build-figma-icon-digest.mjs'],
 ];
 
 // ---------------------------------------------------------------------------
