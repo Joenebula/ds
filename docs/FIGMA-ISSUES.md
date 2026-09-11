@@ -234,6 +234,58 @@ letter-spacing away from a style it otherwise matches.
 
 ---
 
+## 8. Fifty-five components are used by the file but sit on no page
+
+Every extractor here finds components with Figma's page walk — `findAllWithCriteria()` on
+each page. A component can be **used by the file and still have no page**: the API resolves
+it by id, reports `parent: null` and `page: null`, and no walk will ever see it.
+
+We went looking because of one component, `Tabs navigation`, and found **55**. They were
+found by walking every instance on every page and following it to its main component.
+
+This already cost the design system once. **`Default header background` — the header swoosh
+— is one of them.** It had a second reason to go missing (it binds no colour variable), so
+the page problem stayed hidden behind the colour problem for the whole life of the project.
+
+### What they are
+
+| | |
+|---|---|
+| **22** | a single pinned variant (`Button/Action/True/False/Normal`), not a set in its own right |
+| **5** | an older copy of a component we DO capture — `Button` (28 variants), `Information box`, `Text area`, `Menu`, `People` |
+| **28** | not captured at all |
+
+Of the 28: **eight are icon components** (`Context`, `Close x`, `Tick in circle`,
+`General ledger notebook`, `Dropdown_chevron`, `List`, plus orphaned second copies of
+`Up arrow` and `Tick`). The 293 icons we ship come from the Icons page; these are not on
+it. **Five are `[S]` structure frames.** The rest are children of components we already
+capture — the `Text template tool bar` and its five buttons, `Control button`,
+`Header icon`, `Search result`, `Side panel footer`.
+
+### `Tabs navigation` specifically
+
+An 8-variant set (Active × Mobile × Darkmode) used by `Menu-search-settings`. Its instances
+measure 52×36 active with an underline and 59×34 inactive — which is exactly what the live
+`Tab` component is. And it binds **`Base colours/Default Pink`**, a raw primitive, so it
+predates the semantic layer and cannot adapt to dark mode.
+
+**It is superseded by `Tab`.** We have deliberately not captured it. The instances of it
+still sitting in `Menu-search-settings` will not go dark-mode-correct until they are
+swapped.
+
+### What we would ask
+
+Nothing here is broken on our side — every one is now recorded with a reason, and
+`npm run verify` fails if the count grows or if a new one appears without one. But two
+questions are worth a designer's eye:
+
+1. **Are the five superseded copies still wanted?** If `Button` (28 variants, off-page) is
+   dead, deleting it removes the ambiguity permanently.
+2. **Should the eight orphaned icons be on the Icons page?** Two of them duplicate icons
+   that are already there, which means two versions of the same glyph exist.
+
+---
+
 ## What happens after you fix any of this
 
 Re-extract and rebuild, and the stylesheet, the component list and the example screens all

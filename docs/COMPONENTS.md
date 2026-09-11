@@ -505,3 +505,99 @@ so nobody has to guess whether one is an oversight — none of them is.
 
 `Side navigation tab`
 
+**1 — DETACHED and SUPERSEDED. Node 781:10884 is a real People First component set with 8 variants (Active x Mobile x Darkmode), used by `Menu-search-settings`, but it sits on no page so no walk can reach it. Its instances measure 52x36 active with an underline and 59x34 inactive, which is exactly what the live `Tab` component is — and it binds `Base colours/Default Pink`, a raw primitive, so it predates the semantic layer and cannot do dark mode. `Tab` is its replacement. Not captured, deliberately.**
+
+`Tabs navigation`
+
+**1 — DETACHED. Node 5322:65179, with its five children — Text styling formatting, Text alignment, Bullet points, Font colour, Insert link — all on no page. They are the toolbar inside `Text template format editor`, which IS captured; these are its contents, which the outer-box extract could not reach anyway (see the composite-component limit).**
+
+`Text template tool bar`
+
+**1 — DETACHED. Node 5322:65002, the wide variant of the same toolbar as above.**
+
+`Correspondence template tool`
+
+**1 — DETACHED. Node 16274:24802, a 65x90 pair used as the scroll control inside Horizontal scroll and the table toolbar. On no page.**
+
+`Control button`
+
+**1 — DETACHED. Node 13658:8004, the icon group inside the Header component, which is captured. A child of a captured component rather than a component a page would use on its own.**
+
+`Header icon`
+
+**1 — DETACHED. Node 13909:5262. `Side panel header` is captured from its live node; the footer exists only as this orphan.**
+
+`Side panel footer`
+
+**1 — DETACHED. Node 803:1125, a row inside Menu-search-settings, which is captured.**
+
+`Search result`
+
+**1 — DETACHED. Node 27313:7362, 4 variants. `AI Assistant` is captured from its live node on the AI page; this is an older panel of the same thing.**
+
+`AI Assistant side panel`
+
+**1 — DETACHED. Node 30643:30526, 4 variants, used inside the AI Assistant.**
+
+`List component`
+
+**1 — DETACHED and UNNAMED. Node 641:3788, 9 variants, never given a name — the same problem as `Component 1`, which is already recorded in FIGMA-ISSUES.md section 2.**
+
+`Component 7`
+
+**1 — DETACHED. Node 607:73734. The `[S]` prefix marks a structure/spec frame rather than a shipped component; `Form field` itself is captured with all 40 of its variants.**
+
+`[S] Form field`
+
+**1 — DETACHED. Node 2834:45888. As above — `Signature` is captured.**
+
+`[S] Signature`
+
+**1 — DETACHED. Node 234:2281, a structure frame; `Button` is captured with 28 variants from its live node.**
+
+`[S] Button X`
+
+**1 — DETACHED. Node 1536:44305, a structure frame.**
+
+`[S] Mobile top cards`
+
+**1 — DETACHED. Node 3435:66947, a structure frame documenting how icons are framed.**
+
+`[S] Icon & imagery structure`
+
+**1 — DETACHED ICON. Node 101:414, 36x36. One of eight icon components that sit on no page. The 293 icons in assets/icons/ come from the Icons page; these are not on it.**
+
+`Context`
+
+**1 — DETACHED ICON. Node 101:412, 36x36. `Up arrow` IS in icons.tsv from the Icons page — this is a second, orphaned copy.**
+
+`Up_arrow`
+
+**1 — DETACHED ICON. Node 348:1429, 36x36. Not in icons.tsv under any spelling.**
+
+`Close x`
+
+**1 — DETACHED ICON. Node 7619:70907, 36x36. `Tick` IS in icons.tsv — a second, orphaned copy.**
+
+`Tick`
+
+**1 — DETACHED ICON. Node 8070:78145, 36x36. Not in icons.tsv.**
+
+`Tick in circle`
+
+**1 — DETACHED ICON. Node 14334:1444, 36x36. Not in icons.tsv.**
+
+`General ledger notebook`
+
+**1 — DETACHED ICON. Node 976:715, 36x36. Not in icons.tsv.**
+
+`Dropdown_chevron`
+
+**1 — DETACHED ICON. Node 6237:66109, 36x36. Not in icons.tsv.**
+
+`List`
+
+**1 — DETACHED. Node 101:500, the 36x36 frame every icon is drawn inside — a template, not an icon.**
+
+`Icon viewport/Icon_Template`
+

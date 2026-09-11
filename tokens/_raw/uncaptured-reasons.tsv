@@ -41,3 +41,27 @@ Counter	Navigation	node 14990:11954 is a variant child of the Header component s
 Documentation pages	📚 WIKI / 🎨 STYLE GUIDE / 📄 DOCUMENT MANAGEMENT	these three pages DESCRIBE the design system rather than belong to it — Storybook links, a "Dos and don'ts" panel, project-status thumbnails, project-info boards, an Avatar in a Medium weight the system does not ship. They also collide: the Style Guide has its own variant-less `Header` (1654x98, 30 padding, 28px) which is not the People First `Header` (1830x86). Both extractors exclude them by name, and `Header` by the absence of a variant.
 Default header background	Navigation	DETACHED from the document tree — the Plugin API resolves node 13658:7639 by id but reports parent=null and page=null, so page.findAllWithCriteria() never reaches it and no page walk could ever measure it. It is the header swoosh artwork, and this is a second reason the artwork went missing on top of binding no colour variable. Now measured by node id directly: 1920x86 desktop, 768x74 tablet, 390x62 mobile, light and dark.
 Side navigation tab	Navigation	RENAMED in Figma to `Notification tabs` (node 22973:20747, unchanged). components.json still lists the old name, so it reads as an unmeasured component; it is measured, under its current name.
+Tabs navigation	Pages and Layouts	DETACHED and SUPERSEDED. Node 781:10884 is a real People First component set with 8 variants (Active x Mobile x Darkmode), used by `Menu-search-settings`, but it sits on no page so no walk can reach it. Its instances measure 52x36 active with an underline and 59x34 inactive, which is exactly what the live `Tab` component is — and it binds `Base colours/Default Pink`, a raw primitive, so it predates the semantic layer and cannot do dark mode. `Tab` is its replacement. Not captured, deliberately.
+Text template tool bar	Forms	DETACHED. Node 5322:65179, with its five children — Text styling formatting, Text alignment, Bullet points, Font colour, Insert link — all on no page. They are the toolbar inside `Text template format editor`, which IS captured; these are its contents, which the outer-box extract could not reach anyway (see the composite-component limit).
+Correspondence template tool	Forms	DETACHED. Node 5322:65002, the wide variant of the same toolbar as above.
+Control button	Cards and panels	DETACHED. Node 16274:24802, a 65x90 pair used as the scroll control inside Horizontal scroll and the table toolbar. On no page.
+Header icon	Navigation	DETACHED. Node 13658:8004, the icon group inside the Header component, which is captured. A child of a captured component rather than a component a page would use on its own.
+Side panel footer	Tables	DETACHED. Node 13909:5262. `Side panel header` is captured from its live node; the footer exists only as this orphan.
+Search result	Pages and Layouts	DETACHED. Node 803:1125, a row inside Menu-search-settings, which is captured.
+AI Assistant side panel	AI	DETACHED. Node 27313:7362, 4 variants. `AI Assistant` is captured from its live node on the AI page; this is an older panel of the same thing.
+List component	AI	DETACHED. Node 30643:30526, 4 variants, used inside the AI Assistant.
+Component 7	Pages and Layouts	DETACHED and UNNAMED. Node 641:3788, 9 variants, never given a name — the same problem as `Component 1`, which is already recorded in FIGMA-ISSUES.md section 2.
+[S] Form field	Forms	DETACHED. Node 607:73734. The `[S]` prefix marks a structure/spec frame rather than a shipped component; `Form field` itself is captured with all 40 of its variants.
+[S] Signature	Forms	DETACHED. Node 2834:45888. As above — `Signature` is captured.
+[S] Button X	Buttons and links	DETACHED. Node 234:2281, a structure frame; `Button` is captured with 28 variants from its live node.
+[S] Mobile top cards	Buttons and links	DETACHED. Node 1536:44305, a structure frame.
+[S] Icon & imagery structure	System messages	DETACHED. Node 3435:66947, a structure frame documenting how icons are framed.
+Context	Buttons and links	DETACHED ICON. Node 101:414, 36x36. One of eight icon components that sit on no page. The 293 icons in assets/icons/ come from the Icons page; these are not on it.
+Up_arrow	System messages	DETACHED ICON. Node 101:412, 36x36. `Up arrow` IS in icons.tsv from the Icons page — this is a second, orphaned copy.
+Close x	System messages	DETACHED ICON. Node 348:1429, 36x36. Not in icons.tsv under any spelling.
+Tick	System messages	DETACHED ICON. Node 7619:70907, 36x36. `Tick` IS in icons.tsv — a second, orphaned copy.
+Tick in circle	System messages	DETACHED ICON. Node 8070:78145, 36x36. Not in icons.tsv.
+General ledger notebook	Navigation	DETACHED ICON. Node 14334:1444, 36x36. Not in icons.tsv.
+Dropdown_chevron	Forms	DETACHED ICON. Node 976:715, 36x36. Not in icons.tsv.
+List	Pages and Layouts	DETACHED ICON. Node 6237:66109, 36x36. Not in icons.tsv.
+Icon viewport/Icon_Template	System messages	DETACHED. Node 101:500, the 36x36 frame every icon is drawn inside — a template, not an icon.

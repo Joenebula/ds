@@ -1,0 +1,56 @@
+name	nodeId	variants	size	usedOnPages	status
+Button	234:2123	28	864x410	Buttons and links	superseded-copy
+[S] Button X	234:2281	2	233x58	Buttons and links	not-captured
+Button/See all/True/False/Normal	1656:44984	1	71x40	Buttons and links	pinned-variant
+Button/Action/True/False/Normal	1656:45034	1	100x40	Buttons and links	pinned-variant
+Button/Add/True/False/Normal	1656:45040	1	100x40	Buttons and links	pinned-variant
+Button/Delete/True/False/Normal	1656:44994	1	100x40	Buttons and links	pinned-variant
+Button/Hollow/True/False/Normal	1656:45024	1	100x40	Buttons and links	pinned-variant
+[S] Mobile top cards	1536:44305	1	126x103	Buttons and links	not-captured
+Context	101:414	1	36x36	Buttons and links + Cards and panels	not-captured
+[S] Icon & imagery structure	3435:66947	1	22x22	System messages	not-captured
+Icon viewport/Icon_Template	101:500	1	36x36	System messages	pinned-variant
+Up_arrow	101:412	1	36x36	System messages + Navigation + Pages and Layouts	not-captured
+Close x	348:1429	1	36x36	System messages + Navigation + Pages and Layouts	not-captured
+Tick in circle	8070:78145	1	36x36	System messages + Cards and panels	not-captured
+Information box	214:94	6	936x280	System messages	superseded-copy
+Tick	7619:70907	1	36x36	System messages + Forms + Tables + Analytics and charts + AI	not-captured
+Secondary nav/False/Chips	28438:40523	1	894x43	Navigation	pinned-variant
+General ledger notebook	14334:1444	1	36x36	Navigation	not-captured
+Header icon	13658:8004	2	76x182	Navigation	not-captured
+Mobile bottom navigation/True/Mobile	13658:7750	1	375x76	Navigation	pinned-variant
+Navigation item/Unselected/True/Mobile	13658:8186	1	86x76	Navigation	pinned-variant
+Counter/true	20911:7323	1	20x20	Navigation	pinned-variant
+Checkbox/Radio option/Checkbox/Default	659:510	1	89x22	Cards and panels + Tables + Pages and Layouts	pinned-variant
+Control button	16274:24802	2	65x90	Cards and panels + Tables + Pages and Layouts + AI	not-captured
+single layout card/true/true	20787:10919	1	355x420	Cards and panels	pinned-variant
+User tags/No	4579:70674	1	129x24	Forms	pinned-variant
+Label text/Default	13737:25838	1	152x22	Forms	pinned-variant
+Label text/Default	13737:25767	1	152x22	Forms	pinned-variant
+[S] Signature	2834:45888	1	749x384	Forms	not-captured
+Text template tool bar	5322:65179	2	875x68	Forms + Pages and Layouts + AI	not-captured
+Text styling formatting	5320:64883	2	295x60	Forms + Pages and Layouts + AI	not-captured
+Text alignment	5320:64893	2	295x60	Forms + Pages and Layouts + AI	not-captured
+Bullet points	5320:64906	2	295x60	Forms + Pages and Layouts + AI	not-captured
+Font colour	5320:64917	2	295x60	Forms + Pages and Layouts + AI	not-captured
+Dropdown_chevron	976:715	1	36x36	Forms + Pages and Layouts + AI	not-captured
+Insert link	5320:64913	2	295x60	Forms + Pages and Layouts + AI	not-captured
+[S] Form field	607:73734	2	340x140	Forms + Pages and Layouts + AI	not-captured
+Text area	387:3731	3	254x128	Forms + Pages and Layouts + AI	superseded-copy
+Correspondence template tool	5322:65002	2	1669x122	Forms	not-captured
+Side panel header/Small	27665:17514	1	446x58	Tables	pinned-variant
+Side panel footer	13909:5262	1	375x62	Tables	not-captured
+Tags/Expired/True/No/Default	18415:5427	1	80x28	Tables	pinned-variant
+Menu	760:12	4	478x98	Pages and Layouts	superseded-copy
+List	6237:66109	1	36x36	Pages and Layouts	not-captured
+Tabs navigation	781:10884	8	570x115	Pages and Layouts	not-captured
+Search result	803:1125	1	589x87	Pages and Layouts	not-captured
+People	645:10547	386	2555x7829	Pages and Layouts	superseded-copy
+Component 7	641:3788	9	1484x794	Pages and Layouts	not-captured
+People/S -  Paul Baptista	329:376	1	91x91	Pages and Layouts	pinned-variant
+People/S -  Alfredo Rhiel Madsen	329:368	1	91x91	Pages and Layouts	pinned-variant
+AI Assistant side panel	27313:7362	4	1166x2304	AI	not-captured
+Button/Positive/False/Light/Normal/No/Filled	10730:115146	1	88x32	AI	pinned-variant
+Button/Negative/False/Light/Normal/No/Filled	10730:115152	1	88x32	AI	pinned-variant
+Checkbox/Radio list	10239:114641	14	534x1293	AI	pinned-variant
+List component	30643:30526	4	908x188	AI	not-captured

@@ -840,12 +840,18 @@ nothing else, and a check fails when a composite component's class renders an em
 
 **Depends on:** nothing. Large.
 
-## B. `verify-layout` is blind to content that ESCAPES its container — `pending`
+## B. `verify-layout` is blind to content that ESCAPES its container — `done`
 
-It fails when an element is clipped by an ancestor. It passes when content overflows
-*outward* instead — visually just as wrong, silently green.
+**Done when:** met. The check now tests both ways an element can be unreadable — CLIPPED
+by an ancestor that hides overflow, and ESCAPED, where nothing clips it so the content
+spills out over its own card. Escaping is sometimes correct (a dropdown, a tooltip, a
+badge), so the test is scoped to IN-FLOW elements measured against the nearest ancestor
+that actually PAINTS — a card, a panel, a banner. Overflowing a box with a background is a
+visible mistake; overflowing a bare layout div usually is not.
 
-**Done when:** a deliberately overflowing element fails the check.
+`--self-test-escape` pushes a child 240px out of whatever painted container the page
+happens to have and confirms the check fails; the existing `--self-test` for the clipped
+half still passes. No false positives on any of the five screens.
 
 ## C. Two Figma components share the name `Header` — `done`
 
@@ -861,10 +867,27 @@ entirely. Both extractors now exclude them by name, and `Header` specifically by
 absence of a variant, which is the discriminator the data itself provides. Recorded in
 `uncaptured-reasons.tsv`.
 
-## D. `Tabs navigation` — `pending`
+## D. `Tabs navigation` — `done`
 
-Used by the Case Management test file, not present in the People First library. Unresolved
-whether it is CM-only or another rename. Node-ID comparison will say.
+**Answered, and it was neither of the two options this item offered.** It is not CM-only
+and it is not a rename. It is a real People First component set — node 781:10884, 8
+variants, used by `Menu-search-settings` — that is **detached from the document tree**. The
+API resolves it by id and reports `parent: null`, so `findAllWithCriteria()` can never
+reach it and the inventory recorded it only as an "external" dependency.
+
+It is also **superseded**: its instances are 52x36 active with an underline and 59x34
+inactive, which is exactly the live `Tab`, and it binds `Base colours/Default Pink` — a raw
+primitive, so it predates the semantic layer and cannot do dark mode. Deliberately not
+captured; recorded in `uncaptured-reasons.tsv`.
+
+**The bigger finding is what looking for it turned up.** Walking every instance on every
+page and following it to its main component found **55 detached component sets**, including
+`Default header background` — the header swoosh, which had a SECOND reason to go missing,
+so this one stayed hidden behind it for the life of the project.
+
+`tokens/_raw/detached-components.tsv` is the census and `scripts/check-detached.mjs` pins
+it: the count may not grow, and every uncaptured one must have a written reason. Written up
+for design in `docs/FIGMA-ISSUES.md` section 8.
 
 
 ---
