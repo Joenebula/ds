@@ -98,12 +98,17 @@ svg { display: block; }
 /* pf-new: the label is a TEXT child inside that stack. 13px is measured on the child, not
    inherited from the item's outer box. */
 .pf-navigation-item .lbl { font-size: 13px; white-space: nowrap; }
+/* The colour here was Text/Always white, which read 5.28:1 in light and 2.36:1 in DARK —
+   Background/Theme is Default Pink in light and Blue Sky in dark, so white on it stops
+   being legible the moment the mode flips. Text/Inverted primary is the token for text on
+   a brand surface and adapts with it: 5.28 and 4.52, AA in both. Found by pointing
+   pf-audit at this page for the first time. */
 /* pf-new: the notification count on a rail item. Figma's `Counter` is not a component —
    uncaptured-reasons.tsv records it as a variant child of the Header set ("System=People
    First"), never a component in its own right — so there is no class to use. Measured off
    that child. */
 .badge { position: absolute; top: 14px; right: 22px; min-width: 18px; height: 18px;
-         border-radius: 9px; background: var(--pf-bg-theme); color: var(--pf-text-always-white);
+         border-radius: 9px; background: var(--pf-bg-theme); color: var(--pf-text-inverted-primary);
          font-size: 11px; font-weight: var(--pf-font-weight-bold);
          display: grid; place-items: center; padding: 0 5px; }
 
@@ -277,39 +282,39 @@ svg { display: block; }
   <!-- Left rail — 8 x Navigation item (90x86), Device=Desktop -->
   <nav class="rail" aria-label="Main">
     <div class="railtop" aria-hidden="true"><!--pf-icon:app-menu 32--></div>
-    <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:home 32--><span class="lbl">Home</span></a>
-    <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:news 32--><span class="lbl">News</span></a>
-    <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:user 32--><span class="lbl">Me</span></a>
-    <a class="pf-navigation-item" data-device="Desktop" data-state="Selected" data-selected="Yes" aria-current="page" href="#"><!--pf-icon:team 32--><span class="lbl">My team</span></a>
-    <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:notification-bell 32--><span class="lbl">Notifications</span><span class="badge">7</span></a>
+    <a class="pf-navigation-item" data-pf-id="nav-home" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:home 32--><span class="lbl">Home</span></a>
+    <a class="pf-navigation-item" data-pf-id="nav-news" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:news 32--><span class="lbl">News</span></a>
+    <a class="pf-navigation-item" data-pf-id="nav-me" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:user 32--><span class="lbl">Me</span></a>
+    <a class="pf-navigation-item" data-pf-id="nav-my-team" data-device="Desktop" data-state="Selected" data-selected="Yes" aria-current="page" href="#"><!--pf-icon:team 32--><span class="lbl">My team</span></a>
+    <a class="pf-navigation-item" data-pf-id="nav-notifications" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:notification-bell 32--><span class="lbl">Notifications</span><span class="badge">7</span></a>
     <div class="spacer"></div>
-    <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:tooltip-question 32--><span class="lbl">Support</span></a>
-    <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:settings 32--><span class="lbl">Settings</span></a>
+    <a class="pf-navigation-item" data-pf-id="nav-support" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:tooltip-question 32--><span class="lbl">Support</span></a>
+    <a class="pf-navigation-item" data-pf-id="nav-settings" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:settings 32--><span class="lbl">Settings</span></a>
   </nav>
 
   <div>
     <!-- Header — Figma: Breakpoint=Desktop, Page type=App, Darkmode=False -->
-    <header class="pf-header" data-breakpoint="Desktop">
+    <header class="pf-header" data-pf-id="app-header" data-breakpoint="Desktop">
       <!-- Figma: Header child 0 is an instance of `Default header background` -->
       <div class="pf-default-header-background" data-breakpoint="Desktop" aria-hidden="true"></div>
       <div class="hdrow">
-        <span class="pf-search-navigation" data-mobile="False"><!--pf-icon:search 22-->Search</span>
+        <span class="pf-search-navigation" data-pf-id="header-search" data-mobile="False"><!--pf-icon:search 22-->Search</span>
         <span class="grow"></span>
-        <span class="pf-top-bar-app-context"><span class="disc"><!--pf-icon:team 40--></span>HR</span>
+        <span class="pf-top-bar-app-context" data-pf-id="header-app-context"><span class="disc"><!--pf-icon:team 40--></span>HR</span>
         <span class="grow"></span>
         <span class="rightgrp">
-          <button class="pf-clock-in" data-type="Standard" data-pf-issue="6" type="button"><!--pf-icon:clock 22-->Clock-in</button>
+          <button class="pf-clock-in" data-pf-id="clock-in-button" data-type="Standard" data-pf-issue="6" type="button"><!--pf-icon:clock 22-->Clock-in</button>
           <span class="hdicon" aria-label="Tasks"><!--pf-icon:tasks 32--></span>
         </span>
       </div>
     </header>
 
     <!-- [S] Main nav context (1830x44) — tabs are Nav tabs -->
-    <nav class="pf-secondary-nav" data-mobile="False" aria-label="Section">
-      <button class="pf-nav-tabs" data-status="Selected" data-mobile="False" aria-current="page" type="button">Overview</button>
-      <button class="pf-nav-tabs" data-status="Unselected" data-mobile="False" type="button">Profile</button>
-      <button class="pf-nav-tabs" data-status="Unselected" data-mobile="False" type="button">Schedule</button>
-      <button class="pf-nav-tabs" data-status="Unselected" data-mobile="False" type="button">Calendar</button>
+    <nav class="pf-secondary-nav" data-pf-id="section-nav" data-mobile="False" aria-label="Section">
+      <button class="pf-nav-tabs" data-pf-id="section-tab-overview" data-status="Selected" data-mobile="False" aria-current="page" type="button">Overview</button>
+      <button class="pf-nav-tabs" data-pf-id="section-tab-profile" data-status="Unselected" data-mobile="False" type="button">Profile</button>
+      <button class="pf-nav-tabs" data-pf-id="section-tab-schedule" data-status="Unselected" data-mobile="False" type="button">Schedule</button>
+      <button class="pf-nav-tabs" data-pf-id="section-tab-calendar" data-status="Unselected" data-mobile="False" type="button">Calendar</button>
     </nav>
 
     <main class="content">
@@ -320,14 +325,14 @@ svg { display: block; }
            "a screenshot, nothing to extract" — the same reasoning that lost the header
            swoosh. The avatars are the real `Profile image` component; only the individual
            photographs are content, and those are not in the People First library. -->
-      <section class="pf-card peoplecard" aria-labelledby="ppl">
+      <section class="pf-card peoplecard" data-pf-id="people-card" aria-labelledby="ppl">
         <div class="ppl-head">
-          <span class="pf-circle-icons ppl-mark" data-size="XS - 28px"><!--pf-icon:team 22--></span>
+          <span class="pf-circle-icons ppl-mark" data-pf-id="people-card-mark" data-size="XS - 28px"><!--pf-icon:team 22--></span>
           <h2 id="ppl" class="pf-text-sub-heading">People</h2>
         </div>
         <nav class="ppl-tabs" aria-label="People view">
-          <button class="pf-tab" data-state="Selected" data-mobile="No" aria-current="page" type="button">My team</button>
-          <button class="pf-tab" data-state="Default" data-mobile="No" type="button">Out of office</button>
+          <button class="pf-tab" data-pf-id="people-tab-my-team" data-state="Selected" data-mobile="No" aria-current="page" type="button">My team</button>
+          <button class="pf-tab" data-pf-id="people-tab-out-of-office" data-state="Default" data-mobile="No" type="button">Out of office</button>
         </nav>
         <p class="ppl-count pf-text-large-heading">34 people connected to you</p>
         <ul class="ppl-grid">
@@ -497,18 +502,18 @@ svg { display: block; }
       </section>
 
       <!-- Department insights — Layout container (magazine style) -->
-      <section class="pf-layout-container-magazine-style" data-row-colour="False" aria-labelledby="ins">
+      <section class="pf-layout-container-magazine-style" data-pf-id="insights-panel" data-row-colour="False" aria-labelledby="ins">
         <!-- The title row is `Layout container title`: a heading group on the left and an
              action group on the right, one component. This was two hand-written divs.
              Figma's own action group holds buttons; here it holds links, which is page
              content — the group div carries layout only, as the template does. -->
-        <div class="pf-layout-container-title">
+        <div class="pf-layout-container-title" data-pf-id="insights-title-row">
           <div class="ins-title">
             <h2 id="ins" class="pf-text-large-heading">Department insights</h2>
           </div>
           <div class="linkrow">
-            <a class="pf-links" data-link-type="Primary" data-icon-position="Left" href="#"><!--pf-icon:search 16-->Design a Query</a>
-            <a class="pf-links" data-link-type="Primary" data-icon-position="Left" href="#"><!--pf-icon:settings 16-->Set department thresholds</a>
+            <a class="pf-links" data-pf-id="insights-link-design-query" data-link-type="Primary" data-icon-position="Left" href="#"><!--pf-icon:search 16-->Design a Query</a>
+            <a class="pf-links" data-pf-id="insights-link-thresholds" data-link-type="Primary" data-icon-position="Left" href="#"><!--pf-icon:settings 16-->Set department thresholds</a>
           </div>
         </div>
 
@@ -518,20 +523,20 @@ svg { display: block; }
         <!-- The category tabs and the action buttons are ONE component in Figma —
              `Layout container tabs`, tabs packed left and buttons pushed right. The page
              had them as two separate hand-written rows, which is why they stacked. -->
-        <div class="pf-layout-container-tabs">
+        <div class="pf-layout-container-tabs" data-pf-id="insights-tabs-row">
           <div class="cats" role="tablist" aria-label="Insight categories">
-            <button class="pf-tab" data-state="Selected" role="tab" aria-selected="true" type="button">People</button>
-            <button class="pf-tab" data-state="Default" role="tab" aria-selected="false" type="button">Time</button>
-            <button class="pf-tab" data-state="Default" role="tab" aria-selected="false" type="button">Talent</button>
-            <button class="pf-tab" data-state="Default" role="tab" aria-selected="false" type="button">Learning</button>
-            <button class="pf-tab" data-state="Default" role="tab" aria-selected="false" type="button">Surveys</button>
-            <button class="pf-tab" data-state="Default" role="tab" aria-selected="false" type="button">Recruitment</button>
+            <button class="pf-tab" data-pf-id="insights-tab-people" data-state="Selected" role="tab" aria-selected="true" type="button">People</button>
+            <button class="pf-tab" data-pf-id="insights-tab-time" data-state="Default" role="tab" aria-selected="false" type="button">Time</button>
+            <button class="pf-tab" data-pf-id="insights-tab-talent" data-state="Default" role="tab" aria-selected="false" type="button">Talent</button>
+            <button class="pf-tab" data-pf-id="insights-tab-learning" data-state="Default" role="tab" aria-selected="false" type="button">Learning</button>
+            <button class="pf-tab" data-pf-id="insights-tab-surveys" data-state="Default" role="tab" aria-selected="false" type="button">Surveys</button>
+            <button class="pf-tab" data-pf-id="insights-tab-recruitment" data-state="Default" role="tab" aria-selected="false" type="button">Recruitment</button>
           </div>
           <div class="btnrow">
-            <button class="pf-button" data-type="Action" type="button"><!--pf-icon:add-plus 16-->Action</button>
-            <button class="pf-button" data-type="Positive" type="button"><!--pf-icon:sort-arrow-ag-grid 16-->Action</button>
-            <button class="pf-button" data-type="Hollow" type="button"><!--pf-icon:edit 16-->Action</button>
-            <button class="pf-button" data-type="Negative" type="button"><!--pf-icon:bin-delete 16-->Action</button>
+            <button class="pf-button" data-type="Action" data-pf-id="insights-action-add" type="button"><!--pf-icon:add-plus 16-->Action</button>
+            <button class="pf-button" data-type="Positive" data-pf-id="insights-action-sort" type="button"><!--pf-icon:sort-arrow-ag-grid 16-->Action</button>
+            <button class="pf-button" data-type="Hollow" data-pf-id="insights-action-edit" type="button"><!--pf-icon:edit 16-->Action</button>
+            <button class="pf-button" data-type="Negative" data-pf-id="insights-action-delete" type="button"><!--pf-icon:bin-delete 16-->Action</button>
           </div>
         </div>
       </section>

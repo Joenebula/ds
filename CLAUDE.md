@@ -245,9 +245,16 @@ design system comes from `aRWjBnTvdLiG50xtwodGwH` and nowhere else.
 
 ## Checking any screen
 
-`npm run verify` checks every screen in `prototypes/` on six axes — geometry, colour,
-icons, audit, tagging and layout — plus the component library, the type layer and the
-docs, each on a different axis. They are not interchangeable: on this project every one
+`npm run verify` checks every screen in **`working/` and `prototypes/`** on six axes —
+geometry, colour, icons, audit, tagging and layout — plus the component library, the type
+layer and the docs, each on a different axis.
+
+For most of this project it checked `prototypes/` alone, which is exactly backwards: the
+prototypes are rough fixtures that are allowed to be wrong, and `working/` holds the pages
+built FROM a Figma design, which is the direction this repo exists to get right. Pointing
+the suite at `working/` for the first time found a shape check that could not run anywhere
+but the screen it was written for, 35 unnamed elements on the page meant to be handed to a
+developer, and a notification badge that was white-on-sky-blue in dark mode. They are not interchangeable: on this project every one
 of them has passed while the page was visibly wrong on an axis it does not measure.
 
 Five of the six measure an element in isolation. `verify-layout` is the one that asks

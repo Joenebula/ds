@@ -1136,6 +1136,51 @@ One off-system violation of my own making, caught by the check: I gave the meta 
 `color: var(--pf-text-secondary)`. A component owns colour, the original inherited, and
 there was no reason to change it.
 
+## J. The six-axis suite never checked the pages that matter — `done`
+
+`verify-screens.mjs` was hardcoded to `prototypes/`. CLAUDE.md says in two places that the
+prototypes are rough test fixtures which are allowed to be wrong, and that "the thing that
+must be correct is the other direction: when asked to build something FROM a Figma design,
+the output must match that design" — and those pages live in `working/`. So the suite ran
+in full against the pages that do not matter and never once against the page that does.
+
+Pointing it at `working/` found four real things:
+
+- **`verify-geometry` could not run anywhere but the screen it was written for.** Nine of
+  its thirteen checks were `expected present in DOM got missing` — an assertion about a
+  page's INVENTORY smuggled into a check about SHAPE. A people-and-insights page has no
+  table and no toggle, and that is not a geometry fault. Absence is now counted and named,
+  never failed. Proven still to catch a real break by overriding a button's height.
+- **35 unnamed elements** on the page built from Figma — the one that is supposed to be
+  handable to a developer or an Angular pipeline. All 35 now carry a `data-pf-id`, authored
+  in the source so they survive a rebuild, and the page has a manifest like the prototypes.
+  The four action buttons all read "Action", so they are named for the icon each carries —
+  a counter would become a lie the moment one was reordered.
+- **A notification badge that was white on sky blue in dark mode**, 2.36:1. Page-local CSS
+  picked Text/Always white, which is 5.28:1 in light; Background/Theme is Default Pink in
+  light and Blue Sky in dark, so the pairing dies when the mode flips. Text/Inverted primary
+  is the token for text on a brand surface and adapts with it — 5.28 and 4.52, AA in both.
+- **12 "invented variants" that were real Figma axes.** `tag-elements` validated only
+  against `component-variants.tsv`, which holds the axes that survived into CSS. An axis
+  whose values all bind the same colours is collapsed (`collapsed-axes.tsv`, 66 rows) and
+  one the colour extract never needed appears in neither. `Circle icons` does have `Size`,
+  `Links` does have `Icon position`, `Nav tabs` and `Tab` do have `Mobile`, `Navigation
+  item` does have `Selected`. Acting on the report would have meant DELETING correct
+  attributes — the check's own stated harm, caused by the check. It now reads all three
+  sources, the completest being the component tree's root rows, and `data-pf-*` is exempt
+  because that is this pipeline's own namespace, not Figma's.
+
+And one in `pf-audit`: **it read straight through artwork.** The header band is a raster
+swoosh, and the walk for "what is behind this text" passed it and landed on the page,
+reporting the title and the Clock-in button as 1.04:1 failures. The artwork is not even an
+ancestor — it is a sibling pinned behind the row — so the fix looks for an element that
+paints an image and COVERS the glyph. Such text is now listed as unmeasurable and neither
+passed nor failed: no single number describes contrast against a photograph, and a nonsense
+failure at 1.04:1 reads as the most urgent thing on the page.
+
+`pf-audit`'s skill also now names the three checks it does not perform, so nobody reports
+"100% coverage" as though it meant the page uses the library.
+
 ---
 
 ## 11. Ship the typeface — `done` (spec fault 1)

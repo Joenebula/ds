@@ -84,10 +84,44 @@ for (const mode of modes) {
   const samples = await page.evaluate(() => {
     const out = [];
     const seen = new Set();
+    // ARTWORK IS NOT A COLOUR, AND A RATIO AGAINST IT IS NOT A MEASUREMENT.
+    //
+    // This walked past any ancestor whose background is an IMAGE and kept going to the
+    // page behind it, then reported the ratio as if it were real. On
+    // `working/case-mgmt-my-team.html` that produced two 1.04:1 "failures" for the header
+    // title and the Clock-in button — both white-on-white readings taken through the
+    // header band, which is a crimson swoosh in light mode and charcoal in dark. The text
+    // is perfectly legible; the number was nonsense, and a nonsense failure at 1.04:1 is
+    // worse than none because it looks like the most urgent thing on the page.
+    //
+    // Nothing can score a photograph: the contrast depends on which pixel the glyph lands
+    // over. So the walk stops at artwork and says so, and the caller reports it as
+    // unmeasurable rather than counting it either way.
+    const ARTWORK = 'artwork';
+    // The artwork is usually not an ANCESTOR. The header band is a sibling pinned behind
+    // its row — `<header><div class="pf-default-header-background" style="position:absolute;
+    // inset:0"></div><div class="hdrow">text</div></header>` — so walking straight up the
+    // tree passes it by and lands on the page. What is actually behind the glyph is any
+    // element that paints an image and COVERS it, so that is what is looked for.
+    const coveredByArtwork = (el, ancestor) => {
+      const r = el.getBoundingClientRect();
+      for (const sib of ancestor.children) {
+        if (sib === el || sib.contains(el)) continue;
+        const cs = getComputedStyle(sib);
+        if (!cs.backgroundImage || cs.backgroundImage === 'none') continue;
+        const q = sib.getBoundingClientRect();
+        if (q.left <= r.left && q.right >= r.right && q.top <= r.top && q.bottom >= r.bottom)
+          return true;
+      }
+      return false;
+    };
     const effectiveBg = el => {
       let n = el;
       while (n && n !== document.documentElement) {
-        const bg = getComputedStyle(n).backgroundColor;
+        const cs = getComputedStyle(n);
+        if (cs.backgroundImage && cs.backgroundImage !== 'none') return ARTWORK;
+        if (n.parentElement && coveredByArtwork(n, n.parentElement)) return ARTWORK;
+        const bg = cs.backgroundColor;
         const m = bg.match(/rgba?\(([\d.]+),\s*([\d.]+),\s*([\d.]+)(?:,\s*([\d.]+))?\)/);
         if (m && (m[4] === undefined || +m[4] > 0.5)) return bg;
         n = n.parentElement;
@@ -132,6 +166,7 @@ for (const mode of modes) {
   });
 
   const offPalette = [];
+  const overArtwork = [];
   const contrastFails = [];
   const disabledNotes = [];
   let onSystem = 0;
@@ -146,7 +181,13 @@ for (const mode of modes) {
       offPalette.push({ where: s.path, prop: s.prop, value: s.value,
         nearest: near ? { cssVar: near.cssVar, hex: near.hex, distance: Math.round(near.d) } : null });
     }
-    if (s.prop === 'color' && s.bg) {
+    if (s.prop === 'color' && s.bg === 'artwork') {
+      // Counted and named, never failed — see the note on effectiveBg. The header band is
+      // the case: a raster swoosh in light, charcoal in dark, and the glyph's contrast
+      // depends on which pixel it sits over. Reporting it as a pass would be a claim
+      // nothing measured; reporting it as a failure was a 1.04:1 that meant nothing.
+      overArtwork.push({ where: s.path, sample: s.sample, fg: s.value });
+    } else if (s.prop === 'color' && s.bg) {
       const bg = parse(s.bg);
       if (bg) {
         const ratio = contrast(rgb, bg);
@@ -167,6 +208,7 @@ for (const mode of modes) {
     onSystem,
     offPalette: offPalette.slice(0, 40),
     offPaletteTotal: offPalette.length,
+    overArtwork,
     contrastFails,
     disabledNotes,
     coverage: samples.length ? +(100 * onSystem / (onSystem + offPalette.length)).toFixed(1) : 100
@@ -196,6 +238,11 @@ for (const mode of modes) {
     for (const c of r.contrastFails)
       console.log(`    ${c.ratio}:1 (needs ${c.required}) ${c.where} — "${c.sample}"`);
     problems += r.contrastFails.length;
+  }
+  if (r.overArtwork && r.overArtwork.length) {
+    console.log(`\n  text ON ARTWORK (${r.overArtwork.length}) — contrast is not measurable here, `
+      + `neither passed nor failed:`);
+    for (const c of r.overArtwork) console.log(`    ${c.where} — "${c.sample}"`);
   }
   if (r.disabledNotes.length) {
     console.log(`\n  low contrast on DISABLED text (${r.disabledNotes.length}) — WCAG exempts these, listed for awareness:`);

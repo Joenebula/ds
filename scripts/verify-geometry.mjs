@@ -65,6 +65,7 @@ await page.goto(file.startsWith('http') ? file : 'file://' + resolve(file));
 await page.waitForLoadState('networkidle').catch(() => {});
 
 const results = [];
+const absent = [];
 for (const c of CHECKS) {
   const m = await page.evaluate(sel => {
     const el = document.querySelector(sel);
@@ -83,7 +84,22 @@ for (const c of CHECKS) {
   const add = (prop, expected, actual, ok, note = '') =>
     results.push({ component: c.component, sel: c.sel, prop, expected, actual, ok, note });
 
-  if (!m) { add('exists', 'present in DOM', 'missing', false); continue; }
+  // A COMPONENT THIS PAGE DOES NOT USE IS NOT A GEOMETRY FAULT.
+  //
+  // This used to fail, and that was an assertion about a page's INVENTORY smuggled into a
+  // check about SHAPE. The list below was written for the absence-requests screen, which
+  // happens to carry a button, a chip, a tag, a field, a table, a toggle. Point the same
+  // check at `working/case-mgmt-my-team.html` — a people-and-insights page with no table
+  // and no toggle — and nine of its thirteen "failures" are just components the design
+  // does not call for. That made the check unusable anywhere but the screen it was born
+  // on, which is why the pages built FROM a Figma design were never checked for shape at
+  // all.
+  //
+  // What this check answers is "do the shapes that ARE here match Figma". Absence is
+  // counted and named, so a screen that quietly stopped using a component is still
+  // visible, but it is not a failure. If "this screen must contain X" ever needs
+  // asserting, that is a different check and nothing claims it today.
+  if (!m) { absent.push(c.component); continue; }
 
   if (c.height) {
     const want = heightOf(c.component);
@@ -124,4 +140,7 @@ for (const r of results) {
   console.log(`${mark} ${r.component.padEnd(24)} ${r.prop.padEnd(15)} expected ${String(r.expected).padEnd(12)} got ${r.actual}${r.note ? '  — ' + r.note : ''}`);
 }
 console.log(`\n${pass} geometry checks match the extract, ${fail.length} off`);
+if (absent.length)
+  console.log(`  ${absent.length} component(s) the extract measures are not on this page, `
+    + `so nothing was measured for them: ${absent.sort().join(', ')}`);
 process.exit(fail.length ? 1 : 0);

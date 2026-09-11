@@ -38,13 +38,40 @@ const byClass = new Map();
 // would turn it into an @Input the component does not have. `data-darkmode="False"` was
 // sitting on a Selected action banner whose only Figma property is `Mobile`.
 const propsFor = new Map();
+const addProps = (component, variantString) => {
+  if (!propsFor.has(component)) propsFor.set(component, new Set());
+  for (const pair of String(variantString || '').split(', '))
+    if (pair.includes('=')) propsFor.get(component).add(kebab(pair.split('=')[0]));
+};
 for (const r of rows) {
   const o = Object.fromEntries(r.split('\t').map((v, i) => [keys[i], v ?? '']));
   byClass.set('pf-' + kebab(o.component), o.component);
-  if (!propsFor.has(o.component)) propsFor.set(o.component, new Set());
-  for (const pair of (o.variant || '').split(', ')) {
-    if (pair.includes('=')) propsFor.get(o.component).add(kebab(pair.split('=')[0]));
-  }
+  addProps(o.component, o.variant);
+}
+
+// FIGMA'S AXES ARE RECORDED IN THREE PLACES, and reading only the first made this check
+// accuse the page of inventing attributes that Figma really has.
+//
+// `component-variants.tsv` holds the axes that survived into CSS. An axis whose every
+// value binds the SAME colours is collapsed by the generator — `collapsed-axes.tsv`
+// records 66 of them — and an axis the colour extract never needed at all (`System`,
+// `Selected` on Navigation item) appears in neither. The component TREE's root row carries
+// Figma's own full variant string for every walked component, which is the completest
+// source there is.
+//
+// Reading one of the three reported twelve invented variants on case-mgmt-my-team, and
+// ten were real: `Circle icons` does have `Size`, `Links` does have `Icon position`,
+// `Nav tabs` and `Tab` do have `Mobile`, `Navigation item` does have `Selected`. Acting on
+// that would have meant DELETING correct attributes — the check's own stated harm, caused
+// by the check. It is the same shape as a type class reported missing from a component
+// that composes its own type.
+for (const line of readFileSync('tokens/_raw/collapsed-axes.tsv', 'utf8').trim().split('\n').slice(1)) {
+  const [component, axis] = line.split('\t');
+  if (component && axis) addProps(component, axis + '=x');
+}
+for (const line of readFileSync('tokens/_raw/component-tree.tsv', 'utf8').trim().split('\n').slice(1)) {
+  const c = line.split('\t');
+  if (c[1] === '') addProps(c[0], c[3]);          // root row: `name` is the variant string
 }
 
 const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
@@ -114,6 +141,11 @@ const invented = [];
 for (const f of found) {
   const known = propsFor.get(f.component) || new Set();
   for (const k of Object.keys(f.variant)) {
+    // `data-pf-*` is this pipeline's own namespace, not Figma's — it is where `data-pf-id`
+    // and `data-pf-repeat` live, both written by this very script. `data-pf-issue="6"` on
+    // the Clock-in button points at a section of docs/FIGMA-ISSUES.md. None of them claims
+    // to be a variant, and the prefix is what says so, so none should be read as one.
+    if (kebab(k).startsWith('pf-')) continue;
     if (!known.has(kebab(k))) invented.push([f.id || '(unnamed)', f.component, k]);
   }
 }
@@ -133,7 +165,12 @@ for (const f of named) {
 console.log(`design-system elements : ${found.length}  (excluding data-pf-ignore regions)`);
 console.log(`named (data-pf-id)     : ${named.length}`);
 console.log(`UNNAMED                : ${unnamed.length}`);
-for (const u of unnamed.slice(0, 15)) console.log(`    ${u.component.padEnd(22)} ${u.variant || '-'}   "${u.text}"`);
+// `variant` is an object ({type: 'Action'}), so interpolating it printed "[object Object]"
+// against every unnamed element — the one column that tells you WHICH instance you are
+// being asked to name.
+const variantOf = v => Object.entries(v || {}).map(([k, x]) => `${k}=${x}`).join(' ') || '-';
+for (const u of unnamed.slice(0, 15))
+  console.log(`    ${u.component.padEnd(22)} ${variantOf(u.variant).padEnd(34)} "${u.text}"`);
 if (unnamed.length > 15) console.log(`    ... and ${unnamed.length - 15} more`);
 if (dupes.length) {
   console.log(`DUPLICATE NAMES        : ${dupes.length}`);
