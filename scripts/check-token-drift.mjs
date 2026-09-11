@@ -88,6 +88,45 @@ export function scanVariableDefs(text) {
 // which is what the kebab decoder would have produced from the design-context side.
 export const debtKey = (figmaName) => String(figmaName).toLowerCase().trim().replace(/\s+/g, '-');
 
+// COLLECTIONS FIGMA ITSELF MARKS AS RETIRED. Out of this design system by definition, not by
+// seven individual decisions — Figma named the collection "DEPRECATED COLOURS", which is the
+// whole statement. Extracting one would import into the shipped system exactly what is being
+// retired, so a rule states it once and covers the next one automatically.
+//
+// This replaced seven `pending:` rows in uncaptured-tokens.tsv on the design lead's instruction.
+// The rows went; the VISIBILITY did not, and that distinction is the point. Every one of these is
+// still counted and named in the verdict line with the components that bind it, because
+// CLAUDE.md's rule is absolute: "Never delete that count to tidy the output; it is the only thing
+// keeping a known gap from becoming a forgotten one." What changed is where the knowledge lives,
+// never whether anyone can see it.
+//
+// It is also not an excuse. Each of the seven is an exact duplicate of a live primitive at the
+// same value — DEPRECATED COLOURS/White is #FFFFFF, and so is Base colours/White. Nine components
+// still bind the retired name, `Full page` binds four of them, and `Header` binds a deprecated
+// pink AND its non-deprecated twin in the same component. That is a Figma-side rebinding job, and
+// the rule below does not make it go away; it stops it being restated seven times here.
+export const isDeprecatedCollection = (key) => /^deprecated-colours\//.test(String(key));
+
+// The actionable half of what the seven deleted rows carried: WHICH components still bind each
+// retired colour, and what each should be instead. Kept here so removing the rows did not remove
+// the finding. Every value is an exact duplicate of the live primitive named beside it.
+export const BOUND_BY = {
+  'deprecated-colours/white':
+    '#FFFFFF = Base colours/White — Full page, Side navigation, Header, Mobile key actions',
+  'deprecated-colours/grey-steel':
+    '#E5E5E5 = Base colours/Grey Steel — Table header icons (3 Hover states), [S] Config child menu',
+  'deprecated-colours/grey-slate-(a)':
+    '#3E3E3E = Base colours/Grey Slate — Full page, AI Assistant',
+  'deprecated-colours/blue-ocean-(a)':
+    '#0075BE = Base colours/Blue Ocean — Browser drop down, Option (the selected row)',
+  'deprecated-colours/blue-turquoise':
+    '#5CC4EA = Base colours/Blue Turquoise — Full page',
+  'deprecated-colours/blue-shark':
+    '#1D1F27 = Base colours/Blue Shark — Full page',
+  'deprecated-colours/default-theme-pink-(a)':
+    '#CD2359 = Base colours/Default Pink — Header, which binds BOTH names in the same component',
+};
+
 // Every `var(--...)` in a chunk of text, as the raw name the decoder takes. `--pf-*` is skipped:
 // that is this repo's OWN output namespace, emitted by build-css.mjs, and can never be a Figma
 // variable name. Counting it was how the first version of this check reported 133 for 2.
@@ -121,6 +160,14 @@ export function allKnownNames(dir = 'tokens/_raw') {
 
 export function judge(rawNames, index, declared, exactNames = [], knownExact = new Set()) {
   const unknown = new Map(); const known = new Set(); const debt = new Map();
+  const deprecated = new Map();
+  // Neither known, nor unknown, nor declared debt. Counted in its own bucket so the verdict line
+  // can name it — silently swallowing these is the one outcome this rule must not have.
+  const takeDeprecated = (key) => {
+    if (!isDeprecatedCollection(key)) return false;
+    deprecated.set(key, (deprecated.get(key) || 0) + 1);
+    return true;
+  };
   // Exact Figma names from get_variable_defs. No decoding: they are compared to the names the
   // repo holds directly, so there is no near-miss to guess at.
   const norm = (n) => String(n).toLowerCase().replace(/\s+/g, ' ').trim();
@@ -128,6 +175,7 @@ export function judge(rawNames, index, declared, exactNames = [], knownExact = n
   for (const name of exactNames) {
     if (haveExact.has(norm(name))) { known.add(name); continue; }
     const key = debtKey(name);
+    if (takeDeprecated(key)) continue;
     if (declared.has(key)) { debt.set(key, declared.get(key)); continue; }
     unknown.set(key, (unknown.get(key) || 0) + 1);
   }
@@ -136,10 +184,11 @@ export function judge(rawNames, index, declared, exactNames = [], knownExact = n
     if (d.name) { known.add(d.name); continue; }
     // The key a person would have to write in the debt file: the kebab name as Figma spells it.
     const key = raw.replace(/^--/, '').replace(/\\/g, '').split(',')[0].trim();
+    if (takeDeprecated(key)) continue;
     if (declared.has(key)) { debt.set(key, declared.get(key)); continue; }
     unknown.set(key, (unknown.get(key) || 0) + 1);
   }
-  return { unknown, known, debt };
+  return { unknown, known, debt, deprecated };
 }
 
 function main() {
@@ -160,7 +209,7 @@ function main() {
     }
   } catch { /* no debt file yet */ }
 
-  const { unknown, known, debt } = judge(raw, index, declared, exact, new Set(names));
+  const { unknown, known, debt, deprecated } = judge(raw, index, declared, exact, new Set(names));
 
   console.log(`transcripts read   : ${files.length}`);
   console.log(`design reads seen  : ${texts.length}`);
@@ -177,6 +226,10 @@ function main() {
   }
   console.log(`variables resolved : ${known.size} distinct`);
   for (const [k, why] of debt) console.log(`  pending  "${k}" — ${why}`);
+  for (const [k, n] of [...deprecated].sort()) {
+    console.log(`  retired  "${k}" is bound in Figma ${n} time(s) and is OUT BY RULE — Figma names `
+      + `its collection DEPRECATED COLOURS. ${BOUND_BY[k] || 'components not recorded'}`);
+  }
   for (const [k, n] of [...unknown].sort()) {
     console.log(`  UNKNOWN  "${k}" is bound in Figma ${n} time(s) and is in neither semantic.tsv `
       + 'nor primitives.tsv — extract it, or give it a line in uncaptured-tokens.tsv saying why not');
@@ -185,7 +238,13 @@ function main() {
   const stale = [...declared.keys()].filter((k) => !debt.has(k));
   for (const k of stale) console.log(`  stale    "${k}" has a line in uncaptured-tokens.tsv and nothing binds it`);
 
-  console.log(`\n${known.size} resolved, ${unknown.size} unknown, ${debt.size} declared, ${stale.length} stale`);
+  console.log(`\n${known.size} resolved, ${unknown.size} unknown, ${debt.size} declared, `
+    + `${deprecated.size} retired (out by rule), ${stale.length} stale`);
+  if (deprecated.size) {
+    console.log('the retired ones are each an exact duplicate of a live primitive at the same '
+      + 'value — nothing to extract, but nine components still bind the retired NAME, which is a '
+      + 'Figma-side rebinding job');
+  }
   process.exit(unknown.size || stale.length ? 1 : 0);
 }
 
@@ -220,6 +279,43 @@ function selfTest() {
       + 'never a variable-defs response — and a one-element array must not sneak through by '
       + 'stringifying to its element');
   }
+  // ---- the DEPRECATED COLOURS rule ------------------------------------------------------
+  // It replaced seven declaration rows. The danger in that trade is that a rule is invisible
+  // where a row was not, so these check the rule EXCUSES the token and still COUNTS it.
+  {
+    const j = judge([], idx, new Map(), ['DEPRECATED COLOURS/White', 'Text/Primary'],
+      new Set(['Text/Primary']));
+    if (j.unknown.size) miss('a retired collection must not be reported UNKNOWN — that is what the '
+      + 'seven deleted rows were suppressing, and the rule has to do the same job');
+    if (!j.deprecated.has('deprecated-colours/white')) {
+      miss('a retired colour must be COUNTED in its own bucket, never silently swallowed — '
+        + 'CLAUDE.md: never delete the count to tidy the output');
+    }
+    if (j.known.has('DEPRECATED COLOURS/White')) {
+      miss('a retired colour is not "resolved" — the repo deliberately does not hold it');
+    }
+    if (!j.known.has('Text/Primary')) miss('a live token beside a retired one must still resolve');
+  }
+  // The rule must not reach past its own collection. "deprecated" appearing anywhere in a name
+  // is not the test; the collection prefix is.
+  {
+    const j = judge([], idx, new Map(), ['Background/Deprecated soon'], new Set());
+    if (j.deprecated.size) {
+      miss('the rule must match the COLLECTION prefix only — excusing anything merely containing '
+        + '"deprecated" would let a live token through unreported');
+    }
+    if (!j.unknown.size) miss('a non-retired unknown must still be reported UNKNOWN');
+  }
+  // And every retired key must carry its components, or removing the rows really did lose the
+  // actionable half.
+  for (const k of Object.keys(BOUND_BY)) {
+    if (!isDeprecatedCollection(k)) miss(`BOUND_BY key "${k}" is not matched by the rule`);
+  }
+  if (Object.keys(BOUND_BY).length !== 7) {
+    miss(`all seven retired colours must name the components that bind them `
+      + `(got ${Object.keys(BOUND_BY).length})`);
+  }
+
   if (debtKey('Navigation/Nav bg top') !== 'navigation/nav-bg-top') {
     miss(`an exact Figma name must fold to the same debt key the kebab side produces `
       + `(got ${debtKey('Navigation/Nav bg top')})`);

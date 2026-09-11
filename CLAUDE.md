@@ -239,6 +239,23 @@ that has read components.
 An unexplained unknown FAILS. A token that is genuinely not coming gets a line in
 `tokens/_raw/uncaptured-tokens.tsv`; a `pending:` reason passes and is counted and named every run.
 
+**`DEPRECATED COLOURS/*` is out by RULE, not by seven rows.** Figma named the collection
+deprecated, which is the whole statement — extracting one would import into the shipped system
+exactly what is being retired, and a rule says that once and covers the next one automatically.
+`isDeprecatedCollection` in `check-token-drift.mjs` replaced the seven `pending:` rows that used
+to say it individually.
+
+The rows went; **the visibility did not**, and that distinction is the point. All seven are still
+counted in their own column of the verdict line and named on every run with the components that
+bind them, because the rule in this file is absolute: *never delete that count to tidy the output.*
+What changed is where the knowledge lives, never whether anyone can see it. Five mutants hold that
+line — the loudest being a rule that excuses a retired colour without counting it.
+
+It is not an excuse either. Each of the seven is an **exact duplicate of a live primitive at the
+same value**, so there is nothing to extract — but nine components still bind the retired name,
+`Full page` binds four of them, and `Header` binds a deprecated pink *and* its non-deprecated twin
+in the same component. That is a Figma-side rebinding job which this rule does not touch.
+
 **It cannot attribute a read to a Figma file.** A design-context response does not carry its file
 key, so a transcript that also read another Figma file will show that file's variables as
 unknowns here. Six of the current eight are that: they come from the Pathway test file, and their
