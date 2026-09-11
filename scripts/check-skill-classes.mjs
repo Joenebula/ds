@@ -177,6 +177,11 @@ const figures = [
   ['variants', nVariants, /\d+ components with (\d+) colour variants/g],
   ['variants', nVariants, /carry colour variants \((\d+) in all\)/g],
   ['shape-only classes', shapeOnly, /plus (\d+) shape-only/g],
+  // Caught by reading the skill, not by this check: it said "plus **12 more that ship as
+  // shape only**" and every pattern here missed that wording. The same figure is phrased
+  // four different ways across three files, which is why each phrasing needs its own line
+  // and why the match-at-least-once guard above matters more than the comparison does.
+  ['shape-only classes', shapeOnly, /plus \*\*(\d+) more that ship as shape only\*\*/g],
   ['shape-only classes', shapeOnly, /the other (\d+) are\s*\n?\s*\*\*shape-only\*\*/g],
   ['shape-only classes', shapeOnly, /plus (\d+) the extract carries as shape only/g],
   ['product-page components walked', walked, /\*\*Coverage: (\d+) of the \d+ product-page/g],

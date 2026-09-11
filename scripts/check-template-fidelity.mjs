@@ -27,12 +27,19 @@
 // So this reports rather than judges, and pins the total the way the other censuses do:
 // the number may fall and not rise. Overstating would make it the third check on this
 // project to claim more than it measures.
+//
+// AND THE LABEL SAYS REVIEW, NOT HAND-BUILT, for the same reason. The two are not the
+// same thing and this check cannot tell them apart. `case-mgmt-my-team` now builds its
+// insights title row out of `.pf-layout-container-title` — the component, used properly —
+// but puts `pf-links` in the action group where Figma has buttons, so it scores 0 of 2
+// and is flagged. That flag is worth a look and is not a verdict; calling it "hand-built"
+// would state something false about markup that is right.
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { chromium } from 'playwright-core';
 
 // The count of hand-built usages when this check was written. It may go DOWN — that is a
 // page adopting a template. It may not go up without someone deciding to raise it.
-const HANDBUILT_BASELINE = 2;
+const HANDBUILT_BASELINE = 1;
 
 // `working/*.html` matches the .src.html sources as well as the built pages, and counting
 // both reports every page twice — which is how the first run of this check came back with
@@ -102,19 +109,19 @@ for (const file of pages) {
     checked++;
     const hand = r.used === 0 && r.offered >= 2;
     if (hand) handbuilt++;
-    report.push(`  ${hand ? 'HAND-BUILT' : '  ok      '} ${r.base.padEnd(36)} `
+    report.push(`  ${hand ? 'REVIEW' : '  ok  '} ${r.base.padEnd(36)} `
       + `uses ${r.used} of the ${r.offered} library class(es) its template puts inside`
-      + (r.missing.length ? `\n${' '.repeat(15)}not used: ${r.missing.join(', ')}` : ''));
+      + (r.missing.length ? `\n${' '.repeat(11)}not used: ${r.missing.join(', ')}` : ''));
   }
 }
 await browser.close();
 
 console.log(report.join('\n'));
 console.log(`\n${checked} composite component use(s) across ${pages.length} page(s); `
-  + `${handbuilt} rebuilt by hand rather than from the template (baseline ${HANDBUILT_BASELINE})`);
+  + `${handbuilt} use none of the children Figma gives them (baseline ${HANDBUILT_BASELINE})`);
 if (handbuilt > HANDBUILT_BASELINE) {
-  console.log('  FAIL  more components are hand-built inside than before. Paste the template '
-    + 'from dist/templates/ instead of writing the contents.');
+  console.log('  FAIL  more components use none of their template\'s children than before. '
+    + 'Open dist/templates/<class>.html and check the contents were not written by hand.');
   failures++;
 } else if (handbuilt < HANDBUILT_BASELINE) {
   console.log(`  note  down ${HANDBUILT_BASELINE - handbuilt} — lower HANDBUILT_BASELINE to ${handbuilt} to lock it in`);

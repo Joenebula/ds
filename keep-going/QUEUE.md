@@ -1106,9 +1106,35 @@ Two faults caught while building it, both of which would have made the check har
   page twice and reported four hand-built components instead of two. Filtered inside the
   script rather than in the npm invocation.
 
-**Still open:** the two hand-built components are recorded, not fixed. Rebuilding that page
-on its templates is the obvious next step and the first real test of whether 154 templates
-are usable on a page somebody actually has to ship.
+**Rebuilt, on request.** `case-mgmt-my-team` now builds those regions from the components:
+
+- The header title was `.hdtitle` — a hand-written 66px flex row, 10px gap, 24px text,
+  Text/Always white. That is `Top bar app context`, which carries all four. The local rule
+  and its `pf-text-large-heading` both went; a page must not set type on a component class.
+- The insights title was `.ins-head`, and the category tabs and action buttons were `.cats`
+  and `.btnrow` — two separate hand-written rows. In Figma the tabs and buttons are ONE
+  component, `Layout container tabs`, packed left and pushed right, and the title row is
+  `Layout container title`. Both now are.
+
+**2 flagged uses down to 1**, and the remaining one is a soft flag, not a fault: the title
+row IS the component now, it just holds `pf-links` where Figma's action group holds buttons.
+The check's label was changed from HAND-BUILT to REVIEW for exactly that reason — it cannot
+tell "rebuilt by hand" from "used with different children", and saying the stronger thing
+about correct markup is the same overstatement this project keeps finding in its own checks.
+
+Two regressions caught by looking rather than by a check:
+
+- **The hairline under the title collapsed to 0x1.** Moving it out of the old wrapper left
+  it in an `inline-flex` column, so it had no width. Nothing failed — `verify-layout` asks
+  whether elements are clipped or escaping, and a zero-width rule is neither.
+- **The two component rows sized to their contents**, 1062 and 1110 inside a 1150
+  container, because they are `inline-flex` with a large Figma gap and `space-between`. In
+  Figma both FILL the container. `align-self: stretch` on each — alignment, not size, so
+  the component still owns its height, padding and gap.
+
+One off-system violation of my own making, caught by the check: I gave the meta paragraph
+`color: var(--pf-text-secondary)`. A component owns colour, the original inherited, and
+there was no reason to change it.
 
 ---
 

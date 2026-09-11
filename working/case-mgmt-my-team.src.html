@@ -122,13 +122,12 @@ svg { display: block; }
 /* Size now comes from `.pf-text-large-heading` — Figma's Desktop text/Large heading is
    24px Regular, which is exactly what was hand-written here.
    The colour is marked below. */
-/* pf-new: the title sits ON the header artwork, which is dark in both modes, so it takes
-   Text/Always white rather than any component's bound colour. */
-.hdtitle { display: flex; align-items: center; gap: var(--pf-space-small);
-           color: var(--pf-text-always-white); }  /* Figma: 109x66 */
-/* pf-new: the 66px avatar disc is a child of the header title group in Figma, with no
-   component of its own. */
-.hdtitle .disc { width: 66px; height: 66px; border-radius: 50%;
+/* The title group used to be `.hdtitle` here — a hand-written 66px flex row with a 10px
+   gap, 24px text and Text/Always white. That is `Top bar app context`, which carries all
+   four, so the class replaced it and the local rule went. */
+/* pf-new: the 66px disc is a child of the header title group in Figma; its own icon
+   (`top bar app icon`) is not in the library, so the disc stays page-local. */
+.pf-top-bar-app-context .disc { width: 66px; height: 66px; border-radius: 50%;
                  background: var(--pf-bg-light-theme); color: var(--pf-text-theme);
                  display: grid; place-items: center; }
 /* pf-new: header icons are loose instances on the band, not a component. Always-white
@@ -250,12 +249,20 @@ svg { display: block; }
 .pf-layout-container-magazine-style { width: 100%;
   padding: var(--pf-space-large);
   display: flex; flex-direction: column; gap: var(--pf-space-large); }
-.ins-head { display: flex; flex-direction: column; gap: var(--pf-space-small); }
+.ins-title { display: flex; align-items: center; gap: var(--pf-space-small); }
 /* pf-new: a 1px rule under the card title. Figma draws it as a LINE node, which the
    outer-box extract does not capture as a component. */
-.ins-rule { height: 1px; background: var(--pf-border-default-full); }
-.ins-meta { display: flex; align-items: center; gap: var(--pf-space-large); flex-wrap: wrap; }
-.ins-meta .grow { flex: 1; }
+.ins-rule { height: 1px; background: var(--pf-border-default-full); align-self: stretch; }
+/* In Figma both of these FILL the magazine container — the template shows them at 1540
+   wide inside it, and the 1160 on the class is the width they were drawn at standalone.
+   Left to themselves they are inline-flex and size to their contents, so the title row
+   came out 1062 inside a 1150 container and its links stopped short of the edge. This is
+   alignment, not size: the component still owns its height, padding and gap. */
+.pf-layout-container-title,
+.pf-layout-container-tabs { align-self: stretch; }
+/* Only the <p> default margin is reset. The colour is deliberately NOT set: this is page
+   copy, it inherits, and a local `color` here is a property a component owns. */
+.ins-meta { margin: 0; }
 .linkrow { display: flex; gap: var(--pf-space-large); }
 .cats { display: flex; gap: var(--pf-space-large); flex-wrap: wrap; }
 .btnrow { display: flex; gap: var(--pf-space-large); flex-wrap: wrap; }
@@ -288,7 +295,7 @@ svg { display: block; }
       <div class="hdrow">
         <span class="pf-search-navigation" data-mobile="False"><!--pf-icon:search 22-->Search</span>
         <span class="grow"></span>
-        <span class="hdtitle pf-text-large-heading"><span class="disc"><!--pf-icon:team 40--></span>HR</span>
+        <span class="pf-top-bar-app-context"><span class="disc"><!--pf-icon:team 40--></span>HR</span>
         <span class="grow"></span>
         <span class="rightgrp">
           <button class="pf-clock-in" data-type="Standard" data-pf-issue="6" type="button"><!--pf-icon:clock 22-->Clock-in</button>
@@ -491,33 +498,41 @@ svg { display: block; }
 
       <!-- Department insights — Layout container (magazine style) -->
       <section class="pf-layout-container-magazine-style" data-row-colour="False" aria-labelledby="ins">
-        <div class="ins-head">
-          <h2 id="ins" class="pf-text-large-heading">Department insights</h2>
-          <div class="ins-rule"></div>
-          <div class="ins-meta">
-            <span>The data below is based on your reporting department, which may not be all of the people featured above.</span>
-            <span class="grow"></span>
-            <div class="linkrow">
-              <a class="pf-links" data-link-type="Primary" data-icon-position="Left" href="#"><!--pf-icon:search 16-->Design a Query</a>
-              <a class="pf-links" data-link-type="Primary" data-icon-position="Left" href="#"><!--pf-icon:settings 16-->Set department thresholds</a>
-            </div>
+        <!-- The title row is `Layout container title`: a heading group on the left and an
+             action group on the right, one component. This was two hand-written divs.
+             Figma's own action group holds buttons; here it holds links, which is page
+             content — the group div carries layout only, as the template does. -->
+        <div class="pf-layout-container-title">
+          <div class="ins-title">
+            <h2 id="ins" class="pf-text-large-heading">Department insights</h2>
+          </div>
+          <div class="linkrow">
+            <a class="pf-links" data-link-type="Primary" data-icon-position="Left" href="#"><!--pf-icon:search 16-->Design a Query</a>
+            <a class="pf-links" data-link-type="Primary" data-icon-position="Left" href="#"><!--pf-icon:settings 16-->Set department thresholds</a>
           </div>
         </div>
 
-        <div class="cats" role="tablist" aria-label="Insight categories">
-          <button class="pf-tab" data-state="Selected" role="tab" aria-selected="true" type="button">People</button>
-          <button class="pf-tab" data-state="Default" role="tab" aria-selected="false" type="button">Time</button>
-          <button class="pf-tab" data-state="Default" role="tab" aria-selected="false" type="button">Talent</button>
-          <button class="pf-tab" data-state="Default" role="tab" aria-selected="false" type="button">Learning</button>
-          <button class="pf-tab" data-state="Default" role="tab" aria-selected="false" type="button">Surveys</button>
-          <button class="pf-tab" data-state="Default" role="tab" aria-selected="false" type="button">Recruitment</button>
-        </div>
+        <div class="ins-rule"></div>
+        <p class="ins-meta pf-text-body-text">The data below is based on your reporting department, which may not be all of the people featured above.</p>
 
-        <div class="btnrow">
-          <button class="pf-button" data-type="Action" type="button"><!--pf-icon:add-plus 16-->Action</button>
-          <button class="pf-button" data-type="Positive" type="button"><!--pf-icon:sort-arrow-ag-grid 16-->Action</button>
-          <button class="pf-button" data-type="Hollow" type="button"><!--pf-icon:edit 16-->Action</button>
-          <button class="pf-button" data-type="Negative" type="button"><!--pf-icon:bin-delete 16-->Action</button>
+        <!-- The category tabs and the action buttons are ONE component in Figma —
+             `Layout container tabs`, tabs packed left and buttons pushed right. The page
+             had them as two separate hand-written rows, which is why they stacked. -->
+        <div class="pf-layout-container-tabs">
+          <div class="cats" role="tablist" aria-label="Insight categories">
+            <button class="pf-tab" data-state="Selected" role="tab" aria-selected="true" type="button">People</button>
+            <button class="pf-tab" data-state="Default" role="tab" aria-selected="false" type="button">Time</button>
+            <button class="pf-tab" data-state="Default" role="tab" aria-selected="false" type="button">Talent</button>
+            <button class="pf-tab" data-state="Default" role="tab" aria-selected="false" type="button">Learning</button>
+            <button class="pf-tab" data-state="Default" role="tab" aria-selected="false" type="button">Surveys</button>
+            <button class="pf-tab" data-state="Default" role="tab" aria-selected="false" type="button">Recruitment</button>
+          </div>
+          <div class="btnrow">
+            <button class="pf-button" data-type="Action" type="button"><!--pf-icon:add-plus 16-->Action</button>
+            <button class="pf-button" data-type="Positive" type="button"><!--pf-icon:sort-arrow-ag-grid 16-->Action</button>
+            <button class="pf-button" data-type="Hollow" type="button"><!--pf-icon:edit 16-->Action</button>
+            <button class="pf-button" data-type="Negative" type="button"><!--pf-icon:bin-delete 16-->Action</button>
+          </div>
         </div>
       </section>
     </main>
