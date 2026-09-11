@@ -64,6 +64,34 @@ Never hand-edit `tokens/design-tokens.json`, `dist/tokens.css`, `dist/components
 after any token change to re-verify WCAG contrast, and `npm run verify` to re-check the
 component library and the example screens against Figma.
 
+## What this repo is, and what `prototypes/` is not
+
+This is a **pipeline**, not a design system file. Its job is to extract People First from
+Figma (`aRWjBnTvdLiG50xtwodGwH`) and turn a Figma design into correct, tagged output.
+
+**`prototypes/` are rough test fixtures.** They exist to exercise the token layer and a
+subset of components, and their page composition — sidebar shell, top bar, metric tiles,
+side-panel rows — is hand-built rather than taken from Figma. Measured: about 78–86% of
+what paints on them uses a real library class, and 125 of the 147 components are never used
+by any of them. That is acceptable for what they are. Do not describe them as reference
+implementations, do not hand them to a developer as one, and do not rebuild them to chase
+component fidelity unless asked — the user has explicitly said they are not real screens.
+
+**The thing that must be correct is the other direction:** when asked to build something
+FROM a Figma design, the output must match that design.
+
+### Test-only Figma files — never extract these
+
+A file may be supplied purely to test the Figma-to-output path. Such a file is **read-only
+input for that one task**. Never extract its tokens, components, variants or icons into
+`tokens/_raw/`, and never let it reach `dist/`, the skills or the docs — the pipeline's
+design system comes from `aRWjBnTvdLiG50xtwodGwH` and nowhere else.
+
+| File | Key | Use |
+|---|---|---|
+| People First design system | `aRWjBnTvdLiG50xtwodGwH` | **The** source. Extract from this only. |
+| Case Management (Copy) | `kuX4KDIN0u4axsKTELYlzW` | **Testing only.** Build from it to check fidelity; never extract into the pipeline. |
+
 ## Checking any screen
 
 `npm run verify` checks every screen in `prototypes/` on six axes — geometry, colour,
