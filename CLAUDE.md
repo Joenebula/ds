@@ -89,7 +89,11 @@ whichever height it was handed. It reads `prototypes/<screen>.figma.xml`, the ra
 saved beside the extract. Fix the frame in Figma, or declare the decision in the extract's
 `sourceClips` with a reason.
 
-A `--` is a check that measured nothing. It is not a pass.
+A `--` is a check that measured nothing. It is not a pass. And a **placeholder is not a
+picture**: an asset that has not arrived gets a marked stand-in from
+`scripts/build-placeholders.mjs`, which `images` passes but counts and names by key in its
+verdict line on every run. Never remove that count to tidy the output — it is the only thing
+keeping a tinted panel from quietly becoming the finished thing.
 
 **Always screenshot the result in light and dark and look at it** before saying a screen is done — with
 `node scripts/screenshot-screen.mjs <screen.html>`, which refuses to write a PNG if the page

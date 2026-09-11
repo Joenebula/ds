@@ -37,6 +37,12 @@ export async function measure(browser, url, selectors, viewport) {
   const got = await page.evaluate((sels) => {
     // An <img> that failed to load reports naturalWidth 0. A background-image that was never
     // bound reports 'none'. Both are the empty state this check exists to name.
+    // A slot may be DECLARED a placeholder by dist/placeholders.css. That is not the same as a
+    // picture and must never be counted as one — it is a tracked stand-in, reported by key on
+    // every run so it cannot quietly become permanent. See F-029.
+    const isPlaceholder = (el) =>
+      getComputedStyle(el).getPropertyValue('--pf-placeholder').trim() === '1';
+
     const paints = (el) => {
       if (el.tagName === 'IMG') {
         return { kind: 'img', painted: el.complete && el.naturalWidth > 0, ref: el.getAttribute('src') || '' };
@@ -54,13 +60,14 @@ export async function measure(browser, url, selectors, viewport) {
     const avatars = [...document.querySelectorAll('[data-avatar]')].map((el) => ({
       key: el.getAttribute('data-avatar'),
       label: (el.textContent || '').trim(),
+      placeholder: isPlaceholder(el),
       ...paints(el),
     }));
 
     const declared = sels.map((sel) => {
       const el = document.querySelector(sel);
       if (!el) return { sel, missing: true };
-      return { sel, ...paints(el) };
+      return { sel, placeholder: isPlaceholder(el), ...paints(el) };
     });
 
     // Every person slot, whether or not it claims a photo — so the report can say how many
@@ -79,12 +86,14 @@ export function judge(decls, got) {
   const problems = [];
   let checked = 0;
 
+  const standingIn = new Set();
+
   for (const a of got.avatars) {
     checked++;
-    if (!a.painted) {
-      problems.push(`NO IMAGE data-avatar="${a.key}"${a.label ? ` (showing the monogram "${a.label}")` : ''}`
-        + ' claims a photograph and paints none — no matching file in assets/avatars/');
-    }
+    if (a.painted) continue;
+    if (a.placeholder) { standingIn.add(a.key); continue; }
+    problems.push(`NO IMAGE data-avatar="${a.key}"${a.label ? ` (showing the monogram "${a.label}")` : ''}`
+      + ' claims a photograph and paints none — no matching file in assets/avatars/');
   }
 
   for (const d of decls) {
@@ -94,6 +103,7 @@ export function judge(decls, got) {
       continue;
     }
     checked++;
+    if (g.placeholder) { standingIn.add(d.key || d.selector); continue; }
     if (!g.painted) {
       const why = g.kind === 'svg' ? 'an inline <svg> is drawn markup, not the photograph Figma places here'
         : g.kind === 'none' ? 'nothing is bound to it'
@@ -102,7 +112,7 @@ export function judge(decls, got) {
     }
   }
 
-  return { problems, checked, people: got.people };
+  return { problems, checked, people: got.people, standingIn: [...standingIn].sort() };
 }
 
 // ---------------------------------------------------------------------------
@@ -130,9 +140,17 @@ async function main() {
 
   const r = judge(decls, got);
   for (const p of r.problems) console.log(p);
+  for (const key of r.standingIn) {
+    console.log(`STAND-IN "${key}" has no file yet — a marked placeholder is holding its slot`);
+  }
 
+  // The count is in the VERDICT line, not only in the detail above it, because verify-screens
+  // prints the last unindented line and nothing else. A placeholder that does not appear there
+  // is a placeholder nobody sees. That is the whole safeguard — see F-029.
+  const tail = r.standingIn.length
+    ? `, ${r.standingIn.length} standing in with placeholders (${r.standingIn.join(', ')})` : '';
   console.log(`\n${r.checked} image slot(s) checked across ${r.people} person slot(s), `
-    + `${r.problems.length} painting nothing`);
+    + `${r.problems.length} painting nothing${tail}`);
   process.exit(r.problems.length ? 1 : 0);
 }
 
@@ -143,11 +161,22 @@ function selfTest() {
   const face = (key, painted) => ({ key, label: key.slice(0, 2).toUpperCase(), kind: 'background', painted, ref: 'url(data:image/png' });
   const slot = (sel, kind, painted) => ({ sel, kind, painted, ref: painted ? 'ok.png' : '' });
   const base = { avatars: [], declared: [], people: 0 };
-  const hero = { selector: '.hero', name: 'hero image' };
+  const hero = { selector: '.hero', name: 'hero image', key: 'hero' };
+
+  const ph = (key) => ({ key, label: key.slice(0, 2).toUpperCase(), kind: 'none', painted: false,
+    ref: '', placeholder: true });
 
   const cases = [
     ['a bound avatar with a real file behind it',
       [], { ...base, avatars: [face('samantha-stevens', true)], people: 1 }, null],
+
+    // F-029. A marked stand-in is not a failure and is not a picture either. It passes, and it
+    // is counted — the counting is checked separately below, because a case that only asserts
+    // "no problem" would also pass if the mark silently started meaning "real".
+    ['a marked placeholder is not a failure',
+      [], { ...base, avatars: [ph('nicholas-smudge')], people: 1 }, null],
+    ['a declared picture slot standing in',
+      [hero], { ...base, declared: [{ sel: '.hero', kind: 'none', painted: false, ref: '', placeholder: true }] }, null],
     ['a bound avatar with no file — the monogram that looked deliberate',
       [], { ...base, avatars: [face('nicholas-smudge', false)], people: 1 }, /NO IMAGE data-avatar="nicholas-smudge"/],
     ['a declared hero image that paints',
@@ -177,11 +206,34 @@ function selfTest() {
     }
   }
 
-  // The check must not be able to pass by counting slots it never looked at.
-  const counted = judge([hero], { ...base, avatars: [face('x-y', true)], declared: [slot('.hero', 'img', true)], people: 1 });
-  if (counted.checked !== 2) {
+  // THE ONE THAT MATTERS. A placeholder must be COUNTED, not merely tolerated. Without this a
+  // future edit could make the mark mean "real", every case above would still pass, and the
+  // count would quietly vanish from the verdict line — which is the only thing standing between
+  // a tracked stand-in and the silent fallback F-026 was written about.
+  const counted = judge([hero],
+    { ...base, avatars: [ph('nicholas-smudge')], declared: [{ sel: '.hero', kind: 'none', painted: false, ref: '', placeholder: true }], people: 1 });
+  if (counted.problems.length !== 0) {
     failures++;
-    console.log(`  MISS the tally must count every slot it judged (got ${counted.checked}, expected 2)`);
+    console.log('  MISS a marked placeholder must not be reported as a failure');
+  }
+  if (counted.standingIn.length !== 2
+      || !counted.standingIn.includes('nicholas-smudge') || !counted.standingIn.includes('hero')) {
+    failures++;
+    console.log(`  MISS every placeholder must be counted and named (got ${JSON.stringify(counted.standingIn)})`);
+  }
+  // And a real picture must never be counted as standing in.
+  const real = judge([hero], { ...base, avatars: [face('samantha-stevens', true)],
+    declared: [slot('.hero', 'img', true)], people: 1 });
+  if (real.standingIn.length !== 0) {
+    failures++;
+    console.log(`  MISS a real picture must not be counted as a placeholder (got ${JSON.stringify(real.standingIn)})`);
+  }
+
+  // The check must not be able to pass by counting slots it never looked at.
+  const tallied = judge([hero], { ...base, avatars: [face('x-y', true)], declared: [slot('.hero', 'img', true)], people: 1 });
+  if (tallied.checked !== 2) {
+    failures++;
+    console.log(`  MISS the tally must count every slot it judged (got ${tallied.checked}, expected 2)`);
   }
 
   // And an implementation that always reports "painted" — the graceful-degradation bug itself —
