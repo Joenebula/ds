@@ -124,7 +124,7 @@ Not a fault — just a heads-up that our extract had to catch up, and a request.
 | `Full page navigation` | `Full page` |
 | `Side navigation tab` | `Notification tabs` (and its variants changed from `Selected` to `State × Selected`) |
 
-The same happened to a token: **`Border/Default` is now `Border/Default full`**, and 32
+The same happened to a token: **`Border/Default` is now `Border/Default full`**, and 19
 components bind it.
 
 **Request:** when a component or token is renamed, a note to us means we re-extract instead
