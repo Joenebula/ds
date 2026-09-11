@@ -20,10 +20,12 @@ case. Colour and shape are independent, and both have to come from Figma.
 | `docs/components.html` | Every component and variant, rendered — check a class exists |
 | `.claude/skills/people-first/references/variants.md` | Why a variant binds what it does |
 | `.claude/skills/people-first/references/geometry.md` | Measured sizes, only if you go off-library |
+| `docs/templates.html` | The markup INSIDE each composite component — a card, table or panel is not its class |
 
 **2. Build the components from the stylesheet, not by hand.** `dist/components.css`
-carries 147 components and 302 variants as ready classes, generated from Figma and
-checked against it. The component is the class, each Figma variant property is a data
+carries 147 components and 302 variants as ready classes, plus 15 more that are shape-only
+because Figma binds them no colour — 162 classes in all, generated from Figma and checked
+against it. The component is the class, each Figma variant property is a data
 attribute, and the values keep Figma's own spelling:
 
 ```html
@@ -41,8 +43,28 @@ Your own CSS covers page layout, `cursor`, `transition`, focus rings, `line-heig
 and anything drawn *inside* a component. Keep it in one block and label it local — if
 anything in it restates a Figma colour or measurement, that is a bug.
 
+**2a. For a composite component the class is not enough — paste its template.**
+`.pf-card` is a rounded rectangle with nothing in it. So are `.pf-table-ag`,
+`.pf-metric-card`, `.pf-header`, `.pf-notification-panel` and 150 others: **all 154 of them
+render NOTHING from the bare class**, and they pass the colour and geometry checks while
+doing it. The contents live in `dist/templates/<class>.html`, generated from each
+component's Figma child tree.
+
+```bash
+cat dist/templates/pf-metric-card.html     # paste this, not a div of your own
+```
+
+Replace the placeholder text and the sample instances. Change nothing else — every class
+in there is real, every colour is a token, every `<!--pf-icon:name-->` expands at build
+time. A comment inside a template is telling you something: a repeating run kept short, a
+container Figma has more in, or a child the library genuinely does not have.
+
+Writing your own contents for a composite component is the same mistake as writing your own
+CSS for a simple one, and it is the one this project made most often.
+
 If a component you need is under **Not in the library** in `docs/components.html`, say so
-rather than approximating it — that section names each one and why it is missing.
+rather than approximating it — that section names each one and why it is missing. All 25
+are documentation about the design system; nothing on a product page is missing.
 
 **3. Verify before handing over.** All of them, every time. On a fresh clone run
 `npm install` first — the checks drive a real browser and need `playwright-core`:

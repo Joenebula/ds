@@ -1051,6 +1051,32 @@ it: the count may not grow, and every uncaptured one must have a written reason.
 for design in `docs/FIGMA-ISSUES.md` section 8.
 
 
+## H. The skills did not know the templates existed — `done`
+
+A survey after closing the depth cap found the same fault Run 3 found, on the newer layer.
+**`people-first` — the skill CLAUDE.md tells every session to load before writing any
+markup — mentioned templates zero times.** So did `pf-screen`, which builds screens, and
+`pf-handoff`, which specs them. 154 templates existed and the four documents that govern UI
+work were all ignorant of them; a fresh session would have hand-written the contents of a
+card, which is precisely what the templates exist to stop.
+
+All three now carry it: `people-first` has a section on why a composite component needs its
+template and what each generated comment means, `pf-screen` reads `docs/templates.html`
+before writing and has a step for pasting one, and `pf-handoff` cites the template file
+alongside the class in the components table.
+
+**Their figures had drifted too, and one of them was two different numbers.** `people-first`
+said "139 of the 172 components are in the stylesheet" and listed `Tooltip`, `Menu`,
+`Stars`, `Field icons` and `Component 1` as missing — all five captured months ago.
+`pf-screen` said 147. Both were describing the same library, and BOTH were defensible:
+**147 components carry colour bindings (302 variants) and 162 have a class**, the difference
+being the shape-only ones Figma binds no colour to. Quoting one as the other is how the two
+files disagreed.
+
+`check-skill-classes.mjs` now re-derives every count a skill quotes from the build and fails
+on a mismatch — proven by breaking each figure in turn and watching it fail. A skill may say
+what it likes about why; it may not carry a number the build disagrees with.
+
 ---
 
 ## 11. Ship the typeface — `done` (spec fault 1)

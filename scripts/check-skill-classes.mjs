@@ -12,7 +12,7 @@
 //   1. every class named in the skill exists in the stylesheet
 //   2. every REAL Figma variant of those components is selected by a rule, using the
 //      attribute spelling the skill documents
-import { readFileSync, writeFileSync, unlinkSync } from 'node:fs';
+import { readFileSync, writeFileSync, unlinkSync, readdirSync } from 'node:fs';
 import { chromium } from 'playwright-core';
 
 const md = readFileSync('.claude/skills/people-first/SKILL.md', 'utf8');
@@ -89,6 +89,52 @@ for (const f of ['.claude/skills/people-first/SKILL.md', '.claude/skills/pf-scre
       problems.push(`${f}: says "${m[0]}", the extract has ${nComponents} components and ${nVariants} variants`);
   }
 }
+
+// ---- 3. the FIGURES the skills quote ---------------------------------------
+//
+// This check exists because documentation that is wrong reads as authoritative and fails
+// silently. A stale NUMBER does that just as well as a wrong class name, and this project
+// has shipped several: the people-first skill said "139 of the 172 components are in the
+// stylesheet" and listed `Tooltip`, `Menu`, `Stars`, `Field icons` and `Component 1` as
+// missing, months after all five were captured; pf-screen said 147 components with no
+// mention of the shape-only ones. Somebody reading either would have hand-written a
+// component that already existed — the exact failure the skills exist to prevent.
+//
+// Every count the skills quote is re-derived here and compared. A skill may say whatever
+// it likes about WHY; it may not carry a number the build disagrees with.
+//
+// Note the two legitimate counts of "how many components": 147 have COLOUR bindings (302
+// variants between them) and 162 have a CLASS, the difference being the shape-only ones
+// Figma binds no colour to. Both are true and they are not interchangeable — quoting one
+// as the other is how "147" and "160" ended up in two files describing the same library.
+const classes = new Set([...readFileSync('dist/components.css', 'utf8')
+  .matchAll(/^\.(pf-[a-z0-9-]+)/gm)].map(m => m[1]));
+const nonIcon = JSON.parse(readFileSync('tokens/_raw/components.json', 'utf8'))
+  .filter(c => (c.pageName || '').trim() !== 'Icons');
+const withClass = nonIcon.filter(c => classes.has('pf-' + kebab(c.name))).length;
+const withoutClass = nonIcon.length - withClass;
+const templateCount = readdirSync('dist/templates').filter(f => f.endsWith('.html')).length;
+
+const skills = ['people-first', 'pf-screen', 'pf-handoff']
+  .map(n => [n, readFileSync(`.claude/skills/${n}/SKILL.md`, 'utf8')]);
+
+const figures = [
+  ['templates', templateCount, /\b(\d+) (?:composite components have one|of them render NOTHING|rendered, light and dark)/g],
+  ['templates', templateCount, /all (\d+) rendered/g],
+  ['components with a class', withClass, /(\d+) of the \d+ non-icon Figma components are classes/g],
+  ['components with a class', withClass, /(\d+) classes in all/g],
+  ['non-icon components', nonIcon.length, /\d+ of the (\d+) non-icon Figma components/g],
+  ['components with no class', withoutClass, /The (\d+) that are\s*\n?not are listed/g],
+  ['components with no class', withoutClass, /All (\d+)\s*\n?are documentation/g],
+];
+for (const [what, actual, re] of figures)
+  for (const [name, text] of skills)
+    for (const m of text.matchAll(re))
+      if (Number(m[1]) !== actual)
+        problems.push(`${name} says ${m[1]} ${what}; the build says ${actual} — "${m[0].replace(/\s+/g, ' ').trim()}"`);
+
+console.log(`figures checked — ${templateCount} templates, ${withClass} of ${nonIcon.length} `
+  + `non-icon components have a class, ${withoutClass} do not`);
 
 for (const p of problems) console.log('FAIL ' + p);
 console.log(`\n${documented.size} classes documented, ${cases.length} real variants checked, ${problems.length} problems`);

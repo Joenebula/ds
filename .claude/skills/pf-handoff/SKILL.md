@@ -58,6 +58,20 @@ The class column matters: `dist/components.css` already implements these, so a
 developer who uses it inherits the right shape and colour instead of rebuilding them
 from the tables below.
 
+**For a composite component, cite its template as well as its class.** A card, table,
+panel or modal renders nothing from the bare class — a developer handed only
+`.pf-metric-card` will build its contents from your screenshot, which is the guesswork this
+spec exists to remove. `dist/templates/<class>.html` holds the markup, generated from the
+component's Figma child tree, and `docs/templates.html` shows all 154 rendered.
+
+| Element | Figma component | Variant | Class to use | Template |
+|---|---|---|---|---|
+| Absence card | Metric card | Mobile=False | `.pf-metric-card` | `dist/templates/pf-metric-card.html` |
+
+Leave the Template column blank for a component that genuinely is one box — a button, a
+tag, a chip. If `dist/templates/` has no file for the class, there is no template and the
+class IS the component.
+
 ## Tokens
 | Purpose | Token | Light | Dark |
 |---|---|---|---|

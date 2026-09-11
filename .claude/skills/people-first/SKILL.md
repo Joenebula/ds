@@ -374,21 +374,60 @@ writing them is not a violation of rule 2:
 Keep that CSS in one block and label it local. If something in it restates a Figma
 value — a colour, a height, a radius — that is a bug, not a local style.
 
+### A composite component needs its TEMPLATE, not just its class
+
+**This is the most important thing on this page after "do not hand-write component CSS",
+and it is the newest.**
+
+A class carries one box and three colours. That is the whole component for a `.pf-button`
+or a `.pf-tag`. It is emphatically NOT the whole component for a card, a table, a panel or
+a modal: `.pf-card` is a 520x358 rounded rectangle with **nothing inside it**, and it
+passes every colour and geometry check while being unusable. That gap is why screens on
+this project got hand-written contents, and hand-written contents are where the flat pink
+band and the wrong font weights came from.
+
+So for a composite component, paste the template:
+
+```
+dist/templates/pf-card.html        the markup
+dist/templates/pf-metric-card.html
+docs/templates.html                all 154 rendered, light and dark
+```
+
+Every class inside a template is a real library class, every colour is a token, every icon
+is a real icon, and the structure is Figma's own child tree. Replace the placeholder text
+and the sample instances; change nothing else.
+
+**154 composite components have one, and all 154 render NOTHING from the bare class.**
+If you are about to write a `<div>` inside a component class, stop and open the template.
+
+Three things a template tells you that nothing else does:
+
+- `<!-- 11 more of the same in Figma (13 in all) -->` — a repeating run, kept short. Repeat
+  the elements above it for real data.
+- `<!-- N children here in Figma that this walk did not reach -->` — genuinely unfinished;
+  open the component in Figma before filling it. A blank inner div with **no** comment is
+  empty in Figma, and meant to be.
+- `<!-- ... detached from the Figma page tree ... -->` — the library has no class for that
+  child. Two templates are blocked this way and cannot be completed here.
+
 ### When a component is not in the library
 
-139 of the 172 Figma components are in the stylesheet. The remaining 33 are listed in
-`docs/components.html` under **Not in the library**, each with the reason:
+162 of the 187 non-icon Figma components are classes in the stylesheet. The 25 that are
+not are listed in `docs/components.html` under **Not in the library**, each with its reason
+— and every one of them is on a documentation page (Storybook and Miro logos, "dos and
+don'ts" panels, project info): they describe the design system rather than belonging to it.
 
-- **20** are on the document-management page — documentation *about* the design system
-  (Storybook and Miro logos, "dos and don'ts" panels), not product UI.
-- **11** bind no colour variable anywhere in Figma, so there is nothing to put in a
-  stylesheet. `Tooltip`, `Menu`, `Stars` and `Field icons` are among them.
-- **1** carries a Figma default name (`Component 1`) — an unnamed leftover.
-- **1** is `People`, whose variants are one per fictional employee: sample content, not
-  design.
+Of the 162, **147 carry colour variants** — 302 of them — and the other 15 are shape-only,
+because Figma binds them no colour variable at all. A shape-only class is still a real
+class with the right size, padding and radius; it just has nothing to paint.
 
-If you need one of those, say so rather than hand-writing an approximation that looks
-right to you — an unchecked component is exactly what the library exists to prevent.
+Nothing on a product page is missing any more. `Tooltip`, `Menu`, `Stars`, `Field icons`
+and `Component 1` were all in this list once and have since been captured.
+
+If you think you need something that is not there, say so rather than hand-writing an
+approximation that looks right to you — an unchecked component is exactly what the library
+exists to prevent.
 
 
 ## Charts
