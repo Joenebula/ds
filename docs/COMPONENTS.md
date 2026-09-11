@@ -14,9 +14,9 @@ keep Figma's own spelling:
 
 | | |
 |---|---|
-| **Components** | **159** |
+| **Components** | **160** |
 | — with colour rules | 147 |
-| — shape only (Figma binds no colour variable) | 12 |
+| — shape only (Figma binds no colour variable) | 13 |
 | Captured variants | 302 |
 | Figma pages | 13 |
 | Binding a primitive instead of a semantic token | 19 |
@@ -356,50 +356,52 @@ Contents: [Buttons and links](#buttons-and-links) · [Forms](#forms) · [Control
 
 | Component | Class | Variants in Figma | Size | Radius | Type |
 |---|---|---|---|---|---|
-| Bar | `.pf-bar` | Label: Horizontal · Vertical | 29 x 90 | — | 13px |
+| Bar | `.pf-bar` | Label: Horizontal · Vertical | 29 x 90 | 0 | 13px |
 | Bar chart with axis | `.pf-bar-chart-with-axis` | Breakpoint: Desktop · Mobile<br>Darkmode: False | 326 x 221 | 0 | 13px Regular |
-| Data variance | `.pf-data-variance` | Data change: Up · Down · No change<br>Mobile: False | 41 x 45 | 0 | 13px |
-| Data variance alternative | `.pf-data-variance-alternative` | Property 1: Default | auto x auto | — | 20px |
-| Donut chart with ledger | `.pf-donut-chart-with-ledger` | Darkmode: False<br>Mobile: True · False | 329 x 200 | 0 | 60px |
+| Data variance | `.pf-data-variance` | Data change: Up · Down · No change<br>Mobile: False | auto x 45 | 0 | 13px |
+| Data variance alternative | `.pf-data-variance-alternative` | Property 1: Default | auto x 27 | 0 | 20px |
+| Donut chart with ledger | `.pf-donut-chart-with-ledger` | Darkmode: False<br>Mobile: True · False | auto x 200 | 0 | 60px |
 | Donut pie chart | `.pf-donut-pie-chart` | Segments: 2 · 1 · 3 · 4<br>Icon: False · True | 200 x 200 | 0 | 60px Medium |
 | Graph axis | `.pf-graph-axis` | Breakpoint: Mobile · Desktop | 492 x 232 | 0 | 13px |
 | Graph legend | `.pf-graph-legend` | Mobile: True · False<br>Key type: Donut graph · Line graph | auto x 33 | 0 | 24px Regular |
-| Hemisphere chart | `.pf-hemisphere-chart` | Status: None · Negative · Warning · Neutral · Positive | 200 x 146 | 0 | 13px |
+| Hemisphere chart | `.pf-hemisphere-chart` | Status: None · Negative · Warning · Neutral · Positive | auto x 146 | 0 | 13px |
 | Metric card | `.pf-metric-card` | Mobile: True · False | 392 x 89 | 8 | 36px |
 | Percentage bar | `.pf-percentage-bar` | Percentage: 0 · 25 · 50 · 75 · 100 | 343 x 37 | 0 | 13px |
-| Square progress bar | `.pf-square-progress-bar` | Variant: Default · Inline · Bottom label<br>Progress: 0% · 25% · 50% · 75% · 100% | 177 x 34 | 0 | 13px |
+| Square progress bar | `.pf-square-progress-bar` | Variant: Default · Inline · Bottom label<br>Progress: 0% · 25% · 50% · 75% · 100% | auto x 34 | 0 | 13px |
 | Table progress bar | `.pf-table-progress-bar` | Completion: 0% · 25% · 50% · 75% · 100%<br>Dark cell background: No · Yes | 246 x 14 | 0 | 13px |
 
 <details><summary>Notes on these components</summary>
 
-- **Bar** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Label`
-- **Bar chart with axis** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Breakpoint`
+- **Bar** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Label`. per-variant sizes: `Label=Vertical` 29 x 137
+- **Bar chart with axis** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Breakpoint`. per-variant sizes: `Breakpoint=Desktop, Darkmode=False` 492 x 250
 - **Data variance** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Data change`
-- **Donut chart with ledger** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`
-- **Donut pie chart** — centre figure is 60px. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Segments`, `Icon`
-- **Graph axis** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Breakpoint`
-- **Graph legend** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`, `Key type`
+- **Donut chart with ledger** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`. per-variant sizes: `Darkmode=False, Mobile=True` auto x 388
+- **Donut pie chart** — centre figure is 60px. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Segments`, `Icon`. per-variant sizes: `Segments=2, Icon=True` 200 x 200, `Segments=4, Icon=False` 200 x 200, `Segments=4, Icon=True` 200 x 200, `Segments=1, Icon=False` 200 x 200, `Segments=1, Icon=True` 200 x 200, `Segments=3, Icon=False` 200 x 200, `Segments=3, Icon=True` 200 x 200
+- **Graph axis** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Breakpoint`. per-variant sizes: `Breakpoint=Mobile` 326 x 179
+- **Graph legend** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`, `Key type`. per-variant sizes: `Mobile=False, Key type=Line graph` auto x 18, `Mobile=True, Key type=Donut graph` auto x 27
 - **Hemisphere chart** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Status`
-- **Metric card** — big-number tile. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`
+- **Metric card** — big-number tile. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`. per-variant sizes: `Mobile=True` 392 x 65
 - **Percentage bar** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Percentage`
-- **Square progress bar** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Variant`, `Progress`
+- **Square progress bar** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Variant`, `Progress`. per-variant sizes: `Variant=Inline, Progress=0%` auto x 18, `Variant=Inline, Progress=25%` auto x 18, `Variant=Inline, Progress=50%` auto x 18, `Variant=Inline, Progress=100%` auto x 18, `Variant=Bottom label, Progress=0%` auto x 38, `Variant=Bottom label, Progress=25%` auto x 38, `Variant=Bottom label, Progress=50%` auto x 38, `Variant=Bottom label, Progress=100%` auto x 38, `Variant=Inline, Progress=75%` auto x 18, `Variant=Bottom label, Progress=75%` auto x 38
 - **Table progress bar** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Completion`, `Dark cell background`
 
 </details>
 
 ## People
 
-2 components.
+3 components.
 
 | Component | Class | Variants in Figma | Size | Radius | Type |
 |---|---|---|---|---|---|
-| [S] People | `.pf-s-people` | Property 1: Header · Inline · Large card · Small card · Table<br>Mobile: False · True | 380 x auto | — | 16px |
-| Profile image | `.pf-profile-image` | Size: Extra large · Large · Medium plus · Medium · Small · Extra small | 43 x 43 | 999 | — |
+| [S] People | `.pf-s-people` | Property 1: Header · Inline · Large card · Small card · Table<br>Mobile: False · True | 380 x 40 | 0 | 16px |
+| People | `.pf-people` | Who?: CEO - Nolan George · D - Chance Siphron · D - Marilyn Workman · M -  Corey Franci · M -  Cristofer Saris · M -  Davina Jones · M -  Jaylon Stanton · M -  Livia Franci · M -  Rayna Calzoni · S -  Abram Carder · S -  Rose Carson · S -  Alice Robinson · S -  Ashlynn Oldfield · S -  Aspen Press · S -  Cooper Passaquindici Arcand · S -  Adison Magley · S -  Erin Schleifer · S -  Hanna Philips · S -  Kaiya Culhane · S -  Kianna Herwitz · S -  Marcus Farrell · S -  Marley Westervelt · S -  Nicholas Smudge · S -  Roger Bothman · S -  Samantha Stevens · S -  Unten Wilson · Organisation · Department · Job · Initials | 91 x 91 | 0 | — |
+| Profile image | `.pf-profile-image` | Size: Extra large · Large · Medium plus · Medium · Small · Extra small | 93 x 93 | 47 | — |
 
 <details><summary>Notes on these components</summary>
 
-- **[S] People** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`
-- **Profile image** — **shape only** — no variant of this binds a colour variable in Figma, so the class carries its measured geometry and leaves colour to the page. CIRCLE. Six sizes; Medium is the default. The base row used to carry Extra large's 93px, so every avatar rendered at the largest size. The picture itself is a raster fill bound to no colour variable — see assets/component-art/.. per-variant sizes: `Size=Extra large` 93 x 93, `Size=Large` 76 x 76, `Size=Medium plus` 54 x 54, `Size=Medium` 43 x 43, `Size=Small` 28 x 28, `Size=Extra small` 22 x 22
+- **[S] People** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`. per-variant sizes: `Property 1=Header, Mobile=False` auto x 64, `Property 1=Header, Mobile=True` auto x 58, `Property 1=Small card, Mobile=False` auto x 36, `Property 1=Small card, Mobile=True` auto x 36, `Property 1=Large card, Mobile=False` auto x 54, `Property 1=Large card, Mobile=True` auto x 43, `Property 1=Table, Mobile=False` auto x 54, `Property 1=Table, Mobile=True` auto x 91
+- **People** — **shape only** — no variant of this binds a colour variable in Figma, so the class carries its measured geometry and leaves colour to the page. per-variant sizes: `Who?=D - Chance Siphron` 91 x 91, `Who?=Department` 64 x 64, `Item=Nolan George, Type=Table, Mobile=True` auto x 91, `Item=Corey Franci, Type=Table, Mobile=True` auto x 109, `Item=Organisation, Type=Table, Mobile=True` 156 x 73, `Item=Nolan George, Type=Card large, Mobile=True` auto x 43, `Item=Nolan George, Type=Card small, Mobile=True` auto x 36, `Item=Nolan George, Type=Inline search, Mobile=True` auto x 40, `Item=Nolan George, Type=Header, Mobile=True` auto x 58, `Item=Organisation, Type=Header, Mobile=True` auto x 40, `Item=Nolan George, Type=Table, Mobile=False` auto x 54, `Item=Organisation, Type=Table, Mobile=False` auto x 36, `Item=Nolan George, Type=Card large, Mobile=False` auto x 54, `Item=Nolan George, Type=Card small, Mobile=False` auto x 36, `Item=Nolan George, Type=Header, Mobile=False` auto x 64, `Item=Organisation, Type=Header, Mobile=False` auto x 64, `Item=Nolan George, Type=Inline search, Mobile=False` auto x 40, `Who?=Organisation` 64 x 64, `Who?=Job` 64 x 64, `Who?=Initials` 64 x 64
+- **Profile image** — **shape only** — no variant of this binds a colour variable in Figma, so the class carries its measured geometry and leaves colour to the page. CIRCLE. Six sizes; Medium is the default. The base row used to carry Extra large's 93px, so every avatar rendered at the largest size. The picture itself is a raster fill bound to no colour variable — see assets/component-art/.. per-variant sizes: `Size=Large` 76 x 76, `Size=Medium plus` 54 x 54, `Size=Medium` 43 x 43, `Size=Small` 28 x 28, `Size=Extra small` 22 x 22
 
 </details>
 
@@ -410,12 +412,13 @@ Contents: [Buttons and links](#buttons-and-links) · [Forms](#forms) · [Control
 | Component | Class | Variants in Figma | Size | Radius | Type |
 |---|---|---|---|---|---|
 | Configuration | `.pf-configuration` | — | 1600 x 809 | 8 | 24px |
-| Form | `.pf-form` | Mobile: False · True | 355 x auto | 8 | 18px |
-| Menu-search-settings | `.pf-menu-search-settings` | Page: Menu · Search · Settings<br>Darkmode: False | 1920 x 1080 | — | 24px |
+| Form | `.pf-form` | Mobile: False · True | 355 x 1046 | 8 | 18px |
+| Menu-search-settings | `.pf-menu-search-settings` | Page: Menu · Search · Settings<br>Darkmode: False | 1920 x 1080 | 0 | 24px |
 
 <details><summary>Notes on these components</summary>
 
-- **Form** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`
+- **Configuration** — per-variant sizes: `Mobile=True` 355 x 809
+- **Form** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`. per-variant sizes: `Mobile=False` 1200 x 1004
 
 </details>
 
@@ -458,7 +461,7 @@ Contents: [Buttons and links](#buttons-and-links) · [Forms](#forms) · [Control
 
 <details><summary>Notes on these components</summary>
 
-- **Bar chart** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Breakpoint`
+- **Bar chart** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Breakpoint`. per-variant sizes: `Breakpoint=Mobile, Darkmode=False` 283 x 222
 - **Circle icons** — CIRCLE. Four sizes as Size variants; each size row below carries its own box.. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Size`. per-variant sizes: `Size=XS - 28px` 28 x 28, `Size=S - 36px` 36 x 36, `Size=M - 44px` 44 x 44, `Size=L - 52px` 52 x 52
 - **Org chart** — per-variant sizes: `Type=Manager` 293 x 97, `Type=Reportee` 293 x 55
 

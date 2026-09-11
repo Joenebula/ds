@@ -479,6 +479,12 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-configuration[data-mobile="True"] {
+  min-height: 0;
+  border-radius: 8px;
+  display: inline-block;
+  font-size: 24px;
+}
 .pf-configuration {
   color: var(--pf-text-primary);
 }
@@ -486,6 +492,7 @@
 /* Form
  * 1 variant captured
  * Figma draws this 355px wide; treated as layout, not a rule
+ * Figma draws this 1046px tall — the artboard it sits on, not a rule; dropped
  */
 .pf-form {
   padding: 20px 10px;
@@ -503,6 +510,17 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-form[data-mobile="False"] {
+  min-height: 0;
+  padding: 40px 318px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 30px;
+  font-size: 20px;
 }
 .pf-form {
   background: var(--pf-bg-primary);
@@ -580,7 +598,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Form</h2>
-<p class="sub">.pf-form  ·  355 x auto  ·  1 variant</p>
+<p class="sub">.pf-form  ·  355 x 1046  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-form">Form</div>

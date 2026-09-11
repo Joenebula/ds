@@ -482,6 +482,19 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-bar[data-label="Vertical"] {
+  width: 29px;
+  height: 137px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
+}
 .pf-bar {
   color: var(--pf-text-primary);
 }
@@ -489,12 +502,13 @@
 /* Bar chart
  * 1 variant captured
  * Figma draws this 415px wide; treated as layout, not a rule
- * layout direction not captured; assumed a row
  */
 .pf-bar-chart {
   height: 193px;
   display: inline-flex;
-  align-items: center;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-start;
   gap: 10px;
   font-size: 13px;
   appearance: none;
@@ -504,6 +518,18 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-bar-chart[data-breakpoint="Mobile"][data-darkmode="False"] {
+  height: 222px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 13px;
 }
 .pf-bar-chart {
   color: var(--pf-text-primary);
@@ -526,6 +552,13 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-bar-chart-with-axis[data-breakpoint="Desktop"][data-darkmode="False"] {
+  height: 250px;
+  min-height: 0;
+  border-radius: 0;
+  display: inline-block;
+  font-size: 13px;
+}
 .pf-bar-chart-with-axis {
   color: var(--pf-text-primary);
 }
@@ -546,19 +579,64 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-donut-pie-chart[data-segments="2"][data-icon="True"] {
+  height: 200px;
+  min-height: 0;
+  border-radius: 0;
+  display: inline-block;
+}
+.pf-donut-pie-chart[data-segments="4"][data-icon="False"] {
+  height: 200px;
+  min-height: 0;
+  border-radius: 0;
+  display: inline-block;
+  font-size: 60px;
+}
+.pf-donut-pie-chart[data-segments="4"][data-icon="True"] {
+  height: 200px;
+  min-height: 0;
+  border-radius: 0;
+  display: inline-block;
+}
+.pf-donut-pie-chart[data-segments="1"][data-icon="False"] {
+  height: 200px;
+  min-height: 0;
+  border-radius: 0;
+  display: inline-block;
+  font-size: 60px;
+}
+.pf-donut-pie-chart[data-segments="1"][data-icon="True"] {
+  height: 200px;
+  min-height: 0;
+  border-radius: 0;
+  display: inline-block;
+}
+.pf-donut-pie-chart[data-segments="3"][data-icon="False"] {
+  height: 200px;
+  min-height: 0;
+  border-radius: 0;
+  display: inline-block;
+  font-size: 60px;
+}
+.pf-donut-pie-chart[data-segments="3"][data-icon="True"] {
+  height: 200px;
+  min-height: 0;
+  border-radius: 0;
+  display: inline-block;
+}
 .pf-donut-pie-chart {
   color: var(--pf-text-primary);
 }
 
 /* Donut chart with ledger
  * 1 variant captured
- * Figma draws this 329px wide; treated as layout, not a rule
- * layout direction not captured; assumed a row
  */
 .pf-donut-chart-with-ledger {
   height: 200px;
   display: inline-flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: flex-start;
   gap: 21px;
   font-size: 60px;
   appearance: none;
@@ -569,19 +647,31 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-donut-chart-with-ledger[data-darkmode="False"][data-mobile="True"] {
+  height: auto;
+  min-height: 388px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  font-size: 60px;
+}
 .pf-donut-chart-with-ledger {
   color: var(--pf-text-primary);
 }
 
 /* Hemisphere chart
  * 1 variant captured
- * Figma draws this 200px wide; treated as layout, not a rule
- * layout direction not captured; assumed a row
  */
 .pf-hemisphere-chart {
   height: 146px;
   display: inline-flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
   gap: 5px;
   font-size: 13px;
   appearance: none;
@@ -600,9 +690,11 @@
  * 1 variant captured
  */
 .pf-data-variance {
-  width: 41px;
   height: 45px;
-  display: inline-block;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
   font-size: 13px;
   appearance: none;
   -webkit-appearance: none;
@@ -619,14 +711,15 @@
 /* Metric card
  * 1 variant captured. big-number tile
  * Figma draws this 392px wide; treated as layout, not a rule
- * layout direction not captured; assumed a row
  */
 .pf-metric-card {
   height: 89px;
   padding: 20px;
   border-radius: 8px;
   display: inline-flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   gap: 165px;
   font-size: 36px;
   appearance: none;
@@ -637,6 +730,19 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-metric-card[data-mobile="True"] {
+  height: 65px;
+  min-height: 0;
+  padding: 10px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 165px;
+  font-size: 30px;
+  font-weight: var(--pf-font-weight-regular);
+}
 .pf-metric-card {
   background: var(--pf-bg-tertiary);
   color: var(--pf-text-primary);
@@ -646,6 +752,7 @@
  * 1 variant captured
  */
 .pf-data-variance-alternative {
+  height: 27px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -666,12 +773,13 @@
 
 /* Graph legend
  * 1 variant captured
- * layout direction not captured; assumed a row
  */
 .pf-graph-legend {
   height: 33px;
   display: inline-flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: flex-start;
   gap: 5px;
   font-size: 24px;
   font-weight: var(--pf-font-weight-regular);
@@ -683,6 +791,31 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-graph-legend[data-mobile="False"][data-key-type="Line graph"] {
+  height: 18px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 13px;
+}
+.pf-graph-legend[data-mobile="True"][data-key-type="Donut graph"] {
+  height: 27px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 20px;
+  font-weight: var(--pf-font-weight-regular);
+}
 .pf-graph-legend {
   color: var(--pf-text-primary);
 }
@@ -690,12 +823,13 @@
 /* Graph axis
  * 1 variant captured
  * Figma draws this 492px wide; treated as layout, not a rule
- * layout direction not captured; assumed a row
  */
 .pf-graph-axis {
   height: 232px;
   display: inline-flex;
-  align-items: center;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
   gap: 10px;
   font-size: 13px;
   appearance: none;
@@ -705,6 +839,19 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-graph-axis[data-breakpoint="Mobile"] {
+  height: 179px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-regular);
 }
 .pf-graph-axis {
   color: var(--pf-text-primary);
@@ -712,13 +859,13 @@
 
 /* Square progress bar
  * 1 variant captured
- * Figma draws this 177px wide; treated as layout, not a rule
- * layout direction not captured; assumed a row
  */
 .pf-square-progress-bar {
   height: 34px;
   display: inline-flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   font-size: 13px;
   appearance: none;
@@ -728,6 +875,126 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-square-progress-bar[data-variant="Inline"][data-progress="0%"] {
+  height: 18px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-square-progress-bar[data-variant="Inline"][data-progress="25%"] {
+  height: 18px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-square-progress-bar[data-variant="Inline"][data-progress="50%"] {
+  height: 18px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-square-progress-bar[data-variant="Inline"][data-progress="100%"] {
+  height: 18px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-square-progress-bar[data-variant="Bottom label"][data-progress="0%"] {
+  height: 38px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
+  font-size: 13px;
+}
+.pf-square-progress-bar[data-variant="Bottom label"][data-progress="25%"] {
+  height: 38px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
+  font-size: 13px;
+}
+.pf-square-progress-bar[data-variant="Bottom label"][data-progress="50%"] {
+  height: 38px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
+  font-size: 13px;
+}
+.pf-square-progress-bar[data-variant="Bottom label"][data-progress="100%"] {
+  height: 38px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
+  font-size: 13px;
+}
+.pf-square-progress-bar[data-variant="Inline"][data-progress="75%"] {
+  height: 18px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-square-progress-bar[data-variant="Bottom label"][data-progress="75%"] {
+  height: 38px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
+  font-size: 13px;
 }
 .pf-square-progress-bar {
   color: var(--pf-text-primary);
@@ -736,12 +1003,13 @@
 /* Table progress bar
  * 1 variant captured
  * Figma draws this 246px wide; treated as layout, not a rule
- * layout direction not captured; assumed a row
  */
 .pf-table-progress-bar {
   height: 14px;
   display: inline-flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: flex-start;
   gap: 5px;
   font-size: 13px;
   appearance: none;
@@ -759,12 +1027,13 @@
 /* Percentage bar
  * 1 variant captured
  * Figma draws this 343px wide; treated as layout, not a rule
- * layout direction not captured; assumed a row
  */
 .pf-percentage-bar {
   height: 37px;
   display: inline-flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
   gap: 5px;
   font-size: 13px;
   appearance: none;
@@ -832,7 +1101,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Data variance alternative</h2>
-<p class="sub">.pf-data-variance-alternative  ·  auto x auto  ·  1 variant</p>
+<p class="sub">.pf-data-variance-alternative  ·  auto x 27  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-data-variance-alternative">Data variance alternative</div>
@@ -840,7 +1109,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Data variance</h2>
-<p class="sub">.pf-data-variance  ·  41 x 45  ·  1 variant</p>
+<p class="sub">.pf-data-variance  ·  auto x 45  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-data-variance">Data variance</div>
@@ -848,7 +1117,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Donut chart with ledger</h2>
-<p class="sub">.pf-donut-chart-with-ledger  ·  329 x 200  ·  1 variant</p>
+<p class="sub">.pf-donut-chart-with-ledger  ·  auto x 200  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-donut-chart-with-ledger">Donut chart with ledger</div>
@@ -880,7 +1149,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Hemisphere chart</h2>
-<p class="sub">.pf-hemisphere-chart  ·  200 x 146  ·  1 variant</p>
+<p class="sub">.pf-hemisphere-chart  ·  auto x 146  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-hemisphere-chart">Hemisphere chart</div>
@@ -904,7 +1173,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
       </div>
 </div>
 <h2>Square progress bar</h2>
-<p class="sub">.pf-square-progress-bar  ·  177 x 34  ·  1 variant</p>
+<p class="sub">.pf-square-progress-bar  ·  auto x 34  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-square-progress-bar">Square progress bar</div>

@@ -39,6 +39,26 @@ for (const b of blocks)
   for (const line of b.split('\n').slice(1))
     if (line.includes('\t')) rows.set(line.split('\t').slice(0, 2).join('|'), line);
 
+// CONTENT-DEPENDENT VARIANTS. The People set has 300 variants on an `Item` axis whose
+// values are sample entities — ~25 people plus Organisation, Department, Job, Initials.
+// Its geometry is not a property of the component: the tile hugs its label, so
+// "Nolan George" is 91px tall at Type=Table, Mobile=True and "Corey Franci" is 109
+// because the longer name wraps. There is no class that can be right for both, and no
+// representative the walk can pick that is not simply one name's measurement standing in
+// for every other. Asserting any of them produces drift that no edit can clear, so the
+// axis is recorded in uncaptured-reasons.tsv and left out of the comparison. The set's
+// other axes (Type, Mobile) are measured through the [S] People component, which is the
+// same shapes without the content permutations.
+const rows2 = new Map();
+let dropped = 0;
+for (const [key, line] of rows) {
+  if (/(^|\t)Item=/.test(line.split('\t')[1] || '')) { dropped++; continue; }
+  rows2.set(key, line);
+}
+rows.clear();
+for (const [k, v] of rows2) rows.set(k, v);
+if (dropped) console.log(`  ${dropped} content-dependent People variants left out (see uncaptured-reasons.tsv)`);
+
 writeFileSync('tokens/_raw/figma-truth.tsv',
   HEADER + '\n' + [...rows.values()].sort().join('\n') + '\n');
 console.log(`figma-truth.tsv — ${rows.size} independently measured shapes`);

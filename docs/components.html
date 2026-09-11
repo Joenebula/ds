@@ -1087,6 +1087,13 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-bar-chart-with-axis[data-breakpoint="Desktop"][data-darkmode="False"] {
+  height: 250px;
+  min-height: 0;
+  border-radius: 0;
+  display: inline-block;
+  font-size: 13px;
+}
 .pf-bar-chart-with-axis {
   color: var(--pf-text-primary);
 }
@@ -1094,12 +1101,13 @@
 /* Bar chart
  * 1 variant captured
  * Figma draws this 415px wide; treated as layout, not a rule
- * layout direction not captured; assumed a row
  */
 .pf-bar-chart {
   height: 193px;
   display: inline-flex;
-  align-items: center;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-start;
   gap: 10px;
   font-size: 13px;
   appearance: none;
@@ -1109,6 +1117,18 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-bar-chart[data-breakpoint="Mobile"][data-darkmode="False"] {
+  height: 222px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 13px;
 }
 .pf-bar-chart {
   color: var(--pf-text-primary);
@@ -1133,6 +1153,19 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-bar[data-label="Vertical"] {
+  width: 29px;
+  height: 137px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
 }
 .pf-bar {
   color: var(--pf-text-primary);
@@ -2078,6 +2111,12 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-configuration[data-mobile="True"] {
+  min-height: 0;
+  border-radius: 8px;
+  display: inline-block;
+  font-size: 24px;
+}
 .pf-configuration {
   color: var(--pf-text-primary);
 }
@@ -2298,6 +2337,7 @@
  * 1 variant captured
  */
 .pf-data-variance-alternative {
+  height: 27px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -2320,9 +2360,11 @@
  * 1 variant captured
  */
 .pf-data-variance {
-  width: 41px;
   height: 45px;
-  display: inline-block;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
   font-size: 13px;
   appearance: none;
   -webkit-appearance: none;
@@ -2605,13 +2647,13 @@
 
 /* Donut chart with ledger
  * 1 variant captured
- * Figma draws this 329px wide; treated as layout, not a rule
- * layout direction not captured; assumed a row
  */
 .pf-donut-chart-with-ledger {
   height: 200px;
   display: inline-flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: flex-start;
   gap: 21px;
   font-size: 60px;
   appearance: none;
@@ -2621,6 +2663,18 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-donut-chart-with-ledger[data-darkmode="False"][data-mobile="True"] {
+  height: auto;
+  min-height: 388px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  font-size: 60px;
 }
 .pf-donut-chart-with-ledger {
   color: var(--pf-text-primary);
@@ -2641,6 +2695,51 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-donut-pie-chart[data-segments="2"][data-icon="True"] {
+  height: 200px;
+  min-height: 0;
+  border-radius: 0;
+  display: inline-block;
+}
+.pf-donut-pie-chart[data-segments="4"][data-icon="False"] {
+  height: 200px;
+  min-height: 0;
+  border-radius: 0;
+  display: inline-block;
+  font-size: 60px;
+}
+.pf-donut-pie-chart[data-segments="4"][data-icon="True"] {
+  height: 200px;
+  min-height: 0;
+  border-radius: 0;
+  display: inline-block;
+}
+.pf-donut-pie-chart[data-segments="1"][data-icon="False"] {
+  height: 200px;
+  min-height: 0;
+  border-radius: 0;
+  display: inline-block;
+  font-size: 60px;
+}
+.pf-donut-pie-chart[data-segments="1"][data-icon="True"] {
+  height: 200px;
+  min-height: 0;
+  border-radius: 0;
+  display: inline-block;
+}
+.pf-donut-pie-chart[data-segments="3"][data-icon="False"] {
+  height: 200px;
+  min-height: 0;
+  border-radius: 0;
+  display: inline-block;
+  font-size: 60px;
+}
+.pf-donut-pie-chart[data-segments="3"][data-icon="True"] {
+  height: 200px;
+  min-height: 0;
+  border-radius: 0;
+  display: inline-block;
 }
 .pf-donut-pie-chart {
   color: var(--pf-text-primary);
@@ -3661,6 +3760,7 @@
 /* Form
  * 1 variant captured
  * Figma draws this 355px wide; treated as layout, not a rule
+ * Figma draws this 1046px tall — the artboard it sits on, not a rule; dropped
  */
 .pf-form {
   padding: 20px 10px;
@@ -3678,6 +3778,17 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-form[data-mobile="False"] {
+  min-height: 0;
+  padding: 40px 318px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 30px;
+  font-size: 20px;
 }
 .pf-form {
   background: var(--pf-bg-primary);
@@ -3792,12 +3903,13 @@
 /* Graph axis
  * 1 variant captured
  * Figma draws this 492px wide; treated as layout, not a rule
- * layout direction not captured; assumed a row
  */
 .pf-graph-axis {
   height: 232px;
   display: inline-flex;
-  align-items: center;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
   gap: 10px;
   font-size: 13px;
   appearance: none;
@@ -3808,18 +3920,32 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-graph-axis[data-breakpoint="Mobile"] {
+  height: 179px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-regular);
+}
 .pf-graph-axis {
   color: var(--pf-text-primary);
 }
 
 /* Graph legend
  * 1 variant captured
- * layout direction not captured; assumed a row
  */
 .pf-graph-legend {
   height: 33px;
   display: inline-flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: flex-start;
   gap: 5px;
   font-size: 24px;
   font-weight: var(--pf-font-weight-regular);
@@ -3830,6 +3956,31 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-graph-legend[data-mobile="False"][data-key-type="Line graph"] {
+  height: 18px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 13px;
+}
+.pf-graph-legend[data-mobile="True"][data-key-type="Donut graph"] {
+  height: 27px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 20px;
+  font-weight: var(--pf-font-weight-regular);
 }
 .pf-graph-legend {
   color: var(--pf-text-primary);
@@ -4339,13 +4490,13 @@
 
 /* Hemisphere chart
  * 1 variant captured
- * Figma draws this 200px wide; treated as layout, not a rule
- * layout direction not captured; assumed a row
  */
 .pf-hemisphere-chart {
   height: 146px;
   display: inline-flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
   gap: 5px;
   font-size: 13px;
   appearance: none;
@@ -4842,14 +4993,15 @@
 /* Metric card
  * 1 variant captured. big-number tile
  * Figma draws this 392px wide; treated as layout, not a rule
- * layout direction not captured; assumed a row
  */
 .pf-metric-card {
   height: 89px;
   padding: 20px;
   border-radius: 8px;
   display: inline-flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   gap: 165px;
   font-size: 36px;
   appearance: none;
@@ -4859,6 +5011,19 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-metric-card[data-mobile="True"] {
+  height: 65px;
+  min-height: 0;
+  padding: 10px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 165px;
+  font-size: 30px;
+  font-weight: var(--pf-font-weight-regular);
 }
 .pf-metric-card {
   background: var(--pf-bg-tertiary);
@@ -5747,15 +5912,250 @@
   color: var(--pf-text-always-white);
 }
 
+/* People
+ * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
+ * carries its measured geometry and leaves colour to the page.
+ */
+.pf-people {
+  width: 91px;
+  height: 91px;
+  display: inline-block;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-people[data-who="D - Chance Siphron"] {
+  width: 91px;
+  height: 91px;
+  min-height: 0;
+  border-radius: 999px;
+  display: inline-block;
+}
+.pf-people[data-who="Department"] {
+  width: 64px;
+  height: 64px;
+  min-height: 0;
+  border-radius: 999px;
+  display: inline-block;
+}
+.pf-people[data-item="Nolan George"][data-type="Table"][data-mobile="True"] {
+  height: 91px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 13px;
+}
+.pf-people[data-item="Corey Franci"][data-type="Table"][data-mobile="True"] {
+  height: 109px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 13px;
+}
+.pf-people[data-item="Organisation"][data-type="Table"][data-mobile="True"] {
+  height: 73px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 13px;
+}
+.pf-people[data-item="Nolan George"][data-type="Card large"][data-mobile="True"] {
+  height: 43px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 18px;
+}
+.pf-people[data-item="Nolan George"][data-type="Card small"][data-mobile="True"] {
+  height: 36px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 13px;
+}
+.pf-people[data-item="Nolan George"][data-type="Inline search"][data-mobile="True"] {
+  height: 40px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 16px;
+}
+.pf-people[data-item="Nolan George"][data-type="Header"][data-mobile="True"] {
+  height: 58px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 13px;
+}
+.pf-people[data-item="Organisation"][data-type="Header"][data-mobile="True"] {
+  height: 40px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-people[data-item="Nolan George"][data-type="Table"][data-mobile="False"] {
+  height: 54px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 13px;
+}
+.pf-people[data-item="Organisation"][data-type="Table"][data-mobile="False"] {
+  height: 36px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 13px;
+}
+.pf-people[data-item="Nolan George"][data-type="Card large"][data-mobile="False"] {
+  height: 54px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 20px;
+}
+.pf-people[data-item="Nolan George"][data-type="Card small"][data-mobile="False"] {
+  height: 36px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 13px;
+}
+.pf-people[data-item="Nolan George"][data-type="Header"][data-mobile="False"] {
+  height: 64px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 13px;
+}
+.pf-people[data-item="Organisation"][data-type="Header"][data-mobile="False"] {
+  height: 64px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 24px;
+  font-weight: var(--pf-font-weight-regular);
+}
+.pf-people[data-item="Nolan George"][data-type="Inline search"][data-mobile="False"] {
+  height: 40px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 16px;
+}
+.pf-people[data-who="Organisation"] {
+  width: 64px;
+  height: 64px;
+  min-height: 0;
+  border-radius: 999px;
+  display: inline-block;
+}
+.pf-people[data-who="Job"] {
+  width: 64px;
+  height: 64px;
+  min-height: 0;
+  border-radius: 999px;
+  display: inline-block;
+}
+.pf-people[data-who="Initials"] {
+  width: 64px;
+  height: 64px;
+  min-height: 0;
+  border-radius: 999px;
+  display: inline-block;
+}
+
 /* Percentage bar
  * 1 variant captured
  * Figma draws this 343px wide; treated as layout, not a rule
- * layout direction not captured; assumed a row
  */
 .pf-percentage-bar {
   height: 37px;
   display: inline-flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
   gap: 5px;
   font-size: 13px;
   appearance: none;
@@ -5818,8 +6218,8 @@
  * pill
  */
 .pf-profile-image {
-  width: 43px;
-  height: 43px;
+  width: 93px;
+  height: 93px;
   border-radius: 999px;
   display: inline-block;
   appearance: none;
@@ -5830,27 +6230,22 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
-.pf-profile-image[data-size="Extra large"] {
-  width: 93px;
-  height: 93px;
-  min-height: 0;
-  padding: 0;
-  border-radius: 999px;
-  display: inline-block;
-}
 .pf-profile-image[data-size="Large"] {
   width: 76px;
   height: 76px;
   min-height: 0;
   padding: 0;
   border-radius: 999px;
-  display: inline-block;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0px;
 }
 .pf-profile-image[data-size="Medium plus"] {
   width: 54px;
   height: 54px;
   min-height: 0;
-  padding: 0;
   border-radius: 999px;
   display: inline-block;
 }
@@ -5858,7 +6253,6 @@
   width: 43px;
   height: 43px;
   min-height: 0;
-  padding: 0;
   border-radius: 999px;
   display: inline-block;
 }
@@ -5866,7 +6260,6 @@
   width: 28px;
   height: 28px;
   min-height: 0;
-  padding: 0;
   border-radius: 999px;
   display: inline-block;
 }
@@ -5874,7 +6267,6 @@
   width: 22px;
   height: 22px;
   min-height: 0;
-  padding: 0;
   border-radius: 999px;
   display: inline-block;
 }
@@ -6445,13 +6837,13 @@
 
 /* Square progress bar
  * 1 variant captured
- * Figma draws this 177px wide; treated as layout, not a rule
- * layout direction not captured; assumed a row
  */
 .pf-square-progress-bar {
   height: 34px;
   display: inline-flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   font-size: 13px;
   appearance: none;
@@ -6461,6 +6853,126 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-square-progress-bar[data-variant="Inline"][data-progress="0%"] {
+  height: 18px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-square-progress-bar[data-variant="Inline"][data-progress="25%"] {
+  height: 18px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-square-progress-bar[data-variant="Inline"][data-progress="50%"] {
+  height: 18px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-square-progress-bar[data-variant="Inline"][data-progress="100%"] {
+  height: 18px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-square-progress-bar[data-variant="Bottom label"][data-progress="0%"] {
+  height: 38px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
+  font-size: 13px;
+}
+.pf-square-progress-bar[data-variant="Bottom label"][data-progress="25%"] {
+  height: 38px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
+  font-size: 13px;
+}
+.pf-square-progress-bar[data-variant="Bottom label"][data-progress="50%"] {
+  height: 38px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
+  font-size: 13px;
+}
+.pf-square-progress-bar[data-variant="Bottom label"][data-progress="100%"] {
+  height: 38px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
+  font-size: 13px;
+}
+.pf-square-progress-bar[data-variant="Inline"][data-progress="75%"] {
+  height: 18px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-square-progress-bar[data-variant="Bottom label"][data-progress="75%"] {
+  height: 38px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
+  font-size: 13px;
 }
 .pf-square-progress-bar {
   color: var(--pf-text-primary);
@@ -7289,12 +7801,13 @@
 /* Table progress bar
  * 1 variant captured
  * Figma draws this 246px wide; treated as layout, not a rule
- * layout direction not captured; assumed a row
  */
 .pf-table-progress-bar {
   height: 14px;
   display: inline-flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: flex-start;
   gap: 5px;
   font-size: 13px;
   appearance: none;
@@ -8159,6 +8672,7 @@
  * Figma draws this 380px wide; treated as layout, not a rule
  */
 .pf-s-people {
+  height: 40px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -8172,6 +8686,102 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-s-people[data-property-1="Header"][data-mobile="False"] {
+  height: 64px;
+  min-height: 0;
+  padding: 0 10px 0 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-s-people[data-property-1="Header"][data-mobile="True"] {
+  height: 58px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-s-people[data-property-1="Small card"][data-mobile="False"] {
+  height: 36px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-s-people[data-property-1="Small card"][data-mobile="True"] {
+  height: 36px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-s-people[data-property-1="Large card"][data-mobile="False"] {
+  height: 54px;
+  min-height: 0;
+  padding: 0 10px 0 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 20px;
+}
+.pf-s-people[data-property-1="Large card"][data-mobile="True"] {
+  height: 43px;
+  min-height: 0;
+  padding: 0 10px 0 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 18px;
+}
+.pf-s-people[data-property-1="Table"][data-mobile="False"] {
+  height: 54px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-s-people[data-property-1="Table"][data-mobile="True"] {
+  height: 91px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 13px;
 }
 .pf-s-people[data-property-1="Inline"] {
   color: var(--pf-text-primary);
@@ -8759,7 +9369,7 @@ variant names.</p>
 </div>
 <h2>Analytics and charts</h2>
 <h3>Bar chart with axis</h3>
-<p class="meta">1 variant  ·  .pf-bar-chart-with-axis  ·  326 x 221</p>
+<p class="meta">1 variant  ·  .pf-bar-chart-with-axis  ·  326 x 221  ·  none</p>
 <p class="meta" style="opacity:.75">Breakpoint dropped — a stylesheet is not breakpoint-scoped</p>
 <div class="row">
   <div class="spec">
@@ -8768,7 +9378,7 @@ variant names.</p>
   </div>
 </div>
 <h3>Bar chart</h3>
-<p class="meta">1 variant  ·  .pf-bar-chart  ·  415 x 193</p>
+<p class="meta">1 variant  ·  .pf-bar-chart  ·  415 x 193  ·  horizontal max min</p>
 <p class="meta" style="opacity:.75">Breakpoint dropped — a stylesheet is not breakpoint-scoped</p>
 <div class="row">
   <div class="spec">
@@ -8786,7 +9396,7 @@ variant names.</p>
   </div>
 </div>
 <h3>Data variance alternative</h3>
-<p class="meta">1 variant  ·  .pf-data-variance-alternative  ·  auto x auto  ·  horizontal center min</p>
+<p class="meta">1 variant  ·  .pf-data-variance-alternative  ·  auto x 27  ·  horizontal center min</p>
 <div class="row">
   <div class="spec">
     <div class="pf-data-variance-alternative">Data variance alternative</div>
@@ -8794,7 +9404,7 @@ variant names.</p>
   </div>
 </div>
 <h3>Data variance</h3>
-<p class="meta">1 variant  ·  .pf-data-variance  ·  41 x 45</p>
+<p class="meta">1 variant  ·  .pf-data-variance  ·  auto x 45  ·  vertical min min</p>
 <p class="meta" style="opacity:.75">Figma also varies this by <strong>Data change (Up/Down/No change)</strong> — every value binds the same colours, so it is one rule here</p>
 <div class="row">
   <div class="spec">
@@ -8803,7 +9413,7 @@ variant names.</p>
   </div>
 </div>
 <h3>Donut chart with ledger</h3>
-<p class="meta">1 variant  ·  .pf-donut-chart-with-ledger  ·  329 x 200</p>
+<p class="meta">1 variant  ·  .pf-donut-chart-with-ledger  ·  auto x 200  ·  horizontal center min</p>
 <p class="meta" style="opacity:.75">Mobile dropped — a stylesheet is not breakpoint-scoped</p>
 <div class="row">
   <div class="spec">
@@ -8812,7 +9422,7 @@ variant names.</p>
   </div>
 </div>
 <h3>Donut pie chart</h3>
-<p class="meta">1 variant  ·  .pf-donut-pie-chart  ·  200 x 200</p>
+<p class="meta">1 variant  ·  .pf-donut-pie-chart  ·  200 x 200  ·  none</p>
 <p class="meta" style="opacity:.75">Figma also varies this by <strong>Segments (2/1/3/4), Icon (False/True)</strong> — every value binds the same colours, so it is one rule here</p>
 <div class="row">
   <div class="spec">
@@ -8821,7 +9431,7 @@ variant names.</p>
   </div>
 </div>
 <h3>Graph axis</h3>
-<p class="meta">1 variant  ·  .pf-graph-axis  ·  492 x 232</p>
+<p class="meta">1 variant  ·  .pf-graph-axis  ·  492 x 232  ·  horizontal min min</p>
 <p class="meta" style="opacity:.75">Breakpoint dropped — a stylesheet is not breakpoint-scoped</p>
 <div class="row">
   <div class="spec">
@@ -8830,7 +9440,7 @@ variant names.</p>
   </div>
 </div>
 <h3>Graph legend</h3>
-<p class="meta">1 variant  ·  .pf-graph-legend  ·  auto x 33</p>
+<p class="meta">1 variant  ·  .pf-graph-legend  ·  auto x 33  ·  horizontal center min</p>
 <p class="meta" style="opacity:.75">Figma also varies this by <strong>Key type (Donut graph/Line graph)</strong> — every value binds the same colours, so it is one rule here.  Mobile dropped — a stylesheet is not breakpoint-scoped</p>
 <div class="row">
   <div class="spec">
@@ -8839,7 +9449,7 @@ variant names.</p>
   </div>
 </div>
 <h3>Hemisphere chart</h3>
-<p class="meta">1 variant  ·  .pf-hemisphere-chart  ·  200 x 146</p>
+<p class="meta">1 variant  ·  .pf-hemisphere-chart  ·  auto x 146  ·  vertical min min</p>
 <p class="meta" style="opacity:.75">Figma also varies this by <strong>Status (None/Negative/Warning/Neutral/Positive)</strong> — every value binds the same colours, so it is one rule here</p>
 <div class="row">
   <div class="spec">
@@ -8848,7 +9458,7 @@ variant names.</p>
   </div>
 </div>
 <h3>Metric card</h3>
-<p class="meta">1 variant  ·  .pf-metric-card  ·  392 x 89</p>
+<p class="meta">1 variant  ·  .pf-metric-card  ·  392 x 89  ·  horizontal center space_between</p>
 <p class="meta" style="opacity:.75">Mobile dropped — a stylesheet is not breakpoint-scoped</p>
 <div class="row">
   <div class="spec">
@@ -8857,7 +9467,7 @@ variant names.</p>
   </div>
 </div>
 <h3>Percentage bar</h3>
-<p class="meta">1 variant  ·  .pf-percentage-bar  ·  343 x 37</p>
+<p class="meta">1 variant  ·  .pf-percentage-bar  ·  343 x 37  ·  vertical min min</p>
 <p class="meta" style="opacity:.75">Figma also varies this by <strong>Percentage (0/25/50/75/100)</strong> — every value binds the same colours, so it is one rule here</p>
 <div class="row">
   <div class="spec">
@@ -8866,7 +9476,7 @@ variant names.</p>
   </div>
 </div>
 <h3>Square progress bar</h3>
-<p class="meta">1 variant  ·  .pf-square-progress-bar  ·  177 x 34</p>
+<p class="meta">1 variant  ·  .pf-square-progress-bar  ·  auto x 34  ·  horizontal center center</p>
 <p class="meta" style="opacity:.75">Figma also varies this by <strong>Variant (Default/Inline/Bottom label), Progress (0%/25%/50%/75%/100%)</strong> — every value binds the same colours, so it is one rule here</p>
 <div class="row">
   <div class="spec">
@@ -8875,7 +9485,7 @@ variant names.</p>
   </div>
 </div>
 <h3>Table progress bar</h3>
-<p class="meta">1 variant  ·  .pf-table-progress-bar  ·  246 x 14</p>
+<p class="meta">1 variant  ·  .pf-table-progress-bar  ·  246 x 14  ·  horizontal center min</p>
 <p class="meta" style="opacity:.75">Figma also varies this by <strong>Completion (0%/25%/50%/75%/100%), Dark cell background (No/Yes)</strong> — every value binds the same colours, so it is one rule here</p>
 <div class="row">
   <div class="spec">
@@ -10129,7 +10739,7 @@ variant names.</p>
 </div>
 <h2>Pages and Layouts</h2>
 <h3>Configuration</h3>
-<p class="meta">1 variant  ·  .pf-configuration  ·  1600 x 809</p>
+<p class="meta">1 variant  ·  .pf-configuration  ·  1600 x 809  ·  none</p>
 <div class="row">
   <div class="spec">
     <div class="pf-configuration">Configuration</div>
@@ -10137,7 +10747,7 @@ variant names.</p>
   </div>
 </div>
 <h3>Form</h3>
-<p class="meta">1 variant  ·  .pf-form  ·  355 x auto  ·  vertical center min</p>
+<p class="meta">1 variant  ·  .pf-form  ·  355 x 1046  ·  vertical center min</p>
 <p class="meta" style="opacity:.75">Mobile dropped — a stylesheet is not breakpoint-scoped</p>
 <div class="row">
   <div class="spec">
@@ -10163,7 +10773,7 @@ variant names.</p>
 </div>
 <h2>People</h2>
 <h3>[S] People</h3>
-<p class="meta">5 variants  ·  .pf-s-people  ·  380 x auto  ·  horizontal center center</p>
+<p class="meta">5 variants  ·  .pf-s-people  ·  380 x 40  ·  horizontal center center</p>
 <p class="meta" style="opacity:.75">Mobile dropped — a stylesheet is not breakpoint-scoped</p>
 <div class="row">
   <div class="spec">
@@ -10547,10 +11157,6 @@ so nobody has to guess whether one is an oversight — most are deliberate.</p>
   <div>Thumbnail <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
   <div>Thumbnail/Brand logo <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
   <div>Work item <span style="opacity:.6">— 📄 DOCUMENT MANAGEMENT</span></div>
-</div>
-<h3 style="margin-top:20px">1 — its variants are sample content (one per fictional employee), not design</h3>
-<div class="gaps">
-  <div>People <span style="opacity:.6">— People</span></div>
 </div>
 <script>
   const btns = [...document.querySelectorAll('[data-theme-set]')];

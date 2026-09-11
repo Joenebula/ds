@@ -20,19 +20,6 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Information box (row)** | auto x 56 | 0 | 0 | 0 | 13px |  |
 | **Status dot** | 22 x 22 | 0 | 100 | 0 | — |  |
 | **Side navigation tab** | 268 x 48 | 10 15 | 8 | 20 | 16px | HORIZONTAL CENTER MIN |
-| **Metric card** | 392 x 89 | 20 | 8 | 165 | 36px |  |
-| **Bar chart** | 415 x 193 | 0 | 0 | 10 | 13px |  |
-| **Bar chart with axis** | 326 x 221 | 0 | 0 | 0 | 13px Regular |  |
-| **Donut pie chart** | 200 x 200 | 0 | 0 | 0 | 60px Medium |  |
-| **Donut chart with ledger** | 329 x 200 | 0 | 0 | 21 | 60px |  |
-| **Hemisphere chart** | 200 x 146 | 0 | 0 | 5 | 13px |  |
-| **Graph legend** | auto x 33 | 0 | 0 | 5 | 24px Regular |  |
-| **Graph axis** | 492 x 232 | 0 | 0 | 10 | 13px |  |
-| **Square progress bar** | 177 x 34 | 0 | 0 | 10 | 13px |  |
-| **Table progress bar** | 246 x 14 | 0 | 0 | 5 | 13px |  |
-| **Percentage bar** | 343 x 37 | 0 | 0 | 5 | 13px |  |
-| **Data variance** | 41 x 45 | 0 | 0 | 0 | 13px |  |
-| **Profile image** | 43 x 43 | 0 | 999 | 0 | — | NONE |
 | **People (avatar)** | 91 x 91 | 0 | 0 | 0 | — |  |
 | **People (row)** | 380 x 40 | 0 | 0 | 10 | 16px |  |
 | **People (card)** | 166 x 91 | 0 | 0 | 0 | 13px |  |
@@ -46,24 +33,12 @@ case, and table rows are far taller than a default table. Look values up here.
 | **AI Assistant** | 1628 x auto | — | — | — | 20px | HORIZONTAL CENTER SPACE_BETWEEN |
 | **Adaptive card** | 478 x auto | — | — | 5 | 12px | VERTICAL MIN MIN |
 | **AI Gradient component** | 408 x 408 | — | — | — | 24px SemiBold |  |
-| **Configuration** | 1600 x 809 | — | 8 | — | 24px |  |
-| **Form** | 355 x auto | 20 10 | 8 | 30 | 18px | VERTICAL CENTER MIN |
-| **Menu-search-settings** | 1920 x 1080 | 20 | — | 30 | 24px | VERTICAL CENTER MIN |
-| **Bar** | 29 x 90 | — | — | 5 | 13px | VERTICAL CENTER MIN |
-| **Data variance alternative** | auto x auto | — | — | 5 | 20px | HORIZONTAL CENTER MIN |
-| **[S] People** | 380 x auto | — | — | 10 | 16px | HORIZONTAL CENTER CENTER |
 | **Circle icons** | auto x auto | 0 | 999 | 0 | — | NONE |
 | **Circle icons|Size=XS - 28px** | 28 x 28 | 0 | 999 | 0 | — | NONE |
 | **Circle icons|Size=S - 36px** | 36 x 36 | 0 | 999 | 0 | — | NONE |
 | **Circle icons|Size=M - 44px** | 44 x 44 | 0 | 999 | 0 | — | NONE |
 | **Circle icons|Size=L - 52px** | 52 x 52 | 0 | 999 | 0 | — | NONE |
 | **Default header background** | auto x 86 | 0 | 0 | 0 | — | NONE |
-| **Profile image|Size=Extra large** | 93 x 93 | 0 | 999 | 0 | — | NONE |
-| **Profile image|Size=Large** | 76 x 76 | 0 | 999 | 0 | — | NONE |
-| **Profile image|Size=Medium plus** | 54 x 54 | 0 | 999 | 0 | — | NONE |
-| **Profile image|Size=Medium** | 43 x 43 | 0 | 999 | 0 | — | NONE |
-| **Profile image|Size=Small** | 28 x 28 | 0 | 999 | 0 | — | NONE |
-| **Profile image|Size=Extra small** | 22 x 22 | 0 | 999 | 0 | — | NONE |
 | **Default header background|Breakpoint=Desktop** | auto x 86 | 0 | 0 | 0 | — | NONE |
 | **Default header background|Breakpoint=Tablet** | auto x 74 | 0 | 0 | 0 | — | NONE |
 | **Default header background|Breakpoint=Mobile** | auto x 62 | 0 | 0 | 0 | — | NONE |
@@ -86,6 +61,12 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Add attachment** | 440 x 466 | 0 | 0 | 20 | 13px SemiBold | VERTICAL CENTER MIN |
 | **Attachment with person** | 440 x 112 | 0 | 8 | 0 | 13px | VERTICAL CENTER MIN |
 | **Attachments** | 440 x 56 | 0 | 0 | 0 | 13px SemiBold | HORIZONTAL MIN MIN |
+| **Bar chart with axis** | 326 x 221 | — | 0 | — | 13px Regular | NONE |
+| **Bar chart with axis|Breakpoint=Desktop, Darkmode=False** | 492 x 250 | — | 0 | — | 13px | NONE |
+| **Bar chart** | 415 x 193 | 0 | 0 | 10 | 13px | HORIZONTAL MAX MIN |
+| **Bar chart|Breakpoint=Mobile, Darkmode=False** | 283 x 222 | 0 | 0 | 5 | 13px | HORIZONTAL MAX MIN |
+| **Bar** | 29 x 90 | 0 | 0 | 5 | 13px | VERTICAL CENTER MIN |
+| **Bar|Label=Vertical** | 29 x 137 | 0 | 0 | 10 | 13px | VERTICAL CENTER MIN |
 | **Browser drop down** | 440 x 222 | 5 | 8 | 5 | 16px | VERTICAL MIN MIN |
 | **Button** | auto x 32 | 0 20 | 20 | 10 | 13px SemiBold | HORIZONTAL CENTER CENTER |
 | **Button|Type=Action, State=Default, Label=No** | 32 x 32 | 0 20 | 20 | 10 | — | HORIZONTAL CENTER CENTER |
@@ -127,6 +108,8 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Configuration panel** | 1600 x 189 | 0 | 8 8 0 0 | 0 | 20px | VERTICAL CENTER MIN |
 | **Configuration tile** | auto x 260 | 40 20 | 8 | 10 | 24px | VERTICAL CENTER CENTER |
 | **Configuration tile|Device=Mobile** | auto x 230 | 30 20 | 8 | 10 | 24px | VERTICAL CENTER CENTER |
+| **Configuration** | 1600 x 809 | — | 8 | — | 24px | NONE |
+| **Configuration|Mobile=True** | 355 x 809 | — | 8 | — | 24px | NONE |
 | **Confirmation modal** | 400 x 413 | 60 10 | 8 | 36 | 24px Regular | VERTICAL CENTER MIN |
 | **Confirmation modal|Mobile=false, Type=Success, Dark mode=False** | 400 x 413 | 60 10 | 8 | 65 | 24px Regular | VERTICAL CENTER MIN |
 | **Confirmation modal|Mobile=false, Type=Information, Dark mode=False** | 400 x 550 | 60 10 | 8 | 65 | 24px Regular | VERTICAL CENTER MIN |
@@ -138,6 +121,8 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Content** | 375 x 74 | 0 | 0 | 10 | 13px | VERTICAL MIN MIN |
 | **Control** | 20 x 20 | 10 | 4 | 10 | — | VERTICAL CENTER CENTER |
 | **Control|Radio=Yes** | 20 x 20 | 0 | 50 | 0 | — | HORIZONTAL CENTER CENTER |
+| **Data variance alternative** | auto x 27 | 0 | 0 | 5 | 20px | HORIZONTAL CENTER MIN |
+| **Data variance** | auto x 45 | 0 | 0 | 0 | 13px | VERTICAL MIN MIN |
 | **Date picker period** | auto x 27 | 0 | 0 | 10 | 20px | HORIZONTAL CENTER CENTER |
 | **Date range visual** | 371 x 42 | 0 | 0 | 20 | 16px | HORIZONTAL CENTER MIN |
 | **Detail item** | 162 x 18 | 0 | 0 | 5 | 13px | HORIZONTAL MIN MIN |
@@ -146,6 +131,16 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Document previewer** | 375 x 642 | 0 | 0 | 0 | 16px | VERTICAL MIN MIN |
 | **Document previewer|Device=Tablet** | 801 x 1049 | 0 | 0 | 0 | 16px | VERTICAL MIN MIN |
 | **Document previewer|Device=Desktop** | 960 x 1433 | 0 | 0 | 0 | 16px | VERTICAL MIN MIN |
+| **Donut chart with ledger** | auto x 200 | 0 | 0 | 21 | 60px | HORIZONTAL CENTER MIN |
+| **Donut chart with ledger|Darkmode=False, Mobile=True** | auto x 388 | 0 | 0 | 20 | 60px | VERTICAL CENTER MIN |
+| **Donut pie chart** | 200 x 200 | — | 0 | — | 60px Medium | NONE |
+| **Donut pie chart|Segments=2, Icon=True** | 200 x 200 | — | 0 | — | — | NONE |
+| **Donut pie chart|Segments=4, Icon=False** | 200 x 200 | — | 0 | — | 60px | NONE |
+| **Donut pie chart|Segments=4, Icon=True** | 200 x 200 | — | 0 | — | — | NONE |
+| **Donut pie chart|Segments=1, Icon=False** | 200 x 200 | — | 0 | — | 60px | NONE |
+| **Donut pie chart|Segments=1, Icon=True** | 200 x 200 | — | 0 | — | — | NONE |
+| **Donut pie chart|Segments=3, Icon=False** | 200 x 200 | — | 0 | — | 60px | NONE |
+| **Donut pie chart|Segments=3, Icon=True** | 200 x 200 | — | 0 | — | — | NONE |
 | **Draggable card** | 480 x 50 | 10 15 | 8 | 20 | 16px | HORIZONTAL CENTER MIN |
 | **Draggable card|State=Drop** | 480 x 50 | 10 15 | 8 | 20 | — | HORIZONTAL CENTER MIN |
 | **Drop down button** | 192 x 32 | 7 10 7 20 | 48 | 0 | 13px Regular | HORIZONTAL CENTER MIN |
@@ -204,12 +199,19 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Form field|Input type=Time picker, State=Error, Full width=Yes** | 564 x 92 | 0 | 0 | 5 | 16px | VERTICAL MIN MIN |
 | **Form field|Input type=Time picker, State=Error, Full width=No** | 267 x 92 | 0 | 0 | 5 | 16px | VERTICAL MIN MIN |
 | **Form field|Input type=Time picker, State=Selected, Full width=No** | 267 x 69 | 0 | 0 | 5 | 16px | VERTICAL MIN MIN |
+| **Form** | 355 x 1046 | 20 10 | 8 | 30 | 18px | VERTICAL CENTER MIN |
+| **Form|Mobile=False** | 1200 x 1004 | 40 318 | 8 | 30 | 20px | VERTICAL CENTER MIN |
 | **Full page** | 1920 x 1080 | — | 0 | — | 13px | NONE |
 | **Full page|System=People First, Tablet=No, Mobile=Yes, Darkmode=Yes** | 375 x 667 | 0 | 0 | 0 | 13px | VERTICAL MIN SPACE_BETWEEN |
 | **Full page|System=People First, Tablet=No, Mobile=Yes, Darkmode=No** | 375 x 667 | 0 | 0 | 0 | 13px | VERTICAL MIN SPACE_BETWEEN |
 | **Full page|System=People First, Tablet=Yes, Mobile=No, Darkmode=No** | 768 x 1057 | 0 | 0 | 0 | 13px | VERTICAL MIN SPACE_BETWEEN |
 | **Full page|System=People First, Tablet=Yes, Mobile=No, Darkmode=Yes** | 768 x 1057 | 0 | 0 | 0 | 13px | VERTICAL MIN SPACE_BETWEEN |
 | **Full page/Header navigation/Yes/No** | 375 x 138 | 0 | 0 | 0 | 13px | VERTICAL MIN MIN |
+| **Graph axis** | 492 x 232 | 0 | 0 | 10 | 13px | HORIZONTAL MIN MIN |
+| **Graph axis|Breakpoint=Mobile** | 326 x 179 | 0 | 0 | 10 | 13px Regular | HORIZONTAL MIN MIN |
+| **Graph legend** | auto x 33 | 0 | 0 | 5 | 24px Regular | HORIZONTAL CENTER MIN |
+| **Graph legend|Mobile=False, Key type=Line graph** | auto x 18 | 0 | 0 | 5 | 13px | HORIZONTAL CENTER MIN |
+| **Graph legend|Mobile=True, Key type=Donut graph** | auto x 27 | 0 | 0 | 5 | 20px Regular | HORIZONTAL CENTER MIN |
 | **Header navigation** | 1830 x 130 | 0 | 0 | 0 | 16px | VERTICAL MIN MIN |
 | **Header navigation|Mobile=Yes, Tablet=No** | 390 x 106 | 0 | 0 | 0 | 13px | VERTICAL MIN MIN |
 | **Header navigation|Mobile=No, Tablet=Yes** | 768 x 118 | 0 | 0 | 0 | 13px | VERTICAL MIN MIN |
@@ -247,6 +249,7 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Header|Theme=Classic, Mobile=Yes** | 390 x 62 | 0 10 | 0 | 10 | 16px SemiBold | HORIZONTAL CENTER SPACE_BETWEEN |
 | **Header|System=People First** | 20 x 20 | 0 4 | 38 | 10 | 11px SemiBold | VERTICAL CENTER CENTER |
 | **Header|System=Configr** | 20 x 20 | 0 4 | 38 | 10 | 11px SemiBold | VERTICAL CENTER CENTER |
+| **Hemisphere chart** | auto x 146 | 0 | 0 | 5 | 13px | VERTICAL MIN MIN |
 | **Horizontal scroll** | 1160 x 32 | 0 | 0 | 390 | — | HORIZONTAL CENTER CENTER |
 | **Image picker** | 440 x 220 | — | 0 | — | — | NONE |
 | **Information box** | 440 x 56 | 0 | 0 | 0 | 13px | HORIZONTAL MIN MIN |
@@ -269,7 +272,10 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Map** | 480 x 200 | — | 8 | — | — | NONE |
 | **Menu** | 50 x 73 | 0 | 0 | 5 | 13px | VERTICAL CENTER MIN |
 | **Menu|Size=Small** | 317 x 26 | 0 | 0 | 5 | 13px | HORIZONTAL CENTER MIN |
+| **Menu-search-settings** | 1920 x 1080 | 20 | 0 | 30 | 24px | VERTICAL CENTER MIN |
 | **Message box** | 455 x 138 | 15 | 8 | 10 | 16px | VERTICAL MIN MIN |
+| **Metric card** | 392 x 89 | 20 | 8 | 165 | 36px | HORIZONTAL CENTER SPACE_BETWEEN |
+| **Metric card|Mobile=True** | 392 x 65 | 10 | 8 | 165 | 30px Regular | HORIZONTAL CENTER SPACE_BETWEEN |
 | **Mobile bottom navigation** | 375 x 76 | 0 | 0 | 0 | 11px | HORIZONTAL MIN MIN |
 | **Mobile bottom navigation|Tablet=Yes** | 768 x 56 | 0 | 0 | 0 | 11px | HORIZONTAL CENTER MIN |
 | **Mobile key actions** | 126 x 103 | — | 0 | — | 16px | NONE |
@@ -321,8 +327,36 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Org chart|Type=Reportee** | 293 x 55 | 0 | 8 | 0 | 16px | HORIZONTAL CENTER MIN |
 | **Pagination buttons** | 358 x 32 | 0 | 0 | 30 | 13px SemiBold | HORIZONTAL CENTER SPACE_BETWEEN |
 | **People and department drop down** | 440 x 320 | 10 5 10 10 | 0 | 10 | 16px | HORIZONTAL MIN CENTER |
+| **People** | 91 x 91 | — | 0 | — | — | NONE |
+| **People|Who?=D - Chance Siphron** | 91 x 91 | — | 78 | — | — | NONE |
+| **People|Who?=Department** | 64 x 64 | — | 40 | — | — | NONE |
+| **People|Item=Nolan George, Type=Table, Mobile=True** | auto x 91 | 0 | 0 | 0 | 13px | VERTICAL MIN MIN |
+| **People|Item=Corey Franci, Type=Table, Mobile=True** | auto x 109 | 0 | 0 | 0 | 13px | VERTICAL MIN MIN |
+| **People|Item=Organisation, Type=Table, Mobile=True** | 156 x 73 | 0 | 0 | 0 | 13px | VERTICAL MIN MIN |
+| **People|Item=Nolan George, Type=Card large, Mobile=True** | auto x 43 | 0 | 0 | 0 | 18px | HORIZONTAL MIN MIN |
+| **People|Item=Nolan George, Type=Card small, Mobile=True** | auto x 36 | 0 | 0 | 0 | 13px | HORIZONTAL MIN MIN |
+| **People|Item=Nolan George, Type=Inline search, Mobile=True** | auto x 40 | 0 | 0 | 0 | 16px | HORIZONTAL MIN MIN |
+| **People|Item=Nolan George, Type=Header, Mobile=True** | auto x 58 | 0 | 0 | 0 | 13px | VERTICAL MIN MIN |
+| **People|Item=Organisation, Type=Header, Mobile=True** | auto x 40 | 0 | 0 | 0 | 16px SemiBold | VERTICAL MIN MIN |
+| **People|Item=Nolan George, Type=Table, Mobile=False** | auto x 54 | 0 | 0 | 0 | 13px | HORIZONTAL MIN MIN |
+| **People|Item=Organisation, Type=Table, Mobile=False** | auto x 36 | 0 | 0 | 0 | 13px | HORIZONTAL MIN MIN |
+| **People|Item=Nolan George, Type=Card large, Mobile=False** | auto x 54 | 0 | 0 | 0 | 20px | HORIZONTAL MIN MIN |
+| **People|Item=Nolan George, Type=Card small, Mobile=False** | auto x 36 | 0 | 0 | 0 | 13px | HORIZONTAL MIN MIN |
+| **People|Item=Nolan George, Type=Header, Mobile=False** | auto x 64 | 0 | 0 | 0 | 13px | HORIZONTAL MIN MIN |
+| **People|Item=Organisation, Type=Header, Mobile=False** | auto x 64 | 0 | 0 | 0 | 24px Regular | HORIZONTAL MIN MIN |
+| **People|Item=Nolan George, Type=Inline search, Mobile=False** | auto x 40 | 0 | 0 | 0 | 16px | HORIZONTAL MIN MIN |
+| **People|Who?=Organisation** | 64 x 64 | — | 40 | — | — | NONE |
+| **People|Who?=Job** | 64 x 64 | — | 40 | — | — | NONE |
+| **People|Who?=Initials** | 64 x 64 | — | 40 | — | — | NONE |
+| **Percentage bar** | 343 x 37 | 0 | 0 | 5 | 13px | VERTICAL MIN MIN |
 | **Primary search** | 300 x 38 | 0 10 | 20 | 10 | 13px | HORIZONTAL CENTER MIN |
 | **Primary search|Darkmode=False, Icon only=True** | 36 x 36 | 0 10 | 20 | 0 | — | HORIZONTAL CENTER CENTER |
+| **Profile image** | 93 x 93 | — | 47 | — | — | NONE |
+| **Profile image|Size=Large** | 76 x 76 | 0 | 47 | 0 | — | VERTICAL CENTER MIN |
+| **Profile image|Size=Medium plus** | 54 x 54 | — | 47 | — | — | NONE |
+| **Profile image|Size=Medium** | 43 x 43 | — | 47 | — | — | NONE |
+| **Profile image|Size=Small** | 28 x 28 | — | 47 | — | — | NONE |
+| **Profile image|Size=Extra small** | 22 x 22 | — | 47 | — | — | NONE |
 | **Radio card** | 235 x 152 | 25 0 | 4 | 10 | 16px SemiBold | VERTICAL CENTER MIN |
 | **Radio tile** | 235 x 152 | 25 0 | 4 | 10 | 16px SemiBold | VERTICAL CENTER MIN |
 | **Repeating group** | auto x 258 | 0 | 0 | 20 | 16px Italic | VERTICAL MIN MIN |
@@ -347,6 +381,17 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Spotlight Card** | 375 x 302 | 0 0 10 0 | 8 | 10 | 13px | VERTICAL MIN MIN |
 | **Spotlight Card|Horizontal=True, Mobile=False** | 585 x 218 | 10 | 8 | 10 | 13px | VERTICAL MIN MIN |
 | **Spotlight Card|Horizontal=True, Mobile=True** | 375 x 168 | 10 | 8 | 10 | 13px | VERTICAL MIN MIN |
+| **Square progress bar** | auto x 34 | 0 | 0 | 10 | 13px | HORIZONTAL CENTER CENTER |
+| **Square progress bar|Variant=Inline, Progress=0%** | auto x 18 | 0 | 0 | 10 | 13px | HORIZONTAL CENTER CENTER |
+| **Square progress bar|Variant=Inline, Progress=25%** | auto x 18 | 0 | 0 | 10 | 13px | HORIZONTAL CENTER CENTER |
+| **Square progress bar|Variant=Inline, Progress=50%** | auto x 18 | 0 | 0 | 10 | 13px | HORIZONTAL CENTER CENTER |
+| **Square progress bar|Variant=Inline, Progress=100%** | auto x 18 | 0 | 0 | 10 | 13px | HORIZONTAL CENTER CENTER |
+| **Square progress bar|Variant=Bottom label, Progress=0%** | auto x 38 | 0 | 0 | 0 | 13px | VERTICAL CENTER CENTER |
+| **Square progress bar|Variant=Bottom label, Progress=25%** | auto x 38 | 0 | 0 | 0 | 13px | VERTICAL CENTER CENTER |
+| **Square progress bar|Variant=Bottom label, Progress=50%** | auto x 38 | 0 | 0 | 0 | 13px | VERTICAL CENTER CENTER |
+| **Square progress bar|Variant=Bottom label, Progress=100%** | auto x 38 | 0 | 0 | 0 | 13px | VERTICAL CENTER CENTER |
+| **Square progress bar|Variant=Inline, Progress=75%** | auto x 18 | 0 | 0 | 10 | 13px | HORIZONTAL CENTER CENTER |
+| **Square progress bar|Variant=Bottom label, Progress=75%** | auto x 38 | 0 | 0 | 0 | 13px | VERTICAL CENTER CENTER |
 | **Star rating** | auto x 24 | 0 | 0 | 0 | 13px | VERTICAL CENTER CENTER |
 | **Stars** | 25 x 24 | — | 0 | — | — | NONE |
 | **Status** | 22 x 22 | — | 100 | — | — | NONE |
@@ -391,6 +436,7 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Table header (AG)** | 300 x 54 | 15 | 0 | 47 | 13px SemiBold | HORIZONTAL CENTER SPACE_BETWEEN |
 | **Table header (AG)|Alignment=Checkbox** | auto x 54 | 15 | 0 | 47 | — | HORIZONTAL CENTER MIN |
 | **Table header icons** | 24 x 24 | 10 | 4 | 10 | — | HORIZONTAL CENTER CENTER |
+| **Table progress bar** | 246 x 14 | 0 | 0 | 5 | 13px | HORIZONTAL CENTER MIN |
 | **Tags** | auto x 28 | 5 10 | 4 | 5 | 13px Regular | HORIZONTAL CENTER CENTER |
 | **Tags|Type=Neutral, Small=Yes** | auto x 22 | 2 5 | 4 | 5 | 13px Regular | HORIZONTAL CENTER CENTER |
 | **Tags|Type=Expired, Small=Yes** | auto x 22 | 2 5 | 4 | 5 | 13px Regular | HORIZONTAL CENTER CENTER |
@@ -438,6 +484,15 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Waffle** | 90 x 86 | — | 0 | — | — | NONE |
 | **[S] Attachment** | 440 x 56 | 10 20 | 8 | 0 | 13px SemiBold | HORIZONTAL CENTER MIN |
 | **[S] Config child menu** | auto x 42 | 10 0 0 11 | 0 | 10 | 16px | VERTICAL MIN MIN |
+| **[S] People** | 380 x 40 | 0 | 0 | 10 | 16px | HORIZONTAL CENTER CENTER |
+| **[S] People|Property 1=Header, Mobile=False** | auto x 64 | 0 10 0 0 | 0 | 10 | 13px | HORIZONTAL CENTER MIN |
+| **[S] People|Property 1=Header, Mobile=True** | auto x 58 | 0 | 0 | 10 | 13px | HORIZONTAL CENTER MIN |
+| **[S] People|Property 1=Small card, Mobile=False** | auto x 36 | 0 | 0 | 10 | 13px | HORIZONTAL CENTER MIN |
+| **[S] People|Property 1=Small card, Mobile=True** | auto x 36 | 0 | 0 | 10 | 13px | HORIZONTAL CENTER MIN |
+| **[S] People|Property 1=Large card, Mobile=False** | auto x 54 | 0 10 0 0 | 0 | 10 | 20px | HORIZONTAL CENTER MIN |
+| **[S] People|Property 1=Large card, Mobile=True** | auto x 43 | 0 10 0 0 | 0 | 10 | 18px | HORIZONTAL CENTER MIN |
+| **[S] People|Property 1=Table, Mobile=False** | auto x 54 | 0 | 0 | 10 | 13px | HORIZONTAL CENTER MIN |
+| **[S] People|Property 1=Table, Mobile=True** | auto x 91 | 0 | 0 | 5 | 13px | VERTICAL CENTER CENTER |
 | **[S] Post content** | 520 x 198 | 0 20 10 73 | 0 | 2 | 20px | VERTICAL MIN MIN |
 | **[S] Text area** | 300 x 240 | 0 | 8 | 5 | 16px | VERTICAL MIN MIN |
 | **single layout card** | 800 x 368 | 30 | 0 | 20 | 20px | VERTICAL CENTER MIN |

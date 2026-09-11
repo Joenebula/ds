@@ -18,7 +18,14 @@ import { readFileSync } from 'node:fs';
 // freely — that is the extract capturing more of each component. It may not go up
 // without someone deciding to raise it, because up means a component quietly lost
 // its paint.
-const SHELL_BASELINE = 69;
+//
+// Raised 69 -> 70 on the People page walk. The new shell is `pf-people`, and it is not a
+// component that lost anything: the People avatar set had no geometry row at all until
+// that page was measured, so no rule for it existed to count. Its fill is a photograph,
+// bound to no colour variable, so a shell is the correct result — the same situation as
+// the header band, which is why the artwork pipeline exists. Checked by diffing the
+// shell census against the previous build rather than by assuming.
+const SHELL_BASELINE = 70;
 
 const css = readFileSync('dist/components.css', 'utf8');
 let failures = 0;
