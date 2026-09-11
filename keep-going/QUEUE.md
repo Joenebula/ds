@@ -634,10 +634,35 @@ gallery's totals move accordingly.
 
 **Governing skills:** `figma-use` before any Figma read.
 
-## Parked at the user's request
+## 38. The two tokens with no Figma variable — `done`
 
-The two tokens with no Figma variable — `--pf-border-default` and `--pf-bg-theme-full`.
-Coming back to these; nothing has been changed.
+Both turned out to be renames, like the navigation components before them — and the second
+was not the harmless duplicate I had reported.
+
+**`Border/Default` -> `Border/Default full`.** Light identical (Grey Steel); dark moves from
+White to Grey Fog. 35 bindings across 19 components. Measured on a rendered screen before
+the user decided: 3.54% of pixels change at all, 0.60% noticeably. I had described this as
+"every hairline turns white to grey", which sounded dramatic and is not what it looks like.
+
+**`Background/Theme full` -> `Background/Theme`, and our `Background/Theme` ->
+`Background/Light Theme`.** I told the user this one was an exact duplicate that would
+change nothing. That was wrong, and checking before acting is the only reason it did not
+ship: our `Background/Theme` held Pale Pink / #2c3844, which matches no Figma token; the
+values Figma now has under `Background/Theme` are Default Pink / Blue Sky, which our
+extract held under `Background/Theme full`. A naive "retire the duplicate" would have
+repointed 10 components — every table row hover, filter chip hover, selected radio card and
+selected nav tab — from a pale pink WASH to SOLID BRAND PINK.
+
+Confirmed against Figma rather than inferred: `Table cell (AG) Style=Hover`,
+`AG sort item State=Hover` and `Multi-select checkbox State=Hover` all bind
+`Background/Light Theme` today. So the 15 bindings moved there, and their dark value
+corrected from #2c3844 to #3d475a at the same time.
+
+`Progress bar/Border` aliased the retired `Border/Default` and now aliases
+`Border/Default full`, as Figma has it.
+
+**Done when:** met. `dist/tokens.css` carries **111 semantic tokens — exactly Figma's 111**,
+with no name that Figma does not have. Both phantoms gone.
 
 ## 35. Component 1 — the last real component with no rules — `done`
 

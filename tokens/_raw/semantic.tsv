@@ -14,12 +14,10 @@ Background/Secondary	@Base colours/Light Ivory	@Base colours/Blue Shark	FRAME_FI
 Background/Secondary Button	@Base colours/Blue Dusk	@Base colours/Blue Turquoise	FRAME_FILL+SHAPE_FILL
 Background/Secondary Button Hover	@Base colours/Blue Navy	@Base colours/Blue Sky	FRAME_FILL+SHAPE_FILL
 Background/Tertiary	@Base colours/White Ivory	#282a32	FRAME_FILL+SHAPE_FILL
-Background/Theme	@Base colours/Pale Pink Theme	#2c3844	FRAME_FILL+SHAPE_FILL
-Background/Theme full	@Base colours/Default Pink	@Base colours/Blue Sky	FRAME_FILL+SHAPE_FILL
+Background/Theme	@Base colours/Default Pink	@Base colours/Blue Sky	FRAME_FILL+SHAPE_FILL
 Background/Warning	@Base colours/Bronze Gin Fizz	#b65c02	FRAME_FILL+SHAPE_FILL
 Border/Border - Drop shadow	@Base colours/Grey Dolphin	@Base colours/Grey Slate	STROKE_COLOR+EFFECT_COLOR
 Border/Configr	@Base colours/Electric Violet	@Base colours/Light Violet	STROKE_COLOR
-Border/Default	@Base colours/Grey Steel	@Base colours/White	STROKE_COLOR
 Border/Default full	@Base colours/Grey Steel	@Base colours/Grey Fog	FRAME_FILL+SHAPE_FILL+STROKE_COLOR
 Border/Default hidden	@Base colours/Grey Steel	rgba(255,255,255,0)	FRAME_FILL+SHAPE_FILL+STROKE_COLOR
 Border/Disabled	@Base colours/Grey Dolphin	@Base colours/Grey	STROKE_COLOR
@@ -71,7 +69,7 @@ Navigation/Search bg	rgba(255,255,255,0.9)	@Background/Secondary	FRAME_FILL+SHAP
 Org cards/Fills/BG Dark	#bf1d43	@Base colours/Blue Turquoise	FRAME_FILL+SHAPE_FILL+STROKE_COLOR
 Org cards/Fills/BG Light	#fbf4f6	#292f3c	FRAME_FILL+SHAPE_FILL
 Org cards/Fills/BG Main	@Base colours/White	@Base colours/Blue Shark	FRAME_FILL+SHAPE_FILL
-Progress bar/Border	@Border/Default	@Table/Border	STROKE_COLOR
+Progress bar/Border	@Border/Default full	@Table/Border	STROKE_COLOR
 Table/Border	@Base colours/Grey Dolphin	#1a1a1a	STROKE_COLOR
 Table/Card	@Background/Primary	#2c313c	FRAME_FILL
 Table/Header cell	@Background/Tertiary	#141414	FRAME_FILL

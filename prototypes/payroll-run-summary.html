@@ -135,12 +135,10 @@
   --pf-bg-secondary-button: var(--pf-base-blue-dusk);
   --pf-bg-secondary-button-hover: var(--pf-base-blue-navy);
   --pf-bg-tertiary: var(--pf-base-white-ivory);
-  --pf-bg-theme: var(--pf-base-pale-pink-theme);
-  --pf-bg-theme-full: var(--pf-base-default-pink);
+  --pf-bg-theme: var(--pf-base-default-pink);
   --pf-bg-warning: var(--pf-base-bronze-gin-fizz);
   --pf-border-drop-shadow: var(--pf-base-grey-dolphin);
   --pf-border-configr: var(--pf-base-electric-violet);
-  --pf-border-default: var(--pf-base-grey-steel);
   --pf-border-default-full: var(--pf-base-grey-steel);
   --pf-border-default-hidden: var(--pf-base-grey-steel);
   --pf-border-disabled: var(--pf-base-grey-dolphin);
@@ -192,7 +190,7 @@
   --pf-org-card-bg-dark: #bf1d43; /* literal */
   --pf-org-card-bg-light: #fbf4f6; /* literal */
   --pf-org-card-bg-main: var(--pf-base-white);
-  --pf-progress-bar-border: var(--pf-border-default);
+  --pf-progress-bar-border: var(--pf-border-default-full);
   --pf-table-border: var(--pf-base-grey-dolphin);
   --pf-table-card: var(--pf-bg-primary);
   --pf-table-header-cell: var(--pf-bg-tertiary);
@@ -252,12 +250,10 @@
   --pf-bg-secondary-button: var(--pf-base-blue-turquoise);
   --pf-bg-secondary-button-hover: var(--pf-base-blue-sky);
   --pf-bg-tertiary: #282a32; /* literal */
-  --pf-bg-theme: #2c3844; /* literal */
-  --pf-bg-theme-full: var(--pf-base-blue-sky);
+  --pf-bg-theme: var(--pf-base-blue-sky);
   --pf-bg-warning: #b65c02; /* literal */
   --pf-border-drop-shadow: var(--pf-base-grey-slate);
   --pf-border-configr: var(--pf-base-light-violet);
-  --pf-border-default: var(--pf-base-white);
   --pf-border-default-full: var(--pf-base-grey-fog);
   --pf-border-default-hidden: rgba(255,255,255,0); /* literal */
   --pf-border-disabled: var(--pf-base-grey);
@@ -370,12 +366,10 @@
     --pf-bg-secondary-button: var(--pf-base-blue-turquoise);
     --pf-bg-secondary-button-hover: var(--pf-base-blue-sky);
     --pf-bg-tertiary: #282a32; /* literal */
-    --pf-bg-theme: #2c3844; /* literal */
-    --pf-bg-theme-full: var(--pf-base-blue-sky);
+    --pf-bg-theme: var(--pf-base-blue-sky);
     --pf-bg-warning: #b65c02; /* literal */
     --pf-border-drop-shadow: var(--pf-base-grey-slate);
     --pf-border-configr: var(--pf-base-light-violet);
-    --pf-border-default: var(--pf-base-white);
     --pf-border-default-full: var(--pf-base-grey-fog);
     --pf-border-default-hidden: rgba(255,255,255,0); /* literal */
     --pf-border-disabled: var(--pf-base-grey);
@@ -602,11 +596,11 @@
 }
 .pf-ag-sort-item[data-state="Hover"],
 .pf-ag-sort-item:hover {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   color: var(--pf-text-primary);
 }
 .pf-ag-sort-item[data-state="Active"] {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   color: var(--pf-text-primary);
 }
 
@@ -630,11 +624,13 @@
 }
 .pf-ai-assistant[data-type="Default"] {
   background: var(--pf-bg-primary);
+  /* Figma binds the primitive "Base colours/Default Pink" here; no semantic token has this role */
   color: var(--pf-base-default-pink);
 }
 .pf-ai-assistant[data-type="Active chat"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
+  /* Figma binds the primitive "Base colours/Default Pink" here; no semantic token has this role */
   color: var(--pf-base-default-pink);
 }
 .pf-ai-assistant[data-type="Expanded"] {
@@ -718,14 +714,18 @@
   color: var(--pf-text-primary);
 }
 .pf-ai-button[data-style="Light mode"][data-hover="True"] {
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-ai-button[data-style="Inverted"][data-hover="False"] {
+  /* Figma binds the primitive "Base colours/Default Pink" here; no semantic token has this role */
   color: var(--pf-base-default-pink);
 }
 .pf-ai-button[data-style="Inverted"][data-hover="True"] {
+  /* Figma binds the primitive "Base colours/White" here; no semantic token has this role */
   border-color: var(--pf-base-white);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 /* AI card modal
@@ -805,12 +805,12 @@
 }
 .pf-accordion[data-expanded="False"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 .pf-accordion[data-expanded="True"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 
@@ -927,7 +927,7 @@
   font-family: var(--pf-font-body);
 }
 .pf-attachment-with-person {
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 
@@ -1082,21 +1082,25 @@
 }
 .pf-button[data-type="Positive"] {
   background: var(--pf-bg-primary-button);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-button[data-type="Positive"][data-state="Hover"],
 .pf-button[data-type="Positive"]:hover {
   background: var(--pf-bg-primary-button-hover);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-button[data-type="Negative"] {
   background: var(--pf-bg-negative-button);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-button[data-type="Negative"][data-state="Hover"],
 .pf-button[data-type="Negative"]:hover {
   background: var(--pf-bg-negative-button-hover);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-button[data-type="Hollow"] {
   border-color: var(--pf-border-hollow-button);
@@ -1156,13 +1160,15 @@
 .pf-button[data-type="Negative"]:disabled,
 .pf-button[data-type="Negative"][aria-disabled="true"] {
   background: var(--pf-bg-negative-button);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-button[data-type="Positive"][data-state="Disabled"],
 .pf-button[data-type="Positive"]:disabled,
 .pf-button[data-type="Positive"][aria-disabled="true"] {
   background: var(--pf-bg-primary-button);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 /* Calendar picker
@@ -1183,7 +1189,8 @@
   font-family: var(--pf-font-body);
 }
 .pf-calendar-picker {
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 /* Card
@@ -1352,6 +1359,7 @@
 }
 .pf-clickable-ai-element[data-state="Hover"],
 .pf-clickable-ai-element:hover {
+  /* Figma binds the primitive "Base colours/Default Pink" here; no semantic token has this role */
   color: var(--pf-base-default-pink);
 }
 
@@ -1379,13 +1387,45 @@
   font-family: var(--pf-font-body);
 }
 .pf-clock-in[data-type="Standard"] {
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-inverted-primary);
 }
 .pf-clock-in[data-type="Hover"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-theme);
+}
+
+/* Component 1
+ * 2 variants captured. UNNAMED IN FIGMA. It is the row inside Editable list card: a label with a trailing add or remove action. Property 1=Frame 6270951 is the ADD state (no fill, green Plus circle icon); Frame 6270952 is the ADDED state (Background/Tertiary fill, grey Remove icon). The component and both variant values carry Figma default names — raise with design.
+ * Figma draws this 432px wide; treated as layout, not a rule
+ */
+.pf-component-1 {
+  height: 48px;
+  padding: 10px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-component-1[data-property-1="Frame 6270951"] {
+  border-color: var(--pf-border-default-full);
+  color: var(--pf-text-secondary);
+}
+.pf-component-1[data-property-1="Frame 6270952"] {
+  background: var(--pf-bg-tertiary);
+  border-color: var(--pf-border-default-full);
+  color: var(--pf-text-secondary);
 }
 
 /* Config child menu
@@ -1409,6 +1449,7 @@
   color: var(--pf-text-primary);
 }
 .pf-config-child-menu[data-type="Selected"] {
+  /* Figma binds the primitive "Base colours/Blue Ocean" here; no semantic token has this role */
   background: var(--pf-base-blue-ocean);
   color: var(--pf-text-inverted-primary);
 }
@@ -1457,7 +1498,7 @@
   font-family: var(--pf-font-body);
 }
 .pf-config-parent-menu {
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 
@@ -1582,17 +1623,17 @@
 }
 .pf-confirmation-modal[data-type="Confirmation"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 .pf-confirmation-modal[data-type="Success"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 .pf-confirmation-modal[data-type="Information"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 
@@ -1618,7 +1659,7 @@
 }
 .pf-content-cards[data-mobile="false"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 
@@ -1673,35 +1714,6 @@
 .pf-control[data-radio="Yes"] {
   background: var(--pf-bg-primary);
   border-color: var(--pf-icon-disabled);
-}
-
-/* Counter
- * 1 variant captured
- * pill
- */
-.pf-counter {
-  width: 20px;
-  height: 20px;
-  padding: 0 4px;
-  border-radius: 999px;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  font-size: 11px;
-  font-weight: var(--pf-font-weight-bold);
-  appearance: none;
-  -webkit-appearance: none;
-  background: transparent;
-  margin: 0;
-  border: 0;
-  box-sizing: border-box;
-  font-family: var(--pf-font-body);
-}
-.pf-counter {
-  background: var(--pf-icon-theme);
-  color: var(--pf-text-inverted-primary);
 }
 
 /* Data variance alternative
@@ -1886,15 +1898,15 @@
   font-family: var(--pf-font-body);
 }
 .pf-document-previewer[data-device="Mobile"] {
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 .pf-document-previewer[data-device="Tablet"] {
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 .pf-document-previewer[data-device="Desktop"] {
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 
@@ -1964,7 +1976,7 @@
 }
 .pf-draggable-card {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 .pf-draggable-card[data-state="Hover"],
@@ -1984,7 +1996,7 @@
   color: var(--pf-text-primary);
 }
 .pf-draggable-card[data-state="Drop"] {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   border-color: var(--pf-border-theme);
 }
 
@@ -2039,7 +2051,7 @@
 }
 .pf-editable-list-card[data-property-1="Default"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-secondary);
 }
 
@@ -2186,7 +2198,7 @@
 }
 .pf-filter-chip[data-active="False"][data-state="Hover"],
 .pf-filter-chip[data-active="False"]:hover {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   border-color: var(--pf-border-theme);
   color: var(--pf-text-theme);
 }
@@ -2215,18 +2227,18 @@
 }
 .pf-filter-tab-single[data-selected="False"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-secondary);
 }
 .pf-filter-tab-single[data-selected="False"][data-state="Hover"],
 .pf-filter-tab-single[data-selected="False"]:hover {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-theme);
 }
 .pf-filter-tab-single[data-selected="True"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-theme);
 }
 
@@ -2416,17 +2428,38 @@
   color: var(--pf-text-primary);
 }
 
-/* Full page navigation
- * 3 variants captured
- * Figma draws this 1920px wide; treated as layout, not a rule
- * Figma draws this 1080px tall — the artboard it sits on, not a rule; dropped
+/* Full page
+ * 5 variants captured. 7 variants. Figma draws it 1920x1080 — a whole page frame, not a component box.
  */
-.pf-full-page-navigation {
+.pf-full-page[data-system="People First"][data-darkmode="No"] {
+  color: var(--pf-navigation-nav-items);
+}
+.pf-full-page[data-system="Configr"][data-darkmode="No"] {
+  background: var(--pf-bg-secondary);
+  color: var(--pf-navigation-configr-nav);
+}
+.pf-full-page[data-system="People First"][data-darkmode="Yes"] {
+  color: var(--pf-navigation-nav-items);
+}
+.pf-full-page[data-system="People First"][data-mobile="Yes"] {
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
+}
+.pf-full-page[data-system="People First"][data-tablet="Yes"] {
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
+}
+
+/* Full page/Header navigation/Yes/No
+ * 1 variant captured. Single component, mobile width.
+ * Figma draws this 375px wide; treated as layout, not a rule
+ */
+.pf-full-page-header-navigation-yes-no {
+  height: 138px;
   display: inline-flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  font-size: 13px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -2435,14 +2468,9 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
-.pf-full-page-navigation[data-breakpoint="Desktop"] {
-  color: var(--pf-text-secondary);
-}
-.pf-full-page-navigation[data-breakpoint="Mobile"] {
-  color: var(--pf-base-white);
-}
-.pf-full-page-navigation[data-breakpoint="Tablet"] {
-  color: var(--pf-base-white);
+.pf-full-page-header-navigation-yes-no {
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 /* Graph axis
@@ -2491,16 +2519,14 @@
   color: var(--pf-text-primary);
 }
 
-/* Header top navigation
- * 3 variants captured
- * Figma draws this 1834px wide; treated as layout, not a rule
+/* Header navigation
+ * 3 variants captured. 3 variants (Mobile x Tablet). Figma draws it 1830x130 — the artboard, not a rule.
  */
-.pf-header-top-navigation {
+.pf-header-navigation {
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  font-size: 16px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -2509,14 +2535,16 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
-.pf-header-top-navigation[data-breakpoint="Desktop"] {
+.pf-header-navigation[data-mobile="No"][data-tablet="No"] {
   color: var(--pf-text-secondary);
 }
-.pf-header-top-navigation[data-breakpoint="Tablet"] {
-  color: var(--pf-base-white);
+.pf-header-navigation[data-mobile="Yes"][data-tablet="No"] {
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
-.pf-header-top-navigation[data-breakpoint="Mobile"] {
-  color: var(--pf-base-white);
+.pf-header-navigation[data-mobile="No"][data-tablet="Yes"] {
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 /* Header
@@ -2541,10 +2569,12 @@
   color: var(--pf-text-secondary);
 }
 .pf-header[data-breakpoint="Tablet"] {
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-header[data-breakpoint="Mobile"] {
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 /* Hemisphere chart
@@ -2692,7 +2722,7 @@
   color: var(--pf-text-primary);
 }
 .pf-layout-container-magazine-style[data-row-colour="True"] {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   color: var(--pf-text-primary);
 }
 
@@ -2985,7 +3015,7 @@
 }
 .pf-multi-select-checkbox[data-state="Hover"],
 .pf-multi-select-checkbox:hover {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   border-color: var(--pf-icon-theme);
 }
 .pf-multi-select-checkbox[data-state="Selected"] {
@@ -3014,8 +3044,45 @@
   font-family: var(--pf-font-body);
 }
 .pf-multiselect-tag {
+  /* Figma binds the primitive "Base colours/Blue Ocean" here; no semantic token has this role */
   background: var(--pf-base-blue-ocean);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
+}
+
+/* Nav tabs
+ * 3 variants captured. 6 variants (Status x Mobile); Mobile does not change the colours.
+ */
+.pf-nav-tabs {
+  height: 40px;
+  padding: 0 20px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-nav-tabs[data-status="Unselected"] {
+  background: var(--pf-navigation-nav-bg-top);
+  border-color: var(--pf-border-default-full);
+  color: var(--pf-text-primary);
+}
+.pf-nav-tabs[data-status="Hover"] {
+  background: var(--pf-navigation-nav-bg-top);
+  border-color: var(--pf-border-default-full);
+  color: var(--pf-text-theme);
+}
+.pf-nav-tabs[data-status="Selected"] {
+  background: var(--pf-navigation-nav-bg-top);
+  border-color: var(--pf-border-default-full);
+  color: var(--pf-text-theme);
 }
 
 /* Navigation item
@@ -3103,11 +3170,11 @@
 }
 .pf-next-actions-modal[data-type="Warning"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
 }
 .pf-next-actions-modal[data-type="Success"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
 }
 
 /* Note
@@ -3130,7 +3197,7 @@
   font-family: var(--pf-font-body);
 }
 .pf-note[data-property-1="Default"] {
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 
@@ -3158,7 +3225,34 @@
 }
 .pf-notification-card[data-mobile="False"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
+  color: var(--pf-text-primary);
+}
+
+/* Notification categories
+ * 2 variants captured. 2 variants (Mobile). Figma draws it 1020px tall — the artboard, not a rule.
+ * Figma draws this 300px wide; treated as layout, not a rule
+ */
+.pf-notification-categories {
+  padding: 5px 10px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-notification-categories[data-mobile="No"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-navigation-notification-selected);
+}
+.pf-notification-categories[data-mobile="Yes"] {
+  background: var(--pf-bg-primary);
   color: var(--pf-text-primary);
 }
 
@@ -3177,6 +3271,85 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+
+/* Notification list
+ * 2 variants captured. 2 variants (Mobile). Figma draws it 1117x730 — the artboard, not a rule.
+ */
+.pf-notification-list {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-notification-list[data-mobile="No"] {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-primary);
+}
+.pf-notification-list[data-mobile="Yes"] {
+  color: var(--pf-text-theme);
+}
+
+/* Notification panel
+ * 1 variant captured. 2 variants (Mobile). Figma draws it 1500x1080 — the artboard, not a rule.
+ */
+.pf-notification-panel {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-notification-panel {
+  background: var(--pf-bg-primary);
+  color: var(--pf-text-primary);
+}
+
+/* Notification tabs
+ * 3 variants captured. 3 variants (State x Selected). Node 22973:20747, which this extract previously held as "Side navigation tab" with a different variant structure.
+ */
+.pf-notification-tabs {
+  height: 65px;
+  padding: 18.5px 15px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-notification-tabs[data-selected="No"] {
+  border-color: var(--pf-border-default-full);
+  color: var(--pf-text-primary);
+}
+.pf-notification-tabs[data-selected="No"][data-state="Hover"],
+.pf-notification-tabs[data-selected="No"]:hover {
+  border-color: var(--pf-border-default-full);
+  color: var(--pf-text-theme);
+}
+.pf-notification-tabs[data-selected="Yes"][data-state="Selected"] {
+  background: var(--pf-bg-primary);
+  border-color: var(--pf-border-default-full);
+  color: var(--pf-navigation-notification-selected);
 }
 
 /* Option
@@ -3239,6 +3412,28 @@
   color: var(--pf-text-primary);
 }
 
+/* Pagination buttons
+ * 1 variant captured. Single component. Binds a primitive for its text — see source issues.
+ */
+.pf-pagination-buttons {
+  height: 32px;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 30px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-pagination-buttons {
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
+}
+
 /* People and department drop down
  * 1 variant captured
  * Figma draws this 440px wide; treated as layout, not a rule
@@ -3261,7 +3456,8 @@
 }
 .pf-people-and-department-drop-down {
   background: var(--pf-bg-primary);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 /* Percentage bar
@@ -3359,11 +3555,11 @@
 }
 .pf-radio-card[data-selected="No"][data-state="Enabled"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 .pf-radio-card[data-selected="Yes"][data-state="Enabled"] {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   border-color: var(--pf-border-theme);
   color: var(--pf-text-theme);
 }
@@ -3406,12 +3602,12 @@
 }
 .pf-radio-tile {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 .pf-radio-tile[data-state="Hover"],
 .pf-radio-tile:hover {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   border-color: var(--pf-border-theme);
   color: var(--pf-text-theme);
 }
@@ -3461,14 +3657,15 @@
   color: var(--pf-text-primary);
 }
 
-/* Search home button
- * 2 variants captured
+/* Search navigation
+ * 1 variant captured. 2 variants (Mobile). PILL.
  * Figma draws this 150px wide; treated as layout, not a rule
+ * pill
  */
-.pf-search-home-button {
+.pf-search-navigation {
   height: 32px;
+  border-radius: 999px;
   display: inline-block;
-  font-size: 16px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -3477,26 +3674,21 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
-.pf-search-home-button[data-mobile="False"] {
+.pf-search-navigation[data-mobile="False"] {
+  background: var(--pf-navigation-search-bg);
   color: var(--pf-text-secondary);
-}
-.pf-search-home-button[data-mobile="Mobile3"] {
-  color: var(--pf-text-theme);
 }
 
 /* Secondary nav
- * 2 variants captured
+ * 1 variant captured. 2 variants (Mobile); both bind the same colours. Mobile=True sets 13px text.
  */
 .pf-secondary-nav {
-  height: 43px;
-  padding: 4px 368px;
+  height: 44px;
   display: inline-flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
-  gap: 40px;
   font-size: 16px;
-  font-weight: var(--pf-font-weight-bold);
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -3505,12 +3697,9 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
-.pf-secondary-nav[data-navigation-type="Chips"] {
+.pf-secondary-nav {
+  background: var(--pf-navigation-nav-bg-top);
   color: var(--pf-text-theme);
-}
-.pf-secondary-nav[data-navigation-type="Page"] {
-  background: var(--pf-bg-primary);
-  color: var(--pf-text-primary);
 }
 
 /* Selected action banner
@@ -3589,33 +3778,6 @@
   color: var(--pf-text-primary);
 }
 
-/* Side navigation panel
- * 1 variant captured
- * Figma draws this 268px wide; treated as layout, not a rule
- * Figma draws this 416px tall; emitted as a minimum, since content decides the real height
- */
-.pf-side-navigation-panel {
-  min-height: 416px;
-  padding: 10px;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 5px;
-  font-size: 16px;
-  appearance: none;
-  -webkit-appearance: none;
-  background: transparent;
-  margin: 0;
-  border: 0;
-  box-sizing: border-box;
-  font-family: var(--pf-font-body);
-}
-.pf-side-navigation-panel {
-  background: var(--pf-bg-primary);
-  color: var(--pf-text-theme);
-}
-
 /* Side navigation tab
  * 2 variants captured
  * Figma draws this 268px wide; treated as layout, not a rule
@@ -3642,7 +3804,7 @@
   color: var(--pf-text-primary);
 }
 .pf-side-navigation-tab[data-selected="true"] {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   color: var(--pf-text-theme);
 }
 
@@ -3796,7 +3958,7 @@
 }
 .pf-spotlight-card[data-horizontal="False"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 
@@ -3889,10 +4051,73 @@
   background: var(--pf-icon-warning);
 }
 .pf-status[data-status-type="Recognition"] {
+  /* Figma binds the primitive "Base colours/Light Purple" here; no semantic token has this role */
   background: var(--pf-base-light-purple);
 }
 .pf-status[data-status-type="Comment"] {
   background: var(--pf-icon-info);
+}
+
+/* Stepper
+ * 1 variant captured. 2 variants (System); both bind the same colours.
+ * Figma draws this 330px wide; treated as layout, not a rule
+ */
+.pf-stepper {
+  height: 160px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-stepper {
+  color: var(--pf-text-positive);
+}
+
+/* Steps
+ * 6 variants captured. 26 variants across System x State x Position; 6 distinct colour bindings, keyed on State.
+ */
+.pf-steps {
+  width: 110px;
+  height: 48px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-steps[data-state="Completed"] {
+  color: var(--pf-text-positive);
+}
+.pf-steps[data-state="Selected"] {
+  color: var(--pf-navigation-nav-bg-top);
+}
+.pf-steps[data-state="Default enabled"] {
+  color: var(--pf-text-secondary);
+}
+.pf-steps[data-state="Default disabled"] {
+  color: var(--pf-text-inverted-secondary);
+}
+.pf-steps[data-system="People First"][data-state="Hover"],
+.pf-steps[data-system="People First"]:hover {
+  color: var(--pf-text-theme);
+}
+.pf-steps[data-system="Configr"][data-state="Hover"],
+.pf-steps[data-system="Configr"]:hover {
+  color: var(--pf-text-configr-theme);
 }
 
 /* Sticky footer
@@ -3919,7 +4144,8 @@
 .pf-sticky-footer[data-default="Default"] {
   background: var(--pf-bg-primary);
   border-color: var(--pf-border-secondary);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-sticky-footer[data-default="Stepper"] {
   background: var(--pf-bg-primary);
@@ -4078,29 +4304,29 @@
 }
 .pf-table-cell-ag[data-type="Default"][data-style="Default"] {
   background: var(--pf-table-primary-cell);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-link);
 }
 .pf-table-cell-ag[data-type="Default"][data-style="Stripe"] {
   background: var(--pf-table-stripe-cell);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-link);
 }
 .pf-table-cell-ag[data-type="Default"][data-style="Hover"] {
-  background: var(--pf-bg-theme);
-  border-color: var(--pf-border-default);
+  background: var(--pf-bg-light-theme);
+  border-color: var(--pf-border-default-full);
 }
 .pf-table-cell-ag[data-type="Checkbox"][data-style="Default"] {
   background: var(--pf-table-primary-cell);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
 }
 .pf-table-cell-ag[data-type="Checkbox"][data-style="Stripe"] {
   background: var(--pf-table-stripe-cell);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
 }
 .pf-table-cell-ag[data-type="Checkbox"][data-style="Hover"] {
-  background: var(--pf-bg-theme);
-  border-color: var(--pf-border-default);
+  background: var(--pf-bg-light-theme);
+  border-color: var(--pf-border-default-full);
 }
 
 /* Table header (AG)
@@ -4126,12 +4352,12 @@
 }
 .pf-table-header-ag[data-alignment="Left"] {
   background: var(--pf-table-header-cell);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 .pf-table-header-ag[data-alignment="Right"] {
   background: var(--pf-table-header-cell);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 .pf-table-header-ag[data-alignment="Checkbox"] {
@@ -4160,19 +4386,19 @@
   font-family: var(--pf-font-body);
 }
 .pf-table-header-icons[data-variant="Sort"][data-state="Ascending"] {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   border-color: var(--pf-icon-theme);
 }
 .pf-table-header-icons[data-variant="Sort"][data-state="Descending"] {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   border-color: var(--pf-icon-theme);
 }
 .pf-table-header-icons[data-variant="Filter"][data-state="Filtered"] {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   border-color: var(--pf-icon-theme);
 }
 .pf-table-header-icons[data-variant="Context menu"][data-state="Active"] {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   border-color: var(--pf-icon-theme);
 }
 
@@ -4257,6 +4483,34 @@
   color: var(--pf-tag-border-info);
 }
 
+/* Tertiary nav
+ * 2 variants captured. 4 variants (Mobile x Page); Mobile does not change the colours.
+ */
+.pf-tertiary-nav {
+  height: 55px;
+  padding: 0 20px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-tertiary-nav[data-page="No"] {
+  background: var(--pf-navigation-nav-bg-top);
+  color: var(--pf-text-theme);
+}
+.pf-tertiary-nav[data-page="Yes"] {
+  background: var(--pf-navigation-nav-bg-top);
+  color: var(--pf-text-primary);
+}
+
 /* Text area
  * 4 variants captured. inner frame r8
  */
@@ -4331,7 +4585,8 @@
   font-family: var(--pf-font-body);
 }
 .pf-time-picker {
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 
 /* Title panel
@@ -4382,20 +4637,28 @@
   font-family: var(--pf-font-body);
 }
 .pf-toast-message[data-message-type="Success"] {
+  /* Figma binds the primitive "Base colours/White" here; no semantic token has this role */
   background: var(--pf-base-white);
-  color: var(--pf-base-grey-slate);
+  /* Figma binds the primitive "Base colours/Grey Slate" here instead of a semantic token */
+  color: var(--pf-text-always-grey-slate);
 }
 .pf-toast-message[data-message-type="Info"] {
+  /* Figma binds the primitive "Base colours/White" here; no semantic token has this role */
   background: var(--pf-base-white);
-  color: var(--pf-base-grey-slate);
+  /* Figma binds the primitive "Base colours/Grey Slate" here instead of a semantic token */
+  color: var(--pf-text-always-grey-slate);
 }
 .pf-toast-message[data-message-type="Warning"] {
+  /* Figma binds the primitive "Base colours/White" here; no semantic token has this role */
   background: var(--pf-base-white);
-  color: var(--pf-base-grey-slate);
+  /* Figma binds the primitive "Base colours/Grey Slate" here instead of a semantic token */
+  color: var(--pf-text-always-grey-slate);
 }
 .pf-toast-message[data-message-type="Error"] {
+  /* Figma binds the primitive "Base colours/White" here; no semantic token has this role */
   background: var(--pf-base-white);
-  color: var(--pf-base-grey-slate);
+  /* Figma binds the primitive "Base colours/Grey Slate" here instead of a semantic token */
+  color: var(--pf-text-always-grey-slate);
 }
 
 /* Toggle
@@ -4422,16 +4685,19 @@
 }
 .pf-toggle[data-on="No"][data-locked="No"] {
   background: var(--pf-bg-tertiary);
-  border-color: var(--pf-base-grey-dolphin);
+  /* Figma binds the primitive "Base colours/Grey Dolphin" here instead of a semantic token */
+  border-color: var(--pf-border-secondary);
   color: var(--pf-text-secondary);
 }
 .pf-toggle[data-on="Yes"][data-locked="No"] {
   background: var(--pf-bg-primary-button);
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
 }
 .pf-toggle[data-on="No"][data-locked="Yes"] {
   background: var(--pf-bg-tertiary);
-  border-color: var(--pf-base-grey-dolphin);
+  /* Figma binds the primitive "Base colours/Grey Dolphin" here instead of a semantic token */
+  border-color: var(--pf-border-secondary);
 }
 .pf-toggle[data-on="Yes"][data-locked="Yes"] {
   background: var(--pf-bg-primary-button);
@@ -4498,7 +4764,25 @@
   font-family: var(--pf-font-body);
 }
 .pf-top-bar-app-context {
-  color: var(--pf-base-white);
+  /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
+  color: var(--pf-text-always-white);
+}
+
+/* Waffle
+ * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
+ * carries its measured geometry and leaves colour to the page. 15 variants (Theme). No colour variable bound in Figma.
+ */
+.pf-waffle {
+  width: 90px;
+  height: 86px;
+  display: inline-block;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
 }
 
 /* [S] Attachment
@@ -4548,68 +4832,6 @@
 }
 .pf-s-config-child-menu {
   color: var(--pf-text-primary);
-}
-
-/* [S] Main nav context
- * 1 variant captured
- * Figma draws this 947px wide; treated as layout, not a rule
- */
-.pf-s-main-nav-context {
-  height: 44px;
-  display: inline-flex;
-  flex-direction: row;
-  align-items: flex-end;
-  justify-content: center;
-  font-size: 16px;
-  font-weight: var(--pf-font-weight-bold);
-  appearance: none;
-  -webkit-appearance: none;
-  background: transparent;
-  margin: 0;
-  border: 0;
-  box-sizing: border-box;
-  font-family: var(--pf-font-body);
-}
-.pf-s-main-nav-context {
-  background: var(--pf-bg-primary);
-  color: var(--pf-text-theme);
-}
-
-/* [S] Navigation/main tabs
- * 3 variants captured
- * corner radius varies per corner in Figma
- * layout direction not captured; assumed a row
- */
-.pf-s-navigation-main-tabs {
-  width: 80px;
-  height: 40px;
-  padding: 0 20px;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 16px;
-  appearance: none;
-  -webkit-appearance: none;
-  background: transparent;
-  margin: 0;
-  border: 1px solid transparent;
-  box-sizing: border-box;
-  font-family: var(--pf-font-body);
-}
-.pf-s-navigation-main-tabs[data-status="Unselected"] {
-  background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
-  color: var(--pf-text-primary);
-}
-.pf-s-navigation-main-tabs[data-status="Hover"] {
-  background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
-  color: var(--pf-text-theme);
-}
-.pf-s-navigation-main-tabs[data-status="Selected"] {
-  background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
-  color: var(--pf-text-theme);
 }
 
 /* [S] People
@@ -4718,7 +4940,7 @@
 }
 .pf-single-layout-card[data-mobile="false"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 
@@ -4986,7 +5208,7 @@ svg { display: block; }
 .side {
   position: sticky; top: 0; height: 100vh; overflow-y: auto;
   background: var(--pf-bg-primary);
-  border-right: 1px solid var(--pf-border-default);
+  border-right: 1px solid var(--pf-border-default-full);
   padding: var(--pf-space-large) 0;
   display: flex; flex-direction: column; gap: var(--pf-space-xsmall);
 }
@@ -4997,7 +5219,7 @@ svg { display: block; }
 }
 .brand .mark {
   width: 26px; height: 26px; border-radius: var(--pf-radius-small);
-  background: var(--pf-bg-theme-full); flex: none;
+  background: var(--pf-bg-theme); flex: none;
 }
 
 /* Navigation item — State=Selected|Unselected|Hover, Device=Desktop */
@@ -5013,7 +5235,7 @@ svg { display: block; }
 
 /* ---------- header ---------- */
 .topbar {
-  background: var(--pf-bg-primary); border-bottom: 1px solid var(--pf-border-default);
+  background: var(--pf-bg-primary); border-bottom: 1px solid var(--pf-border-default-full);
   padding: var(--pf-space-large) var(--pf-space-xlarge);
   display: flex; align-items: flex-start; gap: var(--pf-space-large); flex-wrap: wrap;
 }
@@ -5050,7 +5272,7 @@ svg { display: block; }
 /* ---------- panel / cards ---------- */
 /* Figma: Card — radius 8, pad 20, gap 20, shadow 0 0 4px */
 .panel {
-  background: var(--pf-bg-primary); border: 1px solid var(--pf-border-default);
+  background: var(--pf-bg-primary); border: 1px solid var(--pf-border-default-full);
   border-radius: var(--pf-radius-medium); padding: 20px;
   display: flex; flex-direction: column; gap: 20px;
 }
@@ -5115,12 +5337,12 @@ thead th {
   background: var(--pf-table-header-cell); color: var(--pf-text-primary);
   text-align: left; font-size: 13px; font-weight: var(--pf-font-weight-bold);
   height: 54px; padding: 15px; line-height: 1.2;
-  border-bottom: 1px solid var(--pf-border-default); white-space: nowrap;
+  border-bottom: 1px solid var(--pf-border-default-full); white-space: nowrap;
 }
 th.num, td.num { text-align: right; white-space: nowrap; }
 tbody tr { background: var(--pf-table-primary-cell); }
 tbody tr:nth-child(even) { background: var(--pf-table-stripe-cell); }
-tbody tr:hover { background: var(--pf-bg-theme); }
+tbody tr:hover { background: var(--pf-bg-light-theme); }
 tbody tr.is-open { background: var(--pf-bg-highlight); box-shadow: inset 3px 0 0 0 var(--pf-border-theme); }
 tbody tr:last-child td { border-bottom: none; }
 td .name { font-weight: var(--pf-font-weight-bold); }
@@ -5150,7 +5372,7 @@ th.col-status { width: 152px; }
 /* ---------- avatar: Profile image (circle) ---------- */
 .avatar {
   width: 36px; height: 36px; border-radius: 50%; flex: none;
-  background: var(--pf-bg-theme); color: var(--pf-text-theme);
+  background: var(--pf-bg-light-theme); color: var(--pf-text-theme);
   display: inline-flex; align-items: center; justify-content: center;
   font-size: var(--pf-font-size-xs); font-weight: var(--pf-font-weight-bold); letter-spacing: 0;
 }
@@ -5168,13 +5390,13 @@ th.col-status { width: 152px; }
 .sp-sec { display: flex; flex-direction: column; gap: var(--pf-space-small); }
 .sp-sec > .hdr { display: flex; align-items: center; justify-content: space-between; gap: var(--pf-space-small); }
 .sp-total { display: flex; justify-content: space-between; align-items: baseline;
-            padding-top: var(--pf-space-small); border-top: 1px solid var(--pf-border-default); }
+            padding-top: var(--pf-space-small); border-top: 1px solid var(--pf-border-default-full); }
 .sp-total .amt { font-size: var(--pf-font-size-m); font-variant-numeric: tabular-nums; }
 
 /* Draggable card geometry reused for pay-element rows — Figma: h50, pad 10 15, radius 8, 16px */
 .dcard { display: flex; align-items: center; justify-content: space-between; gap: var(--pf-space-small);
          height: 50px; padding: 10px 15px; font-size: 16px;
-         background: var(--pf-bg-primary); border: 1px solid var(--pf-border-default);
+         background: var(--pf-bg-primary); border: 1px solid var(--pf-border-default-full);
          border-radius: var(--pf-radius-medium); }
 
 /* ---------- form fields: Form field, Input type × State ---------- */
@@ -5206,7 +5428,7 @@ select.control { appearance: none; background-image:
 .statelab { font-size: 10px; text-transform: uppercase; letter-spacing: .06em;
             color: var(--pf-text-secondary); display: block; margin-bottom: 3px; }
 .cell { display: flex; flex-direction: column; }
-.divider { height: 1px; background: var(--pf-border-default); border: 0; margin: 0; }
+.divider { height: 1px; background: var(--pf-border-default-full); border: 0; margin: 0; }
 
 /* ---------- responsive ---------- */
 @media (max-width: 1240px) {

@@ -133,12 +133,10 @@
   --pf-bg-secondary-button: var(--pf-base-blue-dusk);
   --pf-bg-secondary-button-hover: var(--pf-base-blue-navy);
   --pf-bg-tertiary: var(--pf-base-white-ivory);
-  --pf-bg-theme: var(--pf-base-pale-pink-theme);
-  --pf-bg-theme-full: var(--pf-base-default-pink);
+  --pf-bg-theme: var(--pf-base-default-pink);
   --pf-bg-warning: var(--pf-base-bronze-gin-fizz);
   --pf-border-drop-shadow: var(--pf-base-grey-dolphin);
   --pf-border-configr: var(--pf-base-electric-violet);
-  --pf-border-default: var(--pf-base-grey-steel);
   --pf-border-default-full: var(--pf-base-grey-steel);
   --pf-border-default-hidden: var(--pf-base-grey-steel);
   --pf-border-disabled: var(--pf-base-grey-dolphin);
@@ -190,7 +188,7 @@
   --pf-org-card-bg-dark: #bf1d43; /* literal */
   --pf-org-card-bg-light: #fbf4f6; /* literal */
   --pf-org-card-bg-main: var(--pf-base-white);
-  --pf-progress-bar-border: var(--pf-border-default);
+  --pf-progress-bar-border: var(--pf-border-default-full);
   --pf-table-border: var(--pf-base-grey-dolphin);
   --pf-table-card: var(--pf-bg-primary);
   --pf-table-header-cell: var(--pf-bg-tertiary);
@@ -250,12 +248,10 @@
   --pf-bg-secondary-button: var(--pf-base-blue-turquoise);
   --pf-bg-secondary-button-hover: var(--pf-base-blue-sky);
   --pf-bg-tertiary: #282a32; /* literal */
-  --pf-bg-theme: #2c3844; /* literal */
-  --pf-bg-theme-full: var(--pf-base-blue-sky);
+  --pf-bg-theme: var(--pf-base-blue-sky);
   --pf-bg-warning: #b65c02; /* literal */
   --pf-border-drop-shadow: var(--pf-base-grey-slate);
   --pf-border-configr: var(--pf-base-light-violet);
-  --pf-border-default: var(--pf-base-white);
   --pf-border-default-full: var(--pf-base-grey-fog);
   --pf-border-default-hidden: rgba(255,255,255,0); /* literal */
   --pf-border-disabled: var(--pf-base-grey);
@@ -368,12 +364,10 @@
     --pf-bg-secondary-button: var(--pf-base-blue-turquoise);
     --pf-bg-secondary-button-hover: var(--pf-base-blue-sky);
     --pf-bg-tertiary: #282a32; /* literal */
-    --pf-bg-theme: #2c3844; /* literal */
-    --pf-bg-theme-full: var(--pf-base-blue-sky);
+    --pf-bg-theme: var(--pf-base-blue-sky);
     --pf-bg-warning: #b65c02; /* literal */
     --pf-border-drop-shadow: var(--pf-base-grey-slate);
     --pf-border-configr: var(--pf-base-light-violet);
-    --pf-border-default: var(--pf-base-white);
     --pf-border-default-full: var(--pf-base-grey-fog);
     --pf-border-default-hidden: rgba(255,255,255,0); /* literal */
     --pf-border-disabled: var(--pf-base-grey);
@@ -491,12 +485,12 @@
 }
 .pf-table-header-ag[data-alignment="Left"] {
   background: var(--pf-table-header-cell);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 .pf-table-header-ag[data-alignment="Right"] {
   background: var(--pf-table-header-cell);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 .pf-table-header-ag[data-alignment="Checkbox"] {
@@ -525,29 +519,29 @@
 }
 .pf-table-cell-ag[data-type="Default"][data-style="Default"] {
   background: var(--pf-table-primary-cell);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-link);
 }
 .pf-table-cell-ag[data-type="Default"][data-style="Stripe"] {
   background: var(--pf-table-stripe-cell);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-link);
 }
 .pf-table-cell-ag[data-type="Default"][data-style="Hover"] {
-  background: var(--pf-bg-theme);
-  border-color: var(--pf-border-default);
+  background: var(--pf-bg-light-theme);
+  border-color: var(--pf-border-default-full);
 }
 .pf-table-cell-ag[data-type="Checkbox"][data-style="Default"] {
   background: var(--pf-table-primary-cell);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
 }
 .pf-table-cell-ag[data-type="Checkbox"][data-style="Stripe"] {
   background: var(--pf-table-stripe-cell);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
 }
 .pf-table-cell-ag[data-type="Checkbox"][data-style="Hover"] {
-  background: var(--pf-bg-theme);
-  border-color: var(--pf-border-default);
+  background: var(--pf-bg-light-theme);
+  border-color: var(--pf-border-default-full);
 }
 
 /* Table (AG)
@@ -646,7 +640,7 @@
 }
 .pf-multi-select-checkbox[data-state="Hover"],
 .pf-multi-select-checkbox:hover {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   border-color: var(--pf-icon-theme);
 }
 .pf-multi-select-checkbox[data-state="Selected"] {
@@ -678,19 +672,19 @@
   font-family: var(--pf-font-body);
 }
 .pf-table-header-icons[data-variant="Sort"][data-state="Ascending"] {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   border-color: var(--pf-icon-theme);
 }
 .pf-table-header-icons[data-variant="Sort"][data-state="Descending"] {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   border-color: var(--pf-icon-theme);
 }
 .pf-table-header-icons[data-variant="Filter"][data-state="Filtered"] {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   border-color: var(--pf-icon-theme);
 }
 .pf-table-header-icons[data-variant="Context menu"][data-state="Active"] {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   border-color: var(--pf-icon-theme);
 }
 
@@ -719,11 +713,11 @@
 }
 .pf-ag-sort-item[data-state="Hover"],
 .pf-ag-sort-item:hover {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   color: var(--pf-text-primary);
 }
 .pf-ag-sort-item[data-state="Active"] {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   color: var(--pf-text-primary);
 }
 

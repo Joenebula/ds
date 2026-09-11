@@ -994,34 +994,11 @@
         },
         "theme": {
           "$type": "color",
-          "$value": "{color.base.pale-pink-theme}",
+          "$value": "{color.base.default-pink}",
           "$extensions": {
             "com.mhr.pf": {
               "figmaName": "Background/Theme",
               "cssVar": "--pf-bg-theme",
-              "tier": "semantic",
-              "scopes": [
-                "FRAME_FILL",
-                "SHAPE_FILL"
-              ],
-              "modes": {
-                "light": "{color.base.pale-pink-theme}",
-                "dark": "#2c3844"
-              },
-              "cssRef": {
-                "light": "--pf-base-pale-pink-theme",
-                "dark": null
-              }
-            }
-          }
-        },
-        "theme-full": {
-          "$type": "color",
-          "$value": "{color.base.default-pink}",
-          "$extensions": {
-            "com.mhr.pf": {
-              "figmaName": "Background/Theme full",
-              "cssVar": "--pf-bg-theme-full",
               "tier": "semantic",
               "scopes": [
                 "FRAME_FILL",
@@ -1104,28 +1081,6 @@
               "cssRef": {
                 "light": "--pf-base-electric-violet",
                 "dark": "--pf-base-light-violet"
-              }
-            }
-          }
-        },
-        "default": {
-          "$type": "color",
-          "$value": "{color.base.grey-steel}",
-          "$extensions": {
-            "com.mhr.pf": {
-              "figmaName": "Border/Default",
-              "cssVar": "--pf-border-default",
-              "tier": "semantic",
-              "scopes": [
-                "STROKE_COLOR"
-              ],
-              "modes": {
-                "light": "{color.base.grey-steel}",
-                "dark": "{color.base.white}"
-              },
-              "cssRef": {
-                "light": "--pf-base-grey-steel",
-                "dark": "--pf-base-white"
               }
             }
           }
@@ -2322,7 +2277,7 @@
       "progress-bar": {
         "border": {
           "$type": "color",
-          "$value": "{color.semantic.border.default}",
+          "$value": "{color.semantic.border.default-full}",
           "$extensions": {
             "com.mhr.pf": {
               "figmaName": "Progress bar/Border",
@@ -2332,11 +2287,11 @@
                 "STROKE_COLOR"
               ],
               "modes": {
-                "light": "{color.semantic.border.default}",
+                "light": "{color.semantic.border.default-full}",
                 "dark": "{color.semantic.table.border}"
               },
               "cssRef": {
-                "light": "--pf-border-default",
+                "light": "--pf-border-default-full",
                 "dark": "--pf-table-border"
               }
             }

@@ -49,7 +49,7 @@ svg { display: block; }
 .num { font-variant-numeric: tabular-nums; }
 .row { display: flex; gap: var(--pf-space-small); flex-wrap: wrap; align-items: center; }
 .stack { display: flex; flex-direction: column; gap: var(--pf-space-large); }
-.divider { height: 1px; background: var(--pf-border-default); border: 0; margin: 0; }
+.divider { height: 1px; background: var(--pf-border-default-full); border: 0; margin: 0; }
 
 /* ---------- app frame ---------- */
 /* The two side columns stretch to the full page height so the chrome never
@@ -59,7 +59,7 @@ svg { display: block; }
 .main { min-width: 0; display: flex; flex-direction: column; }
 
 /* Side navigation — .pf-side-navigation is a column with no width of its own */
-.side { display: block; width: 100%; border-right: 1px solid var(--pf-border-default); }
+.side { display: block; width: 100%; border-right: 1px solid var(--pf-border-default-full); }
 .side-inner {
   position: sticky; top: 0; height: 100vh; overflow-y: auto;
   padding: var(--pf-space-large) var(--pf-space-small);
@@ -72,7 +72,7 @@ svg { display: block; }
 }
 .brand .mark {
   width: 26px; height: 26px; border-radius: var(--pf-radius-small);
-  background: var(--pf-bg-theme-full); flex: none;
+  background: var(--pf-bg-theme); flex: none;
 }
 /* Side navigation tab is the sidebar row component; these are layout + behaviour */
 .nav-item { width: 100%; text-decoration: none; cursor: pointer;
@@ -81,7 +81,7 @@ svg { display: block; }
 
 /* ---------- header ---------- */
 .topbar {
-  background: var(--pf-bg-primary); border-bottom: 1px solid var(--pf-border-default);
+  background: var(--pf-bg-primary); border-bottom: 1px solid var(--pf-border-default-full);
   padding: var(--pf-space-large) var(--pf-space-xlarge);
   display: flex; align-items: flex-start; gap: var(--pf-space-large); flex-wrap: wrap;
 }
@@ -159,9 +159,9 @@ table { width: 100%; border-collapse: collapse; min-width: 878px; table-layout: 
    line box past Figma's 54px. line-height is not captured by the extract. */
 .pf-table-header-ag, .pf-table-cell-ag { display: table-cell; }
 thead th { text-align: left; white-space: nowrap; line-height: 1.2;
-           border-bottom: 1px solid var(--pf-border-default); }
+           border-bottom: 1px solid var(--pf-border-default-full); }
 tbody td { line-height: 1.3; vertical-align: middle;
-           border-bottom: 1px solid var(--pf-border-default); }
+           border-bottom: 1px solid var(--pf-border-default-full); }
 tbody tr:last-child td { border-bottom: none; }
 th.num, td.num { text-align: right; }
 /* The employee name is the row's drill-in link, so it keeps the cell's own
@@ -194,7 +194,7 @@ td .plain { color: var(--pf-text-primary); }
 
 /* ---------- avatar (Profile image: a circle) ---------- */
 .avatar { width: 36px; height: 36px; border-radius: 50%; flex: none;
-          background: var(--pf-bg-theme); color: var(--pf-text-theme);
+          background: var(--pf-bg-light-theme); color: var(--pf-text-theme);
           display: inline-flex; align-items: center; justify-content: center;
           font-size: var(--pf-font-size-xs); font-weight: var(--pf-font-weight-bold);
           letter-spacing: 0; }
@@ -220,7 +220,7 @@ td .plain { color: var(--pf-text-primary); }
 .pf-draggable-card .day { display: flex; align-items: center; gap: var(--pf-space-small); }
 .pf-draggable-card .hrs { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .sp-total { display: flex; justify-content: space-between; align-items: baseline;
-            padding-top: var(--pf-space-small); border-top: 1px solid var(--pf-border-default); }
+            padding-top: var(--pf-space-small); border-top: 1px solid var(--pf-border-default-full); }
 .sp-total .amt { font-size: var(--pf-font-size-m); font-variant-numeric: tabular-nums; }
 
 /* ---------- form fields ---------- */

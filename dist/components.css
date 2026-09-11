@@ -130,11 +130,11 @@
 }
 .pf-ag-sort-item[data-state="Hover"],
 .pf-ag-sort-item:hover {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   color: var(--pf-text-primary);
 }
 .pf-ag-sort-item[data-state="Active"] {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   color: var(--pf-text-primary);
 }
 
@@ -163,7 +163,7 @@
 }
 .pf-ai-assistant[data-type="Active chat"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   /* Figma binds the primitive "Base colours/Default Pink" here; no semantic token has this role */
   color: var(--pf-base-default-pink);
 }
@@ -339,12 +339,12 @@
 }
 .pf-accordion[data-expanded="False"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 .pf-accordion[data-expanded="True"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 
@@ -461,7 +461,7 @@
   font-family: var(--pf-font-body);
 }
 .pf-attachment-with-person {
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 
@@ -921,12 +921,12 @@
   font-family: var(--pf-font-body);
 }
 .pf-clock-in[data-type="Standard"] {
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-inverted-primary);
 }
 .pf-clock-in[data-type="Hover"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-theme);
 }
 
@@ -1032,7 +1032,7 @@
   font-family: var(--pf-font-body);
 }
 .pf-config-parent-menu {
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 
@@ -1157,17 +1157,17 @@
 }
 .pf-confirmation-modal[data-type="Confirmation"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 .pf-confirmation-modal[data-type="Success"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 .pf-confirmation-modal[data-type="Information"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 
@@ -1193,7 +1193,7 @@
 }
 .pf-content-cards[data-mobile="false"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 
@@ -1432,15 +1432,15 @@
   font-family: var(--pf-font-body);
 }
 .pf-document-previewer[data-device="Mobile"] {
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 .pf-document-previewer[data-device="Tablet"] {
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 .pf-document-previewer[data-device="Desktop"] {
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 
@@ -1510,7 +1510,7 @@
 }
 .pf-draggable-card {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 .pf-draggable-card[data-state="Hover"],
@@ -1530,7 +1530,7 @@
   color: var(--pf-text-primary);
 }
 .pf-draggable-card[data-state="Drop"] {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   border-color: var(--pf-border-theme);
 }
 
@@ -1585,7 +1585,7 @@
 }
 .pf-editable-list-card[data-property-1="Default"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-secondary);
 }
 
@@ -1732,7 +1732,7 @@
 }
 .pf-filter-chip[data-active="False"][data-state="Hover"],
 .pf-filter-chip[data-active="False"]:hover {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   border-color: var(--pf-border-theme);
   color: var(--pf-text-theme);
 }
@@ -1761,18 +1761,18 @@
 }
 .pf-filter-tab-single[data-selected="False"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-secondary);
 }
 .pf-filter-tab-single[data-selected="False"][data-state="Hover"],
 .pf-filter-tab-single[data-selected="False"]:hover {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-theme);
 }
 .pf-filter-tab-single[data-selected="True"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-theme);
 }
 
@@ -2256,7 +2256,7 @@
   color: var(--pf-text-primary);
 }
 .pf-layout-container-magazine-style[data-row-colour="True"] {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   color: var(--pf-text-primary);
 }
 
@@ -2549,7 +2549,7 @@
 }
 .pf-multi-select-checkbox[data-state="Hover"],
 .pf-multi-select-checkbox:hover {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   border-color: var(--pf-icon-theme);
 }
 .pf-multi-select-checkbox[data-state="Selected"] {
@@ -2704,11 +2704,11 @@
 }
 .pf-next-actions-modal[data-type="Warning"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
 }
 .pf-next-actions-modal[data-type="Success"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
 }
 
 /* Note
@@ -2731,7 +2731,7 @@
   font-family: var(--pf-font-body);
 }
 .pf-note[data-property-1="Default"] {
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 
@@ -2759,7 +2759,7 @@
 }
 .pf-notification-card[data-mobile="False"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 
@@ -3089,11 +3089,11 @@
 }
 .pf-radio-card[data-selected="No"][data-state="Enabled"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 .pf-radio-card[data-selected="Yes"][data-state="Enabled"] {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   border-color: var(--pf-border-theme);
   color: var(--pf-text-theme);
 }
@@ -3136,12 +3136,12 @@
 }
 .pf-radio-tile {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 .pf-radio-tile[data-state="Hover"],
 .pf-radio-tile:hover {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   border-color: var(--pf-border-theme);
   color: var(--pf-text-theme);
 }
@@ -3338,7 +3338,7 @@
   color: var(--pf-text-primary);
 }
 .pf-side-navigation-tab[data-selected="true"] {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   color: var(--pf-text-theme);
 }
 
@@ -3492,7 +3492,7 @@
 }
 .pf-spotlight-card[data-horizontal="False"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 
@@ -3838,29 +3838,29 @@
 }
 .pf-table-cell-ag[data-type="Default"][data-style="Default"] {
   background: var(--pf-table-primary-cell);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-link);
 }
 .pf-table-cell-ag[data-type="Default"][data-style="Stripe"] {
   background: var(--pf-table-stripe-cell);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-link);
 }
 .pf-table-cell-ag[data-type="Default"][data-style="Hover"] {
-  background: var(--pf-bg-theme);
-  border-color: var(--pf-border-default);
+  background: var(--pf-bg-light-theme);
+  border-color: var(--pf-border-default-full);
 }
 .pf-table-cell-ag[data-type="Checkbox"][data-style="Default"] {
   background: var(--pf-table-primary-cell);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
 }
 .pf-table-cell-ag[data-type="Checkbox"][data-style="Stripe"] {
   background: var(--pf-table-stripe-cell);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
 }
 .pf-table-cell-ag[data-type="Checkbox"][data-style="Hover"] {
-  background: var(--pf-bg-theme);
-  border-color: var(--pf-border-default);
+  background: var(--pf-bg-light-theme);
+  border-color: var(--pf-border-default-full);
 }
 
 /* Table header (AG)
@@ -3886,12 +3886,12 @@
 }
 .pf-table-header-ag[data-alignment="Left"] {
   background: var(--pf-table-header-cell);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 .pf-table-header-ag[data-alignment="Right"] {
   background: var(--pf-table-header-cell);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 .pf-table-header-ag[data-alignment="Checkbox"] {
@@ -3920,19 +3920,19 @@
   font-family: var(--pf-font-body);
 }
 .pf-table-header-icons[data-variant="Sort"][data-state="Ascending"] {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   border-color: var(--pf-icon-theme);
 }
 .pf-table-header-icons[data-variant="Sort"][data-state="Descending"] {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   border-color: var(--pf-icon-theme);
 }
 .pf-table-header-icons[data-variant="Filter"][data-state="Filtered"] {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   border-color: var(--pf-icon-theme);
 }
 .pf-table-header-icons[data-variant="Context menu"][data-state="Active"] {
-  background: var(--pf-bg-theme);
+  background: var(--pf-bg-light-theme);
   border-color: var(--pf-icon-theme);
 }
 
@@ -4474,7 +4474,7 @@
 }
 .pf-single-layout-card[data-mobile="false"] {
   background: var(--pf-bg-primary);
-  border-color: var(--pf-border-default);
+  border-color: var(--pf-border-default-full);
   color: var(--pf-text-primary);
 }
 

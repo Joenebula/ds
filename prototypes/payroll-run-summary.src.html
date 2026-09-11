@@ -57,7 +57,7 @@ svg { display: block; }
 .side {
   position: sticky; top: 0; height: 100vh; overflow-y: auto;
   background: var(--pf-bg-primary);
-  border-right: 1px solid var(--pf-border-default);
+  border-right: 1px solid var(--pf-border-default-full);
   padding: var(--pf-space-large) 0;
   display: flex; flex-direction: column; gap: var(--pf-space-xsmall);
 }
@@ -68,7 +68,7 @@ svg { display: block; }
 }
 .brand .mark {
   width: 26px; height: 26px; border-radius: var(--pf-radius-small);
-  background: var(--pf-bg-theme-full); flex: none;
+  background: var(--pf-bg-theme); flex: none;
 }
 
 /* Navigation item — State=Selected|Unselected|Hover, Device=Desktop */
@@ -84,7 +84,7 @@ svg { display: block; }
 
 /* ---------- header ---------- */
 .topbar {
-  background: var(--pf-bg-primary); border-bottom: 1px solid var(--pf-border-default);
+  background: var(--pf-bg-primary); border-bottom: 1px solid var(--pf-border-default-full);
   padding: var(--pf-space-large) var(--pf-space-xlarge);
   display: flex; align-items: flex-start; gap: var(--pf-space-large); flex-wrap: wrap;
 }
@@ -121,7 +121,7 @@ svg { display: block; }
 /* ---------- panel / cards ---------- */
 /* Figma: Card — radius 8, pad 20, gap 20, shadow 0 0 4px */
 .panel {
-  background: var(--pf-bg-primary); border: 1px solid var(--pf-border-default);
+  background: var(--pf-bg-primary); border: 1px solid var(--pf-border-default-full);
   border-radius: var(--pf-radius-medium); padding: 20px;
   display: flex; flex-direction: column; gap: 20px;
 }
@@ -186,12 +186,12 @@ thead th {
   background: var(--pf-table-header-cell); color: var(--pf-text-primary);
   text-align: left; font-size: 13px; font-weight: var(--pf-font-weight-bold);
   height: 54px; padding: 15px; line-height: 1.2;
-  border-bottom: 1px solid var(--pf-border-default); white-space: nowrap;
+  border-bottom: 1px solid var(--pf-border-default-full); white-space: nowrap;
 }
 th.num, td.num { text-align: right; white-space: nowrap; }
 tbody tr { background: var(--pf-table-primary-cell); }
 tbody tr:nth-child(even) { background: var(--pf-table-stripe-cell); }
-tbody tr:hover { background: var(--pf-bg-theme); }
+tbody tr:hover { background: var(--pf-bg-light-theme); }
 tbody tr.is-open { background: var(--pf-bg-highlight); box-shadow: inset 3px 0 0 0 var(--pf-border-theme); }
 tbody tr:last-child td { border-bottom: none; }
 td .name { font-weight: var(--pf-font-weight-bold); }
@@ -221,7 +221,7 @@ th.col-status { width: 152px; }
 /* ---------- avatar: Profile image (circle) ---------- */
 .avatar {
   width: 36px; height: 36px; border-radius: 50%; flex: none;
-  background: var(--pf-bg-theme); color: var(--pf-text-theme);
+  background: var(--pf-bg-light-theme); color: var(--pf-text-theme);
   display: inline-flex; align-items: center; justify-content: center;
   font-size: var(--pf-font-size-xs); font-weight: var(--pf-font-weight-bold); letter-spacing: 0;
 }
@@ -239,13 +239,13 @@ th.col-status { width: 152px; }
 .sp-sec { display: flex; flex-direction: column; gap: var(--pf-space-small); }
 .sp-sec > .hdr { display: flex; align-items: center; justify-content: space-between; gap: var(--pf-space-small); }
 .sp-total { display: flex; justify-content: space-between; align-items: baseline;
-            padding-top: var(--pf-space-small); border-top: 1px solid var(--pf-border-default); }
+            padding-top: var(--pf-space-small); border-top: 1px solid var(--pf-border-default-full); }
 .sp-total .amt { font-size: var(--pf-font-size-m); font-variant-numeric: tabular-nums; }
 
 /* Draggable card geometry reused for pay-element rows — Figma: h50, pad 10 15, radius 8, 16px */
 .dcard { display: flex; align-items: center; justify-content: space-between; gap: var(--pf-space-small);
          height: 50px; padding: 10px 15px; font-size: 16px;
-         background: var(--pf-bg-primary); border: 1px solid var(--pf-border-default);
+         background: var(--pf-bg-primary); border: 1px solid var(--pf-border-default-full);
          border-radius: var(--pf-radius-medium); }
 
 /* ---------- form fields: Form field, Input type × State ---------- */
@@ -277,7 +277,7 @@ select.control { appearance: none; background-image:
 .statelab { font-size: 10px; text-transform: uppercase; letter-spacing: .06em;
             color: var(--pf-text-secondary); display: block; margin-bottom: 3px; }
 .cell { display: flex; flex-direction: column; }
-.divider { height: 1px; background: var(--pf-border-default); border: 0; margin: 0; }
+.divider { height: 1px; background: var(--pf-border-default-full); border: 0; margin: 0; }
 
 /* ---------- responsive ---------- */
 @media (max-width: 1240px) {

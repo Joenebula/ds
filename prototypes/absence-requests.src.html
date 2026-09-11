@@ -43,7 +43,7 @@ h3 { font-size: var(--pf-font-size-s); font-weight: var(--pf-font-weight-bold); 
 
 .side {
   background: var(--pf-bg-primary);
-  border-right: 1px solid var(--pf-border-default);
+  border-right: 1px solid var(--pf-border-default-full);
   padding: var(--pf-space-large) 0;
   display: flex; flex-direction: column; gap: var(--pf-space-xsmall);
 }
@@ -54,7 +54,7 @@ h3 { font-size: var(--pf-font-size-s); font-weight: var(--pf-font-weight-bold); 
 }
 .brand .mark {
   width: 26px; height: 26px; border-radius: var(--pf-radius-small);
-  background: var(--pf-bg-theme-full); flex: none;
+  background: var(--pf-bg-theme); flex: none;
 }
 
 /* Navigation item — State=Selected|Unselected|Hover, Device=Desktop */
@@ -71,7 +71,7 @@ h3 { font-size: var(--pf-font-size-s); font-weight: var(--pf-font-weight-bold); 
 /* ---------- header ---------- */
 .main { min-width: 0; display: flex; flex-direction: column; }
 .topbar {
-  background: var(--pf-bg-primary); border-bottom: 1px solid var(--pf-border-default);
+  background: var(--pf-bg-primary); border-bottom: 1px solid var(--pf-border-default-full);
   padding: var(--pf-space-large) var(--pf-space-xlarge);
   display: flex; align-items: flex-start; gap: var(--pf-space-large); flex-wrap: wrap;
 }
@@ -106,9 +106,9 @@ table { width: 100%; border-collapse: collapse; min-width: 720px; }
    of its 23 text styles — the 1.2/1.3 that used to be here were invented, and the
    geometry check passes without them. */
 thead th { text-align: left; white-space: nowrap; line-height: normal;
-           border-bottom: 1px solid var(--pf-border-default); }
+           border-bottom: 1px solid var(--pf-border-default-full); }
 tbody td { line-height: normal; vertical-align: middle;
-           border-bottom: 1px solid var(--pf-border-default); }
+           border-bottom: 1px solid var(--pf-border-default-full); }
 tbody tr:last-child td { border-bottom: none; }
 td .name { font-weight: var(--pf-font-weight-bold); }
 td a { color: var(--pf-text-link); }
@@ -170,7 +170,7 @@ select.pf-field { background-image:
 .statelab { font-size: 10px; text-transform: uppercase; letter-spacing: .06em;
             color: var(--pf-text-secondary); display: block; margin-bottom: 3px; }
 .cell { display: flex; flex-direction: column; }
-.divider { height: 1px; background: var(--pf-border-default); border: 0; margin: 0; }
+.divider { height: 1px; background: var(--pf-border-default-full); border: 0; margin: 0; }
 svg { display: block; }
 </style>
 </head>
