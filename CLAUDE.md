@@ -412,6 +412,23 @@ run: `Italic` is a slant, not a weight, and sits in the weight column deliberate
 It was the only reader that did not know. A verdict line carrying a permanent false alarm is a
 number people learn to read past — this repo's own diagnosis of the 286-NEW case.
 
+**`Border/Default` is SPLIT, and the whole mapping is now recorded.** Figma split it into
+`Border/Default full` and `Border/Default hidden`; the design lead confirmed on 2026-09-11 that this
+is deliberate. All 21 components whose stroke rows still record the old name — 38 rows — have been
+resolved: **13 came from `get_variable_defs` reads already durable in the transcripts**, which is
+what the provenance join bought; 5 were read fresh, 3 came from the earlier re-read. Seventeen bind
+`-full`, two bind `-hidden`, and **two bind BOTH** (`Editable list card`, `Spotlight Card`) — for
+those, `get_variable_defs` cannot say which variant or role, so they stay unresolved rather than
+guessed. The 17 carry the standing caveat: that tool proves a binding is PRESENT, never that one is
+absent, so a `-hidden` binding on a boolean-hidden layer is not ruled out.
+
+**Confirming the split did not unblock applying it**, and the reason is worth knowing.
+`build-components-css.mjs` emits `/* unmapped Figma token: X */` instead of a declaration when the
+token layer lacks a name, and counts and names those in its verdict line — so it is not silent. But
+rewriting the 38 rows today would still delete `border-color` from 21 shipped components. The
+correction becomes a mechanical apply the moment `figma-variables.json` lands; until then the
+mapping lives in `uncaptured-tokens.tsv` and is named on every `tokens:check` run.
+
 **The token layer needs a file this environment cannot fetch.** `semantic.tsv` needs a light
 value, a dark value and scopes per token. `get_variable_defs` resolves ONE mode and takes no mode
 parameter, and the Figma Variables REST API that carries both modes plus scopes is on
