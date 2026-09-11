@@ -828,7 +828,12 @@ The root cause behind both items above is unchanged: the extract captures a comp
 OUTER BOX and nothing inside it. No children, no nested instances, no per-child type.
 So simple components work as classes and composite ones do not — `.pf-header`,
 `.pf-card`, `.pf-metric-card`, `.pf-calendar-picker`, `.pf-table-ag` carry a size and
-nothing in it. **70 classes have no paint at all** (pinned by `check-component-art.mjs`).
+nothing in it.
+
+**Correction:** this item used to cite "70 classes have no paint at all". That number was
+wrong — `check-component-art.mjs` was counting RULES rather than classes, and the real
+figure is 2. It does not change the item: a class can have a perfectly good background and
+still be an empty box, which is precisely why the shell census never caught this.
 
 This needs a real structural extract: per component, the child tree with each child's box,
 layout, fills, strokes, radius and text style, plus an HTML template per composite
@@ -839,6 +844,41 @@ The pilot walk already works — see the TSV shape in this session's `use_figma`
 nothing else, and a check fails when a composite component's class renders an empty box.
 
 **Depends on:** nothing. Large.
+
+### Progress — the mechanism is built and proven; coverage is 12 of ~158
+
+`extract-component-tree.mjs` walks a component's children and records what they are. A
+composite component turns out to be three things and nothing exotic: FRAMEs with
+auto-layout, TEXT, and INSTANCEs of components we already have. Plus the occasional LINE,
+RECTANGLE and — on `Card` — a Figma **SLOT**, which is the clearest possible statement
+that a component is a container.
+
+`build-templates.mjs` turns each tree into markup: an instance becomes its class, an icon
+instance becomes the `<!--pf-icon:-->` marker, text becomes a type class plus a colour
+token, a frame becomes a div carrying layout ONLY. Nothing is invented — anything that
+cannot be named is emitted as a comment saying why.
+
+`check-templates.mjs` is the check this item asked for, and it is in `npm run verify`. It
+renders the bare class and the template in a browser and fails if a composite component has
+no template or if a template renders an empty box. **All 11 composite components render
+NOTHING from the bare class.** `--self-test` swaps a template for its bare class and
+confirms the failure.
+
+Four things the work turned up, each now handled rather than papered over:
+
+- **Every unresolved instance was an icon.** Looking for a `.pf-` class for `Warning` or
+  `Close x cancel` was the wrong question — they are SVGs reached through the icon marker.
+- **`Card`'s title underline binds `Base colours/Default Pink`**, a raw primitive, so it
+  cannot change between modes. Left unpainted with the reason in place rather than shipped
+  broken.
+- **`Information box` instances ITSELF** — a one-child wrapper. It is not composite; its
+  class already is the component. The generator and the check agree on that definition, or
+  one would demand a template the other refuses to write.
+- **Off-ramp text keeps its measurement.** "More details" is 13px bound to no style;
+  emitting no size left it at the browser's 16.
+
+**Remaining:** walk the other ~146 components' trees. Same two calls per batch; the
+extractor, generator and check do not change.
 
 ## B. `verify-layout` is blind to content that ESCAPES its container — `done`
 

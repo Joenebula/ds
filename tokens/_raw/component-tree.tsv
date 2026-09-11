@@ -1,0 +1,87 @@
+component	path	type	name	size	layout	padding	gap	radius	fill	stroke	textStyle	font	text
+Card		COMPONENT	Property 1=Default	520x358	VERTICAL CENTER MIN	20 20 20 20	20	8	Background/Primary	Border/Default full			
+Card	0	FRAME	Card title & top [S]	480x28	VERTICAL MIN CENTER	0 0 0 0	10	mixed					
+Card	0.0	FRAME	Frame 80088	480x28	HORIZONTAL CENTER SPACE_BETWEEN	0 0 0 0	13	0					
+Card	0.0.0	TEXT	Title	419x27	NONE			0	Text/Primary		Desktop text/Sub heading	20px	Title
+Card	0.0.1	FRAME	Frame 80136	61x28	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Card	0.1	LINE	Line 14	480x0	NONE			0		Base colours/Default Pink			
+Card	1	SLOT	Slot	480x270	HORIZONTAL MIN MIN	10 10 10 10	10	0					
+Information box		COMPONENT	Type=Information	440x56	HORIZONTAL MIN MIN	0 0 0 0	0	0					
+Information box	0	INSTANCE	Information box	440x56	HORIZONTAL CENTER MIN	10 10 10 4	10	8		Border/Info			
+Metric card		COMPONENT	Mobile=False	392x89	HORIZONTAL CENTER SPACE_BETWEEN	20 20 20 20	165	8	Background/Tertiary				
+Metric card	0	FRAME	Frame 84177	142x49	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Metric card	0.0	TEXT	10%	71x49	NONE			0	Text/Primary		Desktop text/XL heading	36px	10%
+Metric card	0.1	INSTANCE	Data variance	61x45	VERTICAL MIN MIN	0 0 0 0	0	0					
+Metric card	0.1.0	TEXT	DOWN BY	61x18	NONE			0	Text/Primary		Desktop text/Label text	13px	DOWN BY
+Metric card	0.1.1	FRAME	Frame 84175	41x27	HORIZONTAL CENTER MIN	0 0 0 0	0	0					
+Metric card	1	TEXT	More details	76x18	NONE			0	Text/Link			13px	More details
+Note		COMPONENT	Property 1=Default	440x130	VERTICAL CENTER MIN	0 0 0 0	0	8		Border/Default full			
+Note	0	FRAME	Frame 82615	440x56	HORIZONTAL CENTER MIN	10 20 10 20	10	0					
+Note	0.0	INSTANCE	People	28x28	NONE			0					
+Note	0.1	FRAME	Frame 80206	220x36	VERTICAL MIN CENTER	0 0 0 0	0	0					
+Note	0.1.0	TEXT	Nolan George	84x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Nolan George
+Note	0.1.1	TEXT	Wednesday 01/01/2022	220x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Wednesday 01/01/2022
+Note	1	FRAME	Frame 82616	440x0	VERTICAL CENTER CENTER	0 20 0 20	0	0					
+Note	1.0	LINE	Line 2762	400x0	NONE			0		Border/Secondary			
+Note	2	FRAME	Note	440x74	HORIZONTAL CENTER MIN	10 20 10 20	0	4					
+Note	2.0	FRAME	Frame 80207	400x54	HORIZONTAL MIN MIN	0 0 0 0	5	0					
+Note	2.0.0	FRAME	Frame 80206	359x54	VERTICAL MIN CENTER	0 0 0 0	0	0					
+Note	2.0.1	INSTANCE	Context	36x36	NONE			0					
+Notification card		COMPONENT	Mobile=No	1160x117	HORIZONTAL CENTER MIN	15 20 15 20	10	8	Navigation/Nav bg top	Border/Default hidden			
+Notification card	0	INSTANCE	Notification image	44x44	NONE			0					
+Notification card	1	INSTANCE	Checkbox/Radio item	23x23	HORIZONTAL CENTER MIN	0 0 0 0	12	0					
+Notification card	2	FRAME	Notification icon	44x44	HORIZONTAL CENTER CENTER	10 10 10 10	10	100	Background/Negative Button				
+Notification card	2.0	INSTANCE	Warning	34x34	NONE			0					
+Notification card	3	FRAME	Notification text	943x87	VERTICAL MIN MIN	0 0 0 0	10	0					
+Notification card	3.0	FRAME	Frame 80252	943x49	VERTICAL MIN MIN	0 0 0 0	5	0					
+Notification card	3.0.0	FRAME	Frame 80251	84x22	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Notification card	3.0.1	TEXT	Example notification text example notification text	943x22	NONE			0	Text/Primary		Desktop text/Body text	16px	Example notification
+Notification card	3.1	INSTANCE	Tags	82x28	HORIZONTAL CENTER CENTER	5 10 5 10	5	4	Tags/Fills/Warning	Tags/Borders/Warning			
+Notification card	4	FRAME	Notification actions	80x36	HORIZONTAL MIN MIN	0 0 0 0	8	0					
+Notification card	4.0	GROUP	Group 81918	36x36	NONE			0					
+Notification card	4.0.0	ELLIPSE	Ellipse 29	32x32	NONE			0		Icons/Icon - Secondary			
+Notification card	4.0.1	INSTANCE	Up_arrow	36x36	NONE			0					
+Notification card	4.1	GROUP	Group 81918	36x36	NONE			0					
+Notification card	4.1.0	ELLIPSE	Ellipse 29	32x32	NONE			0		Icons/Icon - Secondary			
+Notification card	4.1.1	INSTANCE	Close x	36x36	NONE			0					
+Org chart		COMPONENT	Type=Org	293x48	HORIZONTAL CENTER MIN	0 0 0 0	0	8	Background/Primary				
+Org chart	0	FRAME	Content	267x48	VERTICAL MIN MIN	0 0 0 0	0	0					
+Org chart	0.0	FRAME	Main	267x48	HORIZONTAL CENTER MIN	0 0 0 0	0	0	Org cards/Fills/BG Main				
+Org chart	0.0.0	FRAME	Icon	54x48	HORIZONTAL CENTER MIN	2 5 2 5	10	0	Org cards/Fills/BG Light				
+Org chart	0.0.1	FRAME	Avatar	60x55	HORIZONTAL CENTER CENTER	0 5 0 0	10	0					
+Org chart	0.0.2	FRAME	Text	50x22	VERTICAL MIN CENTER	0 0 0 5	0	0					
+Org chart	0.1	FRAME	Department	267x42	HORIZONTAL CENTER MIN	10 0 10 10	10	0	LITERAL				
+Org chart	0.1.0	TEXT	Department	93x22	NONE			0	Text/Primary		Desktop text/Body text (semi bold, 600)	16px SemiBold	Department
+Org chart	1	FRAME	Action	26x48	HORIZONTAL CENTER CENTER	5 3 5 3	10	0	Org cards/Fills/BG Dark				
+Org chart	1.0	INSTANCE	Add plus	20x20	NONE			0					
+Settings card		COMPONENT	Property 1=Default	300x255	VERTICAL MIN MIN	20 20 20 20	10	8	Background/Secondary				
+Settings card	0	TEXT	TITLE	260x25	NONE			0	Text/Theme		Desktop text/Label text (semi bold, 600)	13px SemiBold	TITLE
+Settings card	1	INSTANCE	Control list item	81x22	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Side panel header		COMPONENT	Size=Default	449x60	HORIZONTAL CENTER MAX	10 15 10 15	10	0	Background/Primary	Border/Secondary			
+Side panel header	0	FRAME	Container	28x28	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Side panel header	0.0	INSTANCE	Left chevron	28x28	NONE			0					
+Side panel header	1	TEXT	Header	343x28	NONE			0	Text/Primary		Desktop text/Sub heading	20px	Header
+Side panel header	2	FRAME	Container	28x28	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Side panel header	2.0	INSTANCE	Close x cancel	28x28	NONE			0					
+Side panel header	3	INSTANCE	Context menu	28x28	NONE			0					
+Side panel header	4	INSTANCE	Switcher	135x28	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Spotlight Card		COMPONENT	Horizontal=False, Mobile=False	375x302	VERTICAL MIN MIN	0 0 10 0	10	8	Background/Primary	Border/Default hidden			
+Spotlight Card	0	FRAME	Main	375x244	VERTICAL MIN MIN	0 0 0 0	10	0					
+Spotlight Card	0.0	RECTANGLE	Image	375x170	NONE			0	Background/Theme				
+Spotlight Card	0.1	INSTANCE	Content	375x64	VERTICAL MIN MIN	10 10 0 10	10	0					
+Spotlight Card	0.2	INSTANCE	Floaters	85x40	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Spotlight Card	1	INSTANCE	Footer	375x38	VERTICAL MIN MIN	10 10 0 10	10	0					
+Sticky footer		COMPONENT	Default=Default	446x52	HORIZONTAL CENTER MIN	10 15 10 15	20	0	Background/Primary	Border/Secondary			
+Sticky footer	0	INSTANCE	Button	81x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20	Background/Primary Button				
+Sticky footer	1	INSTANCE	Button	81x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
+Sticky footer	2	INSTANCE	Button	88x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
+Sticky footer	3	INSTANCE	Context menu	28x28	NONE			0					
+Title panel		COMPONENT	Mobile=true	375x135	VERTICAL CENTER CENTER	40 20 40 20	10	0	Background/Tertiary				
+Title panel	0	TEXT	Title text	335x25	NONE			0	Text/Primary		Mobile text/Sub heading	18px	Title text
+Title panel	1	TEXT	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Neque sed in dignissim mauris aliquam quam sed nunc. Volutpat at accumsan sit pellentesque.	335x48	NONE			0	Text/Primary			12px	Lorem ipsum dolor si
+Toast message		COMPONENT	Message type=Success	350x114	HORIZONTAL CENTER MIN	30 0 30 25	15	4	Base colours/White				
+Toast message	0	INSTANCE	Tick in circle	44x44	NONE			0					
+Toast message	1	FRAME	Frame 80250	212x54	VERTICAL MIN MIN	0 0 0 0	10	0					
+Toast message	1.0	TEXT	Example text: You have successfully liked the following post “Happy Anniversary!”	212x54	NONE			0	Base colours/Grey Slate		Desktop text/Label text	13px	Example text: You ha
+Toast message	2	INSTANCE	Close x	36x36	NONE			0					
+Toast message	3	RECTANGLE	Rectangle 24166	10x312	NONE			0	Border/Positive				

@@ -104,10 +104,29 @@ IS one box works as a class (`.pf-button`, `.pf-tag`, `.pf-filter-chip`) and a c
 does not: `.pf-header`, `.pf-card`, `.pf-metric-card`, `.pf-calendar-picker` and
 `.pf-table-ag` carry a size and nothing inside it.
 
-`npm run verify` now counts the classes with no paint at all — **69** — and fails if that
-number grows. It does not, and cannot, tell you a class is structurally empty. Before
-building anything composite, open `docs/components.html` and look at what the class
-actually renders. If it renders a blank box, say so rather than hand-writing a substitute.
+**There are now templates for this.** `dist/templates/<class>.html` holds working markup
+for each composite component, generated from its Figma child tree, and `docs/templates.html`
+shows every one rendered. Paste the template — every class in it is a real library class,
+every colour is a token, and every icon is a real icon. Do not hand-write the contents.
+
+```
+dist/templates/pf-metric-card.html      docs/templates.html   — see them all rendered
+```
+
+`npm run verify` runs `check-templates.mjs`, which fails if a composite component has no
+template or if a template renders an empty box. It also reports how many of them render
+NOTHING from the bare class — currently **all 11 of them**, which is exactly why this
+exists.
+
+**Coverage is 12 components so far, not all of them.** A component with no template has not
+been walked yet; open `docs/components.html` and look at what the class actually renders
+before building on it. If it renders a blank box, say so rather than hand-writing a
+substitute.
+
+(The same section used to cite "69 classes with no paint". That number was wrong —
+`check-component-art.mjs` was counting rules rather than classes. The real figure is 2, and
+it was never the right measure anyway: a class can have a perfectly good background and
+still be an empty box.)
 
 ## The rule: only design-system components
 
