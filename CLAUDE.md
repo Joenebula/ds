@@ -268,20 +268,42 @@ keeps its name, so it is invisible there by construction.
 npm run icons:check
 ```
 
-**First run, 2026-09-11: 281 of 287 pinned icons verified identical, and SIX have drifted.**
+**First run said six had drifted. Three of those six were the CHECK being wrong**, and the
+correction is the more useful half of this section.
 
-| | |
-|---|---|
-| `Community group people` | `6237:66072` |
-| `Key` | `8198:78418` |
-| `People first face` | `695:14903` |
-| `Rocket` | `9598:97928` |
-| `Team` | `11453:114175` |
-| `Upload CSV` | `659:390` |
+| | | |
+|---|---|---|
+| `Community group people` | `6237:66072` | path 5 moved **361.32** |
+| `People first face` | `695:14903` | path 0 moved **63.37** |
+| `Team` | `11453:114175` | path 0 moved **49.06** |
+| ~~`Key`~~ | `8198:78418` | every path within budget — **not drift** |
+| ~~`Rocket`~~ | `9598:97928` | identical — **not drift** |
+| ~~`Upload CSV`~~ | `659:390` | within budget — **not drift** |
 
-Those six ship artwork that is no longer what Figma draws, and every check in this repo was green
-about it. Nothing has been re-captured: replacing a shipped drawing is a decision, and the six are
-named here so it is a decision somebody takes rather than one a script takes quietly.
+The first version rounded both sides to 2dp and hashed the text. That does not remove precision
+error, it MOVES THE BOUNDARY: Figma's `29.735` rounds to `29.74` while the value the extractor
+stored as `29.73` stays put, and one hundredth of a unit at one control point reported a redrawn
+icon. Rounding to 1dp is no fix — 1dp has boundaries too, and four of the six still differed there.
+`Team` was the proof that something was wrong with the check rather than the artwork: same six
+paths, same command sequence letter for letter, same 78/52/52/78/52/80 numbers per path, and a
+digest insisting the drawing had changed.
+
+**So the comparison is structural plus a tolerance, and the tolerance is derived rather than
+picked.** The skeleton (command letters, every number stripped) and the per-path number counts are
+compared EXACTLY — no rounding can add, remove or reorder a segment. The per-path sums are compared
+against the error budget the stored precision actually allows: 2dp storage means each number is
+wrong by at most `0.005`, so a path of n numbers may drift `n × 0.005` by rounding and no further.
+The three real ones exceed their budget by three orders of magnitude — 361 against 0.275 — and the
+three false ones come in under it. Nothing in between, which is what a good discriminator looks like.
+
+**What it still cannot see, stated rather than left to be found:** two equal and opposite moves
+inside one path cancel in the sum. The skeleton and the count both still hold, so it takes a
+deliberate edit to hide, but it is a tolerance and not a proof.
+
+**And the digest file was deleted rather than left in place.** It was written in the old `{id, h}`
+format, which the current comparison would read as "no skeleton" and report as 287 drifted icons —
+287 false alarms presented as fact. `formatError()` now refuses an old-format file outright and says
+to re-run the collector. Re-running it is one call; reporting 287 lies is not recoverable.
 
 **A digest is PATH DATA only, and the three exclusions are the whole design.** Colour is ignored
 because `icons.tsv` stores `fill="currentColor"` by design while Figma exports the real paint —

@@ -59,15 +59,60 @@ import { readFileSync, existsSync } from 'node:fs';
 const ICONS = 'tokens/_raw/icons.tsv';
 const DIGESTS = 'tokens/_raw/figma-icon-digests.json';
 
-export function normalise(svg) {
-  const ds = (String(svg).match(/ d="[^"]*"/g) || []).map((m) => m.slice(4, -1));
-  return ds.join('|').replace(/-?\d+\.?\d*/g, (x) => String(Math.round(parseFloat(x) * 100) / 100));
-}
-
 export function digest(s) {
   let h = 5381;
   for (let i = 0; i < s.length; i++) h = ((h * 33) ^ s.charCodeAt(i)) >>> 0;
   return h.toString(36);
+}
+
+// THE FIRST VERSION OF THIS COMPARED ROUNDED TEXT AND WAS WRONG SIX TIMES OUT OF 287.
+//
+// It rounded both sides to 2dp and hashed the result. That is not precision-safe, it merely moves
+// the boundary: Figma's `29.735` rounds to 29.74 and the value the extractor stored as `29.73`
+// stays 29.73, so one hundredth of a unit at one control point reported a redrawn icon. Rounding to
+// 1dp does not fix it either — 1dp has boundaries too, and four of the six still differed there.
+// `Team` was the proof: same six paths, same command sequence letter for letter, same 78/52/52/78/
+// 52/80 numbers per path, and a digest that said the drawing had changed.
+//
+// So the shape is measured structurally and the numbers are measured WITH A TOLERANCE:
+//
+//   skeleton   the command letters with every number stripped — MCCCCZMCCCCZ. A redraw that adds,
+//              removes or reorders a segment changes this and no rounding can.
+//   counts     how many numbers each path carries. Same argument, finer.
+//   sums       the sum of each path's numbers, compared against the error budget the stored
+//              precision actually allows: 2dp storage means each number is off by at most 0.005,
+//              so a path of n numbers can drift n * 0.005 by rounding alone and no further.
+//
+// WHAT THAT STILL CANNOT SEE, said rather than left to be discovered: two equal and opposite moves
+// within one path cancel in the sum. The skeleton and the count both hold, so it takes a deliberate
+// edit to hide, and a real redraw of an icon does not preserve segment count, segment order and
+// summed coordinates simultaneously. It is a tolerance, not a proof.
+export function shape(svg) {
+  const ds = (String(svg).match(/ d="[^"]*"/g) || []).map((m) => m.slice(4, -1));
+  const nums = ds.map((d) => (d.match(/-?\d+\.?\d*/g) || []).map(Number));
+  return {
+    sk: digest(ds.map((d) => d.replace(/[-\d.\s,]/g, '')).join('|')),
+    counts: nums.map((a) => a.length),
+    sums: nums.map((a) => Math.round(a.reduce((x, y) => x + y, 0) * 100) / 100),
+  };
+}
+
+export const BUDGET_PER_NUMBER = 0.005;   // what 2dp storage can be wrong by, per number
+
+// Same drawing within the precision the file can hold? Returns null when it is, or why not.
+export function differs(mine, theirs) {
+  if (!theirs) return 'not measured';
+  if (mine.sk !== theirs.sk) return 'the path commands differ — a segment was added, removed or reordered';
+  if (mine.counts.length !== theirs.counts.length) return `path count ${mine.counts.length} against ${theirs.counts.length}`;
+  for (let i = 0; i < mine.counts.length; i++) {
+    if (mine.counts[i] !== theirs.counts[i]) return `path ${i} carries ${mine.counts[i]} numbers against ${theirs.counts[i]}`;
+  }
+  for (let i = 0; i < mine.sums.length; i++) {
+    const budget = mine.counts[i] * BUDGET_PER_NUMBER + 1e-9;
+    const gap = Math.abs(mine.sums[i] - theirs.sums[i]);
+    if (gap > budget) return `path ${i} moved: coordinates differ by ${gap.toFixed(3)}, more than the ${budget.toFixed(3)} that ${mine.counts[i]} numbers can drift by rounding`;
+  }
+  return null;
 }
 
 export function readIcons(text) {
@@ -93,6 +138,18 @@ export function exitCode({ digestsPresent, drifted }) {
   return drifted ? 1 : 0;
 }
 
+// A digest written by an older collector carries {id, h} and no shape. Reading it with the current
+// comparison would report EVERY icon as "path commands differ" — 287 false alarms presented as
+// fact, which is the failure this whole file exists to catch. So a file in the wrong format is
+// refused outright rather than measured.
+export function formatError(digests) {
+  const shaped = digests.filter((d) => d && d.sk && Array.isArray(d.counts) && Array.isArray(d.sums));
+  if (shaped.length === digests.length) return null;
+  return `${digests.length - shaped.length} of ${digests.length} entries carry no sk/counts/sums — `
+    + 'this digest file was written by an older collector. Re-run the collector in this file\'s header; '
+    + 'measuring it with the current comparison would report every icon as drifted.';
+}
+
 export function judge(rows, digests) {
   const byId = new Map();
   for (const d of digests) if (d && d.id) byId.set(d.id, d);
@@ -105,9 +162,9 @@ export function judge(rows, digests) {
     capturedIds.add(r.nodeId);
     const d = byId.get(r.nodeId);
     if (!d) { uncovered.push(`${r.name} (${r.nodeId})`); continue; }
-    const mine = digest(normalise(r.svg));
-    if (mine === d.h) same.push(r.name);
-    else drifted.push({ name: r.name, nodeId: r.nodeId, repo: mine, figma: d.h, figmaName: d.name });
+    const why = differs(shape(r.svg), d);
+    if (!why) same.push(r.name);
+    else drifted.push({ name: r.name, nodeId: r.nodeId, why, figmaName: d.name });
   }
   for (const d of digests) if (d && d.id && !capturedIds.has(d.id)) uncaptured.push(`${d.name || '?'} (${d.id})`);
 
@@ -121,38 +178,62 @@ function selfTest() {
   const H = 'index\tfigmaName\tfile\tsvg\tnodeId';
   const svgA = '<svg viewBox="0 0 36 36" fill="currentColor"><path d="M7.5 8.63C6.46 8.63Z"/></svg>';
   const svgB = '<svg viewBox="0 0 36 36" fill="currentColor"><path d="M9 9L1 1Z"/></svg>';
-  const hA = digest(normalise(svgA));
   const rows = readIcons(`${H}\n1\tAlpha\talpha\t${svgA}\t1:1\n2\tBeta\tbeta\t${svgB}\t2:2\n`);
 
   // The whole point: same drawing passes, changed drawing is REPORTED.
-  let r = judge(rows, [{ id: '1:1', name: 'Alpha', h: hA }, { id: '2:2', name: 'Beta', h: 'deadbeef' }]);
-  if (r.same.length !== 1 || r.same[0] !== 'Alpha') miss('an unchanged icon must compare equal');
+  let r = judge(rows, [{ id: '1:1', ...shape(svgA) }, { id: '2:2', ...shape(svgB) }]);
+  if (r.same.length !== 2) miss(`two unchanged icons must both compare equal (got ${r.same.length}: ${JSON.stringify(r.drifted)})`);
+  r = judge(rows, [{ id: '1:1', ...shape(svgA) }, { id: '2:2', ...shape('<svg><path d="M9 9L1 1L5 5Z"/></svg>') }]);
   if (r.drifted.length !== 1 || r.drifted[0].name !== 'Beta') miss('a redrawn icon must be REPORTED — that is the only reason this check exists');
 
-  // Figma's real precision against the file's rounding. This is the case that matched NOTHING on
-  // the first attempt, so a fixture that only used matching precision would prove nothing.
-  const figmaPrecision = digest(normalise('<svg><path d="M7.5 8.625C6.46447 8.625Z"/></svg>'));
-  const filePrecision = digest(normalise('<svg><path d="M7.5 8.63C6.46 8.63Z"/></svg>'));
-  if (figmaPrecision !== filePrecision) miss('2dp rounding must make Figma precision and file precision agree');
+  // THE BUG THIS REWRITE EXISTS FOR. Figma's real precision against the file's 2dp storage must
+  // NOT read as drift. The first version hashed rounded text and called six real icons redrawn;
+  // 29.735 rounds to 29.74 while the stored 29.73 stays put, and a hash cannot forgive that.
+  const figma = shape('<svg><path d="M27.735 5.2C28.1434 4.765Z"/></svg>');
+  const file = shape('<svg><path d="M27.74 5.2C28.14 4.77Z"/></svg>');
+  if (differs(file, figma)) miss(`a difference within 2dp storage error must NOT be drift (got: ${differs(file, figma)})`);
+
+  // ...and a real move must still be caught, at a size no rounding could produce.
+  const moved = shape('<svg><path d="M27.74 5.2C29.14 4.77Z"/></svg>');
+  if (!differs(moved, figma)) miss('a whole unit of movement must be reported — the tolerance must not swallow a redraw');
+
+  // Structure is compared exactly: rounding can never add or drop a segment.
+  if (!differs(shape('<svg><path d="M1 1L2 2Z"/></svg>'), shape('<svg><path d="M1 1L2 2L3 3Z"/></svg>')))
+    miss('an added segment must be reported however small');
+  const why = differs(shape('<svg><path d="M1 1L2 2Z"/></svg>'), shape('<svg><path d="M1 1C2 2 3 3 4 4Z"/></svg>'));
+  if (!/commands differ/.test(String(why))) miss('a changed command letter must be named as a command difference');
+
+  // The budget scales with how many numbers a path holds, because that is where the error comes
+  // from. A fixed tolerance would be too tight for a long path and too loose for a short one.
+  const many = { sk: 'x', counts: [100], sums: [0] };
+  if (differs({ sk: 'x', counts: [100], sums: [0.4] }, many)) miss('100 numbers may drift 0.5 by rounding alone and must not be called drift');
+  if (!differs({ sk: 'x', counts: [2], sums: [0.4] }, { sk: 'x', counts: [2], sums: [0] })) miss('2 numbers may drift only 0.01 — 0.4 there IS a move');
 
   // Colour must not enter the comparison, or every icon reports drifted for ever.
-  const coloured = '<svg viewBox="0 0 36 36" fill="#3E3E3E"><path d="M7.5 8.63C6.46 8.63Z"/></svg>';
-  if (digest(normalise(coloured)) !== hA) miss('a colour difference must NOT read as artwork drift — icons.tsv stores currentColor by design');
+  if (differs(shape('<svg viewBox="0 0 36 36" fill="#3E3E3E"><path d="M7.5 8.63C6.46 8.63Z"/></svg>'), shape(svgA)))
+    miss('a colour difference must NOT read as artwork drift — icons.tsv stores currentColor by design');
 
   // A row the digest file does not mention is uncovered, not drifted and not fine.
-  r = judge(rows, [{ id: '1:1', name: 'Alpha', h: hA }]);
+  r = judge(rows, [{ id: '1:1', ...shape(svgA) }]);
   if (r.drifted.length) miss('a row missing from a PARTIAL digest file must never be reported as drifted');
   if (r.uncovered.length !== 1) miss('an uncovered row must be counted — absence from one read is not absence from Figma');
 
   // An icon Figma has that this repo has not captured is a question for a person.
-  r = judge(rows, [{ id: '1:1', name: 'Alpha', h: hA }, { id: '2:2', name: 'Beta', h: digest(normalise(svgB)) }, { id: '9:9', name: 'Newcomer', h: 'x' }]);
+  r = judge(rows, [{ id: '1:1', ...shape(svgA) }, { id: '2:2', ...shape(svgB) }, { id: '9:9', name: 'Newcomer', ...shape('<svg><path d="M1 1"/></svg>') }]);
   if (r.uncaptured.length !== 1 || !/Newcomer/.test(r.uncaptured[0])) miss('a digest for an id we have not captured must be reported, not ignored');
-  if (r.drifted.length) miss('Beta matches here and must not be reported as drift');
+  if (r.drifted.length) miss('the two matching rows must not be reported as drift');
 
   // A row with no node id cannot be compared at all, and saying so is the honest answer.
-  r = judge(readIcons(`${H}\n1\tNoId\tnoid\t${svgA}\t\n`), [{ id: '1:1', h: hA }]);
+  r = judge(readIcons(`${H}\n1\tNoId\tnoid\t${svgA}\t\n`), [{ id: '1:1', ...shape(svgA) }]);
   if (r.unpinned.length !== 1) miss('a row with no node id must be counted as uncomparable, not silently passed');
   if (r.same.length) miss('a row with no node id must never count as verified');
+
+  // An old-format digest file must be REFUSED, not measured — it would report all 287 as drifted.
+  if (!formatError([{ id: '1:1', sk: 'a', counts: [1], sums: [1] }])) { /* good shape passes */ }
+  else miss('a well-formed digest file must not be refused');
+  const oldFormat = formatError([{ id: '1:1', h: 'abc' }]);
+  if (!oldFormat) miss('a digest file in the OLD {id,h} format must be refused outright');
+  if (!/older collector/.test(String(oldFormat))) miss('and the refusal must say what to do about it');
 
   // A run with no digest file measured NOTHING, and that is exit 2, never 0.
   if (exitCode({ digestsPresent: false, drifted: 0 }) !== 2) miss('no digest file must exit 2 (vacuous) — a check that measured nothing is not a pass');
@@ -160,15 +241,15 @@ function selfTest() {
   if (exitCode({ digestsPresent: true, drifted: 3 }) !== 1) miss('drift must fail the run');
 
   // Path ORDER is part of the drawing.
-  const one = digest(normalise('<svg><path d="M1 1"/><path d="M2 2"/></svg>'));
-  const two = digest(normalise('<svg><path d="M2 2"/><path d="M1 1"/></svg>'));
-  if (one === two) miss('a reordered path list must not compare equal — a reorder changes stacking');
+  if (!differs(shape('<svg><path d="M1 1L9 9Z"/><path d="M2 2Z"/></svg>'), shape('<svg><path d="M2 2Z"/><path d="M1 1L9 9Z"/></svg>')))
+    miss('a reordered path list must not compare equal — a reorder changes stacking');
 
   if (failures) { console.log(`self-test FAILED — ${failures} check(s) did not catch what they exist to catch`); process.exit(1); }
-  console.log('self-test passed — a redrawn icon is reported and an unchanged one is not, Figma precision and the '
-    + "file's 2dp rounding agree, a colour difference is not artwork drift, a row absent from a partial digest file is "
-    + 'uncovered rather than drifted, an icon Figma has that we have not captured is named, a row with no node id '
-    + 'counts as uncomparable rather than verified, and a reordered path list is a difference');
+  console.log('self-test passed — a redrawn icon is reported and an unchanged one is not, a difference within what 2dp '
+    + 'storage can be wrong by is NOT drift while a whole unit of movement is, an added segment or changed command is '
+    + 'caught however small, the tolerance scales with how many numbers a path holds, colour is not artwork, a row '
+    + 'absent from a partial digest file is uncovered rather than drifted, an icon Figma has that we have not captured '
+    + 'is named, an unpinned row counts as uncomparable rather than verified, and a reordered path list is a difference');
 }
 
 // ---------------------------------------------------------------------------
@@ -183,12 +264,13 @@ function main() {
   catch (e) { console.log(`${DIGESTS} is not valid JSON: ${e.message}`); process.exit(1); }
   if (!Array.isArray(digests)) { console.log(`${DIGESTS} must be an array of {id, name, h}`); process.exit(1); }
 
+  const bad = formatError(digests);
+  if (bad) { console.log(`  REFUSED  ${bad}`); process.exit(2); }
+
   const rows = readIcons(readFileSync(ICONS, 'utf8'));
   const r = judge(rows, digests);
 
-  for (const d of r.drifted) {
-    console.log(`  DRIFTED  ${d.name} (${d.nodeId}) — the drawing in Figma is not the drawing captured here`);
-  }
+  for (const d of r.drifted) console.log(`  DRIFTED  ${d.name} (${d.nodeId}) — ${d.why}`);
   for (const u of r.uncaptured) console.log(`  new      ${u} — Figma has it, icons.tsv does not`);
 
   console.log(`\n${r.same.length} icon(s) verified against Figma, ${r.drifted.length} DRIFTED, `
