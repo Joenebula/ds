@@ -95,6 +95,39 @@ headed `ART\t<slug>\t<format>\t<part>\t<total>`, declare the slug's owning compo
 variant in the `EXPORTS` table in `scripts/extract-component-art.mjs`, run that script,
 then `npm run build`.
 
+## Boxes that centre their own child
+
+A few components hold ONE smaller thing in the middle of themselves — `Circle icons` is a
+28/36/44/52px circle around an 18/22/28/36px glyph, `Status` a 22px dot around a 16px one,
+`Waffle` a 90x86 tile around a 32px mark. Figma lays all three out as **NONE**: no
+auto-layout, the child positioned by hand. The geometry extract reads auto-layout, so it
+had nothing to read, and the classes shipped with no alignment at all.
+
+A page then centred the icon itself — `display: grid; place-items: center` written next to
+the component class — which is hand-written component CSS, the thing this repo exists to
+stop. `working/case-mgmt-my-team` did exactly that, and a screen built independently from
+the same docs shipped an icon sitting small and off-centre at the top of the page, because
+the page had no way to know.
+
+The alignment is now measured rather than assumed. `scripts/extract-component-inner.mjs`
+keeps a component only where the child's offsets are **equal on each axis** — so "centred"
+is a reading, not a guess — and records the child's size per variant in
+`tokens/_raw/component-inner.tsv`: **23 variants across 3 components**. `npm run build`
+emits both facts, and a page sets neither.
+
+```html
+<span class="pf-circle-icons" data-size="XS - 28px"><!--pf-icon:team--></span>
+```
+
+No size on the icon marker: the class sizes its own child, and 21 other layout-NONE
+components are deliberately absent from that file because their child FILLS them.
+
+**The rule goes on the variant selector, not the bare class.** Every size variant carries
+its own `display`, so a bare-class rule is outranked however late it is written. The first
+version of this centred nothing while sizing correctly, which looks fixed.
+`npm run verify` runs `check-component-inner.mjs`, which renders each variant and measures
+where the child actually landed.
+
 ## What the component classes do and do not carry
 
 A component is modelled as **one outer box plus three colour slots**

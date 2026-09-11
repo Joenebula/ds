@@ -124,6 +124,13 @@ const sharedNames = [...coveredRows.reduce((m, c) => {
 }, new Map())].filter(([, n]) => n > 1).map(([k]) => k);
 const templateCount = readdirSync('dist/templates').filter(f => f.endsWith('.html')).length;
 
+// The centred-child measurement: how many variants, and how many components they span.
+// Both are quoted in CLAUDE.md and the people-first skill, and both are the kind of figure
+// that goes stale the moment another layout-NONE component qualifies.
+const innerLines = readFileSync('tokens/_raw/component-inner.tsv', 'utf8').trim().split('\n');
+const nInnerVariants = innerLines.length - 1;
+const nInnerComponents = new Set(innerLines.slice(1).map(l => l.split('\t')[0])).size;
+
 // README's own figures. It is the front door and nothing was checking it: it claimed 198
 // tokens (196), 420 custom properties (414), 52 primitive colours (56), 96 semantic
 // colours (111, and the build has printed that number for months) and 469 components
@@ -217,6 +224,8 @@ const figures = [
   ['icons', nIcons, /All (\d+) are in `assets\/icons\/`/g],
   ['text styles', nTextStyles, /\*\*(\d+) text styles\*\*/g],
   ['inventoried components', nInventory, /\*\*(\d+) published components\*\*/g],
+  ['centred-child variants', nInnerVariants, /\*\*(\d+) variants across \d+ components?\*\*/g],
+  ['components with a centred child', nInnerComponents, /\*\*\d+ variants across (\d+) components?\*\*/g],
 ];
 // A PATTERN THAT MATCHES NOTHING PASSES VACUOUSLY, which is the "check that cannot fail"
 // fault this project has found in itself three times — check-icon-fidelity reporting

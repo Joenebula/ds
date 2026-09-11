@@ -204,7 +204,10 @@ svg { display: block; }
    on a page it is a full-width block. */
 .peoplecard { width: 100%; display: flex; align-items: stretch; }
 .ppl-head { display: flex; align-items: center; gap: var(--pf-space-small); }
-.ppl-mark { display: grid; place-items: center; flex: 0 0 auto; }
+/* Centring used to be here too — `display: grid; place-items: center` — which was
+   hand-written component CSS: `Circle icons` centres its own child in Figma and the class
+   now says so. Only the flex behaviour of this particular row is left, which is layout. */
+.ppl-mark { flex: 0 0 auto; }
 /* Tab binds no fill, so it sits on the card. Nav tabs binds `Navigation/Nav bg top` and
    belongs in the top strip; using it here put a lighter box behind the unselected tab in
    dark mode. The underline is a child of the Selected variant in Figma, so it is page CSS. */
@@ -327,7 +330,7 @@ svg { display: block; }
            photographs are content, and those are not in the People First library. -->
       <section class="pf-card peoplecard" data-pf-id="people-card" aria-labelledby="ppl">
         <div class="ppl-head">
-          <span class="pf-circle-icons ppl-mark" data-pf-id="people-card-mark" data-size="XS - 28px"><!--pf-icon:team 22--></span>
+          <span class="pf-circle-icons ppl-mark" data-pf-id="people-card-mark" data-size="XS - 28px"><!--pf-icon:team--></span>
           <h2 id="ppl" class="pf-text-sub-heading">People</h2>
         </div>
         <nav class="ppl-tabs" aria-label="People view">

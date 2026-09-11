@@ -16,7 +16,7 @@
 // Figma's exact spelling so they match what a designer sees. States that have a real
 // CSS equivalent (:hover, :disabled, :focus-visible) get one as well as the attribute,
 // so a live control behaves correctly and a gallery can still force any state.
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { buildResolver, WEIGHT } from './resolve-component-type.mjs';
 import { PRIMITIVE_ALIAS } from './primitive-alias.mjs';
 
@@ -685,6 +685,65 @@ if (composedRules.length) {
     out.push(`/* ${name} */`);
     out.push([...sels].sort().join(',\n') + ' {');
     for (const x of d) out.push(`  ${x};`);
+    out.push('}');
+    ruleCount++;
+  }
+  out.push('');
+}
+
+// ---- boxes that centre one thing ------------------------------------------
+//
+// Reported from a screen: the icon at the top sat in the corner of its circle and was too
+// small. `.pf-circle-icons` is generated, so every use of it was wrong the same way, and
+// the one page here that looks right only does so because it carries a local
+// `place-items: center` — hand-written component CSS by another name.
+//
+// Figma lays these out as `NONE`, so the geometry extract has no alignment to give and
+// this generator rightly emitted none. What it does have, in `component-inner.tsv`, is a
+// measurement: the child's offsets are equal on both axes (so it IS centred, rather than
+// that being a guess) and its size is recorded per VARIANT — a 28px circle holds an 18px
+// icon, a 52px one holds 36. Both facts are emitted.
+//
+// `inline-grid` rather than `grid` because these sit inline beside a heading, which is
+// where the reported one was; the size variants already set their own box.
+const innerRows = existsSync('tokens/_raw/component-inner.tsv')
+  ? tsv('tokens/_raw/component-inner.tsv') : [];
+if (innerRows.length) {
+  out.push('/* Boxes that hold one centred child. Figma lays these out as NONE — no auto-');
+  out.push(' * layout — so the alignment is not in the geometry extract; it is measured');
+  out.push(' * separately in tokens/_raw/component-inner.tsv, along with the child size for');
+  out.push(' * each variant. Without these a page has to centre the icon itself, which is');
+  out.push(' * component CSS the page should never be writing. */');
+  const seen = new Set();
+  for (const r of innerRows) {
+    const base = cls(r.component);
+    // THE CENTRING GOES ON THE SAME SELECTOR AS THE BOX, not on the bare class.
+    //
+    // A size variant carries its own `display: inline-block` — every variant row does,
+    // because that is what the geometry extract measured. `.pf-circle-icons` alone is one
+    // class and `.pf-circle-icons[data-size="XS - 28px"]` is a class plus an attribute, so
+    // the variant wins on specificity no matter how late the bare rule is written. The
+    // first version of this put `inline-grid` on the bare class, and the icon rendered
+    // 18px inside a 28px circle sitting against the top edge: correct size, no centring,
+    // which is half the fault the user reported and looks like the whole thing is fixed.
+    const at = r.variant
+      ? r.variant.split(', ').map(v =>
+          `[data-${kebab(v.slice(0, v.indexOf('=')))}="${v.slice(v.indexOf('=') + 1)}"]`).join('')
+      : '';
+    const box = `.${base}${at}`;
+    if (!seen.has(box)) {
+      seen.add(box);
+      out.push(`${box} {`);
+      out.push('  display: inline-grid;');
+      out.push('  place-items: center;');
+      out.push('}');
+      ruleCount++;
+    }
+    const [w, h] = (r.child || '').split('x').map(Number);
+    if (!Number.isFinite(w) || !Number.isFinite(h)) continue;
+    out.push(`${box} > * {`);
+    out.push(`  width: ${w}px;`);
+    out.push(`  height: ${h}px;`);
     out.push('}');
     ruleCount++;
   }

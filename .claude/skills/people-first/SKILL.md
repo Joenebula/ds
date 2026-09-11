@@ -369,10 +369,35 @@ writing them is not a violation of rule 2:
 - **behaviour** — `cursor`, `transition`, `:focus-visible` rings
 - **line-height** — not captured by the extract
 - **anything drawn inside a component** — the tick glyph inside a checkbox, the knob
-  inside a toggle
+  inside a toggle. Supplying the glyph is yours; **positioning or sizing it is not** — see
+  the next block.
 
 Keep that CSS in one block and label it local. If something in it restates a Figma
 value — a colour, a height, a radius — that is a bug, not a local style.
+
+### A box that holds one icon centres and sizes it ITSELF
+
+`Circle icons`, `Status` and `Waffle` each hold one smaller thing in their middle. Figma
+positions that child by hand rather than with auto-layout, so for most of this project the
+classes carried no alignment and pages centred the icon themselves. That is hand-written
+component CSS, and a screen built from these docs shipped with the icon at the top of the
+page small and pushed off-centre.
+
+The classes now carry it. Give the component its variant and drop the icon in — **no size
+on the marker, no `display`, no `place-items`, no width or height of your own**:
+
+```html
+<span class="pf-circle-icons" data-size="XS - 28px"><!--pf-icon:team--></span>
+<span class="pf-status" data-status-type="Like"><!--pf-icon:like--></span>
+```
+
+The circle sizes the glyph to what Figma draws — 18/22/28/36px for the 28/36/44/52px
+sizes — and centres it on both axes. Writing your own size is how one came out at 22px in
+a 28px circle.
+
+**23 variants across 3 components** work this way, listed in
+`tokens/_raw/component-inner.tsv`. Every other component's child fills its box, so there is
+nothing to centre.
 
 ### A composite component needs its TEMPLATE, not just its class
 
