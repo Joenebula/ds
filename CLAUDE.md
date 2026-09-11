@@ -301,8 +301,14 @@ away all the same. That is hand-writing a component, one level in.
 classes a component's template puts inside it the page actually uses. It reports rather
 than judges — a real card holds real data, and a page may leave parts out — but a component
 using NONE of several is one rebuilt by hand, and that total is pinned and may only fall.
-**Two are outstanding**, both on `case-mgmt-my-team`: `pf-header` and
-`pf-layout-container-magazine-style`.
+**One is outstanding**, on `case-mgmt-my-team`: `pf-layout-container-title`, the
+"Department insights" row, which Figma gives a circle icon and a title on the left and
+three buttons on the right, and the page fills with a title and two text links.
+
+(This sentence read "Two are outstanding — `pf-header` and
+`pf-layout-container-magazine-style`" for a while after those two stopped being outstanding:
+rebuilding that page on its templates fixed both and left a third the note never named. The
+count is checked against the script now, so it cannot drift again.)
 
 It does not look at type classes. A component composes its own type, so a page must not add
 `pf-text-*` inside one — see the rule above.

@@ -1269,3 +1269,69 @@ Also recorded while doing this: `People`'s `Item` axis is 300 sample entities wh
 depends on the length of the name rather than on the component — "Nolan George" is 91px at
 Type=Table/Mobile=True and "Corey Franci" is 109 because it wraps. No class can be right for
 both, so the axis is excluded with that measurement as the reason.
+
+---
+
+## H. Three properties the pipeline never carried — `done`
+
+Found by working backwards from two defects the user reported on screen, not by any check.
+Each is the same shape: the colour extract records a component's **fill, stroke token and
+text token**, and anything that is none of those three was invisible to the whole pipeline.
+
+**Done when:** met for all three. Each is measured from Figma into its own `tokens/_raw`
+file, emitted by `npm run build`, and checked by a script in `npm run verify` that renders
+the component and measures the result — plus a negative test proving the check fails when
+the fault is reintroduced.
+
+1. **A box that centres its own child.** `Circle icons`, `Status`, `Waffle` — Figma lays
+   them out as NONE, so there was no auto-layout for the geometry extract to read and the
+   classes carried no alignment. A page had to centre the icon itself, which is
+   hand-written component CSS, and an independently-built screen shipped with the icon
+   small and off-centre. 23 variants, `component-inner.tsv`, `check-component-inner.mjs`.
+2. **Which edges a border strokes, and how thickly.** Every bound stroke was painted as a
+   1px box on four sides. 56 variants depart from that: 26 stroke some edges only (`Nav
+   tabs` is a file-folder tab, not an underlined one), 12 stroke at 1.5px or 2px, and 18
+   keep a paint Figma has switched OFF — including every `Table cell (AG)`, so tables drew
+   a grid of boxes instead of horizontal rules. `component-stroke-sides.tsv`,
+   `check-stroke-sides.mjs`.
+3. **The shadow a component casts.** `dist/components.css` contained "box-shadow" zero
+   times while Figma casts one on 47 variants — every floating surface in the system.
+   29 match one of the two shadow tokens and are emitted; the other 18 match neither and
+   are reported rather than written as a raw rgba. `component-shadow.tsv`,
+   `check-shadows.mjs`, `docs/FIGMA-ISSUES.md` §12.
+
+**Checks found to be measuring the wrong thing while doing this** — the running theme of
+this project, now at six:
+
+- The shell census split a rule's selector list on commas, so a generated comment
+  containing one became the "selector" and the rule below it was attributed to nothing.
+  **Nine shape-only classes had never been counted at all**; the real figure is 14, not 5.
+- `check-stroke-sides` built its own markup with every Figma axis, so it passed on rules
+  that matched nothing a real page writes. `check-off-system` caught that instead.
+- The docs-figure check compared with `Number()`, so any figure written as a WORD was
+  permanently unverifiable. "Two are outstanding" had been wrong — wrong count and wrong
+  component names — since `case-mgmt-my-team` was rebuilt, and nothing could see it.
+- My own first tally of the border census double-counted rows that were both switched off
+  and uneven, and still summed to the right total by coincidence.
+
+Figures checked in the docs went **44 → 58**.
+
+## I. Survey: what else does the pipeline drop? — `done (nothing further found)`
+
+Swept the component pages for four more properties, to see whether the pattern above
+continues. It does not, and that is worth recording so nobody re-runs it:
+
+- **opacity below 1** — none, on either page measured before the Figma connection dropped.
+- **rotation** — none.
+- **stroke alignment** — `INSIDE` almost everywhere; 3 components on Cards and panels use
+  `OUTSIDE`. Not pursued: `verify-against-figma` compares 1408 rendered values against an
+  INDEPENDENT Figma measurement and passes, so whatever the outside stroke does to the box
+  is already accounted for. Worth a look only if a size discrepancy ever shows up.
+- **`clipsContent`** — 34 components on Cards and panels clip their contents and
+  `dist/components.css` sets `overflow` once. **This is the one real candidate left** and
+  is NOT done: it needs the same treatment as the three above. Lower severity, because a
+  class is mostly an empty box until a template is pasted into it — it would bite on a card
+  holding an image that should be clipped by the rounded corner.
+
+**Suggestion for the user, not done:** carry `clipsContent` the same way. One sweep, one
+`tokens/_raw` file, one generator rule, one check.

@@ -162,6 +162,30 @@ const tokened = drops.filter(r => SHADOW_TOKEN_GEO.some(t =>
       && Math.abs(Number(a[3]) - Number(b[3])) < 0.006; })()));
 const nDropShadows = drops.length;
 const nUntokenedShadows = drops.length - tokened.length;
+
+// How many composite-component USES rebuild their contents by hand. check-template-fidelity
+// pins this and CLAUDE.md quotes it — and the two disagreed: the note still named the two
+// components that were outstanding before `case-mgmt-my-team` was rebuilt on its templates,
+// while the script had been reporting a different one, and a smaller number, ever since.
+// Nothing checked the sentence, so it simply stayed wrong.
+const HANDBUILT = /const HANDBUILT_BASELINE\s*=\s*(\d+)/
+  .exec(readFileSync('scripts/check-template-fidelity.mjs', 'utf8'));
+const nHandBuilt = HANDBUILT ? Number(HANDBUILT[1]) : null;
+
+// The border census, bucketed exactly as extract-component-stroke-sides.mjs buckets it —
+// switched-off first, since a stroke Figma has turned off draws nothing whatever its
+// weights say. CLAUDE.md quotes all three, and they were unchecked until now.
+const sideLines = readFileSync('tokens/_raw/component-stroke-sides.tsv', 'utf8').trim().split('\n');
+const sideCells = sideLines.slice(1).map(l => l.split('\t'));
+const nStrokeOff = sideCells.filter(c => c[6] === 'no').length;
+const sideShown = sideCells.filter(c => c[6] !== 'no');
+const nStrokeUneven = sideShown.filter(c => new Set(c.slice(2, 6)).size > 1).length;
+const nStrokeThick = sideShown.filter(c => new Set(c.slice(2, 6)).size === 1).length;
+
+// How many containers the component walk could not reach past its depth limit.
+const CAPPED = /const CAPPED_BASELINE\s*=\s*(\d+)/
+  .exec(readFileSync('scripts/check-templates.mjs', 'utf8'));
+const nCapped = CAPPED ? Number(CAPPED[1]) : null;
 const nInnerComponents = new Set(innerLines.slice(1).map(l => l.split('\t')[0])).size;
 
 // README's own figures. It is the front door and nothing was checking it: it claimed 198
@@ -265,6 +289,11 @@ const figures = [
   ['shadows with a matching token', nDropShadows - nUntokenedShadows, /\*\*(\d+)\s+of\s+the\s+\d+\s+match\s+one\s+exactly\*\*/g],
   ['shadows with no token', nUntokenedShadows, /\*\*(\d+)\s+match\s+neither\*\*/g],
   ['shadows with no token', nUntokenedShadows, /(\d+)\s+variants\s+cast\s+a\s+shadow\s+the\s+design\s+system\s+has\s+no\s+token\s+for/g],
+  ['variants stroking some edges only', nStrokeUneven, /\*\*(\d+)\s+variants\s+stroke\s+some\s+edges\s+and\s+not\s+others\.\*\*/g],
+  ['variants stroking a width that is not 1px', nStrokeThick, /\*\*(\d+)\s+stroke\s+all\s+four\s+sides\s+at\s+a\s+width\s+that\s+is\s+not\s+1px\*\*/g],
+  ['variants whose stroke is switched off', nStrokeOff, /\*\*(\d+)\s+keep\s+a\s+stroke\s+paint\s+Figma\s+has\s+switched\s+OFF\*\*/g],
+  ['containers behind the walk depth limit', nCapped, /\*\*(One|Two|Three|Four|Five|\d+)\*\*\s+are\s+left,\s+each\s+holding/g],
+  ['composite uses rebuilt by hand', nHandBuilt, /\*\*(One|Two|Three|Four|Five|Six|\d+)\s+(?:is|are)\s+outstanding\*\*/g],
   ['classes with no paint', shellCount, /\*\*(\d+) classes with no paint\*\*/g],
   ['centred-child variants', nInnerVariants, /\*\*(\d+) variants across \d+ components?\*\*/g],
   ['components with a centred child', nInnerComponents, /\*\*\d+ variants across (\d+) components?\*\*/g],
@@ -275,13 +304,22 @@ const figures = [
 // never looked at, the shell census counting rules instead of classes. So each pattern
 // must match at least once: if a sentence is reworded, the figure stops being checked, and
 // silence is exactly how these drift.
+// PROSE WRITES SMALL NUMBERS AS WORDS. "Two are outstanding" is a figure like any other,
+// and comparing it with Number() gives NaN, which never equals the build's count — so such a
+// sentence could only ever be unverified or permanently failing. It stayed wrong for exactly
+// that reason: it named two components that had stopped being outstanding and a count that
+// had changed, and nothing could see it.
+const WORDS = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8,
+  nine: 9, ten: 10, eleven: 11, twelve: 12 };
+const figure = t => (WORDS[String(t).toLowerCase()] ?? Number(t));
+
 let matched = 0;
 for (const [what, actual, re] of figures) {
   let hits = 0;
   for (const [name, text] of docs)
     for (const m of text.matchAll(re)) {
       hits++;
-      if (Number(m[1]) !== actual)
+      if (figure(m[1]) !== actual)
         problems.push(`${name} says ${m[1]} ${what}; the build says ${actual} — "${m[0].replace(/\s+/g, ' ').trim()}"`);
     }
   if (!hits) problems.push(`nothing matches the pattern for "${what}" (${re.source}) — the `
