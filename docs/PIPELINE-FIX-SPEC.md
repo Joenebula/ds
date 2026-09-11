@@ -14,7 +14,7 @@ every check validates that summary against itself. Four faults compound:
 |---|---|---|---|
 | 1 | ~~The typeface is never shipped~~ | **FIXED** — Open Sans 400/600 vendored and inlined; `check-fonts.mjs` guards it | ~~Critical~~ |
 | 2 | ~~Checks compare the build to its own source~~ | **FIXED** — `verify-against-figma.mjs` has an independent source; wording corrected | ~~Critical~~ |
-| 3 | One geometry row per component | Whichever variant was measured wins; produced 4 separate bugs this session | High |
+| 3 | ~~One geometry row per component~~ | **FIXED for the covered page** — extraction is per-variant; drift 14 → 0 | ~~High~~ |
 | 4 | Component type is not linked to the text styles | Component type can drift from the type layer, both "passing" | Medium |
 
 Fault 1 alone explains the reported button and title problems. Faults 2–4 explain why
@@ -176,7 +176,7 @@ real limit and is why the count is a baseline rather than a pass.
 
 ---
 
-## 3. One geometry row per component — HIGH
+## 3. One geometry row per component — HIGH — **FIXED where measured**
 
 `component-geometry.tsv` holds **one row per component**. Whichever variant happened to be
 measured is applied to all of them.
@@ -202,12 +202,40 @@ one row per variant: size, padding, radius, gap, layout, `layoutSizingHorizontal
 
 Keep a base row, derived rather than typed: the values shared by **all** variants.
 
+### Done
+
+`scripts/extract-component-geometry.mjs` harvests per-variant rows. Two decisions worth
+recording, because the obvious choice was wrong in both:
+
+- **The base row is Figma's DEFAULT variant, not the intersection of all of them.** Blanking
+  every field the variants disagree on sounds more honest and is worse: `class="pf-button"`
+  with no attribute would lose its padding, height and type entirely. The default variant
+  is a real, complete shape; variant rows override it where Figma differs.
+- **Height stays the measured pixels even where the frame hugs.** Figma reports `HUG`
+  vertically on a Button whose frame is nonetheless 32 tall. Emitting `auto` drops it to the
+  line box — about 22px — and the pill is gone. Width still becomes `auto` when it hugs,
+  because a hugging width really is content.
+
+Four hand-written descriptive rows (`Button (icon only)`, `Filter chip (mobile)`,
+`Links (primary)`, `Links (secondary)`) were measurement notes standing in for variants.
+Real variant rows supersede them; they are deleted.
+
+It is a SEPARATE walk from `extract-figma-truth.mjs` on purpose. That one feeds the check,
+this one feeds the build. Merging them would rebuild the circularity fault 2 just removed.
+
 ### Verification
 
-- Row count rises from 193 to roughly the variant count (~302).
-- `verify-geometry` runs per variant, not per component.
-- Regression cases: `Navigation item Default` must be Regular; `Profile image` base must be
-  43px; `Clock in` must carry CLIP; `Card` must paint from the bare class.
+**Drift went 14 → 0. 90 of 90 rendered values match the independent measurement**, and the
+baseline is locked at 0 so it cannot rise. `--self-test` still catches a deliberate break.
+No visual regression: the button specimen, the working screen and the prototypes all
+re-shot and checked.
+
+### The honest limit
+
+**11 components on one Figma page are per-variant. 178 rows are still one-per-component.**
+Everything outside Buttons and links carries the old shape and is unchecked against an
+independent source — the same fault, just not yet visible. Extending both walks page by
+page is item G in the queue, and until that is done "fixed" means *fixed where measured*.
 
 ---
 

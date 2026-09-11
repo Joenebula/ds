@@ -358,6 +358,7 @@
  * 1 variant captured
  */
 .pf-action-menu-button {
+  height: 28px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -371,6 +372,15 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-action-menu-button[data-circle="true"] {
+  height: 28px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 16px;
+}
 .pf-action-menu-button {
   color: var(--pf-text-primary);
 }
@@ -380,6 +390,7 @@
  * Figma draws this 199px wide; treated as layout, not a rule
  */
 .pf-action-menu {
+  height: 136px;
   padding: 4px 5px;
   border-radius: 4px;
   display: inline-flex;
@@ -426,8 +437,10 @@
 /* Add attachment
  * 1 variant captured
  * Figma draws this 440px wide; treated as layout, not a rule
+ * Figma draws this 466px tall; emitted as a minimum, since content decides the real height
  */
 .pf-add-attachment {
+  min-height: 466px;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -610,6 +623,291 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-button[data-type="Action"][data-label="No"] {
+  width: 32px;
+  height: 32px;
+  padding: 0 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.pf-button[data-type="Negative"][data-label="No"] {
+  width: 32px;
+  height: 32px;
+  padding: 0 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.pf-button[data-type="Positive"][data-label="No"] {
+  width: 32px;
+  height: 32px;
+  padding: 0 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.pf-button[data-type="Filter"][data-label="Yes"] {
+  height: 32px;
+  padding: 0 15px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-button[data-type="Sort"][data-label="Yes"] {
+  height: 32px;
+  padding: 0 15px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-button[data-type="Hollow"][data-label="No"] {
+  height: 32px;
+  padding: 0 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.pf-button[data-type="Filter"][data-label="No"] {
+  height: 32px;
+  padding: 0 8px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.pf-button[data-type="Sort"][data-label="No"] {
+  height: 32px;
+  padding: 0 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.pf-button[data-type="Filter"][data-label="Yes"][data-state="Hover"],
+.pf-button[data-type="Filter"][data-label="Yes"]:hover {
+  height: 32px;
+  padding: 0 15px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-button[data-type="Sort"][data-label="Yes"][data-state="Hover"],
+.pf-button[data-type="Sort"][data-label="Yes"]:hover {
+  height: 32px;
+  padding: 0 15px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-button[data-type="Hollow"][data-label="No"][data-state="Hover"],
+.pf-button[data-type="Hollow"][data-label="No"]:hover {
+  height: 32px;
+  padding: 0 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.pf-button[data-type="Filter"][data-label="No"][data-state="Hover"],
+.pf-button[data-type="Filter"][data-label="No"]:hover {
+  height: 32px;
+  padding: 0 8px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.pf-button[data-type="Sort"][data-label="No"][data-state="Hover"],
+.pf-button[data-type="Sort"][data-label="No"]:hover {
+  height: 32px;
+  padding: 0 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.pf-button[data-type="Filter"][data-label="Yes"][data-state="Disabled"],
+.pf-button[data-type="Filter"][data-label="Yes"]:disabled,
+.pf-button[data-type="Filter"][data-label="Yes"][aria-disabled="true"] {
+  height: 32px;
+  padding: 0 15px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-button[data-type="Sort"][data-label="Yes"][data-state="Disabled"],
+.pf-button[data-type="Sort"][data-label="Yes"]:disabled,
+.pf-button[data-type="Sort"][data-label="Yes"][aria-disabled="true"] {
+  height: 32px;
+  padding: 0 15px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-button[data-type="Hollow"][data-label="No"][data-state="Disabled"],
+.pf-button[data-type="Hollow"][data-label="No"]:disabled,
+.pf-button[data-type="Hollow"][data-label="No"][aria-disabled="true"] {
+  height: 32px;
+  padding: 0 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.pf-button[data-type="Filter"][data-label="No"][data-state="Disabled"],
+.pf-button[data-type="Filter"][data-label="No"]:disabled,
+.pf-button[data-type="Filter"][data-label="No"][aria-disabled="true"] {
+  height: 32px;
+  padding: 0 8px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.pf-button[data-type="Sort"][data-label="No"][data-state="Disabled"],
+.pf-button[data-type="Sort"][data-label="No"]:disabled,
+.pf-button[data-type="Sort"][data-label="No"][aria-disabled="true"] {
+  height: 32px;
+  padding: 0 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.pf-button[data-type="Action"][data-label="No"][data-state="Hover"],
+.pf-button[data-type="Action"][data-label="No"]:hover {
+  width: 32px;
+  height: 32px;
+  padding: 0 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.pf-button[data-type="Negative"][data-label="No"][data-state="Hover"],
+.pf-button[data-type="Negative"][data-label="No"]:hover {
+  width: 32px;
+  height: 32px;
+  padding: 0 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.pf-button[data-type="Positive"][data-label="No"][data-state="Hover"],
+.pf-button[data-type="Positive"][data-label="No"]:hover {
+  width: 32px;
+  height: 32px;
+  padding: 0 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.pf-button[data-type="Action"][data-label="No"][data-state="Disabled"],
+.pf-button[data-type="Action"][data-label="No"]:disabled,
+.pf-button[data-type="Action"][data-label="No"][aria-disabled="true"] {
+  width: 32px;
+  height: 32px;
+  padding: 0 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.pf-button[data-type="Negative"][data-label="No"][data-state="Disabled"],
+.pf-button[data-type="Negative"][data-label="No"]:disabled,
+.pf-button[data-type="Negative"][data-label="No"][aria-disabled="true"] {
+  width: 32px;
+  height: 32px;
+  padding: 0 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.pf-button[data-type="Positive"][data-label="No"][data-state="Disabled"],
+.pf-button[data-type="Positive"][data-label="No"]:disabled,
+.pf-button[data-type="Positive"][data-label="No"][aria-disabled="true"] {
+  width: 32px;
+  height: 32px;
+  padding: 0 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 .pf-button[data-type="Action"] {
   background: var(--pf-bg-secondary-button);
@@ -1617,10 +1915,12 @@
 /* Drop down button
  * 2 variants captured
  * Figma draws this 192px wide; treated as layout, not a rule
+ * pill
  */
 .pf-drop-down-button {
+  height: 32px;
   padding: 7px 10px 7px 20px;
-  border-radius: 48px;
+  border-radius: 999px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -1794,8 +2094,9 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  gap: 10px;
   font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -1803,6 +2104,64 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-filter-chip[data-active="False"][data-mobile="False"] {
+  height: 42px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-filter-chip[data-active="True"][data-mobile="True"][data-state="Selected"] {
+  height: 34px;
+  padding: 8px 15px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-filter-chip[data-active="False"][data-mobile="True"] {
+  height: 34px;
+  padding: 8px 15px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 13px;
+}
+.pf-filter-chip[data-active="False"][data-mobile="False"][data-state="Hover"],
+.pf-filter-chip[data-active="False"][data-mobile="False"]:hover {
+  height: 42px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 16px;
+}
+.pf-filter-chip[data-active="False"][data-mobile="True"][data-state="Hover"],
+.pf-filter-chip[data-active="False"][data-mobile="True"]:hover {
+  height: 34px;
+  padding: 8px 15px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 13px;
 }
 .pf-filter-chip[data-active="False"] {
   background: var(--pf-bg-primary);
@@ -2397,6 +2756,7 @@
  * 4 variants captured
  */
 .pf-links {
+  height: 22px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -2410,6 +2770,46 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-links[data-link-type="Secondary"][data-icon-position="Left"],
+.pf-links[data-link-type="Secondary"][data-icon-position="Left"][data-hover="False"] {
+  height: 18px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 13px;
+}
+.pf-links[data-link-type="Secondary"][data-icon-position="Left"]:hover,
+.pf-links[data-link-type="Secondary"][data-icon-position="Left"][data-hover="True"] {
+  height: 18px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 13px;
+}
+.pf-links[data-link-type="Secondary"][data-icon-position="Right"],
+.pf-links[data-link-type="Secondary"][data-icon-position="Right"][data-hover="False"] {
+  height: 18px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 13px;
+}
+.pf-links[data-link-type="Secondary"][data-icon-position="Right"]:hover,
+.pf-links[data-link-type="Secondary"][data-icon-position="Right"][data-hover="True"] {
+  height: 18px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 13px;
 }
 .pf-links[data-link-type="Primary"],
 .pf-links[data-link-type="Primary"][data-hover="False"] {
@@ -2610,6 +3010,7 @@
 .pf-mobile-key-actions {
   height: 103px;
   display: inline-block;
+  font-size: 16px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -2617,6 +3018,21 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-mobile-key-actions[data-link="Social activity"] {
+  height: 103px;
+  display: inline-block;
+  font-size: 16px;
+}
+.pf-mobile-key-actions[data-link="Recognition trends"] {
+  height: 103px;
+  display: inline-block;
+  font-size: 16px;
+}
+.pf-mobile-key-actions[data-link="MHR"] {
+  height: 103px;
+  display: inline-block;
+  font-size: 15px;
 }
 
 /* Multi-select checkbox
@@ -3323,6 +3739,7 @@
  * 1 variant captured
  */
 .pf-repeating-group {
+  height: 258px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -4424,6 +4841,7 @@
  * 1 variant captured
  */
 .pf-tool-tip {
+  height: 92px;
   padding: 10px;
   border-radius: 4px;
   display: inline-flex;

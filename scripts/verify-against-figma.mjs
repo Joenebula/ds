@@ -21,11 +21,9 @@ import { readFileSync, writeFileSync, unlinkSync } from 'node:fs';
 
 const selfTest = process.argv.includes('--self-test');
 
-// Drift found on the first run, every instance of fault 3 in docs/PIPELINE-FIX-SPEC.md:
-// one geometry row per component, so whichever variant was measured wins. It may go DOWN
-// freely — that is the extract getting closer to Figma. It may not go UP without someone
-// deciding to raise it, because up means a new mis-transcription.
-const DRIFT_BASELINE = 14;
+// Zero, since fault 3 was fixed and the geometry extract became per-variant. It may not
+// rise without someone deciding to raise it: up means a new mis-transcription.
+const DRIFT_BASELINE = 0;
 const [head, ...lines] = readFileSync('tokens/_raw/figma-truth.tsv', 'utf8').trim().split('\n');
 const keys = head.split('\t');
 const truth = lines.map(l => Object.fromEntries(l.split('\t').map((v, i) => [keys[i], v ?? ''])));

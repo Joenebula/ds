@@ -30,7 +30,12 @@ const claims = [
     () => sh('grep -ln figma-truth scripts/build-*.mjs').trim() === ''],
   ['2', 'FIX HOLDS: only the independent check claims "match Figma"',
     () => sh('grep -l "match Figma" scripts/verify-rendered.mjs scripts/verify-type.mjs scripts/verify-geometry.mjs').trim() === ''],
-  ['3', 'geometry rows far fewer than variant rows',
+  // Fault 3 is fixed WHERE MEASURED. The row count is still below the variant count
+  // because only one Figma page has been re-walked; what must hold is that the
+  // components that were measured carry per-variant rows, and that drift stays at zero.
+  ['3', 'FIX HOLDS: measured components carry per-variant rows',
+    () => (readFileSync('tokens/_raw/component-geometry.tsv', 'utf8').match(/^Button\|/gm) || []).length > 5],
+  ['3', 'the rest of the library is still one row per component',
     () => readFileSync('tokens/_raw/component-geometry.tsv', 'utf8').trim().split('\n').length
         < readFileSync('tokens/_raw/component-variants.tsv', 'utf8').trim().split('\n').length],
   ['4', 'components emit their own type rather than composing a text style',

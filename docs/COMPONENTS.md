@@ -29,25 +29,25 @@ Contents: [Buttons and links](#buttons-and-links) · [Forms](#forms) · [Control
 
 | Component | Class | Variants in Figma | Size | Radius | Type |
 |---|---|---|---|---|---|
-| Action menu | `.pf-action-menu` | — | 199 x auto | 4 | 13px |
-| Action menu button | `.pf-action-menu-button` | Circle: true · false | auto x auto | — | 16px |
-| Add attachment | `.pf-add-attachment` | Property 1: Default | 440 x auto | — | 13px SemiBold |
+| Action menu | `.pf-action-menu` | — | 199 x 136 | 4 | 13px |
+| Action menu button | `.pf-action-menu-button` | Circle: true · false | auto x 28 | 0 | 16px |
+| Add attachment | `.pf-add-attachment` | Property 1: Default | 440 x 466 | 0 | 13px SemiBold |
 | Button | `.pf-button` | Type: Action · Positive · Negative · Hollow · Sort · Filter<br>State: Default · Disabled · Hover<br>Label: No · Yes | auto x 32 | 20 | 13px SemiBold |
-| Drop down button | `.pf-drop-down-button` | Hover: False · True | 192 x auto | 48 | 13px Regular |
-| Filter chip | `.pf-filter-chip` | State: Default · Hover · Selected<br>Active: False · True<br>Mobile: False · True | auto x 42 | 76 | 16px, ls -1% |
-| Links | `.pf-links` | Link type: Primary · Secondary<br>Hover: True · False<br>Icon position: Right · Left | auto x auto | — | 16px |
-| Mobile key actions | `.pf-mobile-key-actions` | Link: Recognition trends · Key actions · External links · Out of office · Social activity · MHR | 126 x 103 | 0 | — |
-| Repeating group | `.pf-repeating-group` | — | auto x auto | — | 16px Italic |
-| Tool tip | `.pf-tool-tip` | Property 1: Default | auto x auto | 4 | 13px |
+| Drop down button | `.pf-drop-down-button` | Hover: False · True | 192 x 32 | 48 | 13px Regular |
+| Filter chip | `.pf-filter-chip` | State: Default · Hover · Selected<br>Active: False · True<br>Mobile: False · True | auto x 42 | 76 | 16px SemiBold |
+| Links | `.pf-links` | Link type: Primary · Secondary<br>Hover: True · False<br>Icon position: Right · Left | auto x 22 | 0 | 16px |
+| Mobile key actions | `.pf-mobile-key-actions` | Link: Recognition trends · Key actions · External links · Out of office · Social activity · MHR | 126 x 103 | 0 | 16px |
+| Repeating group | `.pf-repeating-group` | — | auto x 258 | 0 | 16px Italic |
+| Tool tip | `.pf-tool-tip` | Property 1: Default | auto x 92 | 4 | 13px |
 | Tooltip | `.pf-tooltip` | Hover: True · False | 28 x 28 | 0 | — |
 
 <details><summary>Notes on these components</summary>
 
-- **Action menu button** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Circle`
-- **Button** — **binds a primitive** — Base colours/White (text) — so this will not adapt between light and dark until Figma binds a semantic token. PILL. Leading icon on every variant. Icon-only variant is 32x32 circle.. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Label`
-- **Filter chip** — PILL. Selected uses SemiBold, gap 10.. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`
-- **Links** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Icon position`
-- **Mobile key actions** — **shape only** — no variant of this binds a colour variable in Figma, so the class carries its measured geometry and leaves colour to the page. 6 variants (Link). No colour variable bound in Figma.
+- **Action menu button** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Circle`. per-variant sizes: `Circle=true` auto x 28
+- **Button** — **binds a primitive** — Base colours/White (text) — so this will not adapt between light and dark until Figma binds a semantic token. PILL. Leading icon on every variant. Icon-only variant is 32x32 circle.. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Label`. per-variant sizes: `Type=Action, State=Default, Label=No` 32 x 32, `Type=Negative, State=Default, Label=No` 32 x 32, `Type=Positive, State=Default, Label=No` 32 x 32, `Type=Filter, State=Default, Label=Yes` auto x 32, `Type=Sort, State=Default, Label=Yes` auto x 32, `Type=Hollow, State=Default, Label=No` auto x 32, `Type=Filter, State=Default, Label=No` auto x 32, `Type=Sort, State=Default, Label=No` auto x 32, `Type=Filter, State=Hover, Label=Yes` auto x 32, `Type=Sort, State=Hover, Label=Yes` auto x 32, `Type=Hollow, State=Hover, Label=No` auto x 32, `Type=Filter, State=Hover, Label=No` auto x 32, `Type=Sort, State=Hover, Label=No` auto x 32, `Type=Filter, State=Disabled, Label=Yes` auto x 32, `Type=Sort, State=Disabled, Label=Yes` auto x 32, `Type=Hollow, State=Disabled, Label=No` auto x 32, `Type=Filter, State=Disabled, Label=No` auto x 32, `Type=Sort, State=Disabled, Label=No` auto x 32, `Type=Action, State=Hover, Label=No` 32 x 32, `Type=Negative, State=Hover, Label=No` 32 x 32, `Type=Positive, State=Hover, Label=No` 32 x 32, `Type=Action, State=Disabled, Label=No` 32 x 32, `Type=Negative, State=Disabled, Label=No` 32 x 32, `Type=Positive, State=Disabled, Label=No` 32 x 32
+- **Filter chip** — PILL. Selected uses SemiBold, gap 10.. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`. per-variant sizes: `State=Default, Active=False, Mobile=False` auto x 42, `State=Selected, Active=True, Mobile=True` auto x 34, `State=Default, Active=False, Mobile=True` auto x 34, `State=Hover, Active=False, Mobile=False` auto x 42, `State=Hover, Active=False, Mobile=True` auto x 34
+- **Links** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Icon position`. per-variant sizes: `Link type=Secondary, Hover=False, Icon position=Left` auto x 18, `Link type=Secondary, Hover=True, Icon position=Left` auto x 18, `Link type=Secondary, Hover=False, Icon position=Right` auto x 18, `Link type=Secondary, Hover=True, Icon position=Right` auto x 18
+- **Mobile key actions** — **shape only** — no variant of this binds a colour variable in Figma, so the class carries its measured geometry and leaves colour to the page. 6 variants (Link). No colour variable bound in Figma.. per-variant sizes: `Link=Social activity` 132 x 103, `Link=Recognition trends` 132 x 103, `Link=MHR` 126 x 103
 - **Tooltip** — **shape only** — no variant of this binds a colour variable in Figma, so the class carries its measured geometry and leaves colour to the page. 2 variants (Hover). No colour variable bound in Figma.
 
 </details>

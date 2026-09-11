@@ -10,12 +10,6 @@ case, and table rows are far taller than a default table. Look values up here.
 
 | Component | Size (w × h) | Padding | Radius | Gap | Type | Notes |
 |---|---|---|---|---|---|---|
-| **Button** | auto x 32 | 0 20 | 20 | 10 | 13px SemiBold | HORIZONTAL CENTER CENTER |
-| **Button (icon only)** | 32 x 32 | 0 20 | 20 | 10 | — |  |
-| **Links (primary)** | auto x 22 | 0 | 0 | 5 | 16px, ls -1% |  |
-| **Links (secondary)** | auto x 18 | 0 | 0 | 5 | 13px |  |
-| **Filter chip** | auto x 42 | 10 20 | 76 | 5 | 16px, ls -1% | HORIZONTAL CENTER CENTER |
-| **Filter chip (mobile)** | auto x 34 | 8 15 | 76 | 5 | 13px |  |
 | **Tags** | auto x 28 | 5 10 | 4 | 5 | 13px Regular | HORIZONTAL CENTER CENTER |
 | **Field** | 300 x 42 | 10 10 10 20 | 8 | 10 | 16px | HORIZONTAL CENTER MAX |
 | **Primary search** | auto x 38 | 0 10 | 20 | 10 | 13px | HORIZONTAL CENTER MIN |
@@ -138,13 +132,6 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Filter tabs** | 1600 x auto | — | — | — | 24px SemiBold | HORIZONTAL MIN MIN |
 | **Config side menu** | 325 x 980 | — | 8 | — | 16px | VERTICAL MIN MIN |
 | **[S] Config child menu** | auto x auto | 10 0 0 11 | — | 10 | 16px | VERTICAL MIN MIN |
-| **Links** | auto x auto | — | — | 5 | 16px | HORIZONTAL CENTER MIN |
-| **Add attachment** | 440 x auto | — | — | 20 | 13px SemiBold | VERTICAL CENTER MIN |
-| **Action menu button** | auto x auto | — | — | — | 16px | HORIZONTAL CENTER CENTER |
-| **Tool tip** | auto x auto | 10 | 4 | — | 13px | VERTICAL MIN MIN |
-| **Drop down button** | 192 x auto | 7 10 7 20 | 48 | — | 13px Regular | HORIZONTAL CENTER MIN |
-| **Repeating group** | auto x auto | — | — | 20 | 16px Italic | VERTICAL MIN MIN |
-| **Action menu** | 199 x auto | 4 5 | 4 | — | 13px | VERTICAL MIN MIN |
 | **Manage columns** | 520 x auto | — | — | — | 20px | VERTICAL MIN MIN |
 | **Footer (AG)** | 1560 x auto | — | — | — | 13px | VERTICAL MIN MIN |
 | **Table action bar** | 1654 x auto | — | — | 20 | 16px SemiBold | VERTICAL MIN CENTER |
@@ -168,12 +155,10 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Circle icons|Size=S - 36px** | 36 x 36 | 0 | 999 | 0 | — | NONE |
 | **Circle icons|Size=M - 44px** | 44 x 44 | 0 | 999 | 0 | — | NONE |
 | **Circle icons|Size=L - 52px** | 52 x 52 | 0 | 999 | 0 | — | NONE |
-| **Tooltip** | 28 x 28 | 0 | 0 | 0 | — | NONE |
 | **Menu** | 50 x 73 | 0 | 0 | 5 | — | VERTICAL MIN CENTER |
 | **Stars** | 25 x 24 | 0 | 0 | 0 | — | NONE |
 | **Floaters** | 85 x 40 | 0 | 0 | 5 | — | HORIZONTAL MIN CENTER |
 | **Horizontal scroll** | auto x 32 | 0 | 0 | 390 | — | HORIZONTAL CENTER CENTER |
-| **Mobile key actions** | 126 x 103 | 0 | 0 | 0 | — | NONE |
 | **Default header background** | auto x 86 | 0 | 0 | 0 | — | NONE |
 | **Profile image|Size=Extra large** | 93 x 93 | 0 | 999 | 0 | — | NONE |
 | **Profile image|Size=Large** | 76 x 76 | 0 | 999 | 0 | — | NONE |
@@ -203,6 +188,54 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Search navigation** | 150 x 32 | 0 | 50 | 0 | — | NONE |
 | **Full page** | auto x auto | 0 | 0 | 0 | — | NONE |
 | **Notification tabs** | auto x 65 | 18.5 15 | 0 | 20 | — | HORIZONTAL CENTER MIN |
+| **Action menu button** | auto x 28 | 0 | 0 | 0 | 16px | HORIZONTAL CENTER CENTER |
+| **Action menu button|Circle=true** | auto x 28 | 0 | 0 | 5 | 16px | HORIZONTAL CENTER CENTER |
+| **Action menu** | 199 x 136 | 4 5 | 4 | 0 | 13px | VERTICAL MIN MIN |
+| **Add attachment** | 440 x 466 | 0 | 0 | 20 | 13px SemiBold | VERTICAL CENTER MIN |
+| **Button** | auto x 32 | 0 20 | 20 | 10 | 13px SemiBold | HORIZONTAL CENTER CENTER |
+| **Button|Type=Action, State=Default, Label=No** | 32 x 32 | 0 20 | 20 | 10 | — | HORIZONTAL CENTER CENTER |
+| **Button|Type=Negative, State=Default, Label=No** | 32 x 32 | 0 20 | 20 | 10 | — | HORIZONTAL CENTER CENTER |
+| **Button|Type=Positive, State=Default, Label=No** | 32 x 32 | 0 20 | 20 | 10 | — | HORIZONTAL CENTER CENTER |
+| **Button|Type=Filter, State=Default, Label=Yes** | auto x 32 | 0 15 | 20 | 10 | 13px SemiBold | HORIZONTAL CENTER CENTER |
+| **Button|Type=Sort, State=Default, Label=Yes** | auto x 32 | 0 15 | 20 | 10 | 13px SemiBold | HORIZONTAL CENTER CENTER |
+| **Button|Type=Hollow, State=Default, Label=No** | auto x 32 | 0 20 | 20 | 5 | — | HORIZONTAL CENTER CENTER |
+| **Button|Type=Filter, State=Default, Label=No** | auto x 32 | 0 8 | 20 | 5 | — | HORIZONTAL CENTER CENTER |
+| **Button|Type=Sort, State=Default, Label=No** | auto x 32 | 0 20 | 20 | 5 | — | HORIZONTAL CENTER CENTER |
+| **Button|Type=Filter, State=Hover, Label=Yes** | auto x 32 | 0 15 | 20 | 10 | 13px SemiBold | HORIZONTAL CENTER CENTER |
+| **Button|Type=Sort, State=Hover, Label=Yes** | auto x 32 | 0 15 | 20 | 10 | 13px SemiBold | HORIZONTAL CENTER CENTER |
+| **Button|Type=Hollow, State=Hover, Label=No** | auto x 32 | 0 20 | 20 | 5 | — | HORIZONTAL CENTER CENTER |
+| **Button|Type=Filter, State=Hover, Label=No** | auto x 32 | 0 8 | 20 | 5 | — | HORIZONTAL CENTER CENTER |
+| **Button|Type=Sort, State=Hover, Label=No** | auto x 32 | 0 20 | 20 | 5 | — | HORIZONTAL CENTER CENTER |
+| **Button|Type=Filter, State=Disabled, Label=Yes** | auto x 32 | 0 15 | 20 | 10 | 13px SemiBold | HORIZONTAL CENTER CENTER |
+| **Button|Type=Sort, State=Disabled, Label=Yes** | auto x 32 | 0 15 | 20 | 10 | 13px SemiBold | HORIZONTAL CENTER CENTER |
+| **Button|Type=Hollow, State=Disabled, Label=No** | auto x 32 | 0 20 | 20 | 5 | — | HORIZONTAL CENTER CENTER |
+| **Button|Type=Filter, State=Disabled, Label=No** | auto x 32 | 0 8 | 20 | 5 | — | HORIZONTAL CENTER CENTER |
+| **Button|Type=Sort, State=Disabled, Label=No** | auto x 32 | 0 20 | 20 | 5 | — | HORIZONTAL CENTER CENTER |
+| **Button|Type=Action, State=Hover, Label=No** | 32 x 32 | 0 20 | 20 | 10 | — | HORIZONTAL CENTER CENTER |
+| **Button|Type=Negative, State=Hover, Label=No** | 32 x 32 | 0 20 | 20 | 10 | — | HORIZONTAL CENTER CENTER |
+| **Button|Type=Positive, State=Hover, Label=No** | 32 x 32 | 0 20 | 20 | 10 | — | HORIZONTAL CENTER CENTER |
+| **Button|Type=Action, State=Disabled, Label=No** | 32 x 32 | 0 20 | 20 | 10 | — | HORIZONTAL CENTER CENTER |
+| **Button|Type=Negative, State=Disabled, Label=No** | 32 x 32 | 0 20 | 20 | 10 | — | HORIZONTAL CENTER CENTER |
+| **Button|Type=Positive, State=Disabled, Label=No** | 32 x 32 | 0 20 | 20 | 10 | — | HORIZONTAL CENTER CENTER |
+| **Drop down button** | 192 x 32 | 7 10 7 20 | 48 | 0 | 13px Regular | HORIZONTAL CENTER MIN |
+| **Filter chip** | auto x 42 | 10 20 | 76 | 10 | 16px SemiBold | HORIZONTAL CENTER CENTER |
+| **Filter chip|State=Default, Active=False, Mobile=False** | auto x 42 | 10 20 | 78 | 5 | 16px | HORIZONTAL CENTER CENTER |
+| **Filter chip|State=Selected, Active=True, Mobile=True** | auto x 34 | 8 15 | 76 | 10 | 13px SemiBold | HORIZONTAL CENTER CENTER |
+| **Filter chip|State=Default, Active=False, Mobile=True** | auto x 34 | 8 15 | 78 | 5 | 13px | HORIZONTAL CENTER CENTER |
+| **Filter chip|State=Hover, Active=False, Mobile=False** | auto x 42 | 10 20 | 78 | 5 | 16px | HORIZONTAL CENTER CENTER |
+| **Filter chip|State=Hover, Active=False, Mobile=True** | auto x 34 | 8 15 | 78 | 5 | 13px | HORIZONTAL CENTER CENTER |
+| **Links** | auto x 22 | 0 | 0 | 5 | 16px | HORIZONTAL CENTER MIN |
+| **Links|Link type=Secondary, Hover=False, Icon position=Left** | auto x 18 | 0 | 0 | 5 | 13px | HORIZONTAL CENTER MIN |
+| **Links|Link type=Secondary, Hover=True, Icon position=Left** | auto x 18 | 0 | 0 | 5 | 13px | HORIZONTAL CENTER MIN |
+| **Links|Link type=Secondary, Hover=False, Icon position=Right** | auto x 18 | 0 | 0 | 5 | 13px | HORIZONTAL CENTER MIN |
+| **Links|Link type=Secondary, Hover=True, Icon position=Right** | auto x 18 | 0 | 0 | 5 | 13px | HORIZONTAL CENTER MIN |
+| **Mobile key actions** | 126 x 103 | — | 0 | — | 16px | NONE |
+| **Mobile key actions|Link=Social activity** | 132 x 103 | — | 0 | — | 16px | NONE |
+| **Mobile key actions|Link=Recognition trends** | 132 x 103 | — | 0 | — | 16px | NONE |
+| **Mobile key actions|Link=MHR** | 126 x 103 | — | 0 | — | 15px | NONE |
+| **Repeating group** | auto x 258 | 0 | 0 | 20 | 16px Italic | VERTICAL MIN MIN |
+| **Tool tip** | auto x 92 | 10 | 4 | 0 | 13px | VERTICAL MIN MIN |
+| **Tooltip** | 28 x 28 | — | 0 | — | — | NONE |
 
 ## Reading these numbers
 

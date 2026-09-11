@@ -884,14 +884,15 @@ passes `--self-test`. Every other check now says "match the extract" rather than
 
 # Still open, in spec order
 
-## E. Per-variant geometry — `pending` (spec fault 3)
+## E. Per-variant geometry — `done for the covered page` (spec fault 3)
 
-One geometry row per component. Confirmed by the new check in components I had never
-looked at: `Button Type=Filter/Sort` padding, `Filter chip Mobile=True` box and type,
-`Filter chip Selected` gap, `Links Secondary` size. Drift is pinned at 14 and cannot rise.
+**Done when:** met for Buttons and links. `extract-component-geometry.mjs` walks per
+variant; drift went **14 to 0**, 90 of 90, baseline locked at 0. 53 variant-qualified rows
+now, up from 16.
 
-**Done when:** `component-geometry.tsv` holds one row per variant, and the drift count
-falls to zero across whatever `figma-truth.tsv` covers.
+**Not done for the other twelve pages.** 226 rows, of which most are still
+one-per-component — the same fault, just not yet visible because nothing measures it.
+That is item G, and it is now the blocker for calling fault 3 finished.
 
 ## F. Component type from the text styles — `pending` (spec fault 4)
 
@@ -907,3 +908,7 @@ and every unbound label is reported to `docs/FIGMA-ISSUES.md`.
 is unchecked against an independent source.
 
 **Done when:** the snapshot covers every page the component inventory lists.
+
+This is now the gating item. Both walks — `extract-figma-truth.mjs` (the check) and
+`extract-component-geometry.mjs` (the build) — need running page by page. They must stay
+separate: merging them would rebuild the circularity fault 2 removed.
