@@ -889,24 +889,43 @@ name of `Notification tabs`, and `Default header background` is detached from th
 tree. The four walked components with no template are not composite — `Tooltip` is vector
 paths, `Information box` wraps an instance of itself.
 
-### Still open: the walk's DEPTH cap truncates silently
+### The walk's DEPTH cap truncated silently — `done`
 
-The row cap was fixed — a component that will not fit whole is rolled back and named. The
-**depth** cap was not. The walk stops at depth 2, so a container three levels down is
-recorded with no children, and its template renders an empty box inside an otherwise
-correct one. That is indistinguishable from a container Figma genuinely leaves empty.
+The row cap had been fixed: a component that will not fit whole is rolled back and named.
+The **depth** cap had not. The walk stopped at depth 2, so a container three levels down
+was recorded with no children — indistinguishable from one Figma genuinely leaves empty —
+and its template rendered a correct outer box around a blank one. 44 of the 156 components
+had one, `Table (AG)`'s columns and `Calendar picker`'s week rows among them.
 
-**44 of the 156 walked components have a container sitting exactly on the cap** — among
-them `Table (AG)` (`Fixed columns`, `Unfixed columns`), `Calendar picker` (its four week
-rows), `Manage columns` (`Column list`), `Notification list` (`Actions`, `Cards`) and
-`Time picker`. Several of those certainly do have contents, so several templates are shells
-again, which is the fault this whole item exists to fix.
+The data could not answer it, because a row said what a node IS and never how many children
+it has. So the fix was in the walk, and it meant re-walking everything: the block header is
+now `TREE4`, a row carries the node's own child count, and the walk goes four levels deep.
+Changing the header deliberately invalidates every older block — half-populating a new
+column would put a guess where a measurement belongs.
 
-The data cannot answer this: a row records what a node IS, never how many children it has,
-so nothing downstream can tell empty from cut off. The fix is in the walk — record each
-node's child count and raise the cap — which changes the block header and therefore means
-re-walking all 156 components. `component-tree.tsv` as it stands is correct as far as it
-goes and is committed; the deepening is the next piece of work, not a repair of this one.
+**Result: 158 components, 1233 nodes (up from 967).** `Table (AG)` now shows its column
+structure with headers; `Menu-search-settings` its context menus and external links;
+`Footer (AG)` its pagination counters. What is still behind the cap is **61 containers in 9
+components**, each one named in the markup — `<!-- 13 children here in Figma that this walk
+did not reach -->` — and the count is pinned by `check-templates.mjs`, which fails if it
+grows. A blank inner div with no comment is now a statement that Figma has nothing there.
+
+Four more faults the re-walk turned up:
+
+- **Artwork subtrees ate the row cap.** `Empty section` spent 80 of 88 rows on vector paths
+  that can never become markup, so nothing else on its page fit. A subtree that is nothing
+  but drawing primitives is now collapsed to the node that holds it, which took that
+  component from 80 rows to 7.
+- **Two components called `Field`, and two called `People`.** Keyed by name their rows land
+  on each other's paths and the result is a tree from neither. Kept apart as
+  `X (second component)`, following the name `component-geometry.tsv` already uses.
+- **A template whose outer class does not exist.** Those two renames produced
+  `<div class="pf-people-second-component">`, a class nothing defines. The contents render,
+  so the empty-box check passed, and the thing was still unpasteable. The generator now
+  refuses to write one and the check fails on any that survive.
+- **A control-sized placeholder spilling its label.** `AG Filter menus` rendered
+  "Multi-select checkbox" across three lines out of a 20x20 tick box and over the option
+  beside it. Below 44px the class paints the box and the name goes in a comment.
 
 Three more faults the widening turned up, all now fixed:
 

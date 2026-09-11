@@ -178,6 +178,15 @@ function render(component, rows, path, depth) {
       const attrs = (row.variant || '').split(',').map(x => x.trim()).filter(Boolean)
         .map(x => ` data-${kebab(x.slice(0, x.indexOf('=')))}="${esc(x.slice(x.indexOf('=') + 1))}"`)
         .join('');
+      // BUT NOT INTO A CONTROL-SIZED BOX. The label exists because an empty inline-flex
+      // instance collapses to a sliver — a box wide enough to hold a word does not have
+      // that problem, and a box that ISN'T spills its label over its neighbours. `AG Filter
+      // menus` rendered "Multi-select checkbox" across three lines out of a 20x20 tick box
+      // and over the option beside it. Below 44px — Figma's own smallest control size —
+      // the class paints the box and the name goes in a comment instead.
+      const [iw] = (row.size || '').split('x').map(Number);
+      if (Number.isFinite(iw) && iw > 0 && iw < 44)
+        return `${pad}<div class="${c}"${attrs}></div><!-- ${esc(source)} -->`;
       return `${pad}<div class="${c}"${attrs}>${esc(source)}</div>`;
     }
     const icon = iconFor(source);
@@ -242,7 +251,7 @@ function render(component, rows, path, depth) {
     const style = styleFor(component, row);
     const open = `${pad}<div${style.length ? ` style="${style.join(';')}"` : ''}>`
       + `<!-- SLOT: Figma marks this as where the component's content goes. -->`;
-    if (!kids.length) return open + '</div>';
+    if (!kids.length) return open + cutNote(row) + '</div>';
     return [open, ...kids.map(k => render(component, rows, k, depth + 1)), `${pad}</div>`].join('\n');
   }
 
@@ -273,8 +282,30 @@ function render(component, rows, path, depth) {
   }
 
   const open = `${pad}<div${style.length ? ` style="${style.join(';')}"` : ''}>`;
-  if (!kids.length) return open + '</div>';
+  if (!kids.length) return open + cutNote(row) + '</div>';
   return [open, ...kids.map(k => render(component, rows, k, depth + 1)), `${pad}</div>`].join('\n');
+}
+
+// AN EMPTY BOX HAS TO SAY WHY IT IS EMPTY.
+// Until the tree carried a child count there was no way to tell a container Figma leaves
+// empty from one the walk stopped short of, and both rendered the same blank div. Whoever
+// pasted the template had to open Figma to find out which — or, more likely, assume the
+// first and hand-write the contents, which is the whole failure this directory exists to
+// prevent. The row now knows, so the markup says.
+// Two different reasons, and saying the wrong one is worse than saying nothing: a reader
+// told "depth limit" goes looking for structure the walk skipped, while artwork needs the
+// component-art pipeline instead. The path says which — the walk collapses an artwork
+// subtree wherever it finds one, and only stops on depth at level 4.
+const WALK_DEPTH = 4;
+function cutNote(row) {
+  const n = Number(row.kids || 0);
+  if (!n) return '';
+  const at = (row.path || '').split('.').length >= WALK_DEPTH;
+  return at
+    ? `<!-- ${n} child${n === 1 ? '' : 'ren'} here in Figma that this walk did not reach `
+      + `(depth limit). Not an empty container — open the component in Figma before filling it. -->`
+    : `<!-- ${n} drawing${n === 1 ? '' : 's'} here in Figma — vector paths, which no markup `
+      + `can carry. Artwork belongs in assets/component-art/, not in a template. -->`;
 }
 
 const byComponent = new Map();
@@ -302,9 +333,20 @@ const isComposite = (component, rows) => [...rows.entries()]
     && !(r.type === 'INSTANCE' && (r.main || r.name) === component)
     && !DRAWING.has(r.type));
 
+// A TEMPLATE'S OUTER ELEMENT IS THE COMPONENT'S CLASS, so there has to BE one.
+//
+// Figma has two components called `Field` on the Forms page and two called `People`, and
+// the extract now keeps them apart as `X (second component)` rather than letting one tree
+// land on the other's paths. But only the first of each pair has rules in
+// `components.css` — the second `People`'s variants are one per fictional employee, which
+// is recorded as content rather than a component. Writing a template for those produced
+// `<div class="pf-people-second-component">`, a class nothing defines: the contents render,
+// so the empty-box check passes, and the thing is still unpasteable. Named and skipped.
+const noClass = [];
 for (const [component, rows] of [...byComponent.entries()].sort()) {
   if (!isComposite(component, rows)) continue;         // the class alone is the component
   const base = cls(component);
+  if (!libClasses.has(base)) { noClass.push({ component, base }); continue; }
   const kids = [...rows.keys()].filter(p => p && !p.includes('.'))
     .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
   const body = kids.map(k => render(component, rows, k, 1)).join('\n');
@@ -362,6 +404,10 @@ g.push('</div>');
 writeFileSync('docs/templates.html', g.join('\n'));
 
 console.log(`${made.length} component template(s) written to dist/templates/, gallery in docs/templates.html`);
+if (noClass.length) {
+  console.log(`  ${noClass.length} walked but NOT written — the stylesheet has no class to hang them on:`);
+  for (const n of noClass) console.log(`    ${n.component} (would be .${n.base})`);
+}
 if (unresolved.length) {
   const u = [...new Set(unresolved)];
   console.log(`  ${u.length} thing(s) the tree references that the library cannot name:`);

@@ -114,23 +114,27 @@ dist/templates/pf-metric-card.html      docs/templates.html   — see them all r
 ```
 
 `npm run verify` runs `check-templates.mjs`, which fails if a composite component has no
-template or if a template renders an empty box. It also reports how many of them render
-NOTHING from the bare class — currently **all 154 of them**, which is exactly why this
-exists.
+template, if a template renders an empty box, or if a template's outer class is not a real
+class in `components.css`. It also reports how many of them render NOTHING from the bare
+class — currently **all 154 of them**, which is exactly why this exists.
 
 **Coverage: 158 of the 161 product-page components are walked, and 154 have templates.**
 The three unwalked ones are each unwalkable rather than skipped: `Multi-select checkbox`
 has no children in Figma, `Side navigation tab` is the old name of `Notification tabs`, and
 `Default header background` is detached from the page tree (it is artwork, and has its own
-section above). The four walked ones with no template are not composite — `Tooltip` is
-drawn from vector paths and `Information box` wraps an instance of itself.
+section above). Of the walked ones, four are not composite — `Tooltip` is drawn from vector
+paths, `Information box` wraps an instance of itself — and two have no class to hang a
+template on: Figma has two components called `Field` and two called `People`, and only the
+first of each pair has rules.
 
-**A template is only as deep as the walk that made it.** The walk stops at depth 2, so a
-container three levels down comes back with no children and its template renders an empty
-box inside an otherwise correct one. 44 of the 156 walked components have a container
-sitting exactly on that cap, and the data cannot say which of them are genuinely empty. Do
-not read a blank inner div as "Figma has nothing here". This is the row-cap truncation
-fault one level down, and it is open.
+**A template is only as deep as the walk that made it, and it now says where it stopped.**
+The walk goes four levels down and records each node's child count, so a container that
+came back empty is distinguishable from one Figma leaves empty — and where the walk did
+stop short, the template carries a comment saying how many children are there in Figma.
+**61 containers in 9 components** are behind that limit (`Table (AG)`'s column rows,
+`Calendar picker`'s weeks, `Time picker`, `Footer (AG)`, `Notification list`, `Adaptive
+card`, `AI banner`, `Configuration`, `Document previewer`). The count is pinned and may
+only shrink. A blank inner div with no comment IS empty in Figma.
 
 (The same section used to cite "69 classes with no paint". That number was wrong —
 `check-component-art.mjs` was counting rules rather than classes. The real figure is 2, and

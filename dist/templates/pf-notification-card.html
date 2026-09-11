@@ -3,16 +3,29 @@
      child tree. Do not hand-edit: regenerate with npm run build. -->
 <div class="pf-notification-card">
   <div class="pf-notification-image" data-type="Person" data-with-status="True" data-mobile="False" data-status-position="High">Notification image</div>
-  <div class="pf-checkbox-radio-item" data-state="Default" data-radio="No" data-filled="No">Checkbox/Radio item</div>
+  <div class="pf-checkbox-radio-item" data-state="Default" data-radio="No" data-filled="No"></div><!-- Checkbox/Radio item -->
   <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:10px 10px 10px 10px;border-radius:100px;background:var(--pf-bg-negative-button)">
     <!--pf-icon:warning 34-->
   </div>
   <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:10px">
-    <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:5px"></div>
+    <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:5px">
+      <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
+        <span class="pf-text-body-text-semibold" style="color:var(--pf-text-primary)">Title</span>
+        <span class="pf-text-body-text" style="color:var(--pf-text-secondary)">8 Sep</span>
+        <span class="pf-text-body-text" style="color:var(--pf-text-secondary)">10:03</span>
+      </div>
+      <span class="pf-text-body-text" style="color:var(--pf-text-primary)">Example noti</span>
+    </div>
     <div class="pf-tags" data-type="Warning" data-small="No">Tags</div>
   </div>
   <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:8px">
-    <div></div>
-    <div></div>
+    <div>
+      <div style="border:1px solid var(--pf-icon-secondary);min-height:32px;width:32px"></div>
+      <!--pf-icon:up-arrow 36-->
+    </div>
+    <div>
+      <div style="border:1px solid var(--pf-icon-secondary);min-height:32px;width:32px"></div>
+      <!-- Close x: detached from the Figma page tree, so the library has no class for it — see uncaptured-reasons.tsv -->
+    </div>
   </div>
 </div>

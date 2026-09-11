@@ -36,7 +36,13 @@ for (const line of tsvRows) {
   if (path && !(type === 'INSTANCE' && (main || name) === component) && !DRAWING.has(type))
     realChildren.set(component, realChildren.get(component) + 1);
 }
-const composite = [...realChildren.entries()].filter(([, n]) => n > 0).map(([c]) => c);
+// The generator refuses to write a template whose outer class the stylesheet does not
+// define — see its note on the two `Field`s and the two `People`s. This must apply the
+// same rule or it would demand a template the generator will not write.
+const libClasses = new Set([...readFileSync('dist/components.css', 'utf8')
+  .matchAll(/\.(pf-[a-z0-9-]+)/g)].map(m => m[1]));
+const composite = [...realChildren.entries()].filter(([, n]) => n > 0).map(([c]) => c)
+  .filter(c => libClasses.has(cls(c)));
 
 // Expand the icon markers exactly as build-prototype.mjs does, so what is measured is
 // what a page would actually get.
@@ -144,5 +150,61 @@ if (!failures) console.log('  every one has a template, and every template rende
 
 const bareEmpty = specs.filter((s, i) => got[i].bare <= 1).length;
 console.log(`  ${bareEmpty} of them render NOTHING from the bare class — which is why the templates exist`);
+
+// EVERY TEMPLATE ON DISK MUST NAME A REAL CLASS. The rule above stops one being written;
+// this catches one that survives a rename or an abandoned component. A template is markup
+// somebody pastes, and its outer element is the component — `<div class="pf-people-second-
+// component">` is a div with a decorative attribute, and the contents rendering is exactly
+// what makes it look fine.
+const orphaned = readdirSync('dist/templates')
+  .map(f => f.replace(/\.html$/, ''))
+  .filter(base => !libClasses.has(base));
+if (orphaned.length) {
+  console.log(`  FAIL  ${orphaned.length} template(s) whose outer class components.css does not `
+    + `define, so pasting one gives an unstyled div: ${orphaned.join(', ')}`);
+  failures++;
+}
+
+// HOW MUCH OF THE TREE IS STILL BEHIND THE DEPTH CAP.
+//
+// The row cap has a check: a component that will not fit whole is rolled back and named,
+// so a partial tree cannot reach the file. The DEPTH cap had none, and for most of this
+// project a container three levels down came back with no children — which reads exactly
+// like a container Figma leaves empty. Templates rendered a correct outer box around a
+// blank one and nothing anywhere said so.
+//
+// The `kids` column makes the two distinguishable, and this pins the count. It may shrink
+// and not grow: a deeper walk is progress, a shallower one silently un-fills templates
+// that were full. An INSTANCE is not counted — the walk stops at one on purpose, because
+// that component has its own template.
+const CAPPED_BASELINE = 61;
+const DEPTH = 4;
+const CONTAINER = new Set(['FRAME', 'GROUP', 'SLOT']);
+const paths = new Map();
+for (const line of tsvRows) {
+  const [component, path] = line.split('\t');
+  if (!paths.has(component)) paths.set(component, []);
+  paths.get(component).push(path);
+}
+let cappedNodes = 0; const cappedIn = new Set();
+for (const line of tsvRows) {
+  const c = line.split('\t');
+  const [component, path, type] = c;
+  const kids = Number(c[6] || 0);
+  if (!CONTAINER.has(type) || !kids) continue;
+  if (path.split('.').length < DEPTH) continue;
+  if (paths.get(component).some(q => q !== path && q.startsWith(path + '.'))) continue;
+  cappedNodes++; cappedIn.add(component);
+}
+console.log(`  ${cappedNodes} container(s) in ${cappedIn.size} component(s) sit at the walk's `
+  + `depth limit holding children it could not reach (baseline ${CAPPED_BASELINE})`);
+console.log(`        ${[...cappedIn].sort().join(', ')}`);
+if (cappedNodes > CAPPED_BASELINE) {
+  console.log('  FAIL  more of the tree is behind the depth cap than before — a template that '
+    + 'was full is now a shell.');
+  failures++;
+} else if (cappedNodes < CAPPED_BASELINE) {
+  console.log(`  note  down ${CAPPED_BASELINE - cappedNodes} — lower CAPPED_BASELINE to ${cappedNodes} to lock it in`);
+}
 
 process.exit(failures ? 1 : 0);

@@ -4,7 +4,19 @@
 <div class="pf-ag-filter-menus">
   <div class="pf-ag-field" data-state="Selected">AG field</div>
   <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:10px">
-    <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px"></div>
-    <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:10px"><!-- SLOT: Figma marks this as where the component's content goes. --></div>
+    <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
+      <div class="pf-multi-select-checkbox" data-state="Mixed selection" data-darkmode="False"></div><!-- Multi-select checkbox -->
+      <span class="pf-text-label-text" style="color:var(--pf-text-primary)">(Select All)</span>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:10px"><!-- SLOT: Figma marks this as where the component's content goes. -->
+      <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
+        <div class="pf-multi-select-checkbox" data-state="Selected" data-darkmode="False"></div><!-- Multi-select checkbox -->
+        <span class="pf-text-label-text" style="color:var(--pf-text-primary)">Option A</span>
+      </div>
+      <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
+        <div class="pf-multi-select-checkbox" data-state="Default" data-darkmode="False"></div><!-- Multi-select checkbox -->
+        <span class="pf-text-label-text" style="color:var(--pf-text-primary)">Option B</span>
+      </div>
+    </div>
   </div>
 </div>
