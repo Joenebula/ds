@@ -24,10 +24,22 @@ if (classes.length !== styles.length) {
 }
 
 const WEIGHT = { Light: '300', Regular: '400', Medium: '500', SemiBold: '600', Bold: '700', Italic: '400' };
+
+// THE CHECK HAS TO ENCODE THE RULE, NOT THE RAW FIGMA VALUE. The system ships 400 and 600 only,
+// so build-type-css.mjs deliberately emits NO font-weight for a Light, Medium or Bold style and
+// lets it inherit 400. Asserting Figma's 300 here would fail the type layer on a value the
+// generator is deliberately not emitting — a check disagreeing with the rule it exists to check,
+// which is the same trap the component height tiers had to be taught.
+//
+// So the expectation for an off-system weight is 400, and the count is reported separately: a
+// silently-passing exclusion is how a removed weight becomes a forgotten one.
+const OFF_RAMP = new Set(['Light', 'Medium', 'Bold']);
+const offSystem = styles.filter((s) => OFF_RAMP.has(s.weight));
 const specs = styles.map((s, i) => ({
   id: 't' + i, name: s.name, cls: classes[i],
   size: +s.size,
-  weight: s.weight ? (WEIGHT[s.weight] || '400') : null,
+  offSystem: OFF_RAMP.has(s.weight),
+  weight: s.weight ? (OFF_RAMP.has(s.weight) ? '400' : (WEIGHT[s.weight] || '400')) : null,
   italic: s.weight === 'Italic',
   letterSpacing: parseFloat(s.letterSpacing) || 0,
   upper: s.textCase === 'UPPER',
@@ -73,6 +85,14 @@ const fails = results.filter(r => !r.ok);
 for (const r of fails.slice(0, 30))
   console.log(`FAIL ${r.name}\n       ${r.prop}: expected ${r.want}, got ${r.got}`);
 console.log(`\n${results.length - fails.length} of ${results.length} type checks match Figma, ${fails.length} off`);
+// Counted and named every run, like the placeholder and `pending:` counts. These classes PASS —
+// they correctly inherit 400 — so without this line the fact that Figma still holds a weight the
+// system refuses to ship would be invisible in a green result.
+if (offSystem.length) {
+  console.log(`${offSystem.length} style(s) carry a weight OUTSIDE the system's 400/600 rule in Figma; `
+    + 'the stylesheet deliberately omits it and they inherit 400:');
+  for (const o of offSystem) console.log(`    ${o.name} — Figma says ${o.weight}`);
+}
 if (selfTest) {
   const caught = fails.filter(f => /Body text$/.test(f.name)).length;
   console.log(caught ? `self-test OK — the deliberate break was caught (${caught} failures)`

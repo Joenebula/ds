@@ -18,7 +18,11 @@ Non-negotiables from that skill:
   project shipped a screen with perfect colours and invented shapes.
 - Use semantic tokens (`--pf-text-primary`), never primitives (`--pf-base-grey-slate`).
   Primitives don't change between modes, so using them breaks dark mode.
-- Open Sans only, weights 400 and 600.
+- Open Sans only, weights 400 and 600. **Enforced, not just stated**: Figma also holds Light (300)
+  and Medium (500) styles, and `build-type-css.mjs` deliberately emits NO `font-weight` for those,
+  so they inherit 400. `text-styles.tsv` still records what Figma has — its job is to be truthful
+  about Figma — and the exclusions are counted and named by both the build and `verify-type.mjs`
+  on every run. Re-enabling one fails the type check.
 - Green = positive/confirm, blue = default action, pink = brand (not a button).
 - Both light and dark mode must work. Using tokens gives this for free.
 - Never draw an icon by hand. All 293 are in `assets/icons/`.
