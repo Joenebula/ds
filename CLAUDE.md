@@ -120,15 +120,36 @@ the entire icon set as uncaptured. This check said **286 NEW** for months: 281 a
 past — which is what happened, repeatedly. `isIconPage` in `check-catalogue-drift.mjs` is the one
 definition of that page, and both checks use it.
 
-**But `icons.tsv` has NO nodeId column**, so read its "new" and "gone" lists TOGETHER. This is the
-same defect `component-variants.tsv` was fixed for in `6218a8d`: without an id, a rename is
-indistinguishable from a deletion plus an addition. The first run after the fix reports 5 new and
-8 gone, and almost none of it is either:
+**`icons.tsv` now has a nodeId column too**, so an icon rename reports as a rename — the same
+id-first matching `component-variants.tsv` got in `6218a8d`. 283 of its 293 rows are pinned, and
+none of it needed a Figma call: icons are published components, so the ids came from
+`components.json` via `backfill-node-ids.mjs`, which now takes `icons.tsv` as a third file.
+
+Two things make that work and both are worth knowing:
+
+- **Page narrowing.** Four names — `Bar chart`, `Configuration`, `Org chart`, `Signature` — are
+  published twice, once as a component and once as a glyph. Every row in `icons.tsv` is an icon by
+  construction, so the Icons-page candidate is the right one, and that is evidence rather than a
+  coin toss. `GIF` and `Transfer` are published twice *on the icon page*, so the ambiguity refusal
+  stands and they stay empty. The four ids this resolves to are the exact four removed from
+  component rows in `2ccdc33` as belonging to glyphs.
+- **The id survives a re-extract.** `icons.tsv` is written WHOLE from batches carrying no id, so
+  `build()` now carries an existing id forward keyed by name — without that, the next re-extract
+  would wipe all 283 and report success. Keyed by NAME, not index, because a renamed row must not
+  inherit the old name's id: that is a rename, and the backfill re-derives it. A tab in an svg cell
+  is also collapsed to a space now, because a tab there would move the id column; no current row
+  has one, and that was luck rather than a rule.
+
+**The 10 rows still without an id are exactly the unresolved ones**, which is not a coincidence: a
+row the inventory cannot match by name is a row whose name is wrong, and that is the same thing
+that makes it unpairable. They are counted in the verdict line, because a rename among *them* is
+still invisible. The list:
 
 | `icons.tsv` | Figma | what it really is | status |
 |---|---|---|---|
 | ~~`addres book`~~ | `Address book` | a typo fixed in Figma | **corrected** — name only, artwork was already right |
 | ~~`Calendarcross`~~ | `Calendar cross` | spacing fixed in Figma | **corrected** — as above |
+| ~~`calendar link`~~ | `Calendar link` | case only | **corrected** — as above |
 | `Taxes coins` | `Coins` + `Tax` | split into two | needs a Figma read for the two new glyphs |
 | `Size=L/M/S/XS - ..px` | `Circle icons` | **not a Figma change at all** — `extract-icons.mjs` captured one component set's four VARIANTS as four separate icons | needs the extractor fixed, then a re-read |
 | `unnamed-813678321` | — | an unnamed node captured as an icon | needs a Figma read to identify or drop |

@@ -31,7 +31,43 @@ import { TRANSCRIPT_DIR, transcriptFiles, scrapeBatches, parseBatch } from './li
 
 const TSV = 'tokens/_raw/icons.tsv';
 const DIR = 'assets/icons';
-const HEADER = 'index\tfigmaName\tfile\tsvg';
+// nodeId goes LAST, after the svg, for the same reason it does in component-variants.tsv: the two
+// things that parse this file (sync-check.mjs reads index 1, the WOULD LOSE guard below reads
+// index 2) are positional and neither reaches past index 2, so a trailing column is invisible to
+// both. That only holds while the svg cell is tab-free, which build() now enforces rather than
+// assumes — see normaliseCell.
+const HEADER = 'index\tfigmaName\tfile\tsvg\tnodeId';
+
+// A TAB INSIDE AN SVG WOULD MOVE THE nodeId COLUMN. Figma path data may legally contain tabs, and
+// the wire format is built to survive them — the payload is taken from the second tab onward,
+// which is why arity cannot be the truncation check here. But a tab written into the TSV's svg
+// CELL would put the id at an unpredictable index and silently corrupt every reader that counts
+// columns. None of the 293 current rows carries one, and that was luck rather than a rule. Tabs
+// are whitespace in path data, so collapsing them to spaces changes no artwork; doing it here
+// turns "no row happens to have a tab" into "no row can".
+export const normaliseCell = (svg) => String(svg).replace(/\t/g, ' ');
+
+// The nodeId already in the file, by Figma name. Header-keyed rather than positional, so it keeps
+// working if the column ever moves — and it returns an empty map for a file that has no nodeId
+// column at all, which is the state before the first backfill.
+export function readIds(text) {
+  const lines = String(text).replace(/\n+$/, '').split('\n').filter((l) => l.trim());
+  if (!lines.length) return new Map();
+  const header = lines[0].split('\t');
+  const iName = header.indexOf('figmaName'); const iId = header.indexOf('nodeId');
+  const ids = new Map();
+  // Deliberate belt-and-braces, and an EQUIVALENT MUTANT: deleting this line changes no
+  // behaviour, because a missing column makes c[-1] undefined, which coerces to '' and is then
+  // skipped by the `name && id` test below. It stays because relying on that coercion is
+  // accidental correctness, and this file would rather say what it means.
+  if (iName === -1 || iId === -1) return ids;
+  for (const l of lines.slice(1)) {
+    const c = l.split('\t');
+    const name = (c[iName] || '').trim(); const id = (c[iId] || '').trim();
+    if (name && id) ids.set(name, id);
+  }
+  return ids;
+}
 const MARKER = /^(FROM \d+ NEXT \d+ OF \d+ COUNT \d+|FILETYPE COUNT \d+)/;
 
 export function readBatches(batches) {
@@ -82,8 +118,20 @@ export const namespaceIds = (svg, fileName) => {
   return svg;
 };
 
-export function build(icons) {
-  const used = new Map(); const files = []; const rows = [];
+// `priorIds` carries an existing nodeId forward, keyed by the Figma NAME.
+//
+// WITHOUT THIS THE COLUMN IS WORSE THAN USELESS. icons.tsv is written WHOLE — that is why it
+// refuses to shrink — so a re-extract rebuilds every row from batches that carry index, name and
+// svg, and nothing else. The ids backfilled from components.json would be silently wiped by the
+// next re-extract, which would then report success, and the sync gate would quietly lose the
+// ability to tell a rename from a delete-plus-add all over again.
+//
+// Keyed by name rather than by index because a Figma export's index is its position in that read,
+// which shifts; the name is what the id was looked up under. A row whose NAME changed does not
+// carry its id, which is correct — that is a rename, and the backfill re-derives it under the new
+// name from the inventory.
+export function build(icons, priorIds = new Map()) {
+  const used = new Map(); const files = []; const rows = []; let tabsFixed = 0;
   for (const idx of [...icons.keys()].sort((a, b) => a - b)) {
     const { name } = icons.get(idx);
     const base = slug(name);
@@ -91,10 +139,12 @@ export function build(icons) {
     used.set(base, n);
     const fileName = n === 1 ? base : `${base}-${n}`;
     const svg = namespaceIds(icons.get(idx).svg, fileName);
+    const cell = normaliseCell(svg);
+    if (cell !== svg) tabsFixed++;
     files.push({ fileName, svg });
-    rows.push([idx, name, fileName, svg].join('\t'));
+    rows.push([idx, name, fileName, cell, priorIds.get(String(name).trim()) || ''].join('\t'));
   }
-  return { files, rows };
+  return { files, rows, tabsFixed };
 }
 
 // Collapse to ranges so the next export call is easy to aim.
@@ -131,7 +181,18 @@ function main() {
   }
   if (!icons.size) { console.error('no icon batches found in the transcripts'); process.exit(1); }
 
-  const { files, rows } = build(icons);
+  // Read the ids already in the file BEFORE rebuilding it. build() writes every row from the
+  // batches, which carry no id, so without this the next re-extract silently wipes the lot.
+  let priorText = '';
+  try { priorText = readFileSync(TSV, 'utf8'); } catch { /* first run */ }
+  const priorIds = readIds(priorText);
+
+  const { files, rows, tabsFixed } = build(icons, priorIds);
+  if (priorIds.size) console.log(`node ids carried : ${priorIds.size} from the existing file`);
+  if (tabsFixed) {
+    console.log(`tabs normalised  : ${tabsFixed} svg cell(s) held a tab, collapsed to spaces so `
+      + 'the nodeId column stays at a fixed index');
+  }
   const g = gaps(icons, total);
   console.log(`icons read       : ${icons.size} of ${total}`);
   if (g.missing.length) console.log(`MISSING (${g.missing.length}): ${g.text}`);
@@ -214,6 +275,48 @@ function selfTest() {
   const nsed = build(new Map([[0, { name: 'Tick', svg: '<svg><mask id="m1"/><g mask="url(#m1)"/></svg>' }]]));
   if (!nsed.files[0].svg.includes('id="tick-m1"')) miss('build() must namespace the ids it writes, not just be able to');
   if (!nsed.rows[0].includes('id="tick-m1"')) miss('the TSV row must carry the namespaced SVG, not the raw one');
+
+  // ---- the nodeId column ------------------------------------------------------------------
+  // THE FAILURE THIS BLOCK EXISTS FOR. icons.tsv is written whole from batches that carry no id,
+  // so without carry-forward a re-extract wipes every backfilled nodeId and reports success — the
+  // gate would silently lose the ability to tell a rename from a delete-plus-add, which is the
+  // entire reason the column was added.
+  {
+    const prior = readIds('index\tfigmaName\tfile\tsvg\tnodeId\n0\tTick\ttick\t<svg/>\t12:34\n');
+    if (prior.get('Tick') !== '12:34') miss(`readIds must read the id by header (got ${prior.get('Tick')})`);
+
+    const kept = build(new Map([[0, { name: 'Tick', svg: SVG('a') }]]), prior);
+    if (!kept.rows[0].endsWith('\t12:34')) {
+      miss('a re-extract MUST carry an existing nodeId forward — without this the next re-extract '
+        + 'silently wipes every id and reports success');
+    }
+    // A row whose NAME changed must NOT inherit the old id: that is a rename, and the backfill
+    // re-derives it from the inventory under the new name. Inheriting would pin the wrong node.
+    const renamed = build(new Map([[0, { name: 'Tick circle', svg: SVG('a') }]]), prior);
+    if (renamed.rows[0].endsWith('\t12:34')) {
+      miss('a renamed row must not inherit the previous name\'s id — it is a different name and '
+        + 'the id must be re-derived, not assumed');
+    }
+    // A file with no nodeId column yet — the state before the first backfill — is not an error.
+    if (readIds('index\tfigmaName\tfile\tsvg\n0\tTick\ttick\t<svg/>\n').size !== 0) {
+      miss('a file with no nodeId column must yield no ids rather than throwing');
+    }
+    if (readIds('').size !== 0) miss('an empty file must yield no ids');
+  }
+
+  // A TAB in an svg cell would move the nodeId column. Tabs are legal in path data and the wire
+  // format deliberately survives them, so the TSV cell has to be the place that cannot carry one.
+  {
+    const tabbed = build(new Map([[0, { name: 'Tick', svg: '<svg>\t<path d="M0 0"/></svg>' }]]),
+      new Map([['Tick', '9:9']]));
+    const cells = tabbed.rows[0].split('\t');
+    if (cells.length !== 5) miss(`a tab in an svg must not add a column (got ${cells.length})`);
+    if (cells[4] !== '9:9') {
+      miss('the nodeId must stay at index 4 however the svg is shaped — otherwise a tab in path '
+        + 'data silently corrupts every reader that counts columns');
+    }
+    if (!tabbed.tabsFixed) miss('normalising a tab must be COUNTED, not done in silence');
+  }
 
   // Gaps must be reported as ranges so the next export is easy to aim.
   const g = gaps(new Map([[0, {}], [3, {}]]), 6);

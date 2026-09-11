@@ -38,16 +38,31 @@
 // So an ambiguous name now fills NOTHING and is reported with its candidates, which is the same
 // rule as an unmatched name — an unexplained ambiguity is a question for a person.
 import { readFileSync, writeFileSync } from 'node:fs';
+import { isIconPage } from './check-catalogue-drift.mjs';
 
 const RAW = 'tokens/_raw';
 const FILES = [
   { file: 'component-variants.tsv', nameCol: 'component' },
   { file: 'component-geometry.tsv', nameCol: 'component' },
+  // ICONS TOO. icons.tsv is index/figmaName/file/svg and had no identity at all, which is the
+  // same defect the component extracts were fixed for here: without an id a rename is
+  // indistinguishable from a deletion plus an addition, and sync-check could only report
+  // "3 new, 6 gone — NO node ids" and ask a person to pair the lists by eye.
+  //
+  // Safe to append: only two things parse this file (sync-check.mjs reads index 1,
+  // extract-icons.mjs reads index 2), both positional, neither reaches index 3 and neither
+  // rejoins the tail — so a fifth column is invisible to both.
+  //
+  // `prefer` is what makes it work. Four names are published twice, once as a component and once
+  // as a glyph: Bar chart, Configuration, Org chart, Signature. Every row in icons.tsv IS an icon
+  // by construction, so the Icons-page candidate is the right one — that is evidence, not a coin
+  // toss, and it is the one narrowing the ambiguity rule below permits.
+  { file: 'icons.tsv', nameCol: 'figmaName', prefer: isIconPage },
 ];
 
 const key = (n) => String(n || '').trim();
 
-export function backfill(text, nameCol, byName) {
+export function backfill(text, nameCol, byName, { prefer = null, pageOf = new Map() } = {}) {
   const lines = text.replace(/\n+$/, '').split('\n');
   const header = lines[0].split('\t');
   const idx = header.indexOf(nameCol);
@@ -55,7 +70,7 @@ export function backfill(text, nameCol, byName) {
 
   const already = header.indexOf('nodeId');
   const out = [];
-  let filled = 0; const missing = []; const ambiguous = [];
+  let filled = 0; const missing = []; const ambiguous = []; const narrowed = [];
 
   out.push(already === -1 ? [...header, 'nodeId'].join('\t') : lines[0]);
 
@@ -69,7 +84,16 @@ export function backfill(text, nameCol, byName) {
     // Pad to the header width FIRST, so a cell always means the column it is named after.
     while (cells.length < (already === -1 ? width : width)) cells.push('');
     const name = key(cells[idx]);
-    const candidates = byName.get(name) || [];
+    let candidates = byName.get(name) || [];
+    // ONE narrowing is allowed, and only one: a caller that knows what KIND of thing every row in
+    // its file is may filter the candidates by page. icons.tsv is entirely icons, so a name
+    // published once on the Icons page and once elsewhere is not ambiguous at all — the other
+    // candidate cannot be what this row means. If the filter leaves anything other than exactly
+    // one, it is discarded and the ambiguity stands.
+    if (prefer && candidates.length > 1) {
+      const onPage = candidates.filter((c) => prefer(pageOf.get(c) || ''));
+      if (onPage.length === 1) { narrowed.push(`${name} -> ${onPage[0]}`); candidates = onPage; }
+    }
     // An ambiguous name is NOT a match. Filling one of two candidates would be a coin toss
     // wearing a measurement's clothes, and every later read would trust the result.
     if (candidates.length > 1) ambiguous.push(name);
@@ -85,7 +109,8 @@ export function backfill(text, nameCol, byName) {
     out.push(cells.join('\t'));
   }
   const uniq = (a) => [...new Set(a)].sort();
-  return { text: out.join('\n') + '\n', filled, missing: uniq(missing), ambiguous: uniq(ambiguous) };
+  return { text: out.join('\n') + '\n', filled, missing: uniq(missing),
+    ambiguous: uniq(ambiguous), narrowed: uniq(narrowed) };
 }
 
 // ---------------------------------------------------------------------------
@@ -109,15 +134,16 @@ function main() {
   }
   console.log('');
 
-  for (const { file, nameCol } of FILES) {
+  for (const { file, nameCol, prefer } of FILES) {
     const path = `${RAW}/${file}`;
-    const r = backfill(readFileSync(path, 'utf8'), nameCol, byName);
+    const r = backfill(readFileSync(path, 'utf8'), nameCol, byName, { prefer, pageOf });
     const total = r.filled + r.missing.length;
     console.log(`${file}`);
     console.log(`  ${r.filled} row-name(s) matched exactly one inventory id, `
       + `${r.missing.length} matched none, ${r.ambiguous.length} matched more than one`);
     for (const m of r.missing) console.log(`    no id     "${m}"`);
     for (const a of r.ambiguous) console.log(`    AMBIGUOUS "${a}" — left empty, resolve by hand`);
+    for (const n of r.narrowed) console.log(`    by page   ${n} — published twice, one on the icon page`);
     if (write) { writeFileSync(path, r.text); console.log('  written'); }
     console.log('');
   }
@@ -136,6 +162,12 @@ function selfTest() {
   `).replace(/ {4}/g, '');
 
   let failures = 0;
+  // This file counted failures inline and had no helper. The page-narrowing cases below were
+  // written with one, passed, and were pure decoration: miss() did not exist, so the first
+  // assertion to actually fail would have thrown a ReferenceError instead of reporting. Four
+  // mutants surfaced it at once by all dying the same way. A self-test that can only crash is
+  // not a self-test.
+  const miss = (m) => { failures++; console.log(`  MISS ${m}`); };
   const r = backfill(src, 'component', by);
   if (!r.text.split('\n')[0].endsWith('nodeId')) {
     failures++; console.log('  MISS the id column must be appended LAST, never prepended');
@@ -190,6 +222,42 @@ function selfTest() {
     failures++;
     console.log('  MISS an ambiguous name is not the same as an unmatched one and must not be '
       + 'reported as merely missing — the fix is to choose, not to find');
+  }
+
+  // PAGE NARROWING. The one permitted way out of an ambiguity, and it has to be exactly that —
+  // one way out, not a general licence to pick a candidate.
+  {
+    const pages = new Map([['ic', 'Icons'], ['comp', 'Cards and panels'], ['ic2', 'Icons']]);
+    const onlyOneOnPage = new Map([['Org chart', ['comp', 'ic']]]);
+    const r1 = backfill('figmaName\tfile\nOrg chart\torg-chart\n', 'figmaName', onlyOneOnPage,
+      { prefer: (pg) => pg === 'Icons', pageOf: pages });
+    if (r1.filled !== 1 || !r1.text.includes('\tic')) {
+      miss('a name published once on the preferred page and once elsewhere is NOT ambiguous — '
+        + 'the other candidate cannot be what an all-icons file means');
+    }
+    if (r1.ambiguous.length) miss('a narrowed name must not also be reported ambiguous');
+    if (!r1.narrowed.length) miss('a narrowing must be REPORTED — it is a judgement, not a lookup');
+
+    // Two candidates BOTH on the icon page. The filter changes nothing and the refusal stands.
+    const bothOnPage = new Map([['GIF', ['ic', 'ic2']]]);
+    const r2 = backfill('figmaName\tfile\nGIF\tgif\n', 'figmaName', bothOnPage,
+      { prefer: (pg) => pg === 'Icons', pageOf: pages });
+    if (r2.filled !== 0 || !r2.ambiguous.includes('GIF')) {
+      miss('when the page does not narrow to exactly one, the ambiguity refusal must stand — '
+        + 'GIF and Transfer are each published twice ON the icon page and must stay empty');
+    }
+
+    // None on the preferred page: nothing to narrow to, so it stays ambiguous.
+    const noneOnPage = new Map([['Elsewhere', ['comp', 'comp']]]);
+    const r3 = backfill('figmaName\tfile\nElsewhere\tx\n', 'figmaName', noneOnPage,
+      { prefer: (pg) => pg === 'Icons', pageOf: pages });
+    if (r3.filled !== 0) miss('a filter matching NOTHING must not resolve the ambiguity either');
+
+    // And without a prefer the old behaviour is untouched.
+    const r4 = backfill('figmaName\tfile\nOrg chart\torg-chart\n', 'figmaName', onlyOneOnPage);
+    if (r4.filled !== 0 || !r4.ambiguous.includes('Org chart')) {
+      miss('a file with no prefer must still refuse an ambiguous name outright');
+    }
   }
 
   // A trailing column must be invisible to a positional reader — the whole reason it goes last.
