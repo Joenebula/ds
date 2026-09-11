@@ -1,7 +1,6 @@
 component	page	reason
 AI link	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
 Avatar	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
-Component 1	Cards and panels	carries a Figma default name — an unnamed component, not part of the system
 Default header background	Navigation	no variant binds a colour variable in Figma — nothing to put in a stylesheet
 Description	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
 design system header	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it

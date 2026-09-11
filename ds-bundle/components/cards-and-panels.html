@@ -1232,6 +1232,38 @@
   color: var(--pf-text-primary);
 }
 
+/* Component 1
+ * 2 variants captured. UNNAMED IN FIGMA. It is the row inside Editable list card: a label with a trailing add or remove action. Property 1=Frame 6270951 is the ADD state (no fill, green Plus circle icon); Frame 6270952 is the ADDED state (Background/Tertiary fill, grey Remove icon). The component and both variant values carry Figma default names — raise with design.
+ * Figma draws this 432px wide; treated as layout, not a rule
+ */
+.pf-component-1 {
+  height: 48px;
+  padding: 10px;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-component-1[data-property-1="Frame 6270951"] {
+  border-color: var(--pf-border-default-full);
+  color: var(--pf-text-secondary);
+}
+.pf-component-1[data-property-1="Frame 6270952"] {
+  background: var(--pf-bg-tertiary);
+  border-color: var(--pf-border-default-full);
+  color: var(--pf-text-secondary);
+}
+
 * { box-sizing: border-box; }
 body { margin: 0; padding: var(--pf-space-large); background: var(--pf-bg-primary);
        color: var(--pf-text-primary); font-family: var(--pf-font-body);
@@ -1259,7 +1291,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
 </head>
 <body>
 <h1>Cards and panels</h1>
-<p class="sub">29 components from the Cards and panels page in Figma, rendered with dist/components.css. Class names mirror Figma's variant panel: the component is the class, each variant property is a data attribute.</p>
+<p class="sub">30 components from the Cards and panels page in Figma, rendered with dist/components.css. Class names mirror Figma's variant panel: the component is the class, each variant property is a data attribute.</p>
 <h2>50/50 layout container</h2>
 <p class="sub">.pf-50-50-layout-container  ·  1600 x auto  ·  1 variant</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
@@ -1302,6 +1334,18 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-card" data-property-1="Default">Card</div>
         <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Property 1=Default</span>
+      </div>
+</div>
+<h2>Component 1</h2>
+<p class="sub">.pf-component-1  ·  432 x 48  ·  2 variants</p>
+<div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
+<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
+        <div class="pf-component-1" data-property-1="Frame 6270951">Component 1</div>
+        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Property 1=Frame 6270951</span>
+      </div>
+<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
+        <div class="pf-component-1" data-property-1="Frame 6270952">Component 1</div>
+        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">Property 1=Frame 6270952</span>
       </div>
 </div>
 <h2>Configuration panel</h2>

@@ -609,7 +609,7 @@ change every hairline in dark mode from white to Grey Fog — visible, and a des
 rather than a build one. Ask the design team which is right, or say the word and I will
 make the change and show you both before and after.
 
-## 34. The 14 Navigation components the inventory never saw — `in progress`
+## 34. The 14 Navigation components the inventory never saw — `done`
 
 The user pushed back on "33 components" and was right to. A page-by-page count against
 Figma shows 157 distinct components on the 12 real pages, and my inventory extract
@@ -638,3 +638,62 @@ gallery's totals move accordingly.
 
 The two tokens with no Figma variable — `--pf-border-default` and `--pf-bg-theme-full`.
 Coming back to these; nothing has been changed.
+
+## 35. Component 1 — the last real component with no rules — `done`
+
+Of the 28 components with no rules, the user confirmed 27 are notes — project documentation,
+brand assets, sample content — and only this one was required.
+
+It is the row inside `Editable list card`: a label with a trailing add or remove action.
+`Property 1=Frame 6270951` is the ADD state (no fill, green Plus circle); `Frame 6270952`
+is the ADDED state (Background/Tertiary fill, grey Remove icon). 432x48, radius 8, 20px
+text, 10px padding, 10px gap.
+
+**Done when:** met. Captured faithfully — Figma's own default names kept, because renaming
+is the design team's call — with a note in the generated CSS saying what it actually is.
+`dist/components.css` carries it as `.pf-component-1` with both variants.
+
+Caught while writing it: the geometry file's layout column is `LAYOUT COUNTER PRIMARY`, not
+`LAYOUT PRIMARY COUNTER`, and I had both inverted AND inferred rather than measured — the
+first version emitted `align-items: flex-start; justify-content: center` for a row Figma
+centres vertically and packs from the left. Measured and corrected.
+
+**Raise with design:** the component is called `Component 1` and its variants are called
+`Frame 6270951` and `Frame 6270952`. Every one is a Figma default nobody renamed, so the
+class is `.pf-component-1[data-property-1="Frame 6270951"]` — accurate and unusable. It
+should be named in Figma, then re-extracted.
+
+## 36. The seven renamed navigation components — `done`
+
+The user asked for all seven under Figma's current names because the main template will use
+them, accepting that the prototypes get updated later.
+
+Six were unused by any prototype, so they were RENAMED rather than duplicated — no new
+classes for the same component. `Secondary nav` had to vacate its name before
+`[S] Main nav context` could take it, because Figma's rename was a swap:
+
+    Header top navigation      -> Header navigation
+    [S] Navigation/main tabs   -> Nav tabs
+    Secondary nav              -> Tertiary nav        (node 13658:7900)
+    [S] Main nav context       -> Secondary nav       (node 13658:7842)
+    Search home button         -> Search navigation
+    Full page navigation       -> Full page
+
+The seventh, `Side navigation tab`, is used 29 times across three prototypes, so it stays.
+Its node is Figma's `Notification tabs` today, captured separately with its real current
+structure, and the old rows are flagged in the inventory as a legacy snapshot.
+
+**The rename was hiding the real problem.** All six carried STALE DATA, not just stale
+names — different variant axes (`Breakpoint` where Figma now has `Mobile x Tablet`), and
+different bindings (`Background/Primary` where Figma now binds `Navigation/Nav bg top`).
+Renaming alone would have shipped six components whose colours and variants do not match
+Figma. Replaced with values read from Figma in this session.
+
+**And it answers the parked token question.** `Nav tabs` stored `Border/Default` where
+Figma now binds `Border/Default full` — so `--pf-border-default` is not a phantom, it is
+the OLD NAME of `Border/Default full`, renamed at the same time as the components. 32
+components still bind it. Still parked, but no longer a mystery: it is a rename to follow,
+not a token to invent.
+
+**Done when:** met. All seven are classes in `dist/components.css` with current Figma data;
+149 components, 304 variants.

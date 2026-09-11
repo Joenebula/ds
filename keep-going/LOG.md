@@ -965,3 +965,74 @@ the check has to run before the normal token lookup — a primitive resolves per
 to itself, so the substitution never fired. That immediately surfaced four more components
 binding primitives directly that had been shipping silently: Toast message, Status, AI
 button, Top bar app context.
+
+---
+
+## Run 10 — the last real component
+
+The user went through the list of 28 components with no rules and confirmed 27 are notes:
+project documentation, brand assets, sample employee content, a wiki menu. Only
+`Component 1` on Cards and panels was required.
+
+It is the row inside `Editable list card` — a label with a trailing add or remove action.
+`Property 1=Frame 6270951` is the add state (no fill, green Plus circle, Icons/Icon -
+Positive); `Frame 6270952` is the added state (Background/Tertiary fill, grey Remove icon,
+Icons/Icon - Secondary). 432x48, radius 8, 10px padding, 10px gap, 20px text, both
+variants bound to Border/Default full and Text/Secondary.
+
+Captured with Figma's own names kept. `.pf-component-1[data-property-1="Frame 6270951"]`
+is accurate and unusable, and that is the honest state of it: the component and both its
+variant values are Figma defaults nobody renamed. Renaming them is the design team's call,
+not something to invent here, so the generated CSS carries a note saying what the thing
+actually is and that it needs naming at source.
+
+**Two mistakes in writing four values.** The geometry file's layout column is
+`LAYOUT COUNTER PRIMARY`; I wrote it as `LAYOUT PRIMARY COUNTER`, and I had not measured
+the alignment at all — I inferred it from the screenshot. The first version emitted
+`align-items: flex-start; justify-content: center` for a row Figma centres vertically and
+packs from the left. Both caught by reading the generated rule back and not recognising it,
+then going to Figma for the real values: primary MIN, counter CENTER.
+
+No real component page now has anything without rules. 160 classes; the 27 remaining are
+documentation and sample content.
+
+---
+
+## Run 11 — creating the seven under their current names
+
+The user asked for all seven renamed navigation components to exist under Figma's current
+names, since the main template will use them, and said the prototypes can be updated later.
+
+Six were used by no prototype (checked before touching anything: `pf-side-navigation-tab`
+has 29 uses, the other six have zero), so they were RENAMED rather than added alongside —
+adding would have left two classes for one component. Figma's rename is a swap, so order
+mattered: `Secondary nav` had to vacate before `[S] Main nav context` could take the name.
+
+**My first attempt was wrong and I backed it out.** I started by ADDING eighteen rows under
+the new names, which would have duplicated six components, and one of those rows used a
+name I invented on the spot (`Secondary nav (current)`) to dodge the collision. Deleted,
+and redone as a rename once I had checked which names were actually in use.
+
+**The rename was hiding the real problem.** Comparing the stored rows against the values
+read from Figma this session, all six had drifted in substance, not just in name:
+
+    Header navigation   stored a Breakpoint axis; Figma now has Mobile x Tablet
+    Nav tabs            stored fill Background/Primary; Figma binds Navigation/Nav bg top
+    Nav tabs            stored stroke Border/Default;   Figma binds Border/Default full
+    Tertiary nav        stored Navigation type=Chips;   Figma has Mobile x Page
+    Search navigation   stored Mobile=Mobile3;          Figma has Mobile=True
+    Full page           stored a Breakpoint axis;       Figma has System x Tablet x Mobile x Darkmode
+
+A pure rename would have shipped six components whose variants and colours do not match
+Figma, under names that made them look freshly checked. Replaced with current values.
+
+**This resolves the parked token question.** `--pf-border-default` is not a token that never
+existed: it is the OLD NAME of `Border/Default full`, renamed at the same time as the
+components. 32 components still bind it. Left alone because the user parked it, but the
+decision is now "follow a rename", not "invent a value".
+
+The seventh, `Side navigation tab`, stays as a legacy snapshot because three prototypes
+depend on it; its node is Figma's `Notification tabs` today and is captured separately with
+the real State x Selected structure. Both are flagged in the inventory.
+
+149 components, 304 variants.

@@ -138,15 +138,10 @@ Navigation	Side navigation tab	Selected=true	Background/Theme		Text/Theme
 Navigation	Filter tab single	Selected=False, State=Default	Background/Primary	Border/Default	Text/Secondary
 Navigation	Filter tab single	Selected=False, State=Hover	Background/Primary	Border/Default	Text/Theme
 Navigation	Filter tab single	Selected=True, State=Default	Background/Primary	Border/Default	Text/Theme
-Navigation	[S] Navigation/main tabs	Status=Unselected	Background/Primary	Border/Default	Text/Primary
-Navigation	[S] Navigation/main tabs	Status=Hover	Background/Primary	Border/Default	Text/Theme
-Navigation	[S] Navigation/main tabs	Status=Selected	Background/Primary	Border/Default	Text/Theme
 Navigation	Config child menu	Type=Child			Text/Primary
 Navigation	Config child menu	Type=Selected	Base colours/Blue Ocean		Text/Inverted primary
 Navigation	Clock in	Type=Standard		Border/Default	Text/Inverted primary
 Navigation	Clock in	Type=Hover	Background/Primary	Border/Default	Text/Theme
-Navigation	Secondary nav	Navigation type=Chips			Text/Theme
-Navigation	Secondary nav	Navigation type=Page	Background/Primary		Text/Primary
 Navigation	Side navigation	Variant=Default	Background/Primary		Text/Secondary
 Navigation	Side navigation	Variant=Finance	Background/Primary		Text/Secondary
 Cards and panels	Draggable card	State=Default	Background/Primary	Border/Default	Text/Primary
@@ -197,16 +192,7 @@ Navigation	Header	Breakpoint=Desktop			Text/Secondary
 Navigation	Header	Breakpoint=Tablet			Base colours/White
 Navigation	Header	Breakpoint=Mobile			Base colours/White
 Navigation	Mobile bottom navigation				Text/Secondary
-Navigation	Header top navigation	Breakpoint=Desktop			Text/Secondary
-Navigation	Header top navigation	Breakpoint=Tablet			Base colours/White
-Navigation	Header top navigation	Breakpoint=Mobile			Base colours/White
-Navigation	[S] Main nav context		Background/Primary		Text/Theme
 Navigation	Top bar app context				Base colours/White
-Navigation	Search home button	Mobile=False			Text/Secondary
-Navigation	Search home button	Mobile=Mobile3			Text/Theme
-Navigation	Full page navigation	Breakpoint=Desktop			Text/Secondary
-Navigation	Full page navigation	Breakpoint=Mobile			Base colours/White
-Navigation	Full page navigation	Breakpoint=Tablet			Base colours/White
 Navigation	Side navigation panel		Background/Primary		Text/Theme
 Navigation	Filter tabs				Text/Theme
 Cards and panels	Attachments				Text/Primary
@@ -297,3 +283,23 @@ Navigation	Steps	State=Hover, System=People First			Text/Theme
 Navigation	Steps	State=Hover, System=Configr			Text/Configr Theme
 Navigation	Stepper				Text/Positive
 Navigation	Full page/Header navigation/Yes/No				Base colours/White
+Cards and panels	Component 1	Property 1=Frame 6270951		Border/Default full	Text/Secondary
+Cards and panels	Component 1	Property 1=Frame 6270952	Background/Tertiary	Border/Default full	Text/Secondary
+Navigation	Header navigation	Mobile=No, Tablet=No			Text/Secondary
+Navigation	Header navigation	Mobile=Yes, Tablet=No			Base colours/White
+Navigation	Header navigation	Mobile=No, Tablet=Yes			Base colours/White
+Navigation	Nav tabs	Status=Unselected	Navigation/Nav bg top	Border/Default full	Text/Primary
+Navigation	Nav tabs	Status=Hover	Navigation/Nav bg top	Border/Default full	Text/Theme
+Navigation	Nav tabs	Status=Selected	Navigation/Nav bg top	Border/Default full	Text/Theme
+Navigation	Secondary nav		Navigation/Nav bg top		Text/Theme
+Navigation	Tertiary nav	Page=No	Navigation/Nav bg top		Text/Theme
+Navigation	Tertiary nav	Page=Yes	Navigation/Nav bg top		Text/Primary
+Navigation	Search navigation	Mobile=False	Navigation/Search bg		Text/Secondary
+Navigation	Full page	System=People First, Darkmode=No			Navigation/Nav items
+Navigation	Full page	System=Configr, Darkmode=No	Background/Secondary		Navigation/Configr nav
+Navigation	Full page	System=People First, Darkmode=Yes			Navigation/Nav items
+Navigation	Full page	System=People First, Mobile=Yes			Base colours/White
+Navigation	Full page	System=People First, Tablet=Yes			Base colours/White
+Navigation	Notification tabs	State=Default, Selected=No		Border/Default full	Text/Primary
+Navigation	Notification tabs	State=Hover, Selected=No		Border/Default full	Text/Theme
+Navigation	Notification tabs	State=Selected, Selected=Yes	Background/Primary	Border/Default full	Navigation/Notification selected

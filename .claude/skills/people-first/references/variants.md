@@ -518,14 +518,6 @@ Figma component actually binds.
 | Selected=False, State=Hover | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-theme)` |
 | Selected=True, State=Default | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-theme)` |
 
-### [S] Navigation/main tabs
-
-| Variant | Background | Border | Text |
-|---|---|---|---|
-| Status=Unselected | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-primary)` |
-| Status=Hover | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-theme)` |
-| Status=Selected | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-theme)` |
-
 ### Config child menu
 
 | Variant | Background | Border | Text |
@@ -540,13 +532,6 @@ Figma component actually binds.
 |---|---|---|---|
 | Type=Standard | — | `var(--pf-border-default)` | `var(--pf-text-inverted-primary)` |
 | Type=Hover | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-theme)` |
-
-### Secondary nav
-
-| Variant | Background | Border | Text |
-|---|---|---|---|
-| Navigation type=Chips | — | — | `var(--pf-text-theme)` |
-| Navigation type=Page | `var(--pf-bg-primary)` | — | `var(--pf-text-primary)` |
 
 ### Side navigation
 
@@ -587,40 +572,11 @@ Figma component actually binds.
 |---|---|---|---|
 |  | — | — | `var(--pf-text-secondary)` |
 
-### Header top navigation
-
-| Variant | Background | Border | Text |
-|---|---|---|---|
-| Breakpoint=Desktop | — | — | `var(--pf-text-secondary)` |
-| Breakpoint=Tablet | — | — | `var(--pf-base-white)` |
-| Breakpoint=Mobile | — | — | `var(--pf-base-white)` |
-
-### [S] Main nav context
-
-| Variant | Background | Border | Text |
-|---|---|---|---|
-|  | `var(--pf-bg-primary)` | — | `var(--pf-text-theme)` |
-
 ### Top bar app context
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
 |  | — | — | `var(--pf-base-white)` |
-
-### Search home button
-
-| Variant | Background | Border | Text |
-|---|---|---|---|
-| Mobile=False | — | — | `var(--pf-text-secondary)` |
-| Mobile=Mobile3 | — | — | `var(--pf-text-theme)` |
-
-### Full page navigation
-
-| Variant | Background | Border | Text |
-|---|---|---|---|
-| Breakpoint=Desktop | — | — | `var(--pf-text-secondary)` |
-| Breakpoint=Mobile | — | — | `var(--pf-base-white)` |
-| Breakpoint=Tablet | — | — | `var(--pf-base-white)` |
 
 ### Side navigation panel
 
@@ -700,6 +656,59 @@ Figma component actually binds.
 | Variant | Background | Border | Text |
 |---|---|---|---|
 |  | — | — | `var(--pf-base-white)` |
+
+### Header navigation
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| Mobile=No, Tablet=No | — | — | `var(--pf-text-secondary)` |
+| Mobile=Yes, Tablet=No | — | — | `var(--pf-base-white)` |
+| Mobile=No, Tablet=Yes | — | — | `var(--pf-base-white)` |
+
+### Nav tabs
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| Status=Unselected | `var(--pf-navigation-nav-bg-top)` | `var(--pf-border-default-full)` | `var(--pf-text-primary)` |
+| Status=Hover | `var(--pf-navigation-nav-bg-top)` | `var(--pf-border-default-full)` | `var(--pf-text-theme)` |
+| Status=Selected | `var(--pf-navigation-nav-bg-top)` | `var(--pf-border-default-full)` | `var(--pf-text-theme)` |
+
+### Secondary nav
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | `var(--pf-navigation-nav-bg-top)` | — | `var(--pf-text-theme)` |
+
+### Tertiary nav
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| Page=No | `var(--pf-navigation-nav-bg-top)` | — | `var(--pf-text-theme)` |
+| Page=Yes | `var(--pf-navigation-nav-bg-top)` | — | `var(--pf-text-primary)` |
+
+### Search navigation
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| Mobile=False | `var(--pf-navigation-search-bg)` | — | `var(--pf-text-secondary)` |
+
+### Full page
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| System=People First, Darkmode=No | — | — | `var(--pf-navigation-nav-items)` |
+| System=Configr, Darkmode=No | `var(--pf-bg-secondary)` | — | `var(--pf-navigation-configr-nav)` |
+| System=People First, Darkmode=Yes | — | — | `var(--pf-navigation-nav-items)` |
+| System=People First, Mobile=Yes | — | — | `var(--pf-base-white)` |
+| System=People First, Tablet=Yes | — | — | `var(--pf-base-white)` |
+
+### Notification tabs
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| State=Default, Selected=No | — | `var(--pf-border-default-full)` | `var(--pf-text-primary)` |
+| State=Hover, Selected=No | — | `var(--pf-border-default-full)` | `var(--pf-text-theme)` |
+| State=Selected, Selected=Yes | `var(--pf-bg-primary)` | `var(--pf-border-default-full)` | `var(--pf-navigation-notification-selected)` |
 
 ## Cards and panels
 
@@ -887,6 +896,13 @@ Figma component actually binds.
 | Variant | Background | Border | Text |
 |---|---|---|---|
 |  | — | — | `var(--pf-text-primary)` |
+
+### Component 1
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| Property 1=Frame 6270951 | — | `var(--pf-border-default-full)` | `var(--pf-text-secondary)` |
+| Property 1=Frame 6270952 | `var(--pf-bg-tertiary)` | `var(--pf-border-default-full)` | `var(--pf-text-secondary)` |
 
 ## AI
 

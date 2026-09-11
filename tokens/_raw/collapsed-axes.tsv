@@ -29,22 +29,24 @@ Filter tab single	Breakpoint	Desktop/Tablet/Mobile	context
 Filter tabs	Breakpoints	Desktop/Tablet/Mobile	state
 Form field	Full width	Yes/No	context
 Form	Mobile	False/True	context
-Full page navigation	Darkmode	False/True	context
+Full page	Breakpoint	Desktop/Tablet/Mobile	context
 Graph axis	Breakpoint	Mobile/Desktop	context
 Graph legend	Mobile	True/False	context
 Graph legend	Key type	Donut graph/Line graph	state
-Header top navigation	Darkmode	True/False	context
-Header top navigation	Levels of navigation	0/1/2	context
+Header navigation	Darkmode	True/False	context
+Header navigation	Levels of navigation	0/1/2	context
+Header navigation	Breakpoint	Desktop/Mobile/Tablet	context
 Hemisphere chart	Status	None/Negative/Warning/Neutral/Positive	state
 Layout container (magazine style)	Mobile	False/True	context
 Links	Icon position	Right/Left	state
 Metric card	Mobile	True/False	context
 Mobile bottom navigation	Darkmode	False/True	context
 Mobile bottom navigation	Breakpoint	Tablet/Mobile	context
+Nav tabs	Mobile	True/False	context
 Navigation tabs	Mobile	No/Yes	context
 Notification panel	Mobile	Yes/No	context
 Percentage bar	Percentage	0/25/50/75/100	state
-Secondary nav	Mobile	True/False	context
+Secondary nav	Mobile	False/True	context
 Side navigation	Darkmode	True/False	context
 Spotlight Card	Mobile	False/True	context
 Square progress bar	Variant	Default/Inline/Bottom label	state
@@ -57,9 +59,9 @@ Steps	Completed step	No/Yes	state
 Table progress bar	Completion	0%/25%/50%/75%/100%	state
 Table progress bar	Dark cell background	No/Yes	state
 Tags	Small	No/Yes	state
+Tertiary nav	Mobile	True/False	context
+Tertiary nav	Navigation type	Chips/Page	state
 Text template format editor 	Type	Modal/Correspondence	state
 Top bar app context	Area	Administration/Insights/Recruitment/Goals/Payroll/Audit/Available jobs/Learning/Onboarding/HRM/General ledger/Accounts payable/Accounts receivable/Taxes/News/Data explorer/Case Management/Absence	context
 Top bar app context	Mobile	False/True	context
-[S] Main nav context	Mobile	False/True	context
-[S] Navigation/main tabs	Mobile	True/False	context
 [S] People	Mobile	False/True	context

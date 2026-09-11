@@ -224,7 +224,7 @@ All use a 20px gutter and 47px column width, centre-aligned.
 > for *understanding* or *checking* a binding, and for the axes you can name when asking
 > for a component in a particular state.
 
-`references/variants.md` carries **147 components and 298 variants**, each with the
+`references/variants.md` carries **149 components and 304 variants**, each with the
 exact tokens that variant binds in Figma, already translated to CSS vars.
 
 Read it when you need to know *why* a variant looks the way it does, or to check
@@ -282,7 +282,7 @@ component geometry and the spacing scale are separate systems here.
 
 ## Component classes — use these, do not rewrite them
 
-`dist/components.css` carries **147 components and 298 variants** as real classes,
+`dist/components.css` carries **149 components and 304 variants** as real classes,
 generated from the Figma extracts, plus **12 more that ship as shape only** — Figma binds
 no colour variable to any of their variants (Tooltip, Menu, Stars among them), so the
 class carries their measured geometry and leaves colour to you. This is the part to reach

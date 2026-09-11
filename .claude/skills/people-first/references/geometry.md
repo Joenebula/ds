@@ -61,8 +61,6 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Side navigation panel** | 268 x 416 | 10 | 0 | 5 | 16px | VERTICAL MIN MIN |
 | **Tab** | 40 x 34 | 6 0 | 0 | 10 | 16px | VERTICAL CENTER MIN |
 | **Navigation tabs** | auto x 36 | 0 | 0 | 40 | 16px SemiBold | HORIZONTAL CENTER MIN |
-| **Secondary nav** | auto x 43 | 4 368 | 0 | 40 | 16px SemiBold | HORIZONTAL CENTER CENTER |
-| **[S] Navigation/main tabs** | 80 x 40 | 0 20 | mixed | 10 | 16px |  |
 | **Header** | auto x 86 | 0 | 0 | 0 | 16px | VERTICAL MIN MIN |
 | **Mobile bottom navigation** | 375 x 76 | 0 | 0 | 0 | 11px | HORIZONTAL MIN MIN |
 | **Clock in** | 107 x 32 | 7 20 7 10 | 20 | 5 | 16px | HORIZONTAL CENTER CENTER |
@@ -138,10 +136,6 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Config child menu** | auto x auto | — | — | — | 16px | VERTICAL MIN MIN |
 | **Config menu items** | auto x auto | — | — | — | 16px | VERTICAL MIN MIN |
 | **Config parent menu** | auto x auto | 5 20 5 0 | — | 5 | 16px | HORIZONTAL CENTER MIN |
-| **Header top navigation** | 1834 x auto | — | — | — | 16px | VERTICAL MIN MIN |
-| **[S] Main nav context** | 947 x 44 | — | — | — | 16px SemiBold | HORIZONTAL MAX CENTER |
-| **Search home button** | 150 x 32 | — | — | — | 16px |  |
-| **Full page navigation** | 1920 x 1080 | — | — | — | 13px | HORIZONTAL MIN MIN |
 | **Filter tabs** | 1600 x auto | — | — | — | 24px SemiBold | HORIZONTAL MIN MIN |
 | **Config side menu** | 325 x 980 | — | 8 | — | 16px | VERTICAL MIN MIN |
 | **[S] Config child menu** | auto x auto | 10 0 0 11 | — | 10 | 16px | VERTICAL MIN MIN |
@@ -194,6 +188,14 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Stepper** | 330 x 160 | 0 | 0 | 0 | — | VERTICAL CENTER CENTER |
 | **Waffle** | 90 x 86 | 0 | 0 | 0 | — | NONE |
 | **Full page/Header navigation/Yes/No** | 375 x 138 | 0 | 0 | 0 | — | VERTICAL MIN MIN |
+| **Component 1** | 432 x 48 | 10 | 8 | 10 | 20px | HORIZONTAL CENTER MIN |
+| **Header navigation** | auto x auto | 0 | 0 | 0 | — | VERTICAL MIN MIN |
+| **Nav tabs** | auto x 40 | 0 20 | 0 | 10 | — | VERTICAL CENTER CENTER |
+| **Secondary nav** | auto x 44 | 0 | 0 | 0 | 16px | HORIZONTAL MAX CENTER |
+| **Tertiary nav** | auto x 55 | 0 20 | 0 | 40 | — | HORIZONTAL CENTER CENTER |
+| **Search navigation** | 150 x 32 | 0 | 50 | 0 | — | NONE |
+| **Full page** | auto x auto | 0 | 0 | 0 | — | NONE |
+| **Notification tabs** | auto x 65 | 18.5 15 | 0 | 20 | — | HORIZONTAL CENTER MIN |
 
 ## Reading these numbers
 
