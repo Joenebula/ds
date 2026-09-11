@@ -1,0 +1,3 @@
+name	nodeId	verdict	checked	evidence
+Counter	14990:11954	published	2026-09-11	get_metadata resolves it — a 20x20 symbol named "System=People First" holding a text "7" — and search_design_system returns Counter as a published component of the People First Design System library, updated 2026-06-04. It is absent from the SAVED LISTING, not from Figma.
+Side navigation panel	22973:20811	deleted	2026-09-11	pending: get_metadata returns "node ID was not found in the file". Genuinely removed, and .pf-side-navigation-panel still ships a rule for it — retire the class, or record why it stays.

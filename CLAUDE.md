@@ -112,6 +112,32 @@ being captured automatically**: it might be real, half-finished, or an experimen
 on a page, and nothing enters the published library without a person deciding. Capture it, or
 add a row to `uncaptured-reasons.tsv` saying why it stays out.
 
+**And "GONE" used to claim more than the listing can prove.** It read *"is no longer published by
+Figma"*. What a saved listing proves is *"is not in this listing"*, and on 2026-09-11 the two
+components carrying that verdict turned out to be opposite cases:
+
+| | node id | what Figma said | really |
+|---|---|---|---|
+| `Side navigation panel` | `22973:20811` | `get_metadata`: *"node ID was not found in the file"* | **deleted**, and `.pf-side-navigation-panel` still ships a rule for it |
+| `Counter` | `14990:11954` | `get_metadata` resolves it — a 20×20 `System=People First` badge holding a "7" — and `search_design_system` returns `Counter` as a published component of this library, updated 2026-06-04 | **not gone.** The listing is incomplete |
+
+One verdict line, two opposite truths, inside a gate. Both answers came from a Figma read, so the
+fix is not to guess better: `tokens/_raw/gone-components.tsv` records `name`, `nodeId`, `verdict`,
+`checked` and the evidence, read by header.
+
+- `verdict=published` — a false alarm answered. Dropped from GONE, **counted and named in its own
+  column**, because a false alarm left in a verdict line is how 286 NEW happened.
+- `verdict=deleted` — confirmed removed, and still a problem: a class ships for something that does
+  not exist. It keeps failing unless the evidence begins `pending:`, the same visible-debt marker
+  used everywhere else, in which case it passes and is counted and named.
+- **no row** — UNCONFIRMED. Fails, and says what the listing can and cannot prove, naming the one
+  read that settles it.
+
+An unrecognised verdict excuses nothing — checked in `judge()` and not only in the reader, because
+the reader being careful does not make `judge()` careful. And a confirmation for something no longer
+reported gone is STALE and fails, the same rule `check-token-drift.mjs` applies to a declared token
+nothing binds. Eleven mutants hold all of that.
+
 **Icons are counted separately, and for a long time they were not.** Icons are published Figma
 components, but they are captured by `extract-icons.mjs` into `icons.tsv` and `assets/icons/`
 rather than as component classes — so comparing Figma against the COMPONENT extract alone reported

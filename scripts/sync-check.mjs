@@ -17,8 +17,31 @@
 // WHAT IT ANSWERS, in three numbers:
 //
 //   NEW       in Figma, in neither the library nor the declared exclusions  -> FAILS
-//   GONE      captured here, no longer in Figma                             -> FAILS
+//   GONE      captured here, NOT IN THIS LISTING                            -> FAILS until confirmed
 //   SAME      matched                                                       -> the boring case
+//
+// AND "GONE" USED TO CLAIM MORE THAN THE EVIDENCE SUPPORTS. It said "is no longer published by
+// Figma". What the listing proves is only "is not in this listing", and on 2026-09-11 the two
+// components carrying that verdict turned out to be opposite cases:
+//
+//   Side navigation panel  22973:20811  get_metadata: "node ID was not found in the file"
+//                                       -> really deleted, and .pf-side-navigation-panel still ships
+//   Counter                14990:11954  get_metadata resolves it (a 20x20 "System=People First"
+//                                       badge holding a "7"), and search_design_system returns
+//                                       Counter as a published component of this library, updated
+//                                       2026-06-04 -> NOT gone. The listing is incomplete.
+//
+// One verdict line, two opposite truths — this repo's recurring failure, sitting inside a gate.
+// Both facts came from Figma reads, so the fix is not to guess better but to record what was read:
+// tokens/_raw/gone-components.tsv carries name, nodeId, verdict, date and the evidence.
+//
+//   verdict=deleted    confirmed removed. Still a problem — a class ships for something that does
+//                      not exist — unless the evidence begins `pending:`, the repo's existing
+//                      visible-debt marker, in which case it passes and is COUNTED AND NAMED.
+//   verdict=published  confirmed false alarm. Dropped from GONE and counted in its own column,
+//                      because a false alarm left in a verdict line is how 286 NEW happened.
+//   no row             UNCONFIRMED. Stays in GONE and fails, and the message says what the
+//                      listing can and cannot prove, with the one read that settles it.
 //
 // ICONS ARE COUNTED SEPARATELY, AND THAT IS THE DIFFERENCE BETWEEN A GATE AND NOISE. Icons are
 // published Figma components, but they are captured by extract-icons.mjs into icons.tsv and
@@ -57,7 +80,9 @@
 // half-finished, might be an experiment somebody left on a page. Pulling it in automatically
 // would let an unfinished idea become part of the published library without anyone deciding.
 // So it stops the run and names itself, and a person classifies it.
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, writeFileSync, unlinkSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { isExcludedPage, isIconPage } from './check-catalogue-drift.mjs';
 
 const RAW = 'tokens/_raw';
@@ -71,7 +96,33 @@ const tsv = (file) => {
 
 // ---------------------------------------------------------------------------
 // The judgement, pure so --self-test can drive it with fixtures.
-export function judge({ figma, captured, declared, inventory, icons = [] }) {
+// What a Figma read established about a component this listing does not contain. Header-keyed, so
+// a column added later cannot shift the meaning of the others. A MISSING FILE IS AN EMPTY MAP, not
+// a throw: every GONE row then reports as unconfirmed, which is exactly right — nobody has looked.
+export function readConfirmations(file) {
+  const out = new Map();
+  let text;
+  try { text = readFileSync(file, 'utf8'); } catch { return out; }
+  const lines = text.replace(/\n+$/, '').split('\n').filter((l) => l.trim());
+  if (!lines.length) return out;
+  const header = lines[0].split('\t').map((h) => h.trim());
+  const at = (c) => header.indexOf(c);
+  for (const line of lines.slice(1)) {
+    const cells = line.split('\t');
+    const g = (n) => (at(n) === -1 ? '' : (cells[at(n)] || '').trim());
+    const name = g('name');
+    if (!name) continue;
+    // An unrecognised verdict is NOT quietly treated as one of the two. It stays unconfirmed and
+    // keeps failing, because a typo that silently excuses a component is the failure this whole
+    // file exists to stop.
+    const verdict = g('verdict').toLowerCase();
+    if (verdict !== 'deleted' && verdict !== 'published') continue;
+    out.set(name, { nodeId: g('nodeId'), verdict, checked: g('checked'), evidence: g('evidence') });
+  }
+  return out;
+}
+
+export function judge({ figma, captured, declared, inventory, icons = [], confirmed = new Map() }) {
   const all = figma.filter((c) => key(c.name));
 
   // Partition BEFORE anything else. A doc page is not the design system at all; an icon page is
@@ -176,9 +227,31 @@ export function judge({ figma, captured, declared, inventory, icons = [] }) {
   // Recorded, not failed: the inventory catching up is the expected outcome of a re-extract.
   const inventoryBehind = fig.map((c) => key(c.name)).filter((n) => !inv.has(n)).sort();
 
+  // A GONE row that a Figma read has ALREADY SETTLED does not belong in the same list as one
+  // nobody has looked at. Three outcomes, and only the last is still a question.
+  const goneConfirmed = [], goneDebt = [], goneUnconfirmed = [], stillPublished = [];
+  for (const n of gone.sort()) {
+    const c = confirmed.get(n);
+    // The verdict must be one of the two, HERE and not only in the reader. A caller that builds
+    // this map itself would otherwise have anything-but-"published" silently mean "deleted" —
+    // a typo excusing a component is the exact failure this file exists to stop, and the reader
+    // being careful does not make judge() careful.
+    if (!c || (c.verdict !== 'published' && c.verdict !== 'deleted')) { goneUnconfirmed.push(n); continue; }
+    if (c.verdict === 'published') { stillPublished.push({ name: n, ...c }); continue; }
+    // `pending:` is this repo's visible-debt marker: recorded, waiting on a person, passes and is
+    // counted and named every run. Anything else is a confirmed deletion nobody has decided about.
+    if (/^pending:/i.test(c.evidence || '')) goneDebt.push({ name: n, ...c });
+    else goneConfirmed.push({ name: n, ...c });
+  }
+
+  // A confirmation for a component this run does NOT report gone is folklore — the same rule
+  // check-token-drift.mjs applies to a declared token nothing binds.
+  const staleConfirmations = [...confirmed.keys()].filter((n) => !gone.includes(n)).sort();
+
   return {
     renamed: renamed.sort((a, b) => a.from.localeCompare(b.from)),
     isNew, gone: gone.sort(), same,
+    goneConfirmed, goneDebt, goneUnconfirmed, stillPublished, staleConfirmations,
     newIcons, goneIcons, blindIcons,
     renamedIcons: renamedIcons.sort((a, b) => a.from.localeCompare(b.from)),
     capturedIcons: figIcons.length - newIcons.length,
@@ -189,7 +262,12 @@ export function judge({ figma, captured, declared, inventory, icons = [] }) {
     // about making them VISIBLE, never about letting one through.
     // A rename is NOT a problem — it is the answer to one. Counting it would keep the gate red
     // for something already understood.
-    problems: isNew.length + gone.length + newIcons.length + goneIcons.length,
+    // A GONE confirmed still PUBLISHED is not a problem, it is a false alarm answered — leaving
+    // it red is how a verdict line becomes a number people read past. A confirmed DELETION is
+    // still a problem until somebody decides what to do about the class; a `pending:` one has
+    // been decided and is debt. And a confirmation nothing reports gone any more is stale.
+    problems: isNew.length + goneUnconfirmed.length + goneConfirmed.length
+      + staleConfirmations.length + newIcons.length + goneIcons.length,
   };
 }
 
@@ -234,15 +312,38 @@ function main() {
     .map((r) => ({ name: r[iName], nodeId: iId === -1 ? '' : (r[iId] || '') }))
     .filter((i) => i.name);
   const inventory = JSON.parse(readFileSync(`${RAW}/components.json`, 'utf8')).map((c) => c.name);
+  const confirmed = readConfirmations(`${RAW}/gone-components.tsv`);
 
-  const r = judge({ figma, captured, declared, inventory, icons });
+  const r = judge({ figma, captured, declared, inventory, icons, confirmed });
 
   for (const m of r.renamed) {
     console.log(`RENAMED  "${m.from}" is now called "${m.to}" in Figma (${m.nodeId}) — same `
       + 'component, new name; update the extracts rather than capturing it twice');
   }
   for (const n of r.isNew) console.log(`NEW      "${n}" is in Figma, has no rules, and no declared reason`);
-  for (const n of r.gone) console.log(`GONE     "${n}" has a .pf-* class and is no longer published by Figma`);
+  for (const n of r.goneUnconfirmed) {
+    console.log(`GONE     "${n}" has a .pf-* class and is NOT IN THIS LISTING — which is not the `
+      + 'same as not in Figma. get_metadata on its nodeId settles it in one read: an id that does '
+      + 'not resolve is a deletion, an id that resolves means the listing is incomplete. Record '
+      + 'the answer in tokens/_raw/gone-components.tsv.');
+  }
+  for (const c of r.goneConfirmed) {
+    console.log(`GONE     "${c.name}" is CONFIRMED deleted (${c.checked}) and a .pf-* class still `
+      + 'ships a rule for it — retire the class, or say why it stays with a `pending:` reason');
+  }
+  // Counted and named every run, never tidied away: the whole value of a confirmation is that
+  // somebody can see what was confirmed and when.
+  for (const c of r.goneDebt) {
+    console.log(`pending  "${c.name}" confirmed deleted (${c.checked}) — ${c.evidence}`);
+  }
+  for (const c of r.stillPublished) {
+    console.log(`not gone "${c.name}" is absent from this listing but CONFIRMED still published `
+      + `(${c.checked}) — ${c.evidence}`);
+  }
+  for (const n of r.staleConfirmations) {
+    console.log(`stale    "${n}" has a row in gone-components.tsv and this listing is not reporting `
+      + 'it gone — a confirmation kept for something settled is folklore');
+  }
   for (const m of r.renamedIcons) {
     console.log(`RENAMED ICON "${m.from}" is now called "${m.to}" in Figma (${m.nodeId}) — same `
       + 'glyph, new name; correct icons.tsv rather than importing it as new');
@@ -278,7 +379,9 @@ function main() {
   console.log(`\n${r.published} published in Figma — ${r.figma} component(s) and `
     + `${r.capturedIcons + r.newIcons.length} icon(s); the rest are documentation pages`);
   console.log(`components: ${r.captured} captured — ${r.same} unchanged, ${r.renamed.length} `
-    + `renamed, ${r.isNew.length} new, ${r.gone.length} gone`
+    + `renamed, ${r.isNew.length} new, ${r.gone.length} not in this listing `
+    + `(${r.goneUnconfirmed.length} unconfirmed, ${r.goneConfirmed.length} confirmed deleted, `
+    + `${r.goneDebt.length} pending, ${r.stillPublished.length} confirmed still published)`
     + (r.unidentified.length ? `, ${r.unidentified.length} with no id` : ''));
   console.log(`icons     : ${r.capturedIcons} captured, ${r.renamedIcons.length} renamed, `
     + `${r.newIcons.length} new, ${r.goneIcons.length} gone`
@@ -328,6 +431,79 @@ function selfTest() {
 
     ['a captured id Figma no longer publishes is GONE', () =>
       run({ figma: [] }), (r) => r.gone.length === 1 && r.gone[0] === 'Button' && r.problems === 1],
+
+    // THE CLAIM MUST MATCH THE EVIDENCE. A GONE nobody has checked is UNCONFIRMED — the listing
+    // proves absence from itself, not absence from Figma — and it fails until somebody reads.
+    ['a GONE nobody has read is UNCONFIRMED, not declared deleted', () =>
+      run({ figma: [] }),
+      (r) => r.goneUnconfirmed.length === 1 && r.goneConfirmed.length === 0
+        && r.stillPublished.length === 0 && r.problems === 1],
+
+    // Counter, verbatim: absent from the listing, resolves in Figma, published today. Leaving it
+    // red is how a verdict line becomes a number people read past — 286 NEW, all over again.
+    ['a GONE confirmed STILL PUBLISHED is a false alarm answered, and stops failing', () =>
+      judge({ ...base, figma: [], confirmed: new Map([['Button',
+        { verdict: 'published', checked: '2026-09-11', evidence: 'get_metadata resolves it' }]]) }),
+      (r) => r.stillPublished.length === 1 && r.goneUnconfirmed.length === 0 && r.problems === 0],
+
+    // ...and it is still NAMED. A confirmation nobody can see is the same as no confirmation.
+    ['a confirmed-still-published component is reported, never silently dropped', () =>
+      judge({ ...base, figma: [], confirmed: new Map([['Button',
+        { verdict: 'published', checked: '2026-09-11', evidence: 'resolves' }]]) }),
+      (r) => r.stillPublished[0] && r.stillPublished[0].name === 'Button'
+        && r.stillPublished[0].evidence === 'resolves'],
+
+    // Side navigation panel: confirmed deleted. A class still ships for it, so it is a problem
+    // until somebody decides — a confirmation is not an excuse.
+    ['a GONE confirmed DELETED still fails — confirming a deletion is not deciding about it', () =>
+      judge({ ...base, figma: [], confirmed: new Map([['Button',
+        { verdict: 'deleted', checked: '2026-09-11', evidence: 'node not found' }]]) }),
+      (r) => r.goneConfirmed.length === 1 && r.problems === 1],
+
+    // ...unless the decision has been recorded, which is this repo's existing `pending:` marker.
+    ['a `pending:` deletion passes and is COUNTED, the visible-debt pattern', () =>
+      judge({ ...base, figma: [], confirmed: new Map([['Button',
+        { verdict: 'deleted', checked: '2026-09-11', evidence: 'pending: retire the class in the next pass' }]]) }),
+      (r) => r.goneDebt.length === 1 && r.goneConfirmed.length === 0 && r.problems === 0],
+
+    // A typo in the verdict column must not silently excuse anything.
+    ['an unrecognised verdict excuses nothing', () =>
+      judge({ ...base, figma: [], confirmed: new Map([['Button',
+        { verdict: 'probably fine', checked: '2026-09-11', evidence: 'x' }]]) }),
+      (r) => r.goneUnconfirmed.length === 1 && r.problems === 1],
+
+    // A confirmation only excuses the component it names.
+    ['a confirmation for one component does not excuse another', () =>
+      judge({ ...base, figma: [], confirmed: new Map([['Something else',
+        { verdict: 'published', checked: '2026-09-11', evidence: 'x' }]]) }),
+      (r) => r.goneUnconfirmed.length === 1 && r.problems >= 1],
+
+    // And a confirmation for something no longer reported gone is folklore — the same rule
+    // check-token-drift.mjs applies to a declared token nothing binds.
+    ['a confirmation nothing reports gone is STALE', () =>
+      judge({ ...base, confirmed: new Map([['Gone last month',
+        { verdict: 'deleted', checked: '2026-09-01', evidence: 'x' }]]) }),
+      (r) => r.staleConfirmations.length === 1 && r.problems === 1],
+
+    // The file itself: header-keyed, and a missing one means nobody has looked rather than a crash.
+    ['a missing confirmations file is an empty map, not a throw', () =>
+      readConfirmations('does/not/exist.tsv'), (m) => m.size === 0],
+    // Read by HEADER, so a column added or moved later cannot change what the others mean. The
+    // columns here are deliberately in a different order from the shipped file's.
+    ['a confirmation row is read by HEADER, not by position', () => {
+      const f = join(tmpdir(), `pf-conf-${process.pid}.tsv`);
+      writeFileSync(f, 'verdict\tevidence\tname\tchecked\tnodeId\n'
+        + 'published\tresolves in Figma\tButton\t2026-09-11\t1:2\n');
+      const m = readConfirmations(f); unlinkSync(f); return m;
+    }, (m) => m.get('Button') && m.get('Button').verdict === 'published'
+      && m.get('Button').nodeId === '1:2' && m.get('Button').evidence === 'resolves in Figma'],
+
+    // A verdict the file does not define is not one of the two by default.
+    ['an unrecognised verdict in the FILE is not read at all', () => {
+      const f = join(tmpdir(), `pf-conf2-${process.pid}.tsv`);
+      writeFileSync(f, 'name\tnodeId\tverdict\tchecked\tevidence\nButton\t1:2\tmaybe\t2026-09-11\tx\n');
+      const m = readConfirmations(f); unlinkSync(f); return m;
+    }, (m) => m.size === 0],
 
     ['a row with NO id falls back to the name, and says so', () =>
       run({ captured: [{ name: 'Button', nodeId: '' }] }),
@@ -453,7 +629,11 @@ function selfTest() {
     + 'addition, five renames as five, and a row with no id falls back to the name and is '
     + 'counted as blind; a new component, a removal and an empty listing all still fail; and a '
     + 'captured ICON is no longer mistaken for a new component while an uncaptured one still '
-    + 'fails, matched case-insensitively, with the gone side reported beside it');
+    + 'fails, matched case-insensitively, with the gone side reported beside it; and a GONE '
+    + 'states only what the listing proves — unconfirmed until a Figma read settles it, a '
+    + 'confirmed-still-published one stops failing but is still named, a confirmed deletion keeps '
+    + 'failing until a `pending:` reason records the decision, an unrecognised verdict excuses '
+    + 'nothing in the reader OR in judge(), and a confirmation nothing reports gone is stale');
 }
 
 import { pathToFileURL } from 'node:url';
