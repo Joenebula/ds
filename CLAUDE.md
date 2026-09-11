@@ -525,6 +525,50 @@ this repo's recurring failure in its purest form: *a mechanism that cannot disti
 reports the wrong one confidently.* The collection-wide sweep keys on the COLLECTION, so it cannot
 miss a sibling by construction.
 
+### The grey run, and the wall it hit
+
+`Grey slate (A)`, `Grey steel` and `Grey fog (A)` are 1,118 of the 1,940. **348 were rebound on
+2026-09-11 and the collection went to 1,592**, two agreeing sweeps each time:
+
+| | | |
+|---|---|---|
+| 240 | `Grey steel` **strokes** | `Border/Default full` — 259 to 19 |
+| 72 | `Grey slate (A)` text | `Text/Primary` — 681 to 609 |
+| 23 | `Grey fog (A)` text | `Text/Secondary` — 178 to 142 |
+| 13 | `Grey fog (A)` vectors | `Icons/Icon - Secondary` |
+
+**`Grey steel` was the clean one because it is a BORDER.** 240 of its 259 references were strokes,
+none inherited, one role, one token — a border does not depend on what is behind it the way text
+does, so nothing had to be looked at twice. The 19 left are fills: six are the known
+`Table header icons` hover case, eight are `Line` rectangles of annotation chrome, five are
+specimens and one-offs.
+
+**The other two are blocked, and by something bigger than the greys.** Of the 646 `Grey slate (A)`
+TEXT nodes, only **72 sit on a surface that follows the mode**:
+
+| backdrop of the text | count | |
+|---|---|---|
+| a SEMANTIC variable | 72 | rebound |
+| a **PRIMITIVE** | 287 | held |
+| a **RAW hex** | 177 | held |
+| another **DEPRECATED** style | 108 | held |
+| no filled ancestor at all | 2 | held |
+
+`Grey fog (A)` is the same shape — 40 raw, 52 deprecated — plus 49 frame strokes held separately,
+because a `#656565` frame stroke could be a hollow-button border, a nav item or a divider and those
+take three different tokens.
+
+**You cannot give text a mode-aware token over a surface that does not change mode.** `Text/Primary`
+is `#3E3E3E` light and `#FFFFFF` dark; put it on text sitting over a raw `#FFFFFF` panel and dark
+mode renders white on white. `Text/Always grey slate` would preserve both modes — and would cement
+a light-only design in place, making the surface bug permanent and invisible, which is this repo's
+definition of the worst kind of green.
+
+So **574 held-back nodes are not waiting on a token decision. They are waiting on their SURFACES**,
+and every one of those surfaces is its own entry in the census. That reorders the whole job: the
+retirement is not a sweep down a list of colours, it is surfaces first and everything that sits on
+them second. The token layer cannot fix a page whose panels are raw hex.
+
 **And `Border/Default hidden` has a light value and no dark value at all** — worth knowing, since
 three components map onto it.
 

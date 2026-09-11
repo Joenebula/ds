@@ -73,3 +73,43 @@ Darkmode theme	#33B5E5	0
 # 2026-09-11. File-wide they have 681 and 125. The claim was true of the EXTRACTED COMPONENTS and
 # was written as though it were true of Figma — the same scope error the white census found, at
 # five times the size. Corrected in CLAUDE.md.
+#
+# ── THE GREY RUN, 2026-09-11 ───────────────────────────────────────────────────
+# 348 nodes rebound. The collection went 1940 -> 1592, measured by two agreeing sweeps.
+#
+# done	240	Grey steel STROKES	-> Border/Default full      (259 -> 19)
+# done	72	Grey slate (A) TEXT	-> Text/Primary             (681 -> 609)
+# done	23	Grey fog (A) TEXT	-> Text/Secondary           (178 -> 142)
+# done	13	Grey fog (A) VECTORS	-> Icons/Icon - Secondary
+#
+# GREY STEEL WAS THE CLEAN ONE BECAUSE IT IS A BORDER. 240 of its 259 references were strokes,
+# none of them inherited, one role, one token. A border does not depend on what is behind it the
+# way text does, so nothing had to be looked at twice.
+#
+# ── AND THE OTHER TWO ARE BLOCKED BY THEIR OWN BACKDROPS ──────────────────────
+# This is the finding, and it is bigger than the greys. Of the 646 Grey slate TEXT nodes, only
+# 72 sit on a surface that follows the mode:
+#
+#	72	backdrop is a SEMANTIC variable	rebound
+#	287	backdrop is a PRIMITIVE	held
+#	177	backdrop is a RAW hex	held
+#	108	backdrop is another DEPRECATED style	held
+#	2	no filled ancestor at all	held
+#
+# Grey fog is the same shape: 40 raw, 52 deprecated-style, and 49 frame strokes held separately
+# because a #656565 frame stroke could be a hollow button border, a nav item or a divider, and
+# those take three different tokens.
+#
+# YOU CANNOT GIVE TEXT A MODE-AWARE TOKEN OVER A SURFACE THAT DOES NOT CHANGE MODE.
+# Text/Primary is #3E3E3E light and #FFFFFF dark. Put it on text sitting over a raw #FFFFFF panel
+# and dark mode renders white on white. Text/Always grey slate would preserve both modes, but it
+# would also cement a light-only design in place and make the surface bug permanent and invisible.
+# So the 574 held-back nodes are not waiting on a token decision. They are waiting on their
+# SURFACES being tokenised, and every one of those surfaces is its own entry in this file.
+#
+# The remaining 19 Grey steel references are fills, not strokes, and they split three ways:
+#	6	Table header icons Hover	the known no-role-correct-token case
+#	8	`Line` rectangles on DOCUMENT MANAGEMENT	annotation chrome; leave-bucket
+#	5	STYLE GUIDE specimens, Rectangle 98/99, Dropdown item	specimens and one-offs
+#
+# 36 of the 46 styles still carry references. 10 carry none.
