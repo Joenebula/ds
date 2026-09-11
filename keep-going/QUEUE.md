@@ -1077,6 +1077,39 @@ files disagreed.
 on a mismatch — proven by breaking each figure in turn and watching it fail. A skill may say
 what it likes about why; it may not carry a number the build disagrees with.
 
+## I. A page can use a component and still hand-build its insides — `done`
+
+The templates existed, the skills now point at them, and **nothing in the repo actually
+used one.** `working/case-mgmt-my-team.html` — the page built FROM a Figma design, which
+CLAUDE.md says is the direction that must be correct — uses twelve composite component
+classes and hand-writes the contents of every one: `<div class="ppl-head">` inside
+`.pf-card`, the entire magazine layout rebuilt out of local divs inside
+`.pf-layout-container-magazine-style`. `check-off-system` passes it, because the outer
+class is real and every colour is a token. That is the fifth time on this project a check
+has been green while the page was wrong on an axis it does not measure.
+
+`check-template-fidelity.mjs` measures the new axis: of the library classes a component's
+template puts inside it, how many does the page's own instance use? It reports rather than
+judges — a real card holds real data and a page may leave parts out — but a component using
+NONE of several offered is one rebuilt by hand. **Two are outstanding**, both on that page:
+`pf-header` (0 of 2) and `pf-layout-container-magazine-style` (0 of 4). Pinned, may only
+fall.
+
+Two faults caught while building it, both of which would have made the check harmful:
+
+- **It reported six components as "not using `pf-text-body-text`".** That looks like a
+  finding and is the opposite of one: a component COMPOSES its own type — `.pf-tab` renders
+  16px/400, exactly the `Desktop text/Body text` Figma binds it — and CLAUDE.md forbids a
+  page adding a type class inside a component. Acting on that output would have broken a
+  rule. Type classes are excluded.
+- **`working/*.html` matches the `.src.html` sources too**, so the first run counted every
+  page twice and reported four hand-built components instead of two. Filtered inside the
+  script rather than in the npm invocation.
+
+**Still open:** the two hand-built components are recorded, not fixed. Rebuilding that page
+on its templates is the obvious next step and the first real test of whether 154 templates
+are usable on a page somebody actually has to ship.
+
 ---
 
 ## 11. Ship the typeface — `done` (spec fault 1)

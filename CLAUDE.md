@@ -180,6 +180,24 @@ a page-shell element with no component — say so where you write it:
 The marker must sit immediately before the rule. It makes the exception visible and
 reviewable rather than invisible.
 
+**4. A component used as a shell.** The newest route, and the one `check-off-system`
+cannot see. A page can pass every other check while hand-building the INSIDE of each
+component it uses: `working/case-mgmt-my-team.html` rebuilds the whole of
+`.pf-layout-container-magazine-style` out of local divs, and writes its own header contents
+inside `.pf-header`. The outer class is real and the colours are tokens, so it is
+"on-system" by that check's definition — and Figma's structure for the contents is thrown
+away all the same. That is hand-writing a component, one level in.
+
+`npm run verify` runs `check-template-fidelity.mjs`, which counts how many of the library
+classes a component's template puts inside it the page actually uses. It reports rather
+than judges — a real card holds real data, and a page may leave parts out — but a component
+using NONE of several is one rebuilt by hand, and that total is pinned and may only fall.
+**Two are outstanding**, both on `case-mgmt-my-team`: `pf-header` and
+`pf-layout-container-magazine-style`.
+
+It does not look at type classes. A component composes its own type, so a page must not add
+`pf-text-*` inside one — see the rule above.
+
 **`prototypes/` are exempt** — they are hand-built fixtures and score 30-63 off-system
 each. That is what they are; see the section above. Builds FROM a design are not exempt.
 
