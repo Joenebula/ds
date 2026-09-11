@@ -147,15 +147,18 @@ export function classifyDeclared(declared, debt) {
 // design decision that is invisible in light mode and wrong in dark if guessed.
 export const BOUND_BY = {
   'deprecated-colours/white':
-    '#FFFFFF — Side navigation (Vector fill x2), [S] Config child menu (Vector fill). '
+    '#FFFFFF — Side navigation (18 waffle-icon vectors), [S] Config child menu (Vector fill). '
     + 'NOT Full page, Header or Mobile key actions: checked 2026-09-11, already clean. '
     + 'Nine semantic variables share this value',
   'deprecated-colours/grey-steel':
-    '#E5E5E5 — Table header icons (3 Hover fills), [S] Config child menu (Line 17 stroke), '
-    + 'AI Assistant (Type=Default stroke). Same value as Border/Default full AND -hidden',
+    '#E5E5E5 — Table header icons (3 Hover FILLS). The AI Assistant stroke and the '
+    + '[S] Config child menu divider were rebound to Border/Default full on 2026-09-11. What is '
+    + 'left is a role mismatch, not a rename: a hover BACKGROUND, and every semantic at this value '
+    + 'is a Border/* token. Background/Tertiary is role-correct at #F2F2F2, a different colour',
   'deprecated-colours/grey-slate-(a)':
-    '#3E3E3E — AI Assistant ("How can I help you today?" fill). NOT Full page: already clean. '
-    + 'Four semantic variables share this value',
+    '#3E3E3E — NOTHING references it any more. AI Assistant\'s "How can I help you today?" was '
+    + 'rebound to Text/Primary on 2026-09-11 (same in light, #FFFFFF in dark, which the style '
+    + 'never did)',
   'deprecated-colours/blue-ocean-(a)':
     '#0075BE — Browser drop down (Option fill), Option (Selected=Yes fill). Every semantic at '
     + 'this value is a TEXT or ICON token; there is no background token for a selected row',
@@ -164,8 +167,10 @@ export const BOUND_BY = {
   'deprecated-colours/blue-shark':
     '#1D1F27 — no component in this file references it any more (checked 2026-09-11)',
   'deprecated-colours/default-theme-pink-(a)':
-    '#CD2359 — AI Assistant (the "10" counter fill). NOT Header: checked 2026-09-11, already '
-    + 'clean, so the "binds both names in one component" note was stale too',
+    '#CD2359 — NOTHING references it any more. AI Assistant\'s four "10" counter labels were '
+    + 'rebound to Text/Theme on 2026-09-11. Text/Theme rather than Background/Theme because the '
+    + 'two share this value in light and diverge in dark (#5CC4EA against #33B5E5) — the role has '
+    + 'to match or the swap is invisible now and wrong later',
 };
 
 // Every `var(--...)` in a chunk of text, as the raw name the decoder takes. `--pf-*` is skipped:

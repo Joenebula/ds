@@ -347,9 +347,34 @@ several semantic variables — `#FFFFFF` to nine of them, `#E5E5E5` to both `Bor
 `-hidden` — so picking one is a design decision, **invisible in light mode and wrong in dark**,
 which is exactly the failure mode the rest of this file exists to prevent.
 
-Two of the cases have no good answer at all: `Browser drop down` and `Option` fill a selected row
-with `#0075BE`, and every semantic variable at that value is a TEXT or ICON token. There is no
-background token for it, so that is a gap in the token layer rather than a rebinding.
+**Seven nodes were rebound on 2026-09-11**, leaving `AI Assistant` completely clean and retiring
+two of the seven colours outright:
+
+| was | now | light | dark |
+|---|---|---|---|
+| `AI Assistant` — four `"10"` labels | `Text/Theme` | `#CD2359` unchanged | `#5CC4EA` |
+| `AI Assistant` — `"How can I help you today?"` | `Text/Primary` | `#3E3E3E` unchanged | `#FFFFFF` |
+| `AI Assistant` — panel stroke | `Border/Default full` | `#E5E5E5` unchanged | `#656565` |
+| `[S] Config child menu` — `Line 17` divider | `Border/Default full` | `#E5E5E5` unchanged | `#656565` |
+
+`Text/Theme` rather than `Background/Theme` is the whole lesson in one line: they share `#CD2359`
+in light and diverge in dark (`#5CC4EA` against `#33B5E5`), so matching the ROLE is what makes the
+swap safe. Left unpublished for review. `Grey slate (A)` and `Default theme pink (A)` now have no
+references at all.
+
+**What is left is not rebinding work.** Three cases have no correct token:
+
+- `Browser drop down` and `Option` fill a selected row with `#0075BE`, and every semantic at that
+  value is a TEXT or ICON token. `Background/Highlight` is role-correct at `#F0F2F6` — a different
+  colour.
+- `Table header icons` fills three Hover states with `#E5E5E5`, where the only semantics are
+  `Border/*`. `Background/Tertiary` is role-correct at `#F2F2F2` — again a different colour.
+- `Side navigation`'s 18 white waffle vectors sit inside a `Waffle` instance inside an `App menu`
+  instance, so the fix belongs on the `Waffle` component, not here; and `Icons/Icon - Primary
+  inverted` and `Icons/Icon - Always white` are both plausible and differ in dark.
+
+**And `Border/Default hidden` has a light value and no dark value at all** — worth knowing, since
+three components map onto it.
 
 **The name guard was tightened on 2026-09-11, and the reason is the lesson.** It was written to
 reject prose that merely contains `var(--`, and it rejected the single character `…` — one
