@@ -1,0 +1,217 @@
+<!--
+  Case Management — "My team" overview, built FROM Figma.
+
+  Source: kuX4KDIN0u4axsKTELYlzW, node 17708:13612 — a TEST-ONLY file (see CLAUDE.md).
+  Nothing here is extracted back into the pipeline.
+
+  WHAT IS REAL: the left rail (8 x Navigation item), the header, the secondary nav tabs,
+  and the Department insights card with its four Buttons — all built from
+  dist/components.css classes, with Figma's own variant attributes.
+
+  WHAT IS ALSO NOT REAL: the pink header band. In Figma it is `Top bar 1 1 1`, an IMAGE
+  fill 1830x86, sitting over a white `Default header background`. Its colour cannot be
+  extracted from a bitmap, so `--pf-bg-theme` is used as a stand-in. That is interpretation,
+  not extraction, and it is why the contrast figures below are against my substitute rather
+  than against whatever the image actually contains.
+
+  WHAT IS NOT: the people grid. In the Figma file that whole region is two pasted
+  screenshots (`Screenshot 2025-12-15 at 11.32.30 1`, 1526x551, and `...2`, 165x373),
+  not components. It is marked as a gap rather than invented, because inventing it is how
+  a build stops being an extraction and starts being a guess.
+
+  LIBRARY ISSUE FOUND WHILE BUILDING: `.pf-navigation-item` sets
+  `font-weight: var(--pf-font-weight-bold)` on the base class, but in Figma only the
+  Selected variant is SemiBold — Home, News, Me, Notifications, Support and Settings are
+  Regular. The geometry extract recorded one variant's type and applied it to all of them.
+  Corrected locally here; the library needs the same fix.
+-->
+<meta charset="utf-8">
+<title>Case Management — My team</title>
+<style>
+/*__TOKENS__*/
+/*__COMPONENTS__*/
+/*__TYPE__*/
+
+/* ---------- local: page layout and anything drawn INSIDE a component ---------- */
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--pf-font-body); background: var(--pf-bg-secondary);
+       color: var(--pf-text-primary); }
+svg { display: block; }
+:focus-visible { outline: 2px solid var(--pf-border-theme); outline-offset: 2px; }
+
+.app { display: grid; grid-template-columns: 90px 1fr; min-height: 100vh; }
+
+/* Rail. The component is 90x86 and Figma lays it out as a row; the icon-above-label
+   stack is drawn inside it, which is local CSS by the skill's rule. */
+.rail { background: var(--pf-bg-primary); border-right: 1px solid var(--pf-border-default-full);
+        display: flex; flex-direction: column; }
+.rail .spacer { flex: 1; }
+.railtop { width: 90px; height: 86px; display: grid; place-items: center;
+           background: var(--pf-bg-theme); color: var(--pf-icon-always-white); }
+.pf-navigation-item { flex-direction: column; gap: 6px; text-decoration: none;
+                      cursor: pointer; position: relative; }
+/* Figma bolds ONLY the selected rail item; the rest are Regular. The component class
+   carries SemiBold for all of them because the geometry extract recorded the selected
+   variant's type and applied it to the base — see the note in the header comment. At
+   Regular, "Notifications" measures 77px and fits the 90px item; at SemiBold it is 93px
+   and spills out of the rail. */
+.pf-navigation-item .lbl { font-size: 13px; font-weight: var(--pf-font-weight-regular); }
+.pf-navigation-item[data-state="Selected"] .lbl { font-weight: var(--pf-font-weight-bold); }
+.pf-navigation-item[data-state="Selected"]::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--pf-bg-theme);
+}
+.badge { position: absolute; top: 14px; right: 22px; min-width: 18px; height: 18px;
+         border-radius: 9px; background: var(--pf-bg-theme); color: var(--pf-text-always-white);
+         font-size: 11px; font-weight: var(--pf-font-weight-bold);
+         display: grid; place-items: center; padding: 0 5px; }
+
+/* Header. Figma: Breakpoint=Desktop, Page type=App. The component carries its height and
+   type. The pink band is an IMAGE in Figma (`Top bar 1 1 1`), so this flat brand token is
+   a STAND-IN for a bitmap, not an extracted value. White-on-brand measures 2.36:1 here,
+   below AA — but that is a property of the substitute, and what the real image does is
+   unknown. Do not read it as a finding about the design. */
+.pf-header { width: 100%; background: var(--pf-bg-theme); }
+.hdrow { height: 86px; display: flex; align-items: center; gap: var(--pf-space-large);
+         padding: 0 var(--pf-space-large); width: 100%; }
+.hdrow .grow { flex: 1; }
+.hdtitle { display: flex; align-items: center; gap: var(--pf-space-small);
+           color: var(--pf-text-always-white); font-size: 20px; }
+.hdtitle .disc { width: 40px; height: 40px; border-radius: 50%;
+                 background: var(--pf-bg-light-theme); color: var(--pf-text-theme);
+                 display: grid; place-items: center; }
+.hdicon { color: var(--pf-icon-always-white); }
+.pillbtn { display: inline-flex; align-items: center; gap: 8px; height: 32px;
+           padding: 0 16px; border-radius: 20px; font-size: 13px;
+           font-weight: var(--pf-font-weight-bold); background: transparent;
+           color: var(--pf-text-always-white);
+           border: 1px solid var(--pf-border-always-white, var(--pf-icon-always-white));
+           cursor: pointer; }
+.pf-search-navigation { display: inline-flex; align-items: center; gap: 8px;
+  padding: 0 12px; background: var(--pf-bg-primary); color: var(--pf-text-secondary);
+  font-size: 13px; }
+
+/* Secondary nav — Figma "[S] Main nav context", 1830x44, which the People First file
+   now calls Secondary nav. Its tabs are Nav tabs. */
+.secnav { background: var(--pf-bg-primary); height: 44px;
+          border-bottom: 1px solid var(--pf-border-default-full);
+          display: flex; align-items: stretch; justify-content: center; gap: 0; }
+.pf-nav-tabs { height: 44px; justify-content: center; padding: 0 20px; cursor: pointer;
+               font-size: 16px; background: transparent; border: 0;
+               border-bottom: 3px solid transparent; }
+.pf-nav-tabs[data-status="Selected"] { border-bottom-color: var(--pf-border-theme); }
+
+.content { padding: var(--pf-space-large); display: flex; flex-direction: column;
+           gap: var(--pf-space-large); }
+
+/* The region that is a screenshot in Figma. Marked, not invented. */
+.gap { background: var(--pf-bg-primary); border: 1px dashed var(--pf-border-secondary);
+       border-radius: var(--pf-radius-medium); padding: var(--pf-space-xlarge);
+       display: flex; flex-direction: column; gap: var(--pf-space-small);
+       align-items: center; justify-content: center; min-height: 380px;
+       color: var(--pf-text-secondary); text-align: center; }
+.gap strong { color: var(--pf-text-primary); }
+.gap code { font-size: var(--pf-font-size-xs); }
+
+/* Department insights — Layout container (magazine style) */
+.pf-layout-container-magazine-style { width: 100%; background: var(--pf-bg-primary);
+  border-radius: var(--pf-radius-medium); padding: var(--pf-space-large);
+  display: flex; flex-direction: column; gap: var(--pf-space-large); }
+.ins-head { display: flex; flex-direction: column; gap: var(--pf-space-small); }
+.ins-rule { height: 1px; background: var(--pf-border-default-full); }
+.ins-meta { display: flex; align-items: center; gap: var(--pf-space-large); flex-wrap: wrap; }
+.ins-meta .grow { flex: 1; }
+.linkrow { display: flex; gap: var(--pf-space-large); }
+.cats { display: flex; gap: var(--pf-space-large); flex-wrap: wrap; }
+.cat { font-size: 16px; color: var(--pf-text-primary); background: none; border: 0;
+       border-bottom: 2px solid transparent; padding: 0 0 6px; cursor: pointer; }
+.cat[aria-selected="true"] { color: var(--pf-text-theme);
+                             border-bottom-color: var(--pf-border-theme); }
+.btnrow { display: flex; gap: var(--pf-space-large); flex-wrap: wrap; }
+.pf-button { cursor: pointer; }
+.pf-links { text-decoration: none; cursor: pointer; display: inline-flex;
+            align-items: center; gap: 6px; }
+</style>
+
+<div class="app">
+
+  <!-- Left rail — 8 x Navigation item (90x86), Device=Desktop -->
+  <nav class="rail" aria-label="Main">
+    <div class="railtop" aria-hidden="true"><!--pf-icon:app-menu 24--></div>
+    <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:home 24--><span class="lbl">Home</span></a>
+    <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:news 24--><span class="lbl">News</span></a>
+    <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:user 24--><span class="lbl">Me</span></a>
+    <a class="pf-navigation-item" data-device="Desktop" data-state="Selected" aria-current="page" href="#"><!--pf-icon:team 24--><span class="lbl">My team</span></a>
+    <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:notification-bell 24--><span class="lbl">Notifications</span><span class="badge">7</span></a>
+    <div class="spacer"></div>
+    <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:tooltip-question 24--><span class="lbl">Support</span></a>
+    <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:settings 24--><span class="lbl">Settings</span></a>
+  </nav>
+
+  <div>
+    <!-- Header — Figma: Breakpoint=Desktop, Page type=App, Darkmode=False -->
+    <header class="pf-header" data-breakpoint="Desktop">
+      <div class="hdrow">
+        <span class="pf-search-navigation" data-mobile="False"><!--pf-icon:search 14-->Search</span>
+        <span class="grow"></span>
+        <span class="hdtitle"><span class="disc"><!--pf-icon:team 20--></span>HR</span>
+        <span class="grow"></span>
+        <button class="pillbtn" type="button"><!--pf-icon:clock 14-->Clock-in</button>
+        <span class="hdicon" aria-label="Tasks"><!--pf-icon:tasks 20--></span>
+      </div>
+    </header>
+
+    <!-- [S] Main nav context (1830x44) — tabs are Nav tabs -->
+    <nav class="secnav" aria-label="Section">
+      <button class="pf-nav-tabs" data-status="Selected" data-mobile="False" aria-current="page" type="button">Overview</button>
+      <button class="pf-nav-tabs" data-status="Unselected" data-mobile="False" type="button">Profile</button>
+      <button class="pf-nav-tabs" data-status="Unselected" data-mobile="False" type="button">Schedule</button>
+      <button class="pf-nav-tabs" data-status="Unselected" data-mobile="False" type="button">Calendar</button>
+    </nav>
+
+    <main class="content">
+
+      <!-- In Figma this whole region is a pasted screenshot, not components. -->
+      <section class="gap" data-pf-ignore aria-label="Not buildable from the source">
+        <strong>Top Team Card — not built</strong>
+        <div>The people grid, its tabs and the &ldquo;34 people connected to you&rdquo; heading are
+        two flat images in the Figma file, not components:</div>
+        <code>RECTANGLE &ldquo;Screenshot 2025-12-15 at 11.32.30 1&rdquo; 1526&times;551</code>
+        <code>RECTANGLE &ldquo;Screenshot 2025-12-15 at 11.32.30 2&rdquo; 165&times;373</code>
+        <div>There is nothing to extract, so nothing has been invented here.</div>
+      </section>
+
+      <!-- Department insights — Layout container (magazine style) -->
+      <section class="pf-layout-container-magazine-style" data-row-colour="false" aria-labelledby="ins">
+        <div class="ins-head">
+          <h2 id="ins" class="pf-text-heading-3">Department insights</h2>
+          <div class="ins-rule"></div>
+          <div class="ins-meta">
+            <span>The data below is based on your reporting department, which may not be all of the people featured above.</span>
+            <span class="grow"></span>
+            <div class="linkrow">
+              <a class="pf-links" data-link-type="Primary" data-icon-position="Left" href="#"><!--pf-icon:search 16-->Design a Query</a>
+              <a class="pf-links" data-link-type="Primary" data-icon-position="Left" href="#"><!--pf-icon:settings 16-->Set department thresholds</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="cats" role="tablist" aria-label="Insight categories">
+          <button class="cat" role="tab" aria-selected="true" type="button">People</button>
+          <button class="cat" role="tab" aria-selected="false" type="button">Time</button>
+          <button class="cat" role="tab" aria-selected="false" type="button">Talent</button>
+          <button class="cat" role="tab" aria-selected="false" type="button">Learning</button>
+          <button class="cat" role="tab" aria-selected="false" type="button">Surveys</button>
+          <button class="cat" role="tab" aria-selected="false" type="button">Recruitment</button>
+        </div>
+
+        <div class="btnrow">
+          <button class="pf-button" data-type="Action" type="button"><!--pf-icon:add-plus 14-->Action</button>
+          <button class="pf-button" data-type="Positive" type="button"><!--pf-icon:settings 14-->Action</button>
+          <button class="pf-button" data-type="Hollow" type="button"><!--pf-icon:edit 14-->Action</button>
+          <button class="pf-button" data-type="Negative" type="button"><!--pf-icon:bin-delete 14-->Action</button>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
