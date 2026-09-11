@@ -699,6 +699,33 @@ ever clear them.
 `White` vectors with seven. Every one is a case where the candidates agree in light and differ in
 dark, so none can be settled from the render anyone actually looks at.
 
+### The rule is a file now, and writing its test changed it twice
+
+Every rebind above was run from a script pasted into `use_figma`, so the rule lived only in the
+session that typed it. It changed three times in one afternoon — twice because it was wrong — and
+nothing could replay it, test it, or prove it able to fail. `scripts/lib/rebind-rule.mjs` is that
+decision with no Figma in it: `chooseToken` takes what a caller measured and returns APPLY with one
+variable or HOLD with a reason. **Twelve mutants hold it**, and it is in `npm run selftest`.
+
+Writing the test corrected the rule twice, which is the argument for having written it:
+
+- **A stroke must not be held on contrast.** The first version held anything under 3:1. The fixture
+  for it showed `Border/Default full` is `#656565` in dark on a `#2C313C` panel — **2.24:1** — so a
+  3:1 bar on strokes would have held all 240 `Grey steel` borders rebound correctly earlier the
+  same day. A divider is MEANT to be quiet; an icon is not, and node type cannot tell them apart.
+  So a stroke is applied and its ratio **reported**, and the hard hold is for marks a reader has to
+  actually read. `MEASURED_ROLES` is `TEXT_FILL` and `SHAPE_FILL`.
+- **A near-miss fixture has to be near enough.** The "light must match exactly" assertion used
+  `#FEFEFE` against `#FFFFFF`, and a mutant comparing only the first three hex digits **survived** —
+  those differ anyway. `#FFFFFE` kills it. A fixture that a sloppy implementation would also reject
+  tests nothing, which is the shape of half the false comfort in this repo's history.
+
+A third mutant found a line that could not be falsified at all: once `MEASURED_ROLES` stopped
+containing `FRAME_FILL`, the separate `want === 'FRAME_FILL'` early return only suppressed a note.
+It now has an assertion of its own — a surface is not even MEASURED against its parent, because a
+card on a page is quiet by design and a note there is noise. *A guard nothing can falsify is a line
+nobody can trust.*
+
 **And `Border/Default hidden` has a light value and no dark value at all** — worth knowing, since
 three components map onto it.
 
