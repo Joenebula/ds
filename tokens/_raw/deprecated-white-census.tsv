@@ -1,0 +1,68 @@
+# Every node in aRWjBnTvdLiG50xtwodGwH still carrying the paint style DEPRECATED COLOURS/White
+# (S:026ae8f5dcb56fe34998d453f7cc1492255e5254,) as at 2026-09-11, AFTER the 270 waffle vectors
+# were rebound. Read by nobody: this is a worklist for a person, not an input to a check.
+#
+# 203 nodes. Counted by two warmed sweeps that agree. THE FIRST SWEEP OF A COLD FILE RETURNED 103
+# — a cold findAll under-reports, so every number here is from a second pass. See CLAUDE.md.
+#
+# bucket   fix      a component this repo ships a class for. Fixing it changes shipped output.
+#          follows  inherited by instances of something in `fix`. No separate work; recounted after.
+#          leave    documentation, specimens and internal templates. Not published, ships nothing.
+#          judge    a specimen OF the colour system itself. Leaving it means the style guide keeps
+#                   demonstrating the system with a retired style. A designer's call, not a bug.
+#
+# `captured` is whether the component has rows in component-variants.tsv — i.e. whether this
+# repo would even notice. Most of this file is invisible to tokens:check, which is the point.
+#
+bucket	count	where	page	section	role	captured	layers
+fix	5	Status @3435:66939	System messages	Notifications	fill	4 variants	Vector
+fix	4	Image picker @10306:112952	Controls	Image	stroke	1 variant	Vector
+fix	4	Bar chart	Analytics and charts	Bar chart	fill	1 variant	Vector
+fix	4	Donut chart	Analytics and charts	Donut chart	fill	no	Vector
+fix	2	Header @32488:24634	Navigation	Header	fill	3 variants	Vector
+fix	2	Manage columns @20798:19026	Tables	Manage columns	fill	1 variant	Side panel footer
+fix	2	Menu @803:148	Navigation	App navigation	fill	no	Frame 80044
+fix	1	[S] Config child menu @930:30367	Navigation	Config navigation	fill	3 variants	Vector
+fix	1	Notification card @13846:5504	System messages	Notifications	fill	1 variant	Vector
+fix	1	Tags @18415:5427	-	-	fill	7 variants	Tag label — source of the 26 on Tables/AG Grid
+follows	26	Tags instances	Tables	AG Grid	fill	7 variants	Tag label
+follows	11	Button instances	Buttons and links	Button rules	fill	18 variants	Action, Vector
+follows	7	Full page @13658:8240	Navigation	Full navigation	fill	3 variants	Vector
+follows	6	Mobile key actions @1536:44461	Buttons and links	Links	fill	no	Key actions
+follows	6	Button instances	AI	idea 2 pop up	fill	18 variants	Action
+follows	4	Image picker instances	Controls	Image	stroke	1 variant	Vector
+follows	4	Button instances	📄 DOCUMENT MANAGEMENT	Labelling up designs	fill	18 variants	Action
+follows	2	Notification list @32559:70451	Navigation	Notifications	fill	no	Vector
+follows	2	Notification panel @32559:69672	Navigation	Notifications	fill	no	Vector
+follows	2	Button instances	AI	idea 3 embedded	fill	18 variants	Action
+follows	2	Button instances	AI	-	fill	18 variants	Action
+follows	2	instances	📚 WIKI	To do list	fill	-	Vector
+follows	2	instances	📚 WIKI	Prototype	fill	-	Vector
+follows	2	instances	Navigation	Notifications	fill	-	Vector
+follows	1	instances	🎨 STYLE GUIDE	-	fill	-	Vector
+follows	1	instances	System messages	Notifications	fill	-	Vector
+judge	23	colour specimen tiles	🎨 STYLE GUIDE	-	fill	no	BG primary, BG theme, Icon primary, Icon theme …
+judge	21	colour specimen tiles	📚 WIKI	Prototype	fill	no	Swatch, BG primary, Icon primary …
+judge	2	specimen vectors	🎨 STYLE GUIDE	-	fill	no	Vector
+judge	1	specimen vector	📚 WIKI	Prototype	fill	no	Vector
+leave	13	Prototype cover page @2911:290	📄 DOCUMENT MANAGEMENT	Prototype cover page	fill+stroke	no	Department, Prototype name, [S] Button X, UX, PM
+leave	10	pasted mockup frames	AI	-	fill	no	div, header, textarea, select, Vector
+leave	5	loose annotation chrome	📄 DOCUMENT MANAGEMENT	Labelling up designs	fill	no	Small filter, Number
+leave	4	Prototype context screen @26949:15228	📄 DOCUMENT MANAGEMENT	Prototype cover page	fill	no	Vector, Start
+leave	4	loose annotation chrome	📄 DOCUMENT MANAGEMENT	Page structure + External links	fill	no	Number, mockup frames
+leave	3	Thumbnail @16683:2347	📄 DOCUMENT MANAGEMENT	Thumbnail	fill	no	Vector
+leave	3	Document order spec @10403:112599	📄 DOCUMENT MANAGEMENT	Labelling up designs	stroke+fill	no	Order, Number
+leave	2	Dos and don'ts @18066:91980	📄 DOCUMENT MANAGEMENT	Design system components	fill	no	Vector
+leave	2	[S] Form field	AI	idea 2 pop up	fill	no	[S] Form field
+leave	2	loose vectors	AI	Buttons	fill	no	Vector
+leave	1	Clickable card	📚 WIKI	To do list	fill	no	Clickable card
+leave	1	loose annotation	📄 DOCUMENT MANAGEMENT	Design system components	fill	no	Number
+leave	1	loose annotation	📄 DOCUMENT MANAGEMENT	Labelling up designs	fill	no	Number
+#
+# KNOWN SOFT EDGE, stated rather than smoothed over. The split between a node that SETS the style
+# and one that INHERITS it is computed from instance override lists, and it does not fully close:
+# 80 nodes classify as inherited, but two components named as their origin — `Warning` (7963:79675,
+# Icons page) and `App menu` (6235:65668) — carry the style on no descendant of their own, and two
+# more (`Tags` 18415:5427, `[S] Button X` 236:2205) do not resolve to a page at all. So `follows`
+# is the honest reading of most of that bucket and a guess for some of it. It affects the order of
+# work, never the total: 203 is measured directly and twice.

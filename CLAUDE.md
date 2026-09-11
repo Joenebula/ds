@@ -416,6 +416,23 @@ these are mostly specimens, documentation swatches and uncaptured variants. Amon
 clean only of the colours that line was measuring. **The count in a verdict line is scoped to what
 was extracted, and that is not the same as what is in Figma.**
 
+All 203 are sorted in `tokens/_raw/deprecated-white-census.tsv`, which no check reads — it is a
+worklist for a person. **Only 26 are in components this repo ships a class for**, and 10 of those
+are the whole job: fixing them clears 55 more that merely inherit. The remaining ~120 are
+documentation: internal prototype templates, annotation chrome and pasted mockups on
+`📄 DOCUMENT MANAGEMENT`, `📚 WIKI` and `AI`, none of it published, none of it shipping anything.
+
+**Forty-seven of those are a judgement call rather than debt**, and they are marked `judge` rather
+than `leave`: they are the colour SPECIMENS on `🎨 STYLE GUIDE` and `📚 WIKI` — the `BG primary` /
+`Icon theme` tiles that demonstrate the system. Leaving them means the style guide keeps showing
+the system in a retired style. That is a designer's call and not a bug, which is why the census
+names the bucket instead of folding them into either answer.
+
+The census also carries its own soft edge in writing: the SET-HERE / INHERITED split is computed
+from instance override lists and does not fully close — `Warning` and `App menu` are named as
+origins for nodes while carrying the style on no descendant of their own. That changes the ORDER of
+the work and never the total, and saying so in the file is cheaper than a reader discovering it.
+
 **And `Border/Default hidden` has a light value and no dark value at all** — worth knowing, since
 three components map onto it.
 
