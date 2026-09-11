@@ -1744,6 +1744,7 @@
  * 3 variants captured
  */
 .pf-config-child-menu {
+  height: 42px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1756,6 +1757,17 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-config-child-menu[data-type="Selected"] {
+  height: 42px;
+  padding: 0;
+  border-radius: 4px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 16px;
 }
 .pf-config-child-menu[data-type="Child"] {
   color: var(--pf-text-primary);
@@ -1773,6 +1785,7 @@
  * 1 variant captured
  */
 .pf-config-menu-items {
+  height: 74px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1794,6 +1807,7 @@
  * 1 variant captured
  */
 .pf-config-parent-menu {
+  height: 32px;
   padding: 5px 20px 5px 0;
   display: inline-flex;
   flex-direction: row;
@@ -2750,6 +2764,88 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-filter-tab-single[data-selected="False"][data-breakpoint="Tablet"] {
+  height: 74px;
+  padding: 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+  font-size: 20px;
+}
+.pf-filter-tab-single[data-selected="False"][data-breakpoint="Tablet"][data-state="Hover"],
+.pf-filter-tab-single[data-selected="False"][data-breakpoint="Tablet"]:hover {
+  height: 74px;
+  padding: 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+  font-size: 20px;
+}
+.pf-filter-tab-single[data-selected="False"][data-breakpoint="Mobile"] {
+  height: 70px;
+  padding: 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+  font-size: 20px;
+}
+.pf-filter-tab-single[data-selected="False"][data-breakpoint="Mobile"][data-state="Hover"],
+.pf-filter-tab-single[data-selected="False"][data-breakpoint="Mobile"]:hover {
+  height: 70px;
+  padding: 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+  font-size: 20px;
+}
+.pf-filter-tab-single[data-selected="True"][data-breakpoint="Desktop"] {
+  height: 100px;
+  padding: 20px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+  font-size: 24px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-filter-tab-single[data-selected="True"][data-breakpoint="Tablet"] {
+  height: 74px;
+  padding: 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+  font-size: 20px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-filter-tab-single[data-selected="True"][data-breakpoint="Mobile"] {
+  height: 70px;
+  padding: 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+  font-size: 20px;
+  font-weight: var(--pf-font-weight-bold);
+}
 .pf-filter-tab-single[data-selected="False"] {
   background: var(--pf-bg-primary);
   border-color: var(--pf-border-default-full);
@@ -2772,6 +2868,7 @@
  * Figma draws this 1600px wide; treated as layout, not a rule
  */
 .pf-filter-tabs {
+  height: 100px;
   display: inline-flex;
   flex-direction: row;
   align-items: flex-start;
@@ -2785,6 +2882,30 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-filter-tabs[data-breakpoints="Tablet"] {
+  height: 74px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 20px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-filter-tabs[data-breakpoints="Mobile"] {
+  height: 70px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 20px;
+  font-weight: var(--pf-font-weight-bold);
 }
 .pf-filter-tabs {
   color: var(--pf-text-theme);
@@ -2956,7 +3077,62 @@
 
 /* Full page
  * 5 variants captured. 7 variants. Figma draws it 1920x1080 — a whole page frame, not a component box.
+ * Figma draws this 1920px wide; treated as layout, not a rule
+ * Figma draws this 1080px tall — the artboard it sits on, not a rule; dropped
  */
+.pf-full-page {
+  display: inline-block;
+  font-size: 13px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-full-page[data-system="People First"][data-tablet="No"][data-mobile="Yes"][data-darkmode="Yes"] {
+  min-height: 667px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0px;
+  font-size: 13px;
+}
+.pf-full-page[data-system="People First"][data-tablet="No"][data-mobile="Yes"][data-darkmode="No"] {
+  min-height: 667px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0px;
+  font-size: 13px;
+}
+.pf-full-page[data-system="People First"][data-tablet="Yes"][data-mobile="No"][data-darkmode="No"] {
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0px;
+  font-size: 13px;
+}
+.pf-full-page[data-system="People First"][data-tablet="Yes"][data-mobile="No"][data-darkmode="Yes"] {
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0px;
+  font-size: 13px;
+}
 .pf-full-page[data-system="People First"][data-darkmode="No"] {
   color: var(--pf-navigation-nav-items);
 }
@@ -2986,6 +3162,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  font-size: 13px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -3047,12 +3224,15 @@
 
 /* Header navigation
  * 3 variants captured. 3 variants (Mobile x Tablet). Figma draws it 1830x130 — the artboard, not a rule.
+ * Figma draws this 1830px wide; treated as layout, not a rule
  */
 .pf-header-navigation {
+  height: 130px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  font-size: 16px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -3060,6 +3240,28 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-header-navigation[data-mobile="Yes"][data-tablet="No"] {
+  height: 106px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 13px;
+}
+.pf-header-navigation[data-mobile="No"][data-tablet="Yes"] {
+  height: 118px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 13px;
 }
 .pf-header-navigation[data-mobile="No"][data-tablet="No"] {
   color: var(--pf-text-secondary);
@@ -3075,14 +3277,17 @@
 
 /* Header
  * 3 variants captured
+ * Figma draws this 1830px wide; treated as layout, not a rule
  */
 .pf-header {
   height: 86px;
+  padding: 10px 20px;
   display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  font-size: 16px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 24px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -3090,6 +3295,387 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-header[data-theme="Configr"][data-mobile="Yes"] {
+  height: 62px;
+  padding: 0 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-header[data-theme="Default - Cranberry red"][data-mobile="No"] {
+  height: 86px;
+  padding: 10px 20px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+}
+.pf-header[data-theme="Default - Cranberry red"][data-mobile="Yes"] {
+  height: 62px;
+  padding: 0 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-header[data-theme="Dark mode"][data-mobile="No"] {
+  height: 86px;
+  padding: 10px 20px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+}
+.pf-header[data-theme="Dark mode"][data-mobile="Yes"] {
+  height: 62px;
+  padding: 0 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-header[data-theme="Purple orchid"][data-mobile="No"] {
+  height: 86px;
+  padding: 10px 20px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+}
+.pf-header[data-theme="Purple orchid"][data-mobile="Yes"] {
+  height: 62px;
+  padding: 0 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-header[data-theme="Berry pink"][data-mobile="No"] {
+  height: 86px;
+  padding: 10px 20px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+}
+.pf-header[data-theme="Berry pink"][data-mobile="Yes"] {
+  height: 62px;
+  padding: 0 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-header[data-theme="Purple iris"][data-mobile="No"] {
+  height: 86px;
+  padding: 10px 20px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+}
+.pf-header[data-theme="Purple iris"][data-mobile="Yes"] {
+  height: 62px;
+  padding: 0 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-header[data-theme="Royal purple"][data-mobile="No"] {
+  height: 86px;
+  padding: 10px 20px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+}
+.pf-header[data-theme="Royal purple"][data-mobile="Yes"] {
+  height: 62px;
+  padding: 0 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-header[data-theme="Velvet red"][data-mobile="No"] {
+  height: 86px;
+  padding: 10px 20px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+}
+.pf-header[data-theme="Velvet red"][data-mobile="Yes"] {
+  height: 62px;
+  padding: 0 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-header[data-theme="Striking red"][data-mobile="No"] {
+  height: 86px;
+  padding: 10px 20px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+}
+.pf-header[data-theme="Striking red"][data-mobile="Yes"] {
+  height: 62px;
+  padding: 0 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-header[data-theme="Orange flame"][data-mobile="No"] {
+  height: 86px;
+  padding: 10px 20px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+}
+.pf-header[data-theme="Orange flame"][data-mobile="Yes"] {
+  height: 62px;
+  padding: 0 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-header[data-theme="Cobalt blue"][data-mobile="No"] {
+  height: 86px;
+  padding: 10px 20px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+}
+.pf-header[data-theme="Cobalt blue"][data-mobile="Yes"] {
+  height: 62px;
+  padding: 0 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-header[data-theme="Blue lagoon"][data-mobile="No"] {
+  height: 86px;
+  padding: 10px 20px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+}
+.pf-header[data-theme="Blue lagoon"][data-mobile="Yes"] {
+  height: 62px;
+  padding: 0 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-header[data-theme="Cool grey"][data-mobile="No"] {
+  height: 86px;
+  padding: 10px 20px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+}
+.pf-header[data-theme="Cool grey"][data-mobile="Yes"] {
+  height: 62px;
+  padding: 0 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-header[data-theme="Teal ocean"][data-mobile="No"] {
+  height: 86px;
+  padding: 10px 20px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+}
+.pf-header[data-theme="Teal ocean"][data-mobile="Yes"] {
+  height: 62px;
+  padding: 0 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-header[data-theme="Fern green"][data-mobile="No"] {
+  height: 86px;
+  padding: 10px 20px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+}
+.pf-header[data-theme="Fern green"][data-mobile="Yes"] {
+  height: 62px;
+  padding: 0 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-header[data-theme="Classic"][data-mobile="No"] {
+  height: 86px;
+  padding: 10px 20px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+}
+.pf-header[data-theme="Classic"][data-mobile="Yes"] {
+  height: 62px;
+  padding: 0 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-header[data-system="People First"] {
+  width: 20px;
+  height: 20px;
+  padding: 0 4px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-header[data-system="Configr"] {
+  width: 20px;
+  height: 20px;
+  padding: 0 4px;
+  border-radius: 999px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: var(--pf-font-weight-bold);
 }
 .pf-header[data-breakpoint="Desktop"] {
   color: var(--pf-text-secondary);
@@ -3193,6 +3779,7 @@
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-start;
+  gap: 0px;
   font-size: 13px;
 }
 .pf-information-box[data-type="Error"] {
@@ -3203,6 +3790,7 @@
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-start;
+  gap: 0px;
   font-size: 13px;
 }
 .pf-information-box[data-type="Success"] {
@@ -3213,6 +3801,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+  gap: 0px;
   font-size: 13px;
 }
 .pf-information-box[data-type="Information"] {
@@ -3465,9 +4054,10 @@
   height: 73px;
   display: inline-flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
+  align-items: center;
+  justify-content: flex-start;
   gap: 5px;
+  font-size: 13px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -3475,6 +4065,17 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-menu[data-size="Small"] {
+  height: 26px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 13px;
 }
 
 /* Menu-search-settings
@@ -3584,6 +4185,17 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-mobile-bottom-navigation[data-tablet="Yes"] {
+  height: 56px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 11px;
+}
 .pf-mobile-bottom-navigation {
   color: var(--pf-text-secondary);
 }
@@ -3683,6 +4295,7 @@
 
 /* Nav tabs
  * 3 variants captured. 6 variants (Status x Mobile); Mobile does not change the colours.
+ * corner radius varies per corner in Figma
  */
 .pf-nav-tabs {
   height: 40px;
@@ -3692,6 +4305,7 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
+  font-size: 16px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -3699,6 +4313,48 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-nav-tabs[data-status="Unselected"][data-mobile="True"] {
+  height: 42px;
+  padding: 0 10px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-nav-tabs[data-status="Hover"][data-mobile="True"] {
+  height: 42px;
+  padding: 0 10px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-nav-tabs[data-status="Selected"][data-mobile="False"] {
+  height: 40px;
+  padding: 0 20px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-nav-tabs[data-status="Selected"][data-mobile="True"] {
+  height: 42px;
+  padding: 0 10px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
 }
 .pf-nav-tabs[data-status="Unselected"] {
   background: var(--pf-navigation-nav-bg-top);
@@ -3717,19 +4373,18 @@
 }
 
 /* Navigation item
- * 3 variants captured. rail item. The outer box is HORIZONTAL; the icon-above-label stack is an inner VERTICAL frame (32x55, gap 5) this extract does not reach, and Selected adds a 3x132 bar beside it. Only Selected=Yes is SemiBold.
+ * 3 variants captured. the selected rail item: no side padding, wider gap, and the only SemiBold state
  */
 .pf-navigation-item {
   width: 90px;
   height: 86px;
-  padding: 0 25px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 22px;
   font-size: 13px;
-  font-weight: var(--pf-font-weight-regular);
+  font-weight: var(--pf-font-weight-bold);
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -3738,20 +4393,81 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
-.pf-navigation-item[data-selected="Yes"] {
+.pf-navigation-item[data-system="People First"][data-device="Desktop"][data-selected="No"] {
   width: 90px;
   height: 86px;
-  padding: 0;
+  padding: 0 25px;
   border-radius: 0;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 22px;
+  gap: 10px;
   font-size: 13px;
-  font-weight: var(--pf-font-weight-bold);
 }
-.pf-navigation-item[data-device="Mobile"] {
+.pf-navigation-item[data-system="Configr"][data-device="Desktop"][data-selected="No"] {
+  width: 90px;
+  height: 86px;
+  padding: 0 25px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-navigation-item[data-system="People First"][data-device="Mobile"][data-selected="No"] {
+  width: 86px;
+  height: 76px;
+  padding: 0 25px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 11px;
+}
+.pf-navigation-item[data-system="People First"][data-device="Tablet"][data-selected="No"] {
+  width: 86px;
+  height: 56px;
+  padding: 0 25px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 11px;
+}
+.pf-navigation-item[data-system="People First"][data-device="Desktop"][data-selected="No"][data-state="Hover"],
+.pf-navigation-item[data-system="People First"][data-device="Desktop"][data-selected="No"]:hover {
+  width: 90px;
+  height: 86px;
+  padding: 0 25px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-navigation-item[data-system="Configr"][data-device="Desktop"][data-selected="No"][data-state="Hover"],
+.pf-navigation-item[data-system="Configr"][data-device="Desktop"][data-selected="No"]:hover {
+  width: 90px;
+  height: 86px;
+  padding: 0 25px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-navigation-item[data-system="People First"][data-device="Mobile"][data-selected="No"][data-state="Selected"] {
   width: 86px;
   height: 76px;
   padding: 0 25px;
@@ -3764,7 +4480,7 @@
   font-size: 11px;
   font-weight: var(--pf-font-weight-regular);
 }
-.pf-navigation-item[data-device="Tablet"] {
+.pf-navigation-item[data-system="People First"][data-device="Tablet"][data-selected="No"][data-state="Selected"] {
   width: 86px;
   height: 56px;
   padding: 0 25px;
@@ -3793,6 +4509,7 @@
 
 /* Navigation tabs
  * 1 variant captured
+ * Figma draws this 202px wide; treated as layout, not a rule
  */
 .pf-navigation-tabs {
   height: 36px;
@@ -3810,6 +4527,30 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-navigation-tabs[data-system="People First"][data-mobile="Yes"] {
+  height: 32px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 25px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-navigation-tabs[data-system="Configr"][data-mobile="Yes"] {
+  height: 32px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 25px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
 }
 .pf-navigation-tabs {
   color: var(--pf-text-theme);
@@ -3918,6 +4659,7 @@
 /* Notification categories
  * 2 variants captured. 2 variants (Mobile). Figma draws it 1020px tall — the artboard, not a rule.
  * Figma draws this 300px wide; treated as layout, not a rule
+ * Figma draws this 1020px tall — the artboard it sits on, not a rule; dropped
  */
 .pf-notification-categories {
   padding: 5px 10px;
@@ -3925,6 +4667,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  font-size: 16px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -3932,6 +4675,15 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-notification-categories[data-mobile="Yes"] {
+  padding: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 18px;
 }
 .pf-notification-categories[data-mobile="No"] {
   background: var(--pf-bg-primary);
@@ -3997,12 +4749,15 @@
 
 /* Notification list
  * 2 variants captured. 2 variants (Mobile). Figma draws it 1117x730 — the artboard, not a rule.
+ * Figma draws this 1117px wide; treated as layout, not a rule
+ * Figma draws this 730px tall — the artboard it sits on, not a rule; dropped
  */
 .pf-notification-list {
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  font-size: 16px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -4010,6 +4765,11 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-notification-list[data-mobile="Yes"] {
+  border-radius: 0;
+  display: inline-block;
+  font-size: 16px;
 }
 .pf-notification-list[data-mobile="No"] {
   background: var(--pf-bg-primary);
@@ -4021,12 +4781,15 @@
 
 /* Notification panel
  * 1 variant captured. 2 variants (Mobile). Figma draws it 1500x1080 — the artboard, not a rule.
+ * Figma draws this 1500px wide; treated as layout, not a rule
+ * Figma draws this 1080px tall — the artboard it sits on, not a rule; dropped
  */
 .pf-notification-panel {
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  font-size: 20px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -4035,6 +4798,15 @@
   box-sizing: border-box;
   font-family: var(--pf-font-body);
 }
+.pf-notification-panel[data-mobile="Yes"] {
+  padding: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 18px;
+}
 .pf-notification-panel {
   background: var(--pf-bg-primary);
   color: var(--pf-text-primary);
@@ -4042,15 +4814,17 @@
 
 /* Notification tabs
  * 3 variants captured. 3 variants (State x Selected). Node 22973:20747, which this extract previously held as "Side navigation tab" with a different variant structure.
+ * Figma draws this 279px wide; treated as layout, not a rule
  */
 .pf-notification-tabs {
   height: 65px;
-  padding: 18.5px 15px;
+  padding: 18.5px 15px 18.5px 15px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
   gap: 20px;
+  font-size: 16px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -4136,13 +4910,17 @@
 
 /* Pagination buttons
  * 1 variant captured. Single component. Binds a primitive for its text — see source issues.
+ * Figma draws this 358px wide; treated as layout, not a rule
  */
 .pf-pagination-buttons {
   height: 32px;
   display: inline-flex;
   flex-direction: row;
-  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
   gap: 30px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -4438,6 +5216,7 @@
   height: 32px;
   border-radius: 999px;
   display: inline-block;
+  font-size: 16px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -4445,6 +5224,12 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-search-navigation[data-mobile="True"] {
+  width: 32px;
+  height: 32px;
+  border-radius: 0;
+  display: inline-block;
 }
 .pf-search-navigation,
 .pf-search-navigation[data-mobile="False"] {
@@ -4454,6 +5239,7 @@
 
 /* Secondary nav
  * 1 variant captured. 2 variants (Mobile); both bind the same colours. Mobile=True sets 13px text.
+ * Figma draws this 562px wide; treated as layout, not a rule
  */
 .pf-secondary-nav {
   height: 44px;
@@ -4462,6 +5248,7 @@
   align-items: flex-end;
   justify-content: center;
   font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -4469,6 +5256,18 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-secondary-nav[data-mobile="True"] {
+  height: 40px;
+  padding: 2px 0 0 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
 }
 .pf-secondary-nav {
   background: var(--pf-navigation-nav-bg-top);
@@ -4586,6 +5385,7 @@
 
 /* Side navigation
  * 2 variants captured. collapsed rail
+ * Figma draws this 1080px tall — the artboard it sits on, not a rule; dropped
  */
 .pf-side-navigation {
   display: inline-flex;
@@ -4846,7 +5646,6 @@
 
 /* Stepper
  * 1 variant captured. 2 variants (System); both bind the same colours.
- * Figma draws this 330px wide; treated as layout, not a rule
  */
 .pf-stepper {
   height: 160px;
@@ -4854,6 +5653,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  font-size: 13px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -4874,9 +5674,10 @@
   height: 48px;
   display: inline-flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
+  align-items: center;
+  justify-content: flex-start;
   gap: 5px;
+  font-size: 13px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -4884,6 +5685,168 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-steps[data-system="People First"][data-position="Middle"][data-current-step="Yes"][data-completed-step="No"][data-state="Selected"] {
+  width: 110px;
+  height: 48px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-steps[data-system="People First"][data-position="First"][data-current-step="Yes"][data-completed-step="No"][data-state="Selected"] {
+  width: 110px;
+  height: 48px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-steps[data-system="People First"][data-position="Last"][data-current-step="Yes"][data-completed-step="No"][data-state="Selected"] {
+  width: 110px;
+  height: 48px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-steps[data-system="Configr"][data-position="Middle"][data-current-step="Yes"][data-completed-step="No"][data-state="Selected"] {
+  width: 110px;
+  height: 48px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-steps[data-system="Configr"][data-position="First"][data-current-step="Yes"][data-completed-step="No"][data-state="Selected"] {
+  width: 110px;
+  height: 48px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-steps[data-system="Configr"][data-position="Last"][data-current-step="Yes"][data-completed-step="No"][data-state="Selected"] {
+  width: 110px;
+  height: 48px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-steps[data-system="People First"][data-position="Middle"][data-current-step="No"][data-completed-step="No"][data-state="Hover"],
+.pf-steps[data-system="People First"][data-position="Middle"][data-current-step="No"][data-completed-step="No"]:hover {
+  width: 110px;
+  height: 48px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-steps[data-system="People First"][data-position="First"][data-current-step="No"][data-completed-step="No"][data-state="Hover"],
+.pf-steps[data-system="People First"][data-position="First"][data-current-step="No"][data-completed-step="No"]:hover {
+  width: 110px;
+  height: 48px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-steps[data-system="People First"][data-position="Last"][data-current-step="No"][data-completed-step="No"][data-state="Hover"],
+.pf-steps[data-system="People First"][data-position="Last"][data-current-step="No"][data-completed-step="No"]:hover {
+  width: 110px;
+  height: 48px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-steps[data-system="Configr"][data-position="Middle"][data-current-step="No"][data-completed-step="No"][data-state="Hover"],
+.pf-steps[data-system="Configr"][data-position="Middle"][data-current-step="No"][data-completed-step="No"]:hover {
+  width: 110px;
+  height: 48px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-steps[data-system="Configr"][data-position="First"][data-current-step="No"][data-completed-step="No"][data-state="Hover"],
+.pf-steps[data-system="Configr"][data-position="First"][data-current-step="No"][data-completed-step="No"]:hover {
+  width: 110px;
+  height: 48px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-steps[data-system="Configr"][data-position="Last"][data-current-step="No"][data-completed-step="No"][data-state="Hover"],
+.pf-steps[data-system="Configr"][data-position="Last"][data-current-step="No"][data-completed-step="No"]:hover {
+  width: 110px;
+  height: 48px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
 }
 .pf-steps[data-state="Completed"] {
   color: var(--pf-text-positive);
@@ -4965,7 +5928,6 @@
  * 3 variants captured
  */
 .pf-tab {
-  width: 40px;
   height: 34px;
   padding: 6px 0;
   display: inline-flex;
@@ -4981,6 +5943,100 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-tab[data-system="People First"][data-mobile="Yes"][data-selected="No"] {
+  height: 30px;
+  padding: 6px 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-tab[data-system="Configr"][data-mobile="Yes"][data-selected="No"] {
+  height: 30px;
+  padding: 6px 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-tab[data-system="People First"][data-mobile="Yes"][data-selected="No"][data-state="Hover"],
+.pf-tab[data-system="People First"][data-mobile="Yes"][data-selected="No"]:hover {
+  height: 30px;
+  padding: 6px 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-tab[data-system="Configr"][data-mobile="Yes"][data-selected="No"][data-state="Hover"],
+.pf-tab[data-system="Configr"][data-mobile="Yes"][data-selected="No"]:hover {
+  height: 30px;
+  padding: 6px 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 13px;
+}
+.pf-tab[data-system="People First"][data-mobile="No"][data-selected="Yes"][data-state="Selected"] {
+  height: 36px;
+  padding: 6px 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-tab[data-system="People First"][data-mobile="Yes"][data-selected="Yes"][data-state="Selected"] {
+  height: 32px;
+  padding: 6px 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-tab[data-system="Configr"][data-mobile="No"][data-selected="Yes"][data-state="Selected"] {
+  height: 36px;
+  padding: 6px 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-tab[data-system="Configr"][data-mobile="Yes"][data-selected="Yes"][data-state="Selected"] {
+  height: 32px;
+  padding: 6px 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
 }
 .pf-tab {
   color: var(--pf-text-primary);
@@ -5358,6 +6414,7 @@
 
 /* Tertiary nav
  * 2 variants captured. 4 variants (Mobile x Page); Mobile does not change the colours.
+ * Figma draws this 562px wide; treated as layout, not a rule
  */
 .pf-tertiary-nav {
   height: 55px;
@@ -5367,6 +6424,8 @@
   align-items: center;
   justify-content: center;
   gap: 40px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -5374,6 +6433,41 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-tertiary-nav[data-mobile="Yes"][data-page="No"] {
+  height: 39px;
+  padding: 0 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-tertiary-nav[data-mobile="No"][data-page="Yes"] {
+  height: 45px;
+  padding: 0 20px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 20px;
+}
+.pf-tertiary-nav[data-mobile="Yes"][data-page="Yes"] {
+  height: 41px;
+  padding: 0 10px;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
 }
 .pf-tertiary-nav[data-page="No"] {
   background: var(--pf-navigation-nav-bg-top);
@@ -5621,14 +6715,14 @@
 
 /* Top bar app context
  * 1 variant captured
- * Figma draws this 242px wide; treated as layout, not a rule
  */
 .pf-top-bar-app-context {
   height: 66px;
   display: inline-flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
+  gap: 10px;
   font-size: 24px;
   appearance: none;
   -webkit-appearance: none;
@@ -5637,6 +6731,222 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+}
+.pf-top-bar-app-context[data-area="Administration"][data-mobile="True"] {
+  height: 40px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-top-bar-app-context[data-area="Payroll"][data-mobile="True"] {
+  height: 40px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-top-bar-app-context[data-area="Audit"][data-mobile="True"] {
+  height: 40px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-top-bar-app-context[data-area="Onboarding"][data-mobile="True"] {
+  height: 40px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-top-bar-app-context[data-area="Learning"][data-mobile="True"] {
+  height: 40px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-top-bar-app-context[data-area="Available jobs"][data-mobile="True"] {
+  height: 40px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-top-bar-app-context[data-area="HRM"][data-mobile="True"] {
+  height: 40px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-top-bar-app-context[data-area="General ledger"][data-mobile="True"] {
+  height: 40px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-top-bar-app-context[data-area="Accounts payable"][data-mobile="True"] {
+  height: 40px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-top-bar-app-context[data-area="Accounts receivable"][data-mobile="True"] {
+  height: 40px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-top-bar-app-context[data-area="Taxes"][data-mobile="True"] {
+  height: 40px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-top-bar-app-context[data-area="News"][data-mobile="True"] {
+  height: 40px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-top-bar-app-context[data-area="Data explorer"][data-mobile="True"] {
+  height: 40px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-top-bar-app-context[data-area="Case Management"][data-mobile="True"] {
+  height: 40px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-top-bar-app-context[data-area="Absence"][data-mobile="True"] {
+  height: 40px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-top-bar-app-context[data-area="Goals"][data-mobile="True"] {
+  height: 40px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-top-bar-app-context[data-area="Insights"][data-mobile="True"] {
+  height: 40px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
+}
+.pf-top-bar-app-context[data-area="Recruitment"][data-mobile="True"] {
+  height: 40px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: var(--pf-font-weight-bold);
 }
 .pf-top-bar-app-context {
   /* Figma binds the primitive "Base colours/White" here instead of a semantic token */
@@ -5690,6 +7000,7 @@
  * 1 variant captured
  */
 .pf-s-config-child-menu {
+  height: 42px;
   padding: 10px 0 0 11px;
   display: inline-flex;
   flex-direction: column;

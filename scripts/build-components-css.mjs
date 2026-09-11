@@ -253,7 +253,11 @@ function geometryDecls(g, notes, isVariant = false) {
     d.push(`flex-direction: ${mode === 'VERTICAL' ? 'column' : 'row'}`);
     if (ALIGN[counter]) d.push(`align-items: ${ALIGN[counter]}`);
     if (JUSTIFY[primary]) d.push(`justify-content: ${JUSTIFY[primary]}`);
-    if (gap !== null && gap > 0) d.push(`gap: ${gap}px`);
+    // A variant row's 0 has to be EMITTED, not skipped: the variant rule cascades over
+    // the base rule, so a skipped 0 silently inherits the base row's gap. Tertiary nav
+    // Mobile=Yes/Page=Yes is gap 0 in Figma and was rendering the desktop row's 40.
+    // Same fault as padding and radius, which were fixed without noticing gap shared it.
+    if (gap !== null && (gap > 0 || (isVariant && gap === 0))) d.push(`gap: ${gap}px`);
   } else if (gap !== null && gap > 0) {
     // Direction not captured for this component — fall back to a row, and say so.
     d.push('display: inline-flex', 'align-items: center', `gap: ${gap}px`);

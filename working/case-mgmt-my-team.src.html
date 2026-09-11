@@ -154,10 +154,12 @@ svg { display: block; }
 /* The class owns the fill — `Navigation/Search bg` — and the text colour. Overriding the
    background with --pf-bg-primary here was the same fault as the sub nav: right in light
    mode, a different grey in dark.
-   pf-new: the 150px box, its 7px padding and the icon-to-text gap are the component's
-   INTERNAL arrangement, which the outer-box extract does not reach. */
-.pf-search-navigation { display: inline-flex; align-items: center; gap: 7px; width: 150px;
-  padding: 0 7px; font-size: 16px; letter-spacing: -0.01em; }
+   The 150px width and the 16px type now come from the class — the Navigation page has
+   been measured, so Search navigation carries its own box.
+   pf-new: the 7px inset and the icon-to-text gap are the component's INTERNAL
+   arrangement, which the outer-box extract does not reach. */
+.pf-search-navigation { display: inline-flex; align-items: center; gap: 7px;
+  padding: 0 7px; letter-spacing: -0.01em; }
 .rightgrp { display: flex; align-items: center; gap: var(--pf-space-large); }  /* Figma: Frame 84860 gap 20 */
 
 /* Secondary nav — Figma "[S] Main nav context", 1830x44, which the People First file
@@ -178,7 +180,7 @@ svg { display: block; }
 /* Layout and behaviour only. Height (40), padding (0 20), gap (10), the 1px stroke and
    every colour come from the class. Overriding height to 44 and replacing the stroke with
    a bottom rule was undoing the extract — the 44 belongs to the strip, not the tab. */
-.pf-nav-tabs { cursor: pointer; font-size: 16px; }
+.pf-nav-tabs { cursor: pointer; }
 /* pf-new: the selected underline. In Figma Nav tabs is a VERTICAL stack (gap 10) whose
    second child is a 3px bar; the outer-box extract cannot reach a child, so it is drawn
    here. Transparent on the unselected tabs keeps every tab the same height. */

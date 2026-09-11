@@ -99,7 +99,11 @@ for (const s of specs) {
   };
   const base = cls(t.component);
   if (asserts(base, 'height')) cmp('height', t.h, g.height);
-  if (asserts(base, 'padding')) cmp('padding', t.padding, g.padding);
+  // Both sides must be rounded the same way. The rendered padding is rounded above; a
+  // Figma value of 18.5 compared against a rendered 19 is a unit mismatch, not drift,
+  // and no edit to the stylesheet could ever clear it.
+  const roundPad = v => String(v).trim().split(/\s+/).map(x => Math.round(parseFloat(x))).join(' ');
+  if (asserts(base, 'padding')) cmp('padding', t.padding === '' ? '' : roundPad(t.padding), g.padding);
   if (asserts(base, 'border-radius')) cmp('radius', t.radius, g.radius);
   if (asserts(base, 'gap')) cmp('gap', t.gap, g.gap);
   if (asserts(base, 'font-size')) cmp('font-size', t.fontSize, g.fontSize);

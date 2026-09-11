@@ -31,16 +31,7 @@ Layout container	auto	30	0	20	20px
 Title panel	auto x 135	40 20	0	10	18px	VERTICAL CENTER CENTER	
 Information box (row)	auto x 56	0	0	0	13px		
 Status dot	22 x 22	0	100	0	—		circle
-Navigation item	90 x 86	0 25	0	10	13px Regular	HORIZONTAL CENTER CENTER	rail item. The outer box is HORIZONTAL; the icon-above-label stack is an inner VERTICAL frame (32x55, gap 5) this extract does not reach, and Selected adds a 3x132 bar beside it. Only Selected=Yes is SemiBold.
-Side navigation	90 wide	0	0	0	13px	VERTICAL MIN MIN	collapsed rail
 Side navigation tab	268 x 48	10 15	8	20	16px	HORIZONTAL CENTER MIN	
-Tab	40 x 34	6 0	0	10	16px	VERTICAL CENTER MIN	
-Navigation tabs	auto x 36	0	0	40	16px SemiBold	HORIZONTAL CENTER MIN	
-Header	auto x 86	0	0	0	16px	VERTICAL MIN MIN	
-Mobile bottom navigation	375 x 76	0	0	0	11px	HORIZONTAL MIN MIN	
-Clock in	107 x 32	7 20 7 10	20	5	16px	HORIZONTAL CENTER CENTER	PILL. CLIP — fixed 107 wide with clipsContent on. Icon 22 at x=6, label 58 at x=33, so the label overruns the right padding by 4px and Figma cuts it off.
-Filter tab single	224 x 100	20	0	5	24px Regular	VERTICAL MIN CENTER	
-Top bar app context	242 x 66	0	0	0	24px	HORIZONTAL MIN MIN	
 Metric card	392 x 89	20	8	165	36px		big-number tile
 Bar chart	415 x 193	0	0	10	13px		
 Bar chart with axis	326 x 221	0	0	0	13px Regular		
@@ -108,12 +99,6 @@ single layout card	800 x auto	30		20	20px	VERTICAL CENTER MIN
 Footer	375 x auto	0 10		10	13px Regular	VERTICAL MIN MIN	
 Content	375 x auto			10	13px	VERTICAL MIN MIN	
 Detail item	162 x auto			5	13px	HORIZONTAL MIN MIN	
-Config child menu	auto x auto				16px	VERTICAL MIN MIN	
-Config menu items	auto x auto				16px	VERTICAL MIN MIN	
-Config parent menu	auto x auto	5 20 5 0		5	16px	HORIZONTAL CENTER MIN	
-Filter tabs	1600 x auto				24px SemiBold	HORIZONTAL MIN MIN	
-Config side menu	325 x 980		8		16px	VERTICAL MIN MIN	
-[S] Config child menu	auto x auto	10 0 0 11		10	16px	VERTICAL MIN MIN	
 Manage columns	520 x auto				20px	VERTICAL MIN MIN	
 Footer (AG)	1560 x auto				13px	VERTICAL MIN MIN	
 Table action bar	1654 x auto			20	16px SemiBold	VERTICAL MIN CENTER	
@@ -134,7 +119,6 @@ Circle icons|Size=XS - 28px	28 x 28	0	999	0	—	NONE
 Circle icons|Size=S - 36px	36 x 36	0	999	0	—	NONE	
 Circle icons|Size=M - 44px	44 x 44	0	999	0	—	NONE	
 Circle icons|Size=L - 52px	52 x 52	0	999	0	—	NONE	
-Menu	50 x 73	0	0	5	—	VERTICAL MIN CENTER	2 variants (Size). No colour variable bound in Figma.
 Floaters	85 x 40	0	0	5	—	HORIZONTAL MIN CENTER	Single component. No colour variable bound in Figma.
 Horizontal scroll	auto x 32	0	0	390	—	HORIZONTAL CENTER CENTER	2 variants (Page). Figma draws it 1160px wide — the artboard, not a rule. No colour variable bound.
 Default header background	auto x 86	0	0	0	—	NONE	Full-bleed header bar; height varies by Breakpoint (see size rows). Fill is a raw colour in Figma, not a variable.
@@ -144,28 +128,10 @@ Profile image|Size=Medium plus	54 x 54	0	999	0	—	NONE
 Profile image|Size=Medium	43 x 43	0	999	0	—	NONE	
 Profile image|Size=Small	28 x 28	0	999	0	—	NONE	
 Profile image|Size=Extra small	22 x 22	0	999	0	—	NONE	
-Navigation item|Selected=Yes	90 x 86	0	0	22	13px SemiBold	HORIZONTAL CENTER CENTER	the selected rail item: no side padding, wider gap, and the only SemiBold state
-Navigation item|Device=Mobile	86 x 76	0 25	0	10	11px Regular	HORIZONTAL CENTER CENTER	
-Navigation item|Device=Tablet	86 x 56	0 25	0	10	11px Regular	HORIZONTAL CENTER CENTER	
 Default header background|Breakpoint=Desktop	auto x 86	0	0	0	—	NONE	
 Default header background|Breakpoint=Tablet	auto x 74	0	0	0	—	NONE	
 Default header background|Breakpoint=Mobile	auto x 62	0	0	0	—	NONE	
-Notification panel	auto x auto	0	0	0	—	VERTICAL MIN MIN	2 variants (Mobile). Figma draws it 1500x1080 — the artboard, not a rule.
-Notification list	auto x auto	0	0	0	—	VERTICAL MIN MIN	2 variants (Mobile). Figma draws it 1117x730 — the artboard, not a rule.
-Notification categories	300 x auto	5 10	0	0	—	VERTICAL MIN MIN	2 variants (Mobile). Figma draws it 1020px tall — the artboard, not a rule.
-Pagination buttons	auto x 32	0	0	30	—	HORIZONTAL SPACE_BETWEEN CENTER	Single component. Binds a primitive for its text — see source issues.
-Steps	110 x 48	0	0	5	—	VERTICAL MIN CENTER	26 variants across System x State x Position; 6 distinct colour bindings, keyed on State.
-Stepper	330 x 160	0	0	0	—	VERTICAL CENTER CENTER	2 variants (System); both bind the same colours.
-Waffle	90 x 86	0	0	0	—	NONE	15 variants (Theme). No colour variable bound in Figma.
-Full page/Header navigation/Yes/No	375 x 138	0	0	0	—	VERTICAL MIN MIN	Single component, mobile width.
 Component 1	432 x 48	10	8	10	20px	HORIZONTAL CENTER MIN	UNNAMED IN FIGMA. It is the row inside Editable list card: a label with a trailing add or remove action. Property 1=Frame 6270951 is the ADD state (no fill, green Plus circle icon); Frame 6270952 is the ADDED state (Background/Tertiary fill, grey Remove icon). The component and both variant values carry Figma default names — raise with design.
-Header navigation	auto x auto	0	0	0	—	VERTICAL MIN MIN	3 variants (Mobile x Tablet). Figma draws it 1830x130 — the artboard, not a rule.
-Nav tabs	auto x 40	0 20	0	10	—	VERTICAL CENTER CENTER	6 variants (Status x Mobile); Mobile does not change the colours.
-Secondary nav	auto x 44	0	0	0	16px	HORIZONTAL MAX CENTER	2 variants (Mobile); both bind the same colours. Mobile=True sets 13px text.
-Tertiary nav	auto x 55	0 20	0	40	—	HORIZONTAL CENTER CENTER	4 variants (Mobile x Page); Mobile does not change the colours.
-Search navigation	150 x 32	0	50	0	—	NONE	2 variants (Mobile). PILL.
-Full page	auto x auto	0	0	0	—	NONE	7 variants. Figma draws it 1920x1080 — a whole page frame, not a component box.
-Notification tabs	auto x 65	18.5 15	0	20	—	HORIZONTAL CENTER MIN	3 variants (State x Selected). Node 22973:20747, which this extract previously held as "Side navigation tab" with a different variant structure.
 Action menu button	auto x 28	0	0	0	16px	HORIZONTAL CENTER CENTER	
 Action menu button|Circle=true	auto x 28	0	0	5	16px	HORIZONTAL CENTER CENTER	
 Action menu	199 x 136	4 5	4	0	13px	VERTICAL MIN MIN	
@@ -195,6 +161,12 @@ Button|Type=Positive, State=Hover, Label=No	32 x 32	0 20	20	10	—	HORIZONTAL CE
 Button|Type=Action, State=Disabled, Label=No	32 x 32	0 20	20	10	—	HORIZONTAL CENTER CENTER	
 Button|Type=Negative, State=Disabled, Label=No	32 x 32	0 20	20	10	—	HORIZONTAL CENTER CENTER	
 Button|Type=Positive, State=Disabled, Label=No	32 x 32	0 20	20	10	—	HORIZONTAL CENTER CENTER	
+Clock in	107 x 32	7 20 7 10	20	5	16px	HORIZONTAL CENTER CENTER	PILL. CLIP — fixed 107 wide with clipsContent on. Icon 22 at x=6, label 58 at x=33, so the label overruns the right padding by 4px and Figma cuts it off.
+Config child menu	auto x 42	0	0	0	16px	VERTICAL MIN MIN	
+Config child menu|Type=Selected	352 x 42	0	4	0	16px	VERTICAL MIN MIN	
+Config menu items	auto x 74	0	0	0	16px	VERTICAL MIN MIN	
+Config parent menu	auto x 32	5 20 5 0	0	5	16px	HORIZONTAL CENTER MIN	
+Config side menu	325 x 980	0	8	0	16px	VERTICAL MIN MIN	
 Confirmation modal	400 x 413	60 10	8	36	24px Regular	VERTICAL CENTER MIN	
 Confirmation modal|Mobile=false, Type=Success, Dark mode=False	400 x 413	60 10	8	65	24px Regular	VERTICAL CENTER MIN	
 Confirmation modal|Mobile=false, Type=Information, Dark mode=False	400 x 550	60 10	8	65	24px Regular	VERTICAL CENTER MIN	
@@ -210,6 +182,60 @@ Filter chip|State=Selected, Active=True, Mobile=True	auto x 34	8 15	76	10	13px S
 Filter chip|State=Default, Active=False, Mobile=True	auto x 34	8 15	78	5	13px	HORIZONTAL CENTER CENTER	
 Filter chip|State=Hover, Active=False, Mobile=False	auto x 42	10 20	78	5	16px	HORIZONTAL CENTER CENTER	
 Filter chip|State=Hover, Active=False, Mobile=True	auto x 34	8 15	78	5	13px	HORIZONTAL CENTER CENTER	
+Filter tab single	224 x 100	20	0	5	24px Regular	VERTICAL MIN CENTER	
+Filter tab single|Selected=False, Breakpoint=Tablet, State=Default	224 x 74	10	0	5	20px	VERTICAL MIN CENTER	
+Filter tab single|Selected=False, Breakpoint=Tablet, State=Hover	224 x 74	10	0	5	20px	VERTICAL MIN CENTER	
+Filter tab single|Selected=False, Breakpoint=Mobile, State=Default	172 x 70	10	0	5	20px	VERTICAL MIN CENTER	
+Filter tab single|Selected=False, Breakpoint=Mobile, State=Hover	172 x 70	10	0	5	20px	VERTICAL MIN CENTER	
+Filter tab single|Selected=True, Breakpoint=Desktop, State=Default	224 x 100	20	0	5	24px SemiBold	VERTICAL MIN CENTER	
+Filter tab single|Selected=True, Breakpoint=Tablet, State=Default	224 x 74	10	0	5	20px SemiBold	VERTICAL MIN CENTER	
+Filter tab single|Selected=True, Breakpoint=Mobile, State=Default	172 x 70	10	0	5	20px SemiBold	VERTICAL MIN CENTER	
+Filter tabs	1600 x 100	0	0	0	24px SemiBold	HORIZONTAL MIN MIN	
+Filter tabs|Breakpoints=Tablet	761 x 74	0	0	0	20px SemiBold	HORIZONTAL MIN MIN	
+Filter tabs|Breakpoints=Mobile	375 x 70	0	0	0	20px SemiBold	HORIZONTAL MIN MIN	
+Full page	1920 x 1080		0		13px	NONE	7 variants. Figma draws it 1920x1080 — a whole page frame, not a component box.
+Full page|System=People First, Tablet=No, Mobile=Yes, Darkmode=Yes	375 x 667	0	0	0	13px	VERTICAL MIN SPACE_BETWEEN	
+Full page|System=People First, Tablet=No, Mobile=Yes, Darkmode=No	375 x 667	0	0	0	13px	VERTICAL MIN SPACE_BETWEEN	
+Full page|System=People First, Tablet=Yes, Mobile=No, Darkmode=No	768 x 1057	0	0	0	13px	VERTICAL MIN SPACE_BETWEEN	
+Full page|System=People First, Tablet=Yes, Mobile=No, Darkmode=Yes	768 x 1057	0	0	0	13px	VERTICAL MIN SPACE_BETWEEN	
+Full page/Header navigation/Yes/No	375 x 138	0	0	0	13px	VERTICAL MIN MIN	Single component, mobile width.
+Header navigation	1830 x 130	0	0	0	16px	VERTICAL MIN MIN	3 variants (Mobile x Tablet). Figma draws it 1830x130 — the artboard, not a rule.
+Header navigation|Mobile=Yes, Tablet=No	390 x 106	0	0	0	13px	VERTICAL MIN MIN	
+Header navigation|Mobile=No, Tablet=Yes	768 x 118	0	0	0	13px	VERTICAL MIN MIN	
+Header	1830 x 86	10 20	0	10	24px	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Configr, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Default - Cranberry red, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Default - Cranberry red, Mobile=Yes	390 x 62	0 10	0	10	13px	VERTICAL MIN SPACE_BETWEEN	
+Header|Theme=Dark mode, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Dark mode, Mobile=Yes	390 x 62	0 10	0	10	13px	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Purple orchid, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Purple orchid, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Berry pink, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Berry pink, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Purple iris, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Purple iris, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Royal purple, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Royal purple, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Velvet red, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Velvet red, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Striking red, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Striking red, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Orange flame, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Orange flame, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Cobalt blue, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Cobalt blue, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Blue lagoon, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Blue lagoon, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Cool grey, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Cool grey, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Teal ocean, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Teal ocean, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Fern green, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Fern green, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Classic, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|Theme=Classic, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN	
+Header|System=People First	20 x 20	0 4	38	10	11px SemiBold	VERTICAL CENTER CENTER	
+Header|System=Configr	20 x 20	0 4	38	10	11px SemiBold	VERTICAL CENTER CENTER	
 Information box	440 x 56	0	0	0	13px	HORIZONTAL MIN MIN	
 Information box|Type=Warning	auto x 74	0	0	0	13px	HORIZONTAL MIN MIN	
 Information box|Type=Error	440 x 74	0	0	0	13px	HORIZONTAL MIN MIN	
@@ -219,13 +245,36 @@ Links|Link type=Secondary, Hover=False, Icon position=Left	auto x 18	0	0	5	13px	
 Links|Link type=Secondary, Hover=True, Icon position=Left	auto x 18	0	0	5	13px	HORIZONTAL CENTER MIN	
 Links|Link type=Secondary, Hover=False, Icon position=Right	auto x 18	0	0	5	13px	HORIZONTAL CENTER MIN	
 Links|Link type=Secondary, Hover=True, Icon position=Right	auto x 18	0	0	5	13px	HORIZONTAL CENTER MIN	
+Menu	50 x 73	0	0	5	13px	VERTICAL CENTER MIN	2 variants (Size). No colour variable bound in Figma.
+Menu|Size=Small	317 x 26	0	0	5	13px	HORIZONTAL CENTER MIN	
+Mobile bottom navigation	375 x 76	0	0	0	11px	HORIZONTAL MIN MIN	
+Mobile bottom navigation|Tablet=Yes	768 x 56	0	0	0	11px	HORIZONTAL CENTER MIN	
 Mobile key actions	126 x 103		0		16px	NONE	6 variants (Link). No colour variable bound in Figma.
 Mobile key actions|Link=Social activity	132 x 103		0		16px	NONE	
 Mobile key actions|Link=Recognition trends	132 x 103		0		16px	NONE	
 Mobile key actions|Link=MHR	126 x 103		0		15px	NONE	
+Nav tabs	auto x 40	0 20	mixed	10	16px	VERTICAL CENTER CENTER	6 variants (Status x Mobile); Mobile does not change the colours.
+Nav tabs|Status=Unselected, Mobile=True	auto x 42	0 10	mixed	10	13px	VERTICAL CENTER CENTER	
+Nav tabs|Status=Hover, Mobile=True	auto x 42	0 10	mixed	10	13px	VERTICAL CENTER CENTER	
+Nav tabs|Status=Selected, Mobile=False	auto x 40	0 20	mixed	5	16px SemiBold	VERTICAL CENTER CENTER	
+Nav tabs|Status=Selected, Mobile=True	auto x 42	0 10	mixed	5	13px SemiBold	VERTICAL CENTER CENTER	
+Navigation item	90 x 86	0	0	22	13px SemiBold	HORIZONTAL CENTER CENTER	the selected rail item: no side padding, wider gap, and the only SemiBold state
+Navigation item|System=People First, State=Default, Device=Desktop, Selected=No	90 x 86	0 25	0	10	13px	HORIZONTAL CENTER CENTER	
+Navigation item|System=Configr, State=Default, Device=Desktop, Selected=No	90 x 86	0 25	0	10	13px	HORIZONTAL CENTER CENTER	
+Navigation item|System=People First, State=Default, Device=Mobile, Selected=No	86 x 76	0 25	0	10	11px	HORIZONTAL CENTER CENTER	
+Navigation item|System=People First, State=Default, Device=Tablet, Selected=No	86 x 56	0 25	0	10	11px	HORIZONTAL CENTER CENTER	
+Navigation item|System=People First, State=Hover, Device=Desktop, Selected=No	90 x 86	0 25	0	10	13px	HORIZONTAL CENTER CENTER	
+Navigation item|System=Configr, State=Hover, Device=Desktop, Selected=No	90 x 86	0 25	0	10	13px	HORIZONTAL CENTER CENTER	
+Navigation item|System=People First, State=Selected, Device=Mobile, Selected=No	86 x 76	0 25	0	10	11px Regular	HORIZONTAL CENTER CENTER	
+Navigation item|System=People First, State=Selected, Device=Tablet, Selected=No	86 x 56	0 25	0	10	11px Regular	HORIZONTAL CENTER CENTER	
+Navigation tabs	202 x 36	0	0	40	16px SemiBold	HORIZONTAL CENTER MIN	
+Navigation tabs|System=People First, Mobile=Yes	202 x 32	0	0	25	13px SemiBold	HORIZONTAL CENTER MIN	
+Navigation tabs|System=Configr, Mobile=Yes	202 x 32	0	0	25	13px SemiBold	HORIZONTAL CENTER MIN	
 Next actions modal	400 x 565	0 0 30 0	8	30	24px Regular	VERTICAL CENTER MIN	
 Notification card	1160 x 117	15 20	8	10	16px SemiBold	HORIZONTAL CENTER MIN	
 Notification card|Mobile=Yes	355 x 153	15	8	10	16px SemiBold	HORIZONTAL MIN MIN	
+Notification categories	300 x 1020	5 10	0	0	16px	VERTICAL MIN MIN	2 variants (Mobile). Figma draws it 1020px tall — the artboard, not a rule.
+Notification categories|Mobile=Yes	390 x 824	0	mixed	0	18px	VERTICAL MIN MIN	
 Notification image	44 x 44		0		—	NONE	
 Notification image|Type=Person, With status?=False, Mobile=True, Status position=High	36 x 36		0		—	NONE	
 Notification image|Type=Custom, With status?=False, Mobile=True, Status position=High	36 x 36		0		—	NONE	
@@ -233,11 +282,45 @@ Notification image|Type=Custom, With status?=True, Mobile=True, Status position=
 Notification image|Type=Custom, With status?=True, Mobile=True, Status position=Low	36 x 36		0		—	NONE	
 Notification image|Type=Person, With status?=True, Mobile=True, Status position=High	36 x 36		0		—	NONE	
 Notification image|Type=Person, With status?=True, Mobile=True, Status position=Low	36 x 36		0		—	NONE	
+Notification list	1117 x 730	0	0	0	16px	VERTICAL MIN MIN	2 variants (Mobile). Figma draws it 1117x730 — the artboard, not a rule.
+Notification list|Mobile=Yes	390 x 779		0		16px	NONE	
+Notification panel	1500 x 1080	0	0	0	20px	VERTICAL MIN MIN	2 variants (Mobile). Figma draws it 1500x1080 — the artboard, not a rule.
+Notification panel|Mobile=Yes	390 x 824	0	mixed	0	18px	VERTICAL MIN MIN	
+Notification tabs	279 x 65	18.5 15 18.5 15	0	20	16px	HORIZONTAL CENTER MIN	3 variants (State x Selected). Node 22973:20747, which this extract previously held as "Side navigation tab" with a different variant structure.
+Pagination buttons	358 x 32	0	0	30	13px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN	Single component. Binds a primitive for its text — see source issues.
 Repeating group	auto x 258	0	0	20	16px Italic	VERTICAL MIN MIN	
+Search navigation	150 x 32		50		16px	NONE	2 variants (Mobile). PILL.
+Search navigation|Mobile=True	32 x 32		0		—	NONE	
+Secondary nav	562 x 44	0	0	0	16px SemiBold	HORIZONTAL MAX CENTER	2 variants (Mobile); both bind the same colours. Mobile=True sets 13px text.
+Secondary nav|Mobile=True	375 x 40	2 0 0 0	0	0	13px SemiBold	HORIZONTAL MAX CENTER	
+Side navigation	auto x 1080	0	0	0	13px	VERTICAL MIN MIN	collapsed rail
 Star rating	auto x 24	0	0	0	13px	VERTICAL CENTER CENTER	
 Stars	25 x 24		0		—	NONE	2 variants (Active). No colour variable bound in Figma.
 Status	22 x 22		100		—	NONE	
 Status|Status type=Custom	22 x 22		100		13px	NONE	
+Stepper	auto x 160	0	0	0	13px	VERTICAL CENTER CENTER	2 variants (System); both bind the same colours.
+Steps	110 x 48	0	0	5	13px	VERTICAL CENTER MIN	26 variants across System x State x Position; 6 distinct colour bindings, keyed on State.
+Steps|System=People First, State=Selected, Position=Middle, Current step=Yes, Completed step=No	110 x 48	0	0	5	13px SemiBold	VERTICAL CENTER MIN	
+Steps|System=People First, State=Selected, Position=First, Current step=Yes, Completed step=No	110 x 48	0	0	5	13px SemiBold	VERTICAL CENTER MIN	
+Steps|System=People First, State=Selected, Position=Last, Current step=Yes, Completed step=No	110 x 48	0	0	5	13px SemiBold	VERTICAL CENTER MIN	
+Steps|System=Configr, State=Selected, Position=Middle, Current step=Yes, Completed step=No	110 x 48	0	0	5	13px SemiBold	VERTICAL CENTER MIN	
+Steps|System=Configr, State=Selected, Position=First, Current step=Yes, Completed step=No	110 x 48	0	0	5	13px SemiBold	VERTICAL CENTER MIN	
+Steps|System=Configr, State=Selected, Position=Last, Current step=Yes, Completed step=No	110 x 48	0	0	5	13px SemiBold	VERTICAL CENTER MIN	
+Steps|System=People First, State=Hover, Position=Middle, Current step=No, Completed step=No	110 x 48	0	0	5	13px SemiBold	VERTICAL CENTER MIN	
+Steps|System=People First, State=Hover, Position=First, Current step=No, Completed step=No	110 x 48	0	0	5	13px SemiBold	VERTICAL CENTER MIN	
+Steps|System=People First, State=Hover, Position=Last, Current step=No, Completed step=No	110 x 48	0	0	5	13px SemiBold	VERTICAL CENTER MIN	
+Steps|System=Configr, State=Hover, Position=Middle, Current step=No, Completed step=No	110 x 48	0	0	5	13px SemiBold	VERTICAL CENTER MIN	
+Steps|System=Configr, State=Hover, Position=First, Current step=No, Completed step=No	110 x 48	0	0	5	13px SemiBold	VERTICAL CENTER MIN	
+Steps|System=Configr, State=Hover, Position=Last, Current step=No, Completed step=No	110 x 48	0	0	5	13px SemiBold	VERTICAL CENTER MIN	
+Tab	auto x 34	6 0	0	10	16px	VERTICAL CENTER MIN	
+Tab|System=People First, State=Default, Mobile=Yes, Selected=No	auto x 30	6 0	0	10	13px	VERTICAL CENTER MIN	
+Tab|System=Configr, State=Default, Mobile=Yes, Selected=No	auto x 30	6 0	0	10	13px	VERTICAL CENTER MIN	
+Tab|System=People First, State=Hover, Mobile=Yes, Selected=No	auto x 30	6 0	0	10	13px	VERTICAL CENTER MIN	
+Tab|System=Configr, State=Hover, Mobile=Yes, Selected=No	auto x 30	6 0	0	10	13px	VERTICAL CENTER MIN	
+Tab|System=People First, State=Selected, Mobile=No, Selected=Yes	auto x 36	6 0	0	2	16px SemiBold	VERTICAL CENTER MIN	
+Tab|System=People First, State=Selected, Mobile=Yes, Selected=Yes	auto x 32	6 0	0	2	13px SemiBold	VERTICAL CENTER MIN	
+Tab|System=Configr, State=Selected, Mobile=No, Selected=Yes	auto x 36	6 0	0	2	16px SemiBold	VERTICAL CENTER MIN	
+Tab|System=Configr, State=Selected, Mobile=Yes, Selected=Yes	auto x 32	6 0	0	2	13px SemiBold	VERTICAL CENTER MIN	
 Tags	auto x 28	5 10	4	5	13px Regular	HORIZONTAL CENTER CENTER	SENTENCE CASE, not uppercase
 Tags|Type=Neutral, Small=Yes	auto x 22	2 5	4	5	13px Regular	HORIZONTAL CENTER CENTER	
 Tags|Type=Expired, Small=Yes	auto x 22	2 5	4	5	13px Regular	HORIZONTAL CENTER CENTER	
@@ -246,6 +329,31 @@ Tags|Type=Warning, Small=Yes	auto x 22	2 5	4	5	13px Regular	HORIZONTAL CENTER CE
 Tags|Type=Negative, Small=Yes	auto x 22	2 5	4	5	13px Regular	HORIZONTAL CENTER CENTER	
 Tags|Type=Other, Small=Yes	auto x 22	2 5	4	5	13px Regular	HORIZONTAL CENTER CENTER	
 Tags|Type=Theme, Small=Yes	auto x 22	2 5	4	5	13px Regular	HORIZONTAL CENTER CENTER	
+Tertiary nav	562 x 55	0 20	0	40	16px SemiBold	HORIZONTAL CENTER CENTER	4 variants (Mobile x Page); Mobile does not change the colours.
+Tertiary nav|Mobile=Yes, Page=No	375 x 39	0 10	0	30	13px SemiBold	HORIZONTAL CENTER CENTER	
+Tertiary nav|Mobile=No, Page=Yes	562 x 45	0 20	0	10	20px	HORIZONTAL CENTER CENTER	
+Tertiary nav|Mobile=Yes, Page=Yes	375 x 41	0 10	0	0	16px SemiBold	HORIZONTAL CENTER MIN	
 Toast message	350 x 114	30 0 30 25	4	15	13px	HORIZONTAL CENTER MIN	fixed light surface — see dark-mode note
 Tool tip	auto x 92	10	4	0	13px	VERTICAL MIN MIN	
 Tooltip	28 x 28		0		—	NONE	2 variants (Hover). No colour variable bound in Figma.
+Top bar app context	auto x 66	0	0	10	24px	HORIZONTAL CENTER MIN	
+Top bar app context|Area=Administration, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN	
+Top bar app context|Area=Payroll, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN	
+Top bar app context|Area=Audit, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN	
+Top bar app context|Area=Onboarding, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN	
+Top bar app context|Area=Learning, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN	
+Top bar app context|Area=Available jobs, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN	
+Top bar app context|Area=HRM, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN	
+Top bar app context|Area=General ledger, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN	
+Top bar app context|Area=Accounts payable, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN	
+Top bar app context|Area=Accounts receivable, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN	
+Top bar app context|Area=Taxes, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN	
+Top bar app context|Area=News, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN	
+Top bar app context|Area=Data explorer, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN	
+Top bar app context|Area=Case Management, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN	
+Top bar app context|Area=Absence, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN	
+Top bar app context|Area=Goals, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN	
+Top bar app context|Area=Insights, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN	
+Top bar app context|Area=Recruitment, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN	
+Waffle	90 x 86		0		—	NONE	15 variants (Theme). No colour variable bound in Figma.
+[S] Config child menu	auto x 42	10 0 0 11	0	10	16px	VERTICAL MIN MIN	
