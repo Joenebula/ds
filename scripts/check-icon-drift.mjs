@@ -14,6 +14,9 @@
 // redrawn icon keeps its name, so it is invisible there by construction — the same shape as the
 // rename problem this repo solved with node ids, one layer down.
 //
+// CURRENT READING: 287 of 287 pinned icons are identical to Figma. Nothing has drifted. Getting to
+// that answer took three wrong ones, and the sequence is the useful part — see NUMBER below.
+//
 // IT WAS IMPOSSIBLE UNTIL IT WAS NOT. CLAUDE.md recorded flatly that a glyph's SVG could not be
 // fetched here: `get_design_context` hands back asset URLs and the asset host answers 403. True,
 // and the conclusion was wrong — `node.exportAsync({format:'SVG_STRING'})` runs INSIDE the plugin
@@ -89,7 +92,7 @@ export function digest(s) {
 // summed coordinates simultaneously. It is a tolerance, not a proof.
 export function shape(svg) {
   const ds = (String(svg).match(/ d="[^"]*"/g) || []).map((m) => m.slice(4, -1));
-  const nums = ds.map((d) => (d.match(/-?\d+\.?\d*/g) || []).map(Number));
+  const nums = ds.map((d) => (d.match(NUMBER) || []).map(Number));
   return {
     sk: digest(ds.map((d) => d.replace(/[-\d.\s,]/g, '')).join('|')),
     counts: nums.map((a) => a.length),
@@ -98,6 +101,20 @@ export function shape(svg) {
 }
 
 export const BUDGET_PER_NUMBER = 0.005;   // what 2dp storage can be wrong by, per number
+
+// THE PARSER UNDER THE COMPARISON, AND THE THIRD TIME THIS CLAIM HAD TO BE CORRECTED.
+//
+// This was `-?\d+\.?\d*`, which requires a digit before the point — so in `M.37 30.5` it matches
+// `37`, not `.37`. SVG path data omits the leading zero routinely and the two sources disagree on
+// it: `icons.tsv` stores `.37` and Figma's exporter writes `0.37`. Identical geometry, different
+// notation, and every `.37` read as `37` inflated a path's sum by about 36 — roughly ten of them in
+// one path is the 361.32 that was reported as a redrawn icon, twice, in two different verdicts.
+//
+// The lesson is not the regex. Both earlier corrections tightened the COMPARISON — exact hash, then
+// skeleton plus tolerance — and neither looked at the parser feeding it. A tolerance cannot forgive
+// a number that was never read correctly in the first place, and three rounds of making the
+// comparison cleverer never once questioned whether the inputs were right.
+export const NUMBER = /-?(?:\d*\.\d+|\d+\.?\d*)/g;
 
 // Same drawing within the precision the file can hold? Returns null when it is, or why not.
 export function differs(mine, theirs) {
@@ -196,6 +213,14 @@ function selfTest() {
   // ...and a real move must still be caught, at a size no rounding could produce.
   const moved = shape('<svg><path d="M27.74 5.2C29.14 4.77Z"/></svg>');
   if (!differs(moved, figma)) miss('a whole unit of movement must be reported — the tolerance must not swallow a redraw');
+
+  // A LEADING-DOT DECIMAL IS ONE NUMBER, NOT A WHOLE ONE. icons.tsv writes `.37` and Figma writes
+  // `0.37`; reading the first as `37` inflated a sum by 36 and reported three icons as redrawn.
+  if (differs(shape('<svg><path d="M.37 30.5Z"/></svg>'), shape('<svg><path d="M0.37 30.5Z"/></svg>')))
+    miss('`.37` and `0.37` are the same number — a leading-dot decimal must not read as a whole one');
+  if ([...'M-.5 1'.matchAll(NUMBER)].map((m) => Number(m[0])).join(',') !== '-0.5,1')
+    miss('a NEGATIVE leading-dot decimal must parse too');
+  if (shape('<svg><path d="M.37 .5Z"/></svg>').counts[0] !== 2) miss('two leading-dot decimals must count as two numbers');
 
   // Structure is compared exactly: rounding can never add or drop a segment.
   if (!differs(shape('<svg><path d="M1 1L2 2Z"/></svg>'), shape('<svg><path d="M1 1L2 2L3 3Z"/></svg>')))

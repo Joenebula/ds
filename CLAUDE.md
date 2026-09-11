@@ -268,48 +268,34 @@ keeps its name, so it is invisible there by construction.
 npm run icons:check
 ```
 
-**Current reading: 284 of 287 pinned icons verified identical against Figma, 3 drifted.** The first
-run said SIX had drifted, and three of those six were the CHECK being wrong — the correction is the
-more useful half of this section.
+**Current reading: 287 of 287 pinned icons are identical to Figma. NOTHING has drifted.** Getting
+to that took three wrong answers in a row, all of them mine, and the sequence is the useful part.
 
-| | | |
+| run | verdict | what was actually wrong |
 |---|---|---|
-| `Community group people` | `6237:66072` | path 5 moved **361.32** |
-| `People first face` | `695:14903` | path 0 moved **63.37** |
-| `Team` | `11453:114175` | path 0 moved **49.06** |
-| ~~`Key`~~ | `8198:78418` | every path within budget — **not drift** |
-| ~~`Rocket`~~ | `9598:97928` | identical — **not drift** |
-| ~~`Upload CSV`~~ | `659:390` | within budget — **not drift** |
+| 1 | 6 drifted | compared rounded TEXT — 2dp rounding moves the boundary rather than removing it |
+| 2 | 3 drifted | compared structure plus a derived tolerance — sound, and fed by a broken parser |
+| 3 | **0 drifted** | the parser read `.37` as `37` |
 
-The first version rounded both sides to 2dp and hashed the text. That does not remove precision
-error, it MOVES THE BOUNDARY: Figma's `29.735` rounds to `29.74` while the value the extractor
-stored as `29.73` stays put, and one hundredth of a unit at one control point reported a redrawn
-icon. Rounding to 1dp is no fix — 1dp has boundaries too, and four of the six still differed there.
-`Team` was the proof that something was wrong with the check rather than the artwork: same six
-paths, same command sequence letter for letter, same 78/52/52/78/52/80 numbers per path, and a
-digest insisting the drawing had changed.
+**The third one is the lesson.** SVG path data omits a leading zero routinely, and the two sources
+disagree on it: `icons.tsv` stores `.37`, Figma's exporter writes `0.37`. Identical geometry,
+different notation. The number pattern was `-?\d+\.?\d*`, which requires a digit before the point,
+so every `.37` parsed as `37` and inflated that path's coordinate sum by about 36. Ten of them in
+one path is the **361.32** that got reported as a redrawn icon — twice, in two different verdicts,
+one of them after I had already corrected the check once.
 
-**So the comparison is structural plus a tolerance, and the tolerance is derived rather than
-picked.** The skeleton (command letters, every number stripped) and the per-path number counts are
-compared EXACTLY — no rounding can add, remove or reorder a segment. The per-path sums are compared
-against the error budget the stored precision actually allows: 2dp storage means each number is
-wrong by at most `0.005`, so a path of n numbers may drift `n × 0.005` by rounding and no further.
-The three real ones exceed their budget by three orders of magnitude — 361 against 0.275 — and the
-three false ones come in under it. Nothing in between, which is what a good discriminator looks like.
+Both earlier fixes tightened the COMPARISON and neither looked at the parser feeding it. **A
+tolerance cannot forgive a number that was never read correctly**, and three rounds of making the
+comparison cleverer never once questioned whether the inputs were right. The fix is
+`-?(?:\d*\.\d+|\d+\.?\d*)` and three assertions, including a negative leading-dot decimal.
 
-**What it still cannot see, stated rather than left to be found:** two equal and opposite moves
-inside one path cancel in the sum. The skeleton and the count both still hold, so it takes a
-deliberate edit to hide, but it is a tolerance and not a proof.
-
-**The digest file was deleted rather than left in place, then regenerated.** The old one was in the
-`{id, h}` format, which the current comparison would read as "no skeleton" and report as 287 drifted
-icons — 287 false alarms presented as fact. `formatError()` refuses an old-format file outright and
-says to re-run the collector. Re-running is one call; reporting 287 lies is not recoverable.
-
-**And 284 matching is itself the integrity check on the regenerated file.** It was transcribed by
-hand out of two collector runs, and a single mistyped digit in any sum would have surfaced as a
-spurious drift rather than passing quietly — so the 284 that matched are 284 lines proved correct by
-the comparison they feed.
+**It was caught by rendering the thing.** The three "drifted" icons were re-captured from Figma and
+screenshotted before and after, superimposed in two colours — and there was no fringing anywhere,
+just one flat blend. Two drawings that differ by 361 units of summed coordinate cannot render
+identically, so the measurement was wrong rather than the artwork. **The overlay took two minutes
+and settled what three rounds of arithmetic had got wrong.** The re-capture was then reverted: there
+was nothing to re-capture. `scripts/recapture-icons.mjs` survives it, proved by seven mutants and
+useful the day something really has been redrawn.
 
 **A digest is PATH DATA only, and the three exclusions are the whole design.** Colour is ignored
 because `icons.tsv` stores `fill="currentColor"` by design while Figma exports the real paint —
