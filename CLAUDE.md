@@ -602,6 +602,43 @@ A page background and a table stripe are the same colour in light and different 
 between them from a light-mode render is the decision this repo exists to stop anyone making by
 accident, so the surfaces stay for a person — and with them the 574 text nodes that sit on them.
 
+### The scope rule, and the thing it does not prove
+
+Pink and `Grey` `#868686` went next, and the method got sharper: rather than choosing a token by
+hand, derive the REQUIRED SCOPE from the node — a stroke needs `STROKE_COLOR`, a text fill
+`TEXT_FILL`, a frame fill `FRAME_FILL`, anything else `SHAPE_FILL` — then take the semantic
+variables at that value carrying that scope. **Exactly one candidate means apply; more than one
+means hold.** No judgement, and the holds name their own candidates.
+
+It took the collection from 1,592 to **1,514**, and component pages from 346 to **268**:
+
+| | | |
+|---|---|---|
+| 47 | `Default theme pink` vectors | `Icons/Icon - Theme` — 125 to 76 |
+| 1 | pink text | `Text/Theme` |
+| 1 | pink line stroke | `Border/Theme` |
+| 18 | `Grey` `#868686` vectors | `Icons/Icon - Disabled` — 36 to 7 |
+
+Nine pink fills held (`SHAPE_FILL` is shared by `Icons/Icon - Theme` and `Background/Theme`, which
+diverge in dark: `#5CC4EA` against `#33B5E5`) and 13 grey strokes held (`STROKE_COLOR` shared by
+`Icons/Icon - Disabled` and `Border/Tertiary`).
+
+**And then the rule's limit showed up, in my own work.** A single-candidate scope match proves *the
+system has one meaning for that colour in that role*. It does **not** prove the designer used the
+colour for that meaning. The check afterwards could not confirm the 18: every node now bound to
+`Icons/Icon - Disabled` comes back as 260 — overwhelmingly pre-existing bindings rather than mine —
+and only 11 sit somewhere named Disabled. The rest are ordinary `Left chevron < Button < Actions`,
+`Right arrow < Switcher`, `Tooltip question < Field label`. If any of the 18 are that kind of node
+they now resolve to `#F2F2F2` in DARK MODE, near-white and effectively invisible, while light mode
+is unchanged at `#868686` — which is precisely why nobody would notice.
+
+**The real mistake was not the rule. It was writing without recording what was written.** Nothing
+logged which node ids changed, so the 18 cannot now be separated from the 242 that were already
+bound. Every earlier run here logged its targets; this one logged a count. **A batch write must
+record its ids, or its verification is guesswork** — and a verification that cannot address the
+thing it verified is the `--` problem wearing yet another hat. The edits are unpublished and
+reviewable in Figma, and the census says so at the top of its own warning.
+
 **And `Border/Default hidden` has a light value and no dark value at all** — worth knowing, since
 three components map onto it.
 

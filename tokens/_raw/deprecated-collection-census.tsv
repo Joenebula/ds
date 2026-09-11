@@ -144,3 +144,41 @@ Darkmode theme	#33B5E5	0
 #	#F2F2F2	2 candidates	Background/Tertiary #282A32 vs Table/Header cell #141414
 # A page background and a table stripe are the same colour in light and different in dark. Picking
 # between them is the design decision this repo exists to stop anyone making by accident.
+#
+# ── THE PINK AND GREY-868686 RUNS, 2026-09-11 ─────────────────────────────────
+# Collection 1592 -> 1514. Component pages 346 -> 268. Two agreeing sweeps.
+#
+# done	47	Default theme pink VECTORS	-> Icons/Icon - Theme	125 -> 76
+# done	1	Default theme pink TEXT	-> Text/Theme
+# done	1	Default theme pink LINE stroke	-> Border/Theme
+# done	18	Grey #868686 VECTORS	-> Icons/Icon - Disabled	36 -> 7   ** SEE WARNING **
+#
+# held	9	pink RECTANGLE/ELLIPSE/INSTANCE fills — SHAPE_FILL is shared by Icons/Icon - Theme
+#		and Background/Theme, which diverge in dark (#5CC4EA vs #33B5E5)
+# held	13	grey strokes — STROKE_COLOR is shared by Icons/Icon - Disabled and Border/Tertiary
+#
+# ── WARNING: THE 18 GREY VECTORS NEED A DESIGNER TO CONFIRM ───────────────────
+# These were applied by a SCOPE RULE: of the semantic variables at #868686, exactly one carries
+# SHAPE_FILL, so exactly one candidate matched and the rebind went ahead. The rule is sound as far
+# as it goes, and it does not go far enough.
+#
+# A single-candidate scope match proves THE SYSTEM HAS ONE MEANING FOR THAT COLOUR IN THAT ROLE.
+# It does NOT prove the designer used the colour for that meaning.
+#
+# The check afterwards could not confirm them. Reading every node now bound to Icons/Icon -
+# Disabled returns 260 — mostly pre-existing bindings, not mine — and only 11 sit in a context
+# named Disabled. The others are ordinary chevrons, switcher arrows and tooltip glyphs:
+#	Left chevron < Button < Actions < Horizontal scroll
+#	Right arrow < Switcher < Side panel
+#	Tooltip question < Field label < Checkbox/Radio list
+# If any of my 18 are that kind of node, they now carry a token that resolves to #F2F2F2 in DARK
+# MODE — near-white, effectively invisible on a light-grey icon slot. Light mode is unchanged at
+# #868686 either way, which is exactly why nobody would notice.
+#
+# I cannot separate my 18 from the 242 pre-existing ones after the fact: nothing recorded which
+# node ids changed, and both groups now look identical. That is the real mistake here — not the
+# rule, but writing without recording what was written. Every earlier run in this file logged its
+# targets; this one logged only a count.
+#
+# These edits are UNPUBLISHED, so they are reviewable in Figma before they reach anyone. Open the
+# Grey #868686 usages, confirm each is genuinely a disabled state, and revert any that are not.
