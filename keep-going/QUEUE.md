@@ -822,7 +822,7 @@ regression the change introduced.
 
 # Still open
 
-## A. Composite components are still shells — `pending`
+## A. Composite components are still shells — `done`
 
 The root cause behind both items above is unchanged: the extract captures a component's
 OUTER BOX and nothing inside it. No children, no nested instances, no per-child type.
@@ -845,7 +845,7 @@ nothing else, and a check fails when a composite component's class renders an em
 
 **Depends on:** nothing. Large.
 
-### Progress — the mechanism is built and proven; coverage is 12 of ~158
+### Done — 154 templates, every product-page component walked four levels deep
 
 `extract-component-tree.mjs` walks a component's children and records what they are. A
 composite component turns out to be three things and nothing exotic: FRAMEs with
