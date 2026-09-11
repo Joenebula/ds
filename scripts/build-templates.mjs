@@ -258,6 +258,20 @@ function render(component, rows, path, depth) {
   }
 
   const style = styleFor(component, row);
+
+  // A DECORATIVE BOX NEEDS ITS SIZE. A template gives children no dimensions on purpose —
+  // on a real page they size to their content. But a box that HAS no content and exists
+  // only to be seen (a progress track, a coloured bar, a rule) collapses to nothing
+  // without one: `Percentage bar` rendered as four empty divs. The rule mirrors the one
+  // the stylesheet uses for components — the height IS the design, and a width is carried
+  // only when it is small enough to be a rule rather than the artboard.
+  if (!kids.length && (row.fill || row.stroke)) {
+    const [w, h] = (row.size || '').split('x').map(Number);
+    if (Number.isFinite(h) && h > 0) style.push(`min-height:${h}px`);
+    if (Number.isFinite(w) && w > 0 && w <= 120) style.push(`width:${w}px`);
+    else style.push('align-self:stretch');
+  }
+
   const open = `${pad}<div${style.length ? ` style="${style.join(';')}"` : ''}>`;
   if (!kids.length) return open + '</div>';
   return [open, ...kids.map(k => render(component, rows, k, depth + 1)), `${pad}</div>`].join('\n');
