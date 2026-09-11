@@ -58,6 +58,14 @@ variant property is a data attribute, values keep Figma's spelling:
 `docs/components.html` shows every one. Your own CSS is for page layout and behaviour
 only.
 
+**Type comes from the text styles, not from the component.** A component whose label Figma
+gives a text style does not carry its own `font-size` or `font-weight` — it composes the
+style, in a rule at the end of `components.css` generated from the same source as
+`type.css`. So a page must never set type on a component class: the class already has it,
+and writing your own puts a second, drifting copy next to the generated one.
+`npm run verify` fails on it. 181 of the 208 component labels work this way; the other 27
+use type the ramp cannot express and are listed in `docs/FIGMA-ISSUES.md` §7.
+
 Dark mode: `data-theme="dark"` / `"light"` on the root, or omit to follow the OS.
 
 ## Component artwork

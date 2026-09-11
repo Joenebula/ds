@@ -17,6 +17,32 @@
 // CSS equivalent (:hover, :disabled, :focus-visible) get one as well as the attribute,
 // so a live control behaves correctly and a gallery can still force any state.
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { buildResolver, WEIGHT } from './resolve-component-type.mjs';
+
+// THE TYPE LINK (spec fault 4). Until this existed, components.css carried 410 font-size
+// and 131 font-weight declarations transcribed from measurements, type.css carried the 23
+// Figma text styles, and nothing joined them — so a component could drift off the ramp
+// with both files passing their own checks. Now a label whose text style can be named
+// COMPOSES it: the component rule emits no type at all, and its selector is collected
+// here and emitted once, in a rule generated from the ramp.
+const typeResolver = buildResolver();
+const resolveType = (component, font, variant = null) => {
+  const r = typeResolver.resolve(component, font, variant);
+  if (!r || (r.outcome !== 'bound' && r.outcome !== 'matched')) return null;
+  // ITALIC IS NOT COMPOSED, and this is deliberate rather than an oversight. The label
+  // the walk measures is the FIRST text node in the variant, which on an input is the
+  // placeholder — and `Field`'s geometry note records exactly that: "Placeholder text is
+  // italic, the value is not." Composing the italic style would put font-style: italic on
+  // the input box itself and slant the typed value, a visual change this work has no
+  // business making. The generator never emitted italic before and still does not; the
+  // size and weight are emitted the old way and check-component-type reports it.
+  if (r.italic) return null;
+  return r;
+};
+// Keyed on the style's IDENTITY, not its name: two different styles are both called
+// `Desktop text/Button text`, so a map keyed on the name would merge them and emit one
+// set of values for both.
+const composed = new Map(typeResolver.styles.map(st => [st.id, { style: st, sels: new Set() }]));
 
 const tsv = (p) => {
   const [h, ...rows] = readFileSync(p, 'utf8').trim().split('\n');
@@ -174,7 +200,7 @@ const clipComponents = new Set();
 // nothing means the base's padding leaks through — Confirmation modal Mobile=True resets
 // padding and radius to 0 in Figma and rendered with the desktop variant's 60 10 and its
 // 8px radius. Zero is a real value in an override.
-function geometryDecls(g, notes, isVariant = false) {
+function geometryDecls(g, notes, isVariant = false, composedType = null) {
   if (!g) return [];
   const d = [];
   const m = (g.size || '').match(/^(auto|\d+)\s*x\s*(auto|\d+)$/);
@@ -292,8 +318,18 @@ function geometryDecls(g, notes, isVariant = false) {
     d.push('display: inline-block');
   }
 
+  // TYPE IS NOT WRITTEN HERE WHEN THE LABEL HAS A TEXT STYLE. Where Figma binds a style —
+  // or binds nothing but exactly one style has the label's size, weight, tracking and case
+  // — the component COMPOSES that style instead of carrying a transcribed copy of its
+  // values. The selector is collected and emitted once, at the end, in a rule generated
+  // from the type ramp. That is the fix for fault 4: there is one declaration site per
+  // style, so a component cannot drift from the ramp while both files pass.
+  //
+  // Where the label is ambiguous or off the ramp the measured values are still written
+  // here, because refusing to guess is the point and a 12px label is real even though no
+  // style has it. check-component-type.mjs reports every one.
   const f = (g.font || '').match(/^(\d+)px(?:\s+(\w+))?/);
-  if (f) {
+  if (f && !composedType) {
     d.push(`font-size: ${f[1]}px`);
     if (f[2] === 'SemiBold' || f[2] === 'Bold') d.push('font-weight: var(--pf-font-weight-bold)');
     else if (f[2] === 'Regular') d.push('font-weight: var(--pf-font-weight-regular)');
@@ -397,7 +433,12 @@ for (const [component, rows] of [...byComponent.entries()].sort()) {
   const base = cls(component);
   const g = geometry.get(component);
   const notes = [];
-  const geo = geometryDecls(g, notes);
+  // Resolve the label's text style before emitting, so the type can be composed rather
+  // than transcribed. A null result means ambiguous or off the ramp: the measured values
+  // stay, and check-component-type.mjs reports it.
+  const baseType = g ? resolveType(component, g.font) : null;
+  const geo = geometryDecls(g, notes, false, baseType);
+  if (baseType && baseType.resolved) composed.get(baseType.resolved.id).sels.add('.' + base);
 
   out.push(`/* ${component}${g ? '' : '  (no geometry measured — colours only)'}`);
   out.push(rows.length
@@ -431,9 +472,15 @@ for (const [component, rows] of [...byComponent.entries()].sort()) {
 
   for (const vg of geometryByVariant.get(component) || []) {
     const vnotes = [];
-    const vdecls = geometryDecls(vg, vnotes, true);
-    if (!vdecls.length) continue;
+    const vType = resolveType(component, vg.font, vg.variant);
+    const vdecls = geometryDecls(vg, vnotes, true, vType);
     const sels = selectorsFor(base, parseVariant(vg.variant));
+    // A variant whose ONLY difference from the base row was its type now emits no
+    // declarations of its own — its type comes from the composed rule instead. The
+    // selector still has to be collected, or the variant would silently inherit the base
+    // row's style: Nav tabs Selected is SemiBold and Unselected is not.
+    if (vType && vType.resolved) for (const sel of sels) composed.get(vType.resolved.id).sels.add(sel);
+    if (!vdecls.length) continue;
     out.push(`${sels.join(',\n')} {`);
     for (const d of vdecls) out.push(`  ${d};`);
     out.push('}');
@@ -580,6 +627,55 @@ out.push('.pf-table-ag > * { min-width: 0; max-width: 100%; width: 100%; }');
 // name. A cell's weight belongs to the cell's own text, not to the frame around it.
 out.push('.pf-table-ag td, .pf-table-ag tbody { font-weight: var(--pf-font-weight-regular); }');
 out.push('');
+
+// ---- the composed type layer -----------------------------------------------
+//
+// One rule per text style, listing every component selector whose label uses it. This is
+// the whole of fault 4's fix: the values are generated from tokens/_raw/text-styles.tsv,
+// the same file type.css is generated from, so a component and the type ramp cannot
+// disagree. Before this, each component carried its own transcribed copy.
+//
+// Emitted LAST so that where a selector appears both here and in a component rule, this
+// wins. That cannot currently happen — a selector is only collected when its component
+// rule suppressed its type — but the ordering makes the intent explicit rather than
+// depending on it never happening.
+//
+// Specificity still does the right thing between rules here: `.pf-nav-tabs` and
+// `.pf-nav-tabs[data-status="Selected"]` land in different styles (Body text and Body
+// text semibold), and the attribute selector is more specific, so Selected stays
+// SemiBold.
+const composedRules = [...composed.values()].filter(c => c.sels.size)
+  .sort((a, b) => (a.style.name + a.style.size).localeCompare(b.style.name + b.style.size));
+if (composedRules.length) {
+  out.push('/* ---- type, composed from the Figma text styles -------------------------');
+  out.push(' *');
+  out.push(' * Each rule below IS a text style from tokens/_raw/text-styles.tsv, applied to');
+  out.push(' * every component label Figma gives that style. No component carries its own');
+  out.push(' * font-size or font-weight where its style could be named, so the library and');
+  out.push(' * the type ramp have one source rather than two that can drift apart.');
+  out.push(' *');
+  out.push(' * A component NOT listed here has type the ramp cannot express — an ambiguous');
+  out.push(' * match, or a size the ramp does not contain. Those keep their measured values');
+  out.push(' * and are reported by scripts/check-component-type.mjs.');
+  out.push(' */');
+  for (const { style: st, sels } of composedRules) {
+    // The name alone would be a lie where two styles share one, so the size is named too.
+    const name = `${st.name}  (${st.size}px ${st.weight || 'Regular'}${st.textCase === 'UPPER' ? ', uppercase' : ''})`;
+    const d = [`font-size: ${st.size}px`];
+    if (st.weight === 'Italic') { d.push('font-weight: 400', 'font-style: italic'); }
+    else d.push(`font-weight: ${WEIGHT[st.weight] || '400'}`);
+    const ls = parseFloat(st.letterSpacing);
+    if (Number.isFinite(ls) && ls !== 0) d.push(`letter-spacing: ${ls / 100}em`);
+    if (st.textCase === 'UPPER') d.push('text-transform: uppercase');
+    out.push('');
+    out.push(`/* ${name} */`);
+    out.push([...sels].sort().join(',\n') + ' {');
+    for (const x of d) out.push(`  ${x};`);
+    out.push('}');
+    ruleCount++;
+  }
+  out.push('');
+}
 
 mkdirSync('dist', { recursive: true });
 writeFileSync('dist/components.css', out.join('\n'));

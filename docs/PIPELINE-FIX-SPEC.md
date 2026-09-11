@@ -15,10 +15,10 @@ every check validates that summary against itself. Four faults compound:
 | 1 | ~~The typeface is never shipped~~ | **FIXED** — Open Sans 400/600 vendored and inlined; `check-fonts.mjs` guards it | ~~Critical~~ |
 | 2 | ~~Checks compare the build to its own source~~ | **FIXED** — `verify-against-figma.mjs` has an independent source; wording corrected | ~~Critical~~ |
 | 3 | ~~One geometry row per component~~ | **FIXED** — per-variant across the library; 348 shapes / 158 components independently measured, drift 0 | ~~High~~ |
-| 4 | Component type is not linked to the text styles | Component type can drift from the type layer, both "passing" | Medium |
+| 4 | ~~Component type is not linked to the text styles~~ | **FIXED** — components compose the styles; 410 font-size declarations fall to 69 | ~~Medium~~ |
 
 Fault 1 alone explains the reported button and title problems. Faults 2–4 explain why
-nobody noticed.
+nobody noticed. **All four are now fixed.**
 
 ---
 
@@ -270,7 +270,7 @@ whose height depends on the length of the name rather than on the component — 
 
 ---
 
-## 4. Component type is not linked to the text styles — MEDIUM
+## 4. Component type is not linked to the text styles — MEDIUM — **FIXED**
 
 `dist/type.css` is correct — 23 styles extracted from Figma's real text styles. Components
 do not use it. They emit **131 `font-size`** and **32 `font-weight`** declarations of their
@@ -316,6 +316,54 @@ not bound.
 - A new check fails if a component emits raw type while a text style with identical values
   exists.
 - `docs/FIGMA-ISSUES.md` lists every unbound label, `Button` included.
+
+### Done
+
+`scripts/extract-component-type.mjs` reads `textStyleId` for every component label —
+the link the evidence above said had never been extracted. 208 labels, and they fall into
+four cases that are NOT the same thing:
+
+| | | |
+|---|---|---|
+| **155** | bound to a named local style | compose it |
+| **26** | unbound, or bound into another library file, but exactly ONE style has these values | compose it, and report the missing binding |
+| **4** | more than one style has these values | refuse — keep the measurement, report the candidates |
+| **23** | no style has these values at all | keep the measurement, report it as a design issue |
+
+`build-components-css.mjs` emits ONE rule per style listing every selector that uses it,
+generated from `text-styles.tsv` — the same file `type.css` is generated from. **`font-size`
+goes 410 → 69 and `font-weight` 131 → 31**, and the remainder are exactly the labels the
+ramp cannot express. `scripts/check-component-type.mjs` fails if a component transcribes
+type it could compose, if a composed rule disagrees with the style it names, or if the
+off-ramp count grows. Both failure modes are self-tested.
+
+Four decisions worth recording, because in each case the obvious move was wrong:
+
+- **Matching on size and weight alone is not enough.** Three styles are 13px Regular and
+  three are 20px Regular, so 43 labels had more than one candidate. Reading tracking and
+  case as well makes the match unique — and exposes off-ramp type that size alone hid: the
+  Config menus are 16px UPPER, which size-matching called `Body text`.
+- **A style NAME is not a unique key in this file.** Two different styles are both called
+  `Desktop text/Button text` — 16px SemiBold and 13px uppercase. Keyed on the name,
+  `Notification card` Mobile=Yes composed the 13px uppercase one: the right name, the
+  wrong style, values silently changed under a component that was correctly bound. The
+  identity is the name plus the values until Figma fixes the duplicate.
+- **Italic is deliberately not composed.** The walk measures the first text node, which on
+  an input is the placeholder — `Field`'s geometry note says so explicitly: "Placeholder
+  text is italic, the value is not." Composing it would slant the typed value.
+- **The check re-derives its answer from the generator's own inputs**, rather than building
+  a second map. An earlier version built its own and disagreed, reporting four components
+  as transcribing type they had in fact composed.
+
+### One check was corrected along the way
+
+The shell census went 70 → 2. It had been counting RULES, not classes: the generator emits
+each component twice at the bare class, once for geometry and once for colour, and the
+census logged the geometry rule as a shell while its "paint arrives on a later rule" escape
+only looked at variant selectors. `69` was, near enough, a count of the components that DO
+have paint. It surfaced because the composed rules changed the text nearby and a second,
+looser regex stopped accidentally matching. The two real shells are `pf-menu` and
+`pf-mobile-key-actions`.
 
 ---
 

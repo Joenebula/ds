@@ -174,6 +174,66 @@ that does not.
 
 ---
 
+## 7. Component type and the text-style ramp
+
+The library now COMPOSES the Figma text styles rather than transcribing their values, so a
+component and the type ramp can no longer disagree. Reading the `textStyleId` on every
+component label to do that turned up three things worth a designer's attention.
+
+**181 of 208 labels resolve to exactly one style. 155 are bound in Figma; 26 are not.**
+
+### 7a. Twenty-six labels are not bound to the style they are already using
+
+These carry local type that matches a text style *exactly* — same size, weight, tracking
+and case — but no style is applied. `Button` is the clearest: every one of its 18 variants
+is 13px SemiBold, which is precisely `Desktop text/Label text (semi bold, 600)`. Binding
+the style changes nothing visually and makes the intent explicit.
+
+Thirteen of the twenty-six DO bind a style, but one living in another library file, so this
+file cannot name it — `Tags`, `Search navigation`, `Calendar picker`, `Time picker`, the
+desktop `Header`, `Notification tabs`, `Notification list`, `Notification categories`,
+`Footer`, `Repeating group`, `Secondary nav` and `Tertiary nav` on mobile. They behave
+correctly; they are listed so nobody is surprised that the local style list does not
+account for them.
+
+### 7b. Four labels cannot be told apart from their values alone
+
+More than one style has the same size, weight, tracking and case, so nothing in the file
+says which one is meant. These keep their measured values rather than being assigned a
+style by guesswork:
+
+| Component | Type | Could be |
+|---|---|---|
+| `Header` (desktop), `Top bar app context` (desktop) | 24px Regular | `Large heading` or `Large heading (light)` |
+| `Graph legend`, `Data variance alternative` | 20px Regular | `Sub heading`, `Mobile/Large heading`, or `Mobile/Large heading (light)` |
+
+Note that `Large heading` and `Large heading (light)` are recorded in Figma with the SAME
+weight — which is the underlying problem. A "(light)" style that is not lighter cannot be
+distinguished from the one it is meant to contrast with.
+
+### 7c. Twenty-two labels use type the ramp does not contain
+
+Not a naming problem — these sizes and weights do not exist as styles at all. The desktop
+ramp is 13 / 16 / 20 / 24 / 36, and the mobile ramp is 18 / 20 / 30 / 50.
+
+| Type | Components |
+|---|---|
+| **11px** | `Navigation item` (mobile and tablet), `Mobile bottom navigation`, `Header` counter (11px SemiBold) |
+| **12px** | `AG field`, `AG Filter menus`, `AI message bubble`, `Adaptive card` |
+| **15px** | `Mobile key actions` |
+| **60px** | `Donut pie chart`, `Donut chart with ledger` — one of them in a Medium weight the system does not ship |
+| **24px SemiBold** | `AI Assistant`, `AI Gradient component`, `Filter tab single`, `Filter tabs` — 24px exists, but only as Regular |
+| **16px UPPER** | `Config side menu`, `Config menu items`, `Config parent menu` |
+| **Right size, wrong tracking** | `Option` and `Browser drop down` are 16px at **-2%** where `Body text` is -1%; `Drop down button` is 13px at **-1%** where `Label text` is 0%; `Status` likewise |
+
+The last row is the one most likely to be accidental: a component that is one notch of
+letter-spacing away from a style it otherwise matches.
+
+**Nothing here is broken on our side.** Each keeps the values Figma actually has, and
+`npm run verify` fails if the count grows, so a new one gets noticed rather than absorbed.
+
+---
+
 ## What happens after you fix any of this
 
 Re-extract and rebuild, and the stylesheet, the component list and the example screens all

@@ -154,12 +154,13 @@ svg { display: block; }
 /* The class owns the fill — `Navigation/Search bg` — and the text colour. Overriding the
    background with --pf-bg-primary here was the same fault as the sub nav: right in light
    mode, a different grey in dark.
-   The 150px width and the 16px type now come from the class — the Navigation page has
-   been measured, so Search navigation carries its own box.
+   The 150px width and the type — size AND tracking — now come from the class. Search
+   navigation's label is Desktop text/Body text, which the library composes, so the
+   -0.01em written here was a hand-copied duplicate of a value the class already has.
    pf-new: the 7px inset and the icon-to-text gap are the component's INTERNAL
    arrangement, which the outer-box extract does not reach. */
 .pf-search-navigation { display: inline-flex; align-items: center; gap: 7px;
-  padding: 0 7px; letter-spacing: -0.01em; }
+  padding: 0 7px; }
 .rightgrp { display: flex; align-items: center; gap: var(--pf-space-large); }  /* Figma: Frame 84860 gap 20 */
 
 /* Secondary nav — Figma "[S] Main nav context", 1830x44, which the People First file

@@ -30,7 +30,6 @@ const claims = [
     () => sh('grep -ln figma-truth scripts/build-*.mjs').trim() === ''],
   ['2', 'FIX HOLDS: only the independent check claims "match Figma"',
     () => sh('grep -l "match Figma" scripts/verify-rendered.mjs scripts/verify-type.mjs scripts/verify-geometry.mjs').trim() === ''],
-  // Fault 3 is fixed WHERE MEASURED. The row count is still below the variant count
   // Fault 3 was "FIXED where measured" while only one Figma page had been re-walked. Every
   // page that IS the design system has since been walked, so the claim that the rest of the
   // library is still one row per component has stopped being true — which is what closed
@@ -48,10 +47,16 @@ const claims = [
         .filter(c => (c.pageName || '').trim() !== 'Icons');
       return nonIcon.filter(c => measured.has(c.name)).length / nonIcon.length > 0.8;
     }],
-  ['4', 'components emit their own type rather than composing a text style',
-    () => count('dist/components.css', /font-size:/g) > 100],
-  ['4', 'nothing in scripts/ reads textStyleId',
-    () => sh('grep -rln textStyleId scripts/ --exclude=verify-spec.mjs').trim() === ''],
+  // Fault 4 was "components emit their own type rather than composing a text style" and
+  // "nothing in scripts/ reads textStyleId". Both have stopped being true, which is what
+  // closed it. What must hold now: the link is extracted, the type is composed rather than
+  // transcribed, and the composed values come from the same file type.css is built from.
+  ['4', 'FIX HOLDS: the textStyleId link is extracted',
+    () => sh('grep -rln textStyleId scripts/ --exclude=verify-spec.mjs').trim() !== ''],
+  ['4', 'FIX HOLDS: components compose the styles rather than transcribing them',
+    () => count('dist/components.css', /font-size:/g) < 100],
+  ['4', 'FIX HOLDS: every composed rule names the Figma style it came from',
+    () => count('dist/components.css', /\/\* (Desktop|Mobile) text\/[^*]+\(\d+px /g) >= 10],
 ];
 
 // A claim is one of two kinds. A FAULT claim asserts something is still broken — when it

@@ -19,13 +19,9 @@ import { readFileSync } from 'node:fs';
 // without someone deciding to raise it, because up means a component quietly lost
 // its paint.
 //
-// Raised 69 -> 70 on the People page walk. The new shell is `pf-people`, and it is not a
-// component that lost anything: the People avatar set had no geometry row at all until
-// that page was measured, so no rule for it existed to count. Its fill is a photograph,
-// bound to no colour variable, so a shell is the correct result — the same situation as
-// the header band, which is why the artwork pipeline exists. Checked by diffing the
-// shell census against the previous build rather than by assuming.
-const SHELL_BASELINE = 70;
+// Raised 69 -> 70 on the People page walk, then CORRECTED to 2 — see below. The number
+// was not measuring what it said.
+const SHELL_BASELINE = 2;
 
 const css = readFileSync('dist/components.css', 'utf8');
 let failures = 0;
@@ -46,21 +42,53 @@ for (const line of artRows) {
 }
 
 // ---- 2. shell census ---------------------------------------------------------
-const shells = [];
-for (const m of css.matchAll(/^\.(pf-[a-z0-9-]+)\s*\{([^}]*)\}/gm)) {
-  const [, name, body] = m;
-  const hasBg = /background(?!-)[^;]*:(?!\s*transparent)/.test(body);
-  const hasImg = /background-image\s*:/.test(body);
-  const hasBorder = /border(?!-radius)[^;]*:(?!\s*0)/.test(body);
-  const hasColour = /(^|;|\s)color\s*:/.test(body);
-  // A class whose paint arrives on a later, more specific rule is not a shell.
-  const painted = new RegExp(`^\\.${name}\\[[^{]*\\{[^}]*(background|color|border-color)`, 'm').test(css)
-    || new RegExp(`\\.${name}[^,{]*,?\\n?[^{]*\\{[^}]*background-image`, 'm').test(css);
-  if (!hasBg && !hasImg && !hasBorder && !hasColour && !painted) shells.push(name);
+//
+// Does any rule anywhere paint this class? Answered by parsing the rules and reading each
+// selector.
+//
+// THE OLD CENSUS WAS COUNTING RULES, NOT CLASSES, AND ITS ANSWER WAS BACKWARDS. It walked
+// every bare `.pf-x { }` rule and logged one as a shell if that rule's own body had no
+// paint. The generator emits each component TWICE at the bare class — once for geometry,
+// once for colour — so a component with a perfectly good background had its geometry rule
+// counted as a shell. The escape hatch, "paint arrives on a later, more specific rule",
+// only looked for a VARIANT selector (`^\.name\[`), so it never saw the second bare rule
+// where the colour actually is.
+//
+// The result: `69` was, near enough, a count of the components that DO have paint. Tool
+// tip has `background: var(--pf-bg-tertiary); color: var(--pf-text-primary)` and was in
+// that list. The real number is 2.
+//
+// It surfaced because the composed type rules changed the text around those rules and the
+// second, looser fallback regex — which ran across multi-selector lists and could match a
+// background-image belonging to a different class in the same rule — stopped accidentally
+// matching for three of them, pushing the count UP and failing the build. A census that
+// can be flipped by unrelated text nearby is not measuring what it claims.
+const PAINT = /(^|;|\s)(background|background-image|background-color|color|border-color|box-shadow)\s*:\s*([^;}]+)/g;
+const paintedClasses = new Set();
+const ruleFor = new Map();                       // class -> its own bare rule body
+for (const m of css.matchAll(/([^{}@]+)\{([^{}]*)\}/g)) {
+  const selectors = m[1].split(',').map(s => s.trim()).filter(Boolean);
+  let paints = false;
+  for (const d of m[2].matchAll(PAINT)) {
+    const value = d[3].trim();
+    // `background: transparent`, `border-color: transparent` and `border: 0` are the
+    // generator's UA reset, not paint.
+    if (value === 'transparent' || value === 'none' || value === '0') continue;
+    paints = true;
+  }
+  for (const sel of selectors) {
+    const c = /^\.(pf-[a-z0-9-]+)/.exec(sel);
+    if (!c) continue;
+    if (sel === '.' + c[1]) ruleFor.set(c[1], m[2]);
+    if (paints) paintedClasses.add(c[1]);
+  }
 }
+const shells = [...ruleFor.keys()].filter(name => !paintedClasses.has(name)).sort();
 
 console.log(`${artChecked} artwork bindings reach dist/components.css`);
 console.log(`${shells.length} shell classes (baseline ${SHELL_BASELINE}) — a class with no paint of any kind`);
+if (shells.length && shells.length <= SHELL_BASELINE)
+  console.log(`        ${shells.join(', ')}`);
 if (shells.length > SHELL_BASELINE) {
   console.log('  FAIL  shell count went UP. A component lost its paint:');
   for (const s of shells) console.log('        ' + s);

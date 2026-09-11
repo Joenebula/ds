@@ -899,13 +899,32 @@ started, and drift is **0 of 1407** against the independent measurement with the
 locked. `verify-spec.mjs` proves it: the claim that the rest of the library was still
 one-row-per-component has stopped being true, which is what closed the fault.
 
-## F. Component type from the text styles — `pending` (spec fault 4)
+## F. Component type from the text styles — `done` (spec fault 4)
 
-`components.css` emits 131 `font-size` and 32 `font-weight` of its own. `Links` binds
-`Desktop text/Body text`; `Button` binds nothing. Nothing has ever read `textStyleId`.
+**Done when:** met. `extract-component-type.mjs` reads `textStyleId` for all 208 component
+labels — the link nothing had ever read. The library now composes the styles: one rule per
+text style listing every selector that uses it, generated from the same `text-styles.tsv`
+that `type.css` is generated from, so the two cannot disagree. **`font-size` went 410 → 69
+and `font-weight` 131 → 31**, and what remains is exactly the labels the ramp cannot
+express. `check-component-type.mjs` is wired into `npm run verify` and self-tested against
+both failure modes.
 
-**Done when:** components compose a `.pf-text-*` class instead of carrying their own type,
-and every unbound label is reported to `docs/FIGMA-ISSUES.md`.
+181 of 208 labels resolve to one style. The other 27 are written up in
+`docs/FIGMA-ISSUES.md` §7 — including `Button`, whose 18 variants are 13px SemiBold, which
+is exactly `Desktop text/Label text (semi bold, 600)` and is bound to nothing.
+
+Two source problems found while doing it, both now handled rather than guessed around:
+
+- **A style name is not a unique key.** Two styles are both `Desktop text/Button text`
+  (16px SemiBold and 13px uppercase), so `Notification card` Mobile=Yes composed the wrong
+  one — right name, wrong values, under a component that was correctly bound.
+- **Matching by size and weight alone is ambiguous** for 43 labels. Reading tracking and
+  case too makes it unique, and reveals off-ramp type that size hid: the Config menus are
+  16px UPPER and no style is.
+
+**And one check was found to be measuring the wrong thing.** The shell census went 70 → 2:
+it counted RULES, not classes, and the generator emits each component twice at the bare
+class. `69` was near enough a count of the components that DO have paint.
 
 ## G. Truth-snapshot coverage — `done`
 
