@@ -152,11 +152,23 @@ at all"*. Both were false — `get_variable_defs` on 2816:1373, 2816:1379 and 30
 exactly the captured tokens. `Table header (AG)` and `Table cell (AG)` render with no border class
 whatsoever and both bind `Border/Default full`.
 
-So: **a PRESENCE may be read off the render** — that is where the role (fill / stroke / text) comes
-from, and the render is faithful about what it does emit. **An ABSENCE must be confirmed with
-`get_variable_defs`**, which returns every variable in the node's subtree. Absence from that set IS
-absence on the root, so it is sound in the one direction that matters; presence in it says only
-that something under the node binds the token, not which node or in which role.
+**And `get_variable_defs` has the MIRROR blind spot.** It traverses every variant of a set — that
+is how `Background/Light Theme` was found on a Hover variant — but it reports only what is VISIBLE
+in each variant's default state, so a layer switched off by a boolean property is missing from it.
+`Message box` (26895:77316) is the case: its placeholder line binds `Text/Secondary`, the extract
+records `Text/Secondary`, and the variable set does not contain it, because `placeholderText`
+defaults to false. Read alone, that says the capture is stale. It is not.
+
+So the two tools fail in opposite directions, and the rule is:
+
+| | says a binding is THERE | says a binding is NOT there |
+|---|---|---|
+| `get_design_context` | trust it — and it is the only source of the ROLE (fill / stroke / text) | do not trust it — artwork exports drop bindings |
+| `get_variable_defs` | trust it — but it does not say which node or which role | do not trust it — hidden layers are not traversed |
+
+**A binding is absent only when BOTH agree it is absent.** One tool alone can prove a presence;
+neither alone can prove an absence. `AI Assistant`'s missing `Base colours/Default Pink` is the one
+absence in this file that has been established that way, and it is the only one asserted flatly.
 
 Screening a component with `get_variable_defs` alone is cheap and catches every rename and split,
 but it is a SCREEN, not a measurement — say so in the notes when that is all a component got.
