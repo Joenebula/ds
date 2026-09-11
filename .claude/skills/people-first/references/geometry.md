@@ -55,7 +55,7 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Next actions modal** | 400 x 565 | 0 0 30 0 | 8 | 30 | 24px Regular | VERTICAL CENTER MIN |
 | **Status dot** | 22 x 22 | 0 | 100 | 0 | — |  |
 | **Notification image** | 44 x 44 | 0 | 0 | 0 | — | NONE |
-| **Navigation item** | 90 x 86 | 0 | 0 | 22 | 13px SemiBold | HORIZONTAL CENTER CENTER |
+| **Navigation item** | 90 x 86 | 0 25 | 0 | 10 | 13px Regular | HORIZONTAL CENTER CENTER |
 | **Side navigation** | 90 wide | 0 | 0 | 0 | 13px | VERTICAL MIN MIN |
 | **Side navigation tab** | 268 x 48 | 10 15 | 8 | 20 | 16px | HORIZONTAL CENTER MIN |
 | **Tab** | 40 x 34 | 6 0 | 0 | 10 | 16px | VERTICAL CENTER MIN |
@@ -175,6 +175,9 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Horizontal scroll** | auto x 32 | 0 | 0 | 390 | — | HORIZONTAL CENTER CENTER |
 | **Mobile key actions** | 126 x 103 | 0 | 0 | 0 | — | NONE |
 | **Default header background** | auto x 86 | 0 | 0 | 0 | — | NONE |
+| **Navigation item|Selected=Yes** | 90 x 86 | 0 | 0 | 22 | 13px SemiBold | HORIZONTAL CENTER CENTER |
+| **Navigation item|Device=Mobile** | 86 x 76 | 0 25 | 0 | 10 | 11px Regular | HORIZONTAL CENTER CENTER |
+| **Navigation item|Device=Tablet** | 86 x 56 | 0 25 | 0 | 10 | 11px Regular | HORIZONTAL CENTER CENTER |
 | **Default header background|Breakpoint=Desktop** | auto x 86 | 0 | 0 | 0 | — | NONE |
 | **Default header background|Breakpoint=Tablet** | auto x 74 | 0 | 0 | 0 | — | NONE |
 | **Default header background|Breakpoint=Mobile** | auto x 62 | 0 | 0 | 0 | — | NONE |

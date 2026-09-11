@@ -22,11 +22,17 @@
   not components. It is marked as a gap rather than invented, because inventing it is how
   a build stops being an extraction and starts being a guess.
 
-  LIBRARY ISSUE FOUND WHILE BUILDING: `.pf-navigation-item` sets
-  `font-weight: var(--pf-font-weight-bold)` on the base class, but in Figma only the
-  Selected variant is SemiBold — Home, News, Me, Notifications, Support and Settings are
-  Regular. The geometry extract recorded one variant's type and applied it to all of them.
-  Corrected locally here; the library needs the same fix.
+  LIBRARY ISSUE FOUND WHILE BUILDING — NOW FIXED IN THE LIBRARY: `.pf-navigation-item`
+  set `font-weight: bold` on the base class, but in Figma only Selected=Yes is SemiBold.
+  The geometry extract records ONE row per component, so the selected variant's type,
+  padding (0 vs 0 25), gap (22 vs 10) and Desktop size were applied to every state and
+  every device. Four measured rows now replace the one, so the local override is gone.
+
+  WHAT IS STILL LOCAL, AND WHY: the icon-above-label stack and the 3px selected bar.
+  In Figma the rail item's outer box is HORIZONTAL; the stack is an inner VERTICAL frame
+  (32x55, gap 5) and the bar is a sibling RECTANGLE 3x132. The extract captures a
+  component's outer box only, so neither child exists in the class and both are written
+  here by hand. That is the same gap that left the header band empty.
 -->
 <meta charset="utf-8">
 <title>Case Management — My team</title>
@@ -51,19 +57,28 @@ svg { display: block; }
 .rail .spacer { flex: 1; }
 .railtop { width: 90px; height: 86px; display: grid; place-items: center;
            background: var(--pf-bg-theme); color: var(--pf-icon-always-white); }
-.pf-navigation-item { flex-direction: column; gap: 5px; text-decoration: none;
-                      cursor: pointer; position: relative; color: var(--pf-text-secondary); }
-/* Figma bolds ONLY the selected rail item; the rest are Regular. The component class
-   carries SemiBold for all of them because the geometry extract recorded the selected
-   variant's type and applied it to the base — see the note in the header comment. At
-   Regular, "Notifications" measures 77px and fits the 90px item; at SemiBold it is 93px
-   and spills out of the rail. */
-.pf-navigation-item .lbl { font-size: 13px; font-weight: var(--pf-font-weight-regular); }
-.pf-navigation-item[data-state="Selected"] .lbl { font-weight: var(--pf-font-weight-bold); }
-.pf-navigation-item[data-state="Selected"]::before {
+/* This page renders the rail item AS the stack, so it owns direction, gap and padding
+   for every state. Figma's own numbers on the outer box describe a different thing:
+   gap 22 on Selected is the distance from the stack to the 3x132 bar beside it, and
+   padding 0 there is because that bar sits where the padding would be. Inherit them onto
+   a column and the icon is pushed out of the 86px item — which is exactly what happened
+   the moment the library started emitting the Selected variant's real geometry. The
+   inner frame's own gap is 5. */
+.pf-navigation-item,
+.pf-navigation-item[data-selected="Yes"] {
+  flex-direction: column; gap: 5px; padding: 0 25px; text-decoration: none;
+  cursor: pointer; position: relative; color: var(--pf-text-secondary); }
+/* Weight now comes from the class: base is Regular, [data-selected="Yes"] is SemiBold,
+   exactly as Figma has it. Only the two CHILDREN the extract cannot reach are written
+   here — the inner vertical stack above, and the 3x132 selected bar below. */
+.pf-navigation-item[data-selected="Yes"]::before {
   content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
   background: var(--pf-bg-theme);
 }
+/* Figma's 0 25 padding is sized for the 32px ICON, and the label simply overflows it —
+   a Figma text node does not wrap or clip unless told to. nowrap reproduces that; letting
+   it wrap would invent a two-line rail item the design does not have. */
+.pf-navigation-item .lbl { font-size: 13px; white-space: nowrap; }
 .badge { position: absolute; top: 14px; right: 22px; min-width: 18px; height: 18px;
          border-radius: 9px; background: var(--pf-bg-theme); color: var(--pf-text-always-white);
          font-size: 11px; font-weight: var(--pf-font-weight-bold);
@@ -152,7 +167,7 @@ svg { display: block; }
     <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:home 32--><span class="lbl">Home</span></a>
     <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:news 32--><span class="lbl">News</span></a>
     <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:user 32--><span class="lbl">Me</span></a>
-    <a class="pf-navigation-item" data-device="Desktop" data-state="Selected" aria-current="page" href="#"><!--pf-icon:team 32--><span class="lbl">My team</span></a>
+    <a class="pf-navigation-item" data-device="Desktop" data-state="Selected" data-selected="Yes" aria-current="page" href="#"><!--pf-icon:team 32--><span class="lbl">My team</span></a>
     <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:notification-bell 32--><span class="lbl">Notifications</span><span class="badge">7</span></a>
     <div class="spacer"></div>
     <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:tooltip-question 32--><span class="lbl">Support</span></a>

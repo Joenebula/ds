@@ -44,7 +44,7 @@ Confirmation modal	400 x 413	60 10	8	36	24px Regular	VERTICAL CENTER MIN
 Next actions modal	400 x 565	0 0 30 0	8	30	24px Regular	VERTICAL CENTER MIN	
 Status dot	22 x 22	0	100	0	—		circle
 Notification image	44 x 44	0	0	0	—	NONE	
-Navigation item	90 x 86	0	0	22	13px SemiBold	HORIZONTAL CENTER CENTER	rail item, icon above label
+Navigation item	90 x 86	0 25	0	10	13px Regular	HORIZONTAL CENTER CENTER	rail item. The outer box is HORIZONTAL; the icon-above-label stack is an inner VERTICAL frame (32x55, gap 5) this extract does not reach, and Selected adds a 3x132 bar beside it. Only Selected=Yes is SemiBold.
 Side navigation	90 wide	0	0	0	13px	VERTICAL MIN MIN	collapsed rail
 Side navigation tab	268 x 48	10 15	8	20	16px	HORIZONTAL CENTER MIN	
 Tab	40 x 34	6 0	0	10	16px	VERTICAL CENTER MIN	
@@ -164,6 +164,9 @@ Floaters	85 x 40	0	0	5	—	HORIZONTAL MIN CENTER	Single component. No colour var
 Horizontal scroll	auto x 32	0	0	390	—	HORIZONTAL CENTER CENTER	2 variants (Page). Figma draws it 1160px wide — the artboard, not a rule. No colour variable bound.
 Mobile key actions	126 x 103	0	0	0	—	NONE	6 variants (Link). No colour variable bound in Figma.
 Default header background	auto x 86	0	0	0	—	NONE	Full-bleed header bar; height varies by Breakpoint (see size rows). Fill is a raw colour in Figma, not a variable.
+Navigation item|Selected=Yes	90 x 86	0	0	22	13px SemiBold	HORIZONTAL CENTER CENTER	the selected rail item: no side padding, wider gap, and the only SemiBold state
+Navigation item|Device=Mobile	86 x 76	0 25	0	10	11px Regular	HORIZONTAL CENTER CENTER	
+Navigation item|Device=Tablet	86 x 56	0 25	0	10	11px Regular	HORIZONTAL CENTER CENTER	
 Default header background|Breakpoint=Desktop	auto x 86	0	0	0	—	NONE	
 Default header background|Breakpoint=Tablet	auto x 74	0	0	0	—	NONE	
 Default header background|Breakpoint=Mobile	auto x 62	0	0	0	—	NONE	

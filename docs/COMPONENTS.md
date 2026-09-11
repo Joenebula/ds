@@ -237,7 +237,7 @@ Contents: [Buttons and links](#buttons-and-links) · [Forms](#forms) · [Control
 | Menu | `.pf-menu` | Size: Large · Small | 50 x 73 | 0 | — |
 | Mobile bottom navigation | `.pf-mobile-bottom-navigation` | Darkmode: False · True<br>Breakpoint: Tablet · Mobile | 375 x 76 | 0 | 11px |
 | Nav tabs | `.pf-nav-tabs` | Status: Selected · Unselected · Hover<br>Mobile: True · False | auto x 40 | 0 | — |
-| Navigation item | `.pf-navigation-item` | State: Hover · Selected · Unselected<br>Device: Desktop · Mobile · Tablet | 90 x 86 | 0 | 13px SemiBold |
+| Navigation item | `.pf-navigation-item` | State: Hover · Selected · Unselected<br>Device: Desktop · Mobile · Tablet | 90 x 86 | 0 | 13px Regular |
 | Navigation tabs | `.pf-navigation-tabs` | Mobile: No · Yes | auto x 36 | 0 | 16px SemiBold |
 | Notification categories | `.pf-notification-categories` | Mobile: No · Yes | 300 x auto | 0 | — |
 | Notification list | `.pf-notification-list` | Mobile: No · Yes | auto x auto | 0 | — |
@@ -270,7 +270,7 @@ Contents: [Buttons and links](#buttons-and-links) · [Forms](#forms) · [Control
 - **Menu** — **shape only** — no variant of this binds a colour variable in Figma, so the class carries its measured geometry and leaves colour to the page. 2 variants (Size). No colour variable bound in Figma.
 - **Mobile bottom navigation** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Darkmode`, `Breakpoint`
 - **Nav tabs** — Figma renamed this from `[S] Navigation/main tabs`. 6 variants (Status x Mobile); Mobile does not change the colours.. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`
-- **Navigation item** — rail item, icon above label
+- **Navigation item** — rail item. The outer box is HORIZONTAL; the icon-above-label stack is an inner VERTICAL frame (32x55, gap 5) this extract does not reach, and Selected adds a 3x132 bar beside it. Only Selected=Yes is SemiBold.. per-variant sizes: `Selected=Yes` 90 x 86, `Device=Mobile` 86 x 76, `Device=Tablet` 86 x 56
 - **Navigation tabs** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`
 - **Notification categories** — 2 variants (Mobile). Figma draws it 1020px tall — the artboard, not a rule.
 - **Notification list** — 2 variants (Mobile). Figma draws it 1117x730 — the artboard, not a rule.

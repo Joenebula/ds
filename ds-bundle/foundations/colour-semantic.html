@@ -3152,9 +3152,28 @@
 }
 
 /* Navigation item
- * 3 variants captured. rail item, icon above label
+ * 3 variants captured. rail item. The outer box is HORIZONTAL; the icon-above-label stack is an inner VERTICAL frame (32x55, gap 5) this extract does not reach, and Selected adds a 3x132 bar beside it. Only Selected=Yes is SemiBold.
  */
 .pf-navigation-item {
+  width: 90px;
+  height: 86px;
+  padding: 0 25px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-regular);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-navigation-item[data-selected="Yes"] {
   width: 90px;
   height: 86px;
   display: inline-flex;
@@ -3164,13 +3183,30 @@
   gap: 22px;
   font-size: 13px;
   font-weight: var(--pf-font-weight-bold);
-  appearance: none;
-  -webkit-appearance: none;
-  background: transparent;
-  margin: 0;
-  border: 0;
-  box-sizing: border-box;
-  font-family: var(--pf-font-body);
+}
+.pf-navigation-item[data-device="Mobile"] {
+  width: 86px;
+  height: 76px;
+  padding: 0 25px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: var(--pf-font-weight-regular);
+}
+.pf-navigation-item[data-device="Tablet"] {
+  width: 86px;
+  height: 56px;
+  padding: 0 25px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: var(--pf-font-weight-regular);
 }
 .pf-navigation-item[data-device="Desktop"][data-state="Selected"] {
   background: var(--pf-bg-primary);

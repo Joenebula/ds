@@ -22,11 +22,17 @@
   not components. It is marked as a gap rather than invented, because inventing it is how
   a build stops being an extraction and starts being a guess.
 
-  LIBRARY ISSUE FOUND WHILE BUILDING: `.pf-navigation-item` sets
-  `font-weight: var(--pf-font-weight-bold)` on the base class, but in Figma only the
-  Selected variant is SemiBold — Home, News, Me, Notifications, Support and Settings are
-  Regular. The geometry extract recorded one variant's type and applied it to all of them.
-  Corrected locally here; the library needs the same fix.
+  LIBRARY ISSUE FOUND WHILE BUILDING — NOW FIXED IN THE LIBRARY: `.pf-navigation-item`
+  set `font-weight: bold` on the base class, but in Figma only Selected=Yes is SemiBold.
+  The geometry extract records ONE row per component, so the selected variant's type,
+  padding (0 vs 0 25), gap (22 vs 10) and Desktop size were applied to every state and
+  every device. Four measured rows now replace the one, so the local override is gone.
+
+  WHAT IS STILL LOCAL, AND WHY: the icon-above-label stack and the 3px selected bar.
+  In Figma the rail item's outer box is HORIZONTAL; the stack is an inner VERTICAL frame
+  (32x55, gap 5) and the bar is a sibling RECTANGLE 3x132. The extract captures a
+  component's outer box only, so neither child exists in the class and both are written
+  here by hand. That is the same gap that left the header band empty.
 -->
 <meta charset="utf-8">
 <title>Case Management — My team</title>
@@ -3177,9 +3183,28 @@
 }
 
 /* Navigation item
- * 3 variants captured. rail item, icon above label
+ * 3 variants captured. rail item. The outer box is HORIZONTAL; the icon-above-label stack is an inner VERTICAL frame (32x55, gap 5) this extract does not reach, and Selected adds a 3x132 bar beside it. Only Selected=Yes is SemiBold.
  */
 .pf-navigation-item {
+  width: 90px;
+  height: 86px;
+  padding: 0 25px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: var(--pf-font-weight-regular);
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: var(--pf-font-body);
+}
+.pf-navigation-item[data-selected="Yes"] {
   width: 90px;
   height: 86px;
   display: inline-flex;
@@ -3189,13 +3214,30 @@
   gap: 22px;
   font-size: 13px;
   font-weight: var(--pf-font-weight-bold);
-  appearance: none;
-  -webkit-appearance: none;
-  background: transparent;
-  margin: 0;
-  border: 0;
-  box-sizing: border-box;
-  font-family: var(--pf-font-body);
+}
+.pf-navigation-item[data-device="Mobile"] {
+  width: 86px;
+  height: 76px;
+  padding: 0 25px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: var(--pf-font-weight-regular);
+}
+.pf-navigation-item[data-device="Tablet"] {
+  width: 86px;
+  height: 56px;
+  padding: 0 25px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: var(--pf-font-weight-regular);
 }
 .pf-navigation-item[data-device="Desktop"][data-state="Selected"] {
   background: var(--pf-bg-primary);
@@ -5277,19 +5319,28 @@ svg { display: block; }
 .rail .spacer { flex: 1; }
 .railtop { width: 90px; height: 86px; display: grid; place-items: center;
            background: var(--pf-bg-theme); color: var(--pf-icon-always-white); }
-.pf-navigation-item { flex-direction: column; gap: 5px; text-decoration: none;
-                      cursor: pointer; position: relative; color: var(--pf-text-secondary); }
-/* Figma bolds ONLY the selected rail item; the rest are Regular. The component class
-   carries SemiBold for all of them because the geometry extract recorded the selected
-   variant's type and applied it to the base — see the note in the header comment. At
-   Regular, "Notifications" measures 77px and fits the 90px item; at SemiBold it is 93px
-   and spills out of the rail. */
-.pf-navigation-item .lbl { font-size: 13px; font-weight: var(--pf-font-weight-regular); }
-.pf-navigation-item[data-state="Selected"] .lbl { font-weight: var(--pf-font-weight-bold); }
-.pf-navigation-item[data-state="Selected"]::before {
+/* This page renders the rail item AS the stack, so it owns direction, gap and padding
+   for every state. Figma's own numbers on the outer box describe a different thing:
+   gap 22 on Selected is the distance from the stack to the 3x132 bar beside it, and
+   padding 0 there is because that bar sits where the padding would be. Inherit them onto
+   a column and the icon is pushed out of the 86px item — which is exactly what happened
+   the moment the library started emitting the Selected variant's real geometry. The
+   inner frame's own gap is 5. */
+.pf-navigation-item,
+.pf-navigation-item[data-selected="Yes"] {
+  flex-direction: column; gap: 5px; padding: 0 25px; text-decoration: none;
+  cursor: pointer; position: relative; color: var(--pf-text-secondary); }
+/* Weight now comes from the class: base is Regular, [data-selected="Yes"] is SemiBold,
+   exactly as Figma has it. Only the two CHILDREN the extract cannot reach are written
+   here — the inner vertical stack above, and the 3x132 selected bar below. */
+.pf-navigation-item[data-selected="Yes"]::before {
   content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
   background: var(--pf-bg-theme);
 }
+/* Figma's 0 25 padding is sized for the 32px ICON, and the label simply overflows it —
+   a Figma text node does not wrap or clip unless told to. nowrap reproduces that; letting
+   it wrap would invent a two-line rail item the design does not have. */
+.pf-navigation-item .lbl { font-size: 13px; white-space: nowrap; }
 .badge { position: absolute; top: 14px; right: 22px; min-width: 18px; height: 18px;
          border-radius: 9px; background: var(--pf-bg-theme); color: var(--pf-text-always-white);
          font-size: 11px; font-weight: var(--pf-font-weight-bold);
@@ -5378,7 +5429,7 @@ svg { display: block; }
     <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><svg class="pf-icon" width="32" height="32" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path fill-rule="evenodd" d="M15 16.88C14.38 16.88 13.88 17.38 13.88 18V24C13.88 24.62 14.38 25.13 15 25.13H21C21.62 25.13 22.13 24.62 22.13 24V18C22.13 17.38 21.62 16.88 21 16.88H15ZM16.13 22.88V19.13H19.88V22.88H16.13Z"/><path fill-rule="evenodd" d="M17.2 3.7C17.64 3.27 18.36 3.27 18.8 3.7L32.3 17.2C32.62 17.53 32.71 18.01 32.54 18.43C32.37 18.85 31.96 19.13 31.5 19.13H29.63V28.5C29.63 29.59 29.19 30.64 28.42 31.42C27.64 32.19 26.59 32.63 25.5 32.63H10.5C9.41 32.63 8.36 32.19 7.58 31.42C6.81 30.64 6.38 29.59 6.38 28.5V19.13H4.5C4.04 19.13 3.63 18.85 3.46 18.43C3.29 18.01 3.38 17.53 3.7 17.2L17.2 3.7ZM27.38 18C27.38 17.6 27.58 17.25 27.9 17.05C28.07 16.94 28.28 16.88 28.5 16.88H28.78L18 6.09L7.22 16.88H7.5C7.58 16.88 7.65 16.88 7.73 16.9C8.24 17 8.63 17.46 8.63 18V28.5C8.63 29 8.82 29.47 9.17 29.83C9.53 30.18 10 30.38 10.5 30.38H25.5C26 30.38 26.47 30.18 26.83 29.83C27.18 29.47 27.38 29 27.38 28.5V18.01L27.38 18Z"/></g></svg><span class="lbl">Home</span></a>
     <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><svg class="pf-icon" width="32" height="32" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path d="M12 10.88C11.38 10.88 10.88 11.38 10.88 12C10.88 12.62 11.38 13.13 12 13.13H18C18.62 13.13 19.13 12.62 19.13 12C19.13 11.38 18.62 10.88 18 10.88H12Z"/><path d="M10.88 18C10.88 17.38 11.38 16.88 12 16.88H18C18.62 16.88 19.13 17.38 19.13 18C19.13 18.62 18.62 19.13 18 19.13H12C11.38 19.13 10.88 18.62 10.88 18Z"/><path d="M12 22.88C11.38 22.88 10.88 23.38 10.88 24C10.88 24.62 11.38 25.13 12 25.13H18C18.62 25.13 19.13 24.62 19.13 24C19.13 23.38 18.62 22.88 18 22.88H12Z"/><path fill-rule="evenodd" d="M7.5 4.88C6.8 4.88 6.14 5.15 5.64 5.64C5.15 6.14 4.88 6.8 4.88 7.5V25.5C4.88 26.99 5.47 28.42 6.52 29.48C7.58 30.53 9.01 31.13 10.5 31.13H27C28.09 31.13 29.14 30.69 29.92 29.92C30.69 29.14 31.13 28.09 31.13 27V10.5C31.13 9.8 30.85 9.14 30.36 8.64C29.86 8.15 29.2 7.88 28.5 7.88H25.13V7.5C25.13 6.8 24.85 6.14 24.36 5.64C23.86 5.15 23.2 4.88 22.5 4.88H7.5ZM10.5 28.88H23.33C23.03 28.3 22.88 27.66 22.88 27V7.5C22.88 7.4 22.84 7.31 22.77 7.23C22.69 7.16 22.6 7.13 22.5 7.13H7.5C7.4 7.13 7.31 7.16 7.23 7.23C7.16 7.31 7.13 7.4 7.13 7.5V25.5C7.13 26.4 7.48 27.25 8.11 27.89C8.75 28.52 9.6 28.88 10.5 28.88ZM25.13 27V10.13H28.5C28.6 10.13 28.69 10.16 28.77 10.23C28.84 10.31 28.88 10.4 28.88 10.5V27C28.88 27.5 28.68 27.97 28.33 28.33C27.97 28.68 27.5 28.88 27 28.88C26.5 28.88 26.03 28.68 25.67 28.33C25.32 27.97 25.13 27.5 25.13 27Z"/></g></svg><span class="lbl">News</span></a>
     <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><svg class="pf-icon" width="32" height="32" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path fill-rule="evenodd" d="M18 4.38C14.07 4.38 10.88 7.56 10.88 11.5C10.88 15.44 14.07 18.63 18 18.63C21.94 18.63 25.13 15.44 25.13 11.5C25.13 7.56 21.94 4.38 18 4.38ZM13.13 11.5C13.13 8.81 15.31 6.63 18 6.63C20.69 6.63 22.88 8.81 22.88 11.5C22.88 14.19 20.69 16.38 18 16.38C15.31 16.38 13.13 14.19 13.13 11.5Z"/><path d="M11.55 24.05C12.47 23.14 13.71 22.63 15 22.63H21C22.29 22.63 23.53 23.14 24.45 24.05C25.36 24.97 25.88 26.21 25.88 27.5V30.5C25.88 31.12 26.38 31.63 27 31.63C27.62 31.63 28.13 31.12 28.13 30.5V27.5C28.13 25.61 27.37 23.8 26.04 22.46C24.7 21.13 22.89 20.38 21 20.38H15C13.11 20.38 11.3 21.13 9.96 22.46C8.63 23.8 7.88 25.61 7.88 27.5V30.5C7.88 31.12 8.38 31.63 9 31.63C9.62 31.63 10.13 31.12 10.13 30.5V27.5C10.13 26.21 10.64 24.97 11.55 24.05Z"/></g></svg><span class="lbl">Me</span></a>
-    <a class="pf-navigation-item" data-device="Desktop" data-state="Selected" aria-current="page" href="#"><svg class="pf-icon" width="32" height="32" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M8.56 19.28C9.29 19.28 10 19.57 10.52 20.09C11.04 20.61 11.33 21.32 11.33 22.06C11.33 22.61 11.78 23.06 12.33 23.06C12.89 23.06 13.33 22.61 13.33 22.06C13.33 20.79 12.83 19.57 11.93 18.68C11.04 17.78 9.82 17.28 8.56 17.28H4.78C3.51 17.28 2.3 17.78 1.4 18.68C.5 19.57 0 20.79 0 22.06V23.94C0 24.5 .45 24.94 1 24.94C1.55 24.94 2 24.5 2 23.94V22.06C2 21.32 2.29 20.61 2.81 20.09C3.33 19.57 4.04 19.28 4.78 19.28H8.56Z"/><path fill-rule="evenodd" d="M7.14 8.89C5.87 8.89 4.83 9.92 4.83 11.19C4.83 12.47 5.87 13.5 7.14 13.5C8.41 13.5 9.44 12.47 9.44 11.19C9.44 9.92 8.41 8.89 7.14 8.89ZM2.83 11.19C2.83 8.82 4.76 6.89 7.14 6.89C9.52 6.89 11.44 8.82 11.44 11.19C11.44 13.57 9.52 15.5 7.14 15.5C4.76 15.5 2.83 13.57 2.83 11.19Z"/><path fill-rule="evenodd" d="M28.86 8.89C27.59 8.89 26.56 9.92 26.56 11.19C26.56 12.47 27.59 13.5 28.86 13.5C30.13 13.5 31.17 12.47 31.17 11.19C31.17 9.92 30.13 8.89 28.86 8.89ZM24.56 11.19C24.56 8.82 26.48 6.89 28.86 6.89C31.24 6.89 33.17 8.82 33.17 11.19C33.17 13.57 31.24 15.5 28.86 15.5C26.48 15.5 24.56 13.57 24.56 11.19Z"/><path fill-rule="evenodd" d="M27.44 19.28C26.71 19.28 26 19.57 25.48 20.09C24.96 20.61 24.67 21.32 24.67 22.06C24.67 22.61 24.22 23.06 23.67 23.06C23.11 23.06 22.67 22.61 22.67 22.06C22.67 20.79 23.17 19.57 24.07 18.68C24.96 17.78 26.18 17.28 27.44 17.28H31.22C32.49 17.28 33.7 17.78 34.6 18.68C35.5 19.57 36 20.79 36 22.06V23.94C36 24.5 35.55 24.94 35 24.94C34.45 24.94 34 24.5 34 23.94V22.06C34 21.32 33.71 20.61 33.19 20.09C32.67 19.57 31.96 19.28 31.22 19.28H27.44Z"/><path fill-rule="evenodd" d="M18 7C15.77 7 13.96 8.81 13.96 11.04C13.96 13.27 15.77 15.07 18 15.07C20.23 15.07 22.04 13.27 22.04 11.04C22.04 8.81 20.23 7 18 7ZM11.96 11.04C11.96 7.7 14.67 5 18 5C21.33 5 24.04 7.7 24.04 11.04C24.04 14.37 21.33 17.07 18 17.07C14.67 17.07 11.96 14.37 11.96 11.04Z"/><path fill-rule="evenodd" d="M15.48 22.11C14.41 22.11 13.38 22.54 12.63 23.29C11.87 24.05 11.44 25.08 11.44 26.15V28.67C11.44 29.22 11 29.67 10.44 29.67C9.89 29.67 9.44 29.22 9.44 28.67V26.15C9.44 24.55 10.08 23.01 11.21 21.88C12.34 20.75 13.88 20.11 15.48 20.11H20.52C22.12 20.11 23.66 20.75 24.79 21.88C25.92 23.01 26.56 24.55 26.56 26.15V28.67C26.56 29.22 26.11 29.67 25.56 29.67C25 29.67 24.56 29.22 24.56 28.67V26.15C24.56 25.08 24.13 24.05 23.37 23.29C22.62 22.54 21.59 22.11 20.52 22.11H15.48Z"/></svg><span class="lbl">My team</span></a>
+    <a class="pf-navigation-item" data-device="Desktop" data-state="Selected" data-selected="Yes" aria-current="page" href="#"><svg class="pf-icon" width="32" height="32" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M8.56 19.28C9.29 19.28 10 19.57 10.52 20.09C11.04 20.61 11.33 21.32 11.33 22.06C11.33 22.61 11.78 23.06 12.33 23.06C12.89 23.06 13.33 22.61 13.33 22.06C13.33 20.79 12.83 19.57 11.93 18.68C11.04 17.78 9.82 17.28 8.56 17.28H4.78C3.51 17.28 2.3 17.78 1.4 18.68C.5 19.57 0 20.79 0 22.06V23.94C0 24.5 .45 24.94 1 24.94C1.55 24.94 2 24.5 2 23.94V22.06C2 21.32 2.29 20.61 2.81 20.09C3.33 19.57 4.04 19.28 4.78 19.28H8.56Z"/><path fill-rule="evenodd" d="M7.14 8.89C5.87 8.89 4.83 9.92 4.83 11.19C4.83 12.47 5.87 13.5 7.14 13.5C8.41 13.5 9.44 12.47 9.44 11.19C9.44 9.92 8.41 8.89 7.14 8.89ZM2.83 11.19C2.83 8.82 4.76 6.89 7.14 6.89C9.52 6.89 11.44 8.82 11.44 11.19C11.44 13.57 9.52 15.5 7.14 15.5C4.76 15.5 2.83 13.57 2.83 11.19Z"/><path fill-rule="evenodd" d="M28.86 8.89C27.59 8.89 26.56 9.92 26.56 11.19C26.56 12.47 27.59 13.5 28.86 13.5C30.13 13.5 31.17 12.47 31.17 11.19C31.17 9.92 30.13 8.89 28.86 8.89ZM24.56 11.19C24.56 8.82 26.48 6.89 28.86 6.89C31.24 6.89 33.17 8.82 33.17 11.19C33.17 13.57 31.24 15.5 28.86 15.5C26.48 15.5 24.56 13.57 24.56 11.19Z"/><path fill-rule="evenodd" d="M27.44 19.28C26.71 19.28 26 19.57 25.48 20.09C24.96 20.61 24.67 21.32 24.67 22.06C24.67 22.61 24.22 23.06 23.67 23.06C23.11 23.06 22.67 22.61 22.67 22.06C22.67 20.79 23.17 19.57 24.07 18.68C24.96 17.78 26.18 17.28 27.44 17.28H31.22C32.49 17.28 33.7 17.78 34.6 18.68C35.5 19.57 36 20.79 36 22.06V23.94C36 24.5 35.55 24.94 35 24.94C34.45 24.94 34 24.5 34 23.94V22.06C34 21.32 33.71 20.61 33.19 20.09C32.67 19.57 31.96 19.28 31.22 19.28H27.44Z"/><path fill-rule="evenodd" d="M18 7C15.77 7 13.96 8.81 13.96 11.04C13.96 13.27 15.77 15.07 18 15.07C20.23 15.07 22.04 13.27 22.04 11.04C22.04 8.81 20.23 7 18 7ZM11.96 11.04C11.96 7.7 14.67 5 18 5C21.33 5 24.04 7.7 24.04 11.04C24.04 14.37 21.33 17.07 18 17.07C14.67 17.07 11.96 14.37 11.96 11.04Z"/><path fill-rule="evenodd" d="M15.48 22.11C14.41 22.11 13.38 22.54 12.63 23.29C11.87 24.05 11.44 25.08 11.44 26.15V28.67C11.44 29.22 11 29.67 10.44 29.67C9.89 29.67 9.44 29.22 9.44 28.67V26.15C9.44 24.55 10.08 23.01 11.21 21.88C12.34 20.75 13.88 20.11 15.48 20.11H20.52C22.12 20.11 23.66 20.75 24.79 21.88C25.92 23.01 26.56 24.55 26.56 26.15V28.67C26.56 29.22 26.11 29.67 25.56 29.67C25 29.67 24.56 29.22 24.56 28.67V26.15C24.56 25.08 24.13 24.05 23.37 23.29C22.62 22.54 21.59 22.11 20.52 22.11H15.48Z"/></svg><span class="lbl">My team</span></a>
     <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><svg class="pf-icon" width="32" height="32" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path fill-rule="evenodd" d="M12.38 26.63H6C5.49 26.63 5.04 26.28 4.91 25.79C4.78 25.29 5 24.77 5.45 24.52C6.11 24.15 6.68 23.62 7.1 22.98C7.51 22.37 7.78 21.66 7.87 20.93V16.5C7.87 16.48 7.88 16.46 7.88 16.45C7.98 14.34 8.65 12.3 9.82 10.54C10.87 8.97 12.28 7.68 13.94 6.78C14.09 5.95 14.48 5.18 15.08 4.58C15.86 3.81 16.91 3.38 18 3.38C19.09 3.38 20.14 3.81 20.92 4.58C21.52 5.18 21.91 5.95 22.06 6.78C23.72 7.68 25.13 8.97 26.18 10.54C27.35 12.3 28.02 14.34 28.12 16.45C28.12 16.46 28.13 16.48 28.13 16.5V20.93C28.22 21.66 28.49 22.37 28.9 22.98C29.32 23.62 29.89 24.15 30.55 24.52C31 24.77 31.22 25.29 31.09 25.79C30.96 26.28 30.51 26.63 30 26.63H23.63V27C23.63 28.49 23.03 29.92 21.98 30.98C20.92 32.03 19.49 32.63 18 32.63C16.51 32.63 15.08 32.03 14.02 30.98C12.97 29.92 12.38 28.49 12.38 27V26.63ZM16.67 6.17C17.03 5.82 17.5 5.63 18 5.63C18.5 5.63 18.97 5.82 19.33 6.17C19.68 6.53 19.88 7 19.88 7.5C19.88 7.94 20.13 8.33 20.52 8.52C22.06 9.24 23.37 10.38 24.31 11.79C25.25 13.2 25.79 14.84 25.88 16.53V21C25.88 21.05 25.88 21.09 25.88 21.14C26.02 22.24 26.41 23.3 27.03 24.23C27.06 24.28 27.09 24.33 27.13 24.38H8.87C8.91 24.33 8.94 24.28 8.97 24.23C9.59 23.3 9.98 22.24 10.12 21.14C10.12 21.09 10.13 21.05 10.13 21V16.53C10.21 14.84 10.75 13.2 11.69 11.79C12.63 10.38 13.93 9.25 15.46 8.53C15.51 8.5 15.56 8.47 15.61 8.44C15.75 8.35 15.87 8.24 15.95 8.1C16.07 7.92 16.13 7.7 16.13 7.48C16.13 6.99 16.33 6.52 16.67 6.17ZM21.38 26.63V27C21.38 27.9 21.02 28.75 20.39 29.39C19.75 30.02 18.9 30.38 18 30.38C17.1 30.38 16.25 30.02 15.61 29.39C14.98 28.75 14.63 27.9 14.63 27V26.63H21.38Z"/></g></svg><span class="lbl">Notifications</span><span class="badge">7</span></a>
     <div class="spacer"></div>
     <a class="pf-navigation-item" data-device="Desktop" data-state="Unselected" href="#"><svg class="pf-icon" width="32" height="32" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path d="M18 24.38C18.62 24.38 19.13 24.88 19.13 25.5V25.52C19.13 26.14 18.62 26.64 18 26.64C17.38 26.64 16.88 26.14 16.88 25.52V25.5C16.88 24.88 17.38 24.38 18 24.38Z"/><path d="M18.12 9.33C17.34 9.33 16.58 9.51 15.88 9.85C15.18 10.2 14.57 10.7 14.1 11.32C13.73 11.82 13.83 12.52 14.32 12.9C14.82 13.27 15.52 13.18 15.9 12.68C16.16 12.34 16.49 12.06 16.88 11.87C17.26 11.68 17.69 11.58 18.11 11.58C18.54 11.58 18.97 11.68 19.35 11.88C19.74 12.07 20.07 12.35 20.33 12.69C20.58 13.04 20.76 13.43 20.84 13.86C20.91 14.28 20.89 14.71 20.77 15.13C20.65 15.54 20.44 15.92 20.15 16.24C19.86 16.55 19.51 16.79 19.11 16.94C18.43 17.19 17.84 17.65 17.44 18.25C17.03 18.86 16.84 19.58 16.88 20.31C16.91 20.93 17.44 21.41 18.06 21.37C18.68 21.34 19.16 20.81 19.12 20.19C19.11 19.94 19.18 19.7 19.31 19.5C19.45 19.3 19.64 19.14 19.87 19.06C19.88 19.06 19.89 19.05 19.9 19.05C20.63 18.77 21.28 18.33 21.81 17.76C22.33 17.19 22.72 16.5 22.93 15.75C23.15 15 23.19 14.22 23.05 13.45C22.91 12.69 22.59 11.96 22.13 11.34C21.66 10.72 21.06 10.21 20.36 9.87C19.67 9.52 18.9 9.33 18.12 9.33Z"/><path fill-rule="evenodd" d="M3.38 18C3.38 9.92 9.92 3.38 18 3.38C26.08 3.38 32.63 9.92 32.63 18C32.63 26.08 26.08 32.63 18 32.63C9.92 32.63 3.38 26.08 3.38 18ZM18 5.63C11.17 5.63 5.63 11.17 5.63 18C5.63 24.83 11.17 30.38 18 30.38C24.83 30.38 30.38 24.83 30.38 18C30.38 11.17 24.83 5.63 18 5.63Z"/></g></svg><span class="lbl">Support</span></a>
