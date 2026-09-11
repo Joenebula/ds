@@ -72,7 +72,7 @@ for (const s of specs) {
 const fails = results.filter(r => !r.ok);
 for (const r of fails.slice(0, 30))
   console.log(`FAIL ${r.name}\n       ${r.prop}: expected ${r.want}, got ${r.got}`);
-console.log(`\n${results.length - fails.length} of ${results.length} type checks match Figma, ${fails.length} off`);
+console.log(`\n${results.length - fails.length} of ${results.length} type checks match the extract, ${fails.length} off`);
 if (selfTest) {
   const caught = fails.filter(f => /Body text$/.test(f.name)).length;
   console.log(caught ? `self-test OK — the deliberate break was caught (${caught} failures)`

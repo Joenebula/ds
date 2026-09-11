@@ -123,5 +123,5 @@ for (const r of results) {
   const mark = r.ok ? 'ok  ' : 'FAIL';
   console.log(`${mark} ${r.component.padEnd(24)} ${r.prop.padEnd(15)} expected ${String(r.expected).padEnd(12)} got ${r.actual}${r.note ? '  — ' + r.note : ''}`);
 }
-console.log(`\n${pass} geometry checks match Figma, ${fail.length} off`);
+console.log(`\n${pass} geometry checks match the extract, ${fail.length} off`);
 process.exit(fail.length ? 1 : 0);

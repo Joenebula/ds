@@ -13,7 +13,7 @@ every check validates that summary against itself. Four faults compound:
 | # | Fault | Effect | Severity |
 |---|---|---|---|
 | 1 | ~~The typeface is never shipped~~ | **FIXED** — Open Sans 400/600 vendored and inlined; `check-fonts.mjs` guards it | ~~Critical~~ |
-| 2 | Checks compare the build to its own source | A wrong transcription passes forever, with a green tick | Critical |
+| 2 | ~~Checks compare the build to its own source~~ | **FIXED** — `verify-against-figma.mjs` has an independent source; wording corrected | ~~Critical~~ |
 | 3 | One geometry row per component | Whichever variant was measured wins; produced 4 separate bugs this session | High |
 | 4 | Component type is not linked to the text styles | Component type can drift from the type layer, both "passing" | Medium |
 
@@ -110,7 +110,7 @@ proved itself by catching the 700s above, which nothing else could see.
 
 ---
 
-## 2. The checks compare the build to its own source — CRITICAL
+## 2. The checks compare the build to its own source — CRITICAL — **FIXED**
 
 `npm run verify` prints **"2722 of 2722 checks match Figma, 0 off"**. It does not check
 against Figma.
@@ -140,11 +140,39 @@ permanent, and the wording of the output actively misleads.
 3. Store the Figma renders in `tokens/_raw/component-renders/` so the check runs offline
    and a re-extract refreshes them.
 
+### Done
+
+- Every check that said *"match Figma"* now says **"match the extract"**, because that is
+  what it measures. Only `verify-against-figma.mjs` may claim Figma.
+- `tokens/_raw/figma-truth.tsv` — an independent measurement, written by its own walk
+  (`extract-figma-truth.mjs`). **No build script reads it.** That is the whole point: the
+  stylesheet and the expectation now have separate origins.
+- `scripts/verify-against-figma.mjs` renders each class and compares. It only compares a
+  property the stylesheet actually *asserts* — a component whose height comes from its
+  content has no height rule, and measuring the probe markup would be noise.
+
+Implemented as a numeric comparison rather than a pixel diff: no stored PNGs to go stale,
+and a difference names the property rather than a percentage.
+
 ### Verification
 
-The check must **fail** on a deliberately corrupted class (change `.pf-button`'s
-`font-weight` to 400 and confirm it is caught). It must also catch fault 1: with the font
-missing, every text-bearing component should exceed the threshold.
+`--self-test` breaks `.pf-button`'s height from 32 to 30 and confirms it is caught. It is.
+
+**It earned its keep on the first run.** 14 drifts, across components I had never looked
+at, every one an instance of fault 3:
+
+| Component | Figma | Rendered |
+|---|---|---|
+| `Button Type=Filter` | padding `0 15` | `0 20` |
+| `Button Type=Sort` | padding `0 15` | `0 20` |
+| `Button Label=No` (icon only) | padding `0 8`, gap 5 | `0 20`, gap 10 |
+| `Filter chip Mobile=True` | 34px, padding `8 15`, 13px | 42px, `10 20`, 16px |
+| `Filter chip Selected` | gap 10 | gap 5 |
+| `Links Secondary` | 13px | 16px |
+
+The count is pinned at 14 and fails if it rises. **Coverage is 23 shapes across 11
+components** — the Buttons and links page. The snapshot grows a page at a time; that is a
+real limit and is why the count is a baseline rather than a pass.
 
 ---
 

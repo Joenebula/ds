@@ -110,7 +110,7 @@ const absent = failures.filter(f => /not in DOM/.test(f));
 const wrong = failures.filter(f => !/not in DOM/.test(f));
 if (wrong.length) { console.log('\nFAILURES:'); wrong.forEach(f => console.log('  ' + f)); }
 if (absent.length) console.log(`\n${absent.length} binding(s) not on this page — skipped`);
-console.log(`\n${pass} rendered colours match Figma, ${wrong.length} mismatched`);
+console.log(`\n${pass} rendered colours match the extract, ${wrong.length} mismatched`);
 if (pass === 0) {
   console.log('nothing was checked — this page uses none of the bindings, which is not a pass');
   process.exit(2);

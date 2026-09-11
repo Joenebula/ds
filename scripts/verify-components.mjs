@@ -148,7 +148,12 @@ for (const r of fails.slice(0, 40)) {
 }
 if (fails.length > 40) console.log(`... and ${fails.length - 40} more`);
 
-console.log(`\n${results.length - fails.length} of ${results.length} checks match Figma, ${fails.length} off`);
+// NOT "match Figma". This renders dist/components.css and compares it to
+// component-geometry.tsv and component-variants.tsv — the two files the stylesheet is
+// GENERATED FROM. It measures internal consistency, which is worth having and is not the
+// same claim. verify-against-figma.mjs is the one with an independent source.
+console.log(`\n${results.length - fails.length} of ${results.length} rendered values match the extract they were built from, ${fails.length} off`);
+console.log('  (internal consistency — see verify-against-figma.mjs for the check with an independent source)');
 if (selfTest) {
   const caught = fails.filter(f => f.component === 'Button' && /height|radius/.test(f.prop)).length;
   console.log(caught ? `self-test OK — the deliberate break was caught (${caught} failures)`
