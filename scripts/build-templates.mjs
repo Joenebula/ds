@@ -157,7 +157,22 @@ function render(component, rows, path, depth) {
       return `${pad}<!-- ${esc(component)} instances itself here; the outer class already is it -->`;
     }
     const c = cls(row.name);
-    if (libClasses.has(c)) return `${pad}<div class="${c}"><!-- ${esc(row.name)} --></div>`;
+    // The instanced component's NAME goes inside it as sample content. An empty div is
+    // not neutral: nearly every component class is inline-flex, so with nothing in it the
+    // instance collapses to zero width and the template renders as a stack of slivers —
+    // which is how the gallery first looked. The name is also the useful placeholder: it
+    // says what to replace.
+    if (libClasses.has(c)) {
+      // THE VARIANT ATTRIBUTES MATTER MORE THAN THE CLASS. Almost no component paints from
+      // its bare class: the colours live behind `[data-*]`, because that is where Figma
+      // puts them. `<div class="pf-button">` is a transparent box — it is
+      // `data-type="Positive"` that makes it green. A placeholder without the attributes
+      // renders the same empty shape the templates exist to replace.
+      const attrs = (row.variant || '').split(',').map(x => x.trim()).filter(Boolean)
+        .map(x => ` data-${kebab(x.slice(0, x.indexOf('=')))}="${esc(x.slice(x.indexOf('=') + 1))}"`)
+        .join('');
+      return `${pad}<div class="${c}"${attrs}>${esc(row.name)}</div>`;
+    }
     const icon = iconFor(row.name);
     if (icon) {
       const px = parseInt(row.size, 10);
@@ -211,8 +226,27 @@ function render(component, rows, path, depth) {
     return `${pad}<div style="height:1px;align-self:stretch${v ? `;background:var(${v})` : ''}"></div>`;
   }
 
+  // A SLOT is Figma's own "content goes here" marker — and it can still have children,
+  // which are the sample content sitting in it. `Browser drop down` is a slot holding
+  // seven `Option` instances; returning only the comment threw all seven away and the
+  // template rendered an empty box. The slot is a real layout box AND a marker.
   if (row.type === 'SLOT') {
-    return `${pad}<!-- SLOT: the component's content goes here. Figma marks this explicitly. -->`;
+    const style = styleFor(component, row);
+    const open = `${pad}<div${style.length ? ` style="${style.join(';')}"` : ''}>`
+      + `<!-- SLOT: Figma marks this as where the component's content goes. -->`;
+    if (!kids.length) return open + '</div>';
+    return [open, ...kids.map(k => render(component, rows, k, depth + 1)), `${pad}</div>`].join('\n');
+  }
+
+  // A fill Figma records as IMAGE is artwork, not a colour — the same situation as the
+  // header band, which is why assets/component-art/ exists. `Map` is a single rectangle
+  // with an image fill, so without this the template was an empty div.
+  if (row.fill === 'IMAGE') {
+    const [w, h] = (row.size || '').split('x').map(Number);
+    return `${pad}<div style="width:100%;${Number.isFinite(h) ? `height:${h}px;` : ''}`
+      + `background:var(--pf-bg-tertiary)">`
+      + `<!-- artwork: Figma fills this with an IMAGE. Export it through the `
+      + `component-art pipeline (see CLAUDE.md) — a placeholder stands in until then. --></div>`;
   }
 
   const style = styleFor(component, row);

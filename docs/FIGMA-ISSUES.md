@@ -286,6 +286,34 @@ questions are worth a designer's eye:
 
 ---
 
+## 9. `Option` selected is white text on nothing
+
+`Option` binds two colours and only two:
+
+| Variant | Fill | Stroke | Text |
+|---|---|---|---|
+| `Selected=No` | — | — | `Text/Primary` |
+| `Selected=Yes` | — | — | **`Text/Inverted primary`** |
+
+"Inverted" means *the opposite of the page*, so on a light page it is white. And the
+selected option binds **no background at all** — so `.pf-option[data-selected="Yes"]` is
+white text on whatever is behind it. In `Browser drop down`, which is `Background/Secondary`,
+that is white on near-white.
+
+The highlight does exist in Figma: the instance inside `Browser drop down` carries a fill.
+But it is a **raw unbound paint** on the instance, not a variable on the component, so
+there is nothing for the extract to bind and nothing that changes between modes.
+
+This is the same shape as §6 (Clock in): a colour that flips with the theme, paired with a
+surface that does not — except here the surface is missing entirely rather than merely
+fixed. It only became visible when the component templates were generated and the selected
+option rendered as a blank line.
+
+**Suggested fix:** bind a background variable on `Option` `Selected=Yes` — the same token
+the instance is painted with — so the component carries its own highlight.
+
+---
+
 ## What happens after you fix any of this
 
 Re-extract and rebuild, and the stylesheet, the component list and the example screens all

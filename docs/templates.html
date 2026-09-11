@@ -9368,6 +9368,54 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 <div><h1 class="pf-text-xl-heading">Component templates</h1>
 <p class="pf-text-body-text">Generated from each component&rsquo;s Figma child tree. Paste the markup; every class in it is a real library class and every colour is a token.</p></div>
 <div class="item">
+<h2 class="pf-text-sub-heading">Browser drop down <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">9 nodes</span></h2>
+<div class="stage"><div class="pf-browser-drop-down">
+  <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:5px"><!-- SLOT: Figma marks this as where the component's content goes. -->
+    <div class="pf-option" data-selected="Yes">Option</div>
+    <div class="pf-option" data-selected="No">Option</div>
+    <div class="pf-option" data-selected="No">Option</div>
+    <div class="pf-option" data-selected="No">Option</div>
+    <div class="pf-option" data-selected="No">Option</div>
+    <div class="pf-option" data-selected="No">Option</div>
+    <div class="pf-option" data-selected="No">Option</div>
+  </div>
+</div>
+</div>
+<pre>&lt;div class="pf-browser-drop-down"&gt;
+  &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:5px"&gt;&lt;!-- SLOT: Figma marks this as where the component's content goes. --&gt;
+    &lt;div class="pf-option" data-selected="Yes"&gt;Option&lt;/div&gt;
+    &lt;div class="pf-option" data-selected="No"&gt;Option&lt;/div&gt;
+    &lt;div class="pf-option" data-selected="No"&gt;Option&lt;/div&gt;
+    &lt;div class="pf-option" data-selected="No"&gt;Option&lt;/div&gt;
+    &lt;div class="pf-option" data-selected="No"&gt;Option&lt;/div&gt;
+    &lt;div class="pf-option" data-selected="No"&gt;Option&lt;/div&gt;
+    &lt;div class="pf-option" data-selected="No"&gt;Option&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Calendar picker <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">6 nodes</span></h2>
+<div class="stage"><div class="pf-calendar-picker">
+  <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;border-radius:4px">
+    <div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:64px;padding:10px 15px 10px 15px"></div>
+    <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start"></div>
+    <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"></div>
+    <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:space-between;gap:116px;padding:8px 9px 8px 9px;background:var(--pf-bg-tertiary)"></div>
+  </div>
+</div>
+</div>
+<pre>&lt;div class="pf-calendar-picker"&gt;
+  &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;border-radius:4px"&gt;
+    &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:64px;padding:10px 15px 10px 15px"&gt;&lt;/div&gt;
+    &lt;div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start"&gt;&lt;/div&gt;
+    &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;&lt;/div&gt;
+    &lt;div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:space-between;gap:116px;padding:8px 9px 8px 9px;background:var(--pf-bg-tertiary)"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
 <h2 class="pf-text-sub-heading">Card <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">7 nodes</span></h2>
 <div class="stage"><div class="pf-card">
   <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:10px">
@@ -9377,7 +9425,7 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     </div>
     <!-- rule: Figma binds "Base colours/Default Pink", a primitive, which cannot change between modes. Left unpainted rather than shipped broken — see FIGMA-ISSUES.md section 1. -->
   </div>
-  <!-- SLOT: the component's content goes here. Figma marks this explicitly. -->
+  <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:10px;padding:10px 10px 10px 10px"><!-- SLOT: Figma marks this as where the component's content goes. --></div>
 </div>
 </div>
 <pre>&lt;div class="pf-card"&gt;
@@ -9388,16 +9436,151 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     &lt;/div&gt;
     &lt;!-- rule: Figma binds "Base colours/Default Pink", a primitive, which cannot change between modes. Left unpainted rather than shipped broken — see FIGMA-ISSUES.md section 1. --&gt;
   &lt;/div&gt;
-  &lt;!-- SLOT: the component's content goes here. Figma marks this explicitly. --&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:10px;padding:10px 10px 10px 10px"&gt;&lt;!-- SLOT: Figma marks this as where the component's content goes. --&gt;&lt;/div&gt;
 &lt;/div&gt;
 </pre>
 </div>
 <div class="item">
-<h2 class="pf-text-sub-heading">Metric card <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">7 nodes</span></h2>
+<h2 class="pf-text-sub-heading">Field icons <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">9 nodes</span></h2>
+<div class="stage"><div class="pf-field-icons">
+  <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
+    <svg class="pf-icon" width="28" height="28" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path fill-rule="evenodd" d="M15 3.38C8.58 3.38 3.38 8.58 3.38 15C3.38 21.42 8.58 26.63 15 26.63C17.81 26.63 20.38 25.63 22.39 23.98L30.7 32.3C31.14 32.73 31.86 32.73 32.3 32.3C32.73 31.86 32.73 31.14 32.3 30.7L23.98 22.39C25.63 20.38 26.63 17.81 26.63 15C26.63 8.58 21.42 3.38 15 3.38ZM5.63 15C5.63 9.82 9.82 5.63 15 5.63C20.18 5.63 24.38 9.82 24.38 15C24.38 20.18 20.18 24.38 15 24.38C9.82 24.38 5.63 20.18 5.63 15Z"/></g></svg>
+  </div>
+  <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
+    <svg class="pf-icon" width="22" height="22" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path fill-rule="evenodd" d="M32.92 10.33C33.36 10.77 33.36 11.48 32.92 11.92L18.92 25.92C18.48 26.36 17.77 26.36 17.33 25.92L3.33 11.92C2.89 11.48 2.89 10.77 3.33 10.33C3.77 9.89 4.48 9.89 4.92 10.33L18.13 23.53L31.33 10.33C31.77 9.89 32.48 9.89 32.92 10.33Z"/></g></svg>
+  </div>
+  <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
+    <svg class="pf-icon" width="28" height="28" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path d="M12 21.38C11.38 21.38 10.88 21.88 10.88 22.5V25.5C10.88 26.12 11.38 26.63 12 26.63H15C15.62 26.63 16.13 26.12 16.13 25.5V22.5C16.13 21.88 15.62 21.38 15 21.38H12Z"/><path fill-rule="evenodd" d="M24 3.38C24.62 3.38 25.13 3.88 25.13 4.5V6.38H27C29.28 6.38 31.13 8.22 31.13 10.5V28.5C31.13 30.78 29.28 32.63 27 32.63H9C6.72 32.63 4.88 30.78 4.88 28.5V10.5C4.88 8.22 6.72 6.38 9 6.38H10.88V4.5C10.88 3.88 11.38 3.38 12 3.38C12.62 3.38 13.13 3.88 13.13 4.5V6.38H22.88V4.5C22.88 3.88 23.38 3.38 24 3.38ZM28.88 10.5V15.38H7.13V10.5C7.13 9.46 7.96 8.63 9 8.63H10.88V10.5C10.88 11.12 11.38 11.63 12 11.63C12.62 11.63 13.13 11.12 13.13 10.5V8.63H22.88V10.5C22.88 11.12 23.38 11.63 24 11.63C24.62 11.63 25.13 11.12 25.13 10.5V8.63H27C28.04 8.63 28.88 9.46 28.88 10.5ZM28.88 17.63H7.13V28.5C7.13 29.54 7.96 30.38 9 30.38H27C28.04 30.38 28.88 29.54 28.88 28.5V17.63Z"/></g></svg>
+  </div>
+  <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
+    <svg class="pf-icon" width="28" height="28" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M18 5.63C11.17 5.63 5.63 11.17 5.63 18C5.63 24.83 11.17 30.38 18 30.38C24.83 30.38 30.38 24.83 30.38 18C30.38 11.17 24.83 5.63 18 5.63ZM3.38 18C3.38 9.92 9.92 3.38 18 3.38C26.08 3.38 32.63 9.92 32.63 18C32.63 26.08 26.08 32.63 18 32.63C9.92 32.63 3.38 26.08 3.38 18Z"/><path fill-rule="evenodd" d="M18 9.38C18.62 9.38 19.13 9.88 19.13 10.5V17.53L23.3 21.7C23.73 22.14 23.73 22.86 23.3 23.3C22.86 23.73 22.14 23.73 21.7 23.3L17.2 18.8C16.99 18.58 16.88 18.3 16.88 18V10.5C16.88 9.88 17.38 9.38 18 9.38Z"/></svg>
+  </div>
+</div>
+</div>
+<pre>&lt;div class="pf-field-icons"&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px"&gt;
+    &lt;!--pf-icon:search 28--&gt;
+  &lt;/div&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px"&gt;
+    &lt;!--pf-icon:down-chevron 22--&gt;
+  &lt;/div&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px"&gt;
+    &lt;!--pf-icon:calendar 28--&gt;
+  &lt;/div&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px"&gt;
+    &lt;!--pf-icon:clock 28--&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Field label <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">5 nodes</span></h2>
+<div class="stage"><div class="pf-field-label">
+  <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:5px">
+    <span class="pf-text-body-text" style="color:var(--pf-text-primary)">Field name</span>
+    <div style="background:var(--pf-icon-required-field)"></div>
+  </div>
+  <svg class="pf-icon" width="18" height="18" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path d="M18 24.38C18.62 24.38 19.13 24.88 19.13 25.5V25.52C19.13 26.14 18.62 26.64 18 26.64C17.38 26.64 16.88 26.14 16.88 25.52V25.5C16.88 24.88 17.38 24.38 18 24.38Z"/><path d="M18.12 9.33C17.34 9.33 16.58 9.51 15.88 9.85C15.18 10.2 14.57 10.7 14.1 11.32C13.73 11.82 13.83 12.52 14.32 12.9C14.82 13.27 15.52 13.18 15.9 12.68C16.16 12.34 16.49 12.06 16.88 11.87C17.26 11.68 17.69 11.58 18.11 11.58C18.54 11.58 18.97 11.68 19.35 11.88C19.74 12.07 20.07 12.35 20.33 12.69C20.58 13.04 20.76 13.43 20.84 13.86C20.91 14.28 20.89 14.71 20.77 15.13C20.65 15.54 20.44 15.92 20.15 16.24C19.86 16.55 19.51 16.79 19.11 16.94C18.43 17.19 17.84 17.65 17.44 18.25C17.03 18.86 16.84 19.58 16.88 20.31C16.91 20.93 17.44 21.41 18.06 21.37C18.68 21.34 19.16 20.81 19.12 20.19C19.11 19.94 19.18 19.7 19.31 19.5C19.45 19.3 19.64 19.14 19.87 19.06C19.88 19.06 19.89 19.05 19.9 19.05C20.63 18.77 21.28 18.33 21.81 17.76C22.33 17.19 22.72 16.5 22.93 15.75C23.15 15 23.19 14.22 23.05 13.45C22.91 12.69 22.59 11.96 22.13 11.34C21.66 10.72 21.06 10.21 20.36 9.87C19.67 9.52 18.9 9.33 18.12 9.33Z"/><path fill-rule="evenodd" d="M3.38 18C3.38 9.92 9.92 3.38 18 3.38C26.08 3.38 32.63 9.92 32.63 18C32.63 26.08 26.08 32.63 18 32.63C9.92 32.63 3.38 26.08 3.38 18ZM18 5.63C11.17 5.63 5.63 11.17 5.63 18C5.63 24.83 11.17 30.38 18 30.38C24.83 30.38 30.38 24.83 30.38 18C30.38 11.17 24.83 5.63 18 5.63Z"/></g></svg>
+</div>
+</div>
+<pre>&lt;div class="pf-field-label"&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:5px"&gt;
+    &lt;span class="pf-text-body-text" style="color:var(--pf-text-primary)"&gt;Field name&lt;/span&gt;
+    &lt;div style="background:var(--pf-icon-required-field)"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!--pf-icon:tooltip-question--&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Field <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">4 nodes</span></h2>
+<div class="stage"><div class="pf-field">
+  <span class="pf-text-label-text" style="color:var(--pf-text-primary)">Field name</span>
+  <span class="pf-text-body-text" style="color:var(--pf-text-primary)">Field content</span>
+  <div style="border-radius:10px;border:1px solid var(--pf-icon-primary)"></div>
+</div>
+</div>
+<pre>&lt;div class="pf-field"&gt;
+  &lt;span class="pf-text-label-text" style="color:var(--pf-text-primary)"&gt;Field name&lt;/span&gt;
+  &lt;span class="pf-text-body-text" style="color:var(--pf-text-primary)"&gt;Field content&lt;/span&gt;
+  &lt;div style="border-radius:10px;border:1px solid var(--pf-icon-primary)"&gt;&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Form field <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">4 nodes</span></h2>
+<div class="stage"><div class="pf-form-field">
+  <div class="pf-field-label">Field label</div>
+  <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:8px">
+    <div class="pf-field" data-right-aligned="No" data-filled="No">Field</div>
+  </div>
+</div>
+</div>
+<pre>&lt;div class="pf-form-field"&gt;
+  &lt;div class="pf-field-label"&gt;Field label&lt;/div&gt;
+  &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:8px"&gt;
+    &lt;div class="pf-field" data-right-aligned="No" data-filled="No"&gt;Field&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Inline search <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">5 nodes</span></h2>
+<div class="stage"><div class="pf-inline-search">
+  <div class="pf-field-label">Field label</div>
+  <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:12px;padding:12px 20px 12px 20px;background:var(--pf-bg-secondary)">
+    <span class="pf-text-label-text" style="color:var(--pf-text-primary)">No items added</span>
+    <div class="pf-form-field" data-input-type="Search" data-state="Default" data-full-width="Yes">Form field</div>
+  </div>
+</div>
+</div>
+<pre>&lt;div class="pf-inline-search"&gt;
+  &lt;div class="pf-field-label"&gt;Field label&lt;/div&gt;
+  &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:12px;padding:12px 20px 12px 20px;background:var(--pf-bg-secondary)"&gt;
+    &lt;span class="pf-text-label-text" style="color:var(--pf-text-primary)"&gt;No items added&lt;/span&gt;
+    &lt;div class="pf-form-field" data-input-type="Search" data-state="Default" data-full-width="Yes"&gt;Form field&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Map <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">2 nodes</span></h2>
+<div class="stage"><div class="pf-map">
+  <div style="width:100%;height:200px;background:var(--pf-bg-tertiary)"><!-- artwork: Figma fills this with an IMAGE. Export it through the component-art pipeline (see CLAUDE.md) — a placeholder stands in until then. --></div>
+</div>
+</div>
+<pre>&lt;div class="pf-map"&gt;
+  &lt;div style="width:100%;height:200px;background:var(--pf-bg-tertiary)"&gt;&lt;!-- artwork: Figma fills this with an IMAGE. Export it through the component-art pipeline (see CLAUDE.md) — a placeholder stands in until then. --&gt;&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Message box <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">6 nodes</span></h2>
+<div class="stage"><div class="pf-message-box">
+  <span class="pf-text-body-text" style="color:var(--pf-text-secondary)">Type here...</span>
+  <span class="pf-text-body-text" style="color:var(--pf-text-primary)">Lorem ipsum dolor si</span>
+  <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-end;gap:10px">
+    <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px"></div>
+    <div class="pf-button" data-type="Positive" data-state="Default" data-label="No">Button</div>
+  </div>
+</div>
+</div>
+<pre>&lt;div class="pf-message-box"&gt;
+  &lt;span class="pf-text-body-text" style="color:var(--pf-text-secondary)"&gt;Type here...&lt;/span&gt;
+  &lt;span class="pf-text-body-text" style="color:var(--pf-text-primary)"&gt;Lorem ipsum dolor si&lt;/span&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-end;gap:10px"&gt;
+    &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px"&gt;&lt;/div&gt;
+    &lt;div class="pf-button" data-type="Positive" data-state="Default" data-label="No"&gt;Button&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Metric card <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">5 nodes</span></h2>
 <div class="stage"><div class="pf-metric-card">
   <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
     <span class="pf-text-xl-heading" style="color:var(--pf-text-primary)">10%</span>
-    <div class="pf-data-variance"><!-- Data variance --></div>
+    <div class="pf-data-variance" data-data-change="Down" data-mobile="False">Data variance</div>
   </div>
   <span style="color:var(--pf-text-link);font-size:13px">More details</span><!-- 13px is not a text style; see FIGMA-ISSUES.md section 7 -->
 </div>
@@ -9405,9 +9588,40 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 <pre>&lt;div class="pf-metric-card"&gt;
   &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px"&gt;
     &lt;span class="pf-text-xl-heading" style="color:var(--pf-text-primary)"&gt;10%&lt;/span&gt;
-    &lt;div class="pf-data-variance"&gt;&lt;!-- Data variance --&gt;&lt;/div&gt;
+    &lt;div class="pf-data-variance" data-data-change="Down" data-mobile="False"&gt;Data variance&lt;/div&gt;
   &lt;/div&gt;
   &lt;span style="color:var(--pf-text-link);font-size:13px"&gt;More details&lt;/span&gt;&lt;!-- 13px is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Multiselect tag <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">9 nodes</span></h2>
+<div class="stage"><div class="pf-multiselect-tag">
+  <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;padding:0px 0px 0px 5px">
+    <svg class="pf-icon" width="17" height="17" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path d="M13.5 10.88C12.88 10.88 12.38 11.38 12.38 12C12.38 12.62 12.88 13.13 13.5 13.13H15C15.62 13.13 16.13 12.62 16.13 12C16.13 11.38 15.62 10.88 15 10.88H13.5Z"/><path d="M12.38 18C12.38 17.38 12.88 16.88 13.5 16.88H15C15.62 16.88 16.13 17.38 16.13 18C16.13 18.62 15.62 19.13 15 19.13H13.5C12.88 19.13 12.38 18.62 12.38 18Z"/><path d="M13.5 22.88C12.88 22.88 12.38 23.38 12.38 24C12.38 24.62 12.88 25.13 13.5 25.13H15C15.62 25.13 16.13 24.62 16.13 24C16.13 23.38 15.62 22.88 15 22.88H13.5Z"/><path d="M19.88 12C19.88 11.38 20.38 10.88 21 10.88H22.5C23.12 10.88 23.63 11.38 23.63 12C23.63 12.62 23.12 13.13 22.5 13.13H21C20.38 13.13 19.88 12.62 19.88 12Z"/><path d="M21 16.88C20.38 16.88 19.88 17.38 19.88 18C19.88 18.62 20.38 19.13 21 19.13H22.5C23.12 19.13 23.63 18.62 23.63 18C23.63 17.38 23.12 16.88 22.5 16.88H21Z"/><path d="M19.88 24C19.88 23.38 20.38 22.88 21 22.88H22.5C23.12 22.88 23.63 23.38 23.63 24C23.63 24.62 23.12 25.13 22.5 25.13H21C20.38 25.13 19.88 24.62 19.88 24Z"/><path fill-rule="evenodd" d="M6.38 30.38H4.5C3.88 30.38 3.38 30.88 3.38 31.5C3.38 32.12 3.88 32.63 4.5 32.63H31.5C32.12 32.63 32.63 32.12 32.63 31.5C32.63 30.88 32.12 30.38 31.5 30.38H29.63V7.5C29.63 6.41 29.19 5.36 28.42 4.58C27.64 3.81 26.59 3.38 25.5 3.38H10.5C9.41 3.38 8.36 3.81 7.58 4.58C6.81 5.36 6.38 6.41 6.38 7.5V30.38ZM9.17 6.17C9.53 5.82 10 5.63 10.5 5.63H25.5C26 5.63 26.47 5.82 26.83 6.17C27.18 6.53 27.38 7 27.38 7.5V30.38H8.63V7.5C8.63 7 8.82 6.53 9.17 6.17Z"/></g></svg>
+  </div>
+  <div class="pf-people" data-who="S -  Nicholas Smudge">People</div>
+  <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:3px 5px 3px 5px">
+    <span class="pf-text-label-text" style="color:var(--pf-base-white)">Tag text</span>
+    <span class="pf-text-label-text" style="color:var(--pf-base-white)">Tag text</span>
+  </div>
+  <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-end;padding:0px 5px 0px 0px">
+    <svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M27.8 8.2C28.23 8.64 28.23 9.36 27.8 9.8L9.8 27.8C9.36 28.23 8.64 28.23 8.2 27.8C7.77 27.36 7.77 26.64 8.2 26.2L26.2 8.2C26.64 7.77 27.36 7.77 27.8 8.2Z"/><path fill-rule="evenodd" d="M8.2 8.2C8.64 7.77 9.36 7.77 9.8 8.2L27.8 26.2C28.23 26.64 28.23 27.36 27.8 27.8C27.36 28.23 26.64 28.23 26.2 27.8L8.2 9.8C7.77 9.36 7.77 8.64 8.2 8.2Z"/></svg>
+  </div>
+</div>
+</div>
+<pre>&lt;div class="pf-multiselect-tag"&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;padding:0px 0px 0px 5px"&gt;
+    &lt;!--pf-icon:department 17--&gt;
+  &lt;/div&gt;
+  &lt;div class="pf-people" data-who="S -  Nicholas Smudge"&gt;People&lt;/div&gt;
+  &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:3px 5px 3px 5px"&gt;
+    &lt;span class="pf-text-label-text" style="color:var(--pf-base-white)"&gt;Tag text&lt;/span&gt;
+    &lt;span class="pf-text-label-text" style="color:var(--pf-base-white)"&gt;Tag text&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-end;padding:0px 5px 0px 0px"&gt;
+    &lt;!--pf-icon:close-x-cancel 14--&gt;
+  &lt;/div&gt;
 &lt;/div&gt;
 </pre>
 </div>
@@ -9415,7 +9629,7 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 <h2 class="pf-text-sub-heading">Note <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">12 nodes</span></h2>
 <div class="stage"><div class="pf-note">
   <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px;padding:10px 20px 10px 20px">
-    <div class="pf-people"><!-- People --></div>
+    <div class="pf-people" data-who="CEO - Nolan George">People</div>
     <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:center">
       <span class="pf-text-label-text" style="color:var(--pf-text-primary)">Nolan George</span>
       <span class="pf-text-label-text" style="color:var(--pf-text-primary)">Wednesday 01/01/2022</span>
@@ -9434,7 +9648,7 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 </div>
 <pre>&lt;div class="pf-note"&gt;
   &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px;padding:10px 20px 10px 20px"&gt;
-    &lt;div class="pf-people"&gt;&lt;!-- People --&gt;&lt;/div&gt;
+    &lt;div class="pf-people" data-who="CEO - Nolan George"&gt;People&lt;/div&gt;
     &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:center"&gt;
       &lt;span class="pf-text-label-text" style="color:var(--pf-text-primary)"&gt;Nolan George&lt;/span&gt;
       &lt;span class="pf-text-label-text" style="color:var(--pf-text-primary)"&gt;Wednesday 01/01/2022&lt;/span&gt;
@@ -9455,8 +9669,8 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 <div class="item">
 <h2 class="pf-text-sub-heading">Notification card <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">17 nodes</span></h2>
 <div class="stage"><div class="pf-notification-card">
-  <div class="pf-notification-image"><!-- Notification image --></div>
-  <div class="pf-checkbox-radio-item"><!-- Checkbox/Radio item --></div>
+  <div class="pf-notification-image" data-type="Person" data-with-status="True" data-mobile="False" data-status-position="High">Notification image</div>
+  <div class="pf-checkbox-radio-item" data-state="Default" data-radio="No" data-filled="No">Checkbox/Radio item</div>
   <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:10px 10px 10px 10px;border-radius:100px;background:var(--pf-bg-negative-button)">
     <svg class="pf-icon" width="34" height="34" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M18 11.88C18.62 11.88 19.13 12.38 19.13 13V19.5C19.13 20.12 18.62 20.63 18 20.63C17.38 20.63 16.88 20.12 16.88 19.5V13C16.88 12.38 17.38 11.88 18 11.88ZM18 22.38C18.62 22.38 19.13 22.88 19.13 23.5V23.52C19.13 24.14 18.62 24.64 18 24.64C17.38 24.64 16.88 24.14 16.88 23.52V23.5C16.88 22.88 17.38 22.38 18 22.38Z"/><path fill-rule="evenodd" d="M15.89 4.45C16.52 4.07 17.25 3.88 17.99 3.88C18.72 3.88 19.45 4.07 20.08 4.45C20.71 4.82 21.23 5.35 21.59 5.99L32.23 24.36C32.26 24.4 32.28 24.45 32.3 24.5C32.56 25.12 32.65 25.8 32.58 26.47C32.51 27.14 32.28 27.78 31.91 28.34C31.53 28.9 31.03 29.36 30.44 29.68C29.84 30 29.18 30.17 28.51 30.17L28.5 30.17H7.5C7.47 30.17 7.45 30.17 7.42 30.17C7.37 30.17 7.32 30.17 7.28 30.17C6.62 30.14 5.98 29.95 5.41 29.62C4.84 29.28 4.36 28.82 4.01 28.27C3.66 27.71 3.44 27.08 3.38 26.42C3.32 25.77 3.42 25.11 3.67 24.5C3.69 24.45 3.71 24.4 3.74 24.36L14.38 5.99C14.74 5.35 15.26 4.82 15.89 4.45ZM7.42 27.93C7.44 27.92 7.47 27.92 7.5 27.92H28.5C28.8 27.92 29.1 27.84 29.37 27.7C29.64 27.55 29.87 27.34 30.04 27.09C30.21 26.84 30.31 26.54 30.34 26.24C30.37 25.96 30.34 25.68 30.24 25.41L19.64 7.11L19.63 7.09C19.46 6.8 19.23 6.55 18.94 6.38C18.65 6.21 18.32 6.13 17.99 6.13C17.65 6.13 17.32 6.21 17.03 6.38C16.74 6.55 16.51 6.8 16.34 7.09L16.33 7.11L5.73 25.41C5.63 25.67 5.6 25.95 5.62 26.22C5.65 26.52 5.75 26.81 5.91 27.06C6.07 27.31 6.29 27.52 6.55 27.67C6.8 27.82 7.09 27.91 7.39 27.92C7.4 27.92 7.41 27.93 7.42 27.93Z"/></svg>
   </div>
@@ -9465,7 +9679,7 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
       <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px"></div>
       <span class="pf-text-body-text" style="color:var(--pf-text-primary)">Example notification</span>
     </div>
-    <div class="pf-tags"><!-- Tags --></div>
+    <div class="pf-tags" data-type="Warning" data-small="No">Tags</div>
   </div>
   <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:8px">
     <div>
@@ -9480,8 +9694,8 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 </div>
 </div>
 <pre>&lt;div class="pf-notification-card"&gt;
-  &lt;div class="pf-notification-image"&gt;&lt;!-- Notification image --&gt;&lt;/div&gt;
-  &lt;div class="pf-checkbox-radio-item"&gt;&lt;!-- Checkbox/Radio item --&gt;&lt;/div&gt;
+  &lt;div class="pf-notification-image" data-type="Person" data-with-status="True" data-mobile="False" data-status-position="High"&gt;Notification image&lt;/div&gt;
+  &lt;div class="pf-checkbox-radio-item" data-state="Default" data-radio="No" data-filled="No"&gt;Checkbox/Radio item&lt;/div&gt;
   &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:10px 10px 10px 10px;border-radius:100px;background:var(--pf-bg-negative-button)"&gt;
     &lt;!--pf-icon:warning 34--&gt;
   &lt;/div&gt;
@@ -9490,7 +9704,7 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
       &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px"&gt;&lt;/div&gt;
       &lt;span class="pf-text-body-text" style="color:var(--pf-text-primary)"&gt;Example notification&lt;/span&gt;
     &lt;/div&gt;
-    &lt;div class="pf-tags"&gt;&lt;!-- Tags --&gt;&lt;/div&gt;
+    &lt;div class="pf-tags" data-type="Warning" data-small="No"&gt;Tags&lt;/div&gt;
   &lt;/div&gt;
   &lt;div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:8px"&gt;
     &lt;div&gt;
@@ -9502,6 +9716,19 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
       &lt;!-- Close x: detached from the Figma page tree, so the library has no class for it — see uncaptured-reasons.tsv --&gt;
     &lt;/div&gt;
   &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Option <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">3 nodes</span></h2>
+<div class="stage"><div class="pf-option">
+  <span style="color:var(--pf-text-primary);font-size:16px">Label</span><!-- 16px is not a text style; see FIGMA-ISSUES.md section 7 -->
+  <svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M29.2 9.7C29.64 9.27 30.36 9.27 30.8 9.7C31.23 10.14 31.23 10.86 30.8 11.3L15.8 26.3C15.36 26.73 14.64 26.73 14.2 26.3L6.7 18.8C6.27 18.36 6.27 17.64 6.7 17.2C7.14 16.77 7.86 16.77 8.3 17.2L15 23.91L29.2 9.7Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+</div>
+<pre>&lt;div class="pf-option"&gt;
+  &lt;span style="color:var(--pf-text-primary);font-size:16px"&gt;Label&lt;/span&gt;&lt;!-- 16px is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
+  &lt;!--pf-icon:tick 14--&gt;
 &lt;/div&gt;
 </pre>
 </div>
@@ -9541,6 +9768,69 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 </pre>
 </div>
 <div class="item">
+<h2 class="pf-text-sub-heading">People and department drop down <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">13 nodes</span></h2>
+<div class="stage"><div class="pf-people-and-department-drop-down">
+  <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"><!-- SLOT: Figma marks this as where the component's content goes. -->
+    <div class="pf-people" data-item="Nolan George" data-type="Inline search" data-mobile="False">People</div>
+    <div style="height:1px;align-self:stretch;background:var(--pf-border-default-full)"></div>
+    <div class="pf-people" data-item="Davina Jones" data-type="Inline search" data-mobile="False">People</div>
+    <div style="height:1px;align-self:stretch;background:var(--pf-border-default-full)"></div>
+    <div class="pf-people" data-item="Abram Carter" data-type="Inline search" data-mobile="False">People</div>
+    <div style="height:1px;align-self:stretch;background:var(--pf-border-default-full)"></div>
+    <div class="pf-people" data-item="Department" data-type="Inline search" data-mobile="False">People</div>
+    <div style="height:1px;align-self:stretch;background:var(--pf-border-default-full)"></div>
+    <div class="pf-people" data-item="Department" data-type="Inline search" data-mobile="False">People</div>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:10px;padding:5px 0px 5px 0px;background:var(--pf-bg-tertiary)">
+    <div style="border-radius:21px;background:var(--pf-bg-primary)"></div>
+  </div>
+</div>
+</div>
+<pre>&lt;div class="pf-people-and-department-drop-down"&gt;
+  &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start"&gt;&lt;!-- SLOT: Figma marks this as where the component's content goes. --&gt;
+    &lt;div class="pf-people" data-item="Nolan George" data-type="Inline search" data-mobile="False"&gt;People&lt;/div&gt;
+    &lt;div style="height:1px;align-self:stretch;background:var(--pf-border-default-full)"&gt;&lt;/div&gt;
+    &lt;div class="pf-people" data-item="Davina Jones" data-type="Inline search" data-mobile="False"&gt;People&lt;/div&gt;
+    &lt;div style="height:1px;align-self:stretch;background:var(--pf-border-default-full)"&gt;&lt;/div&gt;
+    &lt;div class="pf-people" data-item="Abram Carter" data-type="Inline search" data-mobile="False"&gt;People&lt;/div&gt;
+    &lt;div style="height:1px;align-self:stretch;background:var(--pf-border-default-full)"&gt;&lt;/div&gt;
+    &lt;div class="pf-people" data-item="Department" data-type="Inline search" data-mobile="False"&gt;People&lt;/div&gt;
+    &lt;div style="height:1px;align-self:stretch;background:var(--pf-border-default-full)"&gt;&lt;/div&gt;
+    &lt;div class="pf-people" data-item="Department" data-type="Inline search" data-mobile="False"&gt;People&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div style="display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:10px;padding:5px 0px 5px 0px;background:var(--pf-bg-tertiary)"&gt;
+    &lt;div style="border-radius:21px;background:var(--pf-bg-primary)"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Primary search <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">3 nodes</span></h2>
+<div class="stage"><div class="pf-primary-search">
+  <svg class="pf-icon" width="22" height="22" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path fill-rule="evenodd" d="M15 3.38C8.58 3.38 3.38 8.58 3.38 15C3.38 21.42 8.58 26.63 15 26.63C17.81 26.63 20.38 25.63 22.39 23.98L30.7 32.3C31.14 32.73 31.86 32.73 32.3 32.3C32.73 31.86 32.73 31.14 32.3 30.7L23.98 22.39C25.63 20.38 26.63 17.81 26.63 15C26.63 8.58 21.42 3.38 15 3.38ZM5.63 15C5.63 9.82 9.82 5.63 15 5.63C20.18 5.63 24.38 9.82 24.38 15C24.38 20.18 20.18 24.38 15 24.38C9.82 24.38 5.63 20.18 5.63 15Z"/></g></svg>
+  <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">Search...</span>
+</div>
+</div>
+<pre>&lt;div class="pf-primary-search"&gt;
+  &lt;!--pf-icon:search 22--&gt;
+  &lt;span class="pf-text-label-text" style="color:var(--pf-text-secondary)"&gt;Search...&lt;/span&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Required field <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">3 nodes</span></h2>
+<div class="stage"><div class="pf-required-field">
+  <div style="background:var(--pf-icon-required-field)"></div>
+  <span class="pf-text-body-text-italic" style="color:var(--pf-text-primary)">Denotes a required f</span>
+</div>
+</div>
+<pre>&lt;div class="pf-required-field"&gt;
+  &lt;div style="background:var(--pf-icon-required-field)"&gt;&lt;/div&gt;
+  &lt;span class="pf-text-body-text-italic" style="color:var(--pf-text-primary)"&gt;Denotes a required f&lt;/span&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
 <h2 class="pf-text-sub-heading">Settings card <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">3 nodes</span></h2>
 <div class="stage"><div class="pf-settings-card">
   <span class="pf-text-label-text-semibold" style="color:var(--pf-text-theme)">TITLE</span>
@@ -9564,7 +9854,7 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     <svg class="pf-icon" width="28" height="28" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M27.8 8.2C28.23 8.64 28.23 9.36 27.8 9.8L9.8 27.8C9.36 28.23 8.64 28.23 8.2 27.8C7.77 27.36 7.77 26.64 8.2 26.2L26.2 8.2C26.64 7.77 27.36 7.77 27.8 8.2Z"/><path fill-rule="evenodd" d="M8.2 8.2C8.64 7.77 9.36 7.77 9.8 8.2L27.8 26.2C28.23 26.64 28.23 27.36 27.8 27.8C27.36 28.23 26.64 28.23 26.2 27.8L8.2 9.8C7.77 9.36 7.77 8.64 8.2 8.2Z"/></svg>
   </div>
   <svg class="pf-icon" width="28" height="28" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg>
-  <div class="pf-switcher"><!-- Switcher --></div>
+  <div class="pf-switcher" data-property-1="Default">Switcher</div>
 </div>
 </div>
 <pre>&lt;div class="pf-side-panel-header"&gt;
@@ -9576,7 +9866,18 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     &lt;!--pf-icon:close-x-cancel 28--&gt;
   &lt;/div&gt;
   &lt;!--pf-icon:context-menu 28--&gt;
-  &lt;div class="pf-switcher"&gt;&lt;!-- Switcher --&gt;&lt;/div&gt;
+  &lt;div class="pf-switcher" data-property-1="Default"&gt;Switcher&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Signature <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">2 nodes</span></h2>
+<div class="stage"><div class="pf-signature">
+  <!-- [S] Signature: detached from the Figma page tree, so the library has no class for it — see uncaptured-reasons.tsv -->
+</div>
+</div>
+<pre>&lt;div class="pf-signature"&gt;
+  &lt;!-- [S] Signature: detached from the Figma page tree, so the library has no class for it — see uncaptured-reasons.tsv --&gt;
 &lt;/div&gt;
 </pre>
 </div>
@@ -9585,36 +9886,85 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
 <div class="stage"><div class="pf-spotlight-card">
   <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:10px">
     <div style="background:var(--pf-bg-theme)"></div>
-    <div class="pf-content"><!-- Content --></div>
-    <div class="pf-floaters"><!-- Floaters --></div>
+    <div class="pf-content">Content</div>
+    <div class="pf-floaters">Floaters</div>
   </div>
-  <div class="pf-footer"><!-- Footer --></div>
+  <div class="pf-footer">Footer</div>
 </div>
 </div>
 <pre>&lt;div class="pf-spotlight-card"&gt;
   &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:10px"&gt;
     &lt;div style="background:var(--pf-bg-theme)"&gt;&lt;/div&gt;
-    &lt;div class="pf-content"&gt;&lt;!-- Content --&gt;&lt;/div&gt;
-    &lt;div class="pf-floaters"&gt;&lt;!-- Floaters --&gt;&lt;/div&gt;
+    &lt;div class="pf-content"&gt;Content&lt;/div&gt;
+    &lt;div class="pf-floaters"&gt;Floaters&lt;/div&gt;
   &lt;/div&gt;
-  &lt;div class="pf-footer"&gt;&lt;!-- Footer --&gt;&lt;/div&gt;
+  &lt;div class="pf-footer"&gt;Footer&lt;/div&gt;
 &lt;/div&gt;
 </pre>
 </div>
 <div class="item">
 <h2 class="pf-text-sub-heading">Sticky footer <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">5 nodes</span></h2>
 <div class="stage"><div class="pf-sticky-footer">
-  <div class="pf-button"><!-- Button --></div>
-  <div class="pf-button"><!-- Button --></div>
-  <div class="pf-button"><!-- Button --></div>
+  <div class="pf-button" data-type="Positive" data-state="Default" data-label="Yes">Button</div>
+  <div class="pf-button" data-type="Hollow" data-state="Default" data-label="Yes">Button</div>
+  <div class="pf-button" data-type="Hollow" data-state="Default" data-label="Yes">Button</div>
   <svg class="pf-icon" width="28" height="28" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg>
 </div>
 </div>
 <pre>&lt;div class="pf-sticky-footer"&gt;
-  &lt;div class="pf-button"&gt;&lt;!-- Button --&gt;&lt;/div&gt;
-  &lt;div class="pf-button"&gt;&lt;!-- Button --&gt;&lt;/div&gt;
-  &lt;div class="pf-button"&gt;&lt;!-- Button --&gt;&lt;/div&gt;
+  &lt;div class="pf-button" data-type="Positive" data-state="Default" data-label="Yes"&gt;Button&lt;/div&gt;
+  &lt;div class="pf-button" data-type="Hollow" data-state="Default" data-label="Yes"&gt;Button&lt;/div&gt;
+  &lt;div class="pf-button" data-type="Hollow" data-state="Default" data-label="Yes"&gt;Button&lt;/div&gt;
   &lt;!--pf-icon:context-menu 28--&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Text area <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">3 nodes</span></h2>
+<div class="stage"><div class="pf-text-area">
+  <div class="pf-field-label">Field label</div>
+  <div class="pf-s-text-area" data-property-1="Default">[S] Text area</div>
+</div>
+</div>
+<pre>&lt;div class="pf-text-area"&gt;
+  &lt;div class="pf-field-label"&gt;Field label&lt;/div&gt;
+  &lt;div class="pf-s-text-area" data-property-1="Default"&gt;[S] Text area&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Text template format editor  <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">5 nodes</span></h2>
+<div class="stage"><div class="pf-text-template-format-editor">
+  <div class="pf-field-label">Field label</div>
+  <!-- Text template tool bar: detached from the Figma page tree, so the library has no class for it — see uncaptured-reasons.tsv -->
+  <!-- [S] Form field: detached from the Figma page tree, so the library has no class for it — see uncaptured-reasons.tsv -->
+  <span class="pf-text-label-text" style="color:var(--pf-text-primary)">0 characters out of </span>
+</div>
+</div>
+<pre>&lt;div class="pf-text-template-format-editor"&gt;
+  &lt;div class="pf-field-label"&gt;Field label&lt;/div&gt;
+  &lt;!-- Text template tool bar: detached from the Figma page tree, so the library has no class for it — see uncaptured-reasons.tsv --&gt;
+  &lt;!-- [S] Form field: detached from the Figma page tree, so the library has no class for it — see uncaptured-reasons.tsv --&gt;
+  &lt;span class="pf-text-label-text" style="color:var(--pf-text-primary)"&gt;0 characters out of &lt;/span&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">Time picker <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">5 nodes</span></h2>
+<div class="stage"><div class="pf-time-picker">
+  <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;border-radius:4px">
+    <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:9px 10px 9px 10px"></div>
+    <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:10px 10px 10px 10px;background:var(--pf-bg-tertiary)"></div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;justify-content:flex-start;gap:10px;padding:10px 10px 10px 10px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary)"></div>
+  </div>
+</div>
+</div>
+<pre>&lt;div class="pf-time-picker"&gt;
+  &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;border-radius:4px"&gt;
+    &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:9px 10px 9px 10px"&gt;&lt;/div&gt;
+    &lt;div style="display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:10px 10px 10px 10px;background:var(--pf-bg-tertiary)"&gt;&lt;/div&gt;
+    &lt;div style="display:flex;flex-direction:column;align-items:flex-end;justify-content:flex-start;gap:10px;padding:10px 10px 10px 10px;background:var(--pf-bg-tertiary);border:1px solid var(--pf-border-secondary)"&gt;&lt;/div&gt;
+  &lt;/div&gt;
 &lt;/div&gt;
 </pre>
 </div>
@@ -9649,6 +9999,42 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
   &lt;/div&gt;
   &lt;!-- Close x: detached from the Figma page tree, so the library has no class for it — see uncaptured-reasons.tsv --&gt;
   &lt;div style="background:var(--pf-border-positive)"&gt;&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">[S] Post content <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">5 nodes</span></h2>
+<div class="stage"><div class="pf-s-post-content">
+  <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:10px;padding:0px 0px 3px 0px">
+    <span class="pf-text-sub-heading" style="color:var(--pf-text-primary)">Title of post</span>
+  </div>
+  <span class="pf-text-body-text" style="color:var(--pf-text-primary)">Lorem ipsum dolor si</span>
+  <div class="pf-links" data-link-type="Primary" data-hover="False" data-icon-position="Left">Links</div>
+</div>
+</div>
+<pre>&lt;div class="pf-s-post-content"&gt;
+  &lt;div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:10px;padding:0px 0px 3px 0px"&gt;
+    &lt;span class="pf-text-sub-heading" style="color:var(--pf-text-primary)"&gt;Title of post&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;span class="pf-text-body-text" style="color:var(--pf-text-primary)"&gt;Lorem ipsum dolor si&lt;/span&gt;
+  &lt;div class="pf-links" data-link-type="Primary" data-hover="False" data-icon-position="Left"&gt;Links&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="item">
+<h2 class="pf-text-sub-heading">[S] Text area <span class="pf-text-label-text" style="color:var(--pf-text-secondary)">4 nodes</span></h2>
+<div class="stage"><div class="pf-s-text-area">
+  <div style="border-radius:8px;border:1px solid var(--pf-border-form-input)">
+    <span class="pf-text-body-text" style="color:var(--pf-text-primary)">Aperiam dicta cum ea</span>
+  </div>
+  <span style="color:var(--pf-text-secondary);font-size:16px">200 characters out o</span><!-- 16px is not a text style; see FIGMA-ISSUES.md section 7 -->
+</div>
+</div>
+<pre>&lt;div class="pf-s-text-area"&gt;
+  &lt;div style="border-radius:8px;border:1px solid var(--pf-border-form-input)"&gt;
+    &lt;span class="pf-text-body-text" style="color:var(--pf-text-primary)"&gt;Aperiam dicta cum ea&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;span style="color:var(--pf-text-secondary);font-size:16px"&gt;200 characters out o&lt;/span&gt;&lt;!-- 16px is not a text style; see FIGMA-ISSUES.md section 7 --&gt;
 &lt;/div&gt;
 </pre>
 </div>

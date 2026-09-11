@@ -877,8 +877,27 @@ Four things the work turned up, each now handled rather than papered over:
 - **Off-ramp text keeps its measurement.** "More details" is 13px bound to no style;
   emitting no size left it at the browser's 16.
 
-**Remaining:** walk the other ~146 components' trees. Same two calls per batch; the
-extractor, generator and check do not change.
+**Coverage: 32 components, 31 of them composite.** System messages, Cards and panels,
+Analytics and Forms are walked.
+
+**Remaining:** the other ~126. One call per page; the extractor, generator and check do not
+change.
+
+Two more things the widened walk turned up:
+
+- **A placeholder must carry its variant attributes, not just the class.** Almost no
+  component paints from its bare class — the colours live behind `[data-*]`, because that
+  is where Figma puts them. `<div class="pf-button">` is a transparent box; it is
+  `data-type="Positive"` that makes it green. The tree now records each instance's variant
+  and the template emits it.
+- **A SLOT can have children**, and they were being thrown away. `Browser drop down` is a
+  slot holding seven `Option` instances; returning only the marker comment lost all seven
+  and the template rendered empty. A slot is a real layout box AND a marker.
+
+And a design fault the gallery made visible, now written up as FIGMA-ISSUES.md section 9:
+`Option` `Selected=Yes` binds `Text/Inverted primary` and **no background**, so a selected
+option is white text on nothing. The highlight exists in Figma only as a raw unbound paint
+on the instance.
 
 ## B. `verify-layout` is blind to content that ESCAPES its container — `done`
 

@@ -26,7 +26,7 @@
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
-const HEADER = 'TREE\tcomponent\tpath\ttype\tname\tsize\tlayout\tpadding\tgap\tradius\tfill\tstroke\ttextStyle\tfont\ttext';
+const HEADER = 'TREE2\tcomponent\tpath\ttype\tname\tvariant\tsize\tlayout\tpadding\tgap\tradius\tfill\tstroke\ttextStyle\tfont\ttext';
 const OUT = 'tokens/_raw/component-tree.tsv';
 const dir = '/root/.claude/projects/-home-user-ds';
 const file = process.argv[2] ||
@@ -74,7 +74,7 @@ for (const [, rows] of [...trees.entries()].sort())
   for (const [, line] of [...rows.entries()].sort((a, b) => a[0].localeCompare(b[0], undefined, { numeric: true })))
     out.push(line);
 
-writeFileSync(OUT, HEADER.replace(/^TREE\t/, '') + '\n' + out.join('\n') + '\n');
+writeFileSync(OUT, HEADER.replace(/^TREE2\t/, '') + '\n' + out.join('\n') + '\n');
 
 const composite = [...trees.entries()].filter(([, r]) => r.size > 1);
 console.log(`component-tree.tsv — ${trees.size} components, ${out.length} nodes`);

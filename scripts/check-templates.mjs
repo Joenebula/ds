@@ -60,6 +60,19 @@ for (const component of composite.sort()) {
 
 const missing = specs.filter(s => !s.template).map(s => s.component);
 
+// A template can be legitimately empty: its tree may reference only components that are
+// DETACHED from the Figma page tree, which nothing can capture. `Signature`'s single child
+// is `[S] Signature`, one of the 55. The generator marks those, and they are counted and
+// named rather than failed — failing would demand something impossible, and passing
+// silently would hide a real gap.
+// The test is not "mentions a detached component" — `Toast message` references one and
+// still renders four other things. It is "renders nothing AND the reason is a detached
+// component", so the exemption only ever applies where the template would otherwise fail.
+const mentionsDetached = new Set(specs
+  .filter(s => s.template && /detached from the Figma page tree/.test(s.template))
+  .map(s => s.component));
+const blocked = [];
+
 const page = specs.map((s, i) => `
 <section id="bare${i}">${`<div class="${s.base}"></div>`}</section>
 <section id="tpl${i}">${s.template ? expandIcons(selfTest && i === 0 ? `<div class="${s.base}"></div>` : s.template) : ''}</section>`).join('\n');
@@ -76,15 +89,22 @@ const p = await browser.newPage();
 await p.goto('file://' + process.cwd() + '/tmp-templates-check.html');
 await p.evaluate(() => document.fonts.ready);
 
-// "Renders something" = it has descendants that occupy space, or text. A box with a
-// background and nothing in it does not count, which is the entire point.
+// "Renders something" = it has descendants that occupy VERTICAL space, or text.
+//
+// Height, not area. Nearly every component class is `display: inline-flex` — Figma
+// auto-layout — and the generator deliberately drops a width above 120px, because that is
+// the artboard the component was drawn at rather than a rule. An inline box with no
+// content therefore has zero WIDTH, and a template whose children are empty placeholder
+// instances collapses to 0 wide while being perfectly correct. Measuring area called five
+// good templates empty. On a real page the author gives the component its width; what a
+// template can honestly promise is that its contents occupy the page at all.
 const got = await p.evaluate(n => {
   const content = root => {
     if (!root) return 0;
     let n = 0;
     for (const el of root.querySelectorAll('*')) {
       const r = el.getBoundingClientRect();
-      if (r.width > 0 && r.height > 0) n++;
+      if (r.height > 0) n++;
     }
     return n + ((root.textContent || '').trim() ? 1 : 0);
   };
@@ -102,7 +122,9 @@ const emptyTemplates = [];
 // The bare class contributes 1 for its own div. Anything at or below that is an empty box.
 for (const [i, s] of specs.entries()) {
   if (!s.template) continue;
-  if (got[i].tpl <= got[i].bare) { emptyTemplates.push(s.component); failures++; }
+  if (got[i].tpl > got[i].bare) continue;               // renders something; fine
+  if (mentionsDetached.has(s.component)) { blocked.push(s.component); continue; }
+  emptyTemplates.push(s.component); failures++;
 }
 
 console.log(`${specs.length} composite component(s) — a class alone cannot be any of them`);
@@ -112,6 +134,9 @@ if (missing.length) {
 }
 if (emptyTemplates.length) {
   console.log(`  FAIL  ${emptyTemplates.length} template(s) render an empty box: ${emptyTemplates.join(', ')}`);
+}
+if (blocked.length) {
+  console.log(`  ${blocked.length} blocked by a detached component, so nothing can fill them: ${blocked.join(', ')}`);
 }
 if (!failures) console.log('  every one has a template, and every template renders its contents');
 
