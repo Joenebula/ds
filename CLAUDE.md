@@ -268,8 +268,9 @@ keeps its name, so it is invisible there by construction.
 npm run icons:check
 ```
 
-**First run said six had drifted. Three of those six were the CHECK being wrong**, and the
-correction is the more useful half of this section.
+**Current reading: 284 of 287 pinned icons verified identical against Figma, 3 drifted.** The first
+run said SIX had drifted, and three of those six were the CHECK being wrong — the correction is the
+more useful half of this section.
 
 | | | |
 |---|---|---|
@@ -300,10 +301,15 @@ three false ones come in under it. Nothing in between, which is what a good disc
 inside one path cancel in the sum. The skeleton and the count both still hold, so it takes a
 deliberate edit to hide, but it is a tolerance and not a proof.
 
-**And the digest file was deleted rather than left in place.** It was written in the old `{id, h}`
-format, which the current comparison would read as "no skeleton" and report as 287 drifted icons —
-287 false alarms presented as fact. `formatError()` now refuses an old-format file outright and says
-to re-run the collector. Re-running it is one call; reporting 287 lies is not recoverable.
+**The digest file was deleted rather than left in place, then regenerated.** The old one was in the
+`{id, h}` format, which the current comparison would read as "no skeleton" and report as 287 drifted
+icons — 287 false alarms presented as fact. `formatError()` refuses an old-format file outright and
+says to re-run the collector. Re-running is one call; reporting 287 lies is not recoverable.
+
+**And 284 matching is itself the integrity check on the regenerated file.** It was transcribed by
+hand out of two collector runs, and a single mistyped digit in any sum would have surfaced as a
+spurious drift rather than passing quietly — so the 284 that matched are 284 lines proved correct by
+the comparison they feed.
 
 **A digest is PATH DATA only, and the three exclusions are the whole design.** Colour is ignored
 because `icons.tsv` stores `fill="currentColor"` by design while Figma exports the real paint —
