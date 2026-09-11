@@ -113,3 +113,34 @@ Darkmode theme	#33B5E5	0
 #	5	STYLE GUIDE specimens, Rectangle 98/99, Dropdown item	specimens and one-offs
 #
 # 36 of the 46 styles still carry references. 10 carry none.
+#
+# ── WHERE THE REMAINING 1592 ACTUALLY LIVE, 2026-09-11 ────────────────────────
+# Two agreeing sweeps, split by page:
+#
+#	346	COMPONENT pages — the shipped library. The real job.
+#	1073	DOCUMENTATION — WIKI, STYLE GUIDE, DOCUMENT MANAGEMENT
+#	173	AI — the exploration page
+#
+# So 67% of what is left is documentation and 11% is exploration. Only 21 of the 46 styles
+# appear on a component page at all, and the top five are 231 of the 346:
+#
+#	113	Grey slate (A)	12 pages	blocked on surfaces (see the grey run above)
+#	58	Default theme pink (A)	11 pages	Text/Theme vs Background/Theme by ROLE — a known mapping
+#	33	Grey	#868686, 4 pages
+#	28	White	3 pages
+#	19	Green leaf	3 pages
+#
+# THIS IS THE NUMBER TO PLAN AGAINST. "1,940 references to a retired collection" reads like a
+# quarter of work; 346 on the shipped library is a fortnight. The rest is a separate decision
+# about whether the style guide and the wiki should demonstrate the system in a retired style —
+# the same `judge` question the white census raised, now sized at 1,073 rather than 47.
+#
+# AND THE SURFACES ARE NOT MECHANICAL. Checked before touching any: every surface value maps to
+# several semantic frame-fill variables that diverge in dark mode, so none can be applied by rule.
+#	#FFFFFF	7 candidates	Background/Primary #2C313C, Table/Card #2C313C, Table/Primary cell
+#			#323441, Org cards/BG Main #1D1F27, Navigation/Nav bg left #1D1F27,
+#			Nav bg top #23252E, Tags/Fills/Info #FFFFFF
+#	#FAFAFA	2 candidates	Background/Secondary #1D1F27 vs Table/Stripe cell #23252E
+#	#F2F2F2	2 candidates	Background/Tertiary #282A32 vs Table/Header cell #141414
+# A page background and a table stripe are the same colour in light and different in dark. Picking
+# between them is the design decision this repo exists to stop anyone making by accident.

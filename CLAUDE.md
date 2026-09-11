@@ -569,6 +569,39 @@ and every one of those surfaces is its own entry in the census. That reorders th
 retirement is not a sweep down a list of colours, it is surfaces first and everything that sits on
 them second. The token layer cannot fix a page whose panels are raw hex.
 
+### Only 346 of it is the shipped library
+
+The retirement reads like a quarter of work until you split the remaining 1,592 by page. Two
+agreeing sweeps:
+
+| | |
+|---|---|
+| **346** | COMPONENT pages — the shipped library. **The real job.** |
+| 1,073 | documentation — `WIKI`, `STYLE GUIDE`, `DOCUMENT MANAGEMENT` |
+| 173 | the `AI` exploration page |
+
+**Sixty-seven per cent of what is left is documentation.** Only 21 of the 46 styles touch a
+component page at all, and five of them are 231 of the 346: `Grey slate (A)` 113, `Default theme
+pink (A)` 58, `Grey` 33, `White` 28, `Green leaf` 19.
+
+That is the number to plan against, and the rest is a separate question rather than a smaller
+version of the same one: should the style guide and the wiki demonstrate the system in a retired
+style? The white census raised it at 47 nodes; across the collection it is 1,073.
+
+**The surfaces were checked before anything was applied, and they are not mechanical.** Every
+surface value behind the blocked grey text maps to several semantic frame-fill variables that
+diverge in dark:
+
+| value | candidates |
+|---|---|
+| `#FFFFFF` | **7** — `Background/Primary` `#2C313C`, `Table/Card` `#2C313C`, `Table/Primary cell` `#323441`, `Org cards/Fills/BG Main` `#1D1F27`, `Navigation/Nav bg left` `#1D1F27`, `Nav bg top` `#23252E`, `Tags/Fills/Info` `#FFFFFF` |
+| `#FAFAFA` | 2 — `Background/Secondary` `#1D1F27` vs `Table/Stripe cell` `#23252E` |
+| `#F2F2F2` | 2 — `Background/Tertiary` `#282A32` vs `Table/Header cell` `#141414` |
+
+A page background and a table stripe are the same colour in light and different in dark. Choosing
+between them from a light-mode render is the decision this repo exists to stop anyone making by
+accident, so the surfaces stay for a person — and with them the 574 text nodes that sit on them.
+
 **And `Border/Default hidden` has a light value and no dark value at all** — worth knowing, since
 three components map onto it.
 
