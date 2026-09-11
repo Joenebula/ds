@@ -151,7 +151,7 @@ still invisible. The list:
 | ~~`Calendarcross`~~ | `Calendar cross` | spacing fixed in Figma | **corrected** — as above |
 | ~~`calendar link`~~ | `Calendar link` | case only | **corrected** — as above |
 | `Taxes coins` | `Coins` + `Tax` | split into two | needs a Figma read for the two new glyphs |
-| `Size=L/M/S/XS - ..px` | `Circle icons` | **not a Figma change at all** — `extract-icons.mjs` captured one component set's four VARIANTS as four separate icons | needs the extractor fixed, then a re-read |
+| `Size=L/M/S/XS - ..px` | `Circle icons` | **not a Figma change at all** — `extract-icons.mjs` captured one component set's four VARIANTS as four separate icons | **extractor fixed** — it now refuses them; the four rows are left in place and reported by `--check` |
 | `unnamed-813678321` | — | an unnamed node captured as an icon | needs a Figma read to identify or drop |
 
 The two marked corrected needed no Figma call: the SVG on disk was already the right artwork, and
@@ -160,8 +160,38 @@ need a read and are left failing rather than declared — **a gate turned green 
 acceptable is worse than one that is honestly red.** Nine actionable items with a written
 diagnosis is a different thing from 286 unreadable ones.
 
-Pair the two lists by eye before importing anything. Giving `icons.tsv` an id column is the real
-fix and needs a re-extract that carries one.
+Pair the two lists by eye before importing anything.
+
+**A component set's VARIANT is not an icon, and the extractor now knows that.** It had no concept
+of what an icon is: the whole accept test was an integer index and an SVG that starts `<svg` and
+ends `</svg>`, which a variant satisfies perfectly. `slug()` then ate the one character that gave
+it away — `[^a-z0-9]+` turns `Size=L - 52px` into the plausible-looking `size-l-52px` — and the
+`file` column is derived from that slug, so nothing downstream ever saw the `=`.
+
+```
+node scripts/extract-icons.mjs --check        # audits icons.tsv; no transcripts needed
+```
+
+Two layers, and **the structural one is the verdict**: Figma names a variant node `Property=Value`,
+so an `=` decides it alone. The inventory lookup through `scripts/lib/inventory.mjs` is
+CORROBORATION ONLY — it turns *"this looks like a variant"* into *"this is the Size variant of
+Circle icons (6580:66319)"*, which is what a person needs to act. Keeping those apart matters: a
+stale or missing `components.json` must not re-open the hole.
+
+**The dash is not the signal.** `PDF - Warning` is a real icon and contains ` - ` exactly as the
+four bogus rows do; a dash heuristic would quietly drop it. That false positive is one of the six
+mutants holding this.
+
+The four rows stay in the file. They are real artwork, only misfiled, and deleting them would lose
+drawings that cannot be re-fetched while the asset host is blocked — which size is "the" icon is a
+designer's call. The extractor refuses to IMPORT them, so a whole-file rewrite would drop them and
+the existing `WOULD LOSE` guard puts that to a person at exactly the right moment.
+
+**And the asset host is the real wall on the rest.** `Coins`, `Tax` and `Circle icons` cannot be
+added from here, and it is worth being exact about why: the Figma *reads* work, but
+`get_design_context` returns asset URLs rather than inline markup, and both
+`https://www.figma.com/api/mcp/asset/…` and `api.figma.com` answer `CONNECT tunnel failed,
+response 403`. There is no route to a new glyph's SVG until that changes.
 
 ## Re-extracting
 

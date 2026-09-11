@@ -4,6 +4,7 @@
 //
 //   node scripts/extract-icons.mjs              report only, touch nothing
 //   node scripts/extract-icons.mjs --write      write the SVGs and the TSV
+//   node scripts/extract-icons.mjs --check        just audit icons.tsv — no transcripts needed
 //   node scripts/extract-icons.mjs --self-test
 //
 // IT USED TO WRITE ON EVERY INVOCATION. There was no --write flag at all, and the first
@@ -28,6 +29,7 @@
 import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { TRANSCRIPT_DIR, transcriptFiles, scrapeBatches, parseBatch } from './lib/transcript.mjs';
+import { inventory, variantNames } from './lib/inventory.mjs';
 
 const TSV = 'tokens/_raw/icons.tsv';
 const DIR = 'assets/icons';
@@ -46,6 +48,44 @@ const HEADER = 'index\tfigmaName\tfile\tsvg\tnodeId';
 // are whitespace in path data, so collapsing them to spaces changes no artwork; doing it here
 // turns "no row happens to have a tab" into "no row can".
 export const normaliseCell = (svg) => String(svg).replace(/\t/g, ' ');
+
+// A COMPONENT SET'S VARIANT IS NOT AN ICON, and this extractor had no way to know that.
+//
+// Its whole accept test was well-formedness of the payload — an integer index and an SVG that
+// starts <svg and ends </svg>. A variant renders as a perfectly whole SVG, so four of them sailed
+// in as four separate icons: Size=L - 52px, Size=M - 44px, Size=S - 36px and Size=XS - 28px are
+// the four sizes of `Circle icons` (6580:66319). slug() then stripped the one character that gave
+// it away — [^a-z0-9]+ turns "Size=L - 52px" into the entirely plausible "size-l-52px" — and the
+// file column is derived from that slug, so nothing downstream ever saw the "=".
+//
+// TWO LAYERS, AND THE STRUCTURAL ONE IS THE VERDICT. Figma names a variant node Property=Value, so
+// an "=" in the name is decisive on its own and needs nothing else to be true. The inventory
+// lookup is CORROBORATION ONLY: it turns "this looks like a variant" into "this is the Size
+// variant of Circle icons", which is what a person needs in order to act. That split matters —
+// the detector must not stop working because components.json is stale or absent.
+//
+// THE DASH IS NOT THE SIGNAL. `PDF - Warning` is a real icon and contains " - " exactly as the
+// four bogus rows do. A dash heuristic would quietly drop it. Only the "=" is reliable.
+export function variantOf(name, variants = new Map()) {
+  const n = String(name || '').trim();
+  if (!n.includes('=')) return null;
+  return variants.get(n.toLowerCase()) || { set: null, nodeId: null, property: n.split('=')[0] };
+}
+
+// Rows already captured that are really a component set's variants. Reported, never deleted.
+export function existingVariants(text, variants = new Map()) {
+  const lines = String(text).replace(/\n+$/, '').split('\n').filter((l) => l.trim());
+  if (lines.length < 2) return [];
+  const iName = lines[0].split('\t').indexOf('figmaName');
+  if (iName === -1) return [];
+  const out = [];
+  for (const l of lines.slice(1)) {
+    const name = (l.split('\t')[iName] || '').trim();
+    const v = name && variantOf(name, variants);
+    if (v) out.push({ name, ...v });
+  }
+  return out;
+}
 
 // The nodeId already in the file, by Figma name. Header-keyed rather than positional, so it keeps
 // working if the column ever moves — and it returns an empty map for a file that has no nodeId
@@ -70,9 +110,9 @@ export function readIds(text) {
 }
 const MARKER = /^(FROM \d+ NEXT \d+ OF \d+ COUNT \d+|FILETYPE COUNT \d+)/;
 
-export function readBatches(batches) {
+export function readBatches(batches, variants = new Map()) {
   const icons = new Map();               // index -> { name, svg }; a later batch supersedes
-  const errors = [];
+  const errors = []; const refused = [];
   let total = 0;
   for (const b of batches) {
     const p = parseBatch(b, { headerLines: 1, label: 'icons' });   // arity unusable: SVGs hold tabs
@@ -95,12 +135,15 @@ export function readBatches(batches) {
         errors.push(`${where}: icon ${idx} is not a whole SVG — ${svg.startsWith('<svg')
           ? 'TRUNCATED, it never reached </svg>' : 'it does not begin with <svg'}`); bad = true; continue;
       }
-      staged.push([idx, { name: line.slice(tab1 + 1, tab2), svg }]);
+      const name = line.slice(tab1 + 1, tab2);
+      const variant = variantOf(name, variants);
+      if (variant) { refused.push({ name, ...variant }); continue; }
+      staged.push([idx, { name, svg }]);
     }
     if (bad) continue;                   // never half-import a batch we know is damaged
     for (const [idx, v] of staged) icons.set(idx, v);
   }
-  return { icons, total, errors };
+  return { icons, total, errors, refused };
 }
 
 // kebab-case filename, deduped — Figma has two `GIF` and two `Transfer`.
@@ -159,6 +202,35 @@ export function gaps(icons, total) {
   return { missing, text: ranges.map(([a, b]) => (a === b ? a : `${a}-${b}`)).join(', ') };
 }
 
+// AUDIT THE FILE WITHOUT RE-EXTRACTING. The variant report below sits after the batch read, so it
+// only appears during a real re-extract — and a re-extract needs a session whose transcripts hold
+// ~30 heavy Figma reads. That would make the four misfiled rows invisible on every ordinary day,
+// which is the same "nobody can see it" failure the whole gate exists to avoid. This path reads
+// only icons.tsv and components.json, so anyone can ask the question at any time.
+function check() {
+  let text = '';
+  try { text = readFileSync(TSV, 'utf8'); } catch {
+    console.log(`no ${TSV} — nothing to audit`);
+    process.exit(2);                 // vacuous: measured nothing
+  }
+  const rows = text.replace(/\n+$/, '').split('\n').filter((l) => l.trim()).length - 1;
+  const variants = variantNames(inventory());
+  const found = existingVariants(text, variants);
+
+  console.log(`${rows} captured icon(s); ${variants.size} variant name(s) known from the inventory`);
+  if (!found.length) { console.log('no captured row is a component set\'s variant'); process.exit(0); }
+
+  console.log(`\n${found.length} captured row(s) are VARIANTS, not icons:`);
+  for (const r of found) {
+    console.log(`    ${r.name}${r.set ? `  — the ${r.property} variant of ${r.set} (${r.nodeId})` : ''}`);
+  }
+  console.log('\nLeft in place on purpose. They are real artwork, misfiled — deleting them would');
+  console.log('lose drawings that cannot be re-fetched while the Figma asset host is blocked, and');
+  console.log('which size is "the" icon is a designer\'s call. The extractor now refuses to import');
+  console.log('them, so the next re-extract will surface them through WOULD LOSE for a decision.');
+  process.exit(1);
+}
+
 function main() {
   const write = process.argv.includes('--write');
   const shrink = process.argv.includes('--shrink');
@@ -167,7 +239,9 @@ function main() {
   if (!tfiles.length) { console.error(`no transcripts in ${TRANSCRIPT_DIR}`); process.exit(1); }
 
   const batches = scrapeBatches(tfiles.map((f) => f.path), MARKER);
-  const { icons, total, errors } = readBatches(batches);
+  // Corroboration only — a stale or missing components.json must not stop the structural test.
+  const variants = variantNames(inventory());
+  const { icons, total, errors, refused } = readBatches(batches, variants);
 
   console.log(`transcripts read : ${tfiles.length}`);
   console.log(`batches parsed   : ${batches.length}`);
@@ -186,6 +260,27 @@ function main() {
   let priorText = '';
   try { priorText = readFileSync(TSV, 'utf8'); } catch { /* first run */ }
   const priorIds = readIds(priorText);
+
+  // Anything this read kept out, and anything already in the file that should never have got in.
+  // The two are reported separately because they need different things from a person: one is a
+  // batch to re-emit correctly, the other is artwork to re-file.
+  if (refused.length) {
+    console.log(`REFUSED          : ${refused.length} row(s) are a component set's VARIANTS, not icons`);
+    for (const r of refused) {
+      console.log(`    ${r.name}${r.set ? `  — the ${r.property} variant of ${r.set} (${r.nodeId})` : ''}`);
+    }
+  }
+  const alreadyIn = existingVariants(priorText, variants);
+  if (alreadyIn.length) {
+    console.log(`ALREADY IN FILE  : ${alreadyIn.length} captured row(s) are variants, not icons`);
+    for (const r of alreadyIn) {
+      console.log(`    ${r.name}${r.set ? `  — the ${r.property} variant of ${r.set} (${r.nodeId})` : ''}`);
+    }
+    console.log('    left in place: they are real artwork, misfiled. Deleting them would lose');
+    console.log('    drawings the asset host is currently blocking, and which size is "the" icon');
+    console.log('    is a designer\'s call. Refusing them on import means a whole-file rewrite');
+    console.log('    would drop them — see WOULD LOSE below, which puts that to a person.');
+  }
 
   const { files, rows, tabsFixed } = build(icons, priorIds);
   if (priorIds.size) console.log(`node ids carried : ${priorIds.size} from the existing file`);
@@ -276,6 +371,54 @@ function selfTest() {
   if (!nsed.files[0].svg.includes('id="tick-m1"')) miss('build() must namespace the ids it writes, not just be able to');
   if (!nsed.rows[0].includes('id="tick-m1"')) miss('the TSV row must carry the namespaced SVG, not the raw one');
 
+  // ---- what an icon is NOT ------------------------------------------------------------------
+  // The gap that let four of Circle icons' size variants into the library as four icons. The
+  // self-test asserted ten things about transport and nothing about semantics, so the extractor
+  // was never able to fail on this.
+  {
+    const VARIANTS = new Map([['size=l - 52px',
+      { set: 'Circle icons', nodeId: '6580:66319', property: 'Size' }]]);
+
+    // The structural test is the verdict and stands alone.
+    const v = variantOf('Size=L - 52px', VARIANTS);
+    if (!v || v.set !== 'Circle icons') miss('a Property=Value name must be identified as a variant');
+    if (variantOf('Size=XS - 28px', VARIANTS)?.set !== null) {
+      miss('a Property=Value name the inventory does not know must STILL be refused — the "=" is '
+        + 'decisive on its own, or a stale components.json would silently re-open the hole');
+    }
+    if (variantOf('Size=L - 52px', new Map())) {
+      // corroboration absent is fine, but it must still refuse
+      if (variantOf('Size=L - 52px', new Map()).set !== null) miss('no inventory must still refuse');
+    }
+
+    // THE FALSE POSITIVE THAT WOULD QUIETLY DROP A REAL ICON. `PDF - Warning` is a genuine icon
+    // and contains " - " exactly as the bogus rows do. A dash heuristic would eat it.
+    for (const good of ['PDF - Warning', 'Tick', 'Address book', 'Circle icons', '24 hours']) {
+      if (variantOf(good, VARIANTS)) miss(`"${good}" is a real icon name and must NOT be refused`);
+    }
+
+    // And the refusal must actually keep it out of the import, and be counted.
+    const r = readBatches([B(2, `0\tTick\t${SVG('a')}\n1\tSize=L - 52px\t${SVG('b')}`)], VARIANTS);
+    if (r.icons.size !== 1 || !r.icons.get(0)) {
+      miss(`a variant row must not be imported (got ${r.icons.size} icon(s))`);
+    }
+    if (r.icons.has(1)) miss('the variant row specifically must be the one kept out');
+    if (r.refused.length !== 1 || r.refused[0].name !== 'Size=L - 52px') {
+      miss(`a refusal must be COUNTED and NAMED, never silent (got ${JSON.stringify(r.refused)})`);
+    }
+    if (r.errors.length) miss('a refused variant is not a damaged batch — it must not error the run');
+
+    // Rows already in the file are found and reported, so the defect is visible from the tool
+    // that caused it rather than only from prose in CLAUDE.md.
+    const tsvText = 'index\tfigmaName\tfile\tsvg\tnodeId\n'
+      + '0\tTick\ttick\t<svg/>\t1:1\n225\tSize=L - 52px\tsize-l-52px\t<svg/>\t\n';
+    const found = existingVariants(tsvText, VARIANTS);
+    if (found.length !== 1 || found[0].set !== 'Circle icons') {
+      miss(`variants already captured must be reported (got ${JSON.stringify(found)})`);
+    }
+    if (existingVariants('', VARIANTS).length) miss('an empty file must yield no variants');
+  }
+
   // ---- the nodeId column ------------------------------------------------------------------
   // THE FAILURE THIS BLOCK EXISTS FOR. icons.tsv is written whole from batches that carry no id,
   // so without carry-forward a re-extract wipes every backfilled nodeId and reports success — the
@@ -331,5 +474,6 @@ function selfTest() {
 import { pathToFileURL } from 'node:url';
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   if (process.argv.includes('--self-test')) { selfTest(); process.exit(0); }
+  if (process.argv.includes('--check')) { check(); process.exit(0); }
   main();
 }
