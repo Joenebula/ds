@@ -3,7 +3,7 @@ Button	auto x 32	0 20	20	10	13px SemiBold	HORIZONTAL CENTER CENTER	PILL. Leading
 Button (icon only)	32 x 32	0 20	20	10	—		perfect circle	
 Links (primary)	auto x 22	0	0	5	16px, ls -1%		underline on hover	
 Links (secondary)	auto x 18	0	0	5	13px			
-Filter chip	auto x 42	10 20	76	5	16px, ls -1%	HORIZONTAL CENTER CENTER	PILL. Selected uses SemiBold, gap 10.	8433:85634
+Filter chip	auto x 42	10 20	76	5	16px, ls -1%	HORIZONTAL CENTER CENTER	RE-READ 2026-09-11: State=Hover has moved Background/Theme -> Background/Light theme. THIRD component with that exact change after Radio tile and Radio card, and the first that the shipped prototypes actually use. Unextracted, so the row is left as captured and is KNOWN STALE. Invisible in light (both #fcf4f7) and wrong in dark, where Background/Theme is #2c3844. Default and Selected rows are unchanged	8433:85634
 Filter chip (mobile)	auto x 34	8 15	76	5	13px		PILL	
 Tags	auto x 28	5 10	4	5	13px Regular	HORIZONTAL CENTER CENTER	SENTENCE CASE, not uppercase	18415:5426
 Field	300 x 42	10 10 10 20	8	10	16px	HORIZONTAL CENTER MAX	the input box itself. Placeholder text is italic, the value is not. 4 variants (Right aligned x Filled). Figma has a second, unrelated component also called Field.	18846:28925
@@ -140,7 +140,7 @@ Add attachment	440 x auto			20	13px SemiBold	VERTICAL CENTER MIN		4174:71096
 Action menu button	auto x auto				16px	HORIZONTAL CENTER CENTER		5308:64681
 Tool tip	auto x auto	10	4		13px	VERTICAL MIN MIN		5322:66068
 Drop down button	192 x auto	7 10 7 20	48		13px Regular	HORIZONTAL CENTER MIN		22421:5021
-Repeating group	auto x auto			20	16px Italic	VERTICAL MIN MIN		
+Repeating group	auto x auto			20	16px Italic	VERTICAL MIN MIN	RE-READ 2026-09-11: CORRECTED. The capture recorded its text as "Grey-slate", which is no token at all — the build reported it as the one UNMAPPED Figma token on every run. Figma binds Text/Primary. The nearest real name to "Grey-slate" is the PRIMITIVE Base colours/Grey Slate, same #3e3e3e in light but wrong in dark, so the semantic token is right twice over	32392:8259
 Action menu	199 x auto	4 5	4		13px	VERTICAL MIN MIN		5308:64663
 Manage columns	520 x auto				20px	VERTICAL MIN MIN		20798:19026
 Footer (AG)	1560 x auto				13px	VERTICAL MIN MIN		27725:51239

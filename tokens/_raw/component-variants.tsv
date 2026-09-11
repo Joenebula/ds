@@ -278,7 +278,7 @@ Controls	Date range visual				Text/Primary	8478:85639
 Controls	Slider				Text/Primary	14948:93064
 Tables	AG field	State=Selected		Icons/Icon - Primary	Text/Disabled	30794:46519
 Tables	AG field	State=Unselected	Background/Primary	Filter menu/Border	Text/Disabled	30794:46519
-Buttons and links	Repeating group				Grey-slate	
+Buttons and links	Repeating group				Text/Primary	32392:8259
 Buttons and links	Action menu		Background/Primary		Text/Primary	5308:64663
 AI	Adaptive card				Text/Secondary	27309:772
 AI	AI Gradient component				Text/Primary	27295:318

@@ -2106,7 +2106,7 @@
 }
 
 /* Filter chip
- * 3 variants captured. PILL. Selected uses SemiBold, gap 10.
+ * 3 variants captured. RE-READ 2026-09-11: State=Hover has moved Background/Theme -> Background/Light theme. THIRD component with that exact change after Radio tile and Radio card, and the first that the shipped prototypes actually use. Unextracted, so the row is left as captured and is KNOWN STALE. Invisible in light (both #fcf4f7) and wrong in dark, where Background/Theme is #2c3844. Default and Selected rows are unchanged
  * pill
  */
 .pf-filter-chip {
@@ -3312,7 +3312,7 @@
 }
 
 /* Repeating group
- * 1 variant captured
+ * 1 variant captured. RE-READ 2026-09-11: CORRECTED. The capture recorded its text as "Grey-slate", which is no token at all — the build reported it as the one UNMAPPED Figma token on every run. Figma binds Text/Primary. The nearest real name to "Grey-slate" is the PRIMITIVE Base colours/Grey Slate, same #3e3e3e in light but wrong in dark, so the semantic token is right twice over
  */
 .pf-repeating-group {
   display: inline-flex;
@@ -3330,7 +3330,7 @@
   font-family: var(--pf-font-body);
 }
 .pf-repeating-group {
-  /* unmapped Figma token: Grey-slate */
+  color: var(--pf-text-primary);
 }
 
 /* Required field

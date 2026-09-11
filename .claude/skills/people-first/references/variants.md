@@ -85,7 +85,7 @@ Figma component actually binds.
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
-|  | — | — | `Grey-slate` ⚠️ |
+|  | — | — | `var(--pf-text-primary)` |
 
 ### Action menu
 
