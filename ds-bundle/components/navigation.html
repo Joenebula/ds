@@ -838,33 +838,6 @@
   color: var(--pf-text-always-white);
 }
 
-/* Side navigation panel
- * 1 variant captured
- * Figma draws this 268px wide; treated as layout, not a rule
- * Figma draws this 416px tall; emitted as a minimum, since content decides the real height
- */
-.pf-side-navigation-panel {
-  min-height: 416px;
-  padding: 10px;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 5px;
-  font-size: 16px;
-  appearance: none;
-  -webkit-appearance: none;
-  background: transparent;
-  margin: 0;
-  border: 0;
-  box-sizing: border-box;
-  font-family: var(--pf-font-body);
-}
-.pf-side-navigation-panel {
-  background: var(--pf-bg-primary);
-  color: var(--pf-text-theme);
-}
-
 /* Filter tabs
  * 1 variant captured
  * Figma draws this 1600px wide; treated as layout, not a rule
@@ -934,35 +907,6 @@
 }
 .pf-s-config-child-menu {
   color: var(--pf-text-primary);
-}
-
-/* Counter
- * 1 variant captured
- * pill
- */
-.pf-counter {
-  width: 20px;
-  height: 20px;
-  padding: 0 4px;
-  border-radius: 999px;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  font-size: 11px;
-  font-weight: var(--pf-font-weight-bold);
-  appearance: none;
-  -webkit-appearance: none;
-  background: transparent;
-  margin: 0;
-  border: 0;
-  box-sizing: border-box;
-  font-family: var(--pf-font-body);
-}
-.pf-counter {
-  background: var(--pf-icon-theme);
-  color: var(--pf-text-inverted-primary);
 }
 
 /* Notification panel
@@ -1363,7 +1307,7 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
 </head>
 <body>
 <h1>Navigation</h1>
-<p class="sub">32 components from the Navigation page in Figma, rendered with dist/components.css. Class names mirror Figma's variant panel: the component is the class, each variant property is a data attribute.</p>
+<p class="sub">30 components from the Navigation page in Figma, rendered with dist/components.css. Class names mirror Figma's variant panel: the component is the class, each variant property is a data attribute.</p>
 <h2>Clock in</h2>
 <p class="sub">.pf-clock-in  ·  107 x 32  ·  2 variants</p>
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
@@ -1413,14 +1357,6 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-config-side-menu">Config side menu</div>
-        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">default</span>
-      </div>
-</div>
-<h2>Counter</h2>
-<p class="sub">.pf-counter  ·  20 x 20  ·  1 variant</p>
-<div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
-<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
-        <div class="pf-counter">3</div>
         <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">default</span>
       </div>
 </div>
@@ -1629,14 +1565,6 @@ td { padding: var(--pf-space-small); border-top: 1px solid var(--pf-table-border
 <div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
 <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <div class="pf-secondary-nav">Secondary nav</div>
-        <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">default</span>
-      </div>
-</div>
-<h2>Side navigation panel</h2>
-<p class="sub">.pf-side-navigation-panel  ·  268 x 416  ·  1 variant</p>
-<div class="row" style="flex-wrap:wrap;gap:14px;align-items:flex-start">
-<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
-        <div class="pf-side-navigation-panel">Side navigation panel</div>
         <span class="mono" style="font-size:10px;color:var(--pf-text-secondary)">default</span>
       </div>
 </div>

@@ -12,7 +12,7 @@ packaged so Claude Design — and any HTML/CSS output — generates on-brand UI.
 | `tokens/_raw/` | Verbatim extract from Figma. The evidence trail. |
 | `tokens/design-tokens.json` | 177 tokens in W3C DTCG format. Generated. |
 | `dist/tokens.css` | 365 CSS custom properties, light + dark. Generated. |
-| **`dist/components.css`** | **149 components, 304 variants, as ready classes, plus 12 shape-only. Generated.** |
+| **`dist/components.css`** | **147 components, 302 variants, as ready classes, plus 12 shape-only. Generated.** |
 | **`dist/type.css`** | **23 type classes, one per Figma text style. Generated.** |
 | `assets/icons/` | All 293 People First icons as individual SVGs. |
 | `docs/components.html` | Every component and variant, light and dark. |

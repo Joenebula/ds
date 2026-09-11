@@ -193,7 +193,6 @@ Navigation	Header	Breakpoint=Tablet			Base colours/White
 Navigation	Header	Breakpoint=Mobile			Base colours/White
 Navigation	Mobile bottom navigation				Text/Secondary
 Navigation	Top bar app context				Base colours/White
-Navigation	Side navigation panel		Background/Primary		Text/Theme
 Navigation	Filter tabs				Text/Theme
 Cards and panels	Attachments				Text/Primary
 Cards and panels	Attachment with person			Border/Default	Text/Primary
@@ -258,7 +257,6 @@ Forms	Calendar picker				Base colours/White
 Forms	Time picker				Base colours/White
 Navigation	Config side menu		Background/Primary		Text/Primary
 Navigation	[S] Config child menu				Text/Primary
-Navigation	Counter		Icons/Icon - Theme		Text/Inverted primary
 Controls	Date picker period				Text/Primary
 Controls	Date range visual				Text/Primary
 Controls	Slider				Text/Primary

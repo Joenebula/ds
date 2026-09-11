@@ -58,7 +58,6 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Navigation item** | 90 x 86 | 0 | 0 | 22 | 13px SemiBold | HORIZONTAL CENTER CENTER |
 | **Side navigation** | 90 wide | 0 | 0 | 0 | 13px | VERTICAL MIN MIN |
 | **Side navigation tab** | 268 x 48 | 10 15 | 8 | 20 | 16px | HORIZONTAL CENTER MIN |
-| **Side navigation panel** | 268 x 416 | 10 | 0 | 5 | 16px | VERTICAL MIN MIN |
 | **Tab** | 40 x 34 | 6 0 | 0 | 10 | 16px | VERTICAL CENTER MIN |
 | **Navigation tabs** | auto x 36 | 0 | 0 | 40 | 16px SemiBold | HORIZONTAL CENTER MIN |
 | **Header** | auto x 86 | 0 | 0 | 0 | 16px | VERTICAL MIN MIN |
@@ -139,7 +138,6 @@ case, and table rows are far taller than a default table. Look values up here.
 | **Filter tabs** | 1600 x auto | — | — | — | 24px SemiBold | HORIZONTAL MIN MIN |
 | **Config side menu** | 325 x 980 | — | 8 | — | 16px | VERTICAL MIN MIN |
 | **[S] Config child menu** | auto x auto | 10 0 0 11 | — | 10 | 16px | VERTICAL MIN MIN |
-| **Counter** | 20 x 20 | 0 4 | 38 | 10 | 11px SemiBold | VERTICAL CENTER CENTER |
 | **Links** | auto x auto | — | — | 5 | 16px | HORIZONTAL CENTER MIN |
 | **Add attachment** | 440 x auto | — | — | 20 | 13px SemiBold | VERTICAL CENTER MIN |
 | **Action menu button** | auto x auto | — | — | — | 16px | HORIZONTAL CENTER CENTER |

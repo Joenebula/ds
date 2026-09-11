@@ -1036,3 +1036,22 @@ depend on it; its node is Figma's `Notification tabs` today and is captured sepa
 the real State x Selected structure. Both are flagged in the inventory.
 
 149 components, 304 variants.
+
+---
+
+## Run 10 — group 3, the stale entries
+
+Three entries, three different causes, and the only way to tell them apart was to ask Figma
+by NODE ID. By name they looked identical: "in my extract, not in Figma".
+
+One was deleted. One was never a component — a variant child called `System=People First`
+that an old extract recorded as a component in its own right. And one was neither: it
+exists, reads fine, has six variants, and is only missing from the page I expected it on.
+
+I kept that third one. The temptation with a cleanup task is to make the list shorter, and
+deleting a live component to tidy a report would have been the worst outcome available.
+Its flag now says what is actually true — the node is fine, its address is uncertain —
+rather than the earlier guess of "orphaned".
+
+Both removals were written into `uncaptured-reasons.tsv` on the way out, so the gap list
+carries an explanation rather than a smaller number.

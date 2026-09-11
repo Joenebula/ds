@@ -578,12 +578,6 @@ Figma component actually binds.
 |---|---|---|---|
 |  | — | — | `var(--pf-base-white)` |
 
-### Side navigation panel
-
-| Variant | Background | Border | Text |
-|---|---|---|---|
-|  | `var(--pf-bg-primary)` | — | `var(--pf-text-theme)` |
-
 ### Filter tabs
 
 | Variant | Background | Border | Text |
@@ -601,12 +595,6 @@ Figma component actually binds.
 | Variant | Background | Border | Text |
 |---|---|---|---|
 |  | — | — | `var(--pf-text-primary)` |
-
-### Counter
-
-| Variant | Background | Border | Text |
-|---|---|---|---|
-|  | `var(--pf-icon-theme)` | — | `var(--pf-text-inverted-primary)` |
 
 ### Notification panel
 

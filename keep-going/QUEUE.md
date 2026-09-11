@@ -697,3 +697,27 @@ not a token to invent.
 
 **Done when:** met. All seven are classes in `dist/components.css` with current Figma data;
 149 components, 304 variants.
+
+## 37. The three stale extract entries — `done`
+
+Checked each against Figma by node id rather than by name, which is what the whole session
+has taught. They were three different things, not one:
+
+- **Side navigation panel** (22973:20811) — `getNodeByIdAsync` returns nothing. Genuinely
+  deleted from Figma. Removed.
+- **Counter** (14990:11954) — the node exists, but it is called `System=People First` and
+  its parent is the `Header` COMPONENT_SET. It is a VARIANT CHILD, never a component in its
+  own right; the old extract mistook one for the other. Removed. ("Counter" survives in
+  Figma as a boolean property on Notification tabs, not as a component.)
+- **Default header background** (13658:7639) — exists, reads fine, 6 variants across
+  Breakpoint x Darkmode. It is simply not among the Navigation page's components, so which
+  page it lives on could not be confirmed. **Kept.** A live node is not a gap, and deleting
+  a component that exists is a worse error than carrying one whose address is uncertain.
+
+Both removals are recorded in `uncaptured-reasons.tsv` rather than just vanishing — the gap
+list should get more explained, not shorter.
+
+Neither class was used by any prototype source; the hits in the built pages were only the
+inlined stylesheet, which regenerates.
+
+**Done when:** met. 147 components, 302 variants.

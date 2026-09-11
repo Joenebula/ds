@@ -9489,7 +9489,7 @@
   "instanceCount": 13,
   "dependencies": [],
   "assetKey": "dd07c7a6c43e66d3839cf4e39c0aac9c531d57df",
-  "figmaStale": "exists in Figma but is not listed among the Navigation page owners \u2014 detached or orphaned"
+  "figmaStale": "node 13658:7639 exists in Figma and reads fine \u2014 6 variants across Breakpoint x Darkmode \u2014 but it is not among the Navigation page's components, so which page it lives on is unconfirmed. Kept: a live node is not a gap."
  },
  {
   "name": "Header",
@@ -9818,27 +9818,6 @@
   ],
   "assetKey": "6865604fa4f8fe468d1ad4981ef8a4093de45a4f",
   "figmaPreviousName": "Header top navigation"
- },
- {
-  "name": "Counter",
-  "nodeId": "14990:11954",
-  "type": "COMPONENT",
-  "pageId": "5919:65483",
-  "pageName": "Navigation ",
-  "hasVariants": false,
-  "properties": {
-   "Value": {
-    "name": "Value",
-    "type": "TEXT",
-    "key": "Value#30646:0",
-    "defaultValue": "7"
-   }
-  },
-  "childInstanceTags": [],
-  "instanceCount": 0,
-  "dependencies": [],
-  "assetKey": "e557a697520c110dba2068dfed9dac2f0a0d11c8",
-  "figmaStale": "not a component \u2014 Figma reports this node as a variant child (\"System=People First\")"
  },
  {
   "name": "Nav tabs",
@@ -10319,39 +10298,6 @@
   "assetKey": "b74619caf013158d2af6bcc604f914c3151f6acf",
   "figmaRenamedTo": "Notification tabs",
   "figmaStale": "node 22973:20747 is called \"Notification tabs\" in Figma today and has a different variant structure (State x Selected, not Selected). These rows are a legacy snapshot kept because three prototypes use .pf-side-navigation-tab; the current component is captured separately as Notification tabs."
- },
- {
-  "name": "Side navigation panel",
-  "nodeId": "22973:20811",
-  "type": "COMPONENT_SET",
-  "pageId": "5919:65483",
-  "pageName": "Navigation ",
-  "hasVariants": true,
-  "properties": {
-   "Property 1": {
-    "name": "Property 1",
-    "type": "VARIANT",
-    "key": "Property 1",
-    "variantOptions": [
-     "Default"
-    ],
-    "defaultValue": "Default"
-   }
-  },
-  "childInstanceTags": [
-   "Side navigation tab"
-  ],
-  "instanceCount": 1,
-  "dependencies": [
-   {
-    "name": "Side navigation tab",
-    "external": false,
-    "nodeId": "22973:20747",
-    "assetKey": "b74619caf013158d2af6bcc604f914c3151f6acf"
-   }
-  ],
-  "assetKey": "60647f5efd7dd219e2cf4f3df5ed4f5ce37ab22c",
-  "figmaStale": "node no longer exists in Figma \u2014 deleted since this extract was taken"
  },
  {
   "name": "Filter tab single",

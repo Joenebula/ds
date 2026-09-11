@@ -37,3 +37,5 @@ Thumbnail/Brand logo	📄 DOCUMENT MANAGEMENT	on a documentation page — descri
 Tooltip	Buttons and links	no variant binds a colour variable in Figma — nothing to put in a stylesheet
 Wiki menu	📚 WIKI	on a documentation page — describes the design system rather than being part of it
 Work item	📄 DOCUMENT MANAGEMENT	on a documentation page — describes the design system rather than being part of it
+Side navigation panel	Navigation	node 22973:20811 no longer exists in Figma — deleted
+Counter	Navigation	node 14990:11954 is a variant child of the Header component set, named "System=People First" — it was never a component in its own right
