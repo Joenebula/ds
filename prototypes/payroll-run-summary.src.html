@@ -183,6 +183,10 @@ select.fieldinput { cursor: pointer; }
   border-radius: var(--pf-radius-medium); overflow: hidden;
 }
 .tablescroll { overflow-x: auto; scrollbar-gutter: stable; }
+/* pf-new: the table's footnote row is page furniture, not a component. It held two spans and
+   no layout at all, so they ran together into one sentence — "…by employee nameAll figures in
+   GBP…" — with the second wrapping. Two facts, two lines. */
+.tablefoot { display: flex; flex-direction: column; gap: var(--pf-space-xsmall); }
 /* A nine-column table does not fit beside a detail panel at 1440, so it scrolls. These
    style the scrollbar where the platform draws one; where it uses overlay scrollbars
    (headless Chromium, macOS by default) nothing here is visible and the region still

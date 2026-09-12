@@ -36,7 +36,19 @@ import { resolve, basename } from 'node:path';
 // Overlaps outstanding on the hand-built fixtures in `prototypes/`. It may fall; it may not
 // rise. `working/` — the pages built FROM a Figma design, which is the direction this repo
 // exists to get right — must be at zero, and is.
-const BASELINE = 2;
+//
+// IT IS NOW ZERO EVERYWHERE, and both of the two it used to carry turned out to be the rect
+// rather than the page — a wrapped inline run's union rect swallowing its sibling on
+// `payroll-run-summary`, and an ellipsis on `timesheet-approvals` whose text range measures
+// past the box that truncates it. Both are written up at the probe. That makes THREE times
+// this check has been found reporting a rectangle where there are no glyphs, so the honest
+// reading of a zero here is that it now measures what it always claimed to: glyphs.
+const BASELINE = 0;
+// A COUNT OF ZERO IS ALSO WHAT A CHECK THAT LOOKED AT NOTHING REPORTS, and with the fixtures
+// at zero that is no longer a hypothetical — this half of the check has no positive finding
+// left to prove it ran. The docs half has carried a minimum for exactly this reason; the
+// screens half needs one too. It finds 792.
+const MIN_RUNS = 400;
 const WIDTH = 1440;
 
 // THE TEMPLATE GALLERY IS CHECKED TOO, and it is the one that matters most: `docs/templates.html`
@@ -76,9 +88,17 @@ const overlapScript = () => {
   //
   // So each run is intersected with every clipping ancestor before it is compared, and a run
   // with nothing left is dropped.
+  //
+  // AND THE ELEMENT'S OWN OVERFLOW COUNTS. This walk started at the PARENT, so an element that
+  // clips its own text was not clipping it here: `timesheet-approvals` truncates the employee
+  // sub-line with `overflow: hidden; text-overflow: ellipsis`, and the span renders
+  // "Warehouse Operative ·…" inside 340..488 while its text range still measures out to 522 —
+  // four pixels into the date column beside it, reported as 40px² of text over text that
+  // nobody can see. A rect says where the glyphs WOULD be; an ellipsis is the element saying
+  // they are not there. Same lesson as the ancestors, one level nearer.
   const clipOf = el => {
     let r = { top: -1e9, left: -1e9, right: 1e9, bottom: 1e9 };
-    for (let n = el.parentElement; n; n = n.parentElement) {
+    for (let n = el; n; n = n.parentElement) {
       const s = getComputedStyle(n);
       if (s.overflow === 'visible' && s.overflowX === 'visible' && s.overflowY === 'visible') continue;
       const b = n.getBoundingClientRect();
@@ -94,27 +114,52 @@ const overlapScript = () => {
     if (s.visibility === 'hidden' || s.display === 'none' || +s.opacity === 0) continue;
     for (const n of e.childNodes) {
       if (n.nodeType !== 3 || !n.textContent.trim()) continue;
+      // A WRAPPED RUN'S BOUNDING RECT IS A UNION, AND THE GAP IN IT BELONGS TO SOMEBODY ELSE.
+      //
+      // Same family as the clipped rect above, and found the same way — by looking at what the
+      // check reported. `payroll-run-summary`'s table footer holds two inline spans; the first
+      // takes 349px of line one, the second starts after it and wraps, so its union rect spans
+      // BOTH lines from the left edge and swallows the first span whole. Reported as 6281px² of
+      // text over text, and the two runs do not share a single pixel: the second simply is not
+      // in the part of its own rectangle that overlaps.
+      //
+      // `getClientRects()` returns one rect PER LINE BOX, which is where the glyphs actually
+      // are, so a wrapped run is compared line by line. That is the measurement this check was
+      // always claiming to make — "the test is glyphs against glyphs" — and a union rect is not
+      // glyphs. (The footer still reads as one running sentence, which is a real layout fault
+      // and is fixed in the page; it was never text printed over text.)
       const range = document.createRange();
       range.selectNodeContents(n);
-      const raw = range.getBoundingClientRect();
-      if (raw.width < 2 || raw.height < 2) continue;
       const c = clipOf(e);
-      const box = { top: Math.max(raw.top, c.top), left: Math.max(raw.left, c.left),
-                    right: Math.min(raw.right, c.right), bottom: Math.min(raw.bottom, c.bottom) };
-      if (box.right - box.left < 2 || box.bottom - box.top < 2) continue;   // scrolled out of view
-      runs.push({ el: e, box, text: n.textContent.trim().replace(/\s+/g, ' ').slice(0, 40) });
+      const text = n.textContent.trim().replace(/\s+/g, ' ').slice(0, 40);
+      for (const raw of range.getClientRects()) {
+        if (raw.width < 2 || raw.height < 2) continue;
+        const box = { top: Math.max(raw.top, c.top), left: Math.max(raw.left, c.left),
+                      right: Math.min(raw.right, c.right), bottom: Math.min(raw.bottom, c.bottom) };
+        if (box.right - box.left < 2 || box.bottom - box.top < 2) continue;  // scrolled out of view
+        runs.push({ el: e, box, text });
+      }
     }
   }
-  const out = [];
+  const merged = new Map(), seen = new Map();
   for (let i = 0; i < runs.length; i++) for (let j = i + 1; j < runs.length; j++) {
     const a = runs[i], b = runs[j];
     if (a.el.contains(b.el) || b.el.contains(a.el)) continue;
     const w = Math.min(a.box.right, b.box.right) - Math.max(a.box.left, b.box.left);
     const h = Math.min(a.box.bottom, b.box.bottom) - Math.max(a.box.top, b.box.top);
     if (w <= 1 || h <= 1) continue;
-    out.push({ a: a.text, b: b.text, area: Math.round(w * h) });
+    // ONE PAIR PER PAIR OF ELEMENTS. A wrapped run contributes a line box each, so the same two
+    // elements can collide on several lines; counting those separately would inflate the pinned
+    // number for a reason that is not more overlap. The areas are summed instead.
+    const key = seen.get(a.el) ?? seen.set(a.el, seen.size).get(a.el);
+    const k2 = seen.get(b.el) ?? seen.set(b.el, seen.size).get(b.el);
+    const id = `${key}:${k2}`;
+    const prev = merged.get(id);
+    if (prev) prev.area += Math.round(w * h);
+    else merged.set(id, { a: a.text, b: b.text, area: Math.round(w * h) });
   }
-  return { pairs: out.sort((x, y) => y.area - x.area), runs: runs.length };
+  const out2 = [...merged.values()];
+  return { pairs: out2.sort((x, y) => y.area - x.area), runs: runs.length };
 };
 
 const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
@@ -161,8 +206,10 @@ for (const f of byFile) {
   console.log(`  ${basename(f.file)}: ${f.n}`);
   for (const p of f.top) console.log(`    ${p.area}px²  "${p.a}"  over  "${p.b}"`);
 }
-if (!runsSeen) {
-  console.error('  this check proved nothing: it found no text at all to compare');
+if (runsSeen < MIN_RUNS) {
+  console.error(`  this check proved nothing: ${runsSeen} run(s) of text against ${MIN_RUNS} `
+    + 'expected — with the screens at zero, the count alone cannot tell a clean page from an '
+    + 'unloaded one');
   process.exit(1);
 }
 if (total > BASELINE) {

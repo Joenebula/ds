@@ -1926,3 +1926,23 @@ nothing, which is the state in which it would read as good news.
 
 **This changes the engineering target.** "Get template overflow to zero" is not reachable; "get
 the pipeline's share to zero" is. The remaining nine desktop templates are the list.
+
+### P25. Three times the overlap check reported a rectangle with no glyphs in it — DONE
+
+The two pairs `check-text-overlap` still carried both turned out to be the measurement, not the
+page — the same family as the clipped-rect fault the check was already fixed for once.
+
+- **A wrapped inline run's bounding rect is a union.** `payroll-run-summary`'s footnote holds two
+  inline spans; the second starts mid-line and wraps, so its rect covers both lines from the left
+  edge and swallows the first — 6281px² between two runs that share no pixel. Compared per LINE
+  BOX now, via `getClientRects()`.
+- **An ellipsis is the element saying the glyphs are not there.** The clipping walk started at the
+  parent, so an element truncating its OWN text was not clipping it. `timesheet-approvals` renders
+  "Warehouse Operative ·…" inside 340..488 while its range measures to 522.
+
+**Zero everywhere now** — `working/`, all four prototypes, both docs pages. Zero is also what a
+check that looked at nothing reports, so both halves carry a minimum: 500 runs on docs (finds
+3382), 400 across the screens (finds 792). Proved by injecting a real overlap.
+
+The payroll footnote WAS a real layout fault, just not that one: two spans with no layout ran
+into one sentence. `.tablefoot` is a column now.

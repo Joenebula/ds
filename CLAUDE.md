@@ -1307,12 +1307,26 @@ intersected with every clipping ancestor first, and one with nothing left is dro
 
 What gave it away was measuring rather than reasoning: every element reported as escaping its
 container was `position: static`, which is impossible for a real spill out of a scroll
-container. **The honest figure is 2** — a footer line over another on `payroll-run-summary`, and
-a 40px² clash on `timesheet-approvals`. `working/` is held at zero and is at zero, as is the
-newest prototype, **and the docs pages are at zero** (they were 3, all of them the template
-stage scrolling its contents rather than spilling them). Because zero is also the state in which
-that half could pass while measuring nothing, it asserts it found at least 500 runs of text
-there; it finds 1956.
+container. That took 8 to 2 — **and the last 2 went the same way, which makes three times this
+one check has been found reporting a rectangle where there are no glyphs**:
+
+- **A wrapped inline run's bounding rect is a union, and the gap in it belongs to somebody
+  else.** `payroll-run-summary`'s table footnote holds two inline spans; the first takes 349px
+  of line one, the second starts after it and wraps, so its rect covers BOTH lines from the left
+  edge and swallows the first whole — 6281px² of reported overlap between two runs that do not
+  share a pixel. `getClientRects()` gives one rect PER LINE BOX, which is where the glyphs are,
+  and a run is compared line by line. (The footer did read as one running sentence, which is a
+  real layout fault and is fixed in the page. It was never text over text.)
+- **An ellipsis is the element saying the glyphs are not there.** The clipping walk started at
+  the PARENT, so an element that truncates its OWN text was not clipping it here:
+  `timesheet-approvals` renders "Warehouse Operative ·…" inside 340..488 while its text range
+  measures out to 522, four pixels into the date column. Same lesson as the ancestors, one level
+  nearer.
+
+**The honest figure is 0**, on `working/`, on the four prototypes and on the docs pages alike.
+Zero is also what a check that looked at nothing reports, and with no positive finding left to
+prove it ran, both halves now carry a minimum: at least 500 runs on the docs pages (it finds
+3382) and 400 across the screens (it finds 792).
 
 It measures at 1440px only, and the reason is named rather than left implicit: every screen here
 is drawn for a desktop and pins its components to Desktop, so at 390px they squeeze and overlap
