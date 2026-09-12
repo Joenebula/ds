@@ -17,7 +17,7 @@
 // CSS equivalent (:hover, :disabled, :focus-visible) get one as well as the attribute,
 // so a live control behaves correctly and a gallery can still force any state.
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
-import { buildResolver, WEIGHT } from './resolve-component-type.mjs';
+import { buildResolver, WEIGHT, declarationsFor } from './resolve-component-type.mjs';
 import { PRIMITIVE_ALIAS } from './primitive-alias.mjs';
 
 // THE TYPE LINK (spec fault 4). Until this existed, components.css carried 410 font-size
@@ -675,12 +675,9 @@ if (composedRules.length) {
   for (const { style: st, sels } of composedRules) {
     // The name alone would be a lie where two styles share one, so the size is named too.
     const name = `${st.name}  (${st.size}px ${st.weight || 'Regular'}${st.textCase === 'UPPER' ? ', uppercase' : ''})`;
-    const d = [`font-size: ${st.size}px`];
-    if (st.weight === 'Italic') { d.push('font-weight: 400', 'font-style: italic'); }
-    else d.push(`font-weight: ${WEIGHT[st.weight] || '400'}`);
-    const ls = parseFloat(st.letterSpacing);
-    if (Number.isFinite(ls) && ls !== 0) d.push(`letter-spacing: ${ls / 100}em`);
-    if (st.textCase === 'UPPER') d.push('text-transform: uppercase');
+    // One source with build-type-css.mjs. A component class already sets font-family in its
+    // own base rule, so it is the one declaration this does not repeat.
+    const d = declarationsFor(st);
     out.push('');
     out.push(`/* ${name} */`);
     out.push([...sels].sort().join(',\n') + ' {');

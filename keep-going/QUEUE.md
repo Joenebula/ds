@@ -1445,3 +1445,49 @@ clipping precondition to zero. It is not a small change — 442 fixed heights in
 stylesheet, and `verify-against-figma` compares rendered geometry against an independent
 Figma measurement, so it would need re-baselining carefully. Worth doing; worth doing
 deliberately, not at the end of a run.
+
+## M. A component's composed type drops its line-height — `done`
+
+Found by survey, not from the queue. All 23 Figma text styles set line height to **AUTO**,
+which `dist/type.css` correctly emits as `line-height: normal`. The rules that compose those
+same styles onto component labels emit `font-size`, `font-weight` and `letter-spacing` and
+**not** `line-height` — `dist/components.css` contains the string zero times.
+
+Measured, on a page whose body sets `line-height: 1.9`:
+
+```
+.pf-text-body-text   line-height = normal     <- correct, Figma AUTO
+.pf-filter-chip      line-height = 30.4px     <- inherited from the page
+```
+
+Same style, two renderings. Every component label on every page that sets a body
+line-height — which is nearly all of them — is stretched by it, and nothing could see it:
+`verify-type` checks 107 values and passes, because line-height is not among them.
+
+**Done when:** a component composing a text style renders the same line-height as the
+`pf-text-*` class for that style, measured in a browser; a check asserts it and fails when
+the rule is removed; and the people-first skill stops contradicting itself about it.
+
+**Second, documentation:** the skill says both of these, 250 lines apart —
+
+- line 128: "automatic line height. A specific `line-height` on a People First screen is
+  **invented**"
+- line 382: "**line-height** — not captured by the extract", listed under *yours to write*
+
+The second is false — it is captured, for all 23 styles — and it invites an author to write
+the very thing the first calls invented, overriding a generated value.
+
+**Done.** Both generators now call one `declarationsFor()` in `resolve-component-type.mjs`,
+so the type ramp and the component library have the single source the components.css comment
+already claimed they had. `dist/type.css` came out **byte-identical**, which is what makes
+the refactor safe; `dist/components.css` gained the 14 missing line-heights.
+
+`check-composed-type.mjs` renders each composed component beside the `pf-text-*` class for
+its own style, inside an ancestor with a deliberately hostile line-height, letter-spacing,
+case, style, weight and size — because a MISSING declaration is invisible to anything that
+reads the stylesheet, and can only be caught by something the page can override. Proved it
+fails: removing the line-heights again reports all 14.
+
+The skill's contradiction is gone. It said, 250 lines apart, that a specific line-height is
+"invented" and that line-height is "yours to write". The second is deleted and replaced with
+why.

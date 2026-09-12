@@ -379,13 +379,22 @@ writing them is not a violation of rule 2:
 
 - **page layout** — grids, columns, page padding, where things sit
 - **behaviour** — `cursor`, `transition`, `:focus-visible` rings
-- **line-height** — not captured by the extract
 - **anything drawn inside a component** — the tick glyph inside a checkbox, the knob
   inside a toggle. Supplying the glyph is yours; **positioning or sizing it is not** — see
   the next block.
 
 Keep that CSS in one block and label it local. If something in it restates a Figma
 value — a colour, a height, a radius — that is a bug, not a local style.
+
+**`line-height` is NOT on that list, and used to be.** All 23 text styles set line height to
+AUTO in Figma, so every `pf-text-*` class and every component that composes one carries
+`line-height: normal`. A specific line-height on a People First screen is an invention — the
+same thing this page says two sections above — and writing one on your body overrides a
+generated value. It reached component labels for a long time precisely because the composed
+rules were missing the declaration: on a page setting `line-height: 1.9`, `.pf-text-body-text`
+rendered `normal` and `.pf-filter-chip`, composing that same style, rendered `30.4px`.
+`npm run verify` runs `check-composed-type.mjs`, which renders each component beside the type
+class for its own style inside a deliberately hostile ancestor and fails if they differ.
 
 ### Never draw a component's border yourself
 
