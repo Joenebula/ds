@@ -44,6 +44,11 @@ const name = basename(file).replace(/\.html$/, '');
 // Two changes, and both are needed: `colorScheme` makes the browser paint its own surfaces
 // for the right mode, and `addInitScript` puts the attribute on before anything renders, so
 // there is no restyle to get wrong.
+//
+// Setting the theme up front also removes the mid-fade problem at its source — there is no
+// flip to catch the page part way through — but the settle-and-warn below stays. It is the
+// same question asked of the picture rather than of the theme, and it still answers for the
+// webfont, for a page that animates on load, and for any later change here.
 const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
 for (const theme of ['light', 'dark']) {
   const ctx = await browser.newContext({ viewport: { width: VW, height: 1080 }, colorScheme: theme });
@@ -53,6 +58,32 @@ for (const theme of ['light', 'dark']) {
       () => document.documentElement.setAttribute('data-theme', t));
   }, theme);
   await page.goto('file://' + resolve(file));
+  // WAIT FOR THE PAGE TO SETTLE BEFORE PRESSING THE SHUTTER.
+  //
+  // Flipping `data-theme` changes every colour at once, and the screens give their chips and
+  // buttons a 120ms colour transition. The shot used to be taken in the same tick as the flip,
+  // so every dark screenshot this project produced caught the page PART WAY BETWEEN the
+  // two themes. Measured on `absence-requests`: the filter chips came out at 1.09:1 — a mid-fade
+  // grey on a mid-fade grey — while the settled page reads 13.03:1. That was reported twice as
+  // "the filter chips' dark mode colours are not correct". The colours were right; the picture
+  // was wrong, and looking at it is the step this project treats as the final word.
+  //
+  // Fonts matter for the same reason: an unsettled webfont shoots the fallback face.
+  await page.evaluate(() => document.fonts.ready);
+  await page.evaluate(() => Promise.race([
+    Promise.all(document.getAnimations().map(a => a.finished.catch(() => {}))),
+    new Promise(r => setTimeout(r, 2000)),   // an infinite animation must not hang the shot
+  ]));
+  // And SAY SO if it did not settle. A wait that silently was not long enough is the same
+  // failure again, one layer up.
+  const moved = await page.evaluate(async () => {
+    const els = [...document.querySelectorAll('*')].slice(0, 400);
+    const read = () => els.map(e => { const s = getComputedStyle(e); return s.color + s.backgroundColor + s.borderTopColor; }).join('|');
+    const a = read();
+    await new Promise(r => setTimeout(r, 150));
+    return a !== read();
+  });
+  if (moved) console.error(`  WARNING ${name}.${theme} was still changing colour when it was shot`);
   const out = `${outDir}/${name}.${theme}${full ? '.full' : ''}.png`;
   await page.screenshot({ path: out, fullPage: full });
   console.log(out);

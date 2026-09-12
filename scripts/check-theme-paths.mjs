@@ -32,6 +32,14 @@ const read = async (scheme, attr) => {
   await page.goto('file://' + process.cwd() + '/tmp-theme-paths.html');
   if (attr) await page.evaluate(a => document.documentElement.setAttribute('data-theme', a), attr);
   await page.evaluate(() => document.fonts.ready);
+  // Flipping the attribute starts every colour transition the page declares. dist/*.css has
+  // none, so this reads the same either way today — but `shoot.mjs` did exactly this and was
+  // shooting the screens PART WAY between the themes, so the wait goes in wherever the flip
+  // happens rather than only where it has already bitten.
+  await page.evaluate(() => Promise.race([
+    Promise.all(document.getAnimations().map(a => a.finished.catch(() => {}))),
+    new Promise(r => setTimeout(r, 2000)),
+  ]));
   const out = await page.evaluate(n => Array.from({ length: n }, (_, i) => {
     const s = getComputedStyle(document.getElementById('c' + i));
     return { bg: s.backgroundColor, fg: s.color, bd: s.borderTopColor };

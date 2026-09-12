@@ -943,6 +943,23 @@ is done:
 node scripts/shoot.mjs prototypes/<screen>.html screenshots
 ```
 
+**The shutter has to wait for the page to settle, and for a long time it did not.** Flipping
+`data-theme` changes every colour at once, and the screens give their chips and buttons a
+120ms colour transition. `shoot.mjs` set the attribute and screenshotted in the same tick, so
+**every dark screenshot this project ever produced caught the page part way between the two
+themes**. Measured on `absence-requests`: the filter chips came out at **1.09:1** — a mid-fade
+grey on a mid-fade grey — where the settled page reads **13.03:1**. That was reported twice as
+*"the filter chips' dark mode colours are not correct"*. The colours were right; the picture
+was wrong — and looking at the picture is the step this file treats as the final word, so a
+wrong picture outranks every check that passed.
+
+It now waits for `document.fonts.ready` and for every running animation to finish, and then
+**says so if it still has not settled**: it samples the computed colours of the page twice,
+150ms apart, and warns when they differ. A wait that quietly was not long enough is the same
+failure one layer up. (The animation wait is capped at 2s so an infinite animation cannot hang
+the shot — a page with a 3s transition is shot mid-fade and warned about, which is the honest
+answer rather than a hang.)
+
 A full-page capture (`--full`) flattens `position: sticky`, so a pinned sidebar looks
 like it stops halfway down and a sticky footer looks like it is clipping the panel above
 it. Neither is a bug. The default viewport shot shows the truth.
