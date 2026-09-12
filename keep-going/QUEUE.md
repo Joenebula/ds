@@ -1599,3 +1599,44 @@ gallery.
 **Still open, unchanged:** the prototype question (stat tiles using `.pf-card`, overlapping
 side-panel text, the empty "Outcome" box) — the user has twice said prototypes are fixtures
 not to be rebuilt unless asked, so it needs their word. And the charts, parked by the user.
+
+### P4. Which checks only ever looked at one mode — DONE
+
+The colour-scheme fix taught that a project can be green because its two halves each test a
+different path. Seventeen checks render in a browser and never switched mode; each was run
+again against a dark page and diffed. **Sixteen are identical** — a height, an offset, a
+border width, a font face is not a colour — so light-only is correct for them, and now
+measured rather than assumed.
+
+The seventeenth was measuring the value instead of the declaration.
+`check-breakpoint-consistency` asked whether a class's colour differed from the body's, and in
+dark mode `--pf-text-primary` IS the colour a bare body inherits: 91 classes state a colour in
+light mode, 16 in dark. Vary what there is to inherit instead — every class renders twice, once
+under a red parent and once under a green one — and it reads 91 in both.
+
+**Done when:** met. Runs in both modes and asserts they agree; the old comparison fires that
+assertion 226 times.
+
+### P5. The docs page is a screen too — DONE
+
+`docs/components.html` is the page this project tells people to look at, and nothing measured
+whether it renders legibly. `Multi-select checkbox` is 20x20 and was rendering the words
+"Multi-select checkbox" 57px outside its own box, on top of the caption below. Four classes.
+The gallery was inventing a label for a box Figma gives no type.
+
+**Done when:** met. `check-docs-specimens.mjs` measures the text's rect against the element's.
+
+### P6. Does a state change the type? — DONE
+
+Reported as "the button weight never changes on any state". True of `Button`, and correct:
+Figma measures 13px SemiBold on all 24 of its labelled variants. 15 components DO vary, and all
+267 variants with a measured font render what Figma measures.
+
+The fault was that nothing could answer the question — `verify-against-figma` compares type
+only where the class declares a font-size, and a component that composes its text style
+declares none.
+
+**Done when:** met. `check-variant-type.mjs` renders each variant and reads it back.
+
+**Open for the user:** whether Figma SHOULD vary the button weight by state. That is a design
+decision in the Figma file, not something the pipeline can or should invent.
