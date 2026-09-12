@@ -131,6 +131,16 @@ for (const p of posRows) {
   REL.add(p.component + '|' + parentPath);
 }
 const libClasses = new Set([...css.matchAll(/\.(pf-[a-z0-9-]+)/g)].map(m => m[1]));
+
+// A COMPONENT FIGMA GIVES NO TYPE HOLDS NO LABEL. Read per component from the geometry's own
+// `font` column, `\u2014` where Figma records none — the same reading the docs gallery uses to
+// decide which specimens get a placeholder, and the one that replaced a px threshold there too.
+const typeless = new Set();
+for (const line of readFileSync('tokens/_raw/component-geometry.tsv', 'utf8').trim().split('\n').slice(1)) {
+  const c = line.split('\t');
+  if (c[0].includes('|')) continue;
+  if ((c[5] || '').trim() === '\u2014') typeless.add(c[0]);
+}
 const typeClasses = new Set([...readFileSync('dist/type.css', 'utf8')
   .matchAll(/\.(pf-text-[a-z0-9-]+)/g)].map(m => m[1]));
 const { byName } = buildResolver();
@@ -342,7 +352,18 @@ function render(component, rows, path, depth) {
       const [iw] = (row.size || '').split('x').map(Number);
       const iabs = absStyle(component, row.path);
       const istyle = iabs ? ` style="${iabs}"` : '';
-      if (Number.isFinite(iw) && iw > 0 && iw < 44)
+      //
+      // THE 44px LINE WAS A THRESHOLD STANDING IN FOR A READING, and `Circle icons` is exactly
+      // 44 — so it kept its label and rendered the words "Circle icons" out of a 44px circle
+      // and across the heading beside it, in five templates. Measured on `docs/templates.html`:
+      // **18 labels across 14 templates** sit inside a component Figma gives no type, and seven
+      // pairs of text were printed on top of each other because of it. These are the templates
+      // this project tells people to paste, so the overlap is shipped, not just displayed.
+      //
+      // The reading is the geometry's `font` column. The size rule stays as well, because it
+      // answers a different question — a TYPED component can still be too small for its own
+      // name — and the two together are what the comment below describes.
+      if (typeless.has(source) || (Number.isFinite(iw) && iw > 0 && iw < 44))
         return `${pad}<div class="${c}"${attrs}${istyle}></div><!-- ${esc(source)} -->`;
       return `${pad}<div class="${c}"${attrs}${istyle}>${esc(source)}</div>`;
     }

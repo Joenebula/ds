@@ -1135,6 +1135,24 @@ is drawn for a desktop and pins its components to Desktop, so at 390px they sque
 in ways that are the pinning rather than the layout — measuring there would report the known
 thing loudly and bury this one.
 
+**It checks the docs pages too, and that is where it found the most.** `docs/templates.html`
+renders the markup this file tells you to PASTE, so text printed over text there is shipped
+rather than merely displayed. It had **seven** pairs, and the cause was the fault the gallery
+had already been fixed for: a placeholder label invented for a component Figma gives no type.
+`<div class="pf-circle-icons" data-size="M - 44px">Circle icons</div>` renders those words out
+of a 44px circle and across the heading beside it — in five templates.
+
+**The generator already had the thought, written as a size threshold** — no label below 44px,
+"Figma's own smallest control size" — and `Circle icons` is exactly 44, so it kept its label. A
+threshold standing in for a reading, one more time. It reads the geometry's `font` column now,
+the same way the docs gallery does: **18 labels across 14 templates** sat inside a type-less
+component (`Circle icons` five times, `People` eight), and fixing it took seven pairs to three.
+The size rule stays alongside it, because it answers a different question — a component that
+*does* carry type can still be too small for its own name.
+
+Three remain and are pinned rather than fixed: one is `Donut pie chart`'s 60px centre number,
+and the charts are being reworked by the design owner.
+
 **Always screenshot the result in light and dark and look at it** before saying a screen
 is done:
 
