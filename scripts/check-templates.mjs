@@ -499,7 +499,12 @@ if (!sized) {
     // THE RAIL MUST ALSO PAINT. The frame carrying that size is found by its own declaration,
     // so this reads the rule it landed in rather than the file at large.
     const rule = (t.html.match(new RegExp(`style="[^"]*${want.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}[^"]*"`)) || [''])[0];
-    if (!/background:var\(|box-shadow:inset/.test(rule)) {
+    // PAINTS, AND PAINTS WITH TOKENS. A flat `background:var(--pf-*)` and a `linear-gradient`
+    // over two of them are equally a rail — the rule this project enforces is that no raw
+    // colour reaches generated CSS, not that a fill must be one value. The first version
+    // tested for the literal string `background:var(` and duly failed the moment `Slider`'s
+    // rail became the blue-to-grey it is in Figma, which is the check doing its job.
+    if (!/background:[^;"]*var\(--pf-|box-shadow:inset/.test(rule)) {
       failures++;
       console.error(`FAIL dist/templates/${t.f}'s rail states its size and paints nothing — `
         + `Figma fills it with "${fillOf.get(key)}", and a rail that does not draw is not a rail`);

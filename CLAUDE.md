@@ -619,10 +619,25 @@ second drifting copy this project keeps finding. Template overflow fell at both 
 `Slider`'s track binds a GRADIENT; no colour variable can carry one, so the generator's correct
 refusal deletes the one thing that frame exists to draw, and a size-only assertion would pass on
 an invisible line. What it paints instead is a **SUBSTITUTION, named one frame at a time in a
-table** — `GRADIENT_FALLBACK` in `build-templates.mjs` — and it is a decision rather than a
-reading, which is why it is a table and not a rule. The tokens are not invented: they are the two
-`Table progress bar`'s own `Bar` frame binds, the design system's existing definition of a track.
-Binding a variable in Figma removes the entry.
+table** — `GRADIENT_FALLBACK` in `build-templates.mjs` — because a gradient carries no variable,
+so there is nothing to read and every entry is a decision somebody made.
+
+**What the gradient IS was settled by looking at Figma's own render of the node**, and it is not
+a fade: the rail is **BLUE up to the handle and GREY after it**, which is a progress bar. Both
+ends are tokens **this component's own dots already bind** — the five before the handle are
+`Icons/Icon - Link`, the five after are `Border/Secondary` — so neither colour is invented, and
+the stop is measured: the handle's centre sits at x=300 of the 600px rail, so 50%.
+
+The first version used only the progress bar's TRACK and dropped its FILL, so the whole line came
+out grey and the left half of the scale lost its blue. Reported as *"fill the center grey"*.
+
+**A gradient between tokens is still tokens.** The rule this repo enforces is that no RAW colour
+reaches generated CSS, not that a fill must be one flat value: `linear-gradient` over two
+`var(--pf-*)` stops adapts between modes exactly as a single one does, and what it must never be
+is Figma's own rgba, which would freeze both ends. The rail assertion tested for the literal
+string `background:var(` and duly failed the moment the rail became blue-to-grey — the check
+doing its job — and now asks the question that matters: does the rule paint, and does it paint
+with tokens. Putting a hex pair in fires it.
 
 `npm run verify` asserts both halves in `check-templates.mjs`, file-locally: a component the
 reading names must state that size in its template, and the rule carrying that size must paint a

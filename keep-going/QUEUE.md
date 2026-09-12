@@ -2016,3 +2016,25 @@ inside a PALE 32px ring; both ellipses bind the same token and the paleness is a
 outer one. The extract records which variable a paint binds and nothing about how transparent it
 is, so both render the same colour and the handle reads as one solid dot. Closer than two stacked
 blobs, not yet right, and it needs a new column on the tree walk rather than a guess.
+
+### P29. The slider rail is a progress bar, and Figma's own render said so — DONE
+
+Reported as *"fill the center grey"*. The first substitution used only `Table progress bar`'s
+TRACK and dropped its FILL, so the whole rail came out grey and the left half of the scale lost
+its blue.
+
+**Figma's render of the node settles what the gradient is**: not a fade — BLUE up to the handle,
+GREY after it. Both ends are tokens **this component's own dots already bind** (`Icons/Icon -
+Link` before the handle, `Border/Secondary` after), so neither colour is invented, and the stop
+is measured — the handle's centre is at x=300 of the 600px rail.
+
+**A gradient between tokens is still tokens.** The rule is that no RAW colour reaches generated
+CSS, not that a fill must be flat. The rail assertion tested for the literal `background:var(`
+and failed the moment the rail became blue-to-grey — the check working — and now asks whether the
+rule paints AND paints with tokens. A hex pair fires it; proved.
+
+**Open:** the handle renders as a solid 32px circle where Figma draws a solid 24 inside a pale
+32 ring. That is the opacity gap (P28) and it is why the handle reads oversized against the 11px
+dots. The design owner has said *"all the dots are the same size every state"* — whether that
+means "as Figma draws it, once opacity lands" or a genuine change from Figma is the open
+question; not guessed at.

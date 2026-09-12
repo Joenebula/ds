@@ -157,7 +157,16 @@ const railHeight = railHeightMap();
 // values name real tokens — these two are what `Table progress bar`'s `Bar` frame binds, the
 // design system's own definition of a track.
 const GRADIENT_FALLBACK = {
-  'Slider|1': { fill: 'Background/Secondary', stroke: 'Progress bar/Border' },
+  // `Slider`'s rail. Figma's screenshot of the node settles what the gradient actually is: it
+  // is not a fade, it is BLUE up to the handle and GREY after it — a progress bar, which is
+  // what the design owner said to use. Both ends are tokens THIS COMPONENT'S OWN DOTS bind
+  // (the five before the handle are `Icons/Icon - Link`, the five after are
+  // `Border/Secondary`), so neither colour is invented, and the stop is measured: the handle's
+  // centre sits at x=300 of the 600px rail.
+  //
+  // The first version used only the progress bar's TRACK and dropped its FILL, so the whole
+  // line came out grey and the left half of the scale lost its blue.
+  'Slider|1': { stops: [['Icons/Icon - Link', '0 50%'], ['Border/Secondary', '50% 100%']] },
 };
 const slackNotes = new Set();
 const SLACK_NOTE = "<!-- states its width: space-between distributes the SLACK, and a frame sized to its content has none. -->";
@@ -360,10 +369,23 @@ function styleFor(component, row) {
   // up in docs/FIGMA-ISSUES.md; binding a variable in Figma removes the entry.
   const sub = GRADIENT_FALLBACK[`${component}|${row.path}`];
   if (sub && row.fill === 'GRADIENT') {
-    for (const [prop, tok] of Object.entries(sub)) {
+    // A GRADIENT BETWEEN TOKENS IS STILL TOKENS. The rule this project enforces is that no raw
+    // colour reaches generated CSS, not that a fill must be one flat value — `linear-gradient`
+    // over two `var(--pf-*)` stops adapts between modes exactly as a single one does. What it
+    // must never be is Figma's own rgba, which would freeze both ends.
+    const stops = (sub.stops || []).map(([tok, at]) => {
       const v = tokenVar.get(tok);
-      if (v) s.push(prop === 'stroke' ? `box-shadow:inset 0 0 0 1px var(${v})` : `background:var(${v})`);
-      else flag('no-token', `${component}: gradient substitute "${tok}"`);
+      if (!v) { flag('no-token', `${component}: gradient substitute "${tok}"`); return null; }
+      return `var(${v}) ${at}`;
+    });
+    if (stops.length && stops.every(Boolean)) {
+      s.push(stops.length === 1 ? `background:${stops[0].split(' ')[0]}`
+        : `background:linear-gradient(90deg,${stops.join(',')})`);
+    }
+    if (sub.stroke) {
+      const v = tokenVar.get(sub.stroke);
+      if (v) s.push(`box-shadow:inset 0 0 0 1px var(${v})`);
+      else flag('no-token', `${component}: gradient substitute "${sub.stroke}"`);
     }
   }
   if (row.stroke && row.stroke !== 'LITERAL') {
