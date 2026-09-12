@@ -66,7 +66,7 @@ Attachment with person	440 x 112	0	8	0	13px	VERTICAL CENTER MIN		5235:65181
 Attachments	440 x 56	0	0	0	13px SemiBold	HORIZONTAL MIN MIN		5235:64884
 Bar chart with axis	326 x 221		0		13px Regular	NONE		7667:71127
 Bar chart with axis|Breakpoint=Desktop, Darkmode=False	492 x 250		0		13px	NONE		
-Bar chart	415 x 193	0	0	10	13px	HORIZONTAL MAX MIN		
+Bar chart	415 x 193	0	0	10	13px	HORIZONTAL MAX MIN		7658:72458
 Bar chart|Breakpoint=Mobile, Darkmode=False	283 x 222	0	0	5	13px	HORIZONTAL MAX MIN		
 Bar	29 x 90	0	0	5	13px	VERTICAL CENTER MIN		7649:71538
 Bar|Label=Vertical	29 x 137	0	0	10	13px	VERTICAL CENTER MIN		
@@ -112,7 +112,7 @@ Config side menu	325 x 980	0	8	0	16px	VERTICAL MIN MIN		5942:65619
 Configuration panel	1600 x 189	0	8 8 0 0	0	20px	VERTICAL CENTER MIN		7064:68025
 Configuration tile	auto x 260	40 20	8	10	24px	VERTICAL CENTER CENTER	shadow 0 0 4px	7063:83776
 Configuration tile|Device=Mobile	auto x 230	30 20	8	10	24px	VERTICAL CENTER CENTER		
-Configuration	1600 x 809		8		24px	NONE		
+Configuration	1600 x 809		8		24px	NONE		13717:37944
 Configuration|Mobile=True	355 x 809		8		24px	NONE		
 Confirmation modal	400 x 413	60 10	8	36	24px Regular	VERTICAL CENTER MIN		5217:64300
 Confirmation modal|Mobile=false, Type=Success, Dark mode=False	400 x 413	60 10	8	65	24px Regular	VERTICAL CENTER MIN		
@@ -326,7 +326,7 @@ Notification panel	1500 x 1080	0	0	0	20px	VERTICAL MIN MIN	2 variants (Mobile). 
 Notification panel|Mobile=Yes	390 x 824	0	16 16 0 0	0	18px	VERTICAL MIN MIN		
 Notification tabs	279 x 65	18.5 15 18.5 15	0	20	16px	HORIZONTAL CENTER MIN	3 variants (State x Selected). Node 22973:20747, which this extract previously held as "Side navigation tab" with a different variant structure.	22973:20747
 Option	250 x 26	2 10 2 20	4	5	16px	HORIZONTAL CENTER MIN	dropdown list row. 2 variants	3479:69375
-Org chart	293 x 48	0	8	0	16px	HORIZONTAL CENTER MIN		
+Org chart	293 x 48	0	8	0	16px	HORIZONTAL CENTER MIN		31040:34148
 Org chart|Type=Manager	293 x 97	0	8	0	16px	HORIZONTAL CENTER MIN		
 Org chart|Type=Reportee	293 x 55	0	8	0	16px	HORIZONTAL CENTER MIN		
 Pagination buttons	358 x 32	0	0	30	13px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN	Single component. Binds a primitive for its text — see source issues.	32559:60567
@@ -380,7 +380,7 @@ Side panel	375 x 726	0	15 15 0 0	0	20px	VERTICAL MIN MIN	shadow 0 0 4px	13909:53
 Side panel|Mobile=No, Size=Small	520 x 1080	0	0	0	20px	VERTICAL MIN MIN		
 Side panel|Mobile=No, Size=Medium	960 x 1080	0	0	0	20px	VERTICAL MIN MIN		
 Side panel|Mobile=No, Size=Large	1500 x 1080	0	0	0	20px	VERTICAL MIN MIN		
-Signature	auto x 384	0	0	0	16px	VERTICAL MIN MIN		
+Signature	auto x 384	0	0	0	16px	VERTICAL MIN MIN		2834:46484
 Slider	600 x 81	0	0	20	13px	VERTICAL MIN CENTER		14948:93064
 Spotlight Card	375 x 302	0 0 10 0	8	10	13px	VERTICAL MIN MIN		26820:17383
 Spotlight Card|Horizontal=True, Mobile=False	585 x 218	10	8	10	13px	VERTICAL MIN MIN		

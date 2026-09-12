@@ -45,7 +45,10 @@ const FILES = [
   // `rowPageCol` narrows a name published on two pages to the candidate on THIS row's page.
   // Only this file records one, so only this file gets it.
   { file: 'component-variants.tsv', nameCol: 'component', rowPageCol: 'page' },
-  { file: 'component-geometry.tsv', nameCol: 'component' },
+  // No page column here, so the row-page narrowing cannot run — but variants names the same
+  // components and has already been disambiguated, so geometry borrows those answers.
+  { file: 'component-geometry.tsv', nameCol: 'component',
+    inheritFrom: 'component-variants.tsv' },
   // ICONS TOO. icons.tsv is index/figmaName/file/svg and had no identity at all, which is the
   // same defect the component extracts were fixed for here: without an id a rename is
   // indistinguishable from a deletion plus an addition, and sync-check could only report
@@ -65,7 +68,8 @@ const FILES = [
 const key = (n) => String(n || '').trim();
 
 export function backfill(text, nameCol, byName,
-  { prefer = null, pageOf = new Map(), rowPageCol = null, listingByName = null } = {}) {
+  { prefer = null, pageOf = new Map(), rowPageCol = null, listingByName = null,
+    inherited = null } = {}) {
   const lines = text.replace(/\n+$/, '').split('\n');
   const header = lines[0].split('\t');
   const idx = header.indexOf(nameCol);
@@ -78,7 +82,7 @@ export function backfill(text, nameCol, byName,
   if (rowPageCol && pageIdx === -1) throw new Error(`no "${rowPageCol}" column`);
   const out = [];
   let filled = 0; const missing = []; const ambiguous = []; const narrowed = [];
-  const contradicted = [];
+  const contradicted = []; const borrowed = []; const resolvedByName = new Map();
 
   out.push(already === -1 ? [...header, 'nodeId'].join('\t') : lines[0]);
 
@@ -127,6 +131,30 @@ export function backfill(text, nameCol, byName,
     }
     // An ambiguous name is NOT a match. Filling one of two candidates would be a coin toss
     // wearing a measurement's clothes, and every later read would trust the result.
+    // A TIE ALREADY BROKEN IN AN EARLIER FILE. component-geometry.tsv records no page, so the
+    // narrowing above cannot run there — but component-variants.tsv names the same components and
+    // HAS been disambiguated by page, so the identity is already established and this is carrying
+    // it across rather than deriving it again.
+    //
+    // THE SAFETY PROPERTY IS MEMBERSHIP, and it is the only one: the borrowed id must be ONE OF
+    // THIS ROW'S OWN CANDIDATES. Without it `Bar chart` the component hands its id to `Bar chart`
+    // the glyph, which is the exact confusion the page narrowing exists to prevent.
+    //
+    // `candidates.length > 1` states the intent — break a tie, never fill an empty row — and is
+    // deliberately recorded as NOT a second safety net, because it cannot be one: with no
+    // candidates, membership already refuses everything. Mutating it to `!== 1` changes no
+    // behaviour and no test kills it. Saying so is better than a comment implying two independent
+    // guards, which would leave the next reader trusting a line that cannot fail.
+    if (inherited && candidates.length > 1) {
+      const from = inherited.get(name);
+      if (from && from.size === 1) {
+        const one = [...from][0];
+        if (candidates.includes(one)) {
+          borrowed.push(`${name} -> ${one} — tie broken in an earlier file of this run`);
+          candidates = [one];
+        }
+      }
+    }
     if (candidates.length > 1) ambiguous.push(name);
     let id = candidates.length === 1 ? candidates[0] : '';
 
@@ -157,12 +185,17 @@ export function backfill(text, nameCol, byName,
       // backfill does, and clobbering it would undo real information with a name guess.
       if (!key(cells[already])) cells[already] = id;
     }
-    if (id) filled++; else if (name && candidates.length === 0) missing.push(name);
+    if (id) {
+      filled++;
+      if (!resolvedByName.has(name)) resolvedByName.set(name, new Set());
+      resolvedByName.get(name).add(id);
+    } else if (name && candidates.length === 0) missing.push(name);
     out.push(cells.join('\t'));
   }
   const uniq = (a) => [...new Set(a)].sort();
   return { text: out.join('\n') + '\n', filled, missing: uniq(missing),
-    ambiguous: uniq(ambiguous), narrowed: uniq(narrowed), contradicted: uniq(contradicted) };
+    ambiguous: uniq(ambiguous), narrowed: uniq(narrowed), contradicted: uniq(contradicted),
+    borrowed: uniq(borrowed), resolvedByName };
 }
 
 // ---------------------------------------------------------------------------
@@ -204,10 +237,13 @@ function main() {
   }
   console.log('');
 
-  for (const { file, nameCol, prefer, rowPageCol } of FILES) {
+  const resolvedIn = new Map();   // file -> (name -> Set of ids it actually wrote
+  for (const { file, nameCol, prefer, rowPageCol, inheritFrom } of FILES) {
     const path = `${RAW}/${file}`;
     const r = backfill(readFileSync(path, 'utf8'), nameCol, byName,
-      { prefer, pageOf, rowPageCol, listingByName });
+      { prefer, pageOf, rowPageCol, listingByName,
+        inherited: inheritFrom ? resolvedIn.get(inheritFrom) || null : null });
+    resolvedIn.set(file, r.resolvedByName);
     const total = r.filled + r.missing.length;
     console.log(`${file}`);
     console.log(`  ${r.filled} row-name(s) matched exactly one inventory id, `
@@ -216,6 +252,7 @@ function main() {
     for (const a of r.ambiguous) console.log(`    AMBIGUOUS "${a}" — left empty, resolve by hand`);
     for (const n of r.narrowed) console.log(`    by page   ${n}`);
     for (const c of r.contradicted) console.log(`    STALE     ${c}`);
+    for (const b of r.borrowed) console.log(`    borrowed  ${b}`);
     if (write) { writeFileSync(path, r.text); console.log('  written'); }
     console.log('');
   }
@@ -421,6 +458,45 @@ function selfTest() {
     const r13 = backfill('component\nHeader\n', 'component', by2);
     if (r13.filled !== 1 || r13.contradicted.length) {
       miss('with no listing the guard must be inert rather than refusing everything');
+    }
+  }
+
+  // BORROWING A TIE ALREADY BROKEN. component-geometry.tsv records no page, so it cannot narrow
+  // for itself; component-variants.tsv names the same components and already has.
+  {
+    const by3 = new Map([['Bar chart', ['chart', 'ic']], ['Stranger', ['s1', 's2']]]);
+    const done = new Map([['Bar chart', new Set(['chart'])]]);
+
+    const r14 = backfill('component\nBar chart\n', 'component', by3, { inherited: done });
+    if (r14.filled !== 1 || !r14.text.includes('chart') || !r14.borrowed.length) {
+      miss('a tie broken in an earlier file must carry across, and be reported as borrowed');
+    }
+
+    // ONLY A TIE. A name the inventory gives no candidate for must stay empty — otherwise a
+    // sub-part like `People (row)`, which Figma never published, could acquire a namesake's id.
+    const r15 = backfill('component\nGhostly\n', 'component',
+      by3, { inherited: new Map([['Ghostly', new Set(['whatever'])]]) });
+    if (r15.filled !== 0) {
+      miss('borrowing must break a TIE, never fill a row the inventory has no candidate for');
+    }
+
+    // THE BORROWED ID MUST BE ONE OF THIS ROW'S OWN CANDIDATES. Without that, `Bar chart` the
+    // component hands its id to `Bar chart` the glyph — the confusion page narrowing prevents.
+    const r16 = backfill('component\nStranger\n', 'component',
+      by3, { inherited: new Map([['Stranger', new Set(['chart'])]]) });
+    if (r16.filled !== 0 || !r16.ambiguous.includes('Stranger')) {
+      miss('an id that is not among this row\'s candidates must not be borrowed — a namesake in '
+        + 'another file is not this row');
+    }
+
+    // An earlier file that resolved the name two ways has not broken the tie at all.
+    const r17 = backfill('component\nBar chart\n', 'component',
+      by3, { inherited: new Map([['Bar chart', new Set(['chart', 'ic'])]]) });
+    if (r17.filled !== 0) miss('an ambiguous inheritance is not an answer and must not be used');
+
+    // And what a file resolves is reported back, or nothing downstream can inherit it.
+    if (!r14.resolvedByName.get('Bar chart') || !r14.resolvedByName.get('Bar chart').has('chart')) {
+      miss('a file must report the ids it wrote, keyed by name, for a later file to inherit');
     }
   }
 

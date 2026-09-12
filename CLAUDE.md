@@ -426,9 +426,31 @@ a deletion plus an addition. Comparing this repo against a newer component list 
 rename is one line that says so.
 
 `scripts/backfill-node-ids.mjs` fills ids from `components.json` by name, makes no Figma calls,
-and never invents one — an unmatched row keeps an empty id and is reported. 18 geometry rows
-have no id on purpose: they are measured sub-parts (`Links (primary)`, `People (row)`) that
-Figma never published as component sets, so they never will.
+and never invents one — an unmatched row keeps an empty id and is reported.
+
+**The "18 geometry rows have no id on purpose" line was wrong in character as well as count**, and
+the character is what mattered. It said they were all measured sub-parts (`People (row)`,
+`Information box (row)`) that Figma never published as component sets, so they never would. Thirteen
+of them are. The rest were real components left empty by an AMBIGUITY — a different thing entirely,
+because a sub-part is finished business and an ambiguity is an unanswered question. Bundling the two
+under "on purpose" is how seven open questions read as a settled decision.
+
+It now reads **16, and they are two kinds**: 13 genuine sub-parts, plus `Field`, `Header` and
+`People` — three names Figma really does publish twice, still unresolved. `Field` and `People` have
+both candidates on one page so no narrowing can reach them; `Header` is the rebuilt component below.
+
+**A geometry row borrows a tie already broken in `component-variants.tsv`.** Geometry records no
+page, so the row-page narrowing cannot run there — but variants names the same components and has
+been disambiguated, so `Bar chart`, `Configuration`, `Org chart` and `Signature` carry across rather
+than being derived twice. The safety property is **membership**: the borrowed id must be one of that
+row's own candidates, or `Bar chart` the component hands its id to `Bar chart` the glyph. The
+tie-only condition beside it is recorded in the source as intent rather than a second guard, because
+it cannot be one — with no candidates, membership already refuses everything, and a mutation of it
+changes no behaviour. Naming a line that cannot fail beats implying two protections where there is
+one.
+
+This matters beyond tidiness: `apply-renames.mjs` renames by id and **refuses to rename by name**,
+so an id-less row is a component a rename cannot reach.
 
 **A name published twice is resolved by the row's OWN page, and that took the blind spot from 6 to
 2.** Six component names matched more than one inventory id and were left empty as a coin toss:
