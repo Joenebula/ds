@@ -1125,3 +1125,50 @@ push. Every commit in this run was pushed to `claude/relaxed-goldberg-pq472n`, b
 session's own setup instructs it and this container is ephemeral — unpushed work is lost
 when it is reclaimed. The branch is the one the design lead created for this. Worth a word
 from them either way.
+
+## Run 13 — 2026-09-12
+
+**Skills loaded:** `artifact-design` and `artifact-capabilities` (bundled, read this run);
+`figma-use` (read via the Figma MCP resource immediately before the one `use_figma` call).
+
+**1. Refreshed the Figma inventory, as asked.** `tokens/_raw/components.json` now holds the
+current listing; the two saved copies are deep-equal. Applying it broke two things, both real:
+
+- The header band went back to being an empty transparent box — the build admits a
+  geometry-only component only if Figma's inventory names it, and the current listing does not
+  publish that node. Measured `bg: "none"` with every check green, which is exactly the bug
+  the artwork section of CLAUDE.md exists to describe. Fixed: measured artwork now admits a
+  component too. Band back to 17 rules; three other components still refused.
+- `check-skill-classes` reconciled classes against inventory rows by subtracting a count of
+  shared NAMES where it needed extra ROWS. Only breaks when a name spans more than two rows,
+  which the refresh made true for `Header`. Fixed, and the same confusion fixed in the two
+  figures feeding CLAUDE.md's coverage sentence.
+
+Nine documented figures moved with it. Two predictions I made by reading a diff were wrong:
+the paint count did not move at all, and the walked figure moved further than I said.
+
+**Commands run:** `npm run build` (exit 0), `npm run check` (0), `npm run verify` (0, 181
+generated files compared, 0 stale), `npm run selftest` (0), `npm run sync:check` (0).
+Committed and pushed to `claude/relaxed-goldberg-pq472n`.
+
+**2. Recorded that the Case Management file was only ever a test.** That closes the question
+CLAUDE.md was parking, and makes three axes permanently `--` on that screen — a fact about the
+input, not a missing net.
+
+**3. Built the review page for the seven icon rows.**
+`https://claude.ai/code/artifact/8307f606-6d84-49c0-a369-2a0236a8b09f` — every one rendered, in
+People First tokens, with the three decisions they actually reduce to and somewhere to record
+each answer. One Figma read (`exportAsync`, no asset host involved) got `Tax`'s artwork.
+
+Two findings came out of drawing them rather than listing them: the unnamed icon is
+`Resources files` minus its content lines, so it is a distinct drawing wanting a name rather
+than a mystery; and `Circle icons` does not survive `icons.tsv`'s own `currentColor` storage —
+it draws as a solid disc with its glyph invisible. No check could have caught that, because
+`icons:check` ignores colour on purpose.
+
+**Not checked:** the published page's `db` writes. The local screenshot cannot exercise
+`claude.use('db')`, so the save path is written but unproven until somebody clicks it.
+
+**Assumption logged:** the review page inlines all four `dist/` stylesheets rather than linking
+them as supporting files. Costs 860KB and removes any chance of a silent font fallback, which
+is the failure this repo spent months inside. Cheap to reverse.

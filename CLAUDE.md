@@ -779,6 +779,31 @@ rounded to 2dp in `icons.tsv` and not in Figma's export, which is why the first 
 
 Pair the two lists by eye before importing anything.
 
+**All seven red items were rendered and put to the design lead on 2026-09-12**, at
+`https://claude.ai/code/artifact/8307f606-6d84-49c0-a369-2a0236a8b09f`. **Seven rows, three decisions** —
+the verdict line reads as seven problems and is not: five of the rows are one component. Two things
+came out of drawing them that no list had said:
+
+- **The unnamed one is `Resources files` minus its content lines.** The two SVGs are byte-identical for
+  their first 1,545 characters and then it simply stops: two documents with no writing on them. Its node
+  `8136:78321` sits one away from `File` `8136:78305`, so it was drawn in the same batch as that family,
+  and it is NOT a second copy of `Copy` — that is a different drawing, two rounded rectangles with no page
+  fold. So it is a real, distinct icon wanting a name, which is a much narrower question than *"identify
+  or drop"*.
+- **`Tax` needed no new mechanism to look at.** `exportAsync({format:'SVG_STRING'})` returned all six
+  vectors on the first try: a receipt with a torn foot carrying a per-cent sign. It is genuinely new
+  artwork, and capturing it is a decision rather than a blocker. **Nothing in the seven is waiting on a
+  Figma read any more** — the last line of this section used to say two of them were.
+
+**And rendering them found something about `icons.tsv` itself.** Every icon is stored as
+`fill="currentColor"` by design, which is right for a single-colour glyph and wrong for `Circle icons`:
+its pale circle, its outline and its glyph all collapse to one colour, so the captured file draws a
+**solid disc with the glyph invisible inside it**. Nothing was wrong with the artwork and no check could
+have said so — `icons:check` compares PATH DATA and deliberately ignores colour, for the good reason that
+comparing it would report all 287 as drifted. The review page puts the ground back with a token to make
+the drawing readable, and says on the page that it is doing so. Worth knowing before anyone decides this
+one is an icon: as an icon it does not currently survive its own storage format.
+
 **`Taxes coins` came off that list on 2026-09-12, and the interesting part is that it needed no
 capture at all.** The split was recorded here as *"needs a Figma read for the two new glyphs"*, which
 assumed both halves were new drawings. Only one is. The row was pinned to `14334:1477`, and
