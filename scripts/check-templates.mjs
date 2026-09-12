@@ -408,5 +408,53 @@ if (!sized) {
   failures++;
 }
 
+// AN ELLIPSE IS ROUND BY ITS NODE TYPE, NOT BY A CORNER RADIUS.
+//
+// Figma stores no cornerRadius on an ELLIPSE — the shape IS the node kind — so the radius
+// column reads 0 and every one of them was drawn as a SQUARE. Reported by looking at
+// `Slider`: eleven round scale dots and a round handle rendered as blue rectangles, which
+// does not read as a slider at all. 28 ELLIPSE nodes across 12 components were square —
+// `Toggle`'s knob, `Checkbox/Radio item`'s radio, `Graph legend`'s key, `Notification
+// card`'s status dot among them.
+//
+// Asserted FROM THE TREE rather than from the file, and it can be: the tree names the
+// component and the node type, the generator emits one div per ELLIPSE with a `background`,
+// so the count of `border-radius:50%` in a template must equal the number of ELLIPSE nodes
+// the tree gives that component — where the template contains them at all. A template that
+// carries fewer is one where the walk collapsed a run, so the test is "no more than, and not
+// zero where the tree has some", which is the property that holds file-locally.
+{
+  const tree = new Map();
+  for (const line of readFileSync('tokens/_raw/component-tree.tsv', 'utf8').trim().split('\n').slice(1)) {
+    const c = line.split('\t');
+    if (c[2] === 'ELLIPSE') tree.set(c[0], (tree.get(c[0]) || 0) + 1);
+  }
+  let rounded = 0, comps = 0;
+  for (const f of readdirSync('dist/templates').filter(f => f.endsWith('.html'))) {
+    const html = readFileSync(`dist/templates/${f}`, 'utf8');
+    const name = (/^<!--\s*(.+?)\s+—/.exec(html) || [, ''])[1];
+    const want = tree.get(name) || 0;
+    const got = (html.match(/border-radius:50%/g) || []).length;
+    rounded += got;
+    if (want) comps++;
+    if (want && !got) {
+      failures++;
+      console.error(`FAIL dist/templates/${f} draws ${want} Figma ELLIPSE node(s) as squares — `
+        + 'an ellipse is round by its node type, not by a corner radius');
+    }
+    if (got > want) {
+      failures++;
+      console.error(`FAIL dist/templates/${f} rounds ${got} node(s) where Figma has ${want} `
+        + 'ellipse(s) — something that is not an ellipse is being drawn as one');
+    }
+  }
+  console.log(`  ${rounded} ellipse(s) across ${comps} component(s) are round because Figma's node `
+    + 'type says so — the radius column reads 0 on every one of them');
+  if (!rounded) {
+    console.error('FAIL no ellipse is rounded, so this checked nothing');
+    failures++;
+  }
+}
+
 
 process.exit(failures ? 1 : 0);

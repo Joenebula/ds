@@ -303,6 +303,18 @@ function styleFor(component, row) {
   }
   const r = parseInt(row.radius, 10);
   if (Number.isFinite(r) && r > 0) s.push(`border-radius:${r}px`);
+  // AN ELLIPSE IS ROUND BY ITS NODE TYPE, NOT BY A CORNER RADIUS.
+  //
+  // Figma stores no cornerRadius on an ELLIPSE — the shape is the node kind — so the radius
+  // column reads 0 and the generator drew every one of them as a SQUARE. Reported by looking
+  // at `Slider`: eleven round scale dots and a round handle rendered as eleven blue rectangles
+  // and a rectangular knob, which does not read as a slider at all. **28 ELLIPSE nodes across
+  // 12 components** were square — `Toggle`'s knob, `Checkbox/Radio item`'s radio, `Graph
+  // legend`'s key, `Notification card`'s status dot among them.
+  //
+  // 50% rather than a px, because the node may be an oval: `Donut pie chart` and `Hemisphere
+  // chart` hold ellipses that are not circles, and half of each axis is what makes both right.
+  if (row.type === 'ELLIPSE') s.push('border-radius:50%');
   if (row.fill && row.fill !== 'LITERAL' && row.fill !== 'IMAGE' && row.fill !== 'GRADIENT') {
     if (isPrimitive(row.fill)) flag('primitive', `${component}: fill binds the PRIMITIVE "${row.fill}"`);
     else {

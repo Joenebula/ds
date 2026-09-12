@@ -1946,3 +1946,27 @@ check that looked at nothing reports, so both halves carry a minimum: 500 runs o
 
 The payroll footnote WAS a real layout fault, just not that one: two spans with no layout ran
 into one sentence. `.tablefoot` is a column now.
+
+### P26. An ellipse is round by its node type, not by a corner radius — DONE
+
+Reported by asking to see the `Slider`. Figma draws it as a 600px 0–10 rating scale — eleven
+round dots on a track with a round handle — and it rendered as **eleven blue rectangles and a
+rectangular knob**. Figma stores no cornerRadius on an ELLIPSE (the shape IS the node kind), so
+the tree's radius column reads 0 and the generator drew every one square: **28 ELLIPSE nodes
+across 12 components**, including `Toggle`'s knob, `Checkbox/Radio item`'s radio and
+`Notification card`'s status dot. `50%` not a px, because two of them are ovals.
+
+Asserted from the TREE — the only one of these that can be, because the tree names the node type
+and the generator emits one div per ellipse. Broken on purpose to confirm it reports.
+
+**Two things on `Slider` deliberately NOT guessed at:**
+
+- **The track does not paint.** The frame binds a GRADIENT and no colour variable can carry one,
+  so the generator correctly refuses it. Same family as §12.
+- **The handle's two circles stack.** A GROUP has no auto-layout and its children are absolute;
+  `component-child-pos.tsv` has no rows for it. Concentric is the obvious reading and not a
+  measured one — it needs a Figma read.
+
+And `.pf-slider` states no width for Figma's 600, and being `inline-flex` cannot take one from a
+container, so the scale collapses to ~150px. That is the 24-genuinely-fixed-widths question
+already on the suggestions list, seen from the other end.

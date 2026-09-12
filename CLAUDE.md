@@ -552,6 +552,44 @@ assertion and was not repeated. **187 instances** carry the mark, which says in 
 the number is how big Figma draws it HERE rather than the component's own size — whoever pastes
 it has to see that, for the same reason the repacked and self-sized frames say so.
 
+### An ellipse is round by its node type, not by a corner radius
+
+Reported by asking to see the `Slider`. Figma draws it as a 600px 0–10 rating scale: eleven
+round dots on a track with a round handle. It rendered as **eleven blue rectangles and a
+rectangular knob**, which does not read as a slider at all.
+
+Figma stores **no cornerRadius on an ELLIPSE** — the shape is the node kind — so the tree's
+radius column reads 0, and the generator, which only ever rounds what that column tells it to,
+drew every one of them square. **28 ELLIPSE nodes across 12 components**: `Toggle`'s knob,
+`Checkbox/Radio item`'s radio, `Graph legend`'s key, `Notification card`'s status dot,
+`Required field`'s asterisk dot. It is `50%` rather than a px because the node may be an oval —
+`Donut pie chart` and `Hemisphere chart` hold ellipses that are not circles, and half of each
+axis is what makes both right.
+
+`npm run verify` asserts it in `check-templates.mjs`, **from the TREE**, which it can here: the
+tree names the component and the node type, and the generator emits one div per ellipse, so a
+template must round as many nodes as Figma gives that component and no more. Not "exactly",
+because the walk collapses a run of identical siblings — the property that holds file-locally is
+*no more than, and never zero where the tree has some*.
+
+**Two things about `Slider` this did not fix, and both are named rather than guessed at:**
+
+- **The track does not paint.** The `Slider` frame binds a GRADIENT, and no colour variable can
+  carry one, so the generator correctly refuses it — the same shape as the two gradient-stroked
+  components in the Borders section and the shadows in `docs/FIGMA-ISSUES.md` §12. The dots are
+  there; the 5px blue-to-grey bar behind them is not.
+- **The handle's two circles stack.** Figma draws it as a GROUP holding a 32px and a 24px circle,
+  and a GROUP has no auto-layout — its children are positioned absolutely. `component-child-pos`
+  has no rows for it, so there is no measured offset, and concentric is the obvious reading
+  rather than a measured one. It needs a Figma read, not a guess.
+
+And the component is **600px wide in Figma with `.pf-slider` stating no width**, because the
+stylesheet drops any width above 120px as "the artboard". A container cannot supply one either:
+the class is `inline-flex` and shrink-wraps whatever it is put inside. So the whole scale
+collapses to about 150px with the dots touching. That is the 24-genuinely-fixed-widths question
+this file already raises under the hug work, seen from the other end — not a new fault, and not
+one to settle by threshold.
+
 ## Hug: a height that is the sum of the contents is not a rule
 
 Reported as the stat tiles being **stretched rather than hugged**, and the arithmetic says so.
