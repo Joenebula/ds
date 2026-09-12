@@ -911,6 +911,18 @@ finds can fail a build.
   else provides, and a ratio measured against a test page is not about them — the same scoping
   `check-breakpoint-consistency` had to learn.
 
+**The threshold depends on what the component holds.** WCAG asks 4.5:1 of text and 3:1 of a
+meaningful graphic, so measuring a 20x20 checkbox's tick against the text threshold is the wrong
+question — the same mistake as *"a contrast ratio is not the test"* in the breakpoint work. The
+obvious reading is wrong: counting TEXT nodes in `component-tree.tsv` says `Sticky footer`,
+`Browser drop down` and `People and department drop down` hold no text, when all three plainly
+do — **the walk is depth-limited and stops at nested instances, so "no TEXT child" means "not
+seen", not "not there"**, and relaxing a threshold on that would be a guess. The geometry's own
+`font` column is the reading that holds: `—` where Figma gives the component no type at all,
+the same one the docs gallery uses. **30 of the 302 renderings are glyphs**, and applying it
+clears exactly one finding — `Multi-select checkbox` in light mode at 3.98:1, fine for a glyph
+and not for a label.
+
 **The known set is pinned by name, not by count.** A count alone lets one be fixed while a new
 one appears and the total stays put, which is the substitution this project has been caught by
 before.

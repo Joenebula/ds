@@ -523,13 +523,39 @@ component has the wrong text token.
 **What would clear it:** bind `Text/Primary` (or a mode-aware equivalent) on all three. A token
 named "Always White" belongs only over a surface that is always dark.
 
-### 15c. The other nine are recorded, not yet judged
+### 15c. Eight more, each now measured against its own threshold
 
-The same sweep lists nine more class/mode pairs below AA — `Multi-select checkbox`, `Status`,
-`Config child menu`, `AI Assistant`, `Radio card`, `AG filter menus`, `AG field`, `Toggle`.
-Several of those hold a glyph rather than a label, where WCAG's threshold is 3:1 for a graphic
-rather than 4.5:1 for text, so some may not be faults at all. They are pinned by name in
-`check-component-contrast.mjs` so the set cannot grow or be substituted while someone decides.
+The same sweep lists eight more class/mode pairs below contrast — and the first version of this
+entry said "some may not be faults at all, because several hold a glyph rather than a label".
+That was worth settling rather than leaving open.
+
+**WCAG asks 4.5:1 of text and 3:1 of a meaningful graphic**, so a 20x20 checkbox's tick measured
+against the text threshold is the wrong question. Which one a component is gets read from
+`component-geometry.tsv`'s `font` column — `—` where Figma gives the component no type at all,
+the same reading the docs gallery uses to decide which specimens get a placeholder. Counting
+TEXT nodes in the tree looked like the obvious test and is wrong: it says `Sticky footer`,
+`Browser drop down` and `People and department drop down` hold no text, when all three plainly
+do, because the walk is depth-limited and stops at nested instances.
+
+Applied, that clears exactly one: `Multi-select checkbox` in **light** mode reads 3.98:1, which
+is fine for a glyph. Everything else is below its own floor and is a real finding:
+
+| Component | Mode | Reads | Floor | |
+|---|---|---|---|---|
+| `Multi-select checkbox` | dark | 1.99:1 | 3:1 | glyph |
+| `Status` (Like / Comment / Absence) | dark | 2.36–2.44:1 | 3:1 | glyph |
+| `Config child menu` `Type=Selected` | dark | 2.18:1 | 4.5:1 | 16px |
+| `AI Assistant` | dark | 2.47:1 | 4.5:1 | 20px |
+| `Radio card` `State=Disabled` | light | 3.25:1 | 4.5:1 | 16px SemiBold |
+| `AG filter menus` `Multi & search` | light | 3.43:1 | 4.5:1 | text |
+| `AG field` `State=Unselected` | light | 3.64:1 | 4.5:1 | 12px |
+| `Toggle` `On=Yes, Locked=Yes` | light | 4.19:1 | 4.5:1 | 13px |
+
+The two disabled states are the mildest — a disabled control is exempt from WCAG's contrast
+minimum — so `Radio card` and arguably `AG field` may be deliberate. The rest are not.
+
+They are pinned **by name** in `check-component-contrast.mjs` so the set cannot grow, and cannot
+have one quietly substituted for another while someone decides.
 
 ## What happens after you fix any of this
 
