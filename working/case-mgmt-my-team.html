@@ -1138,6 +1138,7 @@
 /* Accordion
  * 2 variants captured
  * Figma draws this 1200px wide; treated as layout, not a rule
+ * Figma records a 689px gap on a space-between row; not emitted, because in CSS that is a minimum separation and space-between already carries the intent
  */
 .pf-accordion {
   height: 84px;
@@ -1147,7 +1148,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 689px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -1165,7 +1165,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 689px;
 }
 .pf-accordion[data-expanded="True"][data-mobile="False"] {
   height: auto;
@@ -3158,6 +3157,7 @@
 /* Field label
  * 1 variant captured. label sits above its input, 5px gap
  * Figma draws this 152px wide; treated as layout, not a rule
+ * Figma records a 42px gap on a space-between row; not emitted, because in CSS that is a minimum separation and space-between already carries the intent
  */
 .pf-field-label {
   height: 22px;
@@ -3165,7 +3165,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 42px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -4205,6 +4204,7 @@
 /* Header
  * 3 variants captured
  * Figma draws this 1830px wide; treated as layout, not a rule
+ * Figma records a 10px gap on a space-between row; not emitted, because in CSS that is a minimum separation and space-between already carries the intent
  */
 .pf-header {
   height: 86px;
@@ -4213,7 +4213,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -4231,7 +4230,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Default - Cranberry red"][data-mobile="No"] {
   height: 86px;
@@ -4242,7 +4240,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Default - Cranberry red"][data-mobile="Yes"] {
   height: 62px;
@@ -4253,7 +4250,6 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Dark mode"][data-mobile="No"] {
   height: 86px;
@@ -4264,7 +4260,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Dark mode"][data-mobile="Yes"] {
   height: 62px;
@@ -4275,7 +4270,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Purple orchid"][data-mobile="No"] {
   height: 86px;
@@ -4286,7 +4280,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Purple orchid"][data-mobile="Yes"] {
   height: 62px;
@@ -4297,7 +4290,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Berry pink"][data-mobile="No"] {
   height: 86px;
@@ -4308,7 +4300,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Berry pink"][data-mobile="Yes"] {
   height: 62px;
@@ -4319,7 +4310,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Purple iris"][data-mobile="No"] {
   height: 86px;
@@ -4330,7 +4320,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Purple iris"][data-mobile="Yes"] {
   height: 62px;
@@ -4341,7 +4330,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Royal purple"][data-mobile="No"] {
   height: 86px;
@@ -4352,7 +4340,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Royal purple"][data-mobile="Yes"] {
   height: 62px;
@@ -4363,7 +4350,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Velvet red"][data-mobile="No"] {
   height: 86px;
@@ -4374,7 +4360,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Velvet red"][data-mobile="Yes"] {
   height: 62px;
@@ -4385,7 +4370,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Striking red"][data-mobile="No"] {
   height: 86px;
@@ -4396,7 +4380,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Striking red"][data-mobile="Yes"] {
   height: 62px;
@@ -4407,7 +4390,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Orange flame"][data-mobile="No"] {
   height: 86px;
@@ -4418,7 +4400,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Orange flame"][data-mobile="Yes"] {
   height: 62px;
@@ -4429,7 +4410,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Cobalt blue"][data-mobile="No"] {
   height: 86px;
@@ -4440,7 +4420,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Cobalt blue"][data-mobile="Yes"] {
   height: 62px;
@@ -4451,7 +4430,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Blue lagoon"][data-mobile="No"] {
   height: 86px;
@@ -4462,7 +4440,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Blue lagoon"][data-mobile="Yes"] {
   height: 62px;
@@ -4473,7 +4450,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Cool grey"][data-mobile="No"] {
   height: 86px;
@@ -4484,7 +4460,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Cool grey"][data-mobile="Yes"] {
   height: 62px;
@@ -4495,7 +4470,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Teal ocean"][data-mobile="No"] {
   height: 86px;
@@ -4506,7 +4480,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Teal ocean"][data-mobile="Yes"] {
   height: 62px;
@@ -4517,7 +4490,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Fern green"][data-mobile="No"] {
   height: 86px;
@@ -4528,7 +4500,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Fern green"][data-mobile="Yes"] {
   height: 62px;
@@ -4539,7 +4510,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Classic"][data-mobile="No"] {
   height: 86px;
@@ -4550,7 +4520,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-theme="Classic"][data-mobile="Yes"] {
   height: 62px;
@@ -4561,7 +4530,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
 }
 .pf-header[data-system="People First"] {
   width: 20px;
@@ -4811,6 +4779,7 @@
 /* Layout container tabs
  * 1 variant captured
  * Figma draws this 1160px wide; treated as layout, not a rule
+ * Figma records a 204px gap on a space-between row; not emitted, because in CSS that is a minimum separation and space-between already carries the intent
  */
 .pf-layout-container-tabs {
   height: 36px;
@@ -4818,7 +4787,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 204px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -4834,6 +4802,7 @@
 /* Layout container title
  * 1 variant captured
  * Figma draws this 1160px wide; treated as layout, not a rule
+ * Figma records a 464px gap on a space-between row; not emitted, because in CSS that is a minimum separation and space-between already carries the intent
  */
 .pf-layout-container-title {
   height: 44px;
@@ -4841,7 +4810,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 464px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -5085,6 +5053,7 @@
 /* Metric card
  * 1 variant captured. big-number tile
  * Figma draws this 392px wide; treated as layout, not a rule
+ * Figma records a 165px gap on a space-between row; not emitted, because in CSS that is a minimum separation and space-between already carries the intent
  */
 .pf-metric-card {
   height: 89px;
@@ -5094,7 +5063,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 165px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -5112,7 +5080,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 165px;
 }
 .pf-metric-card {
   background: var(--pf-bg-tertiary);
@@ -5913,6 +5880,7 @@
 /* Pagination buttons
  * 1 variant captured. Single component. Binds a primitive for its text — see source issues.
  * Figma draws this 358px wide; treated as layout, not a rule
+ * Figma records a 30px gap on a space-between row; not emitted, because in CSS that is a minimum separation and space-between already carries the intent
  */
 .pf-pagination-buttons {
   height: 32px;
@@ -5920,7 +5888,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 30px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -6502,6 +6469,7 @@
 /* Selected action banner
  * 1 variant captured
  * Figma draws this 1560px wide; treated as layout, not a rule
+ * Figma records a 899px gap on a space-between row; not emitted, because in CSS that is a minimum separation and space-between already carries the intent
  */
 .pf-selected-action-banner {
   height: 48px;
@@ -6511,7 +6479,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 899px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -6529,7 +6496,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 899px;
 }
 .pf-selected-action-banner,
 .pf-selected-action-banner[data-mobile="False"] {
@@ -7294,7 +7260,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
 }
 .pf-sticky-footer[data-default="Default"] {
   background: var(--pf-bg-primary);
@@ -7653,6 +7618,7 @@
 /* Table header (AG)
  * 3 variants captured
  * Figma draws this 300px wide; treated as layout, not a rule
+ * Figma records a 47px gap on a space-between row; not emitted, because in CSS that is a minimum separation and space-between already carries the intent
  */
 .pf-table-header-ag {
   height: 54px;
@@ -7661,7 +7627,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 47px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;

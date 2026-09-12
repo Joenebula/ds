@@ -704,6 +704,7 @@
 /* Metric card
  * 1 variant captured. big-number tile
  * Figma draws this 392px wide; treated as layout, not a rule
+ * Figma records a 165px gap on a space-between row; not emitted, because in CSS that is a minimum separation and space-between already carries the intent
  */
 .pf-metric-card {
   height: 89px;
@@ -713,7 +714,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 165px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -731,7 +731,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 165px;
 }
 .pf-metric-card {
   background: var(--pf-bg-tertiary);

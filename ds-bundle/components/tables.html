@@ -465,6 +465,7 @@
 /* Table header (AG)
  * 3 variants captured
  * Figma draws this 300px wide; treated as layout, not a rule
+ * Figma records a 47px gap on a space-between row; not emitted, because in CSS that is a minimum separation and space-between already carries the intent
  */
 .pf-table-header-ag {
   height: 54px;
@@ -473,7 +474,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 47px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -897,6 +897,7 @@
 /* Selected action banner
  * 1 variant captured
  * Figma draws this 1560px wide; treated as layout, not a rule
+ * Figma records a 899px gap on a space-between row; not emitted, because in CSS that is a minimum separation and space-between already carries the intent
  */
 .pf-selected-action-banner {
   height: 48px;
@@ -906,7 +907,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 899px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -924,7 +924,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 899px;
 }
 .pf-selected-action-banner,
 .pf-selected-action-banner[data-mobile="False"] {

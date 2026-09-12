@@ -1109,6 +1109,7 @@
 /* Field label
  * 1 variant captured. label sits above its input, 5px gap
  * Figma draws this 152px wide; treated as layout, not a rule
+ * Figma records a 42px gap on a space-between row; not emitted, because in CSS that is a minimum separation and space-between already carries the intent
  */
 .pf-field-label {
   height: 22px;
@@ -1116,7 +1117,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 42px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;

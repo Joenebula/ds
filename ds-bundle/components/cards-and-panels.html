@@ -523,6 +523,7 @@
 /* Accordion
  * 2 variants captured
  * Figma draws this 1200px wide; treated as layout, not a rule
+ * Figma records a 689px gap on a space-between row; not emitted, because in CSS that is a minimum separation and space-between already carries the intent
  */
 .pf-accordion {
   height: 84px;
@@ -532,7 +533,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 689px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -550,7 +550,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 689px;
 }
 .pf-accordion[data-expanded="True"][data-mobile="False"] {
   height: auto;
@@ -986,7 +985,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
 }
 .pf-sticky-footer[data-default="Default"] {
   background: var(--pf-bg-primary);
@@ -1295,6 +1293,7 @@
 /* Layout container title
  * 1 variant captured
  * Figma draws this 1160px wide; treated as layout, not a rule
+ * Figma records a 464px gap on a space-between row; not emitted, because in CSS that is a minimum separation and space-between already carries the intent
  */
 .pf-layout-container-title {
   height: 44px;
@@ -1302,7 +1301,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 464px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -1318,6 +1316,7 @@
 /* Layout container tabs
  * 1 variant captured
  * Figma draws this 1160px wide; treated as layout, not a rule
+ * Figma records a 204px gap on a space-between row; not emitted, because in CSS that is a minimum separation and space-between already carries the intent
  */
 .pf-layout-container-tabs {
   height: 36px;
@@ -1325,7 +1324,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 204px;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
