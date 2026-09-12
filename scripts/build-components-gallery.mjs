@@ -114,9 +114,19 @@ out.push(`<style>
   h3 { font-size: 13px; margin: 22px 0 2px; }
   .meta { color: var(--pf-text-secondary); font-size: 11px; margin: 0 0 10px;
           font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  /* A SPECIMEN WIDER THAN THE PHONE MUST SCROLL ITS OWN ROW, NOT THE PAGE.
+     Title panel is 470px and Donut pie chart 468px, so at 390px the document's scrollWidth
+     was 514 and the WHOLE gallery scrolled sideways — every heading and paragraph sliding
+     under the finger while you tried to look at one component. Two specimens out of 325.
+     docs/templates.html already does this on its .stage, and the library itself does it on
+     a strip: never clip, scroll to it instead.
+     min-height: fit-content goes with it every time — a scroll container's min-height
+     resolves to 0, which is what cropped the top and bottom off every filter chip the last
+     time a row here was made to scroll. */
   .row { display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-start;
          background: var(--pf-bg-primary); border: 1px solid var(--pf-border-primary);
-         border-radius: 8px; padding: 16px; }
+         border-radius: 8px; padding: 16px;
+         overflow-x: auto; min-height: fit-content; }
   .spec { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; max-width: 100%; }
   .spec > .label { color: var(--pf-text-secondary); font-size: 10px;
                    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }

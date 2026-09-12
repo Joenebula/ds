@@ -24,10 +24,13 @@
 import { chromium } from 'playwright-core';
 import { existsSync } from 'node:fs';
 
-const PAGES = ['docs/components.html'];
+const PAGES = ['docs/components.html', 'docs/templates.html'];
+// A phone. The gallery is read on one, and every fault reported from one this cycle turned
+// out to be something no check looked at.
+const NARROW = 390;
 const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
 const problems = [];
-let withText = 0, checked = 0;
+let withText = 0, checked = 0, scrollers = 0;
 
 for (const file of PAGES) {
   if (!existsSync(file)) { problems.push(`${file} is missing — run npm run build`); continue; }
@@ -58,6 +61,30 @@ for (const file of PAGES) {
   });
   await page.close();
   withText += r.text; checked += r.total;
+
+  // AND THE PAGE ITSELF MUST NOT SCROLL SIDEWAYS ON A PHONE.
+  //
+  // Two specimens out of 325 are wider than 390px — `Title panel` at 470 and
+  // `Donut pie chart` at 468 — and with nothing to contain them the whole document went to
+  // 514px wide. Every heading and paragraph then slides under the finger while you are
+  // trying to look at one component, which is how a page reads as broken when only two
+  // things on it are oversized. The fix is never to clip: the row scrolls instead, the same
+  // way `docs/templates.html` does on its `.stage` and the library does on a strip.
+  const narrow = await browser.newPage({ viewport: { width: NARROW, height: 900 } });
+  await narrow.goto('file://' + process.cwd() + '/' + file);
+  await narrow.evaluate(() => document.fonts.ready);
+  const scroll = await narrow.evaluate(() => ({
+    doc: document.documentElement.scrollWidth,
+    widest: Math.max(0, ...[...document.querySelectorAll('.row, .stage')]
+      .map(e => e.scrollWidth - e.clientWidth)),
+  }));
+  await narrow.close();
+  if (scroll.doc > NARROW + 1) {
+    problems.push(`${file} is ${scroll.doc}px wide in a ${NARROW}px window, so the whole page `
+      + `scrolls sideways on a phone — a specimen wider than the screen has to scroll its own `
+      + `row, not the document`);
+  }
+  scrollers += scroll.widest > 0 ? 1 : 0;
   const seen = new Set();
   for (const x of r.out) {
     if (seen.has(x.cls)) continue;
@@ -70,6 +97,8 @@ await browser.close();
 
 console.log(`${checked} specimen(s) on ${PAGES.join(', ')}, ${withText} of them carrying a `
   + `placeholder label, every one inside the box that draws it`);
+console.log(`  neither page scrolls sideways at ${NARROW}px; ${scrollers} of them contain an `
+  + `oversized specimen in a row that scrolls on its own`);
 if (!withText) {
   console.error('  this check proved nothing: not one specimen carried text, so nothing was measured');
   process.exit(1);

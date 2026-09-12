@@ -791,6 +791,23 @@ wide a string renders — so it decides from the reading it has and this asserts
 independently. It also asserts the negative: a run where no specimen carried text at all would
 pass while measuring nothing.
 
+### And the page must not scroll sideways on a phone
+
+Two specimens out of 325 are wider than a phone — `Title panel` at 470px and `Donut pie chart`
+at 468 — and with nothing to contain them the gallery's document went to **514px wide in a 390px
+window**. Every heading and paragraph then slides under the finger while you are trying to look
+at one component, which is how a page reads as broken when only two things on it are oversized.
+
+The row scrolls instead. Never clip — `docs/templates.html` already did this on its `.stage`,
+and the library does it on a strip; this is the same answer a third time. And `min-height:
+fit-content` goes on with it every time, because a scroll container's `min-height` resolves to 0
+— that is what cropped the top and bottom off every filter chip the last time a row here was
+made to scroll, and it was reported as *"the borders are not showing"*.
+
+`check-docs-specimens.mjs` asserts it at 390px, on the gallery and the template page both, and
+reports how many of them are containing an oversized specimen rather than letting the document
+grow.
+
 ## The rule: only design-system components
 
 A page may use design-system components. Its own CSS does **layout**, and nothing else.
