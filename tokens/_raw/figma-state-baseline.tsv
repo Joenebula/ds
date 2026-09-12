@@ -22,7 +22,8 @@
 # full in deprecated-shipped-worklist.tsv, node by node, because those are the ones anyone acts on.
 #
 # ── CENSUS 1: nodes bound to each semantic variable this work wrote ──────────
-# Whole file, every page, two agreeing sweeps: 15001 bindings across 17 variables.
+# Whole file, every page, two agreeing sweeps: 15001 BINDINGS across 17 variables, on 14945 nodes
+# (56 nodes carry both a fill and a stroke binding). Census 2 below counts the NODES.
 # These are NOT all mine — the overwhelming majority predate this work. That is the point: the
 # number is a fingerprint, and a fingerprint does not need to be attributable to be useful.
 #
@@ -44,9 +45,14 @@ Charts/Chart 3	40
 Icons/Icon - Info	35
 Text/Always grey slate	35
 Border/Positive	32
-#	TOTAL	15001
+#	TOTAL	15001 bindings on 14945 nodes
 #
-# ── CENSUS 2: the same 15001 by page ────────────────────────────────────────
+# ── CENSUS 2: the same population by page, and it is NOT the same number ────
+# 14945 NODES, against census 1's 15001 BINDINGS. The gap is 56 nodes carrying both a fill and a
+# stroke binding, counted twice in census 1 and once here. Two censuses of one population that
+# count different things must not be labelled with one number, and the first draft of this file
+# did exactly that — it said "the same 15001 by page" and the column summed to 14945. Caught by
+# adding the column up, which is the cheapest check in this repo and the one most often skipped.
 page	boundNodes
 Tables	3361
 📚 WIKI	2962
