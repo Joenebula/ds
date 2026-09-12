@@ -1050,6 +1050,37 @@ if (shapeOnly.length) {
   console.log(`    ${shapeOnly.sort().join(', ')}`);
 }
 console.log(`  with measured geometry : ${[...byComponent.keys()].filter(c => geometry.has(c)).length}`);
+// AXIS DISAGREEMENT. A component is one outer box plus three colour slots, and the two
+// halves come from two different extracts — component-variants.tsv for the colour, and
+// component-geometry.tsv for the shape. Nothing has ever checked that the two were captured
+// against the SAME Figma variant axes, and when they were not, both halves are emitted onto
+// one class under selectors no single element can satisfy:
+//
+//   .pf-header[data-breakpoint="Desktop"]                    <- the colour, on an axis Figma
+//   .pf-header[data-theme="Classic"][data-mobile="No"]          replaced; the geometry on the
+//                                                               axes it replaced it WITH
+//
+// A page writes one or the other and silently gets half a component. It renders, so nothing
+// looks wrong. This counts and names them rather than failing, because the fix is a re-capture
+// in Figma and the decision on the header is to leave it for now — but an unnamed one is
+// exactly the "forgotten gap" this repo keeps finding.
+const axisSplit = [];
+for (const [component, rows] of byComponent) {
+  const colourAxes = new Set();
+  for (const r of rows) for (const k of Object.keys(parseVariant(r.variant || ''))) colourAxes.add(k);
+  const geoAxes = new Set();
+  for (const g of geometryByVariant.get(component) || [])
+    for (const k of Object.keys(parseVariant(g.variant || ''))) geoAxes.add(k);
+  if (!colourAxes.size || !geoAxes.size) continue;
+  const shared = [...colourAxes].filter((a) => geoAxes.has(a));
+  if (!shared.length) axisSplit.push({ component, colourAxes: [...colourAxes], geoAxes: [...geoAxes] });
+}
+if (axisSplit.length) {
+  console.log(`  AXIS DISAGREEMENT      : ${axisSplit.length} component(s) whose colour and geometry `
+    + 'were captured against variant axes with nothing in common — no element can carry both');
+  for (const a of axisSplit.sort((x, y) => x.component < y.component ? -1 : 1))
+    console.log(`    ${a.component} — colour on ${a.colourAxes.join(' x ')}, geometry on ${a.geoAxes.join(' x ')}`);
+}
 if (deprecated.size) {
   console.log(`  DEPRECATED classes     : ${deprecated.size} — still shipped, not for new work`);
   for (const [c, d] of [...deprecated].sort())

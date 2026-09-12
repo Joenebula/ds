@@ -536,18 +536,49 @@ of them is a header:
 | `32527:39433` | **not a header at all.** A 60×100 frame named `Header` holding two 20×20 symbols, one of them `14990:11954` — the `Counter` this file spent a section on |
 | `13658:7653` | the id we hold. `get_metadata` refuses it as an invalid node selection, and the listing does not carry it |
 
-**So the header was RE-AUTHORED, and our capture is on an axis Figma no longer has.** We hold three
-variants on a `Breakpoint` axis (Desktop / Tablet / Mobile). Figma has `Theme` × `Mobile`, and
-`Breakpoint` is gone. The desktop bar is still 1830×86 and still renders as the same crimson band —
-which is exactly why nothing looked wrong and a name match went on reporting `Header` unchanged.
+**So the header was RE-AUTHORED**, and the 16 themes are: `Default – Cranberry red`, `Classic`,
+`Dark mode`, `Configr`, `Velvet red`, `Striking red`, `Berry pink`, `Purple orchid`, `Purple iris`,
+`Royal purple`, `Orange flame`, `Cobalt blue`, `Blue lagoon`, `Teal ocean`, `Fern green`,
+`Cool grey`.
 
-The 16 themes: `Default – Cranberry red`, `Classic`, `Dark mode`, `Configr`, `Velvet red`,
-`Striking red`, `Berry pink`, `Purple orchid`, `Purple iris`, `Royal purple`, `Orange flame`,
-`Cobalt blue`, `Blue lagoon`, `Teal ocean`, `Fern green`, `Cool grey`.
+**This section used to continue "and our capture is on an axis Figma no longer has", which is true
+of ONE of the two extracts and false of the other — the same scope error this file catalogues
+everywhere else, made about our own files.** Measured on the tree rather than remembered:
 
-What is left for a person is narrower than "which one": re-capture on `Theme` × `Mobile`, and say
-which theme the shipped class defaults to. Put to the design lead with the evidence rendered, so
-the answer arrives with the numbers beside it rather than from memory.
+| | what it holds | against Figma today |
+|---|---|---|
+| `component-geometry.tsv` | **31 `Header` rows on `Theme` × `Mobile`**, all 16 themes, 1830×86 desktop and 390×62 mobile | **current** |
+| `component-variants.tsv` | **3 rows on `Breakpoint`** (Desktop / Tablet / Mobile), each binding a text colour and nothing else | **stale** |
+
+The re-capture is half done. The shape is on Figma's current axes and has been for some time; it is
+the COLOUR that is still on `Breakpoint`.
+
+**And that is worse than either half being stale, because both halves ship onto one class.**
+`dist/components.css` carries all three of these:
+
+```
+.pf-header[data-breakpoint="Desktop"]                     the colour, on the axis Figma replaced
+.pf-header[data-theme="Classic"][data-mobile="No"]        the geometry, on the axes that replaced it
+.pf-header[data-system="People First"]                    20×20 — the OTHER component, `32527:39433`
+```
+
+**No element can satisfy the first two at once.** A page writing `data-breakpoint` gets a text
+colour and none of the theme geometry; a page writing `data-theme`/`data-mobile` gets the geometry
+and no colour. Neither is empty, so both render and neither looks broken. And the third line makes
+`Header` a THIRD merged class beside `Field` and `People` — the same fault as §"Two class names are
+each doing the work of two components", found by looking at a different file.
+
+Checked rather than assumed: this does **not** collide with dark mode. `dist/tokens.css` scopes the
+mode to `:root[data-theme="dark"]`, so a `data-theme="Classic"` on a header cannot reach it.
+
+`build-components-css.mjs` now reports **AXIS DISAGREEMENT** — any component whose colour rows and
+geometry rows were captured against variant axes with nothing in common — counted and named on
+every run. `Header` is the only one in the system, which is the reassuring half of the finding.
+
+**Decided 2026-09-12: LEAVE IT, until the themes are settled.** The class keeps working, the debt is
+recorded here and named by the build on every run. What a re-capture would need is unchanged:
+`component-variants.tsv` re-read on `Theme` × `Mobile` from `32488:24634`, and a person saying which
+of the 16 themes the bare class defaults to.
 
 **Has Figma changed since we last looked?** One call, on demand:
 
@@ -1877,26 +1908,30 @@ whichever height it was handed. It reads `prototypes/<screen>.figma.xml`, the ra
 saved beside the extract. Fix the frame in Figma, or declare the decision in the extract's
 `sourceClips` with a reason.
 
-**It has never run**, because no screen has that file — see the four inert axes above. Saving one
-`get_metadata` per screen is what switches this axis, `frame`, `content`, `images` and the
-viewport declaration on together; it is a Figma read per screen and a deliberate job, not a
-side effect of the next change.
+**It runs on exactly one screen**, `working/button`, whose extract landed on 2026-09-12 — see
+*What decision 4 actually found* below. The other four screens have no `.figma.xml` and, it turns
+out, no design to make one from.
 
 A `--` is a check that measured nothing. It is not a pass.
 
-**And four of the thirteen have never measured anything, on any screen.** `frame`, `content` and
-`source` need a saved Figma extract beside the screen — `<screen>.figma.json` for the first two,
-`<screen>.figma.xml` for `source` — and **no screen in this repo has either file**. They report
-`--` honestly and the suite tallies them, so nothing lied; but this file described them as working
-safety nets, which is the half that was wrong. 20 of the 22 unmeasured checks are those four axes
-across all five screens.
+**Four of the thirteen had never measured anything, on any screen, and three of them do now.**
+`frame`, `content` and `source` need a saved Figma extract beside the screen —
+`<screen>.figma.json` for the first two, `<screen>.figma.xml` for `source` — and for the whole life
+of this project **no screen had either file**. They reported `--` honestly and the suite tallied
+them, so nothing lied; but this file described them as working safety nets, which is the half that
+was wrong.
+
+`working/button` has both files as of 2026-09-12, so the count is **19**, not 22, and those three
+axes read *"4 of 5"* rather than *"EVERY one, so this axis has never run"*. `images` is still at 5
+of 5 — see below.
 
 **`images` is the fourth and it is vacuous for a different reason, which is worth separating.** It
 takes EITHER input: an `images` block in the extract, or any element on the page carrying
 `data-avatar`. `case-mgmt-my-team` renders **eighteen** avatars and tags none, so the axis reports
 *"nothing claims a picture"* on a screen full of them. And the gap it would have caught is one the
 screen's own header already admits: six of the eighteen people have a photograph in the design and
-all eighteen render the default avatar, because that file's frames cannot be reached from here.
+all eighteen render the default avatar, because that file's frames cannot be reached from here
+(**re-tested 2026-09-12 and the diagnosis is sharper than "cannot be reached"** — see below).
 That is exactly *a placeholder quietly becoming the finished thing*, written down by hand in a
 comment because the check that exists to count it could not see it.
 
@@ -1958,6 +1993,81 @@ run is worse than no net**, because it is the one people stop checking for by ha
 `node scripts/screenshot-screen.mjs <screen.html>`, which refuses to write a PNG if the page
 is not rendering in Open Sans. A screenshot in the wrong typeface is worse than none: it is
 false evidence, and it is what this project shipped for months.
+
+### What decision 4 actually found
+
+The design lead answered *"yes — save a snapshot for every screen"* on 2026-09-12. Doing it
+produced a better answer than the question had allowed for: **four of the five screens have no
+design to snapshot.**
+
+| screen | its design | |
+|---|---|---|
+| `working/button` | `aRWjBnTvdLiG50xtwodGwH` `10730:115188` | **read, saved, done** |
+| `working/case-mgmt-my-team` | `kuX4KDIN0u4axsKTELYlzW` `17708:13612` | **not in the file** |
+| the three `prototypes/` | — | **no Figma design at all**, and never had one |
+
+The prototypes are the easy half: they are hand-built fixtures, and no node id for them exists in
+this repo, in the handoff docs, or in any commit that introduced them. There is nothing to read.
+Those three axes can never run there, and that is a fact about the fixtures rather than a gap.
+
+**The Case Management file was re-tested rather than trusted, and "cannot be reached from here" is
+not what is happening.** The file OPENS. `get_metadata` with no node returns its page list, which is
+exactly one page: `Thumbnail` (`55:11318`), holding one 1920×1080 thumbnail instance. `17708:13612`
+comes back *"node ID was not found in the file"*. So it is not egress, and it is not a frame that
+moved — the reachable copy under that key holds **no design at all**. That distinction matters for
+the same reason every other one in this file does: an egress wall is worth re-testing later, and an
+empty file is worth asking a person about.
+
+**`working/button.figma.json` and `.figma.xml` are the first screen extract this repo has ever
+had**, and two faults surfaced the moment the axes had something real to measure. Both would have
+made the first genuine extract look like the thing that was wrong.
+
+**Radius was compared as DECLARED, where what matters is what it PAINTS.** Figma says 20 on a 32px
+button; the generator emits `999` on purpose, because a radius at or past half the height IS a pill.
+CSS clamps every corner by `min(1, w/2r, h/2r)`, so both paint at 16 — identical pixels, two
+different computed strings. `verify-frame` compares the clamped value now, which leaves a real
+drift untouched: 40 against Figma's 10 on a 74px card is still 37 against 10, and still fails. Left
+as it was, the axis would have reported a difference that does not exist on every pill in the
+system, which is how a check becomes one people read past.
+
+**A label beside an icon was invisible to `verify-content`.** The walk took leaf nodes only — an
+ancestor would otherwise report its children's words as its own — so `<button><svg/>Action</button>`
+was skipped whole, and the design string "Action" came back MISSING from a page that plainly renders
+it. The mirror is the worse half: an INVENTED string in that position could never have been seen at
+all. It takes each element's own direct text nodes now, which cannot double-count either, because a
+text node belongs to exactly one element.
+
+**And that fix was living somewhere no test could reach it.** It was an anonymous callback inside
+`page.evaluate`, so the one piece of that check which decides *what counts as text* was the one
+piece every fixture-driven case went around. It is a named `collectText()` now, with eight cases run
+in a real browser; restoring the leaf-only rule kills three of them by MISS.
+
+### The other three decisions of 2026-09-12
+
+The design lead answered four of the five open questions on the published decisions page. Two were
+*leave*, one was *keep both*, and each is recorded where a reader will meet it rather than only
+here.
+
+- **The header — LEAVE.** Written up in full under *What the 2026-09-12 merge corrected*, including
+  the finding that cost the question its framing: the geometry is already on Figma's current axes
+  and only the colour is stale, and both halves ship onto one class. Named by the build as AXIS
+  DISAGREEMENT on every run.
+- **The side-nav tab — KEEP BOTH, old one deprecated.** `tokens/_raw/deprecated-classes.tsv`, read
+  by `scripts/lib/deprecated-classes.mjs` and written into three places a page author actually
+  looks: the class's own comment block in `dist/components.css`, a DEPRECATED flag on its heading in
+  `docs/components.html`, and the same notice in `.claude/skills/people-first/references/variants.md`, which the
+  skill quotes as fact. A page author reads one
+  of those three and never all of them, so a deprecation in only one is a deprecation half the
+  readers never see. The build FAILS on a row naming a component with no rules, or a `supersededBy`
+  with no rules — a notice pointing at a class that does not exist is worse than no notice.
+- **The six untagged avatars — LEAVE.** The screen keeps its eighteen default avatars and the six
+  missing photographs stay uncounted. This was answered on the understanding that tagging them
+  changes nothing visible, which is true — `build-placeholders.mjs` marks a person slot without
+  repainting it — so the decision is about whether the screen should show its gaps, not about how it
+  looks. Nothing changes in the repo; `images` stays vacuous on 5 of 5 screens and stays named as
+  such on every run.
+
+The fifth, the two merged class names, is still open.
 
 ### The suite runs against `working/` too, and that is the direction that matters
 
