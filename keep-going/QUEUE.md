@@ -1819,3 +1819,47 @@ and re-extracting, not editing this repo. In rough order of visible impact:
 Skills are synced when the session container starts. This one carries the **8 September** copy
 of `keep-going`; the user reported editing it and the change never arrived. A new session
 re-runs the sync.
+
+---
+
+## Reopened after the close — the degenerate-sample family
+
+### P19. Three faults found by looking at a screen — DONE
+
+The close button, the side-panel footer and the progress column, all reported by the design
+owner from a screenshot. `payroll-run-summary` hand-wrote `.sp-head`/`.sp-foot` with **no CSS at
+all** and uses `pf-side-panel-header`/`pf-sticky-footer` now; both footers moved from the
+`Stepper` variant (space-between, for Back/Next) to `Default`; the Stage progress column is sized
+to its content instead of taking the table's surplus.
+
+**Worth knowing:** a hand-written component with NO styles is the one kind `check-off-system`
+cannot see, because there is no property to catch overriding a component. The page scored 163
+throughout with a broken header.
+
+### P20. A packing no child can evidence is not a packing — DONE
+
+`Table progress bar`'s fill was centred inside its own track; at 15% a blue blob in the middle.
+Figma draws the component at one state, `Completion=0%`, where the fill measures `0x14` — and a
+zero-width child renders identically centred or start-packed, so Figma's CENTER is unfalsifiable.
+Five frames across the file are in that position; four hold a zero-height divider where the
+change cannot be seen.
+
+### P21. Two more from the same sample — DONE
+
+Found by pasting the fixed template and looking at it.
+
+- **A frame whose only child measures zero cannot hug it.** `Bar` is 208x14 in Figma and rendered
+  **2x16** — an invisible track for anyone who pasted it. 8 frames state their measured size now.
+- **A space-between frame that hugs distributes nothing.** 27 across the templates, none stating
+  a width, so space-between was flex-start everywhere. 37 of 46 are exactly their parent's content
+  width, so `width: 100%` is a measurement; the other 9 take their px.
+- The leaf-sizing branch could not tell "no useful width" from "measured zero", so a 0% fill
+  stretched to 100%.
+
+**Done when:** met. Three readings live in `hugs.mjs`, shared with `check-templates`; the
+generator marks every frame it repacked or sized, because the value is a READING and whoever
+pastes it must see that. All three assertions were broken on purpose.
+
+**Note for next time:** the two new checks assert FROM THE FILE, not from the reading. A first
+version asked "the reading names this frame, so the template must mark it" and reported three
+templates that were right — the reading names frames a template legitimately does not contain.
