@@ -2,9 +2,9 @@
      The outer element is the component's own class; everything inside is its Figma
      child tree. Do not hand-edit: regenerate with npm run build. -->
 <div class="pf-notification-panel">
-  <div class="pf-side-panel-header" data-size="Default">Side panel header</div>
+  <div class="pf-side-panel-header" data-size="Default" style="width:100%;box-sizing:border-box">Side panel header</div><!-- sized as Figma draws it HERE: Side panel header is 1500x60 inside Notification panel, not the Side panel header artboard its class states. -->
   <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start">
     <div class="pf-notification-categories" data-mobile="No">Notification categories</div>
-    <div class="pf-notification-list" data-mobile="No">Notification list</div>
+    <div class="pf-notification-list" data-mobile="No" style="width:1200px;box-sizing:border-box"></div><!-- sized as Figma draws it HERE: Notification list is 1200x1020 inside Notification panel, not the Notification list artboard its class states. --><!-- Notification list -->
   </div>
 </div>

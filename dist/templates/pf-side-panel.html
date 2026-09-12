@@ -2,7 +2,7 @@
      The outer element is the component's own class; everything inside is its Figma
      child tree. Do not hand-edit: regenerate with npm run build. -->
 <div class="pf-side-panel">
-  <div class="pf-side-panel-header" data-size="Default">Side panel header</div>
+  <div class="pf-side-panel-header" data-size="Default" style="width:100%;box-sizing:border-box">Side panel header</div><!-- sized as Figma draws it HERE: Side panel header is 375x60 inside Side panel, not the Side panel header artboard its class states. -->
   <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:25px;padding:10px 10px 10px 10px"><!-- SLOT: Figma marks this as where the component's content goes. --></div>
-  <div class="pf-sticky-footer" data-default="Default">Sticky footer</div>
+  <div class="pf-sticky-footer" data-default="Default" style="width:100%;box-sizing:border-box">Sticky footer</div><!-- sized as Figma draws it HERE: Sticky footer is 375x52 inside Side panel, not the Sticky footer artboard its class states. -->
 </div>

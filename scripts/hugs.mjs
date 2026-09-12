@@ -295,3 +295,85 @@ export function spaceBetweenWidth() {
   }
   return out;
 }
+
+
+// A NESTED INSTANCE IS DRAWN AT A SIZE, AND THE BARE CLASS IS THE ARTBOARD.
+//
+// Reported by looking at two templates that render an obviously wrong shape. `Notification
+// image` is a 44x91 component holding ONE child — an instance of `People` — and Figma draws
+// that instance at **44x44**. The template writes `<div class="pf-people">`, and `.pf-people`
+// carries `width: 91px; height: 91px`, which is `People`'s OWN artboard. So the child rendered
+// 91 wide inside a 44-wide box and hung 47px out of it. `Multiselect tag` draws the same
+// component at 24x24 inside a 24px-tall tag, and got the same 91x91.
+//
+// Same shape as every other fault in this file: the measurement exists in the tree and the
+// generator had nowhere to put it. The tree records each INSTANCE's size AS DRAWN IN THIS
+// PARENT, which is a more specific fact than the component's own artboard — for this template.
+// 262 instances are drawn at a size their class does not state.
+//
+// Three guards, and each removes a different way of being wrong:
+//
+//   1. **A hugging component is never sized.** If the main component hugs on that axis its size
+//      is whatever its contents came to, and stating the drawn number freezes somebody else's
+//      label — the exact mistake the hug work exists to undo. `Button` is `auto x 32` and is
+//      drawn at 107, 84, 83, 81, 215 in five different parents; not one of those is a rule.
+//      This drops the axis, not the node, so `Button`'s height is still stated when it differs.
+//   2. **Both values must be definite.** `auto` on either side is not a disagreement.
+//   3. **A width that equals the parent's content box is a STRETCH, not a width.** Measured,
+//      **81 of the 177** differing widths are exactly their parent's inner width — `Form`'s
+//      three fields are all 335 inside a 335 content box — and freezing that as px would stop
+//      the row being fluid on a real page. Those emit `align-self: stretch`; the other **96**
+//      are genuinely narrower or wider and take their px. Same distinction `spaceBetweenWidth`
+//      makes, and it is a reading in both directions rather than a preference. The generator
+//      writes it as `width: 100%` and NOT `align-self: stretch` — stretch is a cross-axis rule
+//      and loses to the class's own `width`, so the first version left `Notification image`
+//      rendering 91 wide inside 44 while looking as though it had been fixed.
+//
+// Heights need no such split: a cross-axis stretch is `align-items`, which the parent already
+// states, so a differing height here is always a definite one. **48 of them.**
+//
+// Returns `component|path` -> { w: 'NNNpx' | 'stretch' | undefined, h: 'NNNpx' | undefined }.
+export function instanceSize() {
+  const lines = readFileSync('tokens/_raw/component-tree.tsv', 'utf8').trim().split('\n').slice(1);
+  const byComp = new Map(); const ownSize = new Map();
+  for (const line of lines) {
+    const c = line.split('\t');
+    if (!byComp.has(c[0])) byComp.set(c[0], new Map());
+    byComp.get(c[0]).set(c[1], c);
+    if (c[1] === '') ownSize.set(c[0], c[7]);
+  }
+  const dim = (v, i) => {
+    const m = /^(auto|[\d.]+)\s*x\s*(auto|[\d.]+)$/.exec((v || '').trim());
+    return (!m || m[i] === 'auto') ? null : +m[i];
+  };
+  const hv = hugs('v'), hh = hugs('h');
+  const out = new Map();
+  for (const [comp, nodes] of byComp) {
+    for (const [path, n] of nodes) {
+      if (n[2] !== 'INSTANCE' || !path) continue;
+      // THE MAIN COMPONENT'S NAME, NOT THE INSTANCE'S — the same rule the generator follows,
+      // because an instance can be renamed in Figma and two of them are.
+      const main = n[4] || n[3];
+      const own = ownSize.get(main);
+      if (own === undefined) continue;
+      const got = {};
+      if (!hh.has(main)) {
+        const a = dim(n[7], 1), b = dim(own, 1);
+        if (a !== null && b !== null && Math.abs(a - b) > 0.5) {
+          const parent = nodes.get(path.includes('.') ? path.slice(0, path.lastIndexOf('.')) : '');
+          const pw = parent ? dim(parent[7], 1) : null;
+          const pad = ((parent || [])[9] || '0').trim().split(/\s+/).map(Number);
+          const at = i => pad[i] ?? pad[i - 2] ?? pad[0] ?? 0;
+          const inner = pw === null ? null : pw - ((pad.length >= 4 ? pad[3] : at(1)) + at(1));
+          got.w = (inner !== null && Math.abs(a - inner) <= 1) ? 'stretch' : `${a}px`;
+        }
+      }
+      if (!hv.has(main)) {
+        const a = dim(n[7], 2), b = dim(own, 2);
+        if (a !== null && b !== null && Math.abs(a - b) > 0.5) got.h = `${a}px`;
+      }
+      if (got.w || got.h) out.set(`${comp}|${path}`, got);
+    }
+  }
+  return out;
+}

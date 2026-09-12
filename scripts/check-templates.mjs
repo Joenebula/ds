@@ -362,5 +362,51 @@ if (!strokeFrames) {
   failures++;
 }
 
+// A NESTED INSTANCE IS DRAWN AT A SIZE, AND THE BARE CLASS IS THE ARTBOARD.
+//
+// `Notification image` is 44x91 holding ONE `People`, which Figma draws at 44x44 — and
+// `.pf-people` carries `width: 91px; height: 91px`, that component's own artboard. So the
+// child rendered 91 wide inside a 44-wide box and hung 47px out of it. `Multiselect tag`
+// draws the same component at 24x24 and got the same 91x91. 188 instances across the
+// library are drawn at a size their class does not state.
+//
+// Asserted FROM THE FILE, both directions, for the reason the space-between assertion is:
+// the reading names `component|path` pairs a template legitimately may not contain — a run
+// the walk collapsed, a node past the depth limit — so "the reading names it, therefore the
+// file must carry it" reports templates that are right. What holds file-locally is the pair:
+// a marked element must state a size, and a sized one must be marked. An unexplained number
+// in a template is exactly what this project keeps finding.
+let sized = 0;
+for (const f of readdirSync('dist/templates').filter(f => f.endsWith('.html'))) {
+  const html = readFileSync(`dist/templates/${f}`, 'utf8');
+  // The instance element comes two ways — an empty box where the component is type-less or
+  // too small for its own name, and one holding that name otherwise — so the content is
+  // matched rather than assumed empty. The first version required `></div>` and saw 39 of
+  // the 187, which is the shape of a check that passes by looking at less.
+  for (const m of html.matchAll(/<div class="pf-[^"]*"([^>]*)>[^<]*<\/div>((?:<!--[^>]*-->)*)/g)) {
+    const style = (/ style="([^"]*)"/.exec(m[1]) || [, ''])[1], notes = m[2] || '';
+    const states = /(?:^|;)(?:width|height):/.test(style);
+    const marked = /sized as Figma draws it HERE/.test(notes);
+    if (marked) sized++;
+    if (marked && !states) {
+      failures++;
+      console.error(`FAIL dist/templates/${f} marks an instance as sized where Figma draws it `
+        + `and states no size`);
+    }
+    if (states && !marked) {
+      failures++;
+      console.error(`FAIL dist/templates/${f} states a size on a library class without saying `
+        + `why — a class already carries its own artboard, so a number that overrides it is a `
+        + `READING of this parent and whoever pastes it has to see that: ${style}`);
+    }
+  }
+}
+console.log(`  ${sized} nested instance(s) are sized as Figma draws them HERE rather than at the `
+  + `artboard their own class states, and each says so`);
+if (!sized) {
+  console.error('FAIL no instance is sized where Figma draws it, so this checked nothing');
+  failures++;
+}
+
 
 process.exit(failures ? 1 : 0);

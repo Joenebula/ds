@@ -424,7 +424,7 @@ Figma clips the contents of **34 of the 62 components** on Cards and panels, 22 
 a corner radius, and `dist/components.css` sets `overflow` once. After the border and the
 shadow this looked like the obvious next thing to carry, and it is the one that must not be.
 
-The measurement that settled it: **19 of the 154 templates already render outside the box
+The measurement that settled it: **15 of the 154 templates already render outside the box
 their own class draws** — `pf-hemisphere-chart` by 333px, `pf-donut-pie-chart` by 284px,
 `pf-content` by 180px. `overflow: hidden` would not have reproduced the design on those; it
 would have deleted part of the component's own generated contents from view. And nothing
@@ -438,7 +438,7 @@ the component at, and a template holds placeholder contents of their own size; t
 never promised to agree.
 
 `npm run verify` runs `check-template-overflow.mjs`, which reports and pins the count **and
-the magnitude — 854px of overflow in total**. How many is not how much: placing
+the magnitude — 756px of overflow in total**. How many is not how much: placing
 `Hemisphere chart`'s children at Figma's own offsets took it from 333px to 77px, a large
 real improvement the count alone could not see, because it still overflows by something.
 Both numbers are the precondition: **clipping can only ever be carried once they reach
@@ -447,7 +447,7 @@ zero.**
 **And both are measured at two widths now.** They were desktop-only for as long as a class was
 the same size at every width; making components follow the viewport ended that, and the pinned
 pair described half the library. A class box shrinks to its mobile artboard while the template's
-placeholder contents do not, so at 390px it is **23 templates and 1212px**. Four templates
+placeholder contents do not, so at 390px it is **20 templates and 1063px**. Four templates
 overflow *only* once the class shrinks — `pf-navigation-tabs`, `pf-search-navigation`,
 `pf-table-ag` — and no check could see them. A precondition checked at one width is not checked.
 
@@ -479,6 +479,59 @@ deliberate exception `check-space-between-gap` makes: the fault is a declaration
 be written, and rendered it is two pixels no assertion about a single frame would think to ask
 about. This is about the template's own child frames only — a component CLASS's border is
 measured per edge and per width in `components.css` and is a real border, with its own check.
+
+### A nested instance is drawn at a size, and the bare class is the artboard
+
+`Notification image` is a 44x91 component holding ONE child — an instance of `People` — and
+Figma draws that instance at **44x44**. The template writes `<div class="pf-people">`, and
+`.pf-people` states `width: 91px; height: 91px`, which is `People`'s OWN artboard. So the child
+rendered 91 wide inside a 44-wide box and hung **47px** out of it. `Multiselect tag` draws the
+same component at 24x24 inside a 24px-tall tag and got the same 91x91.
+
+Same shape as the rest of this file: the measurement is in `component-tree.tsv` — each INSTANCE
+carries its size **as drawn in this parent** — and the generator had nowhere to put it. **262
+instances are drawn at a size their class does not state.** Three guards cut that to the 188
+that are facts:
+
+- **A hugging component is never sized.** If it hugs on that axis its size is whatever its
+  contents came to, and stating the drawn number freezes somebody else's label — the exact
+  mistake the hug work exists to undo. `Button` is `auto x 32` and is drawn at 107, 84, 83, 81
+  and 215 in five parents; not one is a rule. The guard drops the AXIS, not the node, so
+  `Button`'s height is still stated where it differs.
+- **Both values must be definite.** `auto` on either side is not a disagreement.
+- **A width equal to the parent's content box is a STRETCH, not a width.** **81 of the 177**
+  differing widths are exactly their parent's inner width — `Form`'s three fields are all 335
+  inside a 335 content box — and a px there would stop the row being fluid on a real page. Those
+  emit `width: 100%`; the other **96** take their px. Heights need no such split: a cross-axis
+  stretch is `align-items`, which the parent already states, so a differing height is always a
+  definite one — **48 of them**.
+
+**`align-self: stretch` is not the CSS for it.** Stretch is a cross-axis rule and loses outright
+to the class's own `width`, so the first version emitted it and `Notification image`'s child went
+on rendering 91 wide inside 44 — fixed-looking and unchanged. `width: 100%` says the thing the
+reading actually says, and is what `spaceBetweenWidth` already emits for the same reading.
+
+**Stating a width takes the placeholder label with it**, and that cost two wrong answers. The
+name inside an instance only ever fitted because the box GREW to hold it — most classes state no
+width, so whatever the name rendered at *was* the box. Pin the width and it spills: six pairs of
+"Navigation item" printed over each other on `docs/templates.html` out of 58px boxes inside
+`Mobile bottom navigation`, the third time a label invented for a box too small to hold it has
+been the cause. The reading is not how wide the box is — the generator cannot know how wide a
+string renders — it is that **a stated width means the box is no longer sizing to its contents at
+all**, so no placeholder can be assumed to fit, whatever the number. Narrowing it to "smaller
+than the component's own artboard" left `Data variance` printing over "More details", pinned at
+61 inside `Metric card` and wider than its own box. A `100%` width is not in this position and
+keeps its label.
+
+Template overflow fell at both widths again: **854 to 756 desktop, 1212 to 1063 mobile**.
+
+`npm run verify` asserts it in `check-templates.mjs`, **file-locally and both ways** — a marked
+element must state a size, and a sized one must be marked. The reading names `component|path`
+pairs a template legitimately may not contain, so "the reading names it, therefore the file must
+carry it" reports templates that are right; that mistake is written up under the space-between
+assertion and was not repeated. **187 instances** carry the mark, which says in the markup that
+the number is how big Figma draws it HERE rather than the component's own size — whoever pastes
+it has to see that, for the same reason the repacked and self-sized frames say so.
 
 ## Hug: a height that is the sum of the contents is not a rule
 

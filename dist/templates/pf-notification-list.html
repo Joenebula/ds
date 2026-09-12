@@ -5,18 +5,18 @@
   <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start">
     <div style="width:100%;box-sizing:border-box;display:flex;flex-direction:row;align-items:center;justify-content:space-between;padding:20px 20px 0px 40px"><!-- states its width: space-between distributes the SLACK, and a frame sized to its content has none. -->
       <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
-        <div class="pf-control" data-radio="No"></div><!-- Control -->
+        <div class="pf-control" data-radio="No" style="width:23px;height:23px;box-sizing:border-box"></div><!-- sized as Figma draws it HERE: Control is 23x23 inside Notification list, not the Control artboard its class states. --><!-- Control -->
         <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:5px">
           <span class="pf-text-body-text" style="color:var(--pf-text-primary)">Select all</span>
           <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:10px"><!-- 1 child here in Figma that this walk did not reach (depth limit). Not an empty container — open the component in Figma before filling it. --></div>
         </div>
         <!--pf-icon:tooltip-question-->
       </div>
-      <div class="pf-button" data-type="Filter" data-state="Default" data-label="Yes">Button</div>
+      <div class="pf-button" data-type="Filter" data-state="Default" data-label="Yes" style="width:89px;box-sizing:border-box"></div><!-- sized as Figma draws it HERE: Button is 89x32 inside Notification list, not the Button artboard its class states. --><!-- Button -->
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:15px;padding:20px 20px 20px 20px"><!-- SLOT: Figma marks this as where the component's content goes. -->
-      <div class="pf-notification-card" data-mobile="No">Notification card</div>
-      <div class="pf-notification-card" data-mobile="No">Notification card</div>
+      <div class="pf-notification-card" data-mobile="No" style="width:100%;box-sizing:border-box">Notification card</div><!-- sized as Figma draws it HERE: Notification card is 1077x117 inside Notification list, not the Notification card artboard its class states. -->
+      <div class="pf-notification-card" data-mobile="No" style="width:100%;box-sizing:border-box">Notification card</div><!-- sized as Figma draws it HERE: Notification card is 1077x117 inside Notification list, not the Notification card artboard its class states. -->
     </div>
   </div>
 </div>

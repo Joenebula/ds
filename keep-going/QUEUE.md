@@ -1863,3 +1863,30 @@ pastes it must see that. All three assertions were broken on purpose.
 **Note for next time:** the two new checks assert FROM THE FILE, not from the reading. A first
 version asked "the reading names this frame, so the template must mark it" and reported three
 templates that were right — the reading names frames a template legitimately does not contain.
+
+### P22. A Figma stroke takes no space, and a CSS border does — DONE
+
+Reported by looking at the two progress-bar templates side by side: *"Can we make them the same
+height use the bottom as the fuide"*. Figma draws both `Bar` frames at 14px. `Percentage bar`'s
+track rendered 14 and `Table progress bar`'s rendered **16**, and the only difference between
+them is that one binds a stroke.
+
+Figma's width and height ARE the frame box and a stroke is painted inside it; CSS adds a border
+to the box. **25 frames across 17 templates** were each 2px taller and wider than Figma measured
+them — too small to see until two of them are put side by side, which is how it was found. An
+inset box-shadow paints the same line in the same place and takes no layout space.
+
+Template overflow fell at **both** widths — 866→854 desktop, 1224→1212 mobile — and the baselines
+are lowered. `recruitment-pipeline` had pasted the bordered track eight times and uses the inset
+form now; all eight measure 14.
+
+**Worth knowing:** stating the measured height instead was tried and reverted. It takes the
+desktop number down (866→851) and puts the mobile one UP (1224→1262), because a stated height
+cannot reflow when the class shrinks. A fix that improves the number you are looking at and
+worsens the one you are not is not a fix — which is exactly why that pair is measured at two
+widths.
+
+The assertion is textual, the same deliberate exception `check-space-between-gap` makes: the
+fault is a declaration that must never be written, and rendered it is two pixels no assertion
+about a single frame would think to ask about. It is scoped to TEMPLATE frames — a component
+class's border is measured per edge and per width in `components.css` and is a real border.

@@ -29,7 +29,8 @@
 // unbound paint.
 import { unfalsifiablePacking as unfalsifiablePackingSet,
          collapsesOnZeroChild as collapsesOnZeroChildMap,
-         spaceBetweenWidth as spaceBetweenWidthMap } from './hugs.mjs';
+         spaceBetweenWidth as spaceBetweenWidthMap,
+         instanceSize as instanceSizeMap } from './hugs.mjs';
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync, existsSync } from 'node:fs';
 import { buildResolver } from './resolve-component-type.mjs';
 import { PRIMITIVE_ALIAS } from './primitive-alias.mjs';
@@ -141,6 +142,10 @@ const packNotes = new Set();
 const collapsesOnZeroChild = collapsesOnZeroChildMap();
 const sizeNotes = new Set();
 const spaceBetweenWidth = spaceBetweenWidthMap();
+// A NESTED INSTANCE IS DRAWN AT A SIZE, AND THE BARE CLASS IS THE ARTBOARD. `Notification
+// image` is 44x91 holding one `People` that Figma draws at 44x44; `.pf-people` states 91x91,
+// so it hung 47px out of its own parent. See hugs.mjs for the three guards.
+const instanceSize = instanceSizeMap();
 const slackNotes = new Set();
 const SLACK_NOTE = "<!-- states its width: space-between distributes the SLACK, and a frame sized to its content has none. -->";
 const SIZE_NOTE = "<!-- states its own size: Figma draws its only child at zero on this axis, so there is nothing here to hug. -->";
@@ -404,7 +409,37 @@ function render(component, rows, path, depth) {
       // the class paints the box and the name goes in a comment instead.
       const [iw] = (row.size || '').split('x').map(Number);
       const iabs = absStyle(component, row.path);
-      const istyle = iabs ? ` style="${iabs}"` : '';
+      // THE SIZE FIGMA DRAWS THIS INSTANCE AT, where that is not the size its own class
+      // states. A class carries the component's ARTBOARD — `.pf-people` is 91x91 — and an
+      // instance of it inside a 44x91 `Notification image` is drawn at 44x44, so the bare
+      // class hung 47px out of its parent. The reading and its three guards are in hugs.mjs;
+      // `stretch` is a width that equals the parent's content box, which is a stretch rather
+      // than a width and must stay fluid. Mixed in with any measured absolute placement,
+      // which is why it joins `iabs` rather than replacing it.
+      const isz = instanceSize.get(`${component}|${row.path}`);
+      const ibits = [];
+      if (iabs) ibits.push(iabs);
+      // `100%`, NOT `align-self: stretch`. Stretch is a cross-axis rule, and it loses outright
+      // to the class's own `width` — `.pf-people` states 91px, so the first version of this
+      // emitted stretch on `Notification image` and the child went on rendering 91 wide inside
+      // 44. The reading is "it fills its parent's content box on the inline axis", and the CSS
+      // that says exactly that is `width: 100%`, which is what `spaceBetweenWidth` already emits
+      // for the same reading.
+      if (isz && isz.w === 'stretch') ibits.push('width:100%');
+      else if (isz && isz.w) ibits.push(`width:${isz.w}`);
+      if (isz && isz.h) ibits.push(`height:${isz.h}`);
+      // BOX-SIZING WHEREVER A MEASURED SIZE IS STATED — Figma's numbers include the frame's
+      // padding and CSS's do not, the same reason the placement branch sets it.
+      if (isz) ibits.push('box-sizing:border-box');
+      const istyle = ibits.length ? ` style="${ibits.join(';')}"` : '';
+      // THE SIZE IS A READING, SO IT IS MARKED. Whoever pastes this has to know the number is
+      // how big Figma draws this instance HERE — not the component's own size, which is what
+      // the class states — because on a real page with real content it may be the wrong one to
+      // keep. Same reason the repacked and self-sized frames carry a note, and the marker is
+      // what lets check-templates assert the two directions file-locally.
+      const inote = isz ? `<!-- sized as Figma draws it HERE: ${source} is `
+        + `${(row.size || '').trim()} inside ${esc(component)}, not the `
+        + `${esc(source)} artboard its class states. -->` : '';
       //
       // THE 44px LINE WAS A THRESHOLD STANDING IN FOR A READING, and `Circle icons` is exactly
       // 44 — so it kept its label and rendered the words "Circle icons" out of a 44px circle
@@ -416,9 +451,30 @@ function render(component, rows, path, depth) {
       // The reading is the geometry's `font` column. The size rule stays as well, because it
       // answers a different question — a TYPED component can still be too small for its own
       // name — and the two together are what the comment below describes.
-      if (typeless.has(source) || (Number.isFinite(iw) && iw > 0 && iw < 44))
-        return `${pad}<div class="${c}"${attrs}${istyle}></div><!-- ${esc(source)} -->`;
-      return `${pad}<div class="${c}"${attrs}${istyle}>${esc(source)}</div>`;
+      // AND NOT INTO A BOX THAT NO LONGER SIZES TO IT. The placeholder only ever fitted
+      // because the box grew to hold it: a bare class states no width on most components, so
+      // whatever the name rendered at WAS the box. Stating the width Figma draws here removes
+      // that, and the label spills. Measured the moment the sizing landed: six pairs of
+      // "Navigation item" printed over each other on docs/templates.html, out of 58px boxes
+      // inside `Mobile bottom navigation`.
+      //
+      // This is the third time a label invented for a box too small to hold it has been the
+      // cause, and the first two were cleared by replacing a threshold with a reading. The
+      // reading here is not how wide the box is — the generator cannot know how wide a string
+      // renders, which is why `check-docs-specimens` measures that in a browser instead. It is
+      // that a stated width means the box is no longer sizing to its contents AT ALL, so no
+      // placeholder can be assumed to fit, whatever the number.
+      //
+      // A stretched width is not in this position: `100%` still grows with its parent. Two
+      // narrower readings were tried and both left a real overlap standing — "narrower than
+      // the component's own artboard" let `Data variance` through, pinned at 61 inside
+      // `Metric card` and WIDER than its own box, still printing over "More details"; and the
+      // version before that compared the drawn width against itself, which is false
+      // everywhere while looking right.
+      const shrunk = !!(isz && typeof isz.w === 'string' && isz.w.endsWith('px'));
+      if (typeless.has(source) || shrunk || (Number.isFinite(iw) && iw > 0 && iw < 44))
+        return `${pad}<div class="${c}"${attrs}${istyle}></div>${inote}<!-- ${esc(source)} -->`;
+      return `${pad}<div class="${c}"${attrs}${istyle}>${esc(source)}</div>${inote}`;
     }
     const icon = iconFor(source);
     if (icon) {
