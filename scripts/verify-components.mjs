@@ -7,7 +7,7 @@
 //
 // verify-geometry.mjs does this for a single page. This does it for the whole library,
 // which is what you need once screens are built from classes rather than hand-written CSS.
-import { hugsVertically } from './hugs-vertically.mjs';
+import { hugsVertically } from './hugs.mjs';
 import { readFileSync, writeFileSync, unlinkSync } from 'node:fs';
 import { chromium } from 'playwright-core';
 

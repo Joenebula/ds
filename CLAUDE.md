@@ -408,7 +408,7 @@ CSS to fight it.
 
 **Hug is recoverable without a new extract.** On a VERTICAL auto-layout frame the height is the
 primary axis, so a hugging frame's height equals padding + children + gaps EXACTLY. Recomputed
-in `scripts/hugs-vertically.mjs` from the raw tree and geometry: **43 components come out on
+in `scripts/hugs.mjs` from the raw tree and geometry: **43 components come out on
 the nose** and state no height at all. `.pf-card` holding a label, a number and a caption now
 renders **157px instead of 358**.
 
@@ -429,7 +429,20 @@ Three guards, each of which earned its place:
   asserts the negative instead: a hugging class must state no height of its own, which is what
   lets the content decide.
 
-`hugs-vertically.mjs` is shared by the generator and the checker on purpose. It reads the RAW
+**The width has the same question, and it is the one the checker gave up on.**
+`verify-against-figma.mjs` says so in a comment: *"Width is deliberately NOT compared: a Figma
+frame may hug or be fixed, and the extract"* does not say which. It reads the same way — on a
+HORIZONTAL frame the width is the primary axis, so a hugging frame's width is padding +
+children + gaps. **35 components hug horizontally.**
+
+The stylesheet drops any width above 120px as "the artboard, not a rule". Measured, that guess
+is **right by accident for 31** of those and **wrong for 24** that are genuinely fixed — and
+below the line it pins **four that hug**: `Links` is a text link frozen at the 58px its old
+label came to, `Action menu button` at 60, `Config parent menu` at 98, `Floaters` at 85. Put a
+longer label in any of them and Figma's width for the previous one is still there. **21 classes
+now state no width for a measured reason** rather than a threshold.
+
+`hugs.mjs` is shared by the generator and the checker on purpose. It reads the RAW
 Figma measurements, not anything the generator produced, and the checker's assertion is still
 independent — it renders the class and measures whether the rendered box matches what the
 reading predicts. Two copies of the arithmetic would be the same source with a second chance

@@ -15,7 +15,7 @@
 
 /* 50/50 layout container
  * 1 variant captured
- * Figma draws this 1600px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 1600px is what they came to, not a rule
  * Figma draws this 368px tall; emitted as a minimum, since content decides the real height
  */
 .pf-50-50-layout-container {
@@ -201,7 +201,7 @@
 
 /* AI Assistant
  * 3 variants captured
- * Figma draws this 1628px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 1628px is what they came to, not a rule
  * Figma draws this 1080px tall — the artboard it sits on, not a rule; dropped
  */
 .pf-ai-assistant {
@@ -315,7 +315,7 @@
 
 /* AI banner
  * 1 variant captured
- * Figma draws this 1315px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 1315px is what they came to, not a rule
  */
 .pf-ai-banner {
   height: 94px;
@@ -760,7 +760,7 @@
 
 /* Attachments
  * 1 variant captured
- * Figma draws this 440px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 440px is what they came to, not a rule
  */
 .pf-attachments {
   height: 56px;
@@ -1511,7 +1511,7 @@
 
 /* Clickable AI element
  * 2 variants captured
- * Figma draws this 382px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 382px is what they came to, not a rule
  */
 .pf-clickable-ai-element {
   height: 38px;
@@ -1578,7 +1578,7 @@
 
 /* Component 1
  * 2 variants captured. UNNAMED IN FIGMA. It is the row inside Editable list card: a label with a trailing add or remove action. Property 1=Frame 6270951 is the ADD state (no fill, green Plus circle icon); Frame 6270952 is the ADDED state (Background/Tertiary fill, grey Remove icon). The component and both variant values carry Figma default names — raise with design.
- * Figma draws this 432px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 432px is what they came to, not a rule
  */
 .pf-component-1 {
   height: 48px;
@@ -2076,7 +2076,7 @@
 
 /* Date range visual
  * 1 variant captured
- * Figma draws this 371px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 371px is what they came to, not a rule
  */
 .pf-date-range-visual {
   height: 42px;
@@ -2205,7 +2205,7 @@
 
 /* Detail item
  * 1 variant captured
- * Figma draws this 162px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 162px is what they came to, not a rule
  */
 .pf-detail-item {
   height: 18px;
@@ -2480,7 +2480,7 @@
 
 /* Drop down button
  * 2 variants captured
- * Figma draws this 192px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 192px is what they came to, not a rule
  * pill
  */
 .pf-drop-down-button {
@@ -2904,7 +2904,7 @@
 
 /* Filter tabs
  * 1 variant captured
- * Figma draws this 1600px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 1600px is what they came to, not a rule
  */
 .pf-filter-tabs {
   height: 100px;
@@ -3519,7 +3519,7 @@
 
 /* Graph axis
  * 1 variant captured
- * Figma draws this 492px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 492px is what they came to, not a rule
  */
 .pf-graph-axis {
   height: 232px;
@@ -4124,7 +4124,7 @@
 
 /* Information box
  * 4 variants captured
- * Figma draws this 440px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 440px is what they came to, not a rule
  */
 .pf-information-box {
   height: 56px;
@@ -4579,7 +4579,7 @@
 
 /* Mobile bottom navigation
  * 1 variant captured
- * Figma draws this 375px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 375px is what they came to, not a rule
  */
 .pf-mobile-bottom-navigation {
   height: 76px;
@@ -4958,7 +4958,7 @@
 
 /* Navigation tabs
  * 1 variant captured
- * Figma draws this 202px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 202px is what they came to, not a rule
  */
 .pf-navigation-tabs {
   height: 36px;
@@ -5264,7 +5264,7 @@
 
 /* Notification tabs
  * 3 variants captured. 3 variants (State x Selected). Node 22973:20747, which this extract previously held as "Side navigation tab" with a different variant structure.
- * Figma draws this 279px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 279px is what they came to, not a rule
  */
 .pf-notification-tabs {
   height: 65px;
@@ -5331,7 +5331,7 @@
 
 /* Org chart
  * 3 variants captured
- * Figma draws this 293px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 293px is what they came to, not a rule
  */
 .pf-org-chart {
   height: 48px;
@@ -5410,7 +5410,7 @@
 
 /* People and department drop down
  * 1 variant captured
- * Figma draws this 440px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 440px is what they came to, not a rule
  * Figma draws this 320px tall; emitted as a minimum, since content decides the real height
  */
 .pf-people-and-department-drop-down {
@@ -7226,7 +7226,7 @@
 
 /* Table progress bar
  * 1 variant captured
- * Figma draws this 246px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 246px is what they came to, not a rule
  */
 .pf-table-progress-bar {
   height: 14px;
@@ -7384,7 +7384,7 @@
 
 /* Tertiary nav
  * 2 variants captured. 4 variants (Mobile x Page); Mobile does not change the colours.
- * Figma draws this 562px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 562px is what they came to, not a rule
  */
 .pf-tertiary-nav {
   height: 55px;
@@ -7979,7 +7979,7 @@
 
 /* [S] Attachment
  * 1 variant captured
- * Figma draws this 440px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 440px is what they came to, not a rule
  */
 .pf-s-attachment {
   height: 56px;
@@ -8029,7 +8029,7 @@
 
 /* [S] People
  * 5 variants captured
- * Figma draws this 380px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 380px is what they came to, not a rule
  */
 .pf-s-people {
   height: 40px;

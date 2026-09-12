@@ -17,7 +17,7 @@
 // CSS equivalent (:hover, :disabled, :focus-visible) get one as well as the attribute,
 // so a live control behaves correctly and a gallery can still force any state.
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
-import { hugsVertically as hugsVerticallySet } from './hugs-vertically.mjs';
+import { hugsVertically as hugsVerticallySet, hugsHorizontally as hugsHorizontallySet } from './hugs.mjs';
 import { buildResolver, WEIGHT, declarationsFor } from './resolve-component-type.mjs';
 import { PRIMITIVE_ALIAS } from './primitive-alias.mjs';
 
@@ -187,7 +187,15 @@ function geometryDecls(g, notes, isVariant = false, composedType = null, compone
 
   // A large fixed width is the width of the artboard the component was drawn at, not a
   // rule — only carry width through for genuinely small fixed controls.
-  if (w !== null && w <= 120) d.push(`width: ${w}px`);
+  // WIDTH, and the 120px line was always a guess. Measured, a HORIZONTAL frame hugs when its
+  // width is padding + children + gaps: 35 components do, and the threshold happens to drop
+  // 31 of them for the wrong reason while pinning four that are under it. `Links` is a text
+  // link frozen at the 58px its old label came to; put a longer one in and the width Figma
+  // computed from the previous one is still there.
+  if (w !== null && component && hugsHorizontally.has(component)) {
+    notes.push(`Figma HUGS its contents horizontally — ${w}px is what they came to, not a rule`);
+    huggedWide++;
+  } else if (w !== null && w <= 120) d.push(`width: ${w}px`);
   else if (w !== null) notes.push(`Figma draws this ${w}px wide; treated as layout, not a rule`);
 
   // Height needs the same judgement, and it is not one threshold but three, because the
@@ -463,6 +471,8 @@ function colourDecls(row) {
 // Figma's own answer about which frames hug, read from the raw measurements.
 // See scripts/hugs-vertically.mjs for why the height of a hugging frame is not a rule.
 const hugsVertically = hugsVerticallySet();
+const hugsHorizontally = hugsHorizontallySet();
+let huggedWide = 0;
 let hugged = 0;
 
 const singleLineText = new Map();     // component -> true when every TEXT node is one line
@@ -1382,6 +1392,8 @@ if (shapeOnly.length) {
   console.log(`    ${shapeOnly.sort().join(', ')}`);
 }
 console.log(`  with measured geometry : ${[...byComponent.keys()].filter(c => geometry.has(c)).length}`);
+console.log(`  ${huggedWide} class(es) state NO width because Figma hugs their contents `
+  + `horizontally — measured, not the old 120px guess`);
 console.log(`  ${hugged} class(es) state NO height because Figma hugs their contents vertically — `
   + `the number in the file is the sum of what they hold, not a rule, and stating it stops the box `
   + `doing the one thing hug means`);
