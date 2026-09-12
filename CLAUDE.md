@@ -888,8 +888,11 @@ count is checked against the script now, so it cannot drift again.)
 It does not look at type classes. A component composes its own type, so a page must not add
 `pf-text-*` inside one — see the rule above.
 
-**`prototypes/` are exempt** — they are hand-built fixtures and score 30-63 off-system
-each. That is what they are; see the section above. Builds FROM a design are not exempt.
+**`prototypes/` are exempt** — they are hand-built fixtures. Measured today, the three oldest
+score **82, 138 and 163** off-system; `recruitment-pipeline`, built on the templates, scores
+**0**. That spread is what the exemption is for, not a licence: a prototype CAN be on-system,
+and the newest one is. (This read "30-63 each" for a long time, which was never re-measured as
+the check grew.) Builds FROM a design are not exempt.
 
 ## Editing tokens
 
@@ -912,11 +915,19 @@ Figma (`aRWjBnTvdLiG50xtwodGwH`) and turn a Figma design into correct, tagged ou
 
 **`prototypes/` are rough test fixtures.** They exist to exercise the token layer and a
 subset of components, and their page composition — sidebar shell, top bar, metric tiles,
-side-panel rows — is hand-built rather than taken from Figma. Measured: about 78–86% of
-what paints on them uses a real library class, and **136 of the 160 classes are never used
-by any of them** — the three screens between them reach for 24. That is acceptable for what they are. Do not describe them as reference
-implementations, do not hand them to a developer as one, and do not rebuild them to chase
-component fidelity unless asked — the user has explicitly said they are not real screens.
+side-panel rows — is hand-built rather than taken from Figma, and about 78–86% of what paints
+on the three oldest uses a real library class. Measured across all four today,
+**126 of the 160 classes are never used by any of them** — the four screens reach for 34
+between them, 16, 15, 22 and 23 each. That is acceptable for what they are. Do not describe
+them as reference implementations, do not hand them to a developer as one, and do not rebuild
+them to chase component fidelity unless asked — the user has explicitly said they are not real
+screens.
+
+(This read "136 never used, the three screens reach for 24" until `recruitment-pipeline` was
+added and they were re-counted. Only the 160 is verified — `check-skill-classes` pins the
+total, and rewording the sentence away from "N of the 160 classes are never used" un-checks
+even that, which is what happened on the first attempt at this paragraph. The 78–86% is the
+older hand-measurement of the three it was taken on and has not been re-run across four.)
 
 **The thing that must be correct is the other direction:** when asked to build something
 FROM a Figma design, the output must match that design.
@@ -982,22 +993,41 @@ is done:
 node scripts/shoot.mjs prototypes/<screen>.html screenshots
 ```
 
-**The shutter has to wait for the page to settle, and for a long time it did not.** Flipping
-`data-theme` changes every colour at once, and the screens give their chips and buttons a
-120ms colour transition. `shoot.mjs` set the attribute and screenshotted in the same tick, so
-**every dark screenshot this project ever produced caught the page part way between the two
-themes**. Measured on `absence-requests`: the filter chips came out at **1.09:1** — a mid-fade
-grey on a mid-fade grey — where the settled page reads **13.03:1**. That was reported twice as
-*"the filter chips' dark mode colours are not correct"*. The colours were right; the picture
-was wrong — and looking at the picture is the step this file treats as the final word, so a
-wrong picture outranks every check that passed.
+**The dark screenshots were wrong for two independent reasons, and both were found the same
+week from opposite ends.** `shoot.mjs` used to `goto` and then flip `data-theme` on the
+rendered page, which is wrong twice over:
 
-It now waits for `document.fonts.ready` and for every running animation to finish, and then
-**says so if it still has not settled**: it samples the computed colours of the page twice,
-150ms apart, and warns when they differ. A wait that quietly was not long enough is the same
-failure one layer up. (The animation wait is capped at 2s so an infinite animation cannot hang
-the shot — a page with a 3s transition is shot mid-fade and warned about, which is the honest
-answer rather than a hang.)
+- **The flip is not fully applied.** Chromium does not completely invalidate a restyle driven
+  only by custom properties changing on the root: the element's `--pf-text-primary` reads the
+  dark value, the only rule matching it is `color: var(--pf-text-primary)`, and its computed
+  colour stays **light**. A `cloneNode` of the same element resolves correctly, which is what
+  says invalidation rather than cascade. Measured on four of the five screens then in the repo:
+  the Hollow button, the side-navigation tabs and the selected filter chip all shot in their
+  light-mode colours on a dark page. `check-theme-paths.mjs` flips the attribute the same way
+  and is green, because it does it on a flat synthetic page of bare divs where it does not
+  happen — so the check cannot see this, and a page-shaped harness is what would.
+- **The shutter fired mid-transition.** The screens give their chips and buttons a 120ms colour
+  transition and the shot was taken in the same tick as the flip. Measured on
+  `absence-requests`: the filter chips came out at **1.09:1** — a mid-fade grey on a mid-fade
+  grey — where the settled page reads **13.03:1**. That was reported twice as *"the filter
+  chips' dark mode colours are not correct"*. The colours were right; the picture was wrong —
+  and looking at the picture is the step this file treats as the final word, so a wrong picture
+  outranks every check that passed.
+
+It now sets the theme **before the first paint** — `colorScheme` on the browser context so the
+browser paints its own surfaces for the right mode, and `addInitScript` to put `data-theme` on
+before anything renders — so there is no restyle to get wrong and no flip to catch half-way.
+
+The settle-and-warn stays, because it answers a question the pre-paint fix does not: it waits
+for `document.fonts.ready` and for every running animation to finish, then **says so if the
+page still has not settled**, sampling the computed colours twice 150ms apart and warning when
+they differ. An unsettled webfont shoots the fallback face, a page can animate on load, and a
+wait that quietly was not long enough is the same failure one layer up. (The animation wait is
+capped at 2s so an infinite animation cannot hang the shot — a page with a 3s transition is
+shot mid-fade and warned about, which is the honest answer rather than a hang.)
+
+**The other screens' dark screenshots in `screenshots/` predate the pre-paint fix and are still
+the wrong ones.** Re-shoot before trusting any of them.
 
 A full-page capture (`--full`) flattens `position: sticky`, so a pinned sidebar looks
 like it stops halfway down and a sticky footer looks like it is clipping the panel above
