@@ -312,6 +312,19 @@ function geometryDecls(g, notes, isVariant = false, composedType = null) {
     else if (f[2] === 'Regular') d.push('font-weight: var(--pf-font-weight-regular)');
     // "Italic" here is placeholder styling, not the component's font — see the
     // geometry notes. Deliberately not emitted.
+    //
+    // LINE HEIGHT, for the same reason the composed rules state it: a declaration a class
+    // omits is one the PAGE supplies. These 49 rules stated a measured size and no line
+    // height, so a page setting `line-height: 1.9` stretched every off-ramp component label
+    // on it, and nothing could see it — an absent declaration is invisible to anything that
+    // reads the stylesheet.
+    //
+    // `normal` is measured, not assumed. Every text node inside a component on all twelve
+    // product pages was read: 3370 of 3377 set line height to AUTO. The seven that do not
+    // are deep children rather than a component's own label — six are the ": " separator in
+    // `Footer (AG)`'s pagination at 19.5px, one is a "+3" counter at 109.68% — so none of
+    // them is the label whose type is emitted here.
+    d.push('line-height: normal');
   }
   return d;
 }

@@ -54,6 +54,23 @@ for (const m of block.matchAll(/\/\* ([^*]+?)\s+\(\d+px[^)]*\) \*\/\n([^{]+)\{/g
   const first = m[2].split(',')[0].trim();
   pairs.push({ style: m[1].trim(), typeClass: tc, sel: first });
 }
+// EVERY CLASS THAT STATES A SIZE MUST STATE A LINE HEIGHT.
+//
+// The composed rules were only half of it. 49 more rules carry a MEASURED font-size —
+// the off-ramp labels, whose type the ramp cannot express — and none of them stated a line
+// height either, so the same page-reaches-in fault applied to all of them. `normal` is the
+// measured answer, not an assumption: every text node inside a component on all twelve
+// product pages was read, and 3370 of 3377 set line height to AUTO. The seven that do not
+// are deep children rather than a component's own label.
+const sized = [];
+for (const m of css.matchAll(/(^|\n)((?:\.[^{};]*?)\{)([^{}]*font-size:[^{}]*)\}/g)) {
+  const body = m[3];
+  if (!/line-height:/.test(body)) {
+    const sel = m[2].replace(/\{$/, '').trim().split(',')[0].trim();
+    if (/^\.pf-[a-z0-9-]+/.test(sel)) sized.push(sel);
+  }
+}
+
 if (!pairs.length) {
   console.log('FAIL  no composed type rules found — the block moved or was renamed, so this '
     + 'check is measuring nothing');
@@ -99,6 +116,13 @@ for (const [i, pair] of pairs.entries()) {
 }
 
 console.log(`${pairs.length} composed type rule(s) rendered beside the type class for the same style`);
+if (sized.length) {
+  console.log(`  FAIL  ${sized.length} rule(s) state a font-size and no line-height, so the page `
+    + `supplies one: ${[...new Set(sized)].slice(0, 8).join(', ')}`);
+} else {
+  console.log('  every rule that states a font-size states a line-height, so no page can '
+    + 'reach into a component label');
+}
 if (bad.length) {
   console.log(`  FAIL  ${bad.length} render the style differently from its own class:`);
   for (const b of bad) console.log('    ' + b);
@@ -106,4 +130,4 @@ if (bad.length) {
   console.log('  every one renders identically, with a hostile line-height, letter-spacing, '
     + 'case, style, weight and size on the ancestor');
 }
-process.exit(bad.length ? 1 : 0);
+process.exit(bad.length || sized.length ? 1 : 0);

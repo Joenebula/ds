@@ -1491,3 +1491,24 @@ fails: removing the line-heights again reports all 14.
 The skill's contradiction is gone. It said, 250 lines apart, that a specific line-height is
 "invented" and that line-height is "yours to write". The second is deleted and replaced with
 why.
+
+## N. The same line-height fault in the other 49 rules — `done`
+
+Section M fixed the 14 COMPOSED type rules. Surveying the same question one level out found
+**49 more** — the off-ramp labels, whose type the ramp cannot express, so the measured size
+is written directly. Every one stated a font-size and no line-height, so the page supplied
+one for all of them too.
+
+**`normal` here is measured, not assumed.** `component-type.tsv` has no lineHeight column, so
+rather than infer it from the 23 named styles, every text node inside a component on all
+twelve product pages was read: **3370 of 3377 set line height to AUTO**. The seven that do
+not are deep children rather than a component's own label — six are the `": "` separator in
+`Footer (AG)`'s pagination at 19.5px, one a "+3" counter at 109.68% — so none is the label
+whose type these rules emit.
+
+**Done when:** met. `check-composed-type.mjs` now asserts the general rule — *every* class
+that states a font-size must state a line-height — rather than only checking the 14 composed
+ones. Proved it fails by removing three line-heights: it named all three.
+
+`dist/type.css` stayed byte-identical throughout both M and N, which is the evidence the
+refactor underneath them was safe.
