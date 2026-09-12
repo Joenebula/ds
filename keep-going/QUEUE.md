@@ -1996,3 +1996,23 @@ Both halves asserted file-locally and both broken on purpose.
 **Still open on `Slider`:** the handle's two circles stack, because a GROUP has no auto-layout and
 `component-child-pos.tsv` has no rows for it. Needs a Figma read, not a guess. And the class
 states no width for Figma's 600 — the 24-fixed-widths question.
+
+### P28. The slider handle — a Figma read, and the one thing it still cannot say — DONE
+
+The handle's 32px and 24px circles stacked, because a GROUP has no auto-layout and
+`component-child-pos.tsv` had no rows for it.
+
+**Neither Figma tool will hand over those coordinates.** `get_metadata` expands every frame in
+the component EXCEPT that group — it reports `Group 1` at 32x32 with no children — and
+`get_design_context` flattens it to one exported SVG whose URL this environment's egress policy
+refuses (403). The way round is arithmetic plus the rendered picture, and together they are
+exact: a GROUP's bounds ARE the union of its children, so a 32x32 group holding a 32x32 circle
+pins that one at 0,0 and leaves the 24x24 in 0–8 on each axis; Figma's screenshot shows the ring
+even on all four sides, forcing **4,4**. Recorded through the normal POS1 path so it goes through
+the same three guards — 73 offsets now, 19 applied across 9 components.
+
+**Still missing: OPACITY, and the tree has no column for it.** Figma shows a solid 24px circle
+inside a PALE 32px ring; both ellipses bind the same token and the paleness is an opacity on the
+outer one. The extract records which variable a paint binds and nothing about how transparent it
+is, so both render the same colour and the handle reads as one solid dot. Closer than two stacked
+blobs, not yet right, and it needs a new column on the tree walk rather than a guess.

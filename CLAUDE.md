@@ -572,11 +572,27 @@ template must round as many nodes as Figma gives that component and no more. Not
 because the walk collapses a run of identical siblings — the property that holds file-locally is
 *no more than, and never zero where the tree has some*.
 
-**The handle's two circles still stack**, and that one is named rather than guessed at. Figma
-draws it as a GROUP holding a 32px and a 24px circle, and a GROUP has no auto-layout — its
-children are positioned absolutely. `component-child-pos.tsv` has no rows for it, so there is no
-measured offset, and concentric is the obvious reading rather than a measured one. It needs a
-Figma read, not a guess.
+**The handle's two circles stacked**, and that took a Figma read rather than a guess. Figma draws
+it as a GROUP holding a 32px and a 24px circle, and a GROUP has no auto-layout — its children are
+positioned absolutely, so the template flowed them one below the other.
+
+**Figma will not hand over the coordinates, and the way round it is worth knowing.**
+`get_metadata` expands every frame in the component EXCEPT that group — it reports `Group 1` at
+32x32 with no children at all — and `get_design_context` flattens it to a single exported SVG,
+whose URL this environment's egress policy refuses (403). So neither of the two tools that give
+positions gives these two. What is left is arithmetic plus the rendered picture, and together they
+are exact: **a GROUP's bounds ARE the union of its children**, so a 32x32 group holding a 32x32
+circle pins that one at 0,0 and leaves the 24x24 somewhere in 0–8 on each axis; Figma's own
+screenshot of the node shows the ring even on all four sides, which forces **4,4**. Recorded in
+`component-child-pos.tsv` like any other offset, so it goes through the same three guards, and
+`check-template-overflow` renders it.
+
+**What is still missing is the OPACITY, and the tree has no column for it.** Figma's screenshot
+shows a solid 24px circle inside a PALE 32px ring — but both ellipses bind the same token,
+`Icons/Icon - Link`, and the paleness is an opacity on the outer one. The extract records which
+variable a paint binds and nothing about how transparent it is, so the two render the same colour
+and the handle reads as one solid 32px dot. That is closer to Figma than two stacked blobs and it
+is not yet right; it needs a new column on the tree walk, not a guess.
 
 ### A painted frame smaller than its own children is a rail, not a container
 
@@ -790,7 +806,7 @@ instance, **both at 0,0 at 93x93**: overlaid in Figma, stacked by the template, 
 becoming 184.
 
 `tokens/_raw/component-child-pos.tsv` records where each child sits inside a parent Figma
-does not lay out, and the template places it there — **17 children across 8 components**.
+does not lay out, and the template places it there — **19 children across 9 components**.
 Three guards, because a position applied to the wrong node is worse than none:
 
 1. the tree must carry that exact component and path;
@@ -809,8 +825,8 @@ Three guards, because a position applied to the wrong node is worse than none:
 **Every refused offset is named, and the counts are asserted to add up to the file.** The
 first version of the loop reported guard 3 and dropped guards 1 and 2 with a bare
 `continue`, so the build's "16 measured offsets NOT applied" read as the whole shortfall
-when the file holds **71** — 17 applied, 54 refused, and **38 of those were leaving no
-trace at all**. That is the silent-discard fault this pipeline keeps finding, sitting in
+when the file holds **73** — at the time 71, of which 17 applied and 54 were refused, and
+**38 of those were leaving no trace at all**. That is the silent-discard fault this pipeline keeps finding, sitting in
 the code that fixes it elsewhere. The refusals are now 16 for the origin, **36 measured
 deeper than the tree walk reaches** (`WALK_DEPTH` is 4, and `Configuration`, `Image picker`
 and `Data variance alternative` were measured past it, so there is no node to place), and
