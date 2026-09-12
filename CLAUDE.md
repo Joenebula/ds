@@ -896,8 +896,17 @@ binds `Text/Primary` on the same fill and reads correctly. All four are written 
 
 **`check-contrast.mjs` already measured contrast in both modes and could not have found any of
 them**, for two reasons worth knowing: its pairs are a list kept by hand, so a component nobody
-added is never measured; and it ends in `process.exit(0)`, so it is a report and nothing it
-finds can fail a build.
+added is never measured; and it ended in `process.exit(0)`, so it was a report and nothing it
+found could fail a build.
+
+It can now. **Five token pairs had sat below AA the whole time** — `Text/Link`, `Text/Positive`
+and `Text/Warning` on `Background/Tertiary`, `Text/Disabled` on `Background/Primary`, and
+`Text/Positive` on dark `Background/Primary` — and nothing ever forced a decision about them.
+They are not made to fail outright, because a TOKEN pair is one a page might create rather than
+one a component does, and refusing the build over a hypothetical is the wrong severity. The set
+is pinned by name instead, exactly as `check-component-contrast` pins its own: the five stay
+known, a sixth fails, and removing one from the pin reports it. It runs in `npm run verify` now
+rather than only in `npm run check`.
 
 `npm run verify` runs `check-component-contrast.mjs`, which takes the pairs from
 `component-variants.tsv` — every component's own fill against its own text — and renders all

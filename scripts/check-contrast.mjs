@@ -113,5 +113,34 @@ if (process.argv[1] && resolve_(process.argv[1]) === fileURLToPath(import.meta.u
     const ok = results.filter(x => x.mode === mode && x.verdict === 'AA').length;
     console.log(`  ${ok}/${PAIRS.length} pass AA`);
   }
-  process.exit(0);
+
+  // THIS USED TO END `process.exit(0)` UNCONDITIONALLY — it reported and could not fail, so
+  // nothing it found ever forced a decision. Five pairs have sat below AA the whole time.
+  //
+  // They are not made to fail outright, because a token pair is a pair a PAGE might create
+  // rather than one a component does: refusing the build over a hypothetical would be the
+  // wrong severity. Instead the set is pinned BY NAME, the same way
+  // `check-component-contrast.mjs` pins its own. The five that are known stay known; a sixth
+  // fails. Pinning the names rather than the count is what stops one being fixed while another
+  // appears and the total holds still.
+  const KNOWN = new Set([
+    'light|link on tertiary bg', 'light|success on tertiary bg', 'light|warning on tertiary bg',
+    'light|disabled text', 'dark|success text',
+  ]);
+  const below = results.filter(r => r.verdict !== 'AA');
+  const fresh = below.filter(r => !KNOWN.has(`${r.mode}|${r.label}`));
+  const gone = [...KNOWN].filter(k => !below.some(r => `${r.mode}|${r.label}` === k));
+  console.log(`\n${below.length} pair(s) below AA; ${KNOWN.size} are known and pinned by name`);
+  if (gone.length) {
+    console.log(`  ${gone.length} known pair(s) now pass — remove from KNOWN to lock it in: ${gone.join(', ')}`);
+  }
+  if (!below.length && KNOWN.size) {
+    console.error('  this check proved nothing: every pair passes but the known set is not empty');
+    process.exit(1);
+  }
+  for (const r of fresh) {
+    console.error(`FAIL ${r.mode} — ${r.label} reads ${r.ratio}:1 (${r.fg} on ${r.bg}), which is `
+      + `below AA and is not one of the ${KNOWN.size} already recorded`);
+  }
+  process.exit(fresh.length ? 1 : 0);
 }
