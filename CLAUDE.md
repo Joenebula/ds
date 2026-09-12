@@ -234,6 +234,17 @@ Three things this took, each of which looked finished before it worked:
   and the agreement is tested **per declaration**, because Figma lays 15 of the 16 mobile
   headers out as a row and `Default - Cranberry red` as a column, and a whole-block test threw
   away the height all 16 do agree on over two declarations they do not.
+
+  **What counts as agreement took two wrong answers.** *Every leftover must declare it* is too
+  strict — a composed-type rule contributes a selector that states a font-size and no height,
+  and its silence is not disagreement; `Filter tab single` states 70px on every one of its
+  mobile variants and was refused on that. *Any leftover that declares it* is too loose —
+  `Graph legend` has a mobile variant for `Key type=Donut graph` and none for `Line graph`, and
+  hoisting 27px would state a height for the line legend that Figma has never drawn. The rule
+  is: among the variants that **do** state the property they must agree, **and together they
+  must cover every value of each axis they all carry**. `Selected` False and True together
+  cover `Selected`; `Bar chart`'s lone `Darkmode=False` covers `Darkmode`, which takes no other
+  value; Donut alone does not cover `Key type`.
 - **The bare rule is not a variant.** A rule already scoped to the bare class at that
   breakpoint was being counted as a 17th `Header` "variant", putting the denominator one above
   the 16 themes that carry a height, so the 62px every one of them agrees on was refused.
@@ -249,9 +260,14 @@ Three things this took, each of which looked finished before it worked:
 `npm run verify` runs `check-responsive.mjs`, which takes its expectation from
 `component-geometry.tsv` rather than from the stylesheet or the generator's agreement logic,
 and asserts both directions: a bare class must render Figma's height for its breakpoint
-(**23 of 28** do; the other five carry another axis the class still demands, or Figma's own
-variants disagree), and a class that writes the attribute must **not move at any width**
+(**24 of 28** do), and a class that writes the attribute must **not move at any width**
 (28 of 28). It refuses to pass if nothing was measured.
+
+The four it reports are not defects here: `Graph legend`, `Navigation item` and `Spotlight
+Card` each have an axis whose mobile variant **Figma drew for only some of its values** — no
+Configr nav item on a phone, no vertical Spotlight Card, no line-graph legend — so there is no
+fact to carry and inventing one would state a size Figma has never drawn. They are written up
+in `docs/FIGMA-ISSUES.md` §13 with what would clear each.
 
 **This does not make a PAGE responsive.** Measured, on `case-mgmt-my-team` with its 17 pins
 removed: the components adapt and the page is worse, because its shell — a 90px sidebar and a

@@ -413,6 +413,34 @@ inventing an elevation ramp — which the skill explicitly forbids.
 
 ---
 
+## 13. Three components have a mobile variant for only some values of an axis
+
+A component's breakpoint variants are what let the stylesheet make it responsive. Where every
+variant at a width agrees on a value, that value is carried to the class and the component
+follows the viewport on its own. Three components cannot be carried, because Figma draws their
+mobile or tablet variant for only **part** of another axis:
+
+| Component | Axis | Drawn at desktop | Drawn at mobile / tablet | What is missing |
+|---|---|---|---|---|
+| `Navigation item` | `System` | People First, Configr | People First only | A **Configr** nav item at Device=Mobile (86x76) and Device=Tablet (86x56) |
+| `Graph legend` | `Key type` | Line graph only | Donut graph only | A **Line graph** legend at Mobile=True, and a **Donut graph** one at Mobile=False |
+| `Spotlight Card` | `Horizontal` | True (585x218), False | True only (375x168) | A **vertical** Spotlight Card at Mobile=True |
+
+`Graph legend` is the clearest: it has exactly two variants and they differ on **both** axes at
+once, so neither breakpoint covers both key types and neither key type covers both breakpoints.
+
+**Why the pipeline will not guess.** Applying the donut legend's 27px to a bare `pf-graph-legend`
+would state a mobile height for the line legend that Figma has never drawn, and it would look
+right — a component that is confidently the wrong size is worse than one that does not respond,
+because nothing downstream can tell. `check-responsive.mjs` reports each of them by name against
+Figma's own number instead.
+
+**Fix:** draw the missing variant. Each is one variant in an existing component set, and the
+pipeline picks it up on the next extract with no code change — the count in
+`check-responsive.mjs` rises on its own.
+
+---
+
 ## What happens after you fix any of this
 
 Re-extract and rebuild, and the stylesheet, the component list and the example screens all

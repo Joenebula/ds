@@ -1070,33 +1070,84 @@ for (const m of emitted.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/([^{}]+)\{([^
 // out as a row and `Default - Cranberry red` as a column, so a whole-block test threw away
 // the height, padding and radius all 16 do agree on over two declarations they do not.
 // A property only some variants declare is not agreement either, and is left alone.
+// WHICH VALUES EACH AXIS TAKES, read off the selectors this stylesheet actually emits.
+// Needed to tell "every variant agrees" from "Figma only drew one of them".
+const axisValues = new Map();                 // cls -> Map(axis -> Set(value))
+for (const m of emitted.matchAll(/\.(pf-[a-z0-9-]+)((?:\[[^\]]*\])+)/g)) {
+  if (!axisValues.has(m[1])) axisValues.set(m[1], new Map());
+  const per = axisValues.get(m[1]);
+  for (const a of m[2].matchAll(/\[data-([a-z0-9-]+)="([^"]*)"\]/g)) {
+    if (RESPONSIVE_AXES.includes(a[1])) continue;
+    if (!per.has(a[1])) per.set(a[1], new Set());
+    per.get(a[1]).add(a[2]);
+  }
+}
+const axesOf = leftover => {
+  const out = new Map();
+  for (const a of leftover.matchAll(/\[data-([a-z0-9-]+)="([^"]*)"\]/g)) out.set(a[1], a[2]);
+  return out;
+};
+
+// A MIRRORED RULE THAT STILL DEMANDS AN AXIS MATCHES NOTHING ON A BARE CLASS.
+//
+// `Header`'s variants are `Theme=X, Mobile=Yes`, so stripping the breakpoint leaves
+// `.pf-header[data-theme="Berry pink"]` — and a bare `pf-header` carries no theme, so the
+// phone rule never fired. Measured: it stayed 86px tall at 390px while pf-header-navigation,
+// whose only axis IS the breakpoint, went 130/118/106 perfectly. Two of five worked and the
+// block looked complete.
+//
+// The fix is the shared-fill rule again — a value every variant AGREES on is a fact, not a
+// default someone picked — and the agreement is per DECLARATION, because Figma lays 15 of the
+// 16 mobile headers out as a row and `Default - Cranberry red` as a column, and a per-block
+// test threw away the height all 16 share over two declarations they do not.
+//
+// WHAT COUNTS AS AGREEMENT, and it took two wrong answers to land on:
+//   - "every leftover must declare it" is too strict. A composed-type rule contributes a
+//     leftover that declares font-size and no height, and its silence is not disagreement.
+//     `Filter tab single` states 70px on every one of its mobile variants and was refused.
+//   - "any leftover that declares it" is too loose. `Graph legend` has a mobile variant for
+//     `Key type=Donut graph` and none for `Line graph`; hoisting 27px would state a height
+//     for the line legend that Figma has never drawn.
+// So: among the variants that DO state the property they must agree, and together they must
+// cover every value of each axis they all carry. Donut alone does not cover Key type;
+// Selected False and True together do cover Selected; `Bar chart`'s lone Darkmode=False
+// covers Darkmode, which takes no other value.
 for (const [, all] of byBucket) {
   // A rule whose selector is ALREADY bare at this breakpoint is not a competing variant —
-  // it is the component-level rule, and it is emitted as-is above. Counting it as a 17th
-  // "variant" of `Header` put the denominator one above the 16 themes that carry a height,
-  // so the height every one of them agrees on (62px) was refused and the bare class got
-  // only the colour. pf-header stayed 86px tall on a phone with the block looking complete.
+  // it is the component-level rule and is emitted as-is above. Counting it as a 17th
+  // "variant" of `Header` put the denominator one above the 16 themes carrying a height.
   const group = all.filter(g => g.leftover !== '');
-  const leftovers = new Set(group.map(g => g.leftover));
-  if (leftovers.size < 2) continue;              // nothing left to demand; already bare
-  const values = new Map();                      // prop -> Map(leftover -> value)
+  if (!group.length) continue;
+  const { cls, bucket } = group[0];
+  const known = axisValues.get(cls) || new Map();
+
+  const states = new Map();                   // prop -> [{ leftover, decl }]
   for (const g of group) {
     for (const d of g.decls.split('\n').map(x => x.trim()).filter(Boolean)) {
       const i = d.indexOf(':');
       if (i < 0) continue;
       const prop = d.slice(0, i).trim();
-      if (!values.has(prop)) values.set(prop, new Map());
-      values.get(prop).set(g.leftover, d.replace(/;$/, ''));
+      if (!states.has(prop)) states.set(prop, []);
+      states.get(prop).push({ leftover: g.leftover, decl: d.replace(/;$/, '') });
     }
   }
+
   const agreed = [];
-  for (const [, perLeftover] of values) {
-    if (perLeftover.size !== leftovers.size) continue;          // not declared by all
-    const distinct = new Set(perLeftover.values());
-    if (distinct.size === 1) agreed.push([...distinct][0]);
+  for (const [, said] of states) {
+    if (new Set(said.map(x => x.decl)).size !== 1) continue;          // they disagree
+    const parsed = said.map(x => axesOf(x.leftover));
+    // Axes EVERY stating variant carries. One that only some carry is not a dimension they
+    // are divided on — `data-state` is absent from a Default variant by design.
+    const shared = [...parsed[0].keys()].filter(a => parsed.every(p => p.has(a)));
+    const covers = shared.every(a => {
+      const all = known.get(a);
+      if (!all) return true;
+      const seen = new Set(parsed.map(p => p.get(a)));
+      return [...all].every(v => seen.has(v));
+    });
+    if (covers) agreed.push(said[0].decl);
   }
   if (!agreed.length) continue;
-  const { cls, bucket } = group[0];
   (bucket === 'mobile' ? mobileRules : tabletRules)
     .push(`  .${cls}${GUARD} {\n    ${agreed.join(';\n    ')};\n  }`);
   bareHoisted++;

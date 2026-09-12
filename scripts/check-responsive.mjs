@@ -83,7 +83,7 @@ unlinkSync('tmp-responsive.html');
 // Figma variants carry another axis the class still demands, or whose own variants disagree
 // on the value at that width — both are readings of the file rather than defects here, and
 // neither may quietly grow.
-const FOLLOW_BASELINE = 23;
+const FOLLOW_BASELINE = 24;
 const problems = [];
 let follows = 0, stuck = [], pins = 0;
 cases.forEach((c, i) => {
@@ -102,8 +102,8 @@ console.log(`${follows} of ${cases.length} class(es) render Figma's own height f
 console.log(`  ${pins} of ${cases.length} keep their height at every width when the attribute IS `
   + `written, so a page that pins a variant is unaffected`);
 if (stuck.length) {
-  console.log(`  ${stuck.length} do not follow the viewport — Figma's variants for these carry another `
-    + `axis the class still demands, or disagree on the value:`);
+  console.log(`  ${stuck.length} do not follow the viewport — Figma draws their breakpoint variant `
+    + `for only SOME values of another axis, so there is no fact to carry (see FIGMA-ISSUES.md §13):`);
   for (const s of stuck) console.log(`    ${s}`);
 }
 if (follows < FOLLOW_BASELINE) {

@@ -9740,18 +9740,17 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     background-position: center;
     background-repeat: no-repeat;
   }
-  .pf-navigation-item:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
-    width: 86px;
-    height: 56px;
+  .pf-filter-tab-single:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
+    height: 74px;
     min-height: 0;
-    padding: 0 25px;
+    padding: 10px;
     border-radius: 0;
     display: inline-flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     justify-content: center;
-    gap: 10px;
-    font-size: 11px;
+    gap: 5px;
+    font-size: 20px;
     line-height: normal;
   }
 }
@@ -11805,6 +11804,20 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     line-height: normal;
     box-shadow: var(--pf-shadow-drop-shadow);
   }
+  .pf-ai-banner:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
+    height: 159px;
+    min-height: 0;
+    padding: 15px;
+    border-radius: 8px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 20px;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: normal;
+  }
   .pf-ai-button:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
     height: 32px;
     min-height: 0;
@@ -11815,12 +11828,27 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     align-items: center;
     justify-content: center;
     gap: 10px;
+    border-width: 2px 2px 2px 2px;
   }
   .pf-accordion:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
     border-radius: 8px;
     display: inline-flex;
     align-items: center;
     font-size: 18px;
+    font-weight: 400;
+    line-height: normal;
+  }
+  .pf-bar-chart:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
+    height: 222px;
+    min-height: 0;
+    padding: 0;
+    border-radius: 0;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: 5px;
+    font-size: 13px;
     font-weight: 400;
     line-height: normal;
   }
@@ -11843,6 +11871,19 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     background-position: center;
     background-repeat: no-repeat;
   }
+  .pf-donut-chart-with-ledger:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
+    height: auto;
+    min-height: 388px;
+    padding: 0;
+    border-radius: 0;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+    font-size: 60px;
+    line-height: normal;
+  }
   .pf-filter-chip:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
     height: 34px;
     min-height: 0;
@@ -11853,6 +11894,19 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     align-items: center;
     justify-content: center;
     font-size: 13px;
+    line-height: normal;
+  }
+  .pf-filter-tab-single:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
+    height: 70px;
+    min-height: 0;
+    padding: 10px;
+    border-radius: 0;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 5px;
+    font-size: 20px;
     line-height: normal;
   }
   .pf-header:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
@@ -11878,6 +11932,20 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     font-weight: 400;
     line-height: normal;
   }
+  .pf-manage-columns:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
+    min-height: 0;
+    padding: 0;
+    border-radius: 15px 15px 0 0;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 0px;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: normal;
+    box-shadow: var(--pf-shadow-drop-shadow);
+  }
   .pf-nav-tabs:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
     height: 42px;
     min-height: 0;
@@ -11888,20 +11956,6 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     align-items: center;
     justify-content: center;
     font-size: 13px;
-    line-height: normal;
-  }
-  .pf-navigation-item:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
-    width: 86px;
-    height: 76px;
-    min-height: 0;
-    padding: 0 25px;
-    border-radius: 0;
-    display: inline-flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    font-size: 11px;
     line-height: normal;
   }
   .pf-navigation-tabs:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
@@ -11933,6 +11987,21 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     align-items: flex-start;
     justify-content: flex-start;
     gap: 0px;
+    line-height: normal;
+  }
+  .pf-selected-action-banner:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
+    height: 48px;
+    min-height: 0;
+    padding: 8px 20px;
+    border-radius: 4px;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 899px;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
     line-height: normal;
   }
   .pf-tab:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
@@ -11969,14 +12038,6 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     font-size: 16px;
     font-weight: 600;
     letter-spacing: -0.01em;
-    line-height: normal;
-  }
-  .pf-s-people:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
-    min-height: 0;
-    border-radius: 0;
-    display: inline-flex;
-    align-items: center;
-    font-weight: 400;
     line-height: normal;
   }
 }/* People First — type classes, generated from the Figma text styles.
