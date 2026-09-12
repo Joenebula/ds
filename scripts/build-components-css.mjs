@@ -340,7 +340,25 @@ function geometryDecls(g, notes, isVariant = false, composedType = null, compone
     // the base rule, so a skipped 0 silently inherits the base row's gap. Tertiary nav
     // Mobile=Yes/Page=Yes is gap 0 in Figma and was rendering the desktop row's 40.
     // Same fault as padding and radius, which were fixed without noticing gap shared it.
-    if (gap !== null && (gap > 0 || (isVariant && gap === 0))) d.push(`gap: ${gap}px`);
+    // FIGMA IGNORES itemSpacing ON A SPACE_BETWEEN FRAME, and the number left sitting in that
+    // field is a leftover from whatever the spacing was before. Emitting it as a CSS `gap`
+    // invents a MINIMUM separation on top of space-between, which forces the frame wider than
+    // Figma ever drew it. `.pf-accordion` carried `gap: 689px` inside a 1200px component;
+    // `.pf-layout-container-title` 464px inside 1160.
+    //
+    // Proved from the measurements rather than taken from the docs: of the 51 SPACE_BETWEEN
+    // frames in the file carrying a non-zero itemSpacing, **19 are arithmetically impossible**
+    // — padding + children + that gap exceeds the frame's own measured size, `Accordion`
+    // needing 1889px inside 1200. A number that cannot fit the box it is measured in is not a
+    // gap. For the 15 that would fit, dropping it changes nothing: space-between already
+    // separates the children maximally, so the gap was only ever a floor beneath the floor.
+    const spaceBetween = primary === 'SPACE_BETWEEN';
+    if (!spaceBetween && gap !== null && (gap > 0 || (isVariant && gap === 0))) {
+      d.push(`gap: ${gap}px`);
+    } else if (spaceBetween && isVariant) {
+      // A variant still has to clear the base rule's gap, the same way a 0 does.
+      d.push('gap: 0');
+    }
   } else if (gap !== null && gap > 0) {
     // Direction not captured for this component — fall back to a row, and say so.
     d.push('display: inline-flex', 'align-items: center', `gap: ${gap}px`);

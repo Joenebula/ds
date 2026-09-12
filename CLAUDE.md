@@ -424,7 +424,7 @@ Figma clips the contents of **34 of the 62 components** on Cards and panels, 22 
 a corner radius, and `dist/components.css` sets `overflow` once. After the border and the
 shadow this looked like the obvious next thing to carry, and it is the one that must not be.
 
-The measurement that settled it: **23 of the 154 templates already render outside the box
+The measurement that settled it: **20 of the 154 templates already render outside the box
 their own class draws** — `pf-hemisphere-chart` by 333px, `pf-donut-pie-chart` by 284px,
 `pf-content` by 180px. `overflow: hidden` would not have reproduced the design on those; it
 would have deleted part of the component's own generated contents from view. And nothing
@@ -438,7 +438,7 @@ the component at, and a template holds placeholder contents of their own size; t
 never promised to agree.
 
 `npm run verify` runs `check-template-overflow.mjs`, which reports and pins the count **and
-the magnitude — 1171px of overflow in total**. How many is not how much: placing
+the magnitude — 866px of overflow in total**. How many is not how much: placing
 `Hemisphere chart`'s children at Figma's own offsets took it from 333px to 77px, a large
 real improvement the count alone could not see, because it still overflows by something.
 Both numbers are the precondition: **clipping can only ever be carried once they reach
@@ -447,7 +447,7 @@ zero.**
 **And both are measured at two widths now.** They were desktop-only for as long as a class was
 the same size at every width; making components follow the viewport ended that, and the pinned
 pair described half the library. A class box shrinks to its mobile artboard while the template's
-placeholder contents do not, so at 390px it is **27 templates and 1529px**. Four templates
+placeholder contents do not, so at 390px it is **24 templates and 1224px**. Four templates
 overflow *only* once the class shrinks — `pf-navigation-tabs`, `pf-search-navigation`,
 `pf-table-ag` — and no check could see them. A precondition checked at one width is not checked.
 
@@ -844,6 +844,76 @@ made to scroll, and it was reported as *"the borders are not showing"*.
 `check-docs-specimens.mjs` asserts it at 390px, on the gallery and the template page both, and
 reports how many of them are containing an oversized specimen rather than letting the document
 grow.
+
+## A SPACE_BETWEEN frame has no gap
+
+Reported from a phone as the percentage bar being aligned left. The cause is bigger than that
+component: **Figma ignores `itemSpacing` when a frame's primary-axis alignment is
+SPACE_BETWEEN**, so the number left sitting in that field is a leftover from whatever the
+spacing was before — and both generators were emitting it as a CSS `gap`, which invents a
+*minimum* separation on top of space-between and forces the frame wider than Figma ever drew it.
+
+`.pf-accordion` carried `gap: 689px` inside a 1200px component. `.pf-layout-container-title`
+464px inside 1160. `Percentage bar`'s label row is 343px wide with a stored gap of 370, which
+forced it to 551 and pushed the bar out of its own box.
+
+**Proved from the measurements rather than taken from the documentation.** Of the **51**
+SPACE_BETWEEN frames carrying a non-zero itemSpacing, **19 are arithmetically impossible** —
+padding + children + that gap exceeds the frame's own measured size, `Accordion` needing 1889px
+inside 1200. A number that cannot fit the box it was measured in is not a gap. For the 15 that
+would have fitted, dropping it changes nothing: space-between already separates the children
+maximally, so the gap was a floor beneath the floor.
+
+Removing it took the template overflow this file pins as the precondition for clipping from
+**1171px to 866**, and from 1529 to 1224 at mobile — the single largest fall that number has had.
+
+`npm run verify` runs `check-space-between-gap.mjs`. **Its test is textual, and that is a
+deliberate exception** to this project's habit of measuring the rendered result: the fault is a
+declaration that must never be written, not a value that might be wrong. Rendered, it is
+invisible wherever the gap happens to fit — which is most of them — and would only show on the
+ones already overflowing. A grep over generated output is exact for *this pair never appears*.
+
+**`verify-against-figma` needed the same reading, and could not get it from its own source.**
+`figma-truth.tsv` is a separate walk that records the number without the alignment, so it
+reported six components as having a mis-transcribed gap. It now reads the RENDERED
+`justify-content` — what the browser computed, not what the build decided, so the comparison
+stays independent — and skips the gap where the frame is laying its children out with
+space-between, because Figma is not applying one either.
+
+## Every component that paints its own surface, measured in both modes
+
+Reported from a phone: *"the white tag is not the right colour for dark mode — please check
+other tags."* Six of the seven tag types invert correctly. `Type=Theme` does not, because
+`Tags/Fills/Info` has **the same value in both modes** while its text token moves — the surface
+frozen, the text adapting, which is §11's half-a-pair again.
+
+**Sweeping for that shape found three worse faults nobody had reported**: `Sticky footer`,
+`People and department drop down` and `Browser drop down` each bind a WHITE text token over a
+white or near-white fill, so in **light** mode they render at **1:1, 1:1 and 1.04:1** —
+invisible. `Sticky footer` proves itself wrong without any outside judgement: its other variant
+binds `Text/Primary` on the same fill and reads correctly. All four are written up in
+`docs/FIGMA-ISSUES.md` §15.
+
+**`check-contrast.mjs` already measured contrast in both modes and could not have found any of
+them**, for two reasons worth knowing: its pairs are a list kept by hand, so a component nobody
+added is never measured; and it ends in `process.exit(0)`, so it is a report and nothing it
+finds can fail a build.
+
+`npm run verify` runs `check-component-contrast.mjs`, which takes the pairs from
+`component-variants.tsv` — every component's own fill against its own text — and renders all
+**302 variants in both modes**. Two things it gets right that a naive version does not:
+
+- **It composites the alpha.** `Button Type=Hollow, State=Hover` is a 20%-black wash; read as an
+  opaque colour it scores 1.83:1 and looks like a fourth fault. Over the page it is about
+  `#d0d0d0` and the label reads fine. A translucent overlay is also the one case where an
+  unchanging fill is CORRECT — it darkens whatever is behind it, in either mode.
+- **It only judges a component that paints its own background.** Most sit on a surface something
+  else provides, and a ratio measured against a test page is not about them — the same scoping
+  `check-breakpoint-consistency` had to learn.
+
+**The known set is pinned by name, not by count.** A count alone lets one be fixed while a new
+one appears and the total stays put, which is the substitution this project has been caught by
+before.
 
 ## The rule: only design-system components
 

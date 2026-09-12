@@ -151,6 +151,7 @@ const got = await p.evaluate(({ ids }) => {
       cs.borderBottomRightRadius, cs.borderBottomLeftRadius]
       .map(v => Math.round(parseFloat(v))).join(' '),
     gap: cs.gap === 'normal' ? 0 : Math.round(parseFloat(cs.gap)),
+    spaceBetween: /space-between/.test(cs.justifyContent),
     fontSize: Math.round(parseFloat(cs.fontSize)), fontWeight: +cs.fontWeight };
 });
 }, { ids: specs.map(s => s.id) });
@@ -187,7 +188,15 @@ for (const s of specs) {
     else if (t.radius === 'mixed') unmeasured.push(`${t.component}${t.variant ? '  ' + t.variant : ''} — corner radius`);
     else cmp('radius', t.radius, g.radius);
   }
-  if (declared('gap') || declared('row-gap')) cmp('gap', t.gap, g.gap);
+  // FIGMA'S itemSpacing IS NOT A GAP ON A SPACE_BETWEEN FRAME — it ignores the field, and the
+  // number left in it is a leftover. `figma-truth.tsv` is a separate walk that records the
+  // number without the alignment, so it cannot tell the two apart on its own; the RENDERED
+  // `justify-content` can, and reading that keeps the comparison independent of the generator
+  // (it is what the browser computed, not what the build decided). Where the frame lays its
+  // children out with space-between there is no gap to compare, because Figma is not applying
+  // one either. 19 of these frames could not fit their own stored gap inside their own measured
+  // size — see check-space-between-gap.mjs.
+  if (!g.spaceBetween && (declared('gap') || declared('row-gap'))) cmp('gap', t.gap, g.gap);
   if (declared('font-size')) cmp('font-size', t.fontSize, g.fontSize);
   if (t.fontStyle && declared('font-weight')) cmp('font-weight', WEIGHT[t.fontStyle], g.fontWeight);
 }
