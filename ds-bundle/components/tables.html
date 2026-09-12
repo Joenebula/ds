@@ -605,7 +605,7 @@
 /* Table (AG)
  * 1 variant captured
  * Figma draws this 1705px wide; treated as layout, not a rule
- * Figma draws this 856px tall — the artboard it sits on, not a rule; dropped
+ * Figma HUGS its contents vertically — 856px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-table-ag {
   border-radius: 8px;
@@ -977,9 +977,9 @@
 /* Table action bar
  * 1 variant captured
  * Figma draws this 1654px wide; treated as layout, not a rule
+ * Figma HUGS its contents vertically — 98px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-table-action-bar {
-  height: 98px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -992,7 +992,6 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
-  white-space: nowrap;
 }
 .pf-table-action-bar[data-mobile="True"] {
   height: 90px;

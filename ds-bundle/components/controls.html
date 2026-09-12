@@ -769,10 +769,9 @@
 /* Document previewer
  * 3 variants captured. 3 variants
  * Figma draws this 375px wide; treated as layout, not a rule
- * Figma draws this 642px tall; emitted as a minimum, since content decides the real height
+ * Figma HUGS its contents vertically — 642px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-document-previewer {
-  min-height: 642px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -868,9 +867,9 @@
 /* Slider
  * 1 variant captured
  * Figma draws this 600px wide; treated as layout, not a rule
+ * Figma HUGS its contents vertically — 81px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-slider {
-  height: 81px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -883,7 +882,6 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
-  white-space: nowrap;
 }
 .pf-slider {
   color: var(--pf-text-primary);

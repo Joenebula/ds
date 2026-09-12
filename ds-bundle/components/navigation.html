@@ -606,9 +606,9 @@
 
 /* Tab
  * 3 variants captured
+ * Figma HUGS its contents vertically — 34px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-tab {
-  height: 34px;
   padding: 6px 0;
   display: inline-flex;
   flex-direction: column;
@@ -622,7 +622,6 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
-  white-space: nowrap;
 }
 .pf-tab[data-system="People First"][data-mobile="Yes"][data-selected="No"] {
   height: 30px;
@@ -759,9 +758,9 @@
 /* Filter tab single
  * 3 variants captured
  * Figma draws this 224px wide; treated as layout, not a rule
+ * Figma HUGS its contents vertically — 100px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-filter-tab-single {
-  height: 100px;
   padding: 20px;
   display: inline-flex;
   flex-direction: column;
@@ -775,7 +774,6 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
-  white-space: nowrap;
 }
 .pf-filter-tab-single[data-selected="False"][data-breakpoint="Tablet"] {
   height: 74px;
@@ -878,9 +876,9 @@
 
 /* Config child menu
  * 3 variants captured
+ * Figma HUGS its contents vertically — 42px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-config-child-menu {
-  height: 42px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -980,9 +978,9 @@
 
 /* Config menu items
  * 1 variant captured
+ * Figma HUGS its contents vertically — 74px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-config-menu-items {
-  height: 74px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1839,7 +1837,7 @@
 /* Notification panel
  * 1 variant captured. 2 variants (Mobile). Figma draws it 1500x1080 — the artboard, not a rule.
  * Figma draws this 1500px wide; treated as layout, not a rule
- * Figma draws this 1080px tall — the artboard it sits on, not a rule; dropped
+ * Figma HUGS its contents vertically — 1080px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-notification-panel {
   display: inline-flex;
@@ -1872,7 +1870,7 @@
 /* Notification list
  * 2 variants captured. 2 variants (Mobile). Figma draws it 1117x730 — the artboard, not a rule.
  * Figma draws this 1117px wide; treated as layout, not a rule
- * Figma draws this 730px tall — the artboard it sits on, not a rule; dropped
+ * Figma HUGS its contents vertically — 730px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-notification-list {
   display: inline-flex;
@@ -1905,7 +1903,7 @@
 /* Notification categories
  * 2 variants captured. 2 variants (Mobile). Figma draws it 1020px tall — the artboard, not a rule.
  * Figma draws this 300px wide; treated as layout, not a rule
- * Figma draws this 1020px tall — the artboard it sits on, not a rule; dropped
+ * Figma HUGS its contents vertically — 1020px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-notification-categories {
   padding: 5px 10px;
@@ -1966,10 +1964,10 @@
 
 /* Steps
  * 6 variants captured. 26 variants across System x State x Position; 6 distinct colour bindings, keyed on State.
+ * Figma HUGS its contents vertically — 48px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-steps {
   width: 110px;
-  height: 48px;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -1982,7 +1980,6 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
-  white-space: nowrap;
 }
 .pf-steps[data-system="People First"][data-position="Middle"][data-current-step="Yes"][data-completed-step="No"][data-state="Selected"] {
   width: 110px;
@@ -2157,9 +2154,9 @@
 
 /* Stepper
  * 1 variant captured. 2 variants (System); both bind the same colours.
+ * Figma HUGS its contents vertically — 160px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-stepper {
-  height: 160px;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -2179,9 +2176,9 @@
 /* Full page/Header navigation/Yes/No
  * 1 variant captured. Single component, mobile width.
  * Figma draws this 375px wide; treated as layout, not a rule
+ * Figma HUGS its contents vertically — 138px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-full-page-header-navigation-yes-no {
-  height: 138px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;

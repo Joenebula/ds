@@ -711,10 +711,9 @@
 /* Next actions modal
  * 2 variants captured
  * Figma draws this 400px wide; treated as layout, not a rule
- * Figma draws this 565px tall; emitted as a minimum, since content decides the real height
+ * Figma HUGS its contents vertically — 565px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-next-actions-modal {
-  min-height: 565px;
   padding: 0 0 30px 0;
   border-radius: 8px;
   display: inline-flex;

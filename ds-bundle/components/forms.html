@@ -465,9 +465,9 @@
 /* Form field
  * 14 variants captured. WRAPPER: label + input + helper text. 40 variants (Input type x State) - Text, Dropdown, Search, Date picker, Time picker x Default, Disabled, Error, Selected
  * Figma draws this 564px wide; treated as layout, not a rule
+ * Figma HUGS its contents vertically — 69px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-form-field {
-  height: 69px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -885,10 +885,9 @@
 /* Text area
  * 4 variants captured. inner frame r8
  * Figma draws this 300px wide; treated as layout, not a rule
- * Figma draws this 267px tall; emitted as a minimum, since content decides the real height
+ * Figma HUGS its contents vertically — 267px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-text-area {
-  min-height: 267px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -949,9 +948,9 @@
 /* Inline search
  * 2 variants captured. 2 variants
  * Figma draws this 400px wide; treated as layout, not a rule
+ * Figma HUGS its contents vertically — 130px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-inline-search {
-  height: 130px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -964,7 +963,6 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
-  white-space: nowrap;
 }
 .pf-inline-search[data-filled="False"] {
   color: var(--pf-text-primary);
@@ -1046,9 +1044,9 @@
 /* [S] Text area
  * 1 variant captured. small variant
  * Figma draws this 300px wide; treated as layout, not a rule
+ * Figma HUGS its contents vertically — 240px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-s-text-area {
-  height: 240px;
   border-radius: 8px;
   display: inline-flex;
   flex-direction: column;
@@ -1069,10 +1067,9 @@
 
 /* Signature
  * 1 variant captured
- * Figma draws this 384px tall; emitted as a minimum, since content decides the real height
+ * Figma HUGS its contents vertically — 384px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-signature {
-  min-height: 384px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1141,9 +1138,9 @@
 /* Browser drop down
  * 1 variant captured
  * Figma draws this 440px wide; treated as layout, not a rule
+ * Figma HUGS its contents vertically — 222px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-browser-drop-down {
-  height: 222px;
   padding: 5px;
   border-radius: 8px;
   display: inline-flex;
@@ -1222,9 +1219,9 @@
 /* [S] Post content
  * 1 variant captured. 73px left padding leaves room for an avatar
  * Figma draws this 520px wide; treated as layout, not a rule
+ * Figma HUGS its contents vertically — 198px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-s-post-content {
-  height: 198px;
   padding: 0 20px 10px 73px;
   display: inline-flex;
   flex-direction: column;
@@ -1245,10 +1242,9 @@
 
 /* Calendar picker
  * 1 variant captured
- * Figma draws this 323px tall; emitted as a minimum, since content decides the real height
+ * Figma HUGS its contents vertically — 323px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-calendar-picker {
-  min-height: 323px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1270,10 +1266,9 @@
 
 /* Time picker
  * 1 variant captured
- * Figma draws this 269px tall; emitted as a minimum, since content decides the real height
+ * Figma HUGS its contents vertically — 269px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-time-picker {
-  min-height: 269px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;

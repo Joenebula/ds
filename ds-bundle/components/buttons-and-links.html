@@ -1064,10 +1064,9 @@
 /* Add attachment
  * 1 variant captured
  * Figma draws this 440px wide; treated as layout, not a rule
- * Figma draws this 466px tall; emitted as a minimum, since content decides the real height
+ * Figma HUGS its contents vertically — 466px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-add-attachment {
-  min-height: 466px;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -1120,9 +1119,9 @@
 
 /* Tool tip
  * 1 variant captured
+ * Figma HUGS its contents vertically — 92px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-tool-tip {
-  height: 92px;
   padding: 10px;
   border-radius: 4px;
   display: inline-flex;

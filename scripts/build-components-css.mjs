@@ -17,6 +17,7 @@
 // CSS equivalent (:hover, :disabled, :focus-visible) get one as well as the attribute,
 // so a live control behaves correctly and a gallery can still force any state.
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { hugsVertically as hugsVerticallySet } from './hugs-vertically.mjs';
 import { buildResolver, WEIGHT, declarationsFor } from './resolve-component-type.mjs';
 import { PRIMITIVE_ALIAS } from './primitive-alias.mjs';
 
@@ -177,7 +178,7 @@ const clipComponents = new Set();
 // nothing means the base's padding leaks through — Confirmation modal Mobile=True resets
 // padding and radius to 0 in Figma and rendered with the desktop variant's 60 10 and its
 // 8px radius. Zero is a real value in an override.
-function geometryDecls(g, notes, isVariant = false, composedType = null) {
+function geometryDecls(g, notes, isVariant = false, composedType = null, component = null) {
   if (!g) return [];
   const d = [];
   const m = (g.size || '').match(/^(auto|\d+)\s*x\s*(auto|\d+)$/);
@@ -202,7 +203,13 @@ function geometryDecls(g, notes, isVariant = false, composedType = null) {
   // (a min-height) and its Horizontal=True variant is 218 (a height); the base's
   // min-height won and the variant rendered 302. A variant therefore resets the other
   // property every time rather than relying on which branch it lands in.
-  if (h !== null && h <= 260) {
+  // A HUGGING FRAME HAS NO HEIGHT TO STATE. Its number is the sum of what it holds, so
+  // emitting it — exactly or as a floor — stops the box doing the one thing hug means.
+  if (h !== null && !isVariant && component && hugsVertically.has(component)) {
+    notes.push(`Figma HUGS its contents vertically — ${h}px is what they came to, not a rule, `
+      + `so no height is emitted and the content decides it`);
+    hugged++;
+  } else if (h !== null && h <= 260) {
     d.push(`height: ${h}px`);
     if (isVariant) d.push('min-height: 0');
   } else if (h !== null && h <= 700) {
@@ -453,6 +460,11 @@ function colourDecls(row) {
 // 13px) are real paragraphs and are excluded, as are 14 components whose height is auto or
 // too tall to state, where a wrap is survivable rather than impossible. What is left is 72
 // components whose height is FIXED and whose every label is one line.
+// Figma's own answer about which frames hug, read from the raw measurements.
+// See scripts/hugs-vertically.mjs for why the height of a hugging frame is not a rule.
+const hugsVertically = hugsVerticallySet();
+let hugged = 0;
+
 const singleLineText = new Map();     // component -> true when every TEXT node is one line
 for (const line of readFileSync('tokens/_raw/component-tree.tsv', 'utf8').trim().split('\n').slice(1)) {
   const c = line.split('\t');
@@ -518,7 +530,7 @@ for (const [component, rows] of [...byComponent.entries()].sort()) {
   // than transcribed. A null result means ambiguous or off the ramp: the measured values
   // stay, and check-component-type.mjs reports it.
   const baseType = g ? resolveType(component, g.font) : null;
-  const geo = geometryDecls(g, notes, false, baseType);
+  const geo = geometryDecls(g, notes, false, baseType, component);
   if (baseType && baseType.resolved) composed.get(baseType.resolved.id).sels.add('.' + base);
 
   out.push(`/* ${component}${g ? '' : '  (no geometry measured — colours only)'}`);
@@ -1370,6 +1382,9 @@ if (shapeOnly.length) {
   console.log(`    ${shapeOnly.sort().join(', ')}`);
 }
 console.log(`  with measured geometry : ${[...byComponent.keys()].filter(c => geometry.has(c)).length}`);
+console.log(`  ${hugged} class(es) state NO height because Figma hugs their contents vertically — `
+  + `the number in the file is the sum of what they hold, not a rule, and stating it stops the box `
+  + `doing the one thing hug means`);
 console.log(`  ${nowrapCount} class(es) keep their label on one line, because Figma draws it on one `
   + `and their height is fixed — a wrap there pushes the text out of the component`);
 if (shadowHoisted.length) {

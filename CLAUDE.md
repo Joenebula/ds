@@ -393,6 +393,48 @@ placeholder contents do not, so at 390px it is **30 templates and 1688px**. Four
 overflow *only* once the class shrinks — `pf-navigation-tabs`, `pf-search-navigation`,
 `pf-table-ag` — and no check could see them. A precondition checked at one width is not checked.
 
+## Hug: a height that is the sum of the contents is not a rule
+
+Reported as the stat tiles being **stretched rather than hugged**, and the arithmetic says so.
+`Card` is stated 520x358, and 20px of padding plus its children plus its gaps comes to **358** —
+the number IS the content. Figma's frame hugs; the 358 is only what the sample contents added
+up to on the day it was drawn.
+
+The geometry extract records a component's SIZE and nothing about how that size was arrived
+at, so the generator treated every height as a rule and emitted it — exactly, or as a floor.
+`min-height: 358px` then forces a card holding one line to be as tall as Figma's sample. That
+is the stretch: a 358px content card used as an 89px stat tile, with the page writing its own
+CSS to fight it.
+
+**Hug is recoverable without a new extract.** On a VERTICAL auto-layout frame the height is the
+primary axis, so a hugging frame's height equals padding + children + gaps EXACTLY. Recomputed
+in `scripts/hugs-vertically.mjs` from the raw tree and geometry: **43 components come out on
+the nose** and state no height at all. `.pf-card` holding a label, a number and a caption now
+renders **157px instead of 358**.
+
+Three guards, each of which earned its place:
+
+- **Only exact equality counts.** Where the children sum to MORE than the stated height the
+  sum is not trustworthy — absolute or nested children the top-level walk does not add up —
+  and those keep their measured height rather than being called a hug on a bad number.
+- **A frame that DRAWS ITSELF is not holding content.** `Bar` is a 29x67 rectangle with a
+  label under it; the arithmetic says hug, but the rectangle IS the component and the 90px is
+  the design. It showed up on the first run: `Bar chart`'s template nests bars as bare
+  classes, so with no height they collapsed and the whole chart rendered empty.
+  `check-templates` caught it. Three components have a shape among their direct children and
+  all three keep their height.
+- **The checker has four height tiers now, not three.** `verify-components` mirrors the
+  generator, and on a hugging component it was measuring an EMPTY box against the height of
+  Figma's sample contents — *expected 69px, got 19px*, on every `Form field` variant. It
+  asserts the negative instead: a hugging class must state no height of its own, which is what
+  lets the content decide.
+
+`hugs-vertically.mjs` is shared by the generator and the checker on purpose. It reads the RAW
+Figma measurements, not anything the generator produced, and the checker's assertion is still
+independent — it renders the class and measures whether the rendered box matches what the
+reading predicts. Two copies of the arithmetic would be the same source with a second chance
+to drift.
+
 ## Strips: one row, scrolling, never two lines of text
 
 Reported from a phone: the filter chips and the nav tabs were rendering "Filter chip" and

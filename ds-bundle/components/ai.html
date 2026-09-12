@@ -723,10 +723,9 @@
 /* AI card modal
  * 1 variant captured
  * Figma draws this 440px wide; treated as layout, not a rule
- * Figma draws this 505px tall; emitted as a minimum, since content decides the real height
+ * Figma HUGS its contents vertically — 505px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-ai-card-modal {
-  min-height: 505px;
   padding: 20px;
   border-radius: 8px;
   display: inline-flex;
@@ -782,9 +781,9 @@
 /* AI message bubble
  * 2 variants captured
  * Figma draws this 455px wide; treated as layout, not a rule
+ * Figma HUGS its contents vertically — 149px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-ai-message-bubble {
-  height: 149px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -823,10 +822,9 @@
 /* Adaptive card
  * 1 variant captured
  * Figma draws this 478px wide; treated as layout, not a rule
- * Figma draws this 389px tall; emitted as a minimum, since content decides the real height
+ * Figma HUGS its contents vertically — 389px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-adaptive-card {
-  min-height: 389px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
