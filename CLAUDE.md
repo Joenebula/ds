@@ -424,7 +424,7 @@ Figma clips the contents of **34 of the 62 components** on Cards and panels, 22 
 a corner radius, and `dist/components.css` sets `overflow` once. After the border and the
 shadow this looked like the obvious next thing to carry, and it is the one that must not be.
 
-The measurement that settled it: **15 of the 154 templates already render outside the box
+The measurement that settled it: **14 of the 154 templates already render outside the box
 their own class draws** — `pf-hemisphere-chart` by 333px, `pf-donut-pie-chart` by 284px,
 `pf-content` by 180px. `overflow: hidden` would not have reproduced the design on those; it
 would have deleted part of the component's own generated contents from view. And nothing
@@ -438,7 +438,7 @@ the component at, and a template holds placeholder contents of their own size; t
 never promised to agree.
 
 `npm run verify` runs `check-template-overflow.mjs`, which reports and pins the count **and
-the magnitude — 756px of overflow in total**. How many is not how much: placing
+the magnitude — 749px of overflow in total**. How many is not how much: placing
 `Hemisphere chart`'s children at Figma's own offsets took it from 333px to 77px, a large
 real improvement the count alone could not see, because it still overflows by something.
 Both numbers are the precondition: **clipping can only ever be carried once they reach
@@ -453,7 +453,7 @@ template that reproduces the measurement reproduces the overflow, which is the f
 and was being counted against the pipeline all the same. Measured, **50 such nodes** sit in
 **20 of the components**.
 
-So the number is split rather than chased: **at least 6 of the 15 desktop templates (8 of 20 at
+So the number is split rather than chased: **at least 5 of the 14 desktop templates (7 of 19 at
 390px) overflow because Figma does**, and the pipeline's own share is at most 9 (12 at mobile).
 That share is the half that can reach zero. **The reading is deliberately the narrow one** — a
 single child measured against its parent's content box, no summing, no gap, no assumption about
@@ -466,7 +466,7 @@ matches nothing, which is the state in which it would look like good news.
 **And both are measured at two widths now.** They were desktop-only for as long as a class was
 the same size at every width; making components follow the viewport ended that, and the pinned
 pair described half the library. A class box shrinks to its mobile artboard while the template's
-placeholder contents do not, so at 390px it is **20 templates and 1063px**. Four templates
+placeholder contents do not, so at 390px it is **19 templates and 1056px**. Four templates
 overflow *only* once the class shrinks — `pf-navigation-tabs`, `pf-search-navigation`,
 `pf-table-ag` — and no check could see them. A precondition checked at one width is not checked.
 
@@ -572,16 +572,45 @@ template must round as many nodes as Figma gives that component and no more. Not
 because the walk collapses a run of identical siblings — the property that holds file-locally is
 *no more than, and never zero where the tree has some*.
 
-**Two things about `Slider` this did not fix, and both are named rather than guessed at:**
+**The handle's two circles still stack**, and that one is named rather than guessed at. Figma
+draws it as a GROUP holding a 32px and a 24px circle, and a GROUP has no auto-layout — its
+children are positioned absolutely. `component-child-pos.tsv` has no rows for it, so there is no
+measured offset, and concentric is the obvious reading rather than a measured one. It needs a
+Figma read, not a guess.
 
-- **The track does not paint.** The `Slider` frame binds a GRADIENT, and no colour variable can
-  carry one, so the generator correctly refuses it — the same shape as the two gradient-stroked
-  components in the Borders section and the shadows in `docs/FIGMA-ISSUES.md` §12. The dots are
-  there; the 5px blue-to-grey bar behind them is not.
-- **The handle's two circles stack.** Figma draws it as a GROUP holding a 32px and a 24px circle,
-  and a GROUP has no auto-layout — its children are positioned absolutely. `component-child-pos`
-  has no rows for it, so there is no measured offset, and concentric is the obvious reading
-  rather than a measured one. It needs a Figma read, not a guess.
+### A painted frame smaller than its own children is a rail, not a container
+
+Reported next, on the same component: *"There should be a bar in the middle of it. Use the bar in
+the progress bar for the central line, and then put the dots over the top of that bar."* Figma
+measures `Slider`'s track at **600x5** and stands eleven 11px dots and a 32px handle on it. Flowed
+as an ordinary auto-layout row it grows to its tallest child, so the 5px rail rendered as a **32px
+block with the dots swallowed inside it**. Figma is not sizing that frame by its contents; it is
+drawing a line and standing the children on top.
+
+The signature needs no layout arithmetic: the frame **paints** (binds a fill or a stroke — a frame
+that paints nothing has no rail to draw) and its measured **CROSS axis** is smaller than a child it
+holds. The cross axis is the one a flex container grows on, so that is exactly where flowing
+contradicts the measurement. The primary axis is left alone: a row longer than its frame is the
+strip case, and a strip scrolls.
+
+**Ten frames are in that position and four are emitted.** The other six are component ROOTS —
+`Toast message`, `Navigation item`, `Field`, `Header`, `Control`, `Clock in` — whose height their
+own class in `components.css` already states, and stating it again in the template would be the
+second drifting copy this project keeps finding. Template overflow fell at both widths again
+(756 to 749 desktop, 1063 to 1056 mobile) because `AG field`'s rail stopped inflating too.
+
+**A rail that paints nothing is not a rail**, and that is the half that was actually missing.
+`Slider`'s track binds a GRADIENT; no colour variable can carry one, so the generator's correct
+refusal deletes the one thing that frame exists to draw, and a size-only assertion would pass on
+an invisible line. What it paints instead is a **SUBSTITUTION, named one frame at a time in a
+table** — `GRADIENT_FALLBACK` in `build-templates.mjs` — and it is a decision rather than a
+reading, which is why it is a table and not a rule. The tokens are not invented: they are the two
+`Table progress bar`'s own `Bar` frame binds, the design system's existing definition of a track.
+Binding a variable in Figma removes the entry.
+
+`npm run verify` asserts both halves in `check-templates.mjs`, file-locally: a component the
+reading names must state that size in its template, and the rule carrying that size must paint a
+ground. Both were broken on purpose.
 
 And the component is **600px wide in Figma with `.pf-slider` stating no width**, because the
 stylesheet drops any width above 120px as "the artboard". A container cannot supply one either:

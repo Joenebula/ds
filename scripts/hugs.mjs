@@ -435,3 +435,60 @@ export function figmaOwnOverflow() {
   }
   return out;
 }
+
+
+// A PAINTED FRAME SMALLER THAN ITS OWN CHILDREN IS A RAIL, NOT A CONTAINER.
+//
+// `Slider`'s track is **600x5** in Figma and holds eleven 11px dots and a 32px handle. Flowed
+// as an ordinary auto-layout row it grows to the tallest child, so its 5px rail became a 32px
+// block with the dots swallowed inside it — reported as *"there should be a bar in the middle
+// of it"*. Figma is not sizing that frame by its contents: it is drawing a line and standing
+// the children on top.
+//
+// The signature is exact and needs no layout arithmetic: the frame PAINTS (it binds a fill or
+// a stroke — a frame that paints nothing has no rail to draw), and its measured CROSS axis is
+// smaller than a child it holds. The cross axis is the one a flex container grows on, so this
+// is precisely the case where flowing contradicts the measurement. The primary axis is left
+// alone — a row longer than its frame is the strip case, which scrolls.
+//
+// **Ten frames are in this position and only four are emitted.** The other six are component
+// ROOTS — `Toast message`, `Navigation item`, `Field`, `Header`, `Control`, `Clock in` — whose
+// height is already stated by their own class in `components.css`, and stating it a second time
+// in the template would be the second drifting copy this project keeps finding.
+//
+// Returns `component|path` -> the measured cross-axis size in px.
+export function railHeight() {
+  const lines = readFileSync('tokens/_raw/component-tree.tsv', 'utf8').trim().split('\n').slice(1);
+  const byComp = new Map();
+  for (const l of lines) {
+    const c = l.split('\t');
+    if (!byComp.has(c[0])) byComp.set(c[0], new Map());
+    byComp.get(c[0]).set(c[1], c);
+  }
+  const dim = (v, i) => {
+    const m = /^(auto|[\d.]+)\s*x\s*(auto|[\d.]+)$/.exec((v || '').trim());
+    return (!m || m[i] === 'auto') ? null : +m[i];
+  };
+  const out = new Map();
+  for (const [comp, nodes] of byComp) {
+    for (const [path, n] of nodes) {
+      if (!path) continue;                                   // a root's size is its class's job
+      const layout = n[8] || '';
+      if (!/^(VERTICAL|HORIZONTAL)/.test(layout)) continue;
+      if (!n[12] && !n[13]) continue;                        // paints nothing, so draws no rail
+      const kids = [...nodes.entries()]
+        .filter(([k]) => k.startsWith(path + '.') && k.split('.').length === path.split('.').length + 1)
+        .map(([, v]) => v);
+      if (!kids.length) continue;
+      const cross = layout.startsWith('VERTICAL') ? 1 : 2;
+      const P = dim(n[7], cross);
+      if (P === null) continue;
+      const pad = (n[9] || '0').trim().split(/\s+/).map(Number);
+      const at = i => pad[i] ?? pad[i - 2] ?? pad[0] ?? 0;
+      const inner = P - (cross === 1 ? (pad.length >= 4 ? pad[3] : at(1)) + at(1) : at(0) + at(2));
+      const sizes = kids.map(k => dim(k[7], cross)).filter(x => x !== null);
+      if (sizes.length && Math.max(...sizes) - inner > 1) out.set(`${comp}|${path}`, { P, cross });
+    }
+  }
+  return out;
+}

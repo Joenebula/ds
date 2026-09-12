@@ -1970,3 +1970,29 @@ and the generator emits one div per ellipse. Broken on purpose to confirm it rep
 And `.pf-slider` states no width for Figma's 600, and being `inline-flex` cannot take one from a
 container, so the scale collapses to ~150px. That is the 24-genuinely-fixed-widths question
 already on the suggestions list, seen from the other end.
+
+### P27. A painted frame smaller than its own children is a rail, not a container — DONE
+
+*"There should be a bar in the middle of it. Use the bar in the progress bar for the central
+line, and then put the dots over the top of that bar."* Figma measures `Slider`'s track at
+**600x5** and stands eleven 11px dots and a 32px handle on it; flowed as an ordinary row it grew
+to its tallest child, so the rail rendered as a **32px block with the dots inside it**.
+
+The signature needs no layout arithmetic: the frame PAINTS, and its measured **cross** axis — the
+one a flex container grows on — is smaller than a child it holds. The primary axis is left alone;
+a row longer than its frame is the strip case, and a strip scrolls. **Ten frames qualify, four
+are emitted**; the other six are component roots whose class already states the height. Overflow
+fell again: 756→749 desktop, 1063→1056 mobile.
+
+**A rail that paints nothing is not a rail**, and that half was the one actually missing:
+`Slider`'s track binds a GRADIENT, which no colour variable can carry, so the correct refusal
+deleted the one thing the frame exists to draw. What it paints instead is a **substitution named
+one frame at a time** (`GRADIENT_FALLBACK`), a decision rather than a reading — using the two
+tokens `Table progress bar`'s own `Bar` binds, on the design owner's instruction. Binding a
+variable in Figma removes the entry.
+
+Both halves asserted file-locally and both broken on purpose.
+
+**Still open on `Slider`:** the handle's two circles stack, because a GROUP has no auto-layout and
+`component-child-pos.tsv` has no rows for it. Needs a Figma read, not a guess. And the class
+states no width for Figma's 600 — the 24-fixed-widths question.

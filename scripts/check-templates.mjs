@@ -16,7 +16,7 @@
 //      class alone cannot be the whole component, and there must be a template.
 //   2. Does the template render something? A template that produces an empty box is no
 //      better than the class it replaces.
-import { unfalsifiablePacking } from './hugs.mjs';
+import { railHeight, unfalsifiablePacking } from './hugs.mjs';
 import { readFileSync, readdirSync, existsSync, writeFileSync, unlinkSync } from 'node:fs';
 import { chromium } from 'playwright-core';
 
@@ -452,6 +452,65 @@ if (!sized) {
     + 'type says so — the radius column reads 0 on every one of them');
   if (!rounded) {
     console.error('FAIL no ellipse is rounded, so this checked nothing');
+    failures++;
+  }
+}
+
+// A PAINTED FRAME SMALLER THAN ITS OWN CHILDREN IS A RAIL, AND A RAIL MUST BE DRAWN.
+//
+// `Slider`'s track is 600x5 holding eleven 11px dots and a 32px handle. Flowed as an ordinary
+// row it grew to the tallest child, so the 5px rail became a 32px block with the dots inside
+// it — reported as "there should be a bar in the middle of it". Four inner frames are in that
+// position; the other six the reading finds are component ROOTS, whose height their own class
+// already states.
+//
+// TWO properties, and the second is the one that was actually missing. A rail must state its
+// measured size, and a rail must PAINT — `Slider`'s binds a GRADIENT, which no colour variable
+// can carry, so the generator's correct refusal deleted the one thing that frame exists to
+// draw and the assertion would otherwise pass on an invisible line.
+//
+// Asserted file-locally, like the rest: the reading names `component|path` pairs a template may
+// legitimately not contain, so what holds is "the template for a component the reading names
+// must state that size and paint a ground".
+{
+  const rails = railHeight();
+  const fillOf = new Map();
+  for (const line of readFileSync('tokens/_raw/component-tree.tsv', 'utf8').trim().split('\n').slice(1)) {
+    const c = line.split('\t');
+    fillOf.set(`${c[0]}|${c[1]}`, c[12] || '');
+  }
+  const byComponent = new Map();
+  for (const f of readdirSync('dist/templates').filter(f => f.endsWith('.html'))) {
+    const html = readFileSync(`dist/templates/${f}`, 'utf8');
+    byComponent.set((/^<!--\s*(.+?)\s+—/.exec(html) || [, ''])[1], { f, html });
+  }
+  let drawn = 0;
+  for (const [key, { P, cross }] of rails) {
+    const t = byComponent.get(key.split('|')[0]);
+    if (!t) continue;
+    const want = `${cross === 2 ? 'height' : 'width'}:${P}px;flex:none`;
+    if (!t.html.includes(want)) {
+      failures++;
+      console.error(`FAIL dist/templates/${t.f} holds a frame Figma measures ${P}px across while `
+        + `its children are bigger — a rail it draws behind them — and states no size, so it `
+        + 'grows to the tallest child and swallows them');
+      continue;
+    }
+    // THE RAIL MUST ALSO PAINT. The frame carrying that size is found by its own declaration,
+    // so this reads the rule it landed in rather than the file at large.
+    const rule = (t.html.match(new RegExp(`style="[^"]*${want.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}[^"]*"`)) || [''])[0];
+    if (!/background:var\(|box-shadow:inset/.test(rule)) {
+      failures++;
+      console.error(`FAIL dist/templates/${t.f}'s rail states its size and paints nothing — `
+        + `Figma fills it with "${fillOf.get(key)}", and a rail that does not draw is not a rail`);
+      continue;
+    }
+    drawn++;
+  }
+  console.log(`  ${drawn} frame(s) Figma measures smaller than the children they hold are drawn as `
+    + 'rails — stated at their own size, painted, with the children standing on them');
+  if (!drawn) {
+    console.error('FAIL no rail was found, so this checked nothing');
     failures++;
   }
 }

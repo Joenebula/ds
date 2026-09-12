@@ -30,7 +30,8 @@
 import { unfalsifiablePacking as unfalsifiablePackingSet,
          collapsesOnZeroChild as collapsesOnZeroChildMap,
          spaceBetweenWidth as spaceBetweenWidthMap,
-         instanceSize as instanceSizeMap } from './hugs.mjs';
+         instanceSize as instanceSizeMap,
+         railHeight as railHeightMap } from './hugs.mjs';
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync, existsSync } from 'node:fs';
 import { buildResolver } from './resolve-component-type.mjs';
 import { PRIMITIVE_ALIAS } from './primitive-alias.mjs';
@@ -146,6 +147,18 @@ const spaceBetweenWidth = spaceBetweenWidthMap();
 // image` is 44x91 holding one `People` that Figma draws at 44x44; `.pf-people` states 91x91,
 // so it hung 47px out of its own parent. See hugs.mjs for the three guards.
 const instanceSize = instanceSizeMap();
+// A PAINTED FRAME SMALLER THAN ITS OWN CHILDREN IS A RAIL. `Slider`'s track is 600x5 holding
+// eleven 11px dots and a 32px handle; flowed, it grew to 32 and swallowed them. See hugs.mjs.
+const railHeight = railHeightMap();
+
+// WHAT TO PAINT WHERE FIGMA BINDS A GRADIENT ON A RAIL. Keyed `component|path`, one entry at a
+// time, and deliberately a table rather than a rule: a gradient carries no variable, so there is
+// nothing to read, and every entry is a decision somebody made rather than a measurement. The
+// values name real tokens — these two are what `Table progress bar`'s `Bar` frame binds, the
+// design system's own definition of a track.
+const GRADIENT_FALLBACK = {
+  'Slider|1': { fill: 'Background/Secondary', stroke: 'Progress bar/Border' },
+};
 const slackNotes = new Set();
 const SLACK_NOTE = "<!-- states its width: space-between distributes the SLACK, and a frame sized to its content has none. -->";
 const SIZE_NOTE = "<!-- states its own size: Figma draws its only child at zero on this axis, so there is nothing here to hug. -->";
@@ -301,6 +314,16 @@ function styleFor(component, row) {
     const pad = (row.padding || '').trim().split(/\s+/).map(Number);
     if (pad.length === 4 && pad.some(n => n > 0)) s.push(`padding:${pad.map(n => n + 'px').join(' ')}`);
   }
+  // A RAIL STATES ITS MEASURED CROSS AXIS, so the children stand ON it instead of inflating it.
+  // `align-items` already comes from Figma's own layout string, so they centre on the line; the
+  // overflow above and below is what Figma draws and what `check-template-overflow` now
+  // attributes to the file rather than to the pipeline.
+  const rail = railHeight.get(`${component}|${row.path}`);
+  if (rail) {
+    s.push(rail.cross === 2 ? `height:${rail.P}px` : `width:${rail.P}px`);
+    s.push('flex:none');
+    if (!s.includes('box-sizing:border-box')) s.push('box-sizing:border-box');
+  }
   const r = parseInt(row.radius, 10);
   if (Number.isFinite(r) && r > 0) s.push(`border-radius:${r}px`);
   // AN ELLIPSE IS ROUND BY ITS NODE TYPE, NOT BY A CORNER RADIUS.
@@ -321,6 +344,26 @@ function styleFor(component, row) {
       const v = tokenVar.get(row.fill);
       if (v) s.push(`background:var(${v})`);
       else flag('no-token', `${component}: fill "${row.fill}"`);
+    }
+  }
+  // A GRADIENT IS NOT A COLOUR VARIABLE, AND A RAIL THAT PAINTS NOTHING IS NOT A RAIL.
+  //
+  // `Slider`'s track binds a GRADIENT. No colour variable can carry one, so the generator
+  // correctly refuses it everywhere — and for a frame that is a RAIL the refusal deletes the
+  // one thing the frame exists to draw. Reported as *"there should be a bar in the middle of
+  // it. Use the bar in the progress bar for the central line."*
+  //
+  // So this is a SUBSTITUTION, named one frame at a time, and it is the design owner's call
+  // rather than the pipeline's reading — which is exactly why it is a table here instead of a
+  // rule. The tokens are not invented: they are the two `Table progress bar`'s own `Bar` frame
+  // binds, which is the design system's existing definition of a track. Each entry is written
+  // up in docs/FIGMA-ISSUES.md; binding a variable in Figma removes the entry.
+  const sub = GRADIENT_FALLBACK[`${component}|${row.path}`];
+  if (sub && row.fill === 'GRADIENT') {
+    for (const [prop, tok] of Object.entries(sub)) {
+      const v = tokenVar.get(tok);
+      if (v) s.push(prop === 'stroke' ? `box-shadow:inset 0 0 0 1px var(${v})` : `background:var(${v})`);
+      else flag('no-token', `${component}: gradient substitute "${tok}"`);
     }
   }
   if (row.stroke && row.stroke !== 'LITERAL') {
