@@ -1,0 +1,82 @@
+# checked: 2026-09-12
+# what-this-is: a FINGERPRINT for detecting a rollback, not a backup of the edits
+#
+# WHY A FINGERPRINT AND NOT A NODE LIST. Roughly 700 nodes were rebound across 2026-09-11 and -12.
+# tokens/_raw/deprecated-rebinds-applied.tsv holds 26 of them; the rest were applied by runs that
+# logged a COUNT rather than their targets, which is the failure that file was created in response
+# to. So the ids of about 96% of those writes do not exist anywhere.
+#
+# AND A CURRENT-STATE SNAPSHOT WOULD NOT FIX THAT, which is the thing worth being clear about. To
+# RESTORE an edit you need the state BEFORE it, and nobody captured that. A snapshot of what is
+# there now can only tell you that something changed — it cannot tell you what to put back. Figma's
+# own version history is the only thing that can, and it is outside this repo.
+#
+# So this file does the job that IS achievable from here: two whole-file censuses, each swept twice
+# and agreeing, that a later sweep can be diffed against. If any of these numbers moves and nobody
+# did the work, the file has been rolled back or edited elsewhere.
+#
+# A 414-row dump of every deprecated-style node was attempted and abandoned deliberately. It has to
+# cross the chat in 20KB chunks and be retyped into this file — a HAND-COPY, which this repo has
+# been bitten by three separate times — and a half-transcribed list is worse than no list, by the
+# same rule that makes every extractor here refuse to shrink. The 35 that ship are written out in
+# full in deprecated-shipped-worklist.tsv, node by node, because those are the ones anyone acts on.
+#
+# ── CENSUS 1: nodes bound to each semantic variable this work wrote ──────────
+# Whole file, every page, two agreeing sweeps: 15001 bindings across 17 variables.
+# These are NOT all mine — the overwhelming majority predate this work. That is the point: the
+# number is a fingerprint, and a fingerprint does not need to be attributable to be useful.
+#
+variable	boundNodes
+Text/Primary	4887
+Border/Default full	3254
+Icons/Icon - Secondary	2130
+Text/Secondary	1101
+Icons/Icon - Primary	742
+Icons/Icon - Disabled	630
+Icons/Icon - Theme	589
+Icons/Icon - Always white	488
+Text/Theme	328
+Border/Theme	281
+Background/Primary Button	243
+Icons/Icon - Link	118
+Background/Negative Button	68
+Charts/Chart 3	40
+Icons/Icon - Info	35
+Text/Always grey slate	35
+Border/Positive	32
+#	TOTAL	15001
+#
+# ── CENSUS 2: the same 15001 by page ────────────────────────────────────────
+page	boundNodes
+Tables	3361
+📚 WIKI	2962
+Cards and panels	1523
+Navigation	1435
+AI	1142
+People	665
+Pages and Layouts	633
+Analytics and charts	567
+🎨 STYLE GUIDE	512
+Forms	503
+Icons	460
+Controls	357
+Buttons and links	282
+System messages	247
+Tags and ratings	192
+📄 DOCUMENT MANAGEMENT	69
+🧪 Claude import — HR Admin Contact	34
+👥 PERSONAS 🗣️	1
+#
+# ── CENSUS 3: what is still RETIRED, which is the inverse of the work done ───
+# Outside WIKI / STYLE GUIDE / DOCUMENT MANAGEMENT: 403 nodes, 414 references, two agreeing sweeps.
+# File-wide: 1423 references. Per-style breakdown is in deprecated-collection-census.tsv; the 35
+# that sit inside a component are in deprecated-shipped-worklist.tsv.
+#
+# HOW TO USE THIS. Re-run the same sweeps (docs/figma-rebind-deprecated.js with WRITE=false gives
+# census 3; census 1 and 2 are a findAll over boundVariables.fills/strokes). If census 3 has GROWN
+# or census 1 has SHRUNK and nobody has been working, the file has moved underneath us.
+#
+# TWO AGREEING SWEEPS, ALWAYS. A cold findAll under-reports per PREDICATE — this repo has had
+# 2-of-15, 38-of-277 and 103-of-203 from a first pass. Every number above is the second of two runs
+# that agreed. A single sweep that disagrees with this file is not evidence of a rollback; it is
+# evidence you need to sweep again.
