@@ -492,10 +492,32 @@ reader. The test is CONTRADICTION and never absence: it refuses only when the li
 NAME and not the ID. A name the listing omits entirely proves nothing and is still filled, because
 refusing on absence is the *"not in this listing means not in Figma"* error made once already.
 
-`Header` is therefore an open question for a person rather than a pinned row: which of the two
-Navigation `Header`s in Figma is the one this repo ships `.pf-header` for, or whether it is now
-both. Nine mutants hold the two rules, including one that fires the guard on absence and one that
-writes the stale pin anyway.
+`Header` is therefore an open question for a person rather than a pinned row. Nine mutants hold
+the two rules, including one that fires the guard on absence and one that writes the stale pin
+anyway.
+
+**And the question turned out to be the wrong one, which three Figma reads settled on 2026-09-12.**
+This file asked *which of the two Navigation `Header`s we ship, or whether it is now both*. Only one
+of them is a header:
+
+| node | what it actually is |
+|---|---|
+| `32488:24634` | the header. A component SET of **32 variants — `Theme` × `Mobile`, 16 brand themes** — desktop 1830×86, mobile 390×62 |
+| `32527:39433` | **not a header at all.** A 60×100 frame named `Header` holding two 20×20 symbols, one of them `14990:11954` — the `Counter` this file spent a section on |
+| `13658:7653` | the id we hold. `get_metadata` refuses it as an invalid node selection, and the listing does not carry it |
+
+**So the header was RE-AUTHORED, and our capture is on an axis Figma no longer has.** We hold three
+variants on a `Breakpoint` axis (Desktop / Tablet / Mobile). Figma has `Theme` × `Mobile`, and
+`Breakpoint` is gone. The desktop bar is still 1830×86 and still renders as the same crimson band —
+which is exactly why nothing looked wrong and a name match went on reporting `Header` unchanged.
+
+The 16 themes: `Default – Cranberry red`, `Classic`, `Dark mode`, `Configr`, `Velvet red`,
+`Striking red`, `Berry pink`, `Purple orchid`, `Purple iris`, `Royal purple`, `Orange flame`,
+`Cobalt blue`, `Blue lagoon`, `Teal ocean`, `Fern green`, `Cool grey`.
+
+What is left for a person is narrower than "which one": re-capture on `Theme` × `Mobile`, and say
+which theme the shipped class defaults to. Put to the design lead with the evidence rendered, so
+the answer arrives with the numbers beside it rather than from memory.
 
 **Has Figma changed since we last looked?** One call, on demand:
 
@@ -691,6 +713,18 @@ real path data on the first try. The wall was never egress; it was one tool's re
 nothing had tried the other one. A blocker recorded once and never re-tested is indistinguishable
 from a blocker that is still there — which is the same shape as every stale count this file has
 had to correct.
+
+**It happened a second time, with a different tool, on 2026-09-12.** `get_screenshot` answers with a
+URL on that same blocked host, and `curl` on it returns the familiar `CONNECT tunnel failed,
+response 403` — so a session that stops there concludes it cannot see the file. It can:
+**`enableBase64Response: true` returns the PNG inline instead**, and the header bar
+(`32488:24622`) came back as a real 1000×47 render on the first try. Same lesson, same afternoon:
+the wall is one response FORMAT, not the network, and both tools carry a second route that nobody
+had tried.
+
+What is genuinely blocked stays blocked, and the distinction matters: the asset host cannot be
+reached, so an image cannot be DOWNLOADED to a file here. It can be looked at, which is enough to
+answer a question and not enough to capture artwork.
 
 ## Icon drift
 
