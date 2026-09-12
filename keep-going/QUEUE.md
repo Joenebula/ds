@@ -1537,3 +1537,65 @@ a wrapper with the real control inside it.
 above and below. `check-field-icons.mjs` reads the right-hand distance from the field's own
 computed padding and border rather than hard-coding it, so it stays correct if Figma changes
 either. Proved it fails by reinstating the old absolute positioning — it named all four.
+
+---
+
+## P. Survey sweep — three things the checks reported but nobody could read
+
+The queue was empty, so this sweep asked the question the skill says to ask when it is:
+what does this project's own output *report* rather than fail on? All three findings came
+out of reading build and verify output rather than from a bug report.
+
+### P1. The template builder discarded 38 measurements without saying so — DONE
+
+It measures 71 child offsets, applies 17, and reported 16 refusals. The other 38 left no
+trace: three `continue` statements, only one of which recorded anything. So the build's
+"16 measured offsets NOT applied" read as the whole shortfall when it was under a third of
+it. This is the same silent-discard fault this pipeline keeps finding elsewhere, sitting in
+the code that fixes it.
+
+Every refusal now carries a reason and all four groups are named, and the build **fails if
+the counts do not sum to the file's row count** — so a fifth refusal cannot be added
+quietly. The newly visible number is **36 offsets measured deeper than the tree walk
+reaches**, which is the only honest measure of what deepening the walk would buy.
+
+Closing it exposed a documented figure that had drifted: CLAUDE.md said 12 children were
+placed and the real number has been 17 since the origin-is-the-parent fix. Three figures
+are now pinned and each was broken on purpose to confirm it reports.
+
+**Done when:** met.
+
+### P2. 84 notes of five severities in one list, cut off at 20 — DONE
+
+The build collected everything the library cannot carry into one flat list headed "things
+the library cannot name" and printed the first twenty. The list runs alphabetically, so the
+twenty shown were mostly the benign kind — a label whose type is off the ramp — and three of
+the four components binding a **raw primitive**, which is the one thing in there that cannot
+change between light and dark, had never been printed at all.
+
+Each note is now tagged with its kind where it is written, the report leads with the severe
+kinds in full, and only the two large benign groups are capped — saying how many they
+withheld. A kind with no heading fails the build.
+
+**Done when:** met. Made `Card` and `Toggle` visible for the first time.
+
+### P3. 38 templates handed you a box that paints nothing — DONE
+
+Colour rules are written per variant, so a bare class carried shape and no colour, and the
+component's own template writes no variant attribute. Pasting `pf-side-panel.html` gave an
+invisible panel.
+
+For a component whose variants genuinely differ that is right — `Button` binds eight fills,
+`Tags` seven, and the page must choose. **For 48 classes there is exactly one**, stated
+unambiguously on every variant, and the stylesheet was throwing it away. Those 48 now carry
+it; 19 templates still need a variant attribute, which is the honest remainder and not a
+number to drive to zero by inventing defaults.
+
+**Done when:** met. `check-hoisted-fills.mjs` reads the RENDERED colour, asserts both
+directions, refuses to pass if either side matches no component, and pins the 19. Both sides
+were broken on purpose. Screenshotted in light and dark on the pages and the template
+gallery.
+
+**Still open, unchanged:** the prototype question (stat tiles using `.pf-card`, overlapping
+side-panel text, the empty "Outcome" box) — the user has twice said prototypes are fixtures
+not to be rebuilt unless asked, so it needs their word. And the charts, parked by the user.
