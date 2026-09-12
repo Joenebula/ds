@@ -348,7 +348,7 @@ zero.**
 **And both are measured at two widths now.** They were desktop-only for as long as a class was
 the same size at every width; making components follow the viewport ended that, and the pinned
 pair described half the library. A class box shrinks to its mobile artboard while the template's
-placeholder contents do not, so at 390px it is **29 templates and 1683px**. Four templates
+placeholder contents do not, so at 390px it is **30 templates and 1688px**. Four templates
 overflow *only* once the class shrinks — `pf-navigation-tabs`, `pf-search-navigation`,
 `pf-table-ag` — and no check could see them. A precondition checked at one width is not checked.
 
@@ -387,9 +387,34 @@ equally *both* ways — and the left spill cannot be scrolled to, because `scrol
 the strip was permanently invisible. `justify-content: safe center` keeps the design intent
 where it fits and falls back to the start where it does not.
 
+**A scroll container has no automatic minimum height**, and that is how making the strips
+scroll quietly cropped every chip in them. `min-height: auto` resolves to 0 for a scroll
+container, so `Table action bar`'s filter strip stopped growing to the 42px chips it holds and
+was squashed by its parent to 32 — with `align-items: center` the chips then hung 5px above and
+below, and the y-axis scroll port that comes free with `overflow-x` ate exactly those 5px: the
+top and bottom of every chip's border, while the rounded left and right ends survived. Reported
+from a phone as *"the borders are not showing"*, and no check could see it — the strip was one
+row, scrollable, and started at its first item. The fix is `min-height: fit-content`, which
+restores precisely what the scroll container suppressed. Stating Figma's measured slot height
+instead looked equivalent and was not: `Footer`'s slot is 28px and its real contents are
+shorter, so pinning 28 pushed the footer's own contents out of its class box and invented a
+new overflow.
+
+**`justify-content: safe` goes on a ROW, and nowhere else.** `.pf-secondary-nav` centres a
+524px strip of tabs; give it a phone's width and a centred flex row spills equally *both* ways,
+putting the first tab 83px off the left edge where nothing reaches it. `safe` fixes that and
+costs nothing while the content fits. Guarding `align-items` as well made two things worse at
+once: `Navigation item` is a COLUMN, so its `align-items` is the horizontal axis, and `safe`
+turned a "Notifications" label overflowing 8px each side into one overflowing 16px on one — the
+layout check caught it — while the header's "HR" and "Clock-in" shifted off the band they are
+painted against and fell to 1.04:1 contrast. The loss `safe` prevents is specific: content
+pushed past the START of the inline axis goes off the left of the page and there is no
+scrolling back. Overflow up or down is not lost, because the page scrolls.
+
 `npm run verify` runs `check-scroll-strips.mjs`, which squeezes every strip into 320px **on
 purpose** and asserts three things: it stays on one row, it can be scrolled, and it begins at
-its first item. The narrow harness is the point — the first version of this assertion lived
+its first item, and that its scroll port cuts nothing off the top or bottom of what it holds.
+The narrow harness is the point — the first version of this assertion lived
 inside `check-template-overflow`, where templates render at body width and a strip sized to its
 contents never overflows, so it could not fail at all. Two false positives had to be cleared
 before it was right: "two different top edges" is not a second row when the slot centres items

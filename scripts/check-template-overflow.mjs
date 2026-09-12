@@ -45,7 +45,7 @@ const OVERFLOW_PX_BASELINE = 1363;
 //
 // It matters because these numbers are the precondition for carrying Figma's clipping (see
 // CLAUDE.md, "Clipping"), and a precondition checked at one width is not checked.
-const MOBILE_OVERFLOW_BASELINE = 29;
+const MOBILE_OVERFLOW_BASELINE = 30;
 // RAISED ON PURPOSE, from 1536, and this is the one place the rule allows it.
 //
 // Keeping a fixed-height component's label on one line stopped it wrapping downward and let
@@ -55,7 +55,11 @@ const MOBILE_OVERFLOW_BASELINE = 29;
 // the template still holds the desktop contents, so the word "Search" now hangs 119px out of
 // a 32px box instead of folding up inside it. A template that disagrees with its mobile class
 // is worth seeing; a wrap that concealed it was not.
-const MOBILE_OVERFLOW_PX_BASELINE = 1683;
+// Raised again, by 5px, and this one is the cost of the chips being drawn at all. Letting
+// the filter strip grow back to the 42px chips it holds — instead of being squashed to 32 and
+// cropping their top and bottom borders — means those chips now extend 5px further past the
+// component's own box. Five pixels of measured overflow for a border that renders.
+const MOBILE_OVERFLOW_PX_BASELINE = 1688;
 const WIDTHS = [['desktop', 1280, OVERFLOW_BASELINE, OVERFLOW_PX_BASELINE],
                 ['mobile', 390, MOBILE_OVERFLOW_BASELINE, MOBILE_OVERFLOW_PX_BASELINE]];
 

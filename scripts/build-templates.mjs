@@ -452,6 +452,21 @@ function render(component, rows, path, depth) {
     // sticking out vertically, so nothing is lost to the y-axis becoming a scroll port.
     if (/^HORIZONTAL/.test(row.layout || '')) {
       style.push('overflow-x:auto');
+      // A SCROLL CONTAINER HAS NO AUTOMATIC MINIMUM HEIGHT, and that is how making a strip
+      // scroll quietly cropped every chip in it. `min-height: auto` resolves to 0 for a
+      // scroll container, so `Table action bar`'s filter strip stopped growing to its 42px
+      // chips and was squashed by its parent to 32 — with `align-items: center` the chips
+      // then hung 5px above and below, and the overflow the scroll port brings with it ate
+      // exactly those 5px: the top and bottom of every chip's border, while the rounded
+      // left and right ends stayed. Reported from a phone as the borders not showing.
+      // Figma's own measured height for the slot is restored as a floor.
+      // `fit-content` rather than Figma's measured slot height. Both stop the squash, but
+      // stating a number imposes one: `Footer`'s slot is 28px in Figma and its real contents
+      // are shorter, so pinning 28 pushed the footer's own contents out of its class box and
+      // check-template-overflow reported a new overflow that was entirely of my making.
+      // `fit-content` restores exactly what the scroll container suppressed — grow to what
+      // you hold — and imposes nothing beyond it.
+      if (!style.some(d => /^min-height:/.test(d))) style.push('min-height:fit-content');
       // CENTRING A STRIP THAT OVERFLOWS PUTS THE START OF IT OUT OF REACH.
       //
       // `Secondary nav`'s slot is HORIZONTAL CENTER CENTER, so the row is centred. Once its

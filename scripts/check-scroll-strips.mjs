@@ -74,8 +74,19 @@ const found = await page.evaluate(() => {
     // strip on the first run.
     const rects = kids.map(k => k.getBoundingClientRect()).filter(r => r.width && r.height);
     const wrapped = rects.some((a, i) => rects.some((b, j) => i !== j && a.top >= b.bottom - 1));
+    // WHAT A SCROLL PORT TAKES OFF THE TOP AND BOTTOM.
+    //
+    // `overflow-x: auto` cannot be had on its own — the y-axis becomes a scroll port too, and
+    // a scroll container also loses its automatic minimum height, so it stops growing to its
+    // own contents. `Table action bar`'s strip was squashed from 42px to 32 and its 42px
+    // chips, centred, hung 5px above and below: the port ate exactly the top and bottom of
+    // every chip's border while the rounded ends survived. Reported from a phone as "the
+    // borders are not showing", and no check could see it — the strip was one row, scrollable
+    // and started at its first item.
+    const clipped = Math.max(0, ...rects.map(r => Math.max(box.top - r.top, r.bottom - box.bottom)));
     out.push({
       id: (el.closest('section') || {}).id || '?',
+      clipped: Math.round(clipped),
       wrapped,
       overflows: el.scrollWidth - el.clientWidth,
       firstOffset: Math.round(kids[0].getBoundingClientRect().left - box.left),
@@ -93,8 +104,12 @@ const nameOf = id => {
   return Number.isFinite(i) && specs[i] ? specs[i].base : id;
 };
 const problems = [];
-let oneRow = 0, reachable = 0, overflowing = 0;
+let oneRow = 0, reachable = 0, overflowing = 0, unclipped = 0;
 for (const f of found) {
+  if (f.clipped > 0) {
+    problems.push(`${nameOf(f.id)} — its scroll port cuts ${f.clipped}px off the top or bottom of `
+      + `its items, which is where their borders are; the strip is shorter than what it holds`);
+  } else unclipped++;
   if (f.wrapped) problems.push(`${nameOf(f.id)} — an item in its strip begins below where another `
     + `ends, so the strip has wrapped onto a second row; a strip is one row`);
   else oneRow++;
@@ -108,6 +123,7 @@ for (const f of found) {
 console.log(`${found.length} scrolling strip(s) across ${specs.length} template(s), each squeezed into ${NARROW}px`);
 console.log(`  ${oneRow} stay on ONE row — no label or item has wrapped`);
 console.log(`  ${reachable} start at their first item, so nothing is out of reach`);
+console.log(`  ${unclipped} are at least as tall as what they hold, so the scroll port cuts no borders`);
 console.log(`  ${overflowing} actually overflow at this width, which is what makes the test meaningful`);
 if (!overflowing) {
   console.error('  this check proved nothing: not one strip overflowed, so nothing was tested');

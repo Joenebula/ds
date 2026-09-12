@@ -278,8 +278,34 @@ function geometryDecls(g, notes, isVariant = false, composedType = null) {
   if (mode === 'HORIZONTAL' || mode === 'VERTICAL') {
     d.push('display: inline-flex');
     d.push(`flex-direction: ${mode === 'VERTICAL' ? 'column' : 'row'}`);
+    // CENTRING OR END-ALIGNING CONTENT THAT OVERFLOWS PUTS ITS START OUT OF REACH.
+    //
+    // `.pf-secondary-nav` is `justify-content: center` and holds a 524px strip of tabs. Give
+    // it less room than that — a phone — and a centred flex row spills equally BOTH ways, so
+    // the first tab sat 83px off the left edge where no amount of scrolling reaches it.
+    // Reported from a phone as the first tab being cut off, and it was: permanently.
+    //
+    // `safe` is the CSS keyword for exactly this and it changes nothing whatsoever while the
+    // content fits — it only takes effect in the overflow case, which is the case where the
+    // named alignment loses content. `flex-start` needs no guard: it already puts the start
+    // of the content at the start of the box.
+    // ONLY ON A ROW'S justify-content, and the first attempt proved why the scope matters.
+    // Guarding align-items too made it worse in two places at once: `Navigation item` is a
+    // COLUMN, so its align-items is the horizontal axis, and `safe` turned a "Notifications"
+    // label that overflowed 8px each side into one that overflowed 16px on one — the layout
+    // check caught it — while the header's "HR" and "Clock-in" shifted off the band they are
+    // painted against and dropped to 1.04:1 contrast.
+    //
+    // The loss `safe` prevents is specific: content pushed past the START of the inline axis
+    // goes off the left of the page and there is no scrolling back to it. Overflow up or down
+    // is not lost, because the page scrolls; overflow centred within a fixed-width label is
+    // not lost either, it is just centred. So the guard belongs on one property in one
+    // direction, which is also the one the report was about.
+    const horizontal = String(g.layout || '').startsWith('HORIZONTAL');
+    const safeJustify = v =>
+      (horizontal && v !== 'flex-start' && v !== 'space-between') ? `safe ${v}` : v;
     if (ALIGN[counter]) d.push(`align-items: ${ALIGN[counter]}`);
-    if (JUSTIFY[primary]) d.push(`justify-content: ${JUSTIFY[primary]}`);
+    if (JUSTIFY[primary]) d.push(`justify-content: ${safeJustify(JUSTIFY[primary])}`);
     // A variant row's 0 has to be EMITTED, not skipped: the variant rule cascades over
     // the base rule, so a skipped 0 silently inherits the base row's gap. Tertiary nav
     // Mobile=Yes/Page=Yes is gap 0 in Figma and was rendering the desktop row's 40.
