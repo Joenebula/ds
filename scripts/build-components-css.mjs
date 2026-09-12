@@ -963,6 +963,7 @@ if (innerRows.length) {
   out.push('');
 }
 
+const shadowHoisted = [];
 // THE SHADOW A COMPONENT CASTS.
 //
 // This file used to contain the string "box-shadow" zero times, while Figma put a drop
@@ -1010,6 +1011,57 @@ if (shadowRows.length) {
     const sel = `.${cls(r.component)}${variantSel(cls(r.component), r.variant)}`;
     if (!byVariant.has(sel)) byVariant.set(sel, []);
     byVariant.get(sel).push(hit[0]);
+  }
+  // A SHADOW EVERY VARIANT CASTS BELONGS ON THE BARE CLASS — the fill hoist's rule, for the
+  // one other property that was still keyed per variant and nowhere else.
+  //
+  // Found by asking what the responsive pass made vary that nothing measures. Eight floating
+  // surfaces — `Side filter`, `Form`, `Manage columns`, `Table card (AG)`, `AI Assistant`,
+  // `Notification panel`, `Notification categories` — had a shadow on a PHONE and none on a
+  // desktop. Figma casts the identical shadow at both: `Side filter` is `0 0 4 0` at
+  // Mobile=False and `0 0 4 0` at Mobile=True. The asymmetry was never a design decision, it
+  // was which selector the rule happened to be keyed on: the mobile variant reaches the bare
+  // class through the breakpoint mirror and the desktop one does not.
+  //
+  // Same guard as everywhere else: the variants must AGREE, and together they must cover every
+  // value of each axis they all carry, so "Figma only drew a shadow on one of them" is not
+  // mistaken for "they agree".
+  {
+    const axisVals = new Map();
+    for (const m of out.join('\n').matchAll(/\.(pf-[a-z0-9-]+)((?:\[[^\]]*\])+)/g)) {
+      if (!axisVals.has(m[1])) axisVals.set(m[1], new Map());
+      for (const a of m[2].matchAll(/\[data-([a-z0-9-]+)="([^"]*)"\]/g)) {
+        const per = axisVals.get(m[1]);
+        if (!per.has(a[1])) per.set(a[1], new Set());
+        per.get(a[1]).add(a[2]);
+      }
+    }
+    const byClass = new Map();
+    for (const [sel, tokens] of byVariant) {
+      const base = (/\.(pf-[a-z0-9-]+)/.exec(sel) || [])[1];
+      if (!base) continue;
+      if (!byClass.has(base)) byClass.set(base, []);
+      byClass.get(base).push({ sel, key: [...new Set(tokens)].sort().join('|') });
+    }
+    for (const [base, rows] of byClass) {
+      if (rows.length < 2) continue;                       // one variant proves no agreement
+      if (new Set(rows.map(r => r.key)).size !== 1) continue;
+      const parsed = rows.map(r => new Map([...r.sel.matchAll(/\[data-([a-z0-9-]+)="([^"]*)"\]/g)]
+        .map(m => [m[1], m[2]])));
+      const shared = [...parsed[0].keys()].filter(a => parsed.every(p => p.has(a)));
+      const known = axisVals.get(base) || new Map();
+      const covers = shared.every(a => {
+        const all = known.get(a);
+        if (!all) return true;
+        const seen = new Set(parsed.map(p => p.get(a)));
+        return [...all].every(v => seen.has(v));
+      });
+      if (!covers) continue;
+      const tokens = byVariant.get(rows[0].sel);
+      for (const r of rows) byVariant.delete(r.sel);       // the bare class now says it for all
+      byVariant.set(`.${base}`, tokens);
+      shadowHoisted.push(base);
+    }
   }
   if (byVariant.size) {
     out.push(`/* Drop shadows. Figma puts one on every floating surface; the design system has`);
@@ -1320,6 +1372,11 @@ if (shapeOnly.length) {
 console.log(`  with measured geometry : ${[...byComponent.keys()].filter(c => geometry.has(c)).length}`);
 console.log(`  ${nowrapCount} class(es) keep their label on one line, because Figma draws it on one `
   + `and their height is fixed — a wrap there pushes the text out of the component`);
+if (shadowHoisted.length) {
+  console.log(`  ${shadowHoisted.length} class(es) carry their drop shadow on the BARE class because `
+    + `every variant casts the same one — without this a floating surface had a shadow at one `
+    + `breakpoint and none at another: ${shadowHoisted.sort().join(', ')}`);
+}
 console.log(`  ${hoistedFills.size} class(es) carry a fill on the bare class because every one of their `
   + `variants binds it — without this the class painted nothing until a page wrote a data attribute`);
 if (sourceIssues.size) {

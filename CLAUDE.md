@@ -289,8 +289,19 @@ pass. A colour is now carried onto a bare class only where the class paints a ba
 its own or the same rule brings one. **Seven classes keep their breakpoint geometry and lose
 the colour**; `Notification categories` gains a colour *and* a surface together and keeps both.
 
-`npm run verify` runs `check-breakpoint-contrast.mjs`. Two wrong questions came first and both
-are worth knowing:
+`npm run verify` runs `check-breakpoint-consistency.mjs`, which asks the general question — does
+what a component looks like depend on the viewport where Figma does not say it should — and
+carries a second finding of the same shape. **Eight floating surfaces had a drop shadow on a
+phone and none on a desktop**: `Side filter`, `Form`, `Manage columns`, `Table card (AG)`,
+`AI Assistant`, `Notification panel`, `Side panel`, `Header navigation`. Figma casts the
+identical shadow at both — `Side filter` is `0 0 4 0` at `Mobile=False` and `0 0 4 0` at
+`Mobile=True` — and the asymmetry was only ever which selector the rule was keyed on. The
+shadow now hoists to the bare class on the same agreement-and-coverage rule as the fill. The
+one class that still differs, `Notification categories`, differs honestly: Figma measures
+`2 0 4 0` at desktop and `0 0 4 0` at mobile, and the desktop one matches no token (§12). The
+exception is read from the measurements, never allowed by name.
+
+Two wrong questions came first on the colour half, and both are worth knowing:
 
 - **A contrast ratio is not the test.** It needs a background to measure against, and the whole
   fault is that there isn't one — white text reads 1:1 on a white test page and 21:1 on a dark

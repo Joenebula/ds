@@ -1,4 +1,11 @@
-// A bare class that sets its own TEXT COLOUR must paint its own BACKGROUND — at every width.
+// What a component looks like must not depend on the viewport except where Figma says it does.
+//
+// Two things are asserted, both found by asking what the responsive pass made vary that nothing
+// measures. The breakpoint mirror puts a variant's rule on the bare class wherever the
+// breakpoint was that component's only axis, so a property keyed per variant can reach the bare
+// class at ONE width and nowhere else — an asymmetry that is nobody's design decision.
+//
+// 1. A bare class that sets its own TEXT COLOUR must paint its own BACKGROUND.
 //
 // The responsive pass mirrors each mobile and tablet variant with the breakpoint axis stripped
 // out, and where a component's only axis IS the breakpoint that leaves the rule on the bare
@@ -50,7 +57,7 @@ for (const [name, width] of Object.entries(WIDTHS)) {
     const paints = (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') || s.backgroundImage !== 'none';
     // A colour it merely inherited is not a colour it states; compare against the body's.
     const stated = s.color !== getComputedStyle(document.body).color;
-    return { paints, stated };
+    return { paints, stated, shadow: s.boxShadow };
   }), classes.length);
   await page.close();
 }
@@ -82,7 +89,40 @@ classes.forEach((c, i) => {
   }
 });
 
+// 2. A DROP SHADOW must be the same at every width unless Figma's own measurements differ.
+//
+// Eight floating surfaces — `Side filter`, `Form`, `Manage columns`, `Table card (AG)` among
+// them — had a shadow on a phone and none on a desktop. Figma casts the identical shadow at
+// both (`Side filter` is `0 0 4 0` at Mobile=False and `0 0 4 0` at Mobile=True); the
+// asymmetry was only ever which selector the rule was keyed on. The exception is read from
+// the measurements rather than allowed by name: `Notification categories` really is `2 0 4 0`
+// at desktop and `0 0 4 0` at mobile, and the desktop one matches no token, so it differs
+// honestly — see FIGMA-ISSUES.md §12.
+const kebab = n => 'pf-' + String(n).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const figmaShadows = new Map();       // class -> Set of "x y blur spread colour" per variant
+for (const line of readFileSync('tokens/_raw/component-shadow.tsv', 'utf8').trim().split('\n').slice(1)) {
+  const c = line.split('\t');
+  if (c[3] !== 'DROP_SHADOW') continue;
+  const k = kebab(c[0]);
+  if (!figmaShadows.has(k)) figmaShadows.set(k, new Set());
+  figmaShadows.get(k).add(`${c[4]} ${c[5]} ${c[6]} ${c[7]} ${c[8]}`);
+}
+let sameShadow = 0;
+const shadowExcused = [];
+classes.forEach((c, i) => {
+  const vals = new Set(widths.map(w => seen[w][i].shadow));
+  if (vals.size === 1) { sameShadow++; return; }
+  if ((figmaShadows.get(c) || new Set()).size > 1) { shadowExcused.push(c); return; }
+  problems.push(`.${c} casts a different drop shadow at different widths (${[...vals].map(v => v === 'none' ? 'none' : v.slice(0, 24)).join('  vs  ')}) `
+    + `while Figma measures the same one at every breakpoint — a floating surface that is flat `
+    + `on a desktop and shadowed on a phone`);
+});
+
 console.log(`${classes.length} class(es) checked at ${Object.values(WIDTHS).join('/')}px`);
+console.log(`  ${sameShadow} cast the same drop shadow at every width`);
+if (shadowExcused.length) {
+  console.log(`  ${shadowExcused.length} differ because Figma's own measurements differ: ${shadowExcused.join(', ')}`);
+}
 console.log(`  ${consistent} answer the same way at every width — a breakpoint never decides whose `
   + `colour the text is`);
 console.log(`  ${stating} of those state a colour of their own, ${onOwnSurface} of them over a `
