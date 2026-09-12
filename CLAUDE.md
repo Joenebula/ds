@@ -1063,8 +1063,20 @@ wait that quietly was not long enough is the same failure one layer up. (The ani
 capped at 2s so an infinite animation cannot hang the shot — a page with a 3s transition is
 shot mid-fade and warned about, which is the honest answer rather than a hang.)
 
-**The other screens' dark screenshots in `screenshots/` predate the pre-paint fix and are still
-the wrong ones.** Re-shoot before trusting any of them.
+**A stale picture is the same failure with a slower fuse**, and that is now impossible rather
+than a warning. `npm run verify` runs `check-screenshots.mjs`, which re-shoots every capture in
+`screenshots/` from its source page and compares it **byte for byte** with the committed file.
+Chromium's rendering is deterministic at the pinned version — measured, two runs of the same
+page are identical — so any difference means the committed picture is not this build's, and the
+failure says which command to run. **14 reproduce; 12 cannot**, because the page they came from
+no longer exists, and those are named one by one in `screenshots/ORPHANS.md` with what they
+were. A capture that is neither reproducible nor listed fails, which is what stops a keepsake
+being added silently. Any dark one among the twelve predates the pre-paint fix, so do not read
+a colour off it.
+
+(Byte-identity is a property of THIS pinned browser. On a different Chromium the bytes may
+differ with nothing wrong, which is why the message says *re-shoot* rather than *the page is
+broken*.)
 
 A full-page capture (`--full`) flattens `position: sticky`, so a pinned sidebar looks
 like it stops halfway down and a sticky footer looks like it is clipping the panel above
