@@ -175,7 +175,21 @@ export function judge({ figma, captured, declared, inventory, icons = [], confir
   goneIcons.sort();
 
   const fig = all.filter((c) => !isExcludedPage(c.page));
-  const figById = new Map(fig.filter((c) => key(c.nodeId)).map((c) => [key(c.nodeId), c]));
+
+  // PRESENCE IS PROVED BY THE WHOLE LISTING; the page narrowing belongs to the NEW direction only.
+  // `fig` drops the icon page so that 281 captured glyphs are not reported as new components. Used
+  // for the GONE direction as well, that narrowing made a published component invisible: `Circle
+  // icons` (6580:66319) is published ON the icon page, `component-variants.tsv` captures it from
+  // there under exactly that id, and this check reported it GONE — while the listing it was reading
+  // held the id all along. A mechanism that cannot distinguish "not in Figma" from "on a page my
+  // classifier hands to the other half of this check" reported the wrong one confidently.
+  //
+  // So the ID match runs over `all`: an id is identity, and an id in the listing is proof of
+  // publication wherever it sits. The NAME fallback stays narrowed to `fig` on purpose — a name is
+  // not proof. Four names (`Bar chart`, `Configuration`, `Org chart`, `Signature`) are published
+  // twice, once as a component and once as a glyph, so a name matched across the icon page would
+  // let a GLYPH vouch for a component that really had gone.
+  const liveById = new Map(all.filter((c) => key(c.nodeId)).map((c) => [key(c.nodeId), c]));
   const figByName = new Map(fig.map((c) => [key(c.name), c]));
 
   const why = new Set(declared.map(key).filter(Boolean));
@@ -194,8 +208,8 @@ export function judge({ figma, captured, declared, inventory, icons = [], confir
     // coming back under a new name is ONE line saying so, not one "gone" and one "new" for a
     // human to pair up by eye. Against the newer list this repo was compared with, that turned
     // "7 gone, 27 new" into "5 renamed".
-    if (id && figById.has(id)) {
-      const f = figById.get(id);
+    if (id && liveById.has(id)) {
+      const f = liveById.get(id);
       matchedFigma.add(key(f.nodeId));
       if (key(f.name) !== name) renamed.push({ from: name, to: key(f.name), nodeId: id });
       else same++;
@@ -461,6 +475,26 @@ function selfTest() {
 
     ['a captured id Figma no longer publishes is GONE', () =>
       run({ figma: [] }), (r) => r.gone.length === 1 && r.gone[0] === 'Button' && r.problems === 1],
+
+    // THE ONE THIS SPLIT EXISTS FOR. `Circle icons` (6580:66319) is published on the ICON page and
+    // captured as a component from there. Narrowing the GONE test to non-icon pages made the
+    // listing unable to see an id it was holding, and the check reported a live component deleted.
+    // An id is identity: found anywhere in the listing, it is proof of publication.
+    ['an id published on the ICON page is proof the component is NOT gone', () =>
+      run({ captured: [{ name: 'Circle icons', nodeId: '6580:66319' }],
+        figma: [{ name: 'Circle icons', nodeId: '6580:66319', page: 'Icons ' }],
+        icons: [{ name: 'Circle icons', nodeId: '6580:66319' }], inventory: ['Circle icons'] }),
+      (r) => r.gone.length === 0 && r.goneUnconfirmed.length === 0 && r.same === 1
+        && r.isNew.length === 0 && r.problems === 0],
+
+    // ...and the NAME fallback must NOT be widened with it. Four names are published twice, once as
+    // a component and once as a glyph, so a name matched across the icon page would let a GLYPH
+    // vouch for a component that really had been deleted — a false clean, the worst direction.
+    ['a glyph of the same name does NOT vouch for an id-less component', () =>
+      run({ captured: [{ name: 'Org chart', nodeId: '' }],
+        figma: [{ name: 'Org chart', nodeId: '9:9', page: 'Icons ' }],
+        icons: [{ name: 'Org chart', nodeId: '9:9' }], inventory: ['Org chart'] }),
+      (r) => r.gone.length === 1 && r.gone[0] === 'Org chart' && r.problems === 1],
 
     // THE CLAIM MUST MATCH THE EVIDENCE. A GONE nobody has checked is UNCONFIRMED — the listing
     // proves absence from itself, not absence from Figma — and it fails until somebody reads.
