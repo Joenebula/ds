@@ -180,7 +180,20 @@ const ALIGN = { MIN: 'flex-start', CENTER: 'center', MAX: 'flex-end', BASELINE: 
 const JUSTIFY = { MIN: 'flex-start', CENTER: 'center', MAX: 'flex-end', SPACE_BETWEEN: 'space-between' };
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
+// EVERY NOTE CARRIES ITS KIND, tagged where it is written rather than guessed from its
+// wording at report time. These are five different facts with five different severities —
+// a component binding a PRIMITIVE will not adapt between modes, which is the rule this
+// repo opens with; a label with no type class is a known gap in the ramp and entirely
+// benign. They were reported as one flat list headed "things the library cannot name",
+// truncated at 20 of 84. The list is roughly alphabetical, so `Card`, `Time picker` and
+// `Toggle` binding primitives sat past the cut and had never been printed at all, while
+// the twenty that were printed were mostly the benign kind.
 const unresolved = [];
+// Named `flag`, not `note`: `render` already declares a local `const note`, which shadows
+// a module-level one for the whole function body and puts every earlier use in the
+// temporal dead zone. It crashed on the first run rather than misreporting, which is the
+// good failure mode, but the name is worth keeping distinct.
+const flag = (kind, msg) => unresolved.push({ kind, msg });
 
 // The type class for a text node, via the same resolver the stylesheet composition uses.
 function typeClassFor(component, row) {
@@ -231,19 +244,19 @@ function styleFor(component, row) {
   const r = parseInt(row.radius, 10);
   if (Number.isFinite(r) && r > 0) s.push(`border-radius:${r}px`);
   if (row.fill && row.fill !== 'LITERAL' && row.fill !== 'IMAGE' && row.fill !== 'GRADIENT') {
-    if (isPrimitive(row.fill)) unresolved.push(`${component}: fill binds the PRIMITIVE "${row.fill}" — will not adapt between modes`);
+    if (isPrimitive(row.fill)) flag('primitive', `${component}: fill binds the PRIMITIVE "${row.fill}"`);
     else {
       const v = tokenVar.get(row.fill);
       if (v) s.push(`background:var(${v})`);
-      else unresolved.push(`${component}: fill "${row.fill}" has no token`);
+      else flag('no-token', `${component}: fill "${row.fill}"`);
     }
   }
   if (row.stroke && row.stroke !== 'LITERAL') {
-    if (isPrimitive(row.stroke)) unresolved.push(`${component}: stroke binds the PRIMITIVE "${row.stroke}" — will not adapt between modes`);
+    if (isPrimitive(row.stroke)) flag('primitive', `${component}: stroke binds the PRIMITIVE "${row.stroke}"`);
     else {
       const v = tokenVar.get(row.stroke);
       if (v) s.push(`border:1px solid var(${v})`);
-      else unresolved.push(`${component}: stroke "${row.stroke}" has no token`);
+      else flag('no-token', `${component}: stroke "${row.stroke}"`);
     }
   }
   return s;
@@ -297,7 +310,7 @@ function render(component, rows, path, depth) {
     // inside itself and renders an empty box twice over. The wrapper adds nothing the
     // class does not already have.
     if (source === component) {
-      unresolved.push(`${component}: instances itself — the wrapper adds nothing, so the class alone is the component`);
+      flag('self', `${component}: instances itself — the wrapper adds nothing, so the class alone is the component`);
       return `${pad}<!-- ${esc(component)} instances itself here; the outer class already is it -->`;
     }
     const c = cls(source);
@@ -344,9 +357,8 @@ function render(component, rows, path, depth) {
     // capture it. They are recorded in uncaptured-reasons.tsv with the reason; the
     // template says so in place rather than pretending the gap is not there.
     const known = detachedNames.has(source);
-    unresolved.push(`${component}: instances "${source}"`
-      + (source !== row.name ? ` (labelled "${row.name}")` : '') + ', '
-      + (known ? 'a DETACHED component (recorded)' : 'which is neither a class nor an icon'));
+    flag(known ? 'detached' : 'unnamed', `${component}: instances "${source}"`
+      + (source !== row.name ? ` (labelled "${row.name}")` : ''));
     return `${pad}<!-- ${esc(source)}: ${known
       ? 'detached from the Figma page tree, so the library has no class for it — see uncaptured-reasons.tsv'
       : 'not in the library'} -->`;
@@ -373,18 +385,17 @@ function render(component, rows, path, depth) {
     // readable and an unadaptable one is not.
     const stranded = row.fill && onDroppedSurface(rows, path);
     if (stranded) {
-      unresolved.push(`${component}: text "${row.text}" binds "${row.fill}" over a surface whose own `
-        + `fill is a primitive with no semantic equivalent — the pair cannot be carried, so the `
-        + `colour is left to inherit`);
+      flag('stranded', `${component}: text "${row.text}" binds "${row.fill}" over a surface whose `
+        + `own fill is a primitive with no semantic equivalent`);
     } else if (row.fill && isPrimitive(row.fill)) {
       const alias = (PRIMITIVE_ALIAS[row.fill] || {}).color;
       if (alias) bits.push(`color:var(${alias})`);
-      else unresolved.push(`${component}: text binds the PRIMITIVE "${row.fill}" and no semantic `
-        + `token has that role — left to inherit rather than shipped unable to change between modes`);
+      else flag('primitive', `${component}: text binds the PRIMITIVE "${row.fill}" and no semantic `
+        + `token has that role`);
     } else {
       const colour = tokenVar.get(row.fill);
       if (colour) bits.push(`color:var(${colour})`);
-      else if (row.fill) unresolved.push(`${component}: text colour "${row.fill}" has no token`);
+      else if (row.fill) flag('no-token', `${component}: text colour "${row.fill}"`);
     }
     if (!tc) {
       // No type class means the label's style is off the ramp or ambiguous — the same 27
@@ -397,7 +408,7 @@ function render(component, rows, path, depth) {
         bits.push(`font-size:${m[1]}px`);
         if (m[2] === 'SemiBold' || m[2] === 'Bold') bits.push('font-weight:600');
       }
-      unresolved.push(`${component}: text "${row.text}" — no type class (${row.font || 'no font'}), measurement emitted`);
+      flag('no-type-class', `${component}: text "${row.text}" (${row.font || 'no font'})`);
     }
     const style = bits.length ? ` style="${bits.join(';')}"` : '';
     const klass = tc ? ` class="${tc}"` : '';
@@ -411,7 +422,7 @@ function render(component, rows, path, depth) {
   if (row.type === 'LINE' || (row.type === 'RECTANGLE' && parseInt(row.size) > 100 && row.size.endsWith('x0'))) {
     const bound = row.stroke || row.fill;
     if (isPrimitive(bound)) {
-      unresolved.push(`${component}: rule binds the PRIMITIVE "${bound}" — will not adapt between modes`);
+      flag('primitive', `${component}: rule binds the PRIMITIVE "${bound}"`);
       return `${pad}<!-- rule: Figma binds "${esc(bound)}", a primitive, which cannot change between modes. `
         + `Left unpainted rather than shipped broken — see FIGMA-ISSUES.md section 1. -->`;
     }
@@ -662,8 +673,44 @@ if (noClass.length) {
   console.log(`  ${noClass.length} walked but NOT written — the stylesheet has no class to hang them on:`);
   for (const n of noClass) console.log(`    ${n.component} (would be .${n.base})`);
 }
+// SEVERITY FIRST, AND THE SEVERE ONES ARE NEVER TRUNCATED. A flat list cut at 20 printed
+// the benign majority and hid the four components binding a raw primitive, which is the
+// one thing in here that breaks dark mode. The benign bulk is still capped — it is a known,
+// documented gap and 46 lines of it would bury everything above — but the cap now says how
+// many it withheld instead of ending mid-list.
 if (unresolved.length) {
-  const u = [...new Set(unresolved)];
-  console.log(`  ${u.length} thing(s) the tree references that the library cannot name:`);
-  for (const x of u.slice(0, 20)) console.log('    ' + x);
+  const KINDS = [
+    ['primitive', 'bind a raw PRIMITIVE, so the value cannot change between modes — the '
+      + 'generator emits nothing rather than ship that, and the colour is left to inherit', Infinity],
+    ['stranded', 'colour text against a surface whose own fill is an uncarryable primitive, '
+      + 'so the pair cannot be carried and the text is left to inherit', Infinity],
+    ['no-token', 'name a colour the token set does not contain', Infinity],
+    ['unnamed', 'instance something that is neither a library class nor an icon', Infinity],
+    ['self', 'instance themselves, so the class alone is the component', Infinity],
+    ['detached', 'instance a DETACHED component — one the file uses but that sits on no '
+      + 'Figma page, recorded in uncaptured-reasons.tsv', 6],
+    ['no-type-class', 'use type the ramp cannot express, so the measurement is emitted '
+      + 'instead of a class — see FIGMA-ISSUES.md section 7', 6],
+  ];
+  const seen = new Set();
+  const byKind = new Map(KINDS.map(k => [k[0], []]));
+  for (const { kind, msg } of unresolved) {
+    if (seen.has(kind + '|' + msg)) continue;
+    seen.add(kind + '|' + msg);
+    (byKind.get(kind) || byKind.set(kind, []).get(kind)).push(msg);
+  }
+  const total = [...byKind.values()].reduce((t, v) => t + v.length, 0);
+  console.log(`  ${total} thing(s) in the tree the library cannot carry as-is, by kind:`);
+  for (const [kind, why, cap] of KINDS) {
+    const list = byKind.get(kind) || [];
+    if (!list.length) continue;
+    console.log(`    ${list.length} ${why}:`);
+    for (const x of list.slice(0, cap)) console.log(`      ${x}`);
+    if (list.length > cap) console.log(`      ... and ${list.length - cap} more of the same kind`);
+  }
+  const untagged = [...byKind.keys()].filter(k => !KINDS.some(x => x[0] === k));
+  if (untagged.length) {
+    console.error(`  note kind(s) with no entry in KINDS, so they printed without a heading: ${untagged.join(', ')}`);
+    process.exitCode = 1;
+  }
 }
