@@ -694,7 +694,7 @@ Two things make that work and both are worth knowing:
   is also collapsed to a space now, because a tab there would move the id column; no current row
   has one, and that was luck rather than a rule.
 
-**The 10 rows still without an id are exactly the unresolved ones**, which is not a coincidence: a
+**The rows still without an id are exactly the unresolved ones**, which is not a coincidence: a
 row the inventory cannot match by name is a row whose name is wrong, and that is the same thing
 that makes it unpairable. They are counted in the verdict line, because a rename among *them* is
 still invisible. The list:
@@ -704,7 +704,7 @@ still invisible. The list:
 | ~~`addres book`~~ | `Address book` | a typo fixed in Figma | **corrected** — name only, artwork was already right |
 | ~~`Calendarcross`~~ | `Calendar cross` | spacing fixed in Figma | **corrected** — as above |
 | ~~`calendar link`~~ | `Calendar link` | case only | **corrected** — as above |
-| `Taxes coins` | `Coins` + `Tax` | split into two | needs a Figma read for the two new glyphs |
+| ~~`Taxes coins`~~ | `Coins` | HALF a split: Figma renamed this node `Coins` and added `Tax` as a separate, different drawing | **corrected** — name only, artwork was already right |
 | `Size=L/M/S/XS - ..px` | `Circle icons` | **not a Figma change at all** — `extract-icons.mjs` captured one component set's four VARIANTS as four separate icons | **extractor fixed** — it now refuses them; the four rows are left in place and reported by `--check` |
 | `unnamed-813678321` | — | an unnamed node captured as an icon | needs a Figma read to identify or drop |
 
@@ -736,15 +736,33 @@ that narrower claim is the one the script makes and tests. Seven mutants hold it
 rounded to 2dp in `icons.tsv` and not in Figma's export, which is why the first probe — Figma's
 `8.625` against the file's `8.63` — matched nothing at all.
 
-**Six rows are left, and every one now has a name and a node to act on:**
+**Five rows are left, and every one now has a name and a node to act on:**
 
 | row | what it is | what it needs |
 |---|---|---|
 | `unnamed-813678321` | node **`8136:78321`**, a 36×36 component whose Figma name is a single space — the slug was the node id with its colon dropped | a name from a designer; the artwork exports fine |
-| `Taxes coins` | split into `Coins` **`14334:1477`** and `Tax` **`32530:44518`**, both live | **no longer blocked** — both SVGs are fetchable now; capturing them is still a person's decision |
 | 4 × `Size=…` | variants of `Circle icons` **`6580:66319`** | which size is "the" icon is a designer's call |
 
 Pair the two lists by eye before importing anything.
+
+**`Taxes coins` came off that list on 2026-09-12, and the interesting part is that it needed no
+capture at all.** The split was recorded here as *"needs a Figma read for the two new glyphs"*, which
+assumed both halves were new drawings. Only one is. The row was pinned to `14334:1477`, and
+`icons:check` verifies that pin against Figma's own digest with **0 drift** — so the artwork sitting
+in this repo under the name `Taxes coins` IS today's `Coins`, unchanged. Figma renamed the node and
+added `Tax` (`32530:44518`, six vectors against Coins's one) beside it.
+
+Three independent things say so, which is why it was renamed rather than asked about: the live node's
+name from `get_metadata`, the name in the saved digest, and the drift check passing on the artwork.
+It is the fourth of the name-only corrections — a rename in `icons.tsv` plus a `git mv`, no Figma
+capture — and the first found by a CHECK rather than by someone reading a list.
+
+Note what was stale and in which direction: `components.json` still publishes this node as
+`Taxes coins`, because an inventory lags. The digest, which is a fresher read, already said `Coins`.
+Believing the inventory over the read would have kept a wrong name indefinitely, and the disagreement
+between two saved files is exactly the signal that one of them needs re-reading.
+
+`Tax` is still uncaptured and still a person's decision: it is genuinely new artwork, not a rename.
 
 **A component set's VARIANT is not an icon, and the extractor now knows that.** It had no concept
 of what an icon is: the whole accept test was an integer index and an SVG that starts `<svg` and
@@ -808,7 +826,7 @@ keeps its name, so it is invisible there by construction.
 npm run icons:check
 ```
 
-**Current reading: 287 of 287 pinned icons are identical to Figma. NOTHING has drifted.** Getting
+**Current reading: 288 of 288 pinned icons are identical to Figma. NOTHING has drifted.** Getting
 to that took three wrong answers in a row, all of them mine, and the sequence is the useful part.
 
 | run | verdict | what was actually wrong |
@@ -860,8 +878,9 @@ UNCOVERED, counted and named, never failed: a partial read is not a deletion. El
 including one that turns the vacuous 2 into a 0 — which survived until the exit code was pulled out
 of `main()` into a function a test can reach.
 
-**And the seven icons Figma has that this repo has not captured are all already-known items**, which
-is the reassuring answer: `Coins` `14334:1477` and `Tax` `32530:44518` (the `Taxes coins` split), the
+**And the six icons Figma has that this repo has not captured are all already-known items**, which
+is the reassuring answer: `Tax` `32530:44518` (half of the `Taxes coins` split — the other half was
+ours all along, see below), the
 four `Circle icons` variants — `6580:66320`, `16896:27867`, `16896:27887`, `16896:27897`, exactly the
 four bogus `Size=` rows, now with ids — and `8136:78321`, the component whose name is a single space.
 No surprises, which is the first time that has been provable.

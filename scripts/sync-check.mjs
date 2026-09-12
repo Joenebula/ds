@@ -65,13 +65,14 @@
 //   addres book          -> Address book        a typo fixed in Figma      (corrected)
 //   Calendarcross        -> Calendar cross      spacing fixed in Figma     (corrected)
 //   calendar link        -> Calendar link       case only                  (corrected)
-//   Taxes coins          -> Coins + Tax         split into two
+//   Taxes coins          -> Coins                renamed in Figma; Tax was ADDED beside it as a
+//                                               separate drawing  (corrected 2026-09-12)
 //   Size=L/M/S/XS - ..px -> Circle icons        NOT a Figma change at all: extract-icons.mjs
 //                                               captured one component set's four VARIANTS as
 //                                               four separate icons
 //   unnamed-813678321    -> nothing             an unnamed node captured as an icon
 //
-// THE 10 ROWS STILL WITHOUT AN ID ARE EXACTLY THE UNRESOLVED ONES, and that is not a coincidence:
+// THE ROWS STILL WITHOUT AN ID ARE EXACTLY THE UNRESOLVED ONES, and that is not a coincidence:
 // a row the inventory cannot match by name is a row whose name is wrong, which is the same thing
 // that makes it unpairable. They are counted in the verdict line, because a rename among THEM is
 // still invisible and saying so is the only honest option.
