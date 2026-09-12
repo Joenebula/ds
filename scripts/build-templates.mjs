@@ -460,8 +460,12 @@ for (const r of tree) {
   byComponent.get(r.component).set(r.path, r);
 }
 
-mkdirSync('dist/templates', { recursive: true });
-for (const f of readdirSync('dist/templates')) rmSync('dist/templates/' + f);
+// Output root, mirroring the repo layout beneath it. CLAUDE.md tells people to PASTE these, so a
+// stale one is not a stale preview — it is markup somebody ships. Default `.`, output unchanged.
+const ROOT = (process.argv[2] || '.').replace(/\/+$/, '');
+mkdirSync(`${ROOT}/dist/templates`, { recursive: true });
+mkdirSync(`${ROOT}/docs`, { recursive: true });
+for (const f of readdirSync(`${ROOT}/dist/templates`)) rmSync(`${ROOT}/dist/templates/${f}`);
 
 const made = [];
 // WHAT COUNTS AS COMPOSITE. A component whose only child is an instance of ITSELF is not
@@ -506,7 +510,7 @@ for (const [component, rows] of [...byComponent.entries()].sort()) {
     + `     The outer element is the component's own class; everything inside is its Figma\n`
     + `     child tree. Do not hand-edit: regenerate with npm run build. -->\n`
     + `<div class="${base}"${rootRel}>\n${body}\n</div>\n`;
-  writeFileSync(`dist/templates/${base}.html`, html);
+  writeFileSync(`${ROOT}/dist/templates/${base}.html`, html);
   made.push({ component, base, nodes: rows.size, html });
 }
 
@@ -565,7 +569,7 @@ for (const m of made) {
   g.push('</div>');
 }
 g.push('</div>');
-writeFileSync('docs/templates.html', g.join('\n'));
+writeFileSync(`${ROOT}/docs/templates.html`, g.join('\n'));
 
 console.log(`${made.length} component template(s) written to dist/templates/, gallery in docs/templates.html`);
 // COUNT WHAT REACHED THE PAGE, not what was intended. Reported straight from the written

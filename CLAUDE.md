@@ -1909,28 +1909,63 @@ anywhere"* — and the 2026-09-12 merge restored it deliberately, because the ot
 `package.json` calls its builder on every build. A gap closed by ABSENCE stays closed only while the
 thing is absent, and nothing re-checked.
 
-**And it is gated now.** That took the two things the old shape could not do: `GENERATED` is a table
-of `[one output file, its builder]` invoked as `node <builder> <out>`, while `build-ds-bundle.mjs`
-writes a whole directory it first removes. So the builder takes an output ROOT (default unchanged),
-and `verify-generated.mjs` grew a second table, `GENERATED_DIRS`, with a `compareTrees` that walks
-both trees and reports three things rather than one:
+**And it is gated now — along with everything else the repo tells people to read.** Gating a tree
+took what the old shape could not do: `GENERATED` is a table of `[one output file, its builder]`
+invoked as `node <builder> <out>`, while a tree builder writes a whole set of files it first
+removes. So those builders take an output ROOT and **mirror the repo layout beneath it**, and
+`verify-generated.mjs` grew `GENERATED_TREES`. One shape rather than two: a second near-identical
+mechanism is the hand-copied-rule fault in a new place, and this file had just finished recording
+one.
+
+`compareTrees` reports three things, and each earns its place:
 
 | | |
 |---|---|
 | `STALE` | committed and rebuilt copies differ — compared BYTE for byte, because two files of the same length that differ are still different |
-| `EXTRA` | on disk and the builder does not produce it. The builder removes its output first, so a leftover page is one nothing generates any more, and it would go on being browsed as though it did |
+| `EXTRA` | on disk and the builder does not produce it. The builder removes its output first, so a leftover file is one nothing generates any more, and it would go on being read as though it did |
 | `MISSING` | the builder produces it and it is not committed |
 
-**19 more files are gated**, taking the count from 6 to 25. Proved end to end rather than asserted:
-put the build order back the way it was, change one input, build once — `FAIL ds-bundle/ — the
-committed tree is not what scripts/build-ds-bundle.mjs builds`. With the order fixed, 0 stale.
+A single FILE is a tree of one, so `docs/templates.html` and `dist/templates/` go through the same
+comparison rather than a second code path.
 
-Five mutants, all dying by MISS, and **the one that matters is on the BUILDER**: make
-`build-ds-bundle.mjs` ignore its root argument and the gate's own self-test catches it. Without that
-assertion the builder would rebuild over the committed tree, the gate would compare it against
-itself, pass for ever — and destroy the thing it was checking on the way past. That is the same
-hazard the single-file half of this gate was already written to refuse, which is why it is asserted
-in both halves rather than once.
+### Eight generated files were perturbed and the whole suite passed
+
+Having fixed one stale-output bug, the obvious next question is which OTHER generated files can rot
+unnoticed — and the honest way to ask it is to break them. Eight were perturbed at once with a
+harmless comment and `npm run verify` was run: **exit 0. Nothing noticed any of them.**
+
+`verify-generated`'s own rule is that a file is gated because it has a READER, and by that rule two
+of the eight were the strongest candidates in the repo — stronger than some already gated:
+
+- **`dist/templates/<class>.html`** — this file says *"Paste the template"*. A stale one is not a
+  stale preview, it is markup somebody ships.
+- **`docs/templates.html`** — this file says it *"shows every one rendered"*.
+- **`docs/COMPONENTS.md`** — `README.md` points a reader at it.
+
+All three are gated now. **The count goes from 6 files to 181**: 154 templates, 19 ds-bundle pages,
+the templates gallery, COMPONENTS.md and the original six. Proved end to end rather than asserted —
+16 bytes appended to `dist/templates/pf-metric-card.html` gives a `STALE` line naming it,
+its committed 716 bytes against a fresh build's 700.
+
+Seven mutants, all dying by MISS, and **two of them are on the BUILDERS**: make either tree builder
+ignore its root argument and the gate's own self-test catches it. Without that, the builder would
+rebuild over the committed files, the gate would compare them against themselves, pass for ever —
+and destroy the thing it was checking on the way past.
+
+**Five of the eight are still ungated, and they are named rather than quietly true:**
+
+| | why it is left |
+|---|---|
+| `dist/placeholders.css` | the axis that would exercise it, `images`, has never measured a screen — so this one has no live check of any kind, and it is the weakest spot left |
+| `dist/avatars.css`, `dist/images.css` | same builder family; the screens inline them, and the `colour` and `audit` axes resolve what they paint |
+| `tokens/design-tokens.json` | an intermediate — `dist/tokens.css` is regenerated from it every build and `npm run check` re-measures contrast from that |
+| `docs/icons.html` | generated by `verify-icons.mjs --sheet`, which is not in `npm run build` at all, so gating it means running a check inside a check |
+
+The four stylesheets `dist/fonts.css`, `tokens.css`, `components.css` and `type.css` are not
+byte-gated either, and deliberately: each has a check that reads what it RENDERS rather than what it
+says — `check-fonts` asks which face actually painted, `verify-components` and
+`verify-against-figma` measure the components, `verify-type` the type layer, `npm run check` the
+contrast. A byte gate on top would be a second opinion on a question already answered better.
 
 ## The repo holds the same Figma listing twice, and the readers use the older copy
 

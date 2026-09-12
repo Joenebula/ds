@@ -226,7 +226,10 @@ files['foundations/type-classes.html'] = shell({
 // what is committed — the same reason every other generated file's builder takes one. Until
 // 2026-09-12 this wrote only to `ds-bundle/`, which is why the five pages could not be gated:
 // a check cannot rebuild a file it has nowhere to put. The default is unchanged.
-const ROOT = (process.argv[2] || 'ds-bundle').replace(/\/+$/, '');
+// The root MIRRORS the repo layout beneath it — `<root>/ds-bundle/...` — so that one gate shape
+// serves every builder that writes a tree, rather than each inventing its own. Default `.`, so the
+// real output path is unchanged.
+const ROOT = `${(process.argv[2] || '.').replace(/\/+$/, '')}/ds-bundle`;
 for (const d of [`${ROOT}/foundations`, `${ROOT}/components`])
   if (existsSync(d)) rmSync(d, { recursive: true });
 mkdirSync(`${ROOT}/foundations`, { recursive: true });

@@ -190,5 +190,7 @@ if (uncaptured.length) {
 }
 
 mkdirSync('docs', { recursive: true });
-writeFileSync('docs/COMPONENTS.md', out.join('\n') + '\n');
+// Output path is overridable so the gate can rebuild this elsewhere and byte-compare it; README
+// points a reader at this file, which is the same standing the other gated files have.
+writeFileSync(process.argv[2] || 'docs/COMPONENTS.md', out.join('\n') + '\n');
 console.log(`COMPONENTS.md written — ${total} components, ${totalVariants} variants, ${pages.length} pages`);

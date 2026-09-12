@@ -54,7 +54,7 @@
 // a check that writes is not a check.
 import { readFileSync, existsSync, mkdtempSync, rmSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
-import { readdirSync, mkdirSync, writeFileSync } from 'node:fs';
+import { readdirSync, mkdirSync, writeFileSync, statSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, basename } from 'node:path';
 import { compare } from './verify-built.mjs';
@@ -67,19 +67,28 @@ export const GENERATED = [
   ['.claude/skills/people-first/references/geometry.md', 'scripts/build-geometry-ref.mjs'],
   ['docs/figma-rebind-deprecated.js', 'scripts/build-figma-rebind.mjs'],
   ['docs/figma-icon-digest.js', 'scripts/build-figma-icon-digest.mjs'],
+  ['docs/COMPONENTS.md', 'scripts/build-components-md.mjs'],
 ];
 
-// A generated DIRECTORY, which the table above cannot hold: its builder writes a whole tree it
-// first removes, so there is no single output path to hand it. The five ds-bundle pages inline
-// dist/components.css, and on 2026-09-12 they were found to be one whole build behind — nothing
-// here could see it, because "nothing gates ds-bundle" had been true since the merge restored it.
-export const GENERATED_DIRS = [
-  ['ds-bundle', 'scripts/build-ds-bundle.mjs'],
+// Generated TREES, which the table above cannot hold: their builders write whole sets of files
+// they first remove, so there is no single output path to hand them. Each takes an output ROOT and
+// mirrors the repo layout beneath it, so one shape serves them all rather than each inventing its
+// own — a second near-identical mechanism is the "hand-copied rule" fault in a new place.
+//
+// The ds-bundle pages inline dist/components.css and on 2026-09-12 were found a whole build
+// behind, with nothing able to see it. The templates are worse if they rot: CLAUDE.md tells people
+// to PASTE them, so a stale one is not a stale preview, it is markup somebody ships. Measured the
+// same day: eight generated files were perturbed and the entire suite passed, these among them.
+export const GENERATED_TREES = [
+  ['scripts/build-ds-bundle.mjs', ['ds-bundle']],
+  ['scripts/build-templates.mjs', ['dist/templates', 'docs/templates.html']],
 ];
 
-// Every file under a directory, as paths relative to it. Sorted, so a missing file and an extra
-// one are told apart by name rather than by position.
+// Every file under a path, relative to it. A FILE is a tree of one, so the same comparison serves
+// `docs/templates.html` and `dist/templates/` without a second code path. Sorted, so a missing file
+// and an extra one are told apart by name rather than by position.
 export function treeOf(root) {
+  if (!statSync(root).isDirectory()) return [''];
   const out = [];
   const walk = (rel) => {
     for (const e of readdirSync(join(root, rel), { withFileTypes: true }).sort((a, b) => a.name < b.name ? -1 : 1)) {
@@ -91,18 +100,19 @@ export function treeOf(root) {
   return out;
 }
 
-// Committed tree against rebuilt tree. A file that is EXTRA matters as much as one that differs:
-// the builder removes its output first, so a leftover page on disk is one nothing generates any
-// more, and it would go on being browsed as though it did.
+// Committed against rebuilt. A file that is EXTRA matters as much as one that differs: the builders
+// remove their output first, so a leftover file on disk is one nothing generates any more, and it
+// would go on being read as though it did.
 export function compareTrees(committedRoot, builtRoot) {
   const a = treeOf(committedRoot), b = treeOf(builtRoot);
+  const at = (root, f) => (f ? join(root, f) : root);
   const problems = [];
-  for (const f of a) if (!b.includes(f)) problems.push(`EXTRA    ${f} — on disk, and ${builtRoot ? 'the builder does not produce it' : 'unbuilt'}`);
+  for (const f of a) if (!b.includes(f)) problems.push(`EXTRA    ${f || committedRoot} — on disk, and the builder does not produce it`);
   for (const f of b) if (!a.includes(f)) problems.push(`MISSING  ${f} — the builder produces it and it is not committed`);
   for (const f of a) {
     if (!b.includes(f)) continue;
-    const x = readFileSync(join(committedRoot, f)), y = readFileSync(join(builtRoot, f));
-    if (!x.equals(y)) problems.push(`STALE    ${f} — committed copy is ${x.length} bytes, a fresh build is ${y.length}`);
+    const x = readFileSync(at(committedRoot, f)), y = readFileSync(at(builtRoot, f));
+    if (!x.equals(y)) problems.push(`STALE    ${f || committedRoot} — committed copy is ${x.length} bytes, a fresh build is ${y.length}`);
   }
   return { problems, files: a.length };
 }
@@ -137,27 +147,30 @@ function main() {
       for (const p of r.problems) console.log(`    ${p}`);
     }
 
-    for (const [root, builder] of GENERATED_DIRS) {
-      if (!existsSync(root)) {
-        console.log(`  --   ${root}/ — NOT PRESENT, so nothing was measured`);
-        missing++;
-        continue;
-      }
-      const out = join(dir, `tree-${basename(root)}`);
+    for (const [builder, paths] of GENERATED_TREES) {
+      const out = join(dir, `tree-${basename(builder, '.mjs')}`);
+      mkdirSync(out, { recursive: true });
       try {
         execFileSync('node', [builder, out], { encoding: 'utf8', stdio: 'pipe' });
       } catch (e) {
         console.log(((e.stdout || '') + (e.stderr || '')).trim());
-        console.log(`  FAIL ${root}/ — ${builder} does not run, so the tree cannot be reproduced`);
+        console.log(`  FAIL ${builder} does not run, so its output cannot be reproduced`);
         stale++;
         continue;
       }
-      const r = compareTrees(root, out);
-      checked += r.files;
-      if (!r.problems.length) { console.log(`  ok   ${root}/ (${r.files} files)`); continue; }
-      stale++;
-      console.log(`  FAIL ${root}/ — the committed tree is not what ${builder} builds`);
-      for (const p of r.problems) console.log(`    ${p}`);
+      for (const path of paths) {
+        if (!existsSync(path)) {
+          console.log(`  --   ${path} — NOT PRESENT, so nothing was measured`);
+          missing++;
+          continue;
+        }
+        const r = compareTrees(path, join(out, path));
+        checked += r.files;
+        if (!r.problems.length) { console.log(`  ok   ${path}${r.files > 1 ? ` (${r.files} files)` : ''}`); continue; }
+        stale++;
+        console.log(`  FAIL ${path} — the committed copy is not what ${builder} builds`);
+        for (const p of r.problems) console.log(`    ${p}`);
+      }
     }
   } finally {
     rmSync(dir, { recursive: true, force: true });
@@ -201,27 +214,29 @@ function selfTest() {
     }
   } finally { rmSync(dir, { recursive: true, force: true }); }
 
-  // THE DIRECTORY GATE. Same hazard as above, one shape out: if build-ds-bundle.mjs ignored its
-  // root argument it would rebuild over the committed tree, and compareTrees would then compare
-  // that tree against itself and pass for ever — while also destroying the thing it was meant to
-  // be checking.
-  const dir2 = mkdtempSync(join(tmpdir(), 'pf-generated-dirtest-'));
+  // THE TREE GATE. Same hazard as above, one shape out: if a tree builder ignored its root it
+  // would rebuild over the committed files, and compareTrees would then compare them against
+  // themselves — pass for ever, and destroy the thing it was checking on the way past.
+  const dir2 = mkdtempSync(join(tmpdir(), 'pf-generated-treetest-'));
   try {
-    if (!GENERATED_DIRS.length) miss('the directory list must not be empty if it exists at all');
-    for (const [root, builder] of GENERATED_DIRS) {
+    if (!GENERATED_TREES.length) miss('the tree list must not be empty if it exists at all');
+    for (const [builder, paths] of GENERATED_TREES) {
       if (!existsSync(builder)) miss(`${builder} is listed but does not exist`);
-      if (!existsSync(root)) miss(`${root} is listed but does not exist`);
-      const out = join(dir2, `probe-${basename(root)}`);
+      for (const path of paths) if (!existsSync(path)) miss(`${path} is listed but does not exist`);
+      const out = join(dir2, `probe-${basename(builder, '.mjs')}`);
+      mkdirSync(out, { recursive: true });
       try { execFileSync('node', [builder, out], { encoding: 'utf8', stdio: 'pipe' }); }
       catch (e) { miss(`${builder} does not run: ${(e.stderr || '').trim().split('\n')[0]}`); continue; }
-      if (!existsSync(out) || !treeOf(out).length) {
-        miss(`${builder} IGNORES its output root and wrote to its default path — this gate would `
-          + 'then compare the committed tree against itself, pass for ever, and overwrite it');
+      for (const path of paths) {
+        if (!existsSync(join(out, path))) {
+          miss(`${builder} IGNORES its output root for ${path} — this gate would then compare the `
+            + 'committed copy against itself, pass for ever, and overwrite it');
+        }
       }
     }
 
     // And compareTrees itself, against fixtures: it has to see each of the three ways a tree can
-    // be wrong, and stay quiet when it is right.
+    // be wrong, stay quiet when it is right, and treat a single FILE as a tree of one.
     const mk = (name, files) => {
       const r = join(dir2, name);
       for (const [f, body] of Object.entries(files)) {
@@ -230,6 +245,7 @@ function selfTest() {
       }
       return r;
     };
+    const file = (name, body) => { const p = join(dir2, name); writeFileSync(p, body); return p; };
     const base = mk('base', { 'a/one.html': 'ONE', 'b/two.html': 'TWO' });
     const same = mk('same', { 'a/one.html': 'ONE', 'b/two.html': 'TWO' });
     const drift = mk('drift', { 'a/one.html': 'ONE', 'b/two.html': 'CHANGED' });
@@ -249,6 +265,11 @@ function selfTest() {
         compareTrees(mk('x', { 'a.html': 'AAAA' }), mk('y', { 'a.html': 'BBBB' })).problems.length === 1],
       ['it walks NESTED directories rather than the top level only',
         () => treeOf(base).join() === 'a/one.html,b/two.html'],
+      // A single FILE has to work through the same path, or docs/templates.html needs a second one.
+      ['a single FILE that matches is clean',
+        () => compareTrees(file('f1', 'SAME'), file('f2', 'SAME')).problems.length === 0],
+      ['a single FILE that differs is STALE',
+        () => compareTrees(file('f3', 'ONE'), file('f4', 'TWO')).problems.length === 1],
     ];
     for (const [name, fn] of cases) { let ok = false; try { ok = fn(); } catch (e) { ok = false; } if (!ok) miss(`compareTrees: ${name}`); }
   } finally { rmSync(dir2, { recursive: true, force: true }); }
