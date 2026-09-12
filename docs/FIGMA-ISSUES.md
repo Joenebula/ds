@@ -441,6 +441,49 @@ pipeline picks it up on the next extract with no code change — the count in
 
 ---
 
+## 14. Button is the same weight in every state
+
+**Raised by the design owner, three times.** The `Button` label does not change weight between
+Default, Hover and Disabled, and they want it to.
+
+**It is not a pipeline fault.** Read straight out of Figma — not out of this repo's extract —
+`Type=Action, State=Hover, Label=Yes` (node `10732:112867`) is `Open Sans SemiBold, 13px`, the
+same as `Type=Action, State=Default, Label=Yes` (node `10730:115188`). All 24 labelled variants
+of the component set (`1656:44983`) measure `13px SemiBold`. The stylesheet renders exactly that,
+and `check-variant-type.mjs` asserts it on every variant.
+
+**Figma's own written rule for the hover state is about the background and says nothing about
+type.** The `Button rules` section (`8472:86313`) reads:
+
+> Based on the above, as a general rule of thumb we will increase contrast ratio on hovers that
+> have a darker background, and minimally decrease the ones that have a lighter background.
+
+with two worked examples — *"Hover with dark background and light text → 20% darker background"*
+and *"Hover with light background and dark text → 10% lighter background"*.
+
+**What would clear it.** The weight has to change in the Figma component, not here. Set the label
+of each `State=Hover` variant to a heavier text style — the ramp already has the pair, e.g.
+`Desktop text/Label text` and `Desktop text/Label text (semi bold, 600)` — and re-extract. The
+pipeline carries a per-state weight today: `Filter chip`, `Nav tabs`, `Tab`, `Steps` and
+`Filter tab single` all change weight between states, and all of them render it.
+
+**Worth knowing before deciding**: Open Sans SemiBold is wider than Regular, so a weight change on
+hover moves the button's width, and `Button` hugs its label. Every button in a row would shift
+under the pointer. That is probably why the rules page chose a background change.
+
+### 14a. Two things the rules page says that the component does not
+
+Found while reading the same section, and recorded rather than acted on — the component is the
+source this pipeline extracts, so where the two disagree the annotation is the thing to fix.
+
+- The rules page annotates the button **`Min-width: 100px`** (`4994:63623`). The component
+  measures `min-w-[32px]`. This repo's geometry extract records size, not minimum size, so the
+  stylesheet states neither — `.pf-button` has `height: 32px` and no `min-width` at all. A
+  two-character label renders narrower than Figma would draw it.
+- The rules page annotates **`Font-style: uppercase`** (`4994:63624`). The component records
+  `textCase = ORIGINAL`, and the stylesheet is therefore mixed case. Nothing in the library is
+  uppercase.
+
 ## What happens after you fix any of this
 
 Re-extract and rebuild, and the stylesheet, the component list and the example screens all
