@@ -1820,12 +1820,27 @@ side effect of the next change.
 
 A `--` is a check that measured nothing. It is not a pass.
 
-**And four of the thirteen have never measured anything, on any screen.** `frame`, `content`,
-`images` and `source` each need a saved Figma extract beside the screen — `<screen>.figma.json`
-for the first three, `<screen>.figma.xml` for `source` — and **no screen in this repo has
-either file**. They report `--` honestly and the suite tallies them, so nothing lied; but this
-file described them as working safety nets, which is the half that was wrong. 20 of the 22
-unmeasured checks are those four axes across all five screens.
+**And four of the thirteen have never measured anything, on any screen.** `frame`, `content` and
+`source` need a saved Figma extract beside the screen — `<screen>.figma.json` for the first two,
+`<screen>.figma.xml` for `source` — and **no screen in this repo has either file**. They report
+`--` honestly and the suite tallies them, so nothing lied; but this file described them as working
+safety nets, which is the half that was wrong. 20 of the 22 unmeasured checks are those four axes
+across all five screens.
+
+**`images` is the fourth and it is vacuous for a different reason, which is worth separating.** It
+takes EITHER input: an `images` block in the extract, or any element on the page carrying
+`data-avatar`. `case-mgmt-my-team` renders **eighteen** avatars and tags none, so the axis reports
+*"nothing claims a picture"* on a screen full of them. And the gap it would have caught is one the
+screen's own header already admits: six of the eighteen people have a photograph in the design and
+all eighteen render the default avatar, because that file's frames cannot be reached from here.
+That is exactly *a placeholder quietly becoming the finished thing*, written down by hand in a
+comment because the check that exists to count it could not see it.
+
+Tagging them is not a one-line fix, and the reason is the interesting part: `verify-images` passes
+a stand-in only when it paints a **marked** placeholder from `build-placeholders.mjs`. These paint
+the real People First default avatar, which is a legitimate design element — so tagging them as
+they are turns the axis red rather than counted. Choosing between a screen that looks finished and
+one that shows its gaps is a design decision, so it is recorded here rather than made.
 
 `screen-viewport.mjs` reads the same missing `<screen>.figma.json`, so it is inert too, and
 every screen is measured at the 1280 default. That is not academic: with the space-between gap
