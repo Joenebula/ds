@@ -12,8 +12,24 @@
 //    a rebuild. verify-built.mjs gates prototypes/ and nothing gates ds-bundle/ or docs/ — the
 //    same F-025 in a place the gate does not reach. Rebuilt here; the gate is still missing."
 //
-// `ds-bundle/` has since been deleted: it had no reader anywhere. These six DO have readers, and
-// that is the whole reason they are the ones gated:
+// This file used to continue "`ds-bundle/` has since been deleted: it had no reader anywhere."
+// IT IS BACK. The 2026-09-12 merge restored it deliberately — the other branch's package.json
+// calls its builder on every build — so the premise that closed this gap by ABSENCE is false, and
+// the five ds-bundle pages have been ungated ever since, inlining dist/components.css with nothing
+// comparing them to it.
+//
+// That mattered on 2026-09-12: `build-ds-bundle.mjs` ran at step 8 of `npm run build` and
+// `build-components-css.mjs` at step 11, so every single build left those five pages carrying the
+// PREVIOUS run's stylesheet. It converged only because people build more than once. Proved by
+// changing one input, building once and diffing (they disagreed), then building again (they
+// agreed). The order is fixed — ds-bundle now runs after both stylesheets it inlines.
+//
+// IT IS STILL NOT GATED, and that is named rather than quietly true: the GENERATED table below is
+// `[one output file, its builder]` and invokes `node <builder> <out>`, while build-ds-bundle.mjs
+// writes a whole directory it first rm -rf's. Gating it needs an out-ROOT argument and a
+// directory-compare, which is a different shape from this table, not a row in it.
+//
+// These six DO have readers, and that is the whole reason they are the ones gated:
 //
 //   docs/components.html                     CLAUDE.md tells people to open it rather than guess
 //                                            whether a class exists

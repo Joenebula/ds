@@ -1880,6 +1880,87 @@ colon walks backwards over the previous entry and captures `"#517A38, Desktop te
 which matches no row and reports ABSENT — 27 false differences. Widening the name changed nothing
 about Effect styles, and that is how the comment was found to be wrong.
 
+## `npm run build` was one build behind on five pages
+
+`build-ds-bundle.mjs` ran at **step 8** of the build chain and `build-components-css.mjs` at
+**step 11**. Those five pages inline `dist/components.css`, so every single `npm run build` left
+them carrying the PREVIOUS run's stylesheet. It converged only because people build more than once.
+
+This file already warned about the partial-build version — *"running only
+`build-components-css.mjs` leaves every one of them carrying the previous version while every check
+still passes"* — and the FULL build had the same fault for the same reason, one layer up. A hazard
+written down for one route and not checked on the other.
+
+**Proved rather than argued.** Change one input, build ONCE, and the two copies disagree; build
+again with the same input and they agree:
+
+```
+after ONE build     dist/components.css 1   ds-bundle copy 17     <- stale
+after a SECOND      dist/components.css 1   ds-bundle copy  1     <- converged
+after the reorder   dist/components.css 1   ds-bundle copy  1     in one build, both directions
+```
+
+`build-ds-bundle.mjs` now runs after both stylesheets it inlines. The committed pages were already
+correct, which is the tell: somebody had built twice, so the bug left no trace in git.
+
+**And the gate that would have caught it was closed on a premise that had expired.**
+`verify-generated.mjs`'s header read *"`ds-bundle/` has since been deleted: it had no reader
+anywhere"* — and the 2026-09-12 merge restored it deliberately, because the other branch's
+`package.json` calls its builder on every build. A gap closed by ABSENCE stays closed only while the
+thing is absent, and nothing re-checked.
+
+**It is still ungated, and that is now named rather than quietly true.** `GENERATED` is a table of
+`[one output file, its builder]` invoked as `node <builder> <out>`; `build-ds-bundle.mjs` writes a
+whole directory it first removes. Gating it needs an out-ROOT argument and a directory compare —
+a different shape from that table, not a row in it.
+
+## The repo holds the same Figma listing twice, and the readers use the older copy
+
+`tokens/_raw/figma-components.json` and `tokens/_raw/components.json` are both saved
+`list_file_components_for_code_connect` responses — identical key sets, same shape. A fresh read on
+2026-09-12 is **deep-equal to `figma-components.json`**, so that one is current and Figma has not
+moved since it was saved. `components.json` is the older copy, and **eleven scripts read it**:
+the backfill, the inventory lib, catalogue-drift, the component build, both gallery builders,
+variant coverage, the icon extractor, skill-classes, verify-spec and sync-check.
+
+Measured against the current listing, it is out of date in four ways:
+
+| | |
+|---|---|
+| **4 renamed** | `Calendarcross`→`Calendar cross`, `addres book`→`Address book`, `calendar link`→`Calendar link`, `Taxes coins`→`Coins` — exactly the four icon rows this file records as corrected |
+| **5 ids it holds that are no longer published** | `Default header background` `13658:7639`, `Header` `13658:7653` (the id the backfill refused), and three STYLE GUIDE logos `6047:65929/30/31` |
+| **4 published ids it never saw** | `Header` `32488:24634`, `Header` `32527:39433`, `Tax` `32530:44518`, `Logo` `32559:73310` |
+| **1 duplicated id** | `22973:20747` twice, as `Side navigation tab` AND `Notification tabs` — which the listing carries once |
+
+**The three style-guide logos were consolidated into one `Logo` set.** None of them is captured
+here and none ships a class, which is exactly why `sync:check` never mentioned it: that gate
+compares what we captured against the listing, so a change to something this repo does not capture
+is invisible on both sides. Defensible — they are on `🎨 STYLE GUIDE`, documentation — but worth
+knowing the gate cannot see it.
+
+**Refreshing it is NOT a tidy-up, and the measurement is why.** Swapping the current listing in and
+rebuilding:
+
+- the class NAMES are unchanged, 160 before and after — but `.pf-default-header-background` loses
+  **16 of its 17 rules**, because `build-components-css` admits a geometry-only component only if
+  Figma's inventory names it, and the refreshed listing does not publish `13658:7639`. The header
+  band keeps its artwork rule and loses every size variant.
+- **eleven documented figures move** — `check-skill-classes` names each one: the people-first skill
+  says 162 covered / 187 non-icon against the build's 161 / 184, `pf-screen` and the skill say 25
+  with no class against 23, README says 477 published against 475, and this file says 158 walked
+  against 159 and 14 classes with no paint against 15.
+
+So it is a library change wearing a data refresh's clothes, and it goes to the design lead rather
+than into a commit. **Not applied.**
+
+**Two things I got wrong on the way there, both the same shape.** I predicted the refresh would
+break `check-catalogue-drift` by removing `Side navigation tab`; it exits 0 — measured, and the
+prediction was wrong. Then I reported the class list as unchanged, which is true of class NAMES and
+false of RULES: a name-level diff cannot see 16 variant rules disappearing under a name that
+survives. And my first inventory diff keyed `{nodeId: name}` in a dict, which silently collapsed
+the one duplicated id — the same deduplication error this file records the off-ramp census making,
+committed while writing about it.
+
 ## Editing tokens
 
 `tokens/_raw/` is the input; everything else is generated. Re-extract from Figma into
