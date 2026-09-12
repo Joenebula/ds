@@ -1769,3 +1769,53 @@ row clip does not expose it to P17's fault, and what would.
 - **`check-variant-coverage.mjs` is a generator wearing a check's name.** It never fails, runs
   only in the build, and writes `collapsed-axes.tsv` into `tokens/_raw/` — the directory this
   project calls "the input". Renaming it and moving its output would make that honest.
+
+---
+
+## Closed — 12 September
+
+Stopped at the user's request with everything committed and pushed. `npm run build` and
+`npm run verify` both pass, 0 failures across 50 scripts, working tree clean.
+
+**Nothing is half-finished.** Every task P1–P18 is done, and each check written this run was
+deliberately broken first to confirm it reports — that is recorded per task above.
+
+### Where the next session should start
+
+Read this file top to bottom, then `CLAUDE.md`. Nothing here needs re-explaining in chat.
+
+**The only engineering thread with a defined target** is template overflow: `CLAUDE.md` says
+clipping can only be carried once it reaches zero. It is at **866px across 20 templates**
+(1224px / 24 at 390px), down from 1363px / 26 at the start of this run. `check-template-overflow`
+names the worst offenders on every run, and the biggest single fall so far came from the
+SPACE_BETWEEN gap fix (P12, −305px), not from touching a template.
+
+**Everything else outstanding is the Figma file's**, written up in `docs/FIGMA-ISSUES.md`, now
+16 sections. The pipeline carries every one of them faithfully; fixing them means editing Figma
+and re-extracting, not editing this repo. In rough order of visible impact:
+
+1. **§15b** — `Sticky footer`, `People and department drop down` and `Browser drop down` bind a
+   white text token over a white fill: **1:1, 1:1 and 1.04:1 in LIGHT mode**, invisible.
+   `Sticky footer`'s other variant shows the right answer.
+2. **§15a** — `Tags/Fills/Info` has no dark-mode value, so `Type=Theme` is a white block on a
+   dark page.
+3. **§14** — `Button` is `13px SemiBold` in every state. Changing it in Figma would change it
+   here; note that SemiBold is wider, so a hover weight change shifts the button under the
+   pointer.
+4. §12 (18 shadows with no token), §7 (22 labels off the type ramp), §13, §16, and the rest.
+
+### Two suggestions, deliberately not started
+
+- **The 24 components with a genuinely fixed width over 120px.** The stylesheet drops any width
+  above 120px as "the artboard, not a rule" — right for 31, wrong for 24 — and it is also what
+  blocks 16 measured child offsets. Telling a fixed component width from the artboard it was
+  drawn on needs a rule nobody has agreed. Flagged three times, never taken up.
+- **`check-variant-coverage.mjs` is a generator wearing a check's name.** It never fails, runs
+  only in the build, and writes `collapsed-axes.tsv` into `tokens/_raw/` — the directory this
+  project calls "the input".
+
+### One thing the user should know about this container
+
+Skills are synced when the session container starts. This one carries the **8 September** copy
+of `keep-going`; the user reported editing it and the change never arrived. A new session
+re-runs the sync.
