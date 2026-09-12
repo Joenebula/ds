@@ -16,6 +16,7 @@
 //      class alone cannot be the whole component, and there must be a template.
 //   2. Does the template render something? A template that produces an empty box is no
 //      better than the class it replaces.
+import { unfalsifiablePacking } from './hugs.mjs';
 import { readFileSync, readdirSync, existsSync, writeFileSync, unlinkSync } from 'node:fs';
 import { chromium } from 'playwright-core';
 
@@ -239,5 +240,51 @@ if (cappedNodes > CAPPED_BASELINE) {
 } else if (cappedNodes < CAPPED_BASELINE) {
   console.log(`  note  down ${CAPPED_BASELINE - cappedNodes} — lower CAPPED_BASELINE to ${cappedNodes} to lock it in`);
 }
+
+// A FRAME WHOSE ONLY CHILD MEASURED ZERO MUST PACK TO THE START.
+//
+// `Table progress bar`'s `Bar` is `HORIZONTAL MIN CENTER` in Figma, and its only child — the
+// fill — measures `0x14`, because Figma draws the component at `Completion=0%` and nowhere
+// else. A zero-width child renders identically centred or start-packed, so that CENTER is
+// unfalsifiable. The template carried it anyway, and a page supplying a real `width: 75%` got a
+// fill floating in the middle of its track; at 15% it is a blue blob in the centre. Reported
+// three times, and the first two answers were about the wrong box.
+//
+// The reading lives in hugs.mjs and is shared with the generator, so this is one fact read
+// once. The generator marks each frame it repacked with a comment — whoever pastes the template
+// needs to know the start is a READING and not Figma's word — and this asserts that every frame
+// the reading names carries that comment, and that the declaration beside it is flex-start.
+const packStart = unfalsifiablePacking();
+const PACK_NOTE = 'packs to the START';
+let packMarked = 0;
+for (const key of packStart) {
+  const [component] = key.split('|');
+  const file = `dist/templates/${cls(component)}.html`;
+  if (!existsSync(file)) continue;
+  const html = readFileSync(file, 'utf8');
+  const marks = [...html.matchAll(new RegExp(`<div style="([^"]*)">(?:<!--[^>]*-->)*<!-- ${PACK_NOTE}`, 'g'))];
+  if (!marks.length) {
+    failures++;
+    console.error(`FAIL ${file} has a frame whose only child measures zero on its packing axis, `
+      + `and the template does not mark it — so nobody pasting it can tell that the start is a `
+      + `reading rather than Figma's word`);
+    continue;
+  }
+  for (const m of marks) {
+    packMarked++;
+    if (!/justify-content:\s*flex-start/.test(m[1]) && /justify-content:/.test(m[1])) {
+      failures++;
+      console.error(`FAIL ${file} marks a frame as packing to the start but does not pack it `
+        + `there: ${m[1]}`);
+    }
+  }
+}
+console.log(`  ${packMarked} frame(s) whose only child measured zero on the packing axis pack to `
+  + `the START and say so — a zero-wide child cannot evidence a centre`);
+if (!packStart.size || !packMarked) {
+  console.error('FAIL the unfalsifiable-packing reading found nothing, so it checked nothing');
+  failures++;
+}
+
 
 process.exit(failures ? 1 : 0);

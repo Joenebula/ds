@@ -27,6 +27,7 @@
 // A node whose fill or colour Figma did not bind to a variable is emitted with a comment
 // saying so rather than a guessed value — the same treatment the colour extract gives an
 // unbound paint.
+import { unfalsifiablePacking as unfalsifiablePackingSet } from './hugs.mjs';
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync, existsSync } from 'node:fs';
 import { buildResolver } from './resolve-component-type.mjs';
 import { PRIMITIVE_ALIAS } from './primitive-alias.mjs';
@@ -131,6 +132,11 @@ for (const p of posRows) {
   REL.add(p.component + '|' + parentPath);
 }
 const libClasses = new Set([...css.matchAll(/\.(pf-[a-z0-9-]+)/g)].map(m => m[1]));
+
+// The reading lives in hugs.mjs, shared with check-templates so the two cannot drift.
+const unfalsifiablePacking = unfalsifiablePackingSet();
+const packNotes = new Set();
+const PACK_NOTE = "<!-- packs to the START: Figma's only child here measures zero on this axis, so its centre is unfalsifiable — a real one goes at the start. -->";
 
 // A COMPONENT FIGMA GIVES NO TYPE HOLDS NO LABEL. Read per component from the geometry's own
 // `font` column, `\u2014` where Figma records none — the same reading the docs gallery uses to
@@ -245,7 +251,13 @@ function styleFor(component, row) {
     const [mode, counter, primary] = row.layout.split(/\s+/);
     s.push('display:flex', `flex-direction:${mode === 'VERTICAL' ? 'column' : 'row'}`);
     if (ALIGN[counter]) s.push(`align-items:${ALIGN[counter]}`);
-    if (JUSTIFY[primary]) s.push(`justify-content:${JUSTIFY[primary]}`);
+    // See hugs.mjs: a frame whose only child measured zero on this axis gives no evidence for
+    // how it packs a real one, so it packs to the start — and says so, because someone pasting
+    // this needs to know the start is a reading and not Figma's word.
+    const unevidenced = unfalsifiablePacking.has(`${component}|${row.path}`);
+    if (unevidenced) packNotes.add(`${component}|${row.path}`);
+    const packing = unevidenced ? 'MIN' : primary;
+    if (JUSTIFY[packing]) s.push(`justify-content:${JUSTIFY[packing]}`);
     // Figma IGNORES itemSpacing on a SPACE_BETWEEN frame, so the number in that field is a
     // leftover and emitting it as a CSS `gap` invents a minimum separation on top of
     // space-between. `Percentage bar`'s label row is 343px wide with a stored gap of 370, which
@@ -509,7 +521,8 @@ function render(component, rows, path, depth) {
       }
     }
     const open = `${pad}<div${style.length ? ` style="${style.join(';')}"` : ''}>`
-      + `<!-- SLOT: Figma marks this as where the component's content goes. -->`;
+      + `<!-- SLOT: Figma marks this as where the component's content goes. -->`
+      + (packNotes.has(`${component}|${row.path}`) ? PACK_NOTE : '');
     if (!kids.length) return open + cutNote(row) + '</div>';
     const note = cutNote(row, kids.length);
     return [open, ...kids.map(k => render(component, rows, k, depth + 1)),
@@ -543,7 +556,8 @@ function render(component, rows, path, depth) {
     else style.push('align-self:stretch');
   }
 
-  const open = `${pad}<div${style.length ? ` style="${style.join(';')}"` : ''}>`;
+  const open = `${pad}<div${style.length ? ` style="${style.join(';')}"` : ''}>`
+    + (packNotes.has(`${component}|${row.path}`) ? PACK_NOTE : '');
   if (!kids.length) return open + cutNote(row) + '</div>';
   const note = cutNote(row, kids.length);
   return [open, ...kids.map(k => render(component, rows, k, depth + 1)),

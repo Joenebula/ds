@@ -157,3 +157,50 @@ export function growsWithContent() {
   }
   return out;
 }
+
+
+// A PACKING NO CHILD CAN EVIDENCE IS NOT A PACKING.
+//
+// Reported three times, and the first two answers were about the wrong box. `Table progress
+// bar`'s `Bar` frame is `HORIZONTAL MIN CENTER`, so the template centred its child — and the
+// child is the FILL. A progress bar whose fill floats in the middle of its track is not a
+// progress bar; at 15% it is a blue blob in the centre.
+//
+// Figma draws that component at exactly ONE state: `Completion=0%`, where the `Progress`
+// rectangle measures 0x14. With a zero-width child, `center` and `flex-start` render
+// identically, so Figma's CENTER is unfalsifiable — not a statement about where a real fill
+// sits, because no real fill was ever drawn there. A page then supplies `width: 75%` into a
+// slot whose packing was never tested.
+//
+// Where a frame's ONLY child measures zero on the packing axis, pack to the START. Measured
+// across the whole file, FIVE frames are in that position: four hold a zero-height divider
+// `Line` inside a zero-height content box, where the change is invisible, and the fifth is the
+// progress fill. Returns a Set of `component|path`.
+//
+// Shared by the generator and the checker for the reason `hugs` is: two copies of a reading are
+// the same source with a second chance to drift.
+export function unfalsifiablePacking() {
+  const byComp = new Map();
+  for (const line of readFileSync('tokens/_raw/component-tree.tsv', 'utf8').trim().split('\n').slice(1)) {
+    const c = line.split('\t');
+    if (!byComp.has(c[0])) byComp.set(c[0], new Map());
+    byComp.get(c[0]).set(c[1], c);
+  }
+  const dim = (v, i) => {
+    const m = /^(auto|[\d.]+)\s*x\s*(auto|[\d.]+)$/.exec((v || '').trim());
+    return (!m || m[i] === 'auto') ? null : +m[i];
+  };
+  const out = new Set();
+  for (const [comp, nodes] of byComp) {
+    for (const [path, n] of nodes) {
+      const parts = (n[8] || '').split(/\s+/);
+      if (parts.length < 3 || parts[2] === 'MIN') continue;
+      const kids = [...nodes.entries()]
+        .filter(([k]) => k && (k.includes('.') ? k.slice(0, k.lastIndexOf('.')) : '') === path);
+      if (kids.length !== 1) continue;
+      const size = dim(kids[0][1][7], parts[0] === 'VERTICAL' ? 2 : 1);
+      if (size !== null && size <= 0.5) out.add(`${comp}|${path}`);
+    }
+  }
+  return out;
+}

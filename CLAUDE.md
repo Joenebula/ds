@@ -845,6 +845,34 @@ made to scroll, and it was reported as *"the borders are not showing"*.
 reports how many of them are containing an oversized specimen rather than letting the document
 grow.
 
+## A packing no child can evidence is not a packing
+
+Reported three times — *"the progress bar is aligned left"*, then *"left aligned not centre"*,
+then *"the bar should be left aligned INSIDE"* — and the first two answers were wrong because
+they were about the wrong box. The component's place in its column was never the fault. **The
+FILL was centred inside its own track.** At 15% that is a blue blob floating in the middle.
+
+`Table progress bar`'s `Bar` frame is `HORIZONTAL MIN CENTER`, so the template centred its only
+child. And Figma draws that component at **exactly one state** — `Completion=0%`, where the
+`Progress` rectangle measures **0x14**. With a zero-width child, `center` and `flex-start`
+render identically, so **that CENTER is unfalsifiable**: it is not a statement about where a
+real fill sits, because no real fill was ever drawn there. A page then supplies `width: 75%`
+into a slot whose packing had never been tested.
+
+So where a frame's ONLY child measures zero on the packing axis, the template packs to the
+START. Measured across the whole file, **five frames** are in that position: four hold a
+zero-height divider `Line` inside a zero-height content box, where the change cannot be seen at
+all, and the fifth is the progress fill. The reading lives in `hugs.mjs` and is shared with
+`check-templates`, for the reason the hug arithmetic is shared — two copies of a reading are one
+source with a second chance to drift.
+
+**The generator marks each frame it repacked, in the markup.** Whoever pastes a template needs
+to know the start is a *reading* and not Figma's word, so the frame carries a comment saying so,
+and `npm run verify` asserts that every frame the reading names carries that comment and packs
+where it claims. A first version scanned the whole file for `justify-content: center` and fired
+on `Percentage`, which Figma packs to the end for good reason — a check has to name the node,
+not the file.
+
 ## A SPACE_BETWEEN frame has no gap
 
 Reported from a phone as the percentage bar being aligned left. The cause is bigger than that
