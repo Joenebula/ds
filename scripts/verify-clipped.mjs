@@ -34,6 +34,7 @@
 // a visible mistake; overflowing a bare layout div usually is not.
 import { chromium } from 'playwright-core';
 import { resolve } from 'node:path';
+import { viewportFor } from './lib/screen-viewport.mjs';
 
 const file = process.argv[2];
 const selfTest = process.argv.includes('--self-test');
@@ -44,7 +45,13 @@ const selfTestEscape = process.argv.includes('--self-test-escape');
 if (!file) { console.error('usage: node scripts/verify-layout.mjs <built>.html'); process.exit(2); }
 
 const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
-const page = await (await browser.newContext({ viewport: { width: 1440, height: 1000 } })).newPage();
+// THE SCREEN SAYS HOW WIDE IT IS MEASURED, like every other browser-based axis. This alone
+// hardcoded 1440 — a third width, beside the 1280 every other check uses and the 640
+// screenshot-screen.mjs shoots at. Three widths, none of them declared by any design, in a
+// suite whose lib/screen-viewport.mjs exists to say exactly that a check measuring the window
+// rather than the screen is not measuring the screen.
+const vp = viewportFor(file);
+const page = await (await browser.newContext({ viewport: vp })).newPage();
 await page.goto('file://' + resolve(file));
 if (selfTest) {
   // Break it the way Figma's own CSS broke it, and confirm this check says so.

@@ -1863,6 +1863,20 @@ two lines there is unchanged by that fix and is simply a desktop design in a mob
 Whether either width is right for this design is precisely what the declaration exists to answer,
 and nothing has ever answered it.
 
+**There was a THIRD width, and it was in the one axis that asks whether anything escapes.**
+`verify-clipped.mjs` opened its browser at a hardcoded `1440` while its three browser-based
+siblings — `verify-frame`, `verify-images`, `verify-layout` — all read `viewportFor`. It now reads
+it too. That is not a tuning change: a check measuring a window nobody chose is measuring the
+window rather than the screen, which is the sentence `screen-viewport.mjs` was written to stop
+being true.
+
+**And the obvious next assertion is deliberately NOT added.** A page whose `scrollWidth` exceeds
+its viewport looks like content escaping the page itself, and that is exactly the 972-against-640
+bug above — so asserting it seems free. It is not: a 1160px desktop design shown in a 640px window
+is *supposed* to overflow, so the assertion is a false-positive machine on every screen until the
+declaration says which width is the design's. The measurement is real and the gate has to wait for
+the same missing file as the other four.
+
 The verdict line now **names** them rather than only counting: *"images measured nothing on 5 of
 5 screens — EVERY one, so this axis has never run"*. A bare tally of 22 reads like a rounding
 error; the named form reads like the missing net it is. Same rule this file states everywhere
