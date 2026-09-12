@@ -666,6 +666,29 @@ the reader being careful does not make `judge()` careful. And a confirmation for
 reported gone is STALE and fails, the same rule `check-token-drift.mjs` applies to a declared token
 nothing binds. Eleven mutants hold all of that.
 
+**And a DECLARED icon was being counted as a CAPTURED one**, which is the same failure in the
+verdict line this check exists to keep honest. `capturedIcons` read
+`figIcons.length - newIcons.length`, and a declaration removes a name from `newIcons` — so adding
+one row for `Tax` to `uncaptured-reasons.tsv` moved the icon total from **288 to 289**, claiming
+artwork this repo does not hold. A declaration says why something is ABSENT; it cannot make it
+present, and this got it wrong in the flattering direction.
+
+Worse, a declared icon then appeared in no line of the report at all, so a file declaring all 293
+away would have read exactly like a clean run. That is the rule this file states everywhere else —
+**counted AND named** — and its own gate did not follow it. Declared icons are now their own column
+in the verdict line (`N declared (x uncaptured, y unpublished) — counted, never captured`) and each
+is named on its own line as debt.
+
+It was latent rather than live: no icon is declared today, which is exactly why it was worth closing
+now. **The count has to exist before the first declaration uses it**, or the first use is the one
+that hides something. Five mutants hold it, including one that folds declared icons back into
+`captured` and one that drops the gone side silently again.
+
+**The seven items in the red are deliberately NOT declared.** `Tax`, `Circle icons` and the five
+gone rows are each identified and waiting on a person, and this file's rule stands: *a gate turned
+green by declaring a bug acceptable is worse than one that is honestly red.* What changed is only
+that the declaration mechanism can now be trusted when somebody does decide to use it.
+
 **Icons are counted separately, and for a long time they were not.** Icons are published Figma
 components, but they are captured by `extract-icons.mjs` into `icons.tsv` and `assets/icons/`
 rather than as component classes — so comparing Figma against the COMPONENT extract alone reported

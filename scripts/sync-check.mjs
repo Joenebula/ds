@@ -143,7 +143,7 @@ export function judge({ figma, captured, declared, inventory, icons = [], confir
   const figIconById = new Map(figIcons.filter((c) => key(c.nodeId)).map((c) => [key(c.nodeId), c]));
   const figIconByName = new Map(figIcons.map((c) => [key(c.name).toLowerCase(), c]));
 
-  const renamedIcons = []; const goneIcons = [];
+  const renamedIcons = []; const goneIcons = []; const declaredGoneIcons = [];
   const matchedIds = new Set(); const matchedNames = new Set();
   let blindIcons = 0;
   for (const row of iconRows) {
@@ -166,14 +166,15 @@ export function judge({ figma, captured, declared, inventory, icons = [], confir
     }
     // Neither its id nor its name is published any more. Shipped artwork with no source — the
     // icon equivalent of a GONE component, and it fails for the same reason.
-    if (!declaredSet.has(row.name)) goneIcons.push(row.name);
+    if (declaredSet.has(row.name)) declaredGoneIcons.push(row.name);
+    else goneIcons.push(row.name);
   }
-  const newIcons = figIcons
+  const unmatched = figIcons
     .filter((c) => !matchedIds.has(key(c.nodeId)) && !matchedNames.has(key(c.name).toLowerCase()))
-    .filter((c) => !declaredSet.has(key(c.name)))
-    .map((c) => key(c.name))
-    .sort();
-  goneIcons.sort();
+    .map((c) => key(c.name));
+  const newIcons = unmatched.filter((n) => !declaredSet.has(n)).sort();
+  const declaredNewIcons = unmatched.filter((n) => declaredSet.has(n)).sort();
+  goneIcons.sort(); declaredGoneIcons.sort();
 
   const fig = all.filter((c) => !isExcludedPage(c.page));
 
@@ -285,9 +286,14 @@ export function judge({ figma, captured, declared, inventory, icons = [], confir
     isNew, gone: gone.sort(), same,
     goneConfirmed, goneDebt, goneUnconfirmed, stillPublished, staleConfirmations, retired,
     retiredButPresent,
-    newIcons, goneIcons, blindIcons,
+    newIcons, goneIcons, blindIcons, declaredNewIcons, declaredGoneIcons,
     renamedIcons: renamedIcons.sort((a, b) => a.from.localeCompare(b.from)),
-    capturedIcons: figIcons.length - newIcons.length,
+    // A DECLARED ICON IS NOT A CAPTURED ONE. This read `figIcons.length - newIcons.length`, so
+    // declaring an icon moved it straight into the captured total — 288 became 289 the moment a
+    // row for `Tax` was added, for artwork this repo does not hold. A declaration says why
+    // something is absent; it cannot make it present, and reporting it as captured is the
+    // recurring failure of this file aimed at its own verdict line, in the flattering direction.
+    capturedIcons: figIcons.length - newIcons.length - declaredNewIcons.length,
     unidentified: [...new Set(unidentified)].sort(),
     inventoryBehind,
     figma: fig.length, published: all.length, captured: captured.length,
@@ -395,6 +401,17 @@ function main() {
   for (const n of r.newIcons) {
     console.log(`NEW ICON  "${n}" is on the Figma icon page and is not in icons.tsv`);
   }
+  // COUNTED AND NAMED, never silent. A declared icon used to vanish from every line of this
+  // report, so a file that declared all 293 away would have read exactly like a clean one. That
+  // is the rule this repo states everywhere else, and its own gate did not follow it.
+  for (const n of r.declaredNewIcons) {
+    console.log(`declared "${n}" is in Figma and NOT captured here, with a reason on file — `
+      + 'debt, not a clean run');
+  }
+  for (const n of r.declaredGoneIcons) {
+    console.log(`declared "${n}" is in icons.tsv and Figma's icon page does not publish it, with `
+      + 'a reason on file — debt, not a clean run');
+  }
   for (const n of r.goneIcons) {
     console.log(`GONE ICON "${n}" is in icons.tsv and Figma's icon page does not publish it`);
   }
@@ -428,8 +445,11 @@ function main() {
     + `${r.goneDebt.length} pending, ${r.stillPublished.length} confirmed still published)`
     + (r.retired.length ? `, ${r.retired.length} retired (gone from Figma and dropped here)` : '')
     + (r.unidentified.length ? `, ${r.unidentified.length} with no id` : ''));
+  const declaredIcons = r.declaredNewIcons.length + r.declaredGoneIcons.length;
   console.log(`icons     : ${r.capturedIcons} captured, ${r.renamedIcons.length} renamed, `
     + `${r.newIcons.length} new, ${r.goneIcons.length} gone`
+    + (declaredIcons ? `, ${declaredIcons} declared (${r.declaredNewIcons.length} uncaptured, `
+      + `${r.declaredGoneIcons.length} unpublished) — counted, never captured` : '')
     + (r.blindIcons ? `, ${r.blindIcons} with no id (a rename of one is invisible)` : ''));
   process.exit(r.problems ? 1 : 0);
 }
@@ -697,6 +717,31 @@ function selfTest() {
         { name: 'Coins', nodeId: '9:9', page: 'Icons' }], icons: [], declared: ['Coins'] }),
       (r) => r.newIcons.length === 0 && r.problems === 0],
 
+    // ...AND IS COUNTED, NEVER FOLDED INTO `captured`. Declaring an icon used to move it straight
+    // into the captured total, so the verdict line claimed artwork this repo does not hold —
+    // wrong, and wrong in the flattering direction. A declaration says why something is ABSENT.
+    ['a declared icon is NOT counted as captured', () =>
+      run({ figma: [{ name: 'Button', nodeId: '1:2' },
+        { name: 'Coins', nodeId: '9:9', page: 'Icons' }], icons: [], declared: ['Coins'] }),
+      (r) => r.capturedIcons === 0 && r.declaredNewIcons.join() === 'Coins'],
+    ['a genuinely captured icon still counts as captured', () =>
+      run({ figma: [{ name: 'Button', nodeId: '1:2' },
+        { name: 'Coins', nodeId: '9:9', page: 'Icons' }], icons: ['Coins'] }),
+      (r) => r.capturedIcons === 1 && r.declaredNewIcons.length === 0],
+    // The GONE side declares too, and it must be named rather than simply dropped: a row in
+    // icons.tsv that Figma no longer publishes is shipped artwork with no source either way.
+    ['a declared GONE icon passes and is still NAMED', () =>
+      run({ figma: [{ name: 'Button', nodeId: '1:2' }],
+        icons: [{ name: 'Retired', nodeId: '5:5' }], declared: ['Retired'] }),
+      (r) => r.problems === 0 && r.goneIcons.length === 0
+        && r.declaredGoneIcons.join() === 'Retired'],
+    // The one that makes the count worth having: declaring EVERYTHING must not read as a clean run.
+    ['declaring every icon away leaves every one of them named', () =>
+      run({ figma: [{ name: 'Button', nodeId: '1:2' },
+        { name: 'Coins', nodeId: '9:9', page: 'Icons' },
+        { name: 'Tax', nodeId: '7:7', page: 'Icons' }], icons: [], declared: ['Coins', 'Tax'] }),
+      (r) => r.problems === 0 && r.capturedIcons === 0 && r.declaredNewIcons.join() === 'Coins,Tax'],
+
     // A documentation page is not the design system and never was — no new, no gone, no noise.
     ['a documentation page is excluded entirely', () =>
       run({ figma: [{ name: 'Button', nodeId: '1:2' },
@@ -732,6 +777,7 @@ function selfTest() {
     + 'addition, five renames as five, and a row with no id falls back to the name and is '
     + 'counted as blind; a new component, a removal and an empty listing all still fail; and a '
     + 'captured ICON is no longer mistaken for a new component while an uncaptured one still '
+    + 'fails and a DECLARED one is counted and named rather than folded into the captured total, '
     + 'fails, matched case-insensitively, with the gone side reported beside it; and a GONE '
     + 'states only what the listing proves — unconfirmed until a Figma read settles it, a '
     + 'confirmed-still-published one stops failing but is still named, a confirmed deletion keeps '
