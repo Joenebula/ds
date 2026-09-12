@@ -65,12 +65,20 @@ const unwrapAtRules = css => css.replace(/@[a-z-]+[^{]*\{/gi, ' ');
 // classes, half the library, silently. No prefix: a selector is whatever sits between the
 // last brace and the next `{`.
 const libClasses = new Map();
+// The VALUE as well as the property, for the one question that needs it: whether a page's
+// `display` is the inline-to-block promotion of what the class already says.
+const libDecls = new Map();
 for (const m of unwrapAtRules(stripComments(libCss)).matchAll(/([^{}@]+)\{([^{}]*)\}/g)) {
   const body = m[2];
   const props = new Set([...body.matchAll(/(^|;)\s*([a-z-]+)\s*:/g)].map(x => x[2]));
+  const bare = /^\s*\.(pf-[a-z0-9-]+)\s*$/.exec(m[1]);
   for (const cm of m[1].matchAll(/\.(pf-[a-z0-9-]+)/g)) {
     if (!libClasses.has(cm[1])) libClasses.set(cm[1], new Set());
     for (const p of props) libClasses.get(cm[1]).add(p);
+  }
+  if (bare) {
+    const d = /(^|;)\s*display\s*:\s*([^;}]+)/.exec(body);
+    if (d) libDecls.set(bare[1], { ...(libDecls.get(bare[1]) || {}), display: d[2].trim() });
   }
 }
 
@@ -120,12 +128,37 @@ for (const file of process.argv.slice(2)) {
       const pseudo = /::(before|after)\b/.test(selector);
       const targetsComponent = pseudo ? null : /\.(pf-[a-z0-9-]+)/.exec(selector);
 
+      // A COMPONENT'S AUTO-LAYOUT IS THE COMPONENT'S, exactly like its padding and gap.
+      //
+      // `display`, `flex-direction`, `align-items` and `justify-content` are read straight
+      // off Figma's layout string — `Card` is VERTICAL CENTER MIN and the class says
+      // `display: inline-flex; flex-direction: column; align-items: center`. They were on the
+      // FREE list, and FREE was tested before the code that knows whether the selector points
+      // at a component, so a page could rewrite a component's whole layout and be called
+      // on-system. `prototypes/timesheet-approvals` does exactly that —
+      // `.pf-card { display: flex; align-items: stretch }` — to force a 358px content card to
+      // behave like an 89px metric tile, and every check passed.
+      //
+      // They stay free on a page's OWN selector, which is why the list exists: a layout
+      // element has to be able to say `display: grid`. The distinction the check needed was
+      // already sitting one branch below.
+      const LAYOUT_OWNED = new Set(['display', 'flex-direction', 'align-items',
+        'justify-content', 'align-content', 'justify-items']);
+      // `display: flex` where the class says `inline-flex` is the same statement as
+      // `width: 100%` — "this one fills its row" — not a redesign of the component's layout.
+      // Only the inline-to-block promotion of the SAME layout mode; `inline-block` to
+      // `inline-flex` really does change how the box lays its children out.
+      const PROMOTES = { 'inline-flex': 'flex', 'inline-grid': 'grid', 'inline-block': 'block' };
       for (const [prop, val] of decls) {
-        if (FREE.has(prop)) continue;
+        if (FREE.has(prop) && !(targetsComponent && LAYOUT_OWNED.has(prop))) continue;
+        if (prop === 'display' && targetsComponent) {
+          const has = (libDecls.get(targetsComponent[1]) || {})['display'];
+          if (has && PROMOTES[has] === val.trim()) continue;
+        }
         if (/^(width|max-width|min-width|height|min-height|max-height)$/.test(prop)
             && FULL_BLEED.test(val)) continue;
         if (SPACING_PROPS.test(prop) && SPACING_OK(val)) continue;
-        if (!OWNED.test(prop)) continue;
+        if (!OWNED.test(prop) && !LAYOUT_OWNED.has(prop)) continue;
 
         if (targetsComponent) {
           const owns = libClasses.get(targetsComponent[1]);

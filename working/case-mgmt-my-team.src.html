@@ -158,13 +158,10 @@ svg { display: block; }
 /* The class owns the fill — `Navigation/Search bg` — and the text colour. Overriding the
    background with --pf-bg-primary here was the same fault as the sub nav: right in light
    mode, a different grey in dark.
-   The 150px width and the type — size AND tracking — now come from the class. Search
-   navigation's label is Desktop text/Body text, which the library composes, so the
-   -0.01em written here was a hand-copied duplicate of a value the class already has.
-   pf-new: the 7px inset and the icon-to-text gap are the component's INTERNAL
-   arrangement, which the outer-box extract does not reach. */
-.pf-search-navigation { display: inline-flex; align-items: center; gap: 7px;
-  padding: 0 7px; }
+   Its INTERNAL arrangement used to be written here too — inline-flex, align-items, a 7px
+   inset and an invented icon-to-text gap — which is hand-writing the inside of a component.
+   dist/templates/pf-search-navigation.html already carries Figma's own measured offsets for
+   both children, so the markup uses the template and this rule is gone entirely. */
 .rightgrp { display: flex; align-items: center; gap: var(--pf-space-large); }  /* Figma: Frame 84860 gap 20 */
 
 /* Secondary nav — Figma "[S] Main nav context", 1830x44, which the People First file
@@ -254,9 +251,12 @@ svg { display: block; }
 /* The fill is the component's own, behind Row colour=False — set in the markup, not
    here. Hand-writing --pf-bg-primary was the sub-nav fault again: correct in light mode,
    a different grey in dark. */
+/* flex-direction is the class's own — Figma lays this out VERTICAL and the class says so.
+   Repeating it here was a second, drifting copy of a measured fact. `display: flex` stays:
+   that is the inline-to-block promotion, the same statement as width 100%. */
 .pf-layout-container-magazine-style { width: 100%;
   padding: var(--pf-space-large);
-  display: flex; flex-direction: column; gap: var(--pf-space-large); }
+  display: flex; gap: var(--pf-space-large); }
 .ins-title { display: flex; align-items: center; gap: var(--pf-space-small); }
 /* pf-new: a 1px rule under the card title. Figma draws it as a LINE node, which the
    outer-box extract does not capture as a component. */
@@ -301,7 +301,7 @@ svg { display: block; }
       <!-- Figma: Header child 0 is an instance of `Default header background` -->
       <div class="pf-default-header-background" data-breakpoint="Desktop" aria-hidden="true"></div>
       <div class="hdrow">
-        <span class="pf-search-navigation" data-pf-id="header-search" data-mobile="False"><!--pf-icon:search 22-->Search</span>
+        <span class="pf-search-navigation" data-pf-id="header-search" data-mobile="False"><span style="position:relative;display:block;width:150px;height:32px;box-sizing:border-box"><span style="position:absolute;left:36px;top:5px;width:115px;height:22px;box-sizing:border-box">Search</span><span style="position:absolute;left:7px;top:5px;width:22px;height:22px;box-sizing:border-box"><!--pf-icon:search 22--></span></span></span>
         <span class="grow"></span>
         <span class="pf-top-bar-app-context" data-pf-id="header-app-context"><span class="disc"><!--pf-icon:team 40--></span>HR</span>
         <span class="grow"></span>

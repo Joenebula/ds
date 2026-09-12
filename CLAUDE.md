@@ -642,8 +642,32 @@ Three ways a page goes off-system, all of which happened on this project:
 
 **Properties a component owns** — and a page therefore must not set on its own class:
 size, padding, radius, gap, font-size, font-weight, background, colour, border, shadow,
-letter-spacing. Spacing is the exception: `padding` and `gap` are fine on a layout element
+letter-spacing, **and its auto-layout**: `display`, `flex-direction`, `align-items`,
+`justify-content`. Spacing is the exception: `padding` and `gap` are fine on a layout element
 as long as every value is a `var(--pf-space-*)` token or zero.
+
+**The auto-layout was missing from that list until the stretched tiles were looked at.**
+`display`, `flex-direction`, `align-items` and `justify-content` are read straight off Figma's
+layout string — `Card` is `VERTICAL CENTER MIN` and the class says `display: inline-flex;
+flex-direction: column; align-items: center` — so they are the component's in exactly the way
+its padding is. They sat on `check-off-system`'s FREE list, and FREE was tested *before* the
+branch that knows whether the selector points at a component, so **a page could rewrite a
+component's whole layout and be called on-system**. That is how
+`prototypes/timesheet-approvals` turned a 358px content card into a stat tile —
+`.pf-card { display: flex; align-items: stretch }` — with every check green.
+
+They stay free on a page's OWN selector, which is why the list exists: a layout element has to
+be able to say `display: grid`. One exemption is deliberate: **`display: flex` where the class
+says `inline-flex`** is the inline-to-block promotion, the same statement as `width: 100%`, not
+a redesign — but `inline-block` to `inline-flex` is not, because it changes how the box lays
+its children out.
+
+Tightening it found two real faults in `working/case-mgmt-my-team`, the page built FROM a
+design: a `flex-direction: column` that was a second, drifting copy of what the class already
+said, and a hand-written arrangement of `Search navigation`'s insides — `inline-flex`,
+`align-items`, a 7px inset and an invented icon-to-text gap — when
+`dist/templates/pf-search-navigation.html` already carries Figma's own measured offsets for
+both children. The page uses the template now and that rule is gone.
 
 **When something genuinely is new** — a Figma child the outer-box extract cannot reach, or
 a page-shell element with no component — say so where you write it:

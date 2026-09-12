@@ -12416,13 +12416,10 @@ svg { display: block; }
 /* The class owns the fill — `Navigation/Search bg` — and the text colour. Overriding the
    background with --pf-bg-primary here was the same fault as the sub nav: right in light
    mode, a different grey in dark.
-   The 150px width and the type — size AND tracking — now come from the class. Search
-   navigation's label is Desktop text/Body text, which the library composes, so the
-   -0.01em written here was a hand-copied duplicate of a value the class already has.
-   pf-new: the 7px inset and the icon-to-text gap are the component's INTERNAL
-   arrangement, which the outer-box extract does not reach. */
-.pf-search-navigation { display: inline-flex; align-items: center; gap: 7px;
-  padding: 0 7px; }
+   Its INTERNAL arrangement used to be written here too — inline-flex, align-items, a 7px
+   inset and an invented icon-to-text gap — which is hand-writing the inside of a component.
+   dist/templates/pf-search-navigation.html already carries Figma's own measured offsets for
+   both children, so the markup uses the template and this rule is gone entirely. */
 .rightgrp { display: flex; align-items: center; gap: var(--pf-space-large); }  /* Figma: Frame 84860 gap 20 */
 
 /* Secondary nav — Figma "[S] Main nav context", 1830x44, which the People First file
@@ -12512,9 +12509,12 @@ svg { display: block; }
 /* The fill is the component's own, behind Row colour=False — set in the markup, not
    here. Hand-writing --pf-bg-primary was the sub-nav fault again: correct in light mode,
    a different grey in dark. */
+/* flex-direction is the class's own — Figma lays this out VERTICAL and the class says so.
+   Repeating it here was a second, drifting copy of a measured fact. `display: flex` stays:
+   that is the inline-to-block promotion, the same statement as width 100%. */
 .pf-layout-container-magazine-style { width: 100%;
   padding: var(--pf-space-large);
-  display: flex; flex-direction: column; gap: var(--pf-space-large); }
+  display: flex; gap: var(--pf-space-large); }
 .ins-title { display: flex; align-items: center; gap: var(--pf-space-small); }
 /* pf-new: a 1px rule under the card title. Figma draws it as a LINE node, which the
    outer-box extract does not capture as a component. */
@@ -12559,7 +12559,7 @@ svg { display: block; }
       <!-- Figma: Header child 0 is an instance of `Default header background` -->
       <div class="pf-default-header-background" data-breakpoint="Desktop" aria-hidden="true"></div>
       <div class="hdrow">
-        <span class="pf-search-navigation" data-pf-id="header-search" data-mobile="False"><svg class="pf-icon" width="22" height="22" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path fill-rule="evenodd" d="M15 3.38C8.58 3.38 3.38 8.58 3.38 15C3.38 21.42 8.58 26.63 15 26.63C17.81 26.63 20.38 25.63 22.39 23.98L30.7 32.3C31.14 32.73 31.86 32.73 32.3 32.3C32.73 31.86 32.73 31.14 32.3 30.7L23.98 22.39C25.63 20.38 26.63 17.81 26.63 15C26.63 8.58 21.42 3.38 15 3.38ZM5.63 15C5.63 9.82 9.82 5.63 15 5.63C20.18 5.63 24.38 9.82 24.38 15C24.38 20.18 20.18 24.38 15 24.38C9.82 24.38 5.63 20.18 5.63 15Z"/></g></svg>Search</span>
+        <span class="pf-search-navigation" data-pf-id="header-search" data-mobile="False"><span style="position:relative;display:block;width:150px;height:32px;box-sizing:border-box"><span style="position:absolute;left:36px;top:5px;width:115px;height:22px;box-sizing:border-box">Search</span><span style="position:absolute;left:7px;top:5px;width:22px;height:22px;box-sizing:border-box"><svg class="pf-icon" width="22" height="22" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path fill-rule="evenodd" d="M15 3.38C8.58 3.38 3.38 8.58 3.38 15C3.38 21.42 8.58 26.63 15 26.63C17.81 26.63 20.38 25.63 22.39 23.98L30.7 32.3C31.14 32.73 31.86 32.73 32.3 32.3C32.73 31.86 32.73 31.14 32.3 30.7L23.98 22.39C25.63 20.38 26.63 17.81 26.63 15C26.63 8.58 21.42 3.38 15 3.38ZM5.63 15C5.63 9.82 9.82 5.63 15 5.63C20.18 5.63 24.38 9.82 24.38 15C24.38 20.18 20.18 24.38 15 24.38C9.82 24.38 5.63 20.18 5.63 15Z"/></g></svg></span></span></span>
         <span class="grow"></span>
         <span class="pf-top-bar-app-context" data-pf-id="header-app-context"><span class="disc"><svg class="pf-icon" width="40" height="40" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M8.56 19.28C9.29 19.28 10 19.57 10.52 20.09C11.04 20.61 11.33 21.32 11.33 22.06C11.33 22.61 11.78 23.06 12.33 23.06C12.89 23.06 13.33 22.61 13.33 22.06C13.33 20.79 12.83 19.57 11.93 18.68C11.04 17.78 9.82 17.28 8.56 17.28H4.78C3.51 17.28 2.3 17.78 1.4 18.68C.5 19.57 0 20.79 0 22.06V23.94C0 24.5 .45 24.94 1 24.94C1.55 24.94 2 24.5 2 23.94V22.06C2 21.32 2.29 20.61 2.81 20.09C3.33 19.57 4.04 19.28 4.78 19.28H8.56Z"/><path fill-rule="evenodd" d="M7.14 8.89C5.87 8.89 4.83 9.92 4.83 11.19C4.83 12.47 5.87 13.5 7.14 13.5C8.41 13.5 9.44 12.47 9.44 11.19C9.44 9.92 8.41 8.89 7.14 8.89ZM2.83 11.19C2.83 8.82 4.76 6.89 7.14 6.89C9.52 6.89 11.44 8.82 11.44 11.19C11.44 13.57 9.52 15.5 7.14 15.5C4.76 15.5 2.83 13.57 2.83 11.19Z"/><path fill-rule="evenodd" d="M28.86 8.89C27.59 8.89 26.56 9.92 26.56 11.19C26.56 12.47 27.59 13.5 28.86 13.5C30.13 13.5 31.17 12.47 31.17 11.19C31.17 9.92 30.13 8.89 28.86 8.89ZM24.56 11.19C24.56 8.82 26.48 6.89 28.86 6.89C31.24 6.89 33.17 8.82 33.17 11.19C33.17 13.57 31.24 15.5 28.86 15.5C26.48 15.5 24.56 13.57 24.56 11.19Z"/><path fill-rule="evenodd" d="M27.44 19.28C26.71 19.28 26 19.57 25.48 20.09C24.96 20.61 24.67 21.32 24.67 22.06C24.67 22.61 24.22 23.06 23.67 23.06C23.11 23.06 22.67 22.61 22.67 22.06C22.67 20.79 23.17 19.57 24.07 18.68C24.96 17.78 26.18 17.28 27.44 17.28H31.22C32.49 17.28 33.7 17.78 34.6 18.68C35.5 19.57 36 20.79 36 22.06V23.94C36 24.5 35.55 24.94 35 24.94C34.45 24.94 34 24.5 34 23.94V22.06C34 21.32 33.71 20.61 33.19 20.09C32.67 19.57 31.96 19.28 31.22 19.28H27.44Z"/><path fill-rule="evenodd" d="M18 7C15.77 7 13.96 8.81 13.96 11.04C13.96 13.27 15.77 15.07 18 15.07C20.23 15.07 22.04 13.27 22.04 11.04C22.04 8.81 20.23 7 18 7ZM11.96 11.04C11.96 7.7 14.67 5 18 5C21.33 5 24.04 7.7 24.04 11.04C24.04 14.37 21.33 17.07 18 17.07C14.67 17.07 11.96 14.37 11.96 11.04Z"/><path fill-rule="evenodd" d="M15.48 22.11C14.41 22.11 13.38 22.54 12.63 23.29C11.87 24.05 11.44 25.08 11.44 26.15V28.67C11.44 29.22 11 29.67 10.44 29.67C9.89 29.67 9.44 29.22 9.44 28.67V26.15C9.44 24.55 10.08 23.01 11.21 21.88C12.34 20.75 13.88 20.11 15.48 20.11H20.52C22.12 20.11 23.66 20.75 24.79 21.88C25.92 23.01 26.56 24.55 26.56 26.15V28.67C26.56 29.22 26.11 29.67 25.56 29.67C25 29.67 24.56 29.22 24.56 28.67V26.15C24.56 25.08 24.13 24.05 23.37 23.29C22.62 22.54 21.59 22.11 20.52 22.11H15.48Z"/></svg></span>HR</span>
         <span class="grow"></span>
