@@ -19,10 +19,16 @@ Non-negotiables from that skill:
 - Use semantic tokens (`--pf-text-primary`), never primitives (`--pf-base-grey-slate`).
   Primitives don't change between modes, so using them breaks dark mode.
 - Open Sans only, weights 400 and 600. **Enforced, not just stated**: Figma also holds Light (300)
-  and Medium (500) styles, and `build-type-css.mjs` deliberately emits NO `font-weight` for those,
-  so they inherit 400. `text-styles.tsv` still records what Figma has — its job is to be truthful
-  about Figma — and the exclusions are counted and named by both the build and `verify-type.mjs`
-  on every run. Re-enabling one fails the type check.
+  and Medium (500) styles, and `build-type-css.mjs` refuses to ship them — it emits **`font-weight:
+  400` explicitly** for those classes. `text-styles.tsv` still records what Figma has — its job is to
+  be truthful about Figma — and the exclusions are counted and named by both the build and
+  `verify-type.mjs` on every run. Re-enabling one fails the type check.
+
+  This line used to say the build emits **no** `font-weight` for them *"so they inherit 400"*. It
+  does not: a class with no weight inherits whatever the UA stylesheet says, which on an `<h2>` is
+  **700** — a weight this system has no face for, so the browser synthesises one. Emitting nothing
+  is not a way of saying 400. The same applies to plain `<strong>`, `<b>` and `<th>`, which the type
+  layer now maps onto 600 for the same reason. See *What the 2026-09-12 merge corrected*.
 - Green = positive/confirm, blue = default action, pink = brand (not a button).
 - Both light and dark mode must work. Using tokens gives this for free.
 - Never draw an icon by hand. All 293 are in `assets/icons/`.
@@ -1663,9 +1669,10 @@ design system comes from `aRWjBnTvdLiG50xtwodGwH` and nowhere else.
 source; the built file is an output. Editing it directly is overwritten on the next build, and
 until then the screen and its source disagree.
 
-`npm run verify` checks every screen in `prototypes/` on eleven axes, plus the component
-library, the type layer, the docs, and every GENERATED FILE THAT SOMEBODY READS, each on a
-different axis.
+`npm run verify` checks every screen in **`working/` and `prototypes/`** on thirteen axes —
+built, geometry, colour, icons, audit, fonts, layout, clipped, frame, content, tagging, images,
+source — plus the component library, the type layer, the docs, and every GENERATED FILE THAT
+SOMEBODY READS, each on a different axis.
 
 That last one is `verify-generated.mjs`, and it closes a gap commit `223f4d1` named and deferred:
 *"verify-built.mjs gates prototypes/ and nothing gates ds-bundle/ or docs/."* It rebuilds
