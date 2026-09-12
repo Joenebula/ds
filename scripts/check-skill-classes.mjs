@@ -186,6 +186,13 @@ const nStrokeThick = sideShown.filter(c => new Set(c.slice(2, 6)).size === 1).le
 const CAPPED = /const CAPPED_BASELINE\s*=\s*(\d+)/
   .exec(readFileSync('scripts/check-templates.mjs', 'utf8'));
 const nCapped = CAPPED ? Number(CAPPED[1]) : null;
+
+// Templates that render outside the box their own class draws. This is the number that
+// gates carrying Figma's clipsContent — clipping can only be emitted once it is zero — and
+// CLAUDE.md quotes it, so it is checked like any other figure.
+const OVERFLOW = /const OVERFLOW_BASELINE\s*=\s*(\d+)/
+  .exec(readFileSync('scripts/check-template-overflow.mjs', 'utf8'));
+const nOverflow = OVERFLOW ? Number(OVERFLOW[1]) : null;
 const nInnerComponents = new Set(innerLines.slice(1).map(l => l.split('\t')[0])).size;
 
 // README's own figures. It is the front door and nothing was checking it: it claimed 198
@@ -289,6 +296,8 @@ const figures = [
   ['shadows with a matching token', nDropShadows - nUntokenedShadows, /\*\*(\d+)\s+of\s+the\s+\d+\s+match\s+one\s+exactly\*\*/g],
   ['shadows with no token', nUntokenedShadows, /\*\*(\d+)\s+match\s+neither\*\*/g],
   ['shadows with no token', nUntokenedShadows, /(\d+)\s+variants\s+cast\s+a\s+shadow\s+the\s+design\s+system\s+has\s+no\s+token\s+for/g],
+  ['templates overflowing their class box', nOverflow, /\*\*(\d+)\s+of\s+the\s+\d+\s+templates\s+already\s+render\s+outside\s+the\s+box/g],
+  ['templates', templateCount, /\d+\s+of\s+the\s+(\d+)\s+templates\s+already\s+render\s+outside\s+the\s+box/g],
   ['variants stroking some edges only', nStrokeUneven, /\*\*(\d+)\s+variants\s+stroke\s+some\s+edges\s+and\s+not\s+others\.\*\*/g],
   ['variants stroking a width that is not 1px', nStrokeThick, /\*\*(\d+)\s+stroke\s+all\s+four\s+sides\s+at\s+a\s+width\s+that\s+is\s+not\s+1px\*\*/g],
   ['variants whose stroke is switched off', nStrokeOff, /\*\*(\d+)\s+keep\s+a\s+stroke\s+paint\s+Figma\s+has\s+switched\s+OFF\*\*/g],

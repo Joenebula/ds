@@ -198,6 +198,28 @@ That is a gap in the design system rather than in the pipeline, recorded in §12
 already has a mode-aware `Border/Border - Drop shadow` colour that the shadow tokens do not
 use.
 
+## Clipping — measured, and deliberately NOT carried
+
+Figma clips the contents of **34 of the 62 components** on Cards and panels, 22 of them with
+a corner radius, and `dist/components.css` sets `overflow` once. After the border and the
+shadow this looked like the obvious next thing to carry, and it is the one that must not be.
+
+The measurement that settled it: **28 of the 154 templates already render outside the box
+their own class draws** — `pf-hemisphere-chart` by 333px, `pf-donut-pie-chart` by 284px,
+`pf-content` by 180px. `overflow: hidden` would not have reproduced the design on those; it
+would have deleted part of the component's own generated contents from view. And nothing
+would have said so: a clipped child still has a bounding rect, so `check-templates` would
+have gone on reporting that every template renders its contents while a fifth of one was
+invisible. That is precisely the silent failure this project keeps finding — introduced on
+purpose, in the name of fidelity.
+
+The overflow is not a fault in the templates. A class's height is the artboard Figma drew
+the component at, and a template holds placeholder contents of their own size; the two were
+never promised to agree.
+
+`npm run verify` runs `check-template-overflow.mjs`, which reports and pins the count. It is
+the precondition: **clipping can only ever be carried once that number is zero.**
+
 ## What the component classes do and do not carry
 
 A component is modelled as **one outer box plus three colour slots**

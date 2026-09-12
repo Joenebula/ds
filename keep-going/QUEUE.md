@@ -1333,5 +1333,36 @@ continues. It does not, and that is worth recording so nobody re-runs it:
   class is mostly an empty box until a template is pasted into it — it would bite on a card
   holding an image that should be clipped by the rounded corner.
 
-**Suggestion for the user, not done:** carry `clipsContent` the same way. One sweep, one
-`tokens/_raw` file, one generator rule, one check.
+## J. `clipsContent` — measured, and deliberately NOT carried — `done`
+
+Picked this up as the one candidate item I left in section I. The answer is **no**, with
+evidence, and that is the deliverable.
+
+Figma clips 34 of the 62 components on Cards and panels, 22 of them with a corner radius —
+and clipping is the only way to make a child respect a rounded corner, so it looked like the
+obvious next fix after the border and the shadow.
+
+**Done when:** met — the question is settled by measurement rather than judgement, the
+answer is written where the next person will look, and the number that would change the
+answer is pinned.
+
+What settled it: **28 of the 154 templates already render OUTSIDE the box their own class
+draws** — `pf-hemisphere-chart` by 333px, `pf-donut-pie-chart` by 284px, `pf-content` by
+180px. `overflow: hidden` on those would not reproduce the design, it would delete part of
+the component's own generated contents. Worse, nothing would report it: a clipped child
+still has a bounding rect, so `check-templates` would go on saying every template renders
+its contents while a fifth of one was invisible. That is the exact silent failure this
+project keeps finding in itself — and it would have been added deliberately, in the name of
+fidelity.
+
+The overflow is not a fault in the templates: a class's height is the artboard Figma drew
+the component at, and a template holds placeholder contents of their own size. The two were
+never promised to agree.
+
+`check-template-overflow.mjs` reports and pins the 28. **It is the precondition — clipping
+can only ever be carried once that number is zero.** So the door is left open with the
+latch measured rather than the question re-litigated.
+
+**A baseline taken from a subset is not a baseline.** The first version of that check pinned
+5, which is how many of the eighteen components I had sampled overflowed. Run against all
+154 it is 28, and it failed on its first honest run. Measure the population you are pinning.
