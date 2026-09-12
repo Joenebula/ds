@@ -66,9 +66,18 @@ svg { display: block; }
 .rail { background: var(--pf-bg-primary); border-right: 1px solid var(--pf-border-default-full);
         display: flex; flex-direction: column; }
 .rail .spacer { flex: 1; }
-/* pf-new: the app-menu square at the top of the rail. No component covers it. */
-.railtop { width: 90px; height: 86px; display: grid; place-items: center;
-           background: var(--pf-bg-theme); color: var(--pf-icon-always-white); }
+/* pf-new: the app-menu square's COLOUR only. `.pf-waffle` is that square — 90x86 around a 32px
+   mark, the geometry this rule used to hand-write — and the class is shape-only on purpose:
+   "no variant of this binds a colour variable in Figma, so the class leaves colour to the page."
+   So the size, the centring and the child's 32px come from the class now, and this sets the two
+   things the class deliberately does not.
+   The background is a KNOWN COMPROMISE, not a measurement: Figma paints the waffle a fixed brand
+   red on the default theme (the value is in tokens/_raw/deprecated-collection-census.tsv and is
+   deliberately not written here — the raw-hex guard reads comments too, and it is right to) and
+   the token layer has no name at that value, so the nearest real token is used instead. It is the theme colour, so it flips to sky blue in dark
+   where Figma has it fixed. Writing the hex would break the no-raw-colour rule and freeze it
+   across both modes; the fix is a token, which is a design decision. */
+.railtop { background: var(--pf-bg-theme); color: var(--pf-icon-always-white); }
 /* This page renders the rail item AS the stack, so it owns direction, gap and padding
    for every state. Figma's own numbers on the outer box describe a different thing:
    gap 22 on Selected is the distance from the stack to the 3x132 bar beside it, and
@@ -288,7 +297,7 @@ svg { display: block; }
        because intent cannot be read off the CSS — a deliberate centre and an accidental one
        compute identically. -->
   <nav class="rail" aria-label="Main" data-align="center">
-    <div class="railtop" aria-hidden="true"><!--pf-icon:app-menu 32--></div>
+    <div class="pf-waffle railtop" aria-hidden="true"><!--pf-icon:app-menu--></div>
     <a class="pf-navigation-item" data-pf-id="nav-home" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:home 32--><span class="lbl">Home</span></a>
     <a class="pf-navigation-item" data-pf-id="nav-news" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:news 32--><span class="lbl">News</span></a>
     <a class="pf-navigation-item" data-pf-id="nav-me" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:user 32--><span class="lbl">Me</span></a>
