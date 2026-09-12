@@ -122,11 +122,11 @@ svg { display: block; }
 
 .pf-table-ag { overflow: hidden; }
 .tablescroll { overflow-x: auto; }
-/* pf-new: the <table> element itself. Figma's `Table (AG)` is a frame of columns, not a
-   grid, so the library has no rule for a real table: `border-collapse` is what stops the
-   cell borders doubling, and the min-width is what makes the seven columns scroll rather
-   than crush. Neither is a Figma value. (check-off-system reads `border-collapse` as a
-   border property; it is not one.) */
+/* pf-new: the min-width on the <table> element. Figma's `Table (AG)` is a frame of columns
+   rather than a grid, so the library states no width for a real table, and 1000px is what
+   makes the seven columns scroll rather than crush. It is a page decision, not a Figma
+   value. (`border-collapse` used to need this marker too, because check-off-system read it
+   as a border property. It is table layout, not paint, and is free now.) */
 table { width: 100%; border-collapse: collapse; min-width: 1000px; }
 /* Line height is `normal` because that is what Figma sets on all 23 text styles; a
    cell treats its Figma height as a minimum, so an icon or a second line grows it. */

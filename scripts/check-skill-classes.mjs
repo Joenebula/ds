@@ -15,6 +15,7 @@
 import { readFileSync, writeFileSync, unlinkSync, readdirSync, existsSync } from 'node:fs';
 import { chromium } from 'playwright-core';
 import { offSystem } from './check-off-system.mjs';
+import { contrast } from './check-contrast.mjs';
 
 const md = readFileSync('.claude/skills/people-first/SKILL.md', 'utf8');
 const section = md.split('### The classes you will reach for most')[1];
@@ -358,6 +359,10 @@ const walked = productPage.filter(c => treeNames.has(c.name)).length;
 // from a number typed into the docs. CLAUDE.md quoted "30-63 off-system each" long after the
 // real answers were 82, 138 and 163 — nothing re-measured it as the check grew, which is the
 // exact drift this section exists to stop.
+const { pairs: contrastPairs, passing: contrastPassing } = contrast();
+const contrastPassLight = contrastPassing.light;
+const contrastPassDark = contrastPassing.dark;
+
 const offSystemScore = f => offSystem(`prototypes/${f}.src.html`).length;
 const nOffAbsence = offSystemScore('absence-requests');
 const nOffTimesheet = offSystemScore('timesheet-approvals');
@@ -372,6 +377,12 @@ const figures = [
     /`absence-requests`\s+\*\*(\d+)\*\*,\s+`timesheet-approvals`\s+\*\*(\d+)\*\*\s+and\s+`payroll-run-summary`\s+\*\*(\d+)\*\*\s+off-system/g],
   ['off-system on the prototype built from templates', nOffRecruitment,
     /`recruitment-pipeline`, built on the templates, scores \*\*(\d+)\*\*/g],
+  // The contrast counts, from check-contrast.mjs rather than from a remembered run. They had
+  // read "27 of 28" in the skill, the README and a handoff doc after the pair table grew.
+  ['WCAG AA pairs passing in light, and pairs in total', [contrastPassLight, contrastPairs],
+    /\*\*(\d+) of (\d+) pass WCAG AA in light/g],
+  ['WCAG AA pairs passing in dark, and pairs in total', [contrastPassDark, contrastPairs],
+    /(\d+) of (\d+) in dark\.\*\*/g],
   ['% of what paints carrying a library class',
     [pctAbsence, pctTimesheet, pctPayroll, pctRecruitment],
     /\*\*(\d+)%\*\*,\s+\*\*(\d+)%\*\*,\s+\*\*(\d+)%\*\*\s+and\s+\*\*(\d+)%\*\*\s+of\s+what\s+paints/g],

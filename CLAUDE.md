@@ -925,8 +925,8 @@ count is checked against the script now, so it cannot drift again.)
 It does not look at type classes. A component composes its own type, so a page must not add
 `pf-text-*` inside one — see the rule above.
 
-**`prototypes/` are exempt** — they are hand-built fixtures. `absence-requests` **82**,
-`timesheet-approvals` **138** and `payroll-run-summary` **163** off-system;
+**`prototypes/` are exempt** — they are hand-built fixtures. `absence-requests` **81**,
+`timesheet-approvals` **137** and `payroll-run-summary` **163** off-system;
 `recruitment-pipeline`, built on the templates, scores **0**. That spread is what the
 exemption is for, not a licence: a prototype CAN be on-system, and the newest one is. Builds
 FROM a design are not exempt.
