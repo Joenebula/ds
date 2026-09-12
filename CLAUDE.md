@@ -325,6 +325,32 @@ responsive block is the first without a `:root` guard, and it was read as always
 phone heights of `Full page`, `Side filter` and `Table (AG)` were reported as their desktop
 heights being wrong. It now carries each rule's enclosing condition and asks `matchMedia`.
 
+## The two ways of switching mode must agree
+
+`data-theme="dark"` on the root and the OS preference are documented here as equivalent, and
+for all 111 tokens they were. What they were **not** equivalent about is `color-scheme`.
+
+`:root { color-scheme: light dark }` tells the BROWSER to follow the system for everything it
+paints itself — the default text colour, form controls, scrollbars. Setting the attribute
+swapped every token and left that alone, so on a light OS the page went dark and the browser
+went on painting inherited text **black**. Measured: **69 of the 160 component classes**
+rendered a different colour depending on which way dark mode was turned on, every one of them
+a class that inherits its text colour rather than stating one. Reported from a phone as the
+filter chips looking wrong in dark mode.
+
+`:root[data-theme="dark"]` now sets `color-scheme: dark`, and `[data-theme="light"]` sets
+`light` for a page pinning light on a dark OS.
+
+**Nothing could have caught this from one side, and that is the lesson.** Every dark screenshot
+in this repo is taken with the attribute — `scripts/shoot.mjs` sets `data-theme` — and every
+probe written while chasing the responsive work used Playwright's `colorScheme`. The two halves
+of the project were each exercising a different path, and both were green.
+
+`npm run verify` runs `check-theme-paths.mjs`, which renders every class into each mode **both
+ways** and asserts they agree. The OS is set the OPPOSITE way in each pair on purpose: matching
+them would let a page pass by following the system while ignoring the attribute entirely, which
+is the actual fault.
+
 ## A fill every variant agrees on belongs on the bare class
 
 The colour rules are emitted per variant, so a class painted **nothing** until a page wrote
