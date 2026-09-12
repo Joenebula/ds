@@ -145,12 +145,20 @@ svg { display: block; }
    padding-left — the wrong side, and centred on the label-plus-input block rather than on
    the input, which is why the glass sat up in the top corner. */
 .searchwrap { flex: 0 1 300px; min-width: 220px; }
-/* pf-new: a bare control inside the field. Figma's `Field` holds a TEXT node; HTML needs a
-   real <input>, so its UA chrome is reset and the component's own box, border, background
-   and type show through. */
+/* pf-new: a bare control inside the field. Figma's `Field` holds a TEXT node and a
+   `Field icons` instance; HTML needs a real control, so its UA chrome is reset and the
+   component's own box, border, background and type show through. `appearance:none` also
+   removes the browser's own dropdown arrow, which is why the People First one is placed
+   next to it — see the note on Field icons. */
 .fieldinput { flex: 1 1 auto; min-width: 0; border: 0; background: transparent;
-              font: inherit; color: inherit; padding: 0; }
-.searchwrap .icn { display: flex; color: var(--pf-icon-secondary); pointer-events: none; }
+              font: inherit; color: inherit; padding: 0;
+              appearance: none; -webkit-appearance: none; }
+select.fieldinput { cursor: pointer; }
+/* pf-new: the trailing icon. EVERY form field's icon — search, dropdown chevron, calendar,
+   clock — is the same `Field icons` instance in Figma, the last child of a field laid out
+   HORIZONTAL CENTER MAX. So they are all right-aligned and vertically centred, and the
+   component's own flex puts them there; this only supplies the glyph and its colour. */
+.pf-field > .icn { display: flex; color: var(--pf-icon-secondary); pointer-events: none; }
 /* Layout only. `Selected action banner` is 1560x48 in Figma — one row at full desktop
    width. This page is narrower, so without being allowed to wrap, its buttons ran 367px
    outside their own banner. verify-layout caught it the moment the page was rebuilt against
@@ -396,15 +404,21 @@ select.control { appearance: none; background-image:
             <input class="fieldinput" type="search" aria-label="Search employees" placeholder="Search name or payroll number" data-pf-id="field-search-employees-input">
             <span class="icn"><!--pf-icon:search 16--></span>
           </div>
-          <select class="pf-field" data-right-aligned="No" data-filled="No" aria-label="Department" style="width:auto;min-width:180px" data-pf-id="field-department">
+          <div class="pf-field" data-right-aligned="No" data-filled="No" style="width:auto;min-width:180px" data-pf-id="field-department">
+            <select class="fieldinput" aria-label="Department">
             <option>All departments</option>
             <option>Finance</option><option>Operations</option><option>People</option>
             <option>Technology</option><option>Retail</option><option>Logistics</option>
           </select>
-          <select class="pf-field" data-right-aligned="No" data-filled="No" aria-label="Pay group" style="width:auto;min-width:160px" data-pf-id="field-pay-group">
+            <span class="icn"><!--pf-icon:down-chevron 22--></span>
+          </div>
+          <div class="pf-field" data-right-aligned="No" data-filled="No" style="width:auto;min-width:160px" data-pf-id="field-pay-group">
+            <select class="fieldinput" aria-label="Pay group">
             <option>All pay groups</option>
             <option>Monthly salaried</option><option>Weekly hourly</option>
           </select>
+            <span class="icn"><!--pf-icon:down-chevron 22--></span>
+          </div>
           <button class="pf-button" data-type="Hollow" type="button" data-pf-id="button-sort"><!--pf-icon:sort-arrow-ag-grid 14-->Sort</button>
           <label class="togglelab"><span class="pf-toggle" data-on="No" data-locked="No" role="switch" aria-checked="false" tabindex="0" data-pf-id="toggle-no"></span> Show only exceptions</label>
         </div>
@@ -695,11 +709,14 @@ select.control { appearance: none; background-image:
 
         <div class="pf-form-field" data-input-type="Text" data-state="Selected" data-pf-id="form-field-pay-method-bacs">
           <label class="lbl" for="sp-method">Pay method</label>
-          <select class="pf-field" data-right-aligned="No" data-filled="No" id="sp-method" data-pf-id="field-bacs-3-working">
+          <div class="pf-field" data-right-aligned="No" data-filled="No" data-pf-id="field-bacs-3-working">
+            <select class="fieldinput" id="sp-method">
             <option>BACS &mdash; 3 working days</option>
             <option>Faster Payment</option>
             <option>Cheque</option>
           </select>
+            <span class="icn"><!--pf-icon:down-chevron 22--></span>
+          </div>
         </div>
 
         <div class="pf-form-field" data-input-type="Text" data-state="Error" data-pf-id="form-field-sort-code">

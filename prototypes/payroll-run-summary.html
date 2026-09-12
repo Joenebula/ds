@@ -9873,12 +9873,20 @@ svg { display: block; }
    padding-left — the wrong side, and centred on the label-plus-input block rather than on
    the input, which is why the glass sat up in the top corner. */
 .searchwrap { flex: 0 1 300px; min-width: 220px; }
-/* pf-new: a bare control inside the field. Figma's `Field` holds a TEXT node; HTML needs a
-   real <input>, so its UA chrome is reset and the component's own box, border, background
-   and type show through. */
+/* pf-new: a bare control inside the field. Figma's `Field` holds a TEXT node and a
+   `Field icons` instance; HTML needs a real control, so its UA chrome is reset and the
+   component's own box, border, background and type show through. `appearance:none` also
+   removes the browser's own dropdown arrow, which is why the People First one is placed
+   next to it — see the note on Field icons. */
 .fieldinput { flex: 1 1 auto; min-width: 0; border: 0; background: transparent;
-              font: inherit; color: inherit; padding: 0; }
-.searchwrap .icn { display: flex; color: var(--pf-icon-secondary); pointer-events: none; }
+              font: inherit; color: inherit; padding: 0;
+              appearance: none; -webkit-appearance: none; }
+select.fieldinput { cursor: pointer; }
+/* pf-new: the trailing icon. EVERY form field's icon — search, dropdown chevron, calendar,
+   clock — is the same `Field icons` instance in Figma, the last child of a field laid out
+   HORIZONTAL CENTER MAX. So they are all right-aligned and vertically centred, and the
+   component's own flex puts them there; this only supplies the glyph and its colour. */
+.pf-field > .icn { display: flex; color: var(--pf-icon-secondary); pointer-events: none; }
 /* Layout only. `Selected action banner` is 1560x48 in Figma — one row at full desktop
    width. This page is narrower, so without being allowed to wrap, its buttons ran 367px
    outside their own banner. verify-layout caught it the moment the page was rebuilt against
@@ -10124,15 +10132,21 @@ select.control { appearance: none; background-image:
             <input class="fieldinput" type="search" aria-label="Search employees" placeholder="Search name or payroll number" data-pf-id="field-search-employees-input">
             <span class="icn"><svg class="pf-icon" width="16" height="16" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path fill-rule="evenodd" d="M15 3.38C8.58 3.38 3.38 8.58 3.38 15C3.38 21.42 8.58 26.63 15 26.63C17.81 26.63 20.38 25.63 22.39 23.98L30.7 32.3C31.14 32.73 31.86 32.73 32.3 32.3C32.73 31.86 32.73 31.14 32.3 30.7L23.98 22.39C25.63 20.38 26.63 17.81 26.63 15C26.63 8.58 21.42 3.38 15 3.38ZM5.63 15C5.63 9.82 9.82 5.63 15 5.63C20.18 5.63 24.38 9.82 24.38 15C24.38 20.18 20.18 24.38 15 24.38C9.82 24.38 5.63 20.18 5.63 15Z"/></g></svg></span>
           </div>
-          <select class="pf-field" data-right-aligned="No" data-filled="No" aria-label="Department" style="width:auto;min-width:180px" data-pf-id="field-department">
+          <div class="pf-field" data-right-aligned="No" data-filled="No" style="width:auto;min-width:180px" data-pf-id="field-department">
+            <select class="fieldinput" aria-label="Department">
             <option>All departments</option>
             <option>Finance</option><option>Operations</option><option>People</option>
             <option>Technology</option><option>Retail</option><option>Logistics</option>
           </select>
-          <select class="pf-field" data-right-aligned="No" data-filled="No" aria-label="Pay group" style="width:auto;min-width:160px" data-pf-id="field-pay-group">
+            <span class="icn"><svg class="pf-icon" width="22" height="22" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path fill-rule="evenodd" d="M32.92 10.33C33.36 10.77 33.36 11.48 32.92 11.92L18.92 25.92C18.48 26.36 17.77 26.36 17.33 25.92L3.33 11.92C2.89 11.48 2.89 10.77 3.33 10.33C3.77 9.89 4.48 9.89 4.92 10.33L18.13 23.53L31.33 10.33C31.77 9.89 32.48 9.89 32.92 10.33Z"/></g></svg></span>
+          </div>
+          <div class="pf-field" data-right-aligned="No" data-filled="No" style="width:auto;min-width:160px" data-pf-id="field-pay-group">
+            <select class="fieldinput" aria-label="Pay group">
             <option>All pay groups</option>
             <option>Monthly salaried</option><option>Weekly hourly</option>
           </select>
+            <span class="icn"><svg class="pf-icon" width="22" height="22" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path fill-rule="evenodd" d="M32.92 10.33C33.36 10.77 33.36 11.48 32.92 11.92L18.92 25.92C18.48 26.36 17.77 26.36 17.33 25.92L3.33 11.92C2.89 11.48 2.89 10.77 3.33 10.33C3.77 9.89 4.48 9.89 4.92 10.33L18.13 23.53L31.33 10.33C31.77 9.89 32.48 9.89 32.92 10.33Z"/></g></svg></span>
+          </div>
           <button class="pf-button" data-type="Hollow" type="button" data-pf-id="button-sort"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M7.96 15.43C7.79 15.01 7.88 14.53 8.2 14.2L17.2 5.2C17.64 4.76 18.36 4.76 18.8 5.2L27.8 14.2C28.12 14.53 28.21 15.01 28.04 15.43C27.86 15.85 27.45 16.13 27 16.13L9 16.13C8.55 16.13 8.14 15.85 7.96 15.43ZM24.28 13.88L18 7.59L11.72 13.88L24.28 13.88Z"/><path d="M8.2 21.8C7.88 21.47 7.79 20.99 7.96 20.57C8.14 20.15 8.55 19.88 9 19.88L27 19.88C27.45 19.88 27.86 20.15 28.04 20.57C28.21 20.99 28.12 21.47 27.8 21.8L18.8 30.8C18.36 31.24 17.64 31.24 17.2 30.8L8.2 21.8ZM18 28.41L24.28 22.13L11.72 22.13L18 28.41Z"/></svg>Sort</button>
           <label class="togglelab"><span class="pf-toggle" data-on="No" data-locked="No" role="switch" aria-checked="false" tabindex="0" data-pf-id="toggle-no"></span> Show only exceptions</label>
         </div>
@@ -10423,11 +10437,14 @@ select.control { appearance: none; background-image:
 
         <div class="pf-form-field" data-input-type="Text" data-state="Selected" data-pf-id="form-field-pay-method-bacs">
           <label class="lbl" for="sp-method">Pay method</label>
-          <select class="pf-field" data-right-aligned="No" data-filled="No" id="sp-method" data-pf-id="field-bacs-3-working">
+          <div class="pf-field" data-right-aligned="No" data-filled="No" data-pf-id="field-bacs-3-working">
+            <select class="fieldinput" id="sp-method">
             <option>BACS &mdash; 3 working days</option>
             <option>Faster Payment</option>
             <option>Cheque</option>
           </select>
+            <span class="icn"><svg class="pf-icon" width="22" height="22" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path fill-rule="evenodd" d="M32.92 10.33C33.36 10.77 33.36 11.48 32.92 11.92L18.92 25.92C18.48 26.36 17.77 26.36 17.33 25.92L3.33 11.92C2.89 11.48 2.89 10.77 3.33 10.33C3.77 9.89 4.48 9.89 4.92 10.33L18.13 23.53L31.33 10.33C31.77 9.89 32.48 9.89 32.92 10.33Z"/></g></svg></span>
+          </div>
         </div>
 
         <div class="pf-form-field" data-input-type="Text" data-state="Error" data-pf-id="form-field-sort-code">

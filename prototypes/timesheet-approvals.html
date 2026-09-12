@@ -9647,12 +9647,20 @@ svg { display: block; }
    padding-left — the wrong side, and centred on the label-plus-input block rather than on
    the input, which is why the glass sat up in the top corner. */
 .searchwrap { flex: 0 1 320px; min-width: 240px; }
-/* pf-new: a bare control inside the field. Figma's `Field` holds a TEXT node; HTML needs a
-   real <input>, so its UA chrome is reset and the component's own box, border, background
-   and type show through. */
+/* pf-new: a bare control inside the field. Figma's `Field` holds a TEXT node and a
+   `Field icons` instance; HTML needs a real control, so its UA chrome is reset and the
+   component's own box, border, background and type show through. `appearance:none` also
+   removes the browser's own dropdown arrow, which is why the People First one is placed
+   next to it — see the note on Field icons. */
 .fieldinput { flex: 1 1 auto; min-width: 0; border: 0; background: transparent;
-              font: inherit; color: inherit; padding: 0; }
-.searchwrap .icn { display: flex; color: var(--pf-icon-secondary); pointer-events: none; }
+              font: inherit; color: inherit; padding: 0;
+              appearance: none; -webkit-appearance: none; }
+select.fieldinput { cursor: pointer; }
+/* pf-new: the trailing icon. EVERY form field's icon — search, dropdown chevron, calendar,
+   clock — is the same `Field icons` instance in Figma, the last child of a field laid out
+   HORIZONTAL CENTER MAX. So they are all right-aligned and vertically centred, and the
+   component's own flex puts them there; this only supplies the glyph and its colour. */
+.pf-field > .icn { display: flex; color: var(--pf-icon-secondary); pointer-events: none; }
 .togglelab { display: inline-flex; align-items: center; gap: var(--pf-space-small);
              font-size: var(--pf-font-size-xs); cursor: pointer; height: 42px; }
 .pf-selected-action-banner { display: flex; width: 100%; flex-wrap: wrap; gap: var(--pf-space-large); }
@@ -9924,21 +9932,27 @@ select.pf-field { background-image:
 
           <div class="pf-form-field" data-input-type="Date picker" data-state="Default" style="width:auto" data-pf-id="form-field-period-week-ending">
             <label class="lbl" for="f-period">Period</label>
-            <select class="pf-field" data-right-aligned="No" data-filled="Yes" id="f-period" style="min-width:230px" data-pf-id="field-week-ending">
+            <div class="pf-field" data-right-aligned="No" data-filled="Yes" style="min-width:230px" data-pf-id="field-week-ending">
+              <select class="fieldinput" id="f-period">
               <option>Week ending 06/09/2026</option>
               <option>Week ending 30/08/2026</option>
               <option>Week ending 23/08/2026</option>
             </select>
+              <span class="icn"><svg class="pf-icon" width="22" height="22" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path d="M12 21.38C11.38 21.38 10.88 21.88 10.88 22.5V25.5C10.88 26.12 11.38 26.63 12 26.63H15C15.62 26.63 16.13 26.12 16.13 25.5V22.5C16.13 21.88 15.62 21.38 15 21.38H12Z"/><path fill-rule="evenodd" d="M24 3.38C24.62 3.38 25.13 3.88 25.13 4.5V6.38H27C29.28 6.38 31.13 8.22 31.13 10.5V28.5C31.13 30.78 29.28 32.63 27 32.63H9C6.72 32.63 4.88 30.78 4.88 28.5V10.5C4.88 8.22 6.72 6.38 9 6.38H10.88V4.5C10.88 3.88 11.38 3.38 12 3.38C12.62 3.38 13.13 3.88 13.13 4.5V6.38H22.88V4.5C22.88 3.88 23.38 3.38 24 3.38ZM28.88 10.5V15.38H7.13V10.5C7.13 9.46 7.96 8.63 9 8.63H10.88V10.5C10.88 11.12 11.38 11.63 12 11.63C12.62 11.63 13.13 11.12 13.13 10.5V8.63H22.88V10.5C22.88 11.12 23.38 11.63 24 11.63C24.62 11.63 25.13 11.12 25.13 10.5V8.63H27C28.04 8.63 28.88 9.46 28.88 10.5ZM28.88 17.63H7.13V28.5C7.13 29.54 7.96 30.38 9 30.38H27C28.04 30.38 28.88 29.54 28.88 28.5V17.63Z"/></g></svg></span>
+            </div>
           </div>
 
           <div class="pf-form-field" data-input-type="Dropdown" data-state="Default" style="width:auto" data-pf-id="form-field-team-all">
             <label class="lbl" for="f-team">Team</label>
-            <select class="pf-field" data-right-aligned="No" data-filled="Yes" id="f-team" style="min-width:190px" data-pf-id="field-all-my-direct">
+            <div class="pf-field" data-right-aligned="No" data-filled="Yes" style="min-width:190px" data-pf-id="field-all-my-direct">
+              <select class="fieldinput" id="f-team">
               <option>All my direct reports</option>
               <option>Logistics</option>
               <option>Warehouse</option>
               <option>Clinical</option>
             </select>
+              <span class="icn"><svg class="pf-icon" width="22" height="22" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path fill-rule="evenodd" d="M32.92 10.33C33.36 10.77 33.36 11.48 32.92 11.92L18.92 25.92C18.48 26.36 17.77 26.36 17.33 25.92L3.33 11.92C2.89 11.48 2.89 10.77 3.33 10.33C3.77 9.89 4.48 9.89 4.92 10.33L18.13 23.53L31.33 10.33C31.77 9.89 32.48 9.89 32.92 10.33Z"/></g></svg></span>
+            </div>
           </div>
 
           <button class="pf-button" data-type="Sort" type="button" style="margin-bottom:5px" data-pf-id="button-sort"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M7.96 15.43C7.79 15.01 7.88 14.53 8.2 14.2L17.2 5.2C17.64 4.76 18.36 4.76 18.8 5.2L27.8 14.2C28.12 14.53 28.21 15.01 28.04 15.43C27.86 15.85 27.45 16.13 27 16.13L9 16.13C8.55 16.13 8.14 15.85 7.96 15.43ZM24.28 13.88L18 7.59L11.72 13.88L24.28 13.88Z"/><path d="M8.2 21.8C7.88 21.47 7.79 20.99 7.96 20.57C8.14 20.15 8.55 19.88 9 19.88L27 19.88C27.45 19.88 27.86 20.15 28.04 20.57C28.21 20.99 28.12 21.47 27.8 21.8L18.8 30.8C18.36 31.24 17.64 31.24 17.2 30.8L8.2 21.8ZM18 28.41L24.28 22.13L11.72 22.13L18 28.41Z"/></svg>Sort</button>
@@ -10274,11 +10288,14 @@ select.pf-field { background-image:
 
         <div class="pf-form-field" data-input-type="Dropdown" data-state="Selected" data-pf-id="form-field-outcome-approve">
           <label class="lbl" for="sp-decision">Outcome</label>
-          <select class="pf-field" data-right-aligned="No" data-filled="Yes" id="sp-decision" data-pf-id="field-approve-with-adjustment">
+          <div class="pf-field" data-right-aligned="No" data-filled="Yes" data-pf-id="field-approve-with-adjustment">
+            <select class="fieldinput" id="sp-decision">
             <option>Approve with adjustment</option>
             <option>Approve as submitted</option>
             <option>Return to employee</option>
           </select>
+            <span class="icn"><svg class="pf-icon" width="22" height="22" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path fill-rule="evenodd" d="M32.92 10.33C33.36 10.77 33.36 11.48 32.92 11.92L18.92 25.92C18.48 26.36 17.77 26.36 17.33 25.92L3.33 11.92C2.89 11.48 2.89 10.77 3.33 10.33C3.77 9.89 4.48 9.89 4.92 10.33L18.13 23.53L31.33 10.33C31.77 9.89 32.48 9.89 32.92 10.33Z"/></g></svg></span>
+          </div>
           <span class="hint">Payroll is notified as soon as you approve</span>
         </div>
 

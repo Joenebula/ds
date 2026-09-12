@@ -276,6 +276,42 @@ Four things this cost, all worth knowing before touching it:
   a positioned container, is every element child positioned the same way? — and fails on a
   mix.
 
+## Every form field's icon sits in the same place
+
+Search glass, dropdown chevron, calendar, clock — **all four are right-aligned and
+vertically centred**, at the field's own right padding. This is one rule, and it comes from
+the Figma tree rather than from taste: `Field` is laid out **HORIZONTAL CENTER MAX** —
+children packed to the END, centred on the cross axis — and its last child is a single
+`Field icons` instance whose four frames are `Search icons`, `Dropdown`, `Calendar` and
+`Clock`. They are the same object in the same place; only the glyph differs.
+
+```html
+<div class="pf-field" data-right-aligned="No" data-filled="No">
+  <select class="fieldinput">…</select>
+  <span class="icn"><!--pf-icon:down-chevron 22--></span>
+</div>
+```
+
+**The field is a container, not the control.** Figma's `Field` holds a TEXT node plus the
+icons, so in HTML the class goes on a wrapper and the real `<input>` or `<select>` sits
+inside it with its UA chrome reset. Putting the class on the control itself leaves nowhere
+for the icon to go, which is what forced two pages to position it absolutely — on the wrong
+side, and centred on the label-plus-input block rather than on the input, so it floated up
+into the corner. A page never positions a field icon.
+
+**`.pf-field` sets `appearance: none`, which removes the browser's own dropdown arrow.** So
+a `<select>` given that class and nothing else renders with **no chevron at all** — which
+every dropdown on every prototype did. The People First `Down chevron` has to be placed
+next to the control, as above.
+
+A field with no icon is not a fault: `Field icons` has a `State=Empty`, and a plain text
+field or a textarea carries none.
+
+`npm run verify` runs `check-field-icons.mjs`, which measures every field icon on every
+screen — last child, at the field's own computed padding and border, equal gaps above and
+below. The right-hand distance is read from the field rather than hard-coded, so the check
+stays correct if Figma changes the padding.
+
 ## What the component classes do and do not carry
 
 A component is modelled as **one outer box plus three colour slots**

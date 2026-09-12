@@ -396,6 +396,30 @@ rendered `normal` and `.pf-filter-chip`, composing that same style, rendered `30
 `npm run verify` runs `check-composed-type.mjs`, which renders each component beside the type
 class for its own style inside a deliberately hostile ancestor and fails if they differ.
 
+### Never position a form field's icon
+
+Search glass, dropdown chevron, calendar, clock — **all four sit right-aligned and
+vertically centred**, at the field's own right padding. One rule, from Figma: `Field` is
+`HORIZONTAL CENTER MAX` and its last child is a single `Field icons` instance holding all
+four glyphs.
+
+The field is a **container**, not the control. The class goes on a wrapper; the real input
+or select sits inside it:
+
+```html
+<div class="pf-field" data-right-aligned="No" data-filled="No">
+  <input class="fieldinput" type="search" placeholder="Employee name">
+  <span class="icn"><!--pf-icon:search 22--></span>
+</div>
+```
+
+Put `.pf-field` on the `<input>` itself and there is nowhere for the icon to go — which is
+what makes people position it absolutely, on the wrong side and off-centre.
+
+**A `<select class="pf-field">` renders NO chevron.** The class sets `appearance: none`,
+which removes the browser's arrow; the People First `down-chevron` has to be placed beside
+the control. Every dropdown on every prototype was missing one.
+
 ### Never draw a component's border yourself
 
 A class carries the edges Figma strokes and the width it strokes them at. Do not add a

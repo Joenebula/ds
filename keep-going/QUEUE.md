@@ -1512,3 +1512,28 @@ ones. Proved it fails by removing three line-heights: it named all three.
 
 `dist/type.css` stayed byte-identical throughout both M and N, which is the evidence the
 refactor underneath them was safe.
+
+## O. Every form field's icon in the same place — `done`
+
+Reported from a screen, not caught by any check: the search magnifier was on the wrong side
+and floating in the corner. Chasing it found the general rule and a second, larger fault.
+
+**The rule, from the Figma tree rather than from taste.** `Field` is laid out HORIZONTAL
+CENTER MAX — children packed to the END, centred on the cross axis — and its last child is
+ONE `Field icons` instance whose four frames are `Search icons`, `Dropdown`, `Calendar` and
+`Clock`. Search glass, chevron, calendar and clock are the same object in the same place;
+only the glyph differs. All right-aligned, vertically centred, at the field's own padding.
+
+**The larger fault: every dropdown on every prototype had no icon at all.** `.pf-field` sets
+`appearance: none`, which removes the browser's arrow, and nothing replaced it — seven
+`<select class="pf-field">` across three pages, rendering bare.
+
+The cause of both is the same: `.pf-field` was being put on the CONTROL. Figma's `Field` is a
+container holding a TEXT node plus the icons, so with the class on an `<input>` there is
+nowhere for an icon to go — which is what forces absolute positioning. The class now goes on
+a wrapper with the real control inside it.
+
+**Done when:** met. Measured on every field: 11px from the right on all of them, equal gaps
+above and below. `check-field-icons.mjs` reads the right-hand distance from the field's own
+computed padding and border rather than hard-coding it, so it stays correct if Figma changes
+either. Proved it fails by reinstating the old absolute positioning — it named all four.
