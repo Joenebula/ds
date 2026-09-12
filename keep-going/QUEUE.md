@@ -1366,3 +1366,12 @@ latch measured rather than the question re-litigated.
 **A baseline taken from a subset is not a baseline.** The first version of that check pinned
 5, which is how many of the eighteen components I had sampled overflowed. Run against all
 154 it is 28, and it failed on its first honest run. Measure the population you are pinning.
+
+**Suggestion for the user, not done — the question section J raises.** 28 classes draw a box
+their own contents do not fit. Some components already emit `min-height` ("content decides
+the real height"); these 28 emit a fixed `height` from the artboard. Emitting `min-height`
+for a component whose template overflows would make the box honest and would take the
+clipping precondition to zero. It is not a small change — 442 fixed heights in the
+stylesheet, and `verify-against-figma` compares rendered geometry against an independent
+Figma measurement, so it would need re-baselining carefully. Worth doing; worth doing
+deliberately, not at the end of a run.
