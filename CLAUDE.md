@@ -452,7 +452,7 @@ components carrying that verdict turned out to be opposite cases:
 
 | | node id | what Figma said | really |
 |---|---|---|---|
-| `Side navigation panel` | `22973:20811` | `get_metadata`: *"node ID was not found in the file"* | **deleted**, and `.pf-side-navigation-panel` still ships a rule for it |
+| `Side navigation panel` | `22973:20811` | `get_metadata`: *"node ID was not found in the file"* | **deleted** — and since RETIRED: the design lead decided on 2026-09-11, the class no longer ships, and the row carries `verdict=retired` |
 | `Counter` | `14990:11954` | `get_metadata` resolves it — a 20×20 `System=People First` badge holding a "7" — and `search_design_system` returns `Counter` as a published component of this library, updated 2026-06-04 | **not gone.** The listing is incomplete |
 
 One verdict line, two opposite truths, inside a gate. Both answers came from a Figma read, so the
@@ -466,6 +466,41 @@ fix is not to guess better: `tokens/_raw/gone-components.tsv` records `name`, `n
   used everywhere else, in which case it passes and is counted and named.
 - **no row** — UNCONFIRMED. Fails, and says what the listing can and cannot prove, naming the one
   read that settles it.
+
+A third verdict, `retired`, was added when the design lead decided `Side navigation panel`'s fate:
+*confirmed gone from Figma, and the class removed from this repo on this date.* It exists because
+the moment the component stops being captured, `sync-check` stops reporting it gone — so its
+confirmation becomes STALE and fails, and the record would have to be deleted to keep the gate
+green, erasing exactly the history it was kept for. A `retired` row outlives its own component, is
+excluded from `staleConfirmations`, and is **counted and named in the verdict line**. A `retired`
+verdict on a component that is still captured is the opposite contradiction and is reported as one.
+
+**And `Counter`'s row is gone, because the thing it answered went away.** A refreshed listing
+carries `Counter`, so nothing reports it gone and a confirmation with no subject is folklore by this
+file's own stale rule. The lesson it bought — *a listing proves "not in this listing", never "not in
+Figma"* — is the paragraph above, which is where it belongs. A row is an operational record, not a
+place to keep a lesson.
+
+### The gate reported a live component deleted, and its own input said otherwise
+
+`Circle icons` (`6580:66319`) sat in the GONE column as UNCONFIRMED, and this file said what it says
+for every unconfirmed GONE: *one `get_metadata` settles it.* **No Figma call was needed.** The saved
+listing holds that exact node id, and `component-variants.tsv` captures the component under it —
+`sync-check` was reporting a component deleted while reading a file that proved it published.
+
+The cause is the page narrowing, and it is worth stating precisely because the narrowing itself is
+right. `isExcludedPage` drops the icon page so that 281 captured glyphs are not reported as new
+components. Used for the **GONE** direction as well, it made an id invisible: `Circle icons` is
+published ON the icon page and captured from there. *A mechanism that cannot distinguish "not in
+Figma" from "on a page my classifier hands to the other half of this check" reported the wrong one
+confidently* — this file's recurring diagnosis, found inside the gate written to catch it.
+
+**So the ID match runs over the whole listing and the NAME fallback does not**, and that asymmetry
+is the whole design. An id is identity: found anywhere in the listing, it is proof of publication.
+A name is not proof — `Bar chart`, `Configuration`, `Org chart` and `Signature` are each published
+twice, once as a component and once as a glyph, so a name matched across the icon page would let a
+GLYPH vouch for a component that really had gone. That is a false CLEAN, which is the worse
+direction to be wrong in, and a mutant holds each half.
 
 An unrecognised verdict excuses nothing — checked in `judge()` and not only in the reader, because
 the reader being careful does not make `judge()` careful. And a confirmation for something no longer
@@ -593,7 +628,7 @@ had to correct.
 ## Icon drift
 
 The token layer got a drift check and the type layer got one; the ICON layer had the same hole and
-nobody had noticed. `icons.tsv` holds 294 SVGs captured from transcripts, `verify-icons.mjs` checks
+nobody had noticed. `icons.tsv` holds 293 SVGs captured from transcripts, `verify-icons.mjs` checks
 them against the sheet it generates FROM them, and nothing had ever compared one of those drawings
 against Figma. `sync-check.mjs` is not that check either — it compares NAMES, and a redrawn icon
 keeps its name, so it is invisible there by construction.
@@ -1340,7 +1375,7 @@ SPELLING, not the class. `--...` still passed, because a dot was in the allowed 
 `--\u2026`, the escape spelling, because a backslash was allowed for the sake of `--text\/primary`.
 Both appear in `check-token-drift.mjs`'s own comments and self-test, and both came back as UNKNOWN
 tokens the moment a session re-read the file. The guard is now written from what a Figma name IS
-rather than from what prose has been seen to do: of the 228 names this repo holds, **none contains
+rather than from what prose has been seen to do: of the 223 names this repo holds, **none contains
 a dot and none contains a backslash**, so the dot is gone and a backslash is legal only in the
 `\/` pair a kebab variable uses to escape its separator. Four mutants hold it, including one that
 allows the dot back and one that rejects the real names too.
@@ -1432,8 +1467,8 @@ must keep the old behaviour exactly: their batches arrive as **Bash results** �
 them — so a `mcp__Figma__` rule would zero them out. 0 of the 8 batches in this transcript survive
 it. Keeping the two apart is the whole point, and a mutant holds it.
 
-**The transcript is not the durable record; the TSVs are.** `tokens/_raw/` holds 284 variant rows,
-162 geometry rows and 294 icon rows, and the only transcript on disk contains 4 `PAGE` batches and
+**The transcript is not the durable record; the TSVs are.** `tokens/_raw/` holds 302 variant rows,
+502 geometry rows and 293 icon rows, and the only transcript on disk contains 4 `PAGE` batches and
 1 `GEOMETRY` batch. The batches those files were built from are in sessions that no longer exist —
 which is what the refuse-to-shrink guards have been protecting all along.
 
@@ -1518,12 +1553,23 @@ The 13 screened with `get_variable_defs` carry the standing caveat: that tool pr
 PRESENT, never that one is absent, so a `-hidden` binding on a boolean-hidden layer is not ruled
 out for them.
 
-**Confirming the split did not unblock applying it**, and the reason is worth knowing.
-`build-components-css.mjs` emits `/* unmapped Figma token: X */` instead of a declaration when the
-token layer lacks a name, and counts and names those in its verdict line — so it is not silent. But
-rewriting the 38 rows today would still delete `border-color` from 21 shipped components. The
-correction becomes a mechanical apply the moment `figma-variables.json` lands; until then the
-mapping lives in `uncaptured-tokens.tsv` and is named on every `tokens:check` run.
+**And the split IS applied — this paragraph used to say it was blocked, and the merge disproved
+that too.** It read: *"rewriting the 38 rows today would still delete `border-color` from 21 shipped
+components; the correction becomes a mechanical apply the moment `figma-variables.json` lands."* The
+file we were waiting for was on the other branch. Measured on the merged tree: **0 rows on the bare
+`Border/Default`, 43 on `Border/Default full`, and `dist/components.css` contains the string
+`unmapped Figma token` zero times.** The 13 `uncaptured-tokens.tsv` declarations written to excuse
+the wait went with it.
+
+`build-components-css.mjs` still emits `/* unmapped Figma token: X */` instead of a declaration when
+the token layer lacks a name, and still counts and names those in its verdict line — that mechanism
+is what would have made the blocked state visible, and it is worth keeping for the next token that
+goes missing. It simply has nothing to report here any more.
+
+This is the fourth blocker in this file that was recorded once and never re-tested, after the asset
+host, the `Border/Default` file itself and the `Circle icons` read below. **A blocker recorded once
+and never re-tested is indistinguishable from a blocker that is still there** — and the cost is not
+neutral: every one of them had work parked behind it.
 
 **The token layer needs a file this environment cannot fetch.** `semantic.tsv` needs a light
 value, a dark value and scopes per token. `get_variable_defs` resolves ONE mode and takes no mode

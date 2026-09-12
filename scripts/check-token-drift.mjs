@@ -290,7 +290,7 @@ export const BOUND_BY = {
 // happened not to cover.
 //
 // So it is now written from what a Figma name IS rather than from what prose has been seen to do:
-// of the 228 names this repo holds, none contains a dot and none contains a backslash. The only
+// of the 223 names this repo holds, none contains a dot and none contains a backslash. The only
 // backslash that is ever legitimate is the `\/` a kebab CSS variable uses to escape the collection
 // separator, so a backslash is allowed ONLY in that pair, and the dot is gone entirely.
 const NAME_SHAPE = /^--(?:\\\/|[A-Za-z0-9\/_%+()-])(?:\\\/|[A-Za-z0-9\/_%+() -])*$/;
