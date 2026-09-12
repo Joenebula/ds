@@ -1813,11 +1813,38 @@ whichever height it was handed. It reads `prototypes/<screen>.figma.xml`, the ra
 saved beside the extract. Fix the frame in Figma, or declare the decision in the extract's
 `sourceClips` with a reason.
 
-A `--` is a check that measured nothing. It is not a pass. And a **placeholder is not a
-picture**: an asset that has not arrived gets a marked stand-in from
-`scripts/build-placeholders.mjs`, which `images` passes but counts and names by key in its
-verdict line on every run. Never remove that count to tidy the output — it is the only thing
-keeping a tinted panel from quietly becoming the finished thing.
+**It has never run**, because no screen has that file — see the four inert axes above. Saving one
+`get_metadata` per screen is what switches this axis, `frame`, `content`, `images` and the
+viewport declaration on together; it is a Figma read per screen and a deliberate job, not a
+side effect of the next change.
+
+A `--` is a check that measured nothing. It is not a pass.
+
+**And four of the thirteen have never measured anything, on any screen.** `frame`, `content`,
+`images` and `source` each need a saved Figma extract beside the screen — `<screen>.figma.json`
+for the first three, `<screen>.figma.xml` for `source` — and **no screen in this repo has
+either file**. They report `--` honestly and the suite tallies them, so nothing lied; but this
+file described them as working safety nets, which is the half that was wrong. 20 of the 22
+unmeasured checks are those four axes across all five screens.
+
+`screen-viewport.mjs` reads the same missing `<screen>.figma.json`, so it is inert too, and
+every screen is measured at the 1280 default. That is not academic: with the space-between gap
+bug fixed, `case-mgmt-my-team` renders at its natural width and its 9-column people grid
+overlaps its own avatars at 1280. Whether 1280 is the right width is precisely what the
+declaration exists to answer, and nothing has ever answered it.
+
+The verdict line now **names** them rather than only counting: *"images measured nothing on 5 of
+5 screens — EVERY one, so this axis has never run"*. A bare tally of 22 reads like a rounding
+error; the named form reads like the missing net it is. Same rule this file states everywhere
+else — counted AND named — applied to its own suite, which had only the counting half.
+
+The paragraph that used to sit here said a **placeholder is not a picture**: that an asset which
+has not arrived gets a marked stand-in from `scripts/build-placeholders.mjs`, which `images`
+passes but *"counts and names by key in its verdict line on every run"*, and that the count is
+*"the only thing keeping a tinted panel from quietly becoming the finished thing"*. The mechanism
+is real and the intent is right. There is no such count on any run, because `images` has never
+measured a single screen. **A safety net described in the documentation and absent from every
+run is worse than no net**, because it is the one people stop checking for by hand.
 
 **Always screenshot the result in light and dark and look at it** before saying a screen is done — with
 `node scripts/screenshot-screen.mjs <screen.html>`, which refuses to write a PNG if the page

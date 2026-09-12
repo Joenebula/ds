@@ -71,6 +71,11 @@ const CHECKS = [
 // into either is how this repo has twice shipped a check that could not see the thing
 // it was pointed at. It gets its own mark and its own tally.
 let failed = 0, unmeasured = 0, stale = 0;
+// COUNTED AND NAMED, not just counted. "22 check(s) not measured" reads like a rounding
+// error; "images measured nothing on all 5 screens" reads like the missing safety net it
+// is. Four axes here need a saved Figma extract that no screen has, so they have never run
+// once — and a tally alone let that sit behind a green verdict indefinitely.
+const vacuous = new Map();   // axis -> [screen, ...]
 for (const screen of screens) {
   const path = screen;
   // A built screen with no source is a stale artefact; say so rather than checking it.
@@ -92,7 +97,11 @@ for (const screen of screens) {
     const last = lines.pop() || '(no output)';
     const mark = code === 0 ? 'ok  ' : code === 2 ? '--  ' : 'FAIL';
     console.log(`  ${mark} ${name.padEnd(9)} ${last}`);
-    if (code === 2) unmeasured++; else if (code !== 0) failed++;
+    if (code === 2) {
+      unmeasured++;
+      if (!vacuous.has(name)) vacuous.set(name, []);
+      vacuous.get(name).push(screen);
+    } else if (code !== 0) failed++;
 
     // A stale page makes every later mark meaningless — green on the wrong file reads
     // exactly like green on the right one. Say so instead of printing eight of them.
@@ -110,6 +119,12 @@ console.log(`\n${screens.length} screens checked, ${failed} check failure(s), `
   + `${unmeasured} check(s) not measured`);
 if (unmeasured) {
   console.log('a "--" is a check that measured nothing — it is not a pass');
+for (const [axis, on] of [...vacuous].sort((a, b) => b[1].length - a[1].length)) {
+  const all = on.length === screens.length;
+  console.log(`  --  ${axis.padEnd(9)} measured nothing on ${on.length} of ${screens.length} `
+    + `screen(s)${all ? ' — EVERY one, so this axis has never run' : ''}: `
+    + on.map((f) => f.split('/').pop()).join(', '));
+}
 }
 if (stale) {
   console.log(`${stale} screen(s) are not what their source builds to — run \`npm run build\`. `
