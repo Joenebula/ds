@@ -12513,6 +12513,16 @@ th.col-status { width: 152px; }
   background: var(--pf-bg-primary); box-shadow: var(--pf-shadow-drop-shadow);
   display: flex; flex-direction: column;
 }
+/* The header and the footer are LIBRARY COMPONENTS, and were hand-written divs with no CSS
+   at all until the design owner pointed at both: `.sp-head` and `.sp-foot` had no rules in
+   this file, so the close button sat against the name instead of at the top right and the
+   footer had no box of its own. `Side panel header` and `Sticky footer` are real classes with
+   real geometry from Figma — 60px/10 15 and 52px/10 15. `width: 100%` and `flex: none` are
+   the inline-to-block promotion; the title growing is layout on a CHILD, not on the class. */
+.pf-side-panel-header { width: 100%; flex: none; }
+.pf-side-panel-header .grow { flex: 1; min-width: 0; overflow: hidden;
+                              text-overflow: ellipsis; white-space: nowrap; }
+.pf-sticky-footer { width: 100%; flex: none; }
 .sp-body { flex: 1; overflow-y: auto; padding: var(--pf-space-large);
            display: flex; flex-direction: column; gap: var(--pf-space-large); }
 .sp-person { display: flex; align-items: center; gap: var(--pf-space-medium); }
@@ -12908,7 +12918,7 @@ select.control { appearance: none; background-image:
 
   <!-- Side panel: review one employee's pay -->
   <aside class="sidepanel" aria-labelledby="sp-title">
-    <div class="sp-head">
+    <div class="pf-side-panel-header" data-size="Default" data-pf-id="side-panel-header-tomasz-kowalczyk">
       <span class="grow" id="sp-title">Tomasz Kowalczyk</span>
       <button class="pf-button pf-button--icon-only" data-type="Hollow" type="button" aria-label="Close panel" data-pf-id="button-close-panel"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M27.8 8.2C28.23 8.64 28.23 9.36 27.8 9.8L9.8 27.8C9.36 28.23 8.64 28.23 8.2 27.8C7.77 27.36 7.77 26.64 8.2 26.2L26.2 8.2C26.64 7.77 27.36 7.77 27.8 8.2Z"/><path fill-rule="evenodd" d="M8.2 8.2C8.64 7.77 9.36 7.77 9.8 8.2L27.8 26.2C28.23 26.64 28.23 27.36 27.8 27.8C27.36 28.23 26.64 28.23 26.2 27.8L8.2 9.8C7.77 9.36 7.77 8.64 8.2 8.2Z"/></svg></button>
     </div>
@@ -12992,7 +13002,7 @@ select.control { appearance: none; background-image:
       </p>
     </div>
 
-    <div class="sp-foot">
+    <div class="pf-sticky-footer" data-default="Default" data-pf-id="sticky-footer-approve-pay">
       <button class="pf-button" data-type="Positive" type="button" disabled data-pf-id="button-approve-pay"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M29.2 9.7C29.64 9.27 30.36 9.27 30.8 9.7C31.23 10.14 31.23 10.86 30.8 11.3L15.8 26.3C15.36 26.73 14.64 26.73 14.2 26.3L6.7 18.8C6.27 18.36 6.27 17.64 6.7 17.2C7.14 16.77 7.86 16.77 8.3 17.2L15 23.91L29.2 9.7Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>Approve pay</button>
       <button class="pf-button" data-type="Negative" type="button" data-pf-id="button-raise-query"><svg class="pf-icon" width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M27.8 8.2C28.23 8.64 28.23 9.36 27.8 9.8L9.8 27.8C9.36 28.23 8.64 28.23 8.2 27.8C7.77 27.36 7.77 26.64 8.2 26.2L26.2 8.2C26.64 7.77 27.36 7.77 27.8 8.2Z"/><path fill-rule="evenodd" d="M8.2 8.2C8.64 7.77 9.36 7.77 9.8 8.2L27.8 26.2C28.23 26.64 28.23 27.36 27.8 27.8C27.36 28.23 26.64 28.23 26.2 27.8L8.2 9.8C7.77 9.36 7.77 8.64 8.2 8.2Z"/></svg>Raise query</button>
     </div>

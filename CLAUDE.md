@@ -1022,6 +1022,13 @@ It does not look at type classes. A component composes its own type, so a page m
 exemption is for, not a licence: a prototype CAN be on-system, and the newest one is. Builds
 FROM a design are not exempt.
 
+**A hand-written component with NO styles is the one kind this check cannot see**, and it is
+the kind that renders wrong. `payroll-run-summary` wrote `.sp-head` and `.sp-foot` for its side
+panel and gave them **no CSS at all** — so there was no property to catch overriding a
+component, and the score stayed at 163 while the close button sat against the name instead of
+at the top right and the footer had no box of its own. Both were reported by looking. The page
+uses `pf-side-panel-header` and `pf-sticky-footer` now, which `timesheet-approvals` already did.
+
 Those four numbers are **checked**, not typed. `check-off-system.mjs` exports its scorer and
 `check-skill-classes.mjs` imports it, so the figure in this file and the figure the check
 computes have one source. That was the loose end: this paragraph read "30-63 off-system each"

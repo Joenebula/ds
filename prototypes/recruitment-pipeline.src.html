@@ -128,6 +128,15 @@ svg { display: block; }
    value. (`border-collapse` used to need this marker too, because check-off-system read it
    as a border property. It is table layout, not paint, and is free now.) */
 table { width: 100%; border-collapse: collapse; min-width: 1000px; }
+/* pf-new: COLUMN SIZING IS PAGE LAYOUT — the <table> is the page's, not a component.
+   `Table cell (AG)` packs its contents left on every one of its five variants and Figma gives
+   it no Alignment axis at all (the header has Left/Right/Checkbox, and no Centre), so where the
+   bar sits INSIDE the cell is not the page's to change. What the page does own is how wide the
+   column is, and Stage progress was taking a share of the table's surplus width while its
+   contents hug a 110px track — which is what stranded the bars against the left edge with a
+   field of empty cell beside them. `width: 1%` with nowrap is the auto-table idiom for "size
+   this column to its own content"; the surplus goes to Vacancy and Applicants, which use it. */
+table th:nth-child(4), table td:nth-child(4) { width: 1%; white-space: nowrap; }
 /* Line height is `normal` because that is what Figma sets on all 23 text styles; a
    cell treats its Figma height as a minimum, so an icon or a second line grows it. */
 thead th { text-align: left; white-space: nowrap; line-height: normal; }
@@ -144,7 +153,13 @@ td.pf-table-cell-ag[data-type][data-style] { display: table-cell; vertical-align
 .headcell { display: flex; align-items: center; gap: var(--pf-space-small); }
 .cellstack { display: flex; flex-direction: column; }
 .cellrow { display: flex; align-items: center; gap: var(--pf-space-small); }
-.pf-table-progress-bar { width: 100%; }
+/* The component owns its own width and its own packing: Figma draws `Table progress bar` as
+   HORIZONTAL CENTER MIN around a 110px track, so it hugs. Forcing `width: 100%` here stretched
+   it across the whole column while its contents stayed packed left, which is what left the bars
+   stranded against the edge with a field of empty cell to their right. Reported three times.
+   The design system has NO centre alignment for a table cell — Left, Right and Checkbox are the
+   only variants Figma draws — so the honest fix is to stop overriding the component, not to
+   invent one. */
 /* A Tags pill is 28px tall in Figma; a two-word status that wraps breaks it. */
 .pf-tags { white-space: nowrap; }
 
