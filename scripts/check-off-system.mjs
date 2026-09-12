@@ -21,6 +21,8 @@
 // The marker must sit immediately before the rule. It makes the exception visible and
 // reviewable instead of invisible.
 import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 // Properties a COMPONENT owns. A page setting these is drawing a control by hand.
 const OWNED = /^(height|min-height|max-height|width|min-width|max-width|padding|padding-\w+|border-radius|gap|row-gap|column-gap|font-size|font-weight|font-family|background|background-color|color|border|border-\w+|border-\w+-\w+|box-shadow|letter-spacing|text-transform)$/;
@@ -82,8 +84,13 @@ for (const m of unwrapAtRules(stripComments(libCss)).matchAll(/([^{}@]+)\{([^{}]
   }
 }
 
-let failures = 0;
-for (const file of process.argv.slice(2)) {
+// THE SCORE IS EXPORTED so the docs can be checked against it rather than against a number
+// somebody typed. CLAUDE.md quotes what each prototype scores, and a figure nobody re-measures
+// is the drift this repo keeps finding in itself — "30-63 off-system each" sat in that file
+// long after the real answers were 82, 138 and 163. `check-skill-classes.mjs` imports this and
+// compares, so the arithmetic has one home: a second copy would be the same source with a
+// second chance to disagree.
+export function offSystem(file) {
   const src = readFileSync(file, 'utf8');
   const problems = [];
 
@@ -171,12 +178,21 @@ for (const file of process.argv.slice(2)) {
     }
   }
 
-  if (problems.length) {
-    console.log(`\n=== ${file} — ${problems.length} off-system`);
-    for (const p of problems) console.log('  ' + p);
-    failures += problems.length;
-  } else {
-    console.log(`${file} — on-system: every painted thing is a component class`);
-  }
+  return problems;
 }
-process.exit(failures ? 1 : 0);
+
+// Run as a script, report; imported, just export the scorer above.
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  let failures = 0;
+  for (const file of process.argv.slice(2)) {
+    const problems = offSystem(file);
+    if (problems.length) {
+      console.log(`\n=== ${file} — ${problems.length} off-system`);
+      for (const p of problems) console.log('  ' + p);
+      failures += problems.length;
+    } else {
+      console.log(`${file} — on-system: every painted thing is a component class`);
+    }
+  }
+  process.exit(failures ? 1 : 0);
+}
