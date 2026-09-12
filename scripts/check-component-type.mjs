@@ -18,7 +18,18 @@ import { buildResolver, WEIGHT } from './resolve-component-type.mjs';
 
 // Labels whose type the ramp cannot express today. Every one is written up in
 // docs/FIGMA-ISSUES.md section 7. It may fall; it may not rise without a decision.
-const OFF_RAMP_BASELINE = 22;
+//
+// PINNED ON ROWS, NOT ON DISTINCT LABELS, and the difference is a hole this used to have. A
+// label is `<component> <size>px <weight>`, so two variants of one component with identical type
+// collapse to one — and `Navigation item 11px 400` already does, which is why 23 off-ramp rows
+// reported as 22. Gating the deduplicated number meant a NEW variant going off the ramp with the
+// type of an existing one moved nothing: rows 23 -> 24, distinct 22, gate green. The count that
+// can only be equal or larger is the one that has to be pinned.
+//
+// The distinct labels are still what gets NAMED, because that is what a person acts on. Both
+// numbers are printed, and said to be different units, so the arithmetic reconciles: 208 rows =
+// 155 bound + 28 matched + 23 off-ramp + 2 ambiguous, and those 23 are 22 distinct labels.
+const OFF_RAMP_ROW_BASELINE = 23;
 
 const css = readFileSync('dist/components.css', 'utf8');
 const { byComponent, byName, resolve, styles } = buildResolver();
@@ -138,14 +149,17 @@ const matched = [...byComponent.values()].flat().filter(r => r.outcome === 'matc
 console.log(`${bound + matched} of ${[...byComponent.values()].flat().length} component labels resolve to one text style `
   + `(${bound} bound in Figma, ${matched} matched by value)`);
 console.log(`  ${composedChecked} composed values checked against the style they name`);
-console.log(`  ${off.length} labels off the ramp (baseline ${OFF_RAMP_BASELINE}), ${amb.length} ambiguous — see docs/FIGMA-ISSUES.md`);
+console.log(`  ${offRamp.length} label row(s) off the ramp across ${off.length} distinct label(s) `
+  + `(baseline ${OFF_RAMP_ROW_BASELINE} rows), ${ambiguous.length} ambiguous row(s) across `
+  + `${amb.length} distinct — see docs/FIGMA-ISSUES.md`);
 
-if (off.length > OFF_RAMP_BASELINE) {
-  console.log('  FAIL  more labels are off the type ramp than before:');
+if (offRamp.length > OFF_RAMP_ROW_BASELINE) {
+  console.log('  FAIL  more label rows are off the type ramp than before:');
   for (const o of off) console.log('        ' + o);
   failures++;
-} else if (off.length < OFF_RAMP_BASELINE) {
-  console.log(`  note  down ${OFF_RAMP_BASELINE - off.length} — lower OFF_RAMP_BASELINE to ${off.length} to lock it in`);
+} else if (offRamp.length < OFF_RAMP_ROW_BASELINE) {
+  console.log(`  note  down ${OFF_RAMP_ROW_BASELINE - offRamp.length} row(s) — lower `
+    + `OFF_RAMP_ROW_BASELINE to ${offRamp.length} to lock it in`);
 }
 
 process.exit(failures ? 1 : 0);

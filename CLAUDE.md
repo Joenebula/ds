@@ -80,8 +80,18 @@ gives a text style does not carry its own `font-size` or `font-weight` — it co
 style, in a rule at the end of `components.css` generated from the same source as
 `type.css`. So a page must never set type on a component class: the class already has it,
 and writing your own puts a second, drifting copy next to the generated one.
-`npm run verify` fails on it. 181 of the 208 component labels work this way; the other 27
-use type the ramp cannot express and are listed in `docs/FIGMA-ISSUES.md` §7.
+`npm run verify` fails on it. **183 of the 208** component labels work this way — 155 bound in
+Figma and 28 matched by value. The other 25 are 23 rows the ramp cannot express and 2 ambiguous,
+listed in `docs/FIGMA-ISSUES.md` §7.
+
+**Those two figures are different units, and saying so closed a hole in the gate.** The off-ramp
+census deduplicates: a label is `<component> <size>px <weight>`, so two variants of one component
+with identical type collapse into one, and `Navigation item 11px 400` already does — 23 rows have
+always reported as 22. The gate was pinned on the deduplicated number, so a NEW variant going off
+the ramp with the type of an existing one moved nothing: rows 23 → 24, distinct 22, green. Proved
+by injecting exactly that row — old gate green, new gate fails. It is pinned on ROWS now, which can
+only be equal or larger, while the distinct labels stay the thing it NAMES because that is what a
+person acts on. The arithmetic reconciles: 155 + 28 + 23 + 2 = 208.
 
 Dark mode: `data-theme="dark"` / `"light"` on the root, or omit to follow the OS.
 
