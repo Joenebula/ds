@@ -217,8 +217,12 @@ The overflow is not a fault in the templates. A class's height is the artboard F
 the component at, and a template holds placeholder contents of their own size; the two were
 never promised to agree.
 
-`npm run verify` runs `check-template-overflow.mjs`, which reports and pins the count. It is
-the precondition: **clipping can only ever be carried once that number is zero.**
+`npm run verify` runs `check-template-overflow.mjs`, which reports and pins the count **and
+the magnitude — 1372px of overflow in total**. How many is not how much: placing
+`Hemisphere chart`'s children at Figma's own offsets took it from 333px to 77px, a large
+real improvement the count alone could not see, because it still overflows by something.
+Both numbers are the precondition: **clipping can only ever be carried once they reach
+zero.**
 
 ## Children a parent does not lay out
 
@@ -230,31 +234,47 @@ instance, **both at 0,0 at 93x93**: overlaid in Figma, stacked by the template, 
 becoming 184.
 
 `tokens/_raw/component-child-pos.tsv` records where each child sits inside a parent Figma
-does not lay out, and the template places it there. Three guards, because a position applied
-to the wrong node is worse than none:
+does not lay out, and the template places it there — **12 children across 8 components**.
+Three guards, because a position applied to the wrong node is worse than none:
 
 1. the tree must carry that exact component and path;
 2. it must **agree on the child's size** — two rotated `LINE` nodes in `Donut pie chart`
    report a rotated bounding box against the tree's unrotated size, and are refused;
-3. **the class must carry the whole box.** A pixel offset means nothing unless the element
-   it is measured inside is the size Figma measured it in, and the stylesheet drops a width
-   above 120px on purpose. Nine components are measured and deliberately not placed for this
-   reason — `Full page`, `Configuration`, `AI Assistant`, the three charts and others — and
-   the build names them. Applying the offsets to them anyway pushed their children straight
-   out of the box and the overflow count went UP, which is how the guard was found.
+3. **the ORIGIN must have a definite size**, and the origin is the child's PARENT, not the
+   component. An offset is measured inside a box, so the box has to exist: measured
+   empirically, a class with no width whose children are all absolute renders **0 wide**,
+   because nothing is left in flow to give it one. An inner origin is given its own measured
+   size and is definite by construction; only a ROOT origin depends on what the class
+   carries, and the stylesheet drops a width above 120px on purpose. **16 offsets across 7
+   components are measured and deliberately not applied** for that reason — `Donut pie
+   chart`, `Bar chart with axis`, `Full page`, `Configuration` and others — and the build
+   names them.
 
-Two more things this cost, both worth knowing before touching it:
+Asking that question of the component root instead of the parent refused every placement
+inside a component whose class drops its width, including ones on inner containers that had
+nothing to do with the root. Fixing it took `Hemisphere chart` from 333px of overflow to
+77px.
+
+Four things this cost, all worth knowing before touching it:
 
 - **The outer element is the positioning origin.** Put `position: relative` on every parent
   except the root and the children resolve against whatever ancestor on the page happens to
   be positioned — on a plain page, the document, so they fly to the top-left corner.
 - **An origin whose children are all absolute holds nothing in flow**, so it collapses to
   zero and everything after it slides up. It is given its measured size.
-
-An icon is emitted as an HTML comment (`<!--pf-icon:home-->`), which cannot carry a style,
-so a placement on one is wrapped in a positioned span. Before that it was silently dropped
-while the build counted it as applied — which is why the build now counts what reached the
-written template rather than what it intended.
+- **`box-sizing: border-box` wherever a measured size is stated.** Figma's width and height
+  include the frame's padding; CSS's do not. `AI Assistant`'s slot is 1108 wide with 20px
+  padding either side, and stated as a content width it rendered 1148 and hung out of its
+  own component.
+- **Placing SOME children of an origin and flowing the rest is worse than flowing all of
+  them.** The generator sends different node kinds down different branches, and two of them
+  build their own markup: an icon (an HTML comment, which cannot carry a style) and a TEXT
+  node. Both dropped the placement silently. In `Search navigation` the magnifier was placed
+  and the word "Search" was not, so they rendered on top of each other — and nothing
+  measured it: the box did not overflow, the template rendered its contents, every check was
+  green. `check-template-overflow.mjs` now asks the question directly in the browser — inside
+  a positioned container, is every element child positioned the same way? — and fails on a
+  mix.
 
 ## What the component classes do and do not carry
 

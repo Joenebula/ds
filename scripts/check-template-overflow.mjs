@@ -30,6 +30,9 @@ import { chromium } from 'playwright-core';
 // overflowed; run across all 154 it is 28. A baseline taken from a subset is a baseline
 // that fails the moment it meets the whole set — measure the population you are pinning.
 const OVERFLOW_BASELINE = 27;
+// The sum of each overflowing template's worst edge, in pixels. Same rule: it may fall
+// freely, and may not rise without somebody deciding to raise it.
+const OVERFLOW_PX_BASELINE = 1372;
 
 const expand = h => h.replace(/<!--pf-icon:([a-z0-9-]+)(?:\s+(\d+))?-->/g, (m, n, s) => {
   const f = `assets/icons/${n}.svg`;
@@ -51,6 +54,32 @@ const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromi
 const p = await browser.newPage();
 await p.goto('file://' + process.cwd() + '/tmp-overflow-check.html');
 await p.evaluate(() => document.fonts.ready);
+// PLACING SOME CHILDREN AND FLOWING THE REST IS WORSE THAN FLOWING ALL OF THEM.
+//
+// Where Figma lays a parent out by hand the template places its children at measured
+// offsets — but the generator emits different node kinds down different branches, and two
+// of them built their own markup and dropped the placement: an icon (an HTML comment, which
+// cannot carry a style) and a TEXT node. In `Search navigation` the magnifier was placed and
+// the word "Search" was not, so they rendered on top of each other. Nothing measured that:
+// the box did not overflow, the template rendered its contents, every check was green.
+//
+// This asks the question directly, in the browser: inside a positioned container, is every
+// element child positioned the same way? A mix means a branch dropped a placement.
+const mixed = await p.evaluate(() => {
+  const out = [];
+  for (const parent of document.querySelectorAll('*')) {
+    if (getComputedStyle(parent).position !== 'relative') continue;
+    const kids = [...parent.children];
+    if (kids.length < 2) continue;
+    const abs = kids.filter(k => getComputedStyle(k).position === 'absolute');
+    if (abs.length && abs.length !== kids.length) {
+      const root = parent.closest('section') ;
+      out.push(`${root ? root.id : '?'}: ${abs.length} of ${kids.length} children placed`);
+    }
+  }
+  return out;
+});
+
 const got = await p.evaluate(n => {
   const out = [];
   for (let i = 0; i < n; i++) {
@@ -81,14 +110,39 @@ for (const [i, s] of specs.entries()) {
   over.push(`${s.base} — class box ${g.w}x${g.h}, ${g.count} element(s) outside it, by up to ${g.worst}px`);
 }
 
+// HOW MANY IS NOT HOW MUCH. Placing `Hemisphere chart`'s children at Figma's own offsets
+// took its overflow from 333px to 77px — a large, real improvement that the count alone
+// could not see, because it still overflows by something. Both numbers are pinned: the
+// count says how many templates disagree with their box, the worst pixel says how badly.
+const worstPx = got.reduce((t, g) => t + (g && g.count ? g.worst : 0), 0);
 console.log(`${specs.length} template(s) measured against the box their own class draws`);
-console.log(`  ${over.length} render outside it (baseline ${OVERFLOW_BASELINE})`);
+console.log(`  ${over.length} render outside it (baseline ${OVERFLOW_BASELINE}), `
+  + `${worstPx}px of overflow in total (baseline ${OVERFLOW_PX_BASELINE})`);
 for (const o of over.sort()) console.log('    ' + o);
 console.log('  Figma clips these components; the pipeline deliberately does NOT emit');
 console.log('  overflow:hidden, because on these it would hide the template rather than');
 console.log('  reproduce the design. See CLAUDE.md, "Clipping".');
 
 let failed = 0;
+if (mixed.length) {
+  console.log(`  FAIL  ${mixed.length} container(s) place some children at Figma's measured `
+    + `offsets and leave the rest in flow, so they render on top of each other:`);
+  for (const m of mixed) {
+    const i = Number(m.split(':')[0].replace('w', ''));
+    console.log(`    ${Number.isFinite(i) && specs[i] ? specs[i].base : m}`);
+  }
+  failed = 1;
+} else {
+  console.log('  no container places only some of its children — a mix would overlap');
+}
+if (worstPx > OVERFLOW_PX_BASELINE) {
+  console.log(`  FAIL  templates overflow their class box by ${worstPx - OVERFLOW_PX_BASELINE}px `
+    + 'more than before.');
+  failed = 1;
+} else if (worstPx < OVERFLOW_PX_BASELINE) {
+  console.log(`  note  down ${OVERFLOW_PX_BASELINE - worstPx}px — lower OVERFLOW_PX_BASELINE to `
+    + `${worstPx} to lock it in`);
+}
 if (over.length > OVERFLOW_BASELINE) {
   console.log('  FAIL  more templates overflow their class box than before — a template has '
     + 'drifted further from the box a page pastes it into.');

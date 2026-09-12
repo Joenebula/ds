@@ -193,6 +193,10 @@ const nCapped = CAPPED ? Number(CAPPED[1]) : null;
 const OVERFLOW = /const OVERFLOW_BASELINE\s*=\s*(\d+)/
   .exec(readFileSync('scripts/check-template-overflow.mjs', 'utf8'));
 const nOverflow = OVERFLOW ? Number(OVERFLOW[1]) : null;
+const OVERFLOW_PX = /const OVERFLOW_PX_BASELINE\s*=\s*(\d+)/
+  .exec(readFileSync('scripts/check-template-overflow.mjs', 'utf8'));
+const nOverflowPx = OVERFLOW_PX ? Number(OVERFLOW_PX[1]) : null;
+const PLACED = /(\d+) child\(ren\) placed/;   // reported by build-templates, pinned in the docs
 const nInnerComponents = new Set(innerLines.slice(1).map(l => l.split('\t')[0])).size;
 
 // README's own figures. It is the front door and nothing was checking it: it claimed 198
@@ -296,6 +300,7 @@ const figures = [
   ['shadows with a matching token', nDropShadows - nUntokenedShadows, /\*\*(\d+)\s+of\s+the\s+\d+\s+match\s+one\s+exactly\*\*/g],
   ['shadows with no token', nUntokenedShadows, /\*\*(\d+)\s+match\s+neither\*\*/g],
   ['shadows with no token', nUntokenedShadows, /(\d+)\s+variants\s+cast\s+a\s+shadow\s+the\s+design\s+system\s+has\s+no\s+token\s+for/g],
+  ['pixels of template overflow', nOverflowPx, /(\d+)px\s+of\s+overflow\s+in\s+total/g],
   ['templates overflowing their class box', nOverflow, /\*\*(\d+)\s+of\s+the\s+\d+\s+templates\s+already\s+render\s+outside\s+the\s+box/g],
   ['templates', templateCount, /\d+\s+of\s+the\s+(\d+)\s+templates\s+already\s+render\s+outside\s+the\s+box/g],
   ['variants stroking some edges only', nStrokeUneven, /\*\*(\d+)\s+variants\s+stroke\s+some\s+edges\s+and\s+not\s+others\.\*\*/g],

@@ -1400,6 +1400,43 @@ that got through — wiping the templates of the rest.
   a style — while the build counted it as applied. Wrapped in a span, and the build now
   counts what reached the written template rather than what it intended.
 
+## L. The charts — the gate was asking the wrong question — `done` (partly)
+
+Picked up as "do the charts with proportional placement". That is not what they needed, and
+two measurements said so before any of it was built:
+
+- All three chart classes emit a FIXED height, so percentage heights would have been safe —
+  but **all three have no WIDTH**, and a class with no width whose children are all
+  absolutely positioned renders **0 wide**. Measured, not reasoned: `.pf-donut-pie-chart`
+  came back `0x200`. Percentages of zero are zero, so proportional placement would have made
+  those templates vanish rather than improve them.
+- The real fault was in the gate I wrote last time. It asked "does the CLASS carry the whole
+  box" — a question about the component ROOT — and so refused every placement inside a
+  component whose class drops its artboard width, **including placements on inner containers
+  that have nothing to do with the root**. The origin is the child's PARENT, and an inner
+  origin is given its own measured size, so it is definite by construction.
+
+**Done when:** met for what is reachable. Placements went **5 across 4 components to 12
+across 8**, `Hemisphere chart` from 333px of overflow to 77px, no template worse than before.
+
+**Not done, and honestly blocked:** `Donut pie chart`, `Bar chart with axis`, `Full page`,
+`Configuration` and `AI Gradient component` place children from their ROOT, and their class
+has no width for the offsets to sit in. 16 offsets across 7 components are measured and
+deliberately unapplied; the build names them every run.
+
+**Two faults found on the way, both invisible to every existing check:**
+
+- `box-sizing`. Figma's sizes include the frame's padding and CSS's do not, so `AI
+  Assistant`'s 1108px slot with 20px padding rendered 1148 and hung out of its own component.
+- **Placing SOME children of a hand-laid-out parent and flowing the rest** put `Search
+  navigation`'s magnifier on top of the word "Search". The icon branch and the TEXT branch
+  each build their own markup and had been dropping the placement silently. Nothing measured
+  it — the box did not overflow, the template rendered its contents, every check was green.
+  `check-template-overflow.mjs` now asks it directly in the browser and fails on a mix.
+
+Also pinned: **how many is not how much.** The overflow count could not see 333px becoming
+77px, so the total magnitude (1372px) is pinned alongside it.
+
 **Suggestion for the user, not done — the question section J raises.** 27 classes draw a box
 their own contents do not fit. Some components already emit `min-height` ("content decides
 the real height"); these 28 emit a fixed `height` from the artboard. Emitting `min-height`

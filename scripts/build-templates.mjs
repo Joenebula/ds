@@ -80,17 +80,36 @@ const bareBox = (base) => {
   const h = /(?:^|;|\s)height:\s*(\d+)px/.exec(m[1]);
   return w && h ? `${w[1]}x${h[1]}` : null;
 };
-const posSkipped = new Set();
+const posSkipped = [];
 for (const p of posRows) {
   const row = treeByKey.get(p.component + '|' + p.path);
   if (!row || row.size !== `${p.w}x${p.h}`) continue;
   const parentPath = p.path.includes('.') ? p.path.slice(0, p.path.lastIndexOf('.')) : '';
   const parent = treeByKey.get(p.component + '|' + parentPath);
   if (!parent || (parent.layout && parent.layout !== 'NONE')) continue;
-  const rootSize = (treeByKey.get(p.component + '|') || {}).size;
-  if (!rootSize || bareBox(cls(p.component)) !== rootSize) { posSkipped.add(p.component); continue; }
+  // THE ORIGIN MUST HAVE A DEFINITE SIZE — and the origin is the PARENT, not the component.
+  //
+  // An offset is measured inside a box, so the box has to exist. Measured empirically: a
+  // class with no width whose children are all absolute renders 0x200, because nothing is
+  // left in flow to give it a width. That is why these are gated at all.
+  //
+  // The first version asked the question of the COMPONENT ROOT — the class must carry the
+  // whole box — and so refused every placement in a component whose class drops its artboard
+  // width, including placements on inner containers that have nothing to do with the root.
+  // An inner origin is given its own measured width and height a few lines below, so it is
+  // definite by construction; only a ROOT origin depends on what the class happens to carry.
+  if (parentPath === '') {
+    const rootSize = (treeByKey.get(p.component + '|') || {}).size;
+    if (!rootSize || bareBox(cls(p.component)) !== rootSize) { posSkipped.push(p.component + '|' + p.path); continue; }
+  } else if (!/^\d+x\d+$/.test(parent.size || '')) {
+    posSkipped.push(p.component + '|' + p.path); continue;
+  }
+  // BORDER-BOX, because Figma's width and height INCLUDE the frame's padding and CSS's do
+  // not. `AI Assistant`'s slot is 1108 wide with 20px padding either side; stated as a
+  // content width it rendered 1148 and hung 39px out of its own component.
   ABS.set(p.component + '|' + p.path,
-    `position:absolute;left:${p.dx}px;top:${p.dy}px;width:${p.w}px;height:${p.h}px`);
+    `position:absolute;left:${p.dx}px;top:${p.dy}px;width:${p.w}px;height:${p.h}px;`
+    + `box-sizing:border-box`);
   REL.add(p.component + '|' + parentPath);
 }
 const libClasses = new Set([...css.matchAll(/\.(pf-[a-z0-9-]+)/g)].map(m => m[1]));
@@ -179,7 +198,7 @@ function styleFor(component, row) {
     // and the gate above required it to.
     const [rw, rh] = (row.size || '').split('x').map(Number);
     if (row.path && Number.isFinite(rw) && Number.isFinite(rh))
-      s.push(`width:${rw}px`, `height:${rh}px`);
+      s.push(`width:${rw}px`, `height:${rh}px`, 'box-sizing:border-box');
   }
   if (row.layout && row.layout !== 'NONE') {
     const [mode, counter, primary] = row.layout.split(/\s+/);
@@ -318,6 +337,13 @@ function render(component, rows, path, depth) {
   if (row.type === 'TEXT') {
     const tc = typeClassFor(component, row);
     const bits = [];
+    // Placement first, for the same reason the icon branch needs it: this branch builds its
+    // own style and never calls styleFor, so a measured offset had nowhere to go. In
+    // `Search navigation` the icon WAS placed and the word "Search" was not, and the two
+    // rendered on top of each other — placing some children of a hand-laid-out parent and
+    // flowing the rest is worse than flowing all of them.
+    const tabs = absStyle(component, path);
+    if (tabs) bits.push(tabs);
     // A TEXT COLOUR IS SUBJECT TO THE PRIMITIVE RULE TOO — and for a long time it was the
     // one place here that was not. `styleFor` checks a child's fill and stroke, and this
     // branch went straight to tokenVar, which resolves a primitive perfectly well: to the
@@ -577,10 +603,15 @@ if (ABS.size) {
   console.log(`  ${n} child(ren) placed at Figma's own offsets in ${placed.length} component(s) `
     + `whose parent has no auto-layout — without this they flow, and Figma overlays them`);
 }
-if (posSkipped.size)
-  console.log(`  ${posSkipped.size} component(s) have measured child offsets that are NOT applied, `
-    + `because the class drops their artboard width so a pixel offset has no box to be `
-    + `measured inside: ${[...posSkipped].sort().join(', ')}`);
+// COUNT THE PLACEMENTS, NOT THE COMPONENTS. A component can have some placements applied
+// and others refused — `Image picker` and `Search navigation` do — and listing it as "not
+// applied" said something false about the ones that were.
+if (posSkipped.length) {
+  const comps = [...new Set(posSkipped.map(x => x.split('|')[0]))].sort();
+  console.log(`  ${posSkipped.length} measured offset(s) across ${comps.length} component(s) NOT `
+    + `applied: the box they are measured inside has no definite size, because the class drops `
+    + `the artboard width — ${comps.join(', ')}`);
+}
 if (noClass.length) {
   console.log(`  ${noClass.length} walked but NOT written — the stylesheet has no class to hang them on:`);
   for (const n of noClass) console.log(`    ${n.component} (would be .${n.base})`);
