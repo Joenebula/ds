@@ -113,11 +113,26 @@ export function chooseToken({ value, role, nodeType, candidates, backdropDark })
     return { apply: false, reason: why, scope: want, candidates: [] };
   }
   if (legal.length > 1) {
+    // A HOLD EITHER WAY, AND THE TWO REASONS ARE NOT THE SAME REASON. The first live multi-style
+    // dry run held two `Orange` #FC8700 nodes saying the candidates "differ in dark" — and they do
+    // not: `Icons/Icon - Warning` and `Charts/Chart 2` are #FC8700 in BOTH modes. The verdict was
+    // right and its stated reason was false, which is exactly the thing this repo keeps finding in
+    // other mechanisms: a message that asserts more than the measurement supports.
+    //
+    // Where every candidate resolves the same in dark too, no render can ever separate them, so
+    // there is nothing to look at and nothing to screenshot: it is a choice of MEANING. That still
+    // holds — picking by coin toss files a wrong-meaning token that looks perfect in both modes and
+    // is therefore permanent — but it says what it actually is.
+    const darks = new Set(legal.map((c) => String(c.dark || c.light).toUpperCase()));
+    const list = legal.map((c) => `${c.name} -> ${c.dark || c.light}`).join(', ');
     return {
       apply: false,
       scope: want,
       candidates: legal.map((c) => c.name),
-      reason: `${legal.length} candidates agree in light and differ in dark: ${legal.map((c) => `${c.name} -> ${c.dark || c.light}`).join(', ')}`,
+      sameInBothModes: darks.size === 1,
+      reason: darks.size === 1
+        ? `${legal.length} candidates are identical in light AND dark (${[...darks][0]}): ${list} — no render can separate them, so this is a choice of MEANING rather than of appearance`
+        : `${legal.length} candidates agree in light and differ in dark: ${list}`,
     };
   }
 
@@ -155,6 +170,19 @@ function selfTest() {
   r = chooseToken({ value: '#FFFFFF', role: 'fill', nodeType: 'TEXT', candidates: WHITES, backdropDark: null });
   if (r.apply) miss('two TEXT_FILL whites differ in dark and must HOLD, not pick one');
   if (!/Text\/Always White/.test(r.reason) || !/Text\/Inverted primary/.test(r.reason)) miss('a hold must name BOTH candidates — that is the whole use of it');
+  if (r.sameInBothModes) miss('candidates that really do differ in dark must not be reported as identical');
+
+  // A HOLD, AND THE TRUE REASON FOR IT. Live case: two `Orange` #FC8700 nodes were held saying the
+  // candidates "differ in dark", and both are #FC8700 in dark too. The verdict was right and the
+  // stated reason was false. It still holds — a wrong-meaning token that renders identically in
+  // both modes is invisible and therefore permanent — but it must not claim a difference the
+  // values do not have.
+  const SAME = [C('Icons/Icon - Warning', '#FC8700', '#FC8700', ['SHAPE_FILL']),
+                C('Charts/Chart 2', '#FC8700', '#FC8700', ['SHAPE_FILL'])];
+  r = chooseToken({ value: '#FC8700', role: 'fill', nodeType: 'VECTOR', candidates: SAME, backdropDark: '#1D1F27' });
+  if (r.apply) miss('two candidates must HOLD even when identical in both modes — the wrong meaning would be invisible');
+  if (r.sameInBothModes !== true) miss('and the hold must SAY they are identical, rather than asserting a dark difference');
+  if (/differ in dark/.test(r.reason)) miss('a reason must not claim a difference the measured values do not have');
 
   // A primitive is never the answer, even when it is the only thing at the value.
   r = chooseToken({ value: '#FFFFFF', role: 'fill', nodeType: 'POLYGON',
@@ -210,7 +238,7 @@ function selfTest() {
 
   if (failures) { console.log(`self-test FAILED — ${failures} check(s) did not catch what they exist to catch`); process.exit(1); }
   console.log('self-test passed — scope narrows twelve whites to one answer, two candidates that differ only in dark '
-    + 'HOLD and name both, a primitive is never returned, a sole candidate that would be unreadable in dark against '
+    + 'HOLD and name both, two identical in BOTH modes hold too but say that rather than claiming a difference they do not have, a primitive is never returned, a sole candidate that would be unreadable in dark against '
     + 'its own backdrop is held with the ratio measured, a surface is not checked against itself, a value the semantic '
     + 'layer does not hold is refused and told why, and light mode is an exact match rather than a near one');
 }

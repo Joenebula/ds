@@ -1,5 +1,6 @@
 # checked: 2026-09-11
-# references-at-last-sweep: 1429
+# dry-run-of-nine-styles: 2026-09-12 — 105 nodes in scope, 6 applicable, then applied (1429 -> 1423)
+# references-at-last-sweep: 1423
 # A SNAPSHOT, not a live reading. Nothing in this repo can re-count it: every check here
 # reads transcripts or TSVs, and these numbers came from sweeping the live Figma file. If
 # this date is old, the file has moved on and the only way to know by how much is to sweep
@@ -254,3 +255,51 @@ Darkmode theme	#33B5E5	0
 # Every one of these is a two-or-more-candidate case where the candidates agree in light and differ
 # in dark. None can be settled from a light-mode render, which is the whole reason they are listed
 # rather than applied.
+#
+# ── THE NINE-STYLE DRY RUN, 2026-09-12 ───────────────────────────────────────
+# The first run of docs/figma-rebind-deprecated.js with WRITE = false, over the nine largest
+# styles nobody had swept: White Ivory, Grey dolphin, Black, Light ivory, Orange, Blue ocean (A),
+# Colour blue, Red (A), Blue Charade. ONE traversal, 105 nodes outside documentation, two
+# agreeing sweeps, NOTHING WRITTEN. What it would do:
+#
+#	style	value	in scope	would apply	held
+#	Red (A)	#BE2028	16	6 (applied)	10
+#	Grey dolphin	#FFFFFF	23	0	23
+#	Light ivory	#FAFAFA	23	0	23
+#	Blue ocean (A)	#0075BE	28	0	28
+#	Blue Charade	#2C313C	14	0	14
+#	White Ivory	#F2F2F2	3	0	3
+#	Black	#1A1A1A	2	0	2
+#	Orange	#FC8700	2	0	2
+#	Colour blue	#363A46	0	0	0
+#
+# SIX OF 105 ARE MECHANICAL, and they are one case: six Negative-button frame fills that take
+# Background/Negative Button. APPLIED in a second run with WRITE = true: Red (A) 16 -> 10, both
+# after-sweeps agreeing, all six ids in tokens/_raw/deprecated-rebinds-applied.tsv. Collection
+# 1429 -> 1423. The other ten Red (A) nodes hold on three candidates — Icons/Icon - Negative
+# #FF8080, Icons/Icon - Required field #5CC4EA and Border/Negative #FF8080 — which is a real
+# divergence in dark and a person's call.
+#
+# `Colour blue` has 29 references and NONE outside documentation. It is a style guide colour,
+# which the by-page split predicted and this confirms node by node.
+#
+# GREY DOLPHIN IS 23 STROKES, and every one of them holds on four candidates: Icons/Icon - Primary
+# inverted #3E3E3E, Navigation/Nav bg left #1D1F27, Nav bg top #23252E, Icons/Icon - Always white
+# #FFFFFF. A white stroke in dark mode is either a hairline that must stay white or one that must
+# invert, and nothing in the file says which. This is the second deprecated white, and it is the
+# surfaces problem wearing a different hat.
+#
+# LIGHT IVORY IS 23 FRAMES, all held on Background/Secondary #1D1F27 vs Table/Stripe cell #23252E
+# — a page background and a table stripe, identical in light. BLUE OCEAN is 28 marks held on
+# Icons/Icon - Link #5CC4EA vs Charts/Chart 1 #0075BE: a link blue that lightens in dark against a
+# chart blue that does not.
+#
+# BLUE CHARADE AND BLACK confirm the no-semantic finding node by node: 14 and 2 nodes at #2C313C
+# and #1A1A1A, the dark values of Background/Primary and Progress bar/Border painted statically.
+# No rebind can express them; they need redrawing.
+#
+# AND THE RUN CORRECTED THE RULE'S OWN MESSAGE. The two Orange nodes were held saying the
+# candidates "differ in dark" — and Icons/Icon - Warning and Charts/Chart 2 are BOTH #FC8700 in
+# dark. The hold was right and its reason was false. Where every candidate resolves the same in
+# both modes no render can separate them, so the hold is about MEANING rather than appearance, and
+# chooseToken now says which of the two it is. Four mutants.
