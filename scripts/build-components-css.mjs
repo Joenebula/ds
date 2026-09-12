@@ -16,8 +16,9 @@
 // Figma's exact spelling so they match what a designer sees. States that have a real
 // CSS equivalent (:hover, :disabled, :focus-visible) get one as well as the attribute,
 // so a live control behaves correctly and a gallery can still force any state.
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
-import { buildResolver, WEIGHT } from './resolve-component-type.mjs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { hugsVertically as hugsVerticallySet, hugsHorizontally as hugsHorizontallySet } from './hugs.mjs';
+import { buildResolver, WEIGHT, declarationsFor } from './resolve-component-type.mjs';
 import { PRIMITIVE_ALIAS } from './primitive-alias.mjs';
 
 // THE TYPE LINK (spec fault 4). Until this existed, components.css carried 410 font-size
@@ -177,7 +178,7 @@ const clipComponents = new Set();
 // nothing means the base's padding leaks through — Confirmation modal Mobile=True resets
 // padding and radius to 0 in Figma and rendered with the desktop variant's 60 10 and its
 // 8px radius. Zero is a real value in an override.
-function geometryDecls(g, notes, isVariant = false, composedType = null) {
+function geometryDecls(g, notes, isVariant = false, composedType = null, component = null) {
   if (!g) return [];
   const d = [];
   const m = (g.size || '').match(/^(auto|\d+)\s*x\s*(auto|\d+)$/);
@@ -186,7 +187,15 @@ function geometryDecls(g, notes, isVariant = false, composedType = null) {
 
   // A large fixed width is the width of the artboard the component was drawn at, not a
   // rule — only carry width through for genuinely small fixed controls.
-  if (w !== null && w <= 120) d.push(`width: ${w}px`);
+  // WIDTH, and the 120px line was always a guess. Measured, a HORIZONTAL frame hugs when its
+  // width is padding + children + gaps: 35 components do, and the threshold happens to drop
+  // 31 of them for the wrong reason while pinning four that are under it. `Links` is a text
+  // link frozen at the 58px its old label came to; put a longer one in and the width Figma
+  // computed from the previous one is still there.
+  if (w !== null && component && hugsHorizontally.has(component)) {
+    notes.push(`Figma HUGS its contents horizontally — ${w}px is what they came to, not a rule`);
+    huggedWide++;
+  } else if (w !== null && w <= 120) d.push(`width: ${w}px`);
   else if (w !== null) notes.push(`Figma draws this ${w}px wide; treated as layout, not a rule`);
 
   // Height needs the same judgement, and it is not one threshold but three, because the
@@ -202,7 +211,13 @@ function geometryDecls(g, notes, isVariant = false, composedType = null) {
   // (a min-height) and its Horizontal=True variant is 218 (a height); the base's
   // min-height won and the variant rendered 302. A variant therefore resets the other
   // property every time rather than relying on which branch it lands in.
-  if (h !== null && h <= 260) {
+  // A HUGGING FRAME HAS NO HEIGHT TO STATE. Its number is the sum of what it holds, so
+  // emitting it — exactly or as a floor — stops the box doing the one thing hug means.
+  if (h !== null && !isVariant && component && hugsVertically.has(component)) {
+    notes.push(`Figma HUGS its contents vertically — ${h}px is what they came to, not a rule, `
+      + `so no height is emitted and the content decides it`);
+    hugged++;
+  } else if (h !== null && h <= 260) {
     d.push(`height: ${h}px`);
     if (isVariant) d.push('min-height: 0');
   } else if (h !== null && h <= 700) {
@@ -278,8 +293,34 @@ function geometryDecls(g, notes, isVariant = false, composedType = null) {
   if (mode === 'HORIZONTAL' || mode === 'VERTICAL') {
     d.push('display: inline-flex');
     d.push(`flex-direction: ${mode === 'VERTICAL' ? 'column' : 'row'}`);
+    // CENTRING OR END-ALIGNING CONTENT THAT OVERFLOWS PUTS ITS START OUT OF REACH.
+    //
+    // `.pf-secondary-nav` is `justify-content: center` and holds a 524px strip of tabs. Give
+    // it less room than that — a phone — and a centred flex row spills equally BOTH ways, so
+    // the first tab sat 83px off the left edge where no amount of scrolling reaches it.
+    // Reported from a phone as the first tab being cut off, and it was: permanently.
+    //
+    // `safe` is the CSS keyword for exactly this and it changes nothing whatsoever while the
+    // content fits — it only takes effect in the overflow case, which is the case where the
+    // named alignment loses content. `flex-start` needs no guard: it already puts the start
+    // of the content at the start of the box.
+    // ONLY ON A ROW'S justify-content, and the first attempt proved why the scope matters.
+    // Guarding align-items too made it worse in two places at once: `Navigation item` is a
+    // COLUMN, so its align-items is the horizontal axis, and `safe` turned a "Notifications"
+    // label that overflowed 8px each side into one that overflowed 16px on one — the layout
+    // check caught it — while the header's "HR" and "Clock-in" shifted off the band they are
+    // painted against and dropped to 1.04:1 contrast.
+    //
+    // The loss `safe` prevents is specific: content pushed past the START of the inline axis
+    // goes off the left of the page and there is no scrolling back to it. Overflow up or down
+    // is not lost, because the page scrolls; overflow centred within a fixed-width label is
+    // not lost either, it is just centred. So the guard belongs on one property in one
+    // direction, which is also the one the report was about.
+    const horizontal = String(g.layout || '').startsWith('HORIZONTAL');
+    const safeJustify = v =>
+      (horizontal && v !== 'flex-start' && v !== 'space-between') ? `safe ${v}` : v;
     if (ALIGN[counter]) d.push(`align-items: ${ALIGN[counter]}`);
-    if (JUSTIFY[primary]) d.push(`justify-content: ${JUSTIFY[primary]}`);
+    if (JUSTIFY[primary]) d.push(`justify-content: ${safeJustify(JUSTIFY[primary])}`);
     // A variant row's 0 has to be EMITTED, not skipped: the variant rule cascades over
     // the base rule, so a skipped 0 silently inherits the base row's gap. Tertiary nav
     // Mobile=Yes/Page=Yes is gap 0 in Figma and was rendering the desktop row's 40.
@@ -312,6 +353,19 @@ function geometryDecls(g, notes, isVariant = false, composedType = null) {
     else if (f[2] === 'Regular') d.push('font-weight: var(--pf-font-weight-regular)');
     // "Italic" here is placeholder styling, not the component's font — see the
     // geometry notes. Deliberately not emitted.
+    //
+    // LINE HEIGHT, for the same reason the composed rules state it: a declaration a class
+    // omits is one the PAGE supplies. These 49 rules stated a measured size and no line
+    // height, so a page setting `line-height: 1.9` stretched every off-ramp component label
+    // on it, and nothing could see it — an absent declaration is invisible to anything that
+    // reads the stylesheet.
+    //
+    // `normal` is measured, not assumed. Every text node inside a component on all twelve
+    // product pages was read: 3370 of 3377 set line height to AUTO. The seven that do not
+    // are deep children rather than a component's own label — six are the ": " separator in
+    // `Footer (AG)`'s pagination at 19.5px, one is a "+3" counter at 109.68% — so none of
+    // them is the label whose type is emitted here.
+    d.push('line-height: normal');
   }
   return d;
 }
@@ -399,6 +453,41 @@ function colourDecls(row) {
 }
 
 // ---- build ------------------------------------------------------------------
+// A LABEL FIGMA DRAWS ON ONE LINE MUST NOT WRAP ONTO TWO.
+//
+// Reported from a phone: the filter chips and the nav tabs were rendering "Nav tabs" and
+// "Filter chip" stacked over two lines. Figma is unambiguous — `Nav tabs` is a 40px component
+// whose Label TEXT node is 40x22, and `Filter chip` is 42px around a 42x22 label. One line of
+// 22px. A second line is ~44px and does not fit inside the component at all, so a wrap does
+// not just look wrong, it pushes the text out of the box: `Nav tabs` and `Table action bar`
+// were two of the four templates that overflow ONLY once the class shrinks to its mobile
+// artboard, which is the same fault measured from the other end.
+//
+// The test is measured, not a list of component names. A TEXT node shorter than twice its own
+// font-size is one line; `AI message bubble` (88px at 16px) and `Configuration panel` (68px at
+// 13px) are real paragraphs and are excluded, as are 14 components whose height is auto or
+// too tall to state, where a wrap is survivable rather than impossible. What is left is 72
+// components whose height is FIXED and whose every label is one line.
+// Figma's own answer about which frames hug, read from the raw measurements.
+// See scripts/hugs-vertically.mjs for why the height of a hugging frame is not a rule.
+const hugsVertically = hugsVerticallySet();
+const hugsHorizontally = hugsHorizontallySet();
+let huggedWide = 0;
+let hugged = 0;
+
+const singleLineText = new Map();     // component -> true when every TEXT node is one line
+for (const line of readFileSync('tokens/_raw/component-tree.tsv', 'utf8').trim().split('\n').slice(1)) {
+  const c = line.split('\t');
+  if (c[2] !== 'TEXT') continue;
+  const size = /^(\d+)x(\d+)$/.exec((c[7] || '').trim());
+  const font = /^(\d+)px/.exec((c[15] || '').trim());
+  if (!size || !font) continue;
+  const oneLine = +size[2] < 2 * +font[1];
+  singleLineText.set(c[0], (singleLineText.get(c[0]) ?? true) && oneLine);
+}
+let nowrapCount = 0;
+
+const hoistedFills = new Map();   // component -> the fill every one of its variants binds
 const byComponent = new Map();
 for (const r of variants) {
   if (!byComponent.has(r.component)) byComponent.set(r.component, []);
@@ -451,7 +540,7 @@ for (const [component, rows] of [...byComponent.entries()].sort()) {
   // than transcribed. A null result means ambiguous or off the ramp: the measured values
   // stay, and check-component-type.mjs reports it.
   const baseType = g ? resolveType(component, g.font) : null;
-  const geo = geometryDecls(g, notes, false, baseType);
+  const geo = geometryDecls(g, notes, false, baseType, component);
   if (baseType && baseType.resolved) composed.get(baseType.resolved.id).sels.add('.' + base);
 
   out.push(`/* ${component}${g ? '' : '  (no geometry measured — colours only)'}`);
@@ -473,13 +562,59 @@ for (const [component, rows] of [...byComponent.entries()].sort()) {
     // buttonface and renders as a filled pill, which is the opposite of hollow.
     out.push('  appearance: none;');
     out.push('  -webkit-appearance: none;');
-    out.push('  background: transparent;');
+    // A FILL EVERY VARIANT AGREES ON BELONGS ON THE BARE CLASS.
+    //
+    // The colour rules are emitted per variant, so a class painted nothing until a page
+    // wrote a data attribute. For a component whose variants genuinely differ — `Button`
+    // has eight fills, `Tags` seven — that is right: there is no single value, and the
+    // page must choose. For 19 of them there IS one. Every `Side panel` variant binds
+    // `Background/Primary`; every `Nav tabs` variant binds `Navigation/Nav bg top`. The
+    // fact is unambiguous in Figma and the stylesheet was throwing it away, so
+    // `<div class="pf-side-panel">` — which is exactly what that component's own template
+    // writes — rendered a transparent panel.
+    //
+    // The `background: transparent` below is not a default; it is a reset, and its reason
+    // is a variant Figma gives NO fill (`Button Type=Hollow`) falling through to the UA's
+    // grey buttonface. Where every variant binds a fill, no variant lacks one, so there is
+    // nothing for the reset to protect against and the shared value takes its place.
+    const fills = new Set(rows.map(r => r.fill || ''));
+    const sharedFill = rows.length && fills.size === 1 && [...fills][0] ? [...fills][0] : null;
+    const sharedDecls = sharedFill
+      ? colourDecls({ component, fill: sharedFill, stroke: '', text: '' })
+      : [];
+    // Only a real background survives. A primitive with no semantic equivalent comes back
+    // as a comment, or as a value that cannot change between modes — hoisting that would
+    // put the one thing this repo forbids on 19 bare classes at once.
+    // `var(...)` is not the test — a PRIMITIVE resolves to a var too, and the first version
+    // of this guard duly hoisted `var(--pf-base-white)` onto `.pf-toast-message`. The test
+    // is the one this repo states everywhere else: a `--pf-base-*` token is a fixed hex that
+    // cannot change between modes. Where colourDecls substitutes a semantic alias for a
+    // primitive the result is semantic and hoists fine; where no alias exists it emits the
+    // primitive itself, and that stays on the variant rules where it already was rather
+    // than being spread to the bare class as well.
+    const semanticBg = sharedDecls.some(d => /^background:\s*var\(--pf-(?!base-)/.test(d));
+    const hoisted = semanticBg
+      ? sharedDecls.filter(d => /^background:/.test(d) || d.startsWith('/*') || d.startsWith('   '))
+      : [];
+    if (hoisted.length) {
+      hoistedFills.set(component, sharedFill);
+      for (const d of hoisted) out.push(d.startsWith('/*') || d.startsWith('   ') ? `  ${d}` : `  ${d};`);
+    } else {
+      out.push('  background: transparent;');
+    }
     out.push('  margin: 0;');
     out.push(rows.some(r => r.stroke)
       ? '  border: 1px solid transparent;'
       : '  border: 0;');
     out.push('  box-sizing: border-box;');
     out.push('  font-family: var(--pf-font-body);');
+    // Only where the height is STATED. geometryDecls emits an exact height below 260px and a
+    // minimum above it; a component free to grow can afford a second line, one pinned to
+    // 40px cannot.
+    if (singleLineText.get(component) && geo.some(d => /^height:\s*\d+px$/.test(d))) {
+      out.push('  white-space: nowrap;');
+      nowrapCount++;
+    }
     out.push('}');
     ruleCount++;
   }
@@ -675,12 +810,9 @@ if (composedRules.length) {
   for (const { style: st, sels } of composedRules) {
     // The name alone would be a lie where two styles share one, so the size is named too.
     const name = `${st.name}  (${st.size}px ${st.weight || 'Regular'}${st.textCase === 'UPPER' ? ', uppercase' : ''})`;
-    const d = [`font-size: ${st.size}px`];
-    if (st.weight === 'Italic') { d.push('font-weight: 400', 'font-style: italic'); }
-    else d.push(`font-weight: ${WEIGHT[st.weight] || '400'}`);
-    const ls = parseFloat(st.letterSpacing);
-    if (Number.isFinite(ls) && ls !== 0) d.push(`letter-spacing: ${ls / 100}em`);
-    if (st.textCase === 'UPPER') d.push('text-transform: uppercase');
+    // One source with build-type-css.mjs. A component class already sets font-family in its
+    // own base rule, so it is the one declaration this does not repeat.
+    const d = declarationsFor(st);
     out.push('');
     out.push(`/* ${name} */`);
     out.push([...sels].sort().join(',\n') + ' {');
@@ -691,15 +823,594 @@ if (composedRules.length) {
   out.push('');
 }
 
+// ---- boxes that centre one thing ------------------------------------------
+//
+// Reported from a screen: the icon at the top sat in the corner of its circle and was too
+// small. `.pf-circle-icons` is generated, so every use of it was wrong the same way, and
+// the one page here that looks right only does so because it carries a local
+// `place-items: center` — hand-written component CSS by another name.
+//
+// Figma lays these out as `NONE`, so the geometry extract has no alignment to give and
+// this generator rightly emitted none. What it does have, in `component-inner.tsv`, is a
+// measurement: the child's offsets are equal on both axes (so it IS centred, rather than
+// that being a guess) and its size is recorded per VARIANT — a 28px circle holds an 18px
+// icon, a 52px one holds 36. Both facts are emitted.
+//
+// `inline-grid` rather than `grid` because these sit inline beside a heading, which is
+// where the reported one was; the size variants already set their own box.
+// WHICH SIDES ARE ACTUALLY STROKED, AND HOW THICKLY.
+//
+// The colour extract records a stroke's TOKEN and nothing else, so every component with a
+// bound stroke was painted `border: 1px solid <token>` — a cage, one pixel, all four
+// sides. `component-stroke-sides.tsv` carries the departures, measured from Figma: which
+// edges carry a weight, what that weight is, and whether the paint is switched on at all.
+//
+// `Nav tabs` is the case that surfaced it. It is a file-folder tab: unselected it rules
+// only its BOTTOM edge; selected it rules top, left and right and leaves the bottom OPEN
+// so the tab joins the panel below. Drawn as a box, every tab became an outlined rectangle
+// and the selected one no longer read as selected.
+//
+// These land on the variant selector for the same reason the centred-child rules do — the
+// per-variant geometry rules outrank the bare class whatever the order — and after the
+// colour rules, which set `border-color` and never a width, so the two do not fight.
+// WHICH AXES A CLASS ACTUALLY USES — and why a measured variant string is not the answer.
+//
+// Figma names a variant with every axis it has: `Type=Standard, Darkmode=False`. The
+// stylesheet does not: the colour extract collapses an axis that changes nothing, so the
+// rules for Clock in are `.pf-clock-in[data-type="Standard"]` and a page writes only
+// data-type. A rule generated from the full Figma string therefore reads
+// `[data-type="Standard"][data-darkmode="False"]` and matches NOTHING a page ever writes —
+// it sits in the file looking correct and does nothing, which is this project's oldest
+// failure mode wearing a new hat. check-stroke-sides did not catch it either, because the
+// check builds its own markup and wrote every axis; check-off-system caught it, by noticing
+// the page still had to set the border width by hand.
+//
+// The authority is the stylesheet already generated above: whatever `data-` attributes its
+// own selectors use for this class are the axes a page is expected to write.
+const axesUsedBy = (base) => {
+  const seen = new Set();
+  // A run of attribute selectors, allowing SPACES inside a value: Figma names a size
+  // `XS - 28px`, and a pattern that stopped at whitespace found no axes for Circle icons
+  // at all, so all four sizes collapsed onto the bare class and a 28px circle got the
+  // 52px circle's icon. check-component-inner caught it, which is what it is for.
+  const re = new RegExp(`\\.${base}((?:\\[[^\\]]*\\])+)`, 'g');
+  for (const m of out.join('\n').matchAll(re))
+    for (const a of m[1].matchAll(/\[data-([a-z0-9-]+)=/g)) seen.add(a[1]);
+  return seen;
+};
+// Build a variant selector from a Figma variant string, keeping only the axes the class
+// really uses. Returns null when the component has no attribute selectors at all, which
+// means the class is not variant-addressable and the rule belongs on the bare class.
+const variantSel = (base, variant) => {
+  if (!variant) return '';
+  const axes = axesUsedBy(base);
+  return variant.split(', ').map(v => {
+    const axis = kebab(v.slice(0, v.indexOf('=')));
+    return axes.has(axis) ? `[data-${axis}="${v.slice(v.indexOf('=') + 1)}"]` : '';
+  }).join('');
+};
+
+let strokeSideSkips = [];
+const sideClashes = new Set();
+const sideRows = existsSync('tokens/_raw/component-stroke-sides.tsv')
+  ? tsv('tokens/_raw/component-stroke-sides.tsv') : [];
+if (sideRows.length) {
+  const noStrokeToken = new Set();
+  const sideSeen = new Map();
+  out.push('/* Borders Figma does not draw as a 1px box: per-side weights, widths that are');
+  out.push(' * not 1px, and strokes switched off in the file. Measured into');
+  out.push(' * tokens/_raw/component-stroke-sides.tsv; every component absent from it strokes');
+  out.push(' * 1px on all four sides. */');
+  for (const r of sideRows) {
+    const base = cls(r.component);
+    if (!byComponent.has(r.component)) continue;   // no class to hang it on
+    // A WIDTH WITH NO COLOUR IS NOT A BORDER. A component gets a border STYLE at all only
+    // where some variant binds a stroke token, and four bind none — for three different
+    // reasons: `AI banner` and `AI card modal` are stroked with a GRADIENT, which no colour
+    // variable can carry; `Status` keeps a paint Figma has switched off; `Mobile bottom
+    // navigation` binds no stroke paint at all. Emitting a width on any of them paints
+    // nothing, because border-style stays `none`. They are skipped and NAMED rather than
+    // skipped silently — the missing colour is a real gap in what the extract can carry.
+    if (!byComponent.get(r.component).some(x => x.stroke)) { noStrokeToken.add(r.component); continue; }
+    const at = variantSel(base, r.variant);
+    const px = n => (Number(n) ? `${Number(n)}px` : '0');
+    const width = r.visible === 'no' ? '0'
+      : `${px(r.top)} ${px(r.right)} ${px(r.bottom)} ${px(r.left)}`;
+    // DROPPING AN AXIS CAN MAKE TWO ROWS ONE. Where the two then disagree there is no
+    // honest rule to write — the stylesheet cannot tell the variants apart — so nothing is
+    // written and the clash is named. Where they agree, one rule covers both, which is
+    // what collapsing the axis meant in the first place.
+    const key = `.${base}${at}`;
+    if (sideSeen.has(key)) {
+      if (sideSeen.get(key) !== width) sideClashes.add(`${r.component} (${key})`);
+      continue;
+    }
+    sideSeen.set(key, width);
+    out.push(`${key} {`);
+    // A paint that is switched off in Figma is kept in the file and draws nothing. The
+    // colour rule above still binds its token — mirroring Figma, which also keeps the paint
+    // — and the width is what makes it invisible, exactly as it is in the design.
+    out.push(`  border-width: ${width};`);
+    out.push('}');
+    ruleCount++;
+  }
+  out.push('');
+  if (noStrokeToken.size)
+    strokeSideSkips = [...noStrokeToken].sort();
+}
+
+const innerRows = existsSync('tokens/_raw/component-inner.tsv')
+  ? tsv('tokens/_raw/component-inner.tsv') : [];
+if (innerRows.length) {
+  out.push('/* Boxes that hold one centred child. Figma lays these out as NONE — no auto-');
+  out.push(' * layout — so the alignment is not in the geometry extract; it is measured');
+  out.push(' * separately in tokens/_raw/component-inner.tsv, along with the child size for');
+  out.push(' * each variant. Without these a page has to centre the icon itself, which is');
+  out.push(' * component CSS the page should never be writing. */');
+  const seen = new Set();
+  for (const r of innerRows) {
+    const base = cls(r.component);
+    // THE CENTRING GOES ON THE SAME SELECTOR AS THE BOX, not on the bare class.
+    //
+    // A size variant carries its own `display: inline-block` — every variant row does,
+    // because that is what the geometry extract measured. `.pf-circle-icons` alone is one
+    // class and `.pf-circle-icons[data-size="XS - 28px"]` is a class plus an attribute, so
+    // the variant wins on specificity no matter how late the bare rule is written. The
+    // first version of this put `inline-grid` on the bare class, and the icon rendered
+    // 18px inside a 28px circle sitting against the top edge: correct size, no centring,
+    // which is half the fault the user reported and looks like the whole thing is fixed.
+    const box = `.${base}${variantSel(base, r.variant)}`;
+    if (!seen.has(box)) {
+      seen.add(box);
+      out.push(`${box} {`);
+      out.push('  display: inline-grid;');
+      out.push('  place-items: center;');
+      out.push('}');
+      ruleCount++;
+    }
+    const [w, h] = (r.child || '').split('x').map(Number);
+    if (!Number.isFinite(w) || !Number.isFinite(h)) continue;
+    // Where the class is not variant-addressable — `Waffle` is shape-only, so the
+    // stylesheet has no `[data-theme=...]` rule for it and a page cannot select one — all
+    // fifteen of its variants collapse onto the bare class. They measure the same 32px
+    // child, so one rule is the whole truth; fifteen identical copies of it were not.
+    if (seen.has(box + ' > *')) continue;
+    seen.add(box + ' > *');
+    out.push(`${box} > * {`);
+    out.push(`  width: ${w}px;`);
+    out.push(`  height: ${h}px;`);
+    out.push('}');
+    ruleCount++;
+  }
+  out.push('');
+}
+
+const shadowHoisted = [];
+// THE SHADOW A COMPONENT CASTS.
+//
+// This file used to contain the string "box-shadow" zero times, while Figma put a drop
+// shadow on 50 component variants — `Card`, `Side panel`, `Side filter`, `Toast message`,
+// `Tool tip`, `Action menu`, `Table card (AG)`, `Header navigation`, `Side navigation`:
+// every floating surface in the system, rendering flat against the page.
+//
+// THE DESIGN SYSTEM HAS EXACTLY TWO SHADOW TOKENS and this does not invent a third. Where a
+// measurement matches a token exactly, the token is emitted. Where it does not, NOTHING is
+// emitted and the shadow is reported: writing Figma`s rgba straight into the rule would put
+// a raw colour in generated CSS, which is this project`s first rule, and freeze it across
+// both modes into the bargain. A shadow the design system has no token for is a gap in the
+// design system, and the build says so rather than papering over it.
+const SHADOW_TOKENS = [
+  // token, [x, y, blur, spread], r,g,b,a — read from dist/tokens.css, not from memory.
+  ['--pf-shadow-drop-shadow', [0, 0, 4, 0], '193,193,193,1'],
+  ['--pf-shadow-modal-header-shadow', [0, 4, 4, 0], '0,0,0,0.102'],
+];
+const shadowRows = existsSync('tokens/_raw/component-shadow.tsv')
+  ? tsv('tokens/_raw/component-shadow.tsv') : [];
+const shadowUnmatched = new Map(), shadowNotAShadow = new Map();
+if (shadowRows.length) {
+  const byVariant = new Map();
+  for (const r of shadowRows) {
+    if (!byComponent.has(r.component)) continue;      // no class to hang it on
+    if (r.type !== `DROP_SHADOW`) {
+      shadowNotAShadow.set(`${r.component} ${r.variant || `*`}`, r.type);
+      continue;
+    }
+    // Figma`s alpha is rounded to three places; the token`s comes from an 8-digit hex, so
+    // #0000001a is 26/255 = 0.10196. Compare at the precision both can express.
+    const near = (a, b) => Math.abs(a - b) < 0.006;
+    const [cr, cg, cb, ca] = (r.colour || ``).split(`,`).map(Number);
+    const hit = SHADOW_TOKENS.find(([, geo, col]) => {
+      const [tr, tg, tb, ta] = col.split(`,`).map(Number);
+      return geo[0] === Number(r.x) && geo[1] === Number(r.y)
+        && geo[2] === Number(r.blur) && geo[3] === Number(r.spread)
+        && tr === cr && tg === cg && tb === cb && near(ta, ca);
+    });
+    if (!hit) {
+      shadowUnmatched.set(`${r.component} ${r.variant || `*`}`,
+        `${r.x} ${r.y} ${r.blur} ${r.spread} rgba(${r.colour})`);
+      continue;
+    }
+    const sel = `.${cls(r.component)}${variantSel(cls(r.component), r.variant)}`;
+    if (!byVariant.has(sel)) byVariant.set(sel, []);
+    byVariant.get(sel).push(hit[0]);
+  }
+  // A SHADOW EVERY VARIANT CASTS BELONGS ON THE BARE CLASS — the fill hoist's rule, for the
+  // one other property that was still keyed per variant and nowhere else.
+  //
+  // Found by asking what the responsive pass made vary that nothing measures. Eight floating
+  // surfaces — `Side filter`, `Form`, `Manage columns`, `Table card (AG)`, `AI Assistant`,
+  // `Notification panel`, `Notification categories` — had a shadow on a PHONE and none on a
+  // desktop. Figma casts the identical shadow at both: `Side filter` is `0 0 4 0` at
+  // Mobile=False and `0 0 4 0` at Mobile=True. The asymmetry was never a design decision, it
+  // was which selector the rule happened to be keyed on: the mobile variant reaches the bare
+  // class through the breakpoint mirror and the desktop one does not.
+  //
+  // Same guard as everywhere else: the variants must AGREE, and together they must cover every
+  // value of each axis they all carry, so "Figma only drew a shadow on one of them" is not
+  // mistaken for "they agree".
+  {
+    const axisVals = new Map();
+    for (const m of out.join('\n').matchAll(/\.(pf-[a-z0-9-]+)((?:\[[^\]]*\])+)/g)) {
+      if (!axisVals.has(m[1])) axisVals.set(m[1], new Map());
+      for (const a of m[2].matchAll(/\[data-([a-z0-9-]+)="([^"]*)"\]/g)) {
+        const per = axisVals.get(m[1]);
+        if (!per.has(a[1])) per.set(a[1], new Set());
+        per.get(a[1]).add(a[2]);
+      }
+    }
+    const byClass = new Map();
+    for (const [sel, tokens] of byVariant) {
+      const base = (/\.(pf-[a-z0-9-]+)/.exec(sel) || [])[1];
+      if (!base) continue;
+      if (!byClass.has(base)) byClass.set(base, []);
+      byClass.get(base).push({ sel, key: [...new Set(tokens)].sort().join('|') });
+    }
+    for (const [base, rows] of byClass) {
+      if (rows.length < 2) continue;                       // one variant proves no agreement
+      if (new Set(rows.map(r => r.key)).size !== 1) continue;
+      const parsed = rows.map(r => new Map([...r.sel.matchAll(/\[data-([a-z0-9-]+)="([^"]*)"\]/g)]
+        .map(m => [m[1], m[2]])));
+      const shared = [...parsed[0].keys()].filter(a => parsed.every(p => p.has(a)));
+      const known = axisVals.get(base) || new Map();
+      const covers = shared.every(a => {
+        const all = known.get(a);
+        if (!all) return true;
+        const seen = new Set(parsed.map(p => p.get(a)));
+        return [...all].every(v => seen.has(v));
+      });
+      if (!covers) continue;
+      const tokens = byVariant.get(rows[0].sel);
+      for (const r of rows) byVariant.delete(r.sel);       // the bare class now says it for all
+      byVariant.set(`.${base}`, tokens);
+      shadowHoisted.push(base);
+    }
+  }
+  if (byVariant.size) {
+    out.push(`/* Drop shadows. Figma puts one on every floating surface; the design system has`);
+    out.push(` * two shadow tokens and a measurement is emitted only where it matches one`);
+    out.push(` * exactly. Measured into tokens/_raw/component-shadow.tsv. */`);
+    for (const [sel, tokens] of [...byVariant.entries()].sort()) {
+      out.push(`${sel} {`);
+      out.push(`  box-shadow: ${[...new Set(tokens)].map(t => `var(${t})`).join(`, `)};`);
+      out.push(`}`);
+      ruleCount++;
+    }
+    out.push(``);
+  }
+}
+
 mkdirSync('dist', { recursive: true });
+// ---- responsive: carry Figma's own mobile and tablet variants to the viewport ---------
+//
+// Figma draws 52 components at more than one width — `Header` at 1830 and 390, `Header
+// navigation` at 1830/768/390, `Full page` at 1830/768/375 — and the stylesheet exposed
+// every one of them as a data attribute and nothing else. So the library did not respond
+// to the viewport at all: the ONLY way to get the mobile header was for a page to write
+// data-mobile="Yes" itself, and every page in this repo instead hard-writes Desktop. A
+// phone got the desktop component in a 390px window.
+//
+// This is a POST-PASS over the rules already emitted, on purpose. Re-deriving the mobile
+// declarations from the geometry and colour extracts would produce a second copy that can
+// drift from the attribute-driven one; mirroring the emitted rule cannot. The media rule is
+// the SAME declarations with the responsive axis stripped out of the selector.
+//
+// PRECEDENCE IS THE WHOLE DESIGN. The mirrored rule carries one attribute fewer than the
+// rule it mirrors, so a page that deliberately pins a variant — data-mobile="No" — still
+// outranks the media query at every width and keeps working exactly as before. Nothing
+// existing changes; only markup that says nothing about breakpoint starts responding.
+//
+// THE BOUNDARIES: 768 is measured — it is the width Figma draws every tablet artboard at
+// (768, 774, 801) and no mobile artboard exceeds 392. 1024 is CHOSEN, not measured: Figma
+// has no artboard between 801 and 1130, so the line between tablet and desktop is a
+// judgement and is named here rather than presented as a reading of the file.
+const RESPONSIVE_AXES = ['mobile', 'tablet', 'device', 'breakpoint'];
+const bucketOf = (axis, value) => {
+  const v = String(value).toLowerCase();
+  if (axis === 'mobile') return /^(yes|true)$/.test(v) ? 'mobile' : null;
+  if (axis === 'tablet') return /^(yes|true)$/.test(v) ? 'tablet' : null;
+  if (axis === 'device' || axis === 'breakpoint') {
+    if (v === 'mobile') return 'mobile';
+    if (v === 'tablet') return 'tablet';
+    return null;                      // Desktop is the default and needs no query
+  }
+  return null;
+};
+
+// A PAGE THAT WRITES THE BREAKPOINT ATTRIBUTE OWNS THE BREAKPOINT.
+//
+// Specificity alone does not deliver that. `Header`'s desktop rules are keyed on the theme
+// as well (`[data-theme="Classic"][data-mobile="No"]`), so `<div class="pf-header"
+// data-mobile="No">` matches NO desktop rule at all, and the mirrored phone rule — which by
+// construction no longer carries a breakpoint attribute — won on the bare class. Measured:
+// it went to 62px on a phone having been told not to. Sixteen classes did this, every page
+// in this repo pins Desktop, and the plain reading of "explicit wins" was simply false.
+//
+// So every mirrored rule is guarded against the attribute existing AT ALL, whatever its
+// value. Present means the page is managing breakpoints itself and these rules stand down;
+// absent means it is not, and they apply.
+const GUARD = RESPONSIVE_AXES.map(a => `:not([data-${a}])`).join('');
+const guarded = sel => sel.replace(/^(\.[a-z0-9-]+(?:\[[^\]]*\])*)/, `$1${GUARD}`);
+
+const emitted = out.join('\n');
+const mobileRules = [], tabletRules = [];
+const byBucket = new Map();
+let bareHoisted = 0;
+const strandedColour = [];
+const respComponents = new Set();
+
+// EACH SELECTOR IN A LIST IS JUDGED ON ITS OWN. The composed-type rules carry one selector
+// list spanning dozens of components — `.pf-filter-chip, .pf-header[data-mobile="Yes"], …` —
+// and bucketing the list as a whole mirrored every unrelated component into the phone media
+// query because ONE member mentioned mobile. Harmless here only because the declarations are
+// identical; wrong in principle, and it inflated the count.
+for (const m of emitted.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+  const selectorList = m[1].trim(), body = m[2].trim();
+  if (!body || selectorList.startsWith('@') || selectorList.startsWith(':root')) continue;
+  const decls = body.split('\n').map(x => x.trim()).filter(Boolean).join('\n    ');
+  for (const one of selectorList.split(',').map(x => x.trim()).filter(Boolean)) {
+    const buckets = new Set();
+    let sel = one, sawResponsive = false;
+    for (const axis of RESPONSIVE_AXES) {
+      const re = new RegExp(`\\[data-${axis}="([^"]*)"\\]`, 'g');
+      for (const a of one.matchAll(re)) {
+        sawResponsive = true;
+        const b = bucketOf(axis, a[1]);
+        if (b) buckets.add(b);
+      }
+      sel = sel.replace(re, '');
+    }
+    if (!sawResponsive || buckets.size !== 1) continue;
+    const bucket = buckets.has('mobile') ? 'mobile' : 'tablet';
+    const cls = (/\.(pf-[a-z0-9-]+)/.exec(sel) || [])[1];
+    if (!cls) continue;
+    respComponents.add(cls);
+    // A TEXT COLOUR IS NOT CARRIED ONTO A BARE CLASS THAT PAINTS NO BACKGROUND.
+    //
+    // FIGMA-ISSUES §11's rule, walked straight back into by the responsive pass. `.pf-header`
+    // and `.pf-header-navigation` have NO bare-class rules of their own at all — the pink band
+    // is separate artwork by design — and their mobile variants bind white. Stripping the
+    // breakpoint left that white sitting on the bare class over whatever the page provides.
+    // Measured: 1:1 at 390px, white on white, and only at phone width, because the desktop
+    // variants bind no text colour at all so nothing showed there.
+    //
+    // Only a selector that is now the BARE class is at risk; one that still carries an
+    // attribute mirrors a rule a page already gets today by writing it, unchanged. The pair is
+    // carried where the class paints a background of its own or this rule brings one —
+    // `Notification categories` keeps its colour that way — and dropped otherwise, which
+    // leaves the text to inherit exactly as a stranded label does in a template.
+    let body = decls;
+    if (!/\[/.test(sel) && /(^|\n)\s*color:/.test(decls)) {
+      const paintsOwnBg = /background(?:-color)?:\s*var\(/.test(decls)
+        || new RegExp(`(?<![-\\w])\\.${cls} \\{[^}]*background(?:-color)?:\\s*var\\(`).test(emitted);
+      if (!paintsOwnBg) {
+        body = decls.split('\n').filter(d => !/^\s*color:/.test(d)).join('\n');
+        strandedColour.push(cls);
+      }
+    }
+    if (!body.trim()) continue;
+    (bucket === 'mobile' ? mobileRules : tabletRules).push(`  ${guarded(sel)} {\n    ${body}\n  }`);
+    const key = cls + '|' + bucket;
+    if (!byBucket.has(key)) byBucket.set(key, []);
+    byBucket.get(key).push({ cls, bucket, leftover: sel.replace(`.${cls}`, ''), decls });
+  }
+}
+
+// A MIRRORED RULE THAT STILL DEMANDS AN AXIS MATCHES NOTHING ON A BARE CLASS.
+//
+// `Header`'s variants are `Theme=X, Mobile=Yes`, so stripping the breakpoint leaves
+// `.pf-header[data-theme="Berry pink"]` — and `<div class="pf-header">` carries no theme, so
+// the phone rule never fired. Measured: pf-header stayed 86px tall at 390px while
+// pf-header-navigation, whose only axes ARE the breakpoint, went 130/118/106 correctly. Two
+// components out of five worked and the block looked finished.
+//
+// The fix is the shared-fill hoist's principle again: a value every variant AGREES on is a
+// fact, not a default someone picked. The agreement is tested PER DECLARATION, not per
+// block, because a block is too coarse to be useful — Figma lays 15 of the 16 mobile headers
+// out as a row and `Default - Cranberry red` as a column, so a whole-block test threw away
+// the height, padding and radius all 16 do agree on over two declarations they do not.
+// A property only some variants declare is not agreement either, and is left alone.
+// WHICH VALUES EACH AXIS TAKES, read off the selectors this stylesheet actually emits.
+// Needed to tell "every variant agrees" from "Figma only drew one of them".
+const axisValues = new Map();                 // cls -> Map(axis -> Set(value))
+for (const m of emitted.matchAll(/\.(pf-[a-z0-9-]+)((?:\[[^\]]*\])+)/g)) {
+  if (!axisValues.has(m[1])) axisValues.set(m[1], new Map());
+  const per = axisValues.get(m[1]);
+  for (const a of m[2].matchAll(/\[data-([a-z0-9-]+)="([^"]*)"\]/g)) {
+    if (RESPONSIVE_AXES.includes(a[1])) continue;
+    if (!per.has(a[1])) per.set(a[1], new Set());
+    per.get(a[1]).add(a[2]);
+  }
+}
+const axesOf = leftover => {
+  const out = new Map();
+  for (const a of leftover.matchAll(/\[data-([a-z0-9-]+)="([^"]*)"\]/g)) out.set(a[1], a[2]);
+  return out;
+};
+
+// A MIRRORED RULE THAT STILL DEMANDS AN AXIS MATCHES NOTHING ON A BARE CLASS.
+//
+// `Header`'s variants are `Theme=X, Mobile=Yes`, so stripping the breakpoint leaves
+// `.pf-header[data-theme="Berry pink"]` — and a bare `pf-header` carries no theme, so the
+// phone rule never fired. Measured: it stayed 86px tall at 390px while pf-header-navigation,
+// whose only axis IS the breakpoint, went 130/118/106 perfectly. Two of five worked and the
+// block looked complete.
+//
+// The fix is the shared-fill rule again — a value every variant AGREES on is a fact, not a
+// default someone picked — and the agreement is per DECLARATION, because Figma lays 15 of the
+// 16 mobile headers out as a row and `Default - Cranberry red` as a column, and a per-block
+// test threw away the height all 16 share over two declarations they do not.
+//
+// WHAT COUNTS AS AGREEMENT, and it took two wrong answers to land on:
+//   - "every leftover must declare it" is too strict. A composed-type rule contributes a
+//     leftover that declares font-size and no height, and its silence is not disagreement.
+//     `Filter tab single` states 70px on every one of its mobile variants and was refused.
+//   - "any leftover that declares it" is too loose. `Graph legend` has a mobile variant for
+//     `Key type=Donut graph` and none for `Line graph`; hoisting 27px would state a height
+//     for the line legend that Figma has never drawn.
+// So: among the variants that DO state the property they must agree, and together they must
+// cover every value of each axis they all carry. Donut alone does not cover Key type;
+// Selected False and True together do cover Selected; `Bar chart`'s lone Darkmode=False
+// covers Darkmode, which takes no other value.
+for (const [, all] of byBucket) {
+  // A rule whose selector is ALREADY bare at this breakpoint is not a competing variant —
+  // it is the component-level rule and is emitted as-is above. Counting it as a 17th
+  // "variant" of `Header` put the denominator one above the 16 themes carrying a height.
+  const group = all.filter(g => g.leftover !== '');
+  if (!group.length) continue;
+  const { cls, bucket } = group[0];
+  const known = axisValues.get(cls) || new Map();
+
+  const states = new Map();                   // prop -> [{ leftover, decl }]
+  for (const g of group) {
+    for (const d of g.decls.split('\n').map(x => x.trim()).filter(Boolean)) {
+      const i = d.indexOf(':');
+      if (i < 0) continue;
+      const prop = d.slice(0, i).trim();
+      if (!states.has(prop)) states.set(prop, []);
+      states.get(prop).push({ leftover: g.leftover, decl: d.replace(/;$/, '') });
+    }
+  }
+
+  const agreed = [];
+  for (const [, said] of states) {
+    if (new Set(said.map(x => x.decl)).size !== 1) continue;          // they disagree
+    const parsed = said.map(x => axesOf(x.leftover));
+    // Axes EVERY stating variant carries. One that only some carry is not a dimension they
+    // are divided on — `data-state` is absent from a Default variant by design.
+    const shared = [...parsed[0].keys()].filter(a => parsed.every(p => p.has(a)));
+    const covers = shared.every(a => {
+      const all = known.get(a);
+      if (!all) return true;
+      const seen = new Set(parsed.map(p => p.get(a)));
+      return [...all].every(v => seen.has(v));
+    });
+    if (covers) agreed.push(said[0].decl);
+  }
+  // A TEXT COLOUR IS NOT CARRIED ONTO A CLASS THAT PAINTS NO BACKGROUND.
+  //
+  // This is FIGMA-ISSUES §11's rule, and the responsive hoist walked straight back into it.
+  // `.pf-header` and `.pf-header-navigation` have NO bare-class rules of their own at all —
+  // the header's pink band is separate artwork by design — so hoisting the white their mobile
+  // variants bind gave them white text on whatever the page provides. Measured: 1:1 at 390px,
+  // white on white, and only at phone width. The desktop side never showed it because the
+  // desktop variants bind no text colour at all.
+  //
+  // A colour is carried only where the pair can be: the class paints a background of its own,
+  // or this same hoist is giving it one. `Notification categories` brings both and keeps its
+  // colour; the two headers bring neither and lose it, which leaves the text to inherit —
+  // exactly what the template generator does with a stranded label.
+  // Read off the emitted stylesheet, which already contains the shared-fill hoist — that pass
+  // runs in the component loop above, so a class given a background there is covered here.
+  const paintsOwnBg = new RegExp(`(?<![-\\w])\\.${cls} \\{[^}]*background(?:-color)?:\\s*var\\(`).test(emitted);
+  const carriesBg = agreed.some(d => /^background(-color)?:/.test(d));
+  const kept = (paintsOwnBg || carriesBg) ? agreed : agreed.filter(d => !/^color:/.test(d));
+  if (kept.length !== agreed.length) strandedColour.push(cls);
+  if (!kept.length) continue;
+  (bucket === 'mobile' ? mobileRules : tabletRules)
+    .push(`  .${cls}${GUARD} {\n    ${kept.join(';\n    ')};\n  }`);
+  bareHoisted++;
+}
+
+if (mobileRules.length || tabletRules.length) {
+  out.push('');
+  out.push('/* ---- Responsive -----------------------------------------------------------');
+  out.push(' * Figma draws these components at more than one width. Each mobile and tablet');
+  out.push(' * variant below is the SAME rule the data attribute produces, with the');
+  out.push(' * breakpoint axis stripped out, so a class with no breakpoint attribute follows');
+  out.push(' * the viewport. A page that writes the attribute explicitly carries one more');
+  out.push(' * attribute than these rules do and therefore still wins at every width.');
+  out.push(' *');
+  out.push(' * 768px is measured — every tablet artboard in the file is 768-801 wide and no');
+  out.push(' * mobile artboard exceeds 392. 1024px is a CHOSEN boundary: Figma has no');
+  out.push(' * artboard between 801 and 1130, so that line is a judgement, not a reading.');
+  out.push(' * -------------------------------------------------------------------------- */');
+  if (tabletRules.length) {
+    out.push('@media (min-width: 768px) and (max-width: 1023px) {');
+    out.push(tabletRules.join('\n'));
+    out.push('}');
+  }
+  if (mobileRules.length) {
+    out.push('@media (max-width: 767px) {');
+    out.push(mobileRules.join('\n'));
+    out.push('}');
+  }
+}
+console.log(`  ${respComponents.size} class(es) now follow the viewport: ${mobileRules.length} mobile `
+  + `and ${tabletRules.length} tablet rule(s) mirrored from the variants Figma draws, so a class `
+  + `with no breakpoint attribute responds on its own`);
+if (strandedColour.length) {
+  // A class is pushed once per RULE the drop touches, and a class stranded at both mobile and
+  // tablet is pushed twice — so the count of the array is rules, not classes. It was printed as
+  // "7 class(es)" beside a list of four names, and CLAUDE.md carried the 7 forward as a count of
+  // classes. Both numbers are worth having; neither is the other.
+  const strandedClasses = [...new Set(strandedColour)];
+  console.log(`  ${strandedClasses.length} class(es), over ${strandedColour.length} rule(s), keep `
+    + `their breakpoint geometry but NOT the text colour their variants bind, because the class `
+    + `paints no background of its own and the pair cannot be carried — it would be that colour `
+    + `on whatever the page provides: ${strandedClasses.join(', ')}`);
+}
+console.log(`  ${bareHoisted} of them reach the BARE class because every variant of that component `
+  + `agrees on the value at that width — without this a component whose variants carry another `
+  + `axis (Header has 16 themes) mirrors a rule that matches nothing`);
+
 writeFileSync('dist/components.css', out.join('\n'));
 
 console.log(`components.css written — ${componentCount} components, ${ruleCount} rules`);
+if (shadowUnmatched.size)
+  console.log(`  SHADOWS with no token   : ${shadowUnmatched.size} variant(s) cast a drop shadow `
+    + `the design system has no token for, so none is emitted (writing the rgba would be a raw `
+    + `colour, frozen across both modes)`)
+  || [...shadowUnmatched].sort().forEach(([k, v]) => console.log(`    ${k} — ${v}`));
+if (shadowNotAShadow.size)
+  console.log(`  ${shadowNotAShadow.size} effect(s) are not a shadow and have no box-shadow form: `
+    + `${[...shadowNotAShadow].sort().map(([k, v]) => `${k} (${v})`).join(', ')}`);
+if (sideClashes.size)
+  console.log(`  border width NOT emitted for ${sideClashes.size} variant(s) — the stylesheet `
+    + `collapses the axis that tells them apart, so no rule can distinguish them: `
+    + `${[...sideClashes].sort().join(', ')}`);
+if (strokeSideSkips.length)
+  console.log(`  border width measured but NOT emitted for ${strokeSideSkips.length} component(s) — `
+    + `they bind no stroke token, so the class has no border style to widen (gradients and `
+    + `paints switched off in Figma): ${strokeSideSkips.join(', ')}`);
 if (shapeOnly.length) {
   console.log(`  SHAPE ONLY (no colour bound in Figma) : ${shapeOnly.length}`);
   console.log(`    ${shapeOnly.sort().join(', ')}`);
 }
 console.log(`  with measured geometry : ${[...byComponent.keys()].filter(c => geometry.has(c)).length}`);
+console.log(`  ${huggedWide} class(es) state NO width because Figma hugs their contents `
+  + `horizontally — measured, not the old 120px guess`);
+console.log(`  ${hugged} class(es) state NO height because Figma hugs their contents vertically — `
+  + `the number in the file is the sum of what they hold, not a rule, and stating it stops the box `
+  + `doing the one thing hug means`);
+console.log(`  ${nowrapCount} class(es) keep their label on one line, because Figma draws it on one `
+  + `and their height is fixed — a wrap there pushes the text out of the component`);
+if (shadowHoisted.length) {
+  console.log(`  ${shadowHoisted.length} class(es) carry their drop shadow on the BARE class because `
+    + `every variant casts the same one — without this a floating surface had a shadow at one `
+    + `breakpoint and none at another: ${shadowHoisted.sort().join(', ')}`);
+}
+console.log(`  ${hoistedFills.size} class(es) carry a fill on the bare class because every one of their `
+  + `variants binds it — without this the class painted nothing until a page wrote a data attribute`);
 if (sourceIssues.size) {
   const affected = new Set([...sourceIssues.keys()].map(k => k.split(' — ')[0])).size;
   console.log(`  Figma SOURCE ISSUES    : ${sourceIssues.size} bindings across ${affected} components  (primitive bound where a semantic token belongs)`);

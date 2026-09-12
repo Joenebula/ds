@@ -98,15 +98,27 @@ const got = await p.evaluate(({ ids }) => {
     // its own (usually empty) cssRules, so an `if (r.cssRules) recurse; else collect`
     // walk descends into all of them and collects nothing — 741 readable rules became 0
     // matched, every check silently disappeared, and the run reported 0 of 0 as success.
-    const walk = rs => { for (const r of rs) {
-      if (r.selectorText) rules.push(r);
-      if (r.cssRules && r.cssRules.length) walk(r.cssRules);
+    // A RULE INSIDE AN @media BLOCK IS A CLAIM ONLY WHEN THAT CONDITION HOLDS.
+    // This walk descended into media blocks and pushed their rules as though they applied
+    // unconditionally. It went unnoticed for as long as the only media blocks were dark
+    // mode, whose rules are all prefixed `:root:not([data-theme="light"]) …` so a bare test
+    // div never matched them. The first media block without a :root guard — the responsive
+    // one — was therefore read as always-on, and the phone height of `Full page`, `Side
+    // filter` and `Table (AG)` was reported as their desktop height being wrong.
+    const walk = (rs, media) => { for (const r of rs) {
+      if (r.selectorText) rules.push({ rule: r, media });
+      if (r.cssRules && r.cssRules.length) {
+        walk(r.cssRules, r.conditionText ? (media ? `${media} and ${r.conditionText}` : r.conditionText) : media);
+      }
     } };
-    walk(list);
+    walk(list, null);
   }
   const declaredFor = el => {
     const out = {};
-    for (const r of rules) {
+    for (const { rule: r, media } of rules) {
+      // matchMedia answers for the viewport the check is actually rendering at, so a
+      // desktop-width run reads the desktop rules and a narrow one would read the phone's.
+      if (media && !window.matchMedia(media).matches) continue;
       let hit = false;
       for (const sel of r.selectorText.split(',')) {
         // A rule keyed on a pseudo-class the test div can never be in (:hover) is not a

@@ -231,7 +231,22 @@
 }
 
 /* ---- Semantic colours — Darkmode (explicit) ---- */
+/*
+ * `color-scheme` has to move with the attribute, not just with the OS.
+ *
+ * `:root { color-scheme: light dark }` tells the browser to follow the SYSTEM preference
+ * for everything it paints itself — the default text colour, form controls, scrollbars.
+ * `data-theme="dark"` swapped all 111 tokens and left that alone, so on a light OS the
+ * page went dark and the browser went on painting inherited text BLACK. Measured: 69 of
+ * the 160 component classes rendered a different colour depending on WHICH WAY dark mode
+ * was turned on, every one of them a class that inherits its text colour rather than
+ * stating one. Reported from a phone as the filter chips looking wrong in dark mode.
+ *
+ * Every dark screenshot in this repo is taken with the attribute (scripts/shoot.mjs sets
+ * data-theme), so this is the path the eye actually sees.
+ */
 :root[data-theme="dark"] {
+  color-scheme: dark;
   --pf-bg-configr-light-theme: var(--pf-base-dark-violet);
   --pf-bg-configr-theme: var(--pf-base-light-violet);
   --pf-bg-highlight: var(--pf-base-blue-oxford);
@@ -343,6 +358,11 @@
   --pf-text-secondary: var(--pf-base-grey-dolphin);
   --pf-text-theme: var(--pf-base-blue-turquoise);
   --pf-text-warning: var(--pf-base-orange);
+}
+
+/* The same for a page pinning light mode on a dark OS. */
+:root[data-theme="light"] {
+  color-scheme: light;
 }
 
 /* ---- Semantic colours — Darkmode (system preference) ---- */
@@ -472,7 +492,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 5px;
   appearance: none;
   -webkit-appearance: none;
@@ -481,6 +501,7 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-tags[data-type="Neutral"][data-small="Yes"] {
   height: 22px;
@@ -490,7 +511,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 5px;
 }
 .pf-tags[data-type="Expired"][data-small="Yes"] {
@@ -501,7 +522,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 5px;
 }
 .pf-tags[data-type="Positive"][data-small="Yes"] {
@@ -512,7 +533,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 5px;
 }
 .pf-tags[data-type="Warning"][data-small="Yes"] {
@@ -523,7 +544,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 5px;
 }
 .pf-tags[data-type="Negative"][data-small="Yes"] {
@@ -534,7 +555,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 5px;
 }
 .pf-tags[data-type="Other"][data-small="Yes"] {
@@ -545,7 +566,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 5px;
 }
 .pf-tags[data-type="Theme"][data-small="Yes"] {
@@ -556,7 +577,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 5px;
 }
 .pf-tags[data-type="Neutral"] {
@@ -611,6 +632,7 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-star-rating[data-rating="0..5"] {
   color: var(--pf-text-primary);
@@ -637,6 +659,7 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-empty-section[data-mobile="True"] {
   height: auto;

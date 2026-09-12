@@ -1269,3 +1269,374 @@ Also recorded while doing this: `People`'s `Item` axis is 300 sample entities wh
 depends on the length of the name rather than on the component — "Nolan George" is 91px at
 Type=Table/Mobile=True and "Corey Franci" is 109 because it wraps. No class can be right for
 both, so the axis is excluded with that measurement as the reason.
+
+---
+
+## H. Three properties the pipeline never carried — `done`
+
+Found by working backwards from two defects the user reported on screen, not by any check.
+Each is the same shape: the colour extract records a component's **fill, stroke token and
+text token**, and anything that is none of those three was invisible to the whole pipeline.
+
+**Done when:** met for all three. Each is measured from Figma into its own `tokens/_raw`
+file, emitted by `npm run build`, and checked by a script in `npm run verify` that renders
+the component and measures the result — plus a negative test proving the check fails when
+the fault is reintroduced.
+
+1. **A box that centres its own child.** `Circle icons`, `Status`, `Waffle` — Figma lays
+   them out as NONE, so there was no auto-layout for the geometry extract to read and the
+   classes carried no alignment. A page had to centre the icon itself, which is
+   hand-written component CSS, and an independently-built screen shipped with the icon
+   small and off-centre. 23 variants, `component-inner.tsv`, `check-component-inner.mjs`.
+2. **Which edges a border strokes, and how thickly.** Every bound stroke was painted as a
+   1px box on four sides. 56 variants depart from that: 26 stroke some edges only (`Nav
+   tabs` is a file-folder tab, not an underlined one), 12 stroke at 1.5px or 2px, and 18
+   keep a paint Figma has switched OFF — including every `Table cell (AG)`, so tables drew
+   a grid of boxes instead of horizontal rules. `component-stroke-sides.tsv`,
+   `check-stroke-sides.mjs`.
+3. **The shadow a component casts.** `dist/components.css` contained "box-shadow" zero
+   times while Figma casts one on 47 variants — every floating surface in the system.
+   29 match one of the two shadow tokens and are emitted; the other 18 match neither and
+   are reported rather than written as a raw rgba. `component-shadow.tsv`,
+   `check-shadows.mjs`, `docs/FIGMA-ISSUES.md` §12.
+
+**Checks found to be measuring the wrong thing while doing this** — the running theme of
+this project, now at six:
+
+- The shell census split a rule's selector list on commas, so a generated comment
+  containing one became the "selector" and the rule below it was attributed to nothing.
+  **Nine shape-only classes had never been counted at all**; the real figure is 14, not 5.
+- `check-stroke-sides` built its own markup with every Figma axis, so it passed on rules
+  that matched nothing a real page writes. `check-off-system` caught that instead.
+- The docs-figure check compared with `Number()`, so any figure written as a WORD was
+  permanently unverifiable. "Two are outstanding" had been wrong — wrong count and wrong
+  component names — since `case-mgmt-my-team` was rebuilt, and nothing could see it.
+- My own first tally of the border census double-counted rows that were both switched off
+  and uneven, and still summed to the right total by coincidence.
+
+Figures checked in the docs went **44 → 58**.
+
+## I. Survey: what else does the pipeline drop? — `done (nothing further found)`
+
+Swept the component pages for four more properties, to see whether the pattern above
+continues. It does not, and that is worth recording so nobody re-runs it:
+
+- **opacity below 1** — none, on either page measured before the Figma connection dropped.
+- **rotation** — none.
+- **stroke alignment** — `INSIDE` almost everywhere; 3 components on Cards and panels use
+  `OUTSIDE`. Not pursued: `verify-against-figma` compares 1408 rendered values against an
+  INDEPENDENT Figma measurement and passes, so whatever the outside stroke does to the box
+  is already accounted for. Worth a look only if a size discrepancy ever shows up.
+- **`clipsContent`** — 34 components on Cards and panels clip their contents and
+  `dist/components.css` sets `overflow` once. **This is the one real candidate left** and
+  is NOT done: it needs the same treatment as the three above. Lower severity, because a
+  class is mostly an empty box until a template is pasted into it — it would bite on a card
+  holding an image that should be clipped by the rounded corner.
+
+## J. `clipsContent` — measured, and deliberately NOT carried — `done`
+
+Picked this up as the one candidate item I left in section I. The answer is **no**, with
+evidence, and that is the deliverable.
+
+Figma clips 34 of the 62 components on Cards and panels, 22 of them with a corner radius —
+and clipping is the only way to make a child respect a rounded corner, so it looked like the
+obvious next fix after the border and the shadow.
+
+**Done when:** met — the question is settled by measurement rather than judgement, the
+answer is written where the next person will look, and the number that would change the
+answer is pinned.
+
+What settled it: **28 of the 154 templates already render OUTSIDE the box their own class
+draws** — `pf-hemisphere-chart` by 333px, `pf-donut-pie-chart` by 284px, `pf-content` by
+180px. `overflow: hidden` on those would not reproduce the design, it would delete part of
+the component's own generated contents. Worse, nothing would report it: a clipped child
+still has a bounding rect, so `check-templates` would go on saying every template renders
+its contents while a fifth of one was invisible. That is the exact silent failure this
+project keeps finding in itself — and it would have been added deliberately, in the name of
+fidelity.
+
+The overflow is not a fault in the templates: a class's height is the artboard Figma drew
+the component at, and a template holds placeholder contents of their own size. The two were
+never promised to agree.
+
+`check-template-overflow.mjs` reports and pins the 28. **It is the precondition — clipping
+can only ever be carried once that number is zero.** So the door is left open with the
+latch measured rather than the question re-litigated.
+
+**A baseline taken from a subset is not a baseline.** The first version of that check pinned
+5, which is how many of the eighteen components I had sampled overflowed. Run against all
+154 it is 28, and it failed on its first honest run. Measure the population you are pinning.
+
+## K. Place the children of a parent Figma does not lay out — `done`
+
+Started as the min-height job from section J. **That hypothesis was wrong and the
+measurement said so before any code changed**: all 28 overflowing components have a FIXED
+height in Figma, not one hugs its content, so `min-height` would have made the CSS disagree
+with Figma rather than agree with it.
+
+The real cause, found by reading three of the templates: for a parent laid out NONE the
+template stacked the children in normal flow, and Figma positions them by hand. `Profile
+image` is 93x93 holding a photo and a `People` instance BOTH at 0,0 at 93x93 — overlaid in
+Figma, stacked by the template, 93 becoming 184.
+
+**Done when:** met. Positions measured into `component-child-pos.tsv`, applied by
+`build-templates.mjs` behind three guards, no template worse than before, and the overflow
+count down 28 -> 27.
+
+Kept as a separate file rather than a column on the tree deliberately: a column changes the
+tree's block header, which invalidates every older block, and a re-walk of 158 components
+through a connection dropping between calls would have left the file holding only the few
+that got through — wiping the templates of the rest.
+
+**It got worse twice before it got better, and both were caught by the measurement:**
+
+- Positions applied everywhere pushed FIVE components' children clean out of their box
+  (28 -> 33), because the class drops an artboard width above 120px so there is no 1920px
+  box for a child at x=1830 to sit in. Now gated on the class carrying the whole measured
+  box; nine components are measured and deliberately not placed, and the build names them.
+- `position: relative` on every parent EXCEPT the root sent the children to the top-left of
+  the page. The root is the origin.
+- A placement on an icon was silently dropped — an icon is an HTML comment and cannot carry
+  a style — while the build counted it as applied. Wrapped in a span, and the build now
+  counts what reached the written template rather than what it intended.
+
+## L. The charts — the gate was asking the wrong question — `done` (partly)
+
+Picked up as "do the charts with proportional placement". That is not what they needed, and
+two measurements said so before any of it was built:
+
+- All three chart classes emit a FIXED height, so percentage heights would have been safe —
+  but **all three have no WIDTH**, and a class with no width whose children are all
+  absolutely positioned renders **0 wide**. Measured, not reasoned: `.pf-donut-pie-chart`
+  came back `0x200`. Percentages of zero are zero, so proportional placement would have made
+  those templates vanish rather than improve them.
+- The real fault was in the gate I wrote last time. It asked "does the CLASS carry the whole
+  box" — a question about the component ROOT — and so refused every placement inside a
+  component whose class drops its artboard width, **including placements on inner containers
+  that have nothing to do with the root**. The origin is the child's PARENT, and an inner
+  origin is given its own measured size, so it is definite by construction.
+
+**Done when:** met for what is reachable. Placements went **5 across 4 components to 12
+across 8**, `Hemisphere chart` from 333px of overflow to 77px, no template worse than before.
+
+**Not done, and honestly blocked:** `Donut pie chart`, `Bar chart with axis`, `Full page`,
+`Configuration` and `AI Gradient component` place children from their ROOT, and their class
+has no width for the offsets to sit in. 16 offsets across 7 components are measured and
+deliberately unapplied; the build names them every run.
+
+**Two faults found on the way, both invisible to every existing check:**
+
+- `box-sizing`. Figma's sizes include the frame's padding and CSS's do not, so `AI
+  Assistant`'s 1108px slot with 20px padding rendered 1148 and hung out of its own component.
+- **Placing SOME children of a hand-laid-out parent and flowing the rest** put `Search
+  navigation`'s magnifier on top of the word "Search". The icon branch and the TEXT branch
+  each build their own markup and had been dropping the placement silently. Nothing measured
+  it — the box did not overflow, the template rendered its contents, every check was green.
+  `check-template-overflow.mjs` now asks it directly in the browser and fails on a mix.
+
+Also pinned: **how many is not how much.** The overflow count could not see 333px becoming
+77px, so the total magnitude (1372px) is pinned alongside it.
+
+**Suggestion for the user, not done — the question section J raises.** 27 classes draw a box
+their own contents do not fit. Some components already emit `min-height` ("content decides
+the real height"); these 28 emit a fixed `height` from the artboard. Emitting `min-height`
+for a component whose template overflows would make the box honest and would take the
+clipping precondition to zero. It is not a small change — 442 fixed heights in the
+stylesheet, and `verify-against-figma` compares rendered geometry against an independent
+Figma measurement, so it would need re-baselining carefully. Worth doing; worth doing
+deliberately, not at the end of a run.
+
+## M. A component's composed type drops its line-height — `done`
+
+Found by survey, not from the queue. All 23 Figma text styles set line height to **AUTO**,
+which `dist/type.css` correctly emits as `line-height: normal`. The rules that compose those
+same styles onto component labels emit `font-size`, `font-weight` and `letter-spacing` and
+**not** `line-height` — `dist/components.css` contains the string zero times.
+
+Measured, on a page whose body sets `line-height: 1.9`:
+
+```
+.pf-text-body-text   line-height = normal     <- correct, Figma AUTO
+.pf-filter-chip      line-height = 30.4px     <- inherited from the page
+```
+
+Same style, two renderings. Every component label on every page that sets a body
+line-height — which is nearly all of them — is stretched by it, and nothing could see it:
+`verify-type` checks 107 values and passes, because line-height is not among them.
+
+**Done when:** a component composing a text style renders the same line-height as the
+`pf-text-*` class for that style, measured in a browser; a check asserts it and fails when
+the rule is removed; and the people-first skill stops contradicting itself about it.
+
+**Second, documentation:** the skill says both of these, 250 lines apart —
+
+- line 128: "automatic line height. A specific `line-height` on a People First screen is
+  **invented**"
+- line 382: "**line-height** — not captured by the extract", listed under *yours to write*
+
+The second is false — it is captured, for all 23 styles — and it invites an author to write
+the very thing the first calls invented, overriding a generated value.
+
+**Done.** Both generators now call one `declarationsFor()` in `resolve-component-type.mjs`,
+so the type ramp and the component library have the single source the components.css comment
+already claimed they had. `dist/type.css` came out **byte-identical**, which is what makes
+the refactor safe; `dist/components.css` gained the 14 missing line-heights.
+
+`check-composed-type.mjs` renders each composed component beside the `pf-text-*` class for
+its own style, inside an ancestor with a deliberately hostile line-height, letter-spacing,
+case, style, weight and size — because a MISSING declaration is invisible to anything that
+reads the stylesheet, and can only be caught by something the page can override. Proved it
+fails: removing the line-heights again reports all 14.
+
+The skill's contradiction is gone. It said, 250 lines apart, that a specific line-height is
+"invented" and that line-height is "yours to write". The second is deleted and replaced with
+why.
+
+## N. The same line-height fault in the other 49 rules — `done`
+
+Section M fixed the 14 COMPOSED type rules. Surveying the same question one level out found
+**49 more** — the off-ramp labels, whose type the ramp cannot express, so the measured size
+is written directly. Every one stated a font-size and no line-height, so the page supplied
+one for all of them too.
+
+**`normal` here is measured, not assumed.** `component-type.tsv` has no lineHeight column, so
+rather than infer it from the 23 named styles, every text node inside a component on all
+twelve product pages was read: **3370 of 3377 set line height to AUTO**. The seven that do
+not are deep children rather than a component's own label — six are the `": "` separator in
+`Footer (AG)`'s pagination at 19.5px, one a "+3" counter at 109.68% — so none is the label
+whose type these rules emit.
+
+**Done when:** met. `check-composed-type.mjs` now asserts the general rule — *every* class
+that states a font-size must state a line-height — rather than only checking the 14 composed
+ones. Proved it fails by removing three line-heights: it named all three.
+
+`dist/type.css` stayed byte-identical throughout both M and N, which is the evidence the
+refactor underneath them was safe.
+
+## O. Every form field's icon in the same place — `done`
+
+Reported from a screen, not caught by any check: the search magnifier was on the wrong side
+and floating in the corner. Chasing it found the general rule and a second, larger fault.
+
+**The rule, from the Figma tree rather than from taste.** `Field` is laid out HORIZONTAL
+CENTER MAX — children packed to the END, centred on the cross axis — and its last child is
+ONE `Field icons` instance whose four frames are `Search icons`, `Dropdown`, `Calendar` and
+`Clock`. Search glass, chevron, calendar and clock are the same object in the same place;
+only the glyph differs. All right-aligned, vertically centred, at the field's own padding.
+
+**The larger fault: every dropdown on every prototype had no icon at all.** `.pf-field` sets
+`appearance: none`, which removes the browser's arrow, and nothing replaced it — seven
+`<select class="pf-field">` across three pages, rendering bare.
+
+The cause of both is the same: `.pf-field` was being put on the CONTROL. Figma's `Field` is a
+container holding a TEXT node plus the icons, so with the class on an `<input>` there is
+nowhere for an icon to go — which is what forces absolute positioning. The class now goes on
+a wrapper with the real control inside it.
+
+**Done when:** met. Measured on every field: 11px from the right on all of them, equal gaps
+above and below. `check-field-icons.mjs` reads the right-hand distance from the field's own
+computed padding and border rather than hard-coding it, so it stays correct if Figma changes
+either. Proved it fails by reinstating the old absolute positioning — it named all four.
+
+---
+
+## P. Survey sweep — three things the checks reported but nobody could read
+
+The queue was empty, so this sweep asked the question the skill says to ask when it is:
+what does this project's own output *report* rather than fail on? All three findings came
+out of reading build and verify output rather than from a bug report.
+
+### P1. The template builder discarded 38 measurements without saying so — DONE
+
+It measures 71 child offsets, applies 17, and reported 16 refusals. The other 38 left no
+trace: three `continue` statements, only one of which recorded anything. So the build's
+"16 measured offsets NOT applied" read as the whole shortfall when it was under a third of
+it. This is the same silent-discard fault this pipeline keeps finding elsewhere, sitting in
+the code that fixes it.
+
+Every refusal now carries a reason and all four groups are named, and the build **fails if
+the counts do not sum to the file's row count** — so a fifth refusal cannot be added
+quietly. The newly visible number is **36 offsets measured deeper than the tree walk
+reaches**, which is the only honest measure of what deepening the walk would buy.
+
+Closing it exposed a documented figure that had drifted: CLAUDE.md said 12 children were
+placed and the real number has been 17 since the origin-is-the-parent fix. Three figures
+are now pinned and each was broken on purpose to confirm it reports.
+
+**Done when:** met.
+
+### P2. 84 notes of five severities in one list, cut off at 20 — DONE
+
+The build collected everything the library cannot carry into one flat list headed "things
+the library cannot name" and printed the first twenty. The list runs alphabetically, so the
+twenty shown were mostly the benign kind — a label whose type is off the ramp — and three of
+the four components binding a **raw primitive**, which is the one thing in there that cannot
+change between light and dark, had never been printed at all.
+
+Each note is now tagged with its kind where it is written, the report leads with the severe
+kinds in full, and only the two large benign groups are capped — saying how many they
+withheld. A kind with no heading fails the build.
+
+**Done when:** met. Made `Card` and `Toggle` visible for the first time.
+
+### P3. 38 templates handed you a box that paints nothing — DONE
+
+Colour rules are written per variant, so a bare class carried shape and no colour, and the
+component's own template writes no variant attribute. Pasting `pf-side-panel.html` gave an
+invisible panel.
+
+For a component whose variants genuinely differ that is right — `Button` binds eight fills,
+`Tags` seven, and the page must choose. **For 48 classes there is exactly one**, stated
+unambiguously on every variant, and the stylesheet was throwing it away. Those 48 now carry
+it; 19 templates still need a variant attribute, which is the honest remainder and not a
+number to drive to zero by inventing defaults.
+
+**Done when:** met. `check-hoisted-fills.mjs` reads the RENDERED colour, asserts both
+directions, refuses to pass if either side matches no component, and pins the 19. Both sides
+were broken on purpose. Screenshotted in light and dark on the pages and the template
+gallery.
+
+**Still open, unchanged:** the prototype question (stat tiles using `.pf-card`, overlapping
+side-panel text, the empty "Outcome" box) — the user has twice said prototypes are fixtures
+not to be rebuilt unless asked, so it needs their word. And the charts, parked by the user.
+
+### P4. Which checks only ever looked at one mode — DONE
+
+The colour-scheme fix taught that a project can be green because its two halves each test a
+different path. Seventeen checks render in a browser and never switched mode; each was run
+again against a dark page and diffed. **Sixteen are identical** — a height, an offset, a
+border width, a font face is not a colour — so light-only is correct for them, and now
+measured rather than assumed.
+
+The seventeenth was measuring the value instead of the declaration.
+`check-breakpoint-consistency` asked whether a class's colour differed from the body's, and in
+dark mode `--pf-text-primary` IS the colour a bare body inherits: 91 classes state a colour in
+light mode, 16 in dark. Vary what there is to inherit instead — every class renders twice, once
+under a red parent and once under a green one — and it reads 91 in both.
+
+**Done when:** met. Runs in both modes and asserts they agree; the old comparison fires that
+assertion 226 times.
+
+### P5. The docs page is a screen too — DONE
+
+`docs/components.html` is the page this project tells people to look at, and nothing measured
+whether it renders legibly. `Multi-select checkbox` is 20x20 and was rendering the words
+"Multi-select checkbox" 57px outside its own box, on top of the caption below. Four classes.
+The gallery was inventing a label for a box Figma gives no type.
+
+**Done when:** met. `check-docs-specimens.mjs` measures the text's rect against the element's.
+
+### P6. Does a state change the type? — DONE
+
+Reported as "the button weight never changes on any state". True of `Button`, and correct:
+Figma measures 13px SemiBold on all 24 of its labelled variants. 15 components DO vary, and all
+267 variants with a measured font render what Figma measures.
+
+The fault was that nothing could answer the question — `verify-against-figma` compares type
+only where the class declares a font-size, and a component that composes its text style
+declares none.
+
+**Done when:** met. `check-variant-type.mjs` renders each variant and reads it back.
+
+**Open for the user:** whether Figma SHOULD vary the button weight by state. That is a design
+decision in the Figma file, not something the pipeline can or should invent.

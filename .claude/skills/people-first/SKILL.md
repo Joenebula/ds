@@ -212,6 +212,18 @@ box-shadow: var(--pf-shadow-modal-header-shadow);  /* 0 4px 4px rgba(0,0,0,.1) �
 
 Only these two exist. There is no elevation ramp — do not invent one.
 
+**The component classes already cast their own shadow.** `.pf-card`, `.pf-side-panel`,
+`.pf-side-filter`, `.pf-tool-tip`, `.pf-action-menu`, `.pf-table-card-ag`,
+`.pf-header-navigation`, `.pf-config-side-menu` and the rest carry it from Figma's own
+measurement. Do not add a `box-shadow` to a component class — that is an override, and
+`npm run verify` measures the rendered shadow against Figma.
+
+The two tokens above are for **your own layout surfaces** — a page shell, a sticky bar you
+built yourself — not for re-shadowing a component. And 18 variants cast a shadow the design
+system has no token for, so they deliberately cast none here; if a panel looks flat and you
+think it should lift, check `docs/FIGMA-ISSUES.md` §12 before adding one, because the fix
+belongs in Figma.
+
 ## Layout grid
 
 24 columns @ 1588px · 22 @ 1454px · 18 @ 1320px · 12 @ 784px.
@@ -226,6 +238,36 @@ All use a 20px gutter and 47px column width, centre-aligned.
 
 `references/variants.md` carries **147 components and 302 variants**, each with the
 exact tokens that variant binds in Figma, already translated to CSS vars.
+
+**Filter chips and nav tabs are one row that scrolls — never two lines of text.** 72
+components whose height Figma fixes and whose label Figma draws on one line carry
+`white-space: nowrap`, so a label never folds onto a second line and out of its own box. The
+strips that hold them — `pf-secondary-nav`, `pf-tertiary-nav`, `pf-navigation-tabs`,
+`pf-table-action-bar`, `pf-stepper`, `pf-table-ag` — scroll horizontally instead of wrapping,
+and they start at their first item rather than centring the overflow out of reach. All of this
+is in the template and the class; a page writes none of it, and must not set `flex-wrap`,
+`white-space` or `overflow` on a component.
+
+**Components follow the viewport on their own.** Figma draws 52 of them at more than one
+width, and those mobile and tablet variants are now media queries as well as attributes. So
+`<div class="pf-header">` is the desktop header on a laptop and the mobile one on a phone,
+with nothing written. Breakpoints: mobile below 768px, tablet 768–1023px, desktop above.
+
+Writing a breakpoint attribute — `data-mobile`, `data-tablet`, `data-device`,
+`data-breakpoint` — means *you* are managing breakpoints, and the component then stops
+responding and stays on the variant you named at every width. Only write one when you mean
+that. Note this makes the COMPONENTS responsive, not the page: your own layout CSS still has
+to stack and reflow.
+
+**Some classes need a variant attribute before they paint anything.** The colour rules are
+written per variant, so where a component's variants bind *different* fills — `Button` has
+eight, `Tags` seven — the bare class carries shape and no colour, and `<button class="pf-button">`
+renders an unpainted box. Write the variant: `<button class="pf-button" data-type="Action">`.
+19 classes are like this, and `docs/components.html` shows the axes each one takes.
+
+Where every variant binds the *same* fill the bare class carries it, so `<div class="pf-side-panel">`
+paints correctly on its own. You never need to know which group a class is in: paste the
+component's template from `dist/templates/`, which writes whatever the component needs.
 
 Read it when you need to know *why* a variant looks the way it does, or to check
 whether the class is doing the right thing. Never guess a variant's colours from its
@@ -367,12 +409,96 @@ writing them is not a violation of rule 2:
 
 - **page layout** — grids, columns, page padding, where things sit
 - **behaviour** — `cursor`, `transition`, `:focus-visible` rings
-- **line-height** — not captured by the extract
 - **anything drawn inside a component** — the tick glyph inside a checkbox, the knob
-  inside a toggle
+  inside a toggle. Supplying the glyph is yours; **positioning or sizing it is not** — see
+  the next block.
 
 Keep that CSS in one block and label it local. If something in it restates a Figma
 value — a colour, a height, a radius — that is a bug, not a local style.
+
+**`line-height` is NOT on that list, and used to be.** All 23 text styles set line height to
+AUTO in Figma, so every `pf-text-*` class and every component that composes one carries
+`line-height: normal`. A specific line-height on a People First screen is an invention — the
+same thing this page says two sections above — and writing one on your body overrides a
+generated value. It reached component labels for a long time precisely because the composed
+rules were missing the declaration: on a page setting `line-height: 1.9`, `.pf-text-body-text`
+rendered `normal` and `.pf-filter-chip`, composing that same style, rendered `30.4px`.
+`npm run verify` runs `check-composed-type.mjs`, which renders each component beside the type
+class for its own style inside a deliberately hostile ancestor and fails if they differ.
+
+### Never position a form field's icon
+
+Search glass, dropdown chevron, calendar, clock — **all four sit right-aligned and
+vertically centred**, at the field's own right padding. One rule, from Figma: `Field` is
+`HORIZONTAL CENTER MAX` and its last child is a single `Field icons` instance holding all
+four glyphs.
+
+The field is a **container**, not the control. The class goes on a wrapper; the real input
+or select sits inside it:
+
+```html
+<div class="pf-field" data-right-aligned="No" data-filled="No">
+  <input class="fieldinput" type="search" placeholder="Employee name">
+  <span class="icn"><!--pf-icon:search 22--></span>
+</div>
+```
+
+Put `.pf-field` on the `<input>` itself and there is nowhere for the icon to go — which is
+what makes people position it absolutely, on the wrong side and off-centre.
+
+**A `<select class="pf-field">` renders NO chevron.** The class sets `appearance: none`,
+which removes the browser's arrow; the People First `down-chevron` has to be placed beside
+the control. Every dropdown on every prototype was missing one.
+
+### Never draw a component's border yourself
+
+A class carries the edges Figma strokes and the width it strokes them at. Do not add a
+`border`, a `border-bottom` or an underline to a component class — the class already knows,
+and 56 variants do something a 1px box would get wrong.
+
+`Nav tabs` is the one to remember, because a page got it wrong twice. It is a **file-folder
+tab**, not an underlined one:
+
+```html
+<nav class="pf-secondary-nav" data-mobile="False">
+  <button class="pf-nav-tabs" data-status="Selected"   data-mobile="False">Overview</button>
+  <button class="pf-nav-tabs" data-status="Unselected" data-mobile="False">Profile</button>
+</nav>
+```
+
+Unselected, the tab rules its bottom edge. Selected, it rules top, left and right and leaves
+the bottom OPEN, with 8px top corners, so it joins the panel below. There is no 3px bar —
+every variant has exactly one child, the label. A page that drew its own underline also had
+to hold the tabs at the top of the strip, and they ended up four pixels clear of the rule
+running out to either side.
+
+The strip's alignment is the class's too: `Secondary nav` aligns its tabs to its BOTTOM
+edge (Figma counter-axis MAX). Setting `align-items` on it is an override, and it is what
+made the sub nav look like it was floating.
+
+### A box that holds one icon centres and sizes it ITSELF
+
+`Circle icons`, `Status` and `Waffle` each hold one smaller thing in their middle. Figma
+positions that child by hand rather than with auto-layout, so for most of this project the
+classes carried no alignment and pages centred the icon themselves. That is hand-written
+component CSS, and a screen built from these docs shipped with the icon at the top of the
+page small and pushed off-centre.
+
+The classes now carry it. Give the component its variant and drop the icon in — **no size
+on the marker, no `display`, no `place-items`, no width or height of your own**:
+
+```html
+<span class="pf-circle-icons" data-size="XS - 28px"><!--pf-icon:team--></span>
+<span class="pf-status" data-status-type="Like"><!--pf-icon:like--></span>
+```
+
+The circle sizes the glyph to what Figma draws — 18/22/28/36px for the 28/36/44/52px
+sizes — and centres it on both axes. Writing your own size is how one came out at 22px in
+a 28px circle.
+
+**23 variants across 3 components** work this way, listed in
+`tokens/_raw/component-inner.tsv`. Every other component's child fills its box, so there is
+nothing to centre.
 
 ### A composite component needs its TEMPLATE, not just its class
 

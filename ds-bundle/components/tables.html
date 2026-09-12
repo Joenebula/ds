@@ -231,7 +231,22 @@
 }
 
 /* ---- Semantic colours — Darkmode (explicit) ---- */
+/*
+ * `color-scheme` has to move with the attribute, not just with the OS.
+ *
+ * `:root { color-scheme: light dark }` tells the browser to follow the SYSTEM preference
+ * for everything it paints itself — the default text colour, form controls, scrollbars.
+ * `data-theme="dark"` swapped all 111 tokens and left that alone, so on a light OS the
+ * page went dark and the browser went on painting inherited text BLACK. Measured: 69 of
+ * the 160 component classes rendered a different colour depending on WHICH WAY dark mode
+ * was turned on, every one of them a class that inherits its text colour rather than
+ * stating one. Reported from a phone as the filter chips looking wrong in dark mode.
+ *
+ * Every dark screenshot in this repo is taken with the attribute (scripts/shoot.mjs sets
+ * data-theme), so this is the path the eye actually sees.
+ */
 :root[data-theme="dark"] {
+  color-scheme: dark;
   --pf-bg-configr-light-theme: var(--pf-base-dark-violet);
   --pf-bg-configr-theme: var(--pf-base-light-violet);
   --pf-bg-highlight: var(--pf-base-blue-oxford);
@@ -343,6 +358,11 @@
   --pf-text-secondary: var(--pf-base-grey-dolphin);
   --pf-text-theme: var(--pf-base-blue-turquoise);
   --pf-text-warning: var(--pf-base-orange);
+}
+
+/* The same for a page pinning light mode on a dark OS. */
+:root[data-theme="light"] {
+  color-scheme: light;
 }
 
 /* ---- Semantic colours — Darkmode (system preference) ---- */
@@ -476,11 +496,12 @@
   gap: 47px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-table-header-cell);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-table-header-ag[data-alignment="Checkbox"] {
   height: 54px;
@@ -526,6 +547,7 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-table-cell-ag[data-type="Default"][data-style="Hover"] {
   height: 58px;
@@ -538,6 +560,7 @@
   justify-content: flex-start;
   gap: 10px;
   font-size: 13px;
+  line-height: normal;
 }
 .pf-table-cell-ag[data-type="Checkbox"][data-style="Default"] {
   height: 58px;
@@ -602,7 +625,7 @@
 /* Table (AG)
  * 1 variant captured
  * Figma draws this 1705px wide; treated as layout, not a rule
- * Figma draws this 856px tall — the artboard it sits on, not a rule; dropped
+ * Figma HUGS its contents vertically — 856px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-table-ag {
   border-radius: 8px;
@@ -650,7 +673,7 @@
   gap: 20px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-table-card);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -684,11 +707,12 @@
   justify-content: flex-start;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-table-card);
   margin: 0;
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-footer-ag[data-mobile="True"] {
   height: 48px;
@@ -732,7 +756,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
 }
 .pf-multi-select-checkbox[data-darkmode="False"][data-state="Mixed selection"] {
@@ -744,7 +768,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
 }
 .pf-multi-select-checkbox {
@@ -774,7 +798,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;
@@ -820,6 +844,7 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-ag-sort-item {
   color: var(--pf-text-primary);
@@ -848,13 +873,15 @@
   justify-content: flex-start;
   gap: 20px;
   font-size: 12px;
+  line-height: normal;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-filter-menu-background);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-ag-filter-menus[data-variant="Date"] {
   height: 260px;
@@ -909,11 +936,12 @@
   gap: 899px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-tertiary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-selected-action-banner[data-darkmode="False"][data-mobile="True"] {
   height: 48px;
@@ -944,7 +972,7 @@
   justify-content: flex-start;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -969,9 +997,9 @@
 /* Table action bar
  * 1 variant captured
  * Figma draws this 1654px wide; treated as layout, not a rule
+ * Figma HUGS its contents vertically — 98px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-table-action-bar {
-  height: 98px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1015,6 +1043,7 @@
   justify-content: center;
   gap: 10px;
   font-size: 12px;
+  line-height: normal;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -1022,6 +1051,7 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-ag-field[data-state="Unselected"] {
   height: 36px;
@@ -1034,6 +1064,7 @@
   justify-content: flex-start;
   gap: 6px;
   font-size: 12px;
+  line-height: normal;
 }
 .pf-ag-field[data-state="Selected"] {
   border-color: var(--pf-icon-primary);

@@ -31,6 +31,40 @@ const tsv = (f) => {
 export const WEIGHT = { Regular: '400', SemiBold: '600', Medium: '500', Light: '300',
   Italic: '400', Bold: '700', Thin: '100', ExtraBold: '800', Black: '900' };
 
+// ONE TEXT STYLE, ONE SET OF DECLARATIONS.
+//
+// `dist/type.css` writes a class per text style; `dist/components.css` writes the same
+// styles onto the component labels Figma gives them. The comment above that second block
+// says the two have "one source rather than two that can drift apart" — and for a long time
+// they were two separate implementations that had already drifted. The type class emitted
+// `line-height: normal`, which is Figma's AUTO for all 23 styles; the composed rule emitted
+// no line-height at all, so a component label inherited whatever the PAGE set. Measured on a
+// page with `line-height: 1.9`: `.pf-text-body-text` came back `normal` and `.pf-filter-chip`,
+// composing the same style, came back `30.4px`. Same style, two renderings, and nothing could
+// see it — verify-type checks 107 values and line-height was not among them.
+//
+// Both generators now call this. `fontFamily` is the one real difference: a type class has to
+// state the family, and a component class already sets it in its own base rule.
+export function declarationsFor(style, { fontFamily = false } = {}) {
+  const d = [`font-size: ${style.size}px`];
+  if (style.weight === 'Italic') d.push('font-weight: 400', 'font-style: italic');
+  else d.push(`font-weight: ${WEIGHT[style.weight] || '400'}`);
+  // Figma records no weight on ten styles. Emitting nothing does NOT mean "inherit the
+  // design system's default" — it means the browser's UA stylesheet decides, and on an <h2>
+  // that is 700. Open Sans here ships 400 and 600 only, so 700 was synthesised and a heading
+  // rendered a weight the design system does not have. 400 is not a guess: every unweighted
+  // style has a "(semi bold, 600)" sibling, and the pair only makes sense if the plain one is
+  // Regular.
+  const ls = parseFloat(style.letterSpacing);
+  if (Number.isFinite(ls) && ls !== 0) d.push(`letter-spacing: ${ls / 100}em`);
+  if (style.textCase === 'UPPER') d.push('text-transform: uppercase');
+  // Every one of the 23 styles sets line height to AUTO in Figma, which is `normal`. It is
+  // emitted rather than left out precisely so a page's own line-height cannot reach in.
+  d.push('line-height: normal');
+  if (fontFamily) d.push('font-family: var(--pf-font-body)');
+  return d;
+}
+
 // The comparison key. All four properties, because size and weight alone put three styles
 // in the same bucket and 43 labels had more than one candidate.
 const keyOf = (size, weight, letterSpacing, textCase) => [

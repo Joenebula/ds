@@ -231,7 +231,22 @@
 }
 
 /* ---- Semantic colours — Darkmode (explicit) ---- */
+/*
+ * `color-scheme` has to move with the attribute, not just with the OS.
+ *
+ * `:root { color-scheme: light dark }` tells the browser to follow the SYSTEM preference
+ * for everything it paints itself — the default text colour, form controls, scrollbars.
+ * `data-theme="dark"` swapped all 111 tokens and left that alone, so on a light OS the
+ * page went dark and the browser went on painting inherited text BLACK. Measured: 69 of
+ * the 160 component classes rendered a different colour depending on WHICH WAY dark mode
+ * was turned on, every one of them a class that inherits its text colour rather than
+ * stating one. Reported from a phone as the filter chips looking wrong in dark mode.
+ *
+ * Every dark screenshot in this repo is taken with the attribute (scripts/shoot.mjs sets
+ * data-theme), so this is the path the eye actually sees.
+ */
 :root[data-theme="dark"] {
+  color-scheme: dark;
   --pf-bg-configr-light-theme: var(--pf-base-dark-violet);
   --pf-bg-configr-theme: var(--pf-base-light-violet);
   --pf-bg-highlight: var(--pf-base-blue-oxford);
@@ -343,6 +358,11 @@
   --pf-text-secondary: var(--pf-base-grey-dolphin);
   --pf-text-theme: var(--pf-base-blue-turquoise);
   --pf-text-warning: var(--pf-base-orange);
+}
+
+/* The same for a page pinning light mode on a dark OS. */
+:root[data-theme="light"] {
+  color-scheme: light;
 }
 
 /* ---- Semantic colours — Darkmode (system preference) ---- */
@@ -510,7 +530,7 @@
 
 /* Information box
  * 4 variants captured
- * Figma draws this 440px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 440px is what they came to, not a rule
  */
 .pf-information-box {
   height: 56px;
@@ -587,13 +607,15 @@
   gap: 10px;
   font-size: 16px;
   font-weight: var(--pf-font-weight-bold);
+  line-height: normal;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-notification-card[data-mobile="Yes"] {
   height: 153px;
@@ -629,7 +651,7 @@
   gap: 36px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -709,10 +731,9 @@
 /* Next actions modal
  * 2 variants captured
  * Figma draws this 400px wide; treated as layout, not a rule
- * Figma draws this 565px tall; emitted as a minimum, since content decides the real height
+ * Figma HUGS its contents vertically — 565px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-next-actions-modal {
-  min-height: 565px;
   padding: 0 0 30px 0;
   border-radius: 8px;
   display: inline-flex;
@@ -722,7 +743,7 @@
   gap: 30px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -761,6 +782,7 @@
   border-radius: 999px;
   display: inline-block;
   font-size: 13px;
+  line-height: normal;
 }
 .pf-status[data-status-type="Like"] {
   background: var(--pf-icon-info);

@@ -231,7 +231,22 @@
 }
 
 /* ---- Semantic colours — Darkmode (explicit) ---- */
+/*
+ * `color-scheme` has to move with the attribute, not just with the OS.
+ *
+ * `:root { color-scheme: light dark }` tells the browser to follow the SYSTEM preference
+ * for everything it paints itself — the default text colour, form controls, scrollbars.
+ * `data-theme="dark"` swapped all 111 tokens and left that alone, so on a light OS the
+ * page went dark and the browser went on painting inherited text BLACK. Measured: 69 of
+ * the 160 component classes rendered a different colour depending on WHICH WAY dark mode
+ * was turned on, every one of them a class that inherits its text colour rather than
+ * stating one. Reported from a phone as the filter chips looking wrong in dark mode.
+ *
+ * Every dark screenshot in this repo is taken with the attribute (scripts/shoot.mjs sets
+ * data-theme), so this is the path the eye actually sees.
+ */
 :root[data-theme="dark"] {
+  color-scheme: dark;
   --pf-bg-configr-light-theme: var(--pf-base-dark-violet);
   --pf-bg-configr-theme: var(--pf-base-light-violet);
   --pf-bg-highlight: var(--pf-base-blue-oxford);
@@ -343,6 +358,11 @@
   --pf-text-secondary: var(--pf-base-grey-dolphin);
   --pf-text-theme: var(--pf-base-blue-turquoise);
   --pf-text-warning: var(--pf-base-orange);
+}
+
+/* The same for a page pinning light mode on a dark OS. */
+:root[data-theme="light"] {
+  color-scheme: light;
 }
 
 /* ---- Semantic colours — Darkmode (system preference) ---- */
@@ -464,14 +484,14 @@
 
 /* [S] People
  * 5 variants captured
- * Figma draws this 380px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 380px is what they came to, not a rule
  */
 .pf-s-people {
   height: 40px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;

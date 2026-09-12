@@ -231,7 +231,22 @@
 }
 
 /* ---- Semantic colours — Darkmode (explicit) ---- */
+/*
+ * `color-scheme` has to move with the attribute, not just with the OS.
+ *
+ * `:root { color-scheme: light dark }` tells the browser to follow the SYSTEM preference
+ * for everything it paints itself — the default text colour, form controls, scrollbars.
+ * `data-theme="dark"` swapped all 111 tokens and left that alone, so on a light OS the
+ * page went dark and the browser went on painting inherited text BLACK. Measured: 69 of
+ * the 160 component classes rendered a different colour depending on WHICH WAY dark mode
+ * was turned on, every one of them a class that inherits its text colour rather than
+ * stating one. Reported from a phone as the filter chips looking wrong in dark mode.
+ *
+ * Every dark screenshot in this repo is taken with the attribute (scripts/shoot.mjs sets
+ * data-theme), so this is the path the eye actually sees.
+ */
 :root[data-theme="dark"] {
+  color-scheme: dark;
   --pf-bg-configr-light-theme: var(--pf-base-dark-violet);
   --pf-bg-configr-theme: var(--pf-base-light-violet);
   --pf-bg-highlight: var(--pf-base-blue-oxford);
@@ -343,6 +358,11 @@
   --pf-text-secondary: var(--pf-base-grey-dolphin);
   --pf-text-theme: var(--pf-base-blue-turquoise);
   --pf-text-warning: var(--pf-base-orange);
+}
+
+/* The same for a page pinning light mode on a dark OS. */
+:root[data-theme="light"] {
+  color-scheme: light;
 }
 
 /* ---- Semantic colours — Darkmode (system preference) ---- */
@@ -471,15 +491,16 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 22px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-navigation-item[data-system="People First"][data-device="Desktop"][data-selected="No"] {
   width: 90px;
@@ -490,7 +511,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
 }
 .pf-navigation-item[data-system="Configr"][data-device="Desktop"][data-selected="No"] {
@@ -502,7 +523,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
 }
 .pf-navigation-item[data-system="People First"][data-device="Mobile"][data-selected="No"] {
@@ -514,9 +535,10 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
   font-size: 11px;
+  line-height: normal;
 }
 .pf-navigation-item[data-system="People First"][data-device="Tablet"][data-selected="No"] {
   width: 86px;
@@ -527,9 +549,10 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
   font-size: 11px;
+  line-height: normal;
 }
 .pf-navigation-item[data-system="People First"][data-device="Desktop"][data-selected="No"][data-state="Hover"],
 .pf-navigation-item[data-system="People First"][data-device="Desktop"][data-selected="No"]:hover {
@@ -541,7 +564,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
 }
 .pf-navigation-item[data-system="Configr"][data-device="Desktop"][data-selected="No"][data-state="Hover"],
@@ -554,7 +577,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
 }
 .pf-navigation-item[data-system="People First"][data-device="Mobile"][data-selected="No"][data-state="Selected"] {
@@ -566,10 +589,11 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
   font-size: 11px;
   font-weight: var(--pf-font-weight-regular);
+  line-height: normal;
 }
 .pf-navigation-item[data-system="People First"][data-device="Tablet"][data-selected="No"][data-state="Selected"] {
   width: 86px;
@@ -580,10 +604,11 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
   font-size: 11px;
   font-weight: var(--pf-font-weight-regular);
+  line-height: normal;
 }
 .pf-navigation-item[data-device="Desktop"][data-state="Selected"] {
   background: var(--pf-bg-primary);
@@ -601,9 +626,9 @@
 
 /* Tab
  * 3 variants captured
+ * Figma HUGS its contents vertically — 34px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-tab {
-  height: 34px;
   padding: 6px 0;
   display: inline-flex;
   flex-direction: column;
@@ -733,6 +758,7 @@
   justify-content: flex-start;
   gap: 20px;
   font-size: 16px;
+  line-height: normal;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -752,9 +778,9 @@
 /* Filter tab single
  * 3 variants captured
  * Figma draws this 224px wide; treated as layout, not a rule
+ * Figma HUGS its contents vertically — 100px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-filter-tab-single {
-  height: 100px;
   padding: 20px;
   display: inline-flex;
   flex-direction: column;
@@ -763,7 +789,7 @@
   gap: 5px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -827,6 +853,7 @@
   gap: 5px;
   font-size: 24px;
   font-weight: var(--pf-font-weight-bold);
+  line-height: normal;
 }
 .pf-filter-tab-single[data-selected="True"][data-breakpoint="Tablet"] {
   height: 74px;
@@ -869,9 +896,9 @@
 
 /* Config child menu
  * 3 variants captured
+ * Figma HUGS its contents vertically — 42px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-config-child-menu {
-  height: 42px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -922,7 +949,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 5px;
   appearance: none;
   -webkit-appearance: none;
@@ -931,6 +958,7 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-clock-in[data-type="Standard"] {
   border-color: var(--pf-border-default-full);
@@ -953,7 +981,7 @@
   justify-content: flex-start;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -970,14 +998,15 @@
 
 /* Config menu items
  * 1 variant captured
+ * Figma HUGS its contents vertically — 74px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-config-menu-items {
-  height: 74px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
   font-size: 16px;
+  line-height: normal;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -1002,6 +1031,7 @@
   justify-content: flex-start;
   gap: 5px;
   font-size: 16px;
+  line-height: normal;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -1009,6 +1039,7 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-config-parent-menu {
   border-color: var(--pf-border-default-full);
@@ -1017,7 +1048,7 @@
 
 /* Navigation tabs
  * 1 variant captured
- * Figma draws this 202px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 202px is what they came to, not a rule
  */
 .pf-navigation-tabs {
   height: 36px;
@@ -1073,6 +1104,7 @@
   justify-content: space-between;
   gap: 10px;
   font-size: 24px;
+  line-height: normal;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -1435,6 +1467,7 @@
   gap: 10px;
   font-size: 11px;
   font-weight: var(--pf-font-weight-bold);
+  line-height: normal;
 }
 .pf-header[data-system="Configr"] {
   width: 20px;
@@ -1449,6 +1482,7 @@
   gap: 10px;
   font-size: 11px;
   font-weight: var(--pf-font-weight-bold);
+  line-height: normal;
 }
 .pf-header[data-breakpoint="Desktop"] {
   color: var(--pf-text-secondary);
@@ -1464,7 +1498,7 @@
 
 /* Mobile bottom navigation
  * 1 variant captured
- * Figma draws this 375px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 375px is what they came to, not a rule
  */
 .pf-mobile-bottom-navigation {
   height: 76px;
@@ -1473,6 +1507,7 @@
   align-items: flex-start;
   justify-content: flex-start;
   font-size: 11px;
+  line-height: normal;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -1492,6 +1527,7 @@
   justify-content: flex-start;
   gap: 0px;
   font-size: 11px;
+  line-height: normal;
 }
 .pf-mobile-bottom-navigation {
   color: var(--pf-text-secondary);
@@ -1508,6 +1544,7 @@
   justify-content: flex-start;
   gap: 10px;
   font-size: 24px;
+  line-height: normal;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -1515,6 +1552,7 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-top-bar-app-context[data-area="Administration"][data-mobile="True"] {
   height: 40px;
@@ -1721,7 +1759,7 @@
 
 /* Filter tabs
  * 1 variant captured
- * Figma draws this 1600px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 1600px is what they came to, not a rule
  */
 .pf-filter-tabs {
   height: 100px;
@@ -1731,6 +1769,7 @@
   justify-content: flex-start;
   font-size: 24px;
   font-weight: var(--pf-font-weight-bold);
+  line-height: normal;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -1777,9 +1816,10 @@
   align-items: flex-start;
   justify-content: flex-start;
   font-size: 16px;
+  line-height: normal;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -1808,6 +1848,7 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-s-config-child-menu {
   color: var(--pf-text-primary);
@@ -1816,7 +1857,7 @@
 /* Notification panel
  * 1 variant captured. 2 variants (Mobile). Figma draws it 1500x1080 — the artboard, not a rule.
  * Figma draws this 1500px wide; treated as layout, not a rule
- * Figma draws this 1080px tall — the artboard it sits on, not a rule; dropped
+ * Figma HUGS its contents vertically — 1080px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-notification-panel {
   display: inline-flex;
@@ -1825,7 +1866,7 @@
   justify-content: flex-start;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -1849,7 +1890,7 @@
 /* Notification list
  * 2 variants captured. 2 variants (Mobile). Figma draws it 1117x730 — the artboard, not a rule.
  * Figma draws this 1117px wide; treated as layout, not a rule
- * Figma draws this 730px tall — the artboard it sits on, not a rule; dropped
+ * Figma HUGS its contents vertically — 730px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-notification-list {
   display: inline-flex;
@@ -1857,6 +1898,7 @@
   align-items: flex-start;
   justify-content: flex-start;
   font-size: 16px;
+  line-height: normal;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -1881,7 +1923,7 @@
 /* Notification categories
  * 2 variants captured. 2 variants (Mobile). Figma draws it 1020px tall — the artboard, not a rule.
  * Figma draws this 300px wide; treated as layout, not a rule
- * Figma draws this 1020px tall — the artboard it sits on, not a rule; dropped
+ * Figma HUGS its contents vertically — 1020px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-notification-categories {
   padding: 5px 10px;
@@ -1891,7 +1933,7 @@
   justify-content: flex-start;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -1942,10 +1984,10 @@
 
 /* Steps
  * 6 variants captured. 26 variants across System x State x Position; 6 distinct colour bindings, keyed on State.
+ * Figma HUGS its contents vertically — 48px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-steps {
   width: 110px;
-  height: 48px;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -2132,9 +2174,9 @@
 
 /* Stepper
  * 1 variant captured. 2 variants (System); both bind the same colours.
+ * Figma HUGS its contents vertically — 160px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-stepper {
-  height: 160px;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -2154,9 +2196,9 @@
 /* Full page/Header navigation/Yes/No
  * 1 variant captured. Single component, mobile width.
  * Figma draws this 375px wide; treated as layout, not a rule
+ * Figma HUGS its contents vertically — 138px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-full-page-header-navigation-yes-no {
-  height: 138px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -2240,11 +2282,12 @@
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-navigation-nav-bg-top);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-nav-tabs[data-status="Unselected"][data-mobile="True"] {
   height: 42px;
@@ -2315,10 +2358,10 @@
   display: inline-flex;
   flex-direction: row;
   align-items: flex-end;
-  justify-content: center;
+  justify-content: safe center;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-navigation-nav-bg-top);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -2332,7 +2375,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: flex-end;
-  justify-content: center;
+  justify-content: safe center;
   gap: 0px;
 }
 .pf-secondary-nav {
@@ -2342,7 +2385,7 @@
 
 /* Tertiary nav
  * 2 variants captured. 4 variants (Mobile x Page); Mobile does not change the colours.
- * Figma draws this 562px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 562px is what they came to, not a rule
  */
 .pf-tertiary-nav {
   height: 55px;
@@ -2350,11 +2393,11 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 40px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-navigation-nav-bg-top);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -2368,7 +2411,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 30px;
 }
 .pf-tertiary-nav[data-mobile="No"][data-page="Yes"] {
@@ -2379,7 +2422,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
 }
 .pf-tertiary-nav[data-mobile="Yes"][data-page="Yes"] {
@@ -2413,11 +2456,12 @@
   display: inline-block;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-navigation-search-bg);
   margin: 0;
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-search-navigation[data-mobile="True"] {
   width: 32px;
@@ -2510,7 +2554,7 @@
 
 /* Notification tabs
  * 3 variants captured. 3 variants (State x Selected). Node 22973:20747, which this extract previously held as "Side navigation tab" with a different variant structure.
- * Figma draws this 279px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 279px is what they came to, not a rule
  */
 .pf-notification-tabs {
   height: 65px;
@@ -2527,6 +2571,7 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-notification-tabs[data-selected="No"] {
   border-color: var(--pf-border-default-full);

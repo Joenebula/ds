@@ -40,7 +40,96 @@ const kebab = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g,
 const cls = name => 'pf-' + kebab(name);
 
 const tree = tsv('tokens/_raw/component-tree.tsv');
+
 const css = readFileSync('dist/components.css', 'utf8');
+
+// WHERE A CHILD SITS WHEN THE PARENT DOES NOT LAY OUT.
+//
+// For an auto-layout parent, order is enough: the template writes the same direction, gap
+// and padding and the children land where Figma put them. For a parent laid out NONE there
+// is nothing to copy, and flowing the children is not merely imprecise — it is a different
+// picture. `Profile image` is 93x93 holding a photo and a `People` instance BOTH at 0,0 at
+// 93x93: overlaid in Figma, stacked by the template, 93px tall becoming 184.
+//
+// Two guards, because a position applied to the wrong node is worse than none:
+//   - the tree must carry that exact component and path, and
+//   - it must AGREE on the child's size. Two rotated LINE nodes in `Donut pie chart` report
+//     a rotated bounding box (0x25) against the tree's unrotated size (25x0); they are
+//     refused by this and rendered as before.
+const posRows = existsSync('tokens/_raw/component-child-pos.tsv')
+  ? tsv('tokens/_raw/component-child-pos.tsv') : [];
+const treeByKey = new Map(tree.map(r => [r.component + '|' + r.path, r]));
+const ABS = new Map();   // component|path -> the style to apply
+const REL = new Set();   // component|path of every parent that must become the origin
+//
+// THIRD GUARD: THE CLASS MUST CARRY THE WHOLE BOX. A pixel offset is meaningless unless the
+// element it is measured inside is the size Figma measured it in. The stylesheet drops a
+// width above 120px on purpose — that is the artboard the component was drawn at, not a
+// rule — so `.pf-full-page` has no 1920px width to hold a child placed at x=1830. Applying
+// the offsets anyway pushed five components' children straight out of their box and the
+// overflow count went UP: `Full page`, `Configuration`, `AI Assistant`, `AI Gradient
+// component` and `Image picker`, every one of them a component whose width the class drops.
+// They are skipped and counted. (Proportional placement would reach them, but a percentage
+// height inside a box sized by `min-height` resolves to auto and collapses the child — a
+// second silent wrongness to fix the first. That is a deliberate piece of work, not a
+// shortcut taken here.)
+const bareBox = (base) => {
+  const m = new RegExp(`(?<![-\\w])\\.${base} \\{([^}]*)\\}`).exec(css);
+  if (!m) return null;
+  const w = /(?:^|;|\s)width:\s*(\d+)px/.exec(m[1]);
+  const h = /(?:^|;|\s)height:\s*(\d+)px/.exec(m[1]);
+  return w && h ? `${w[1]}x${h[1]}` : null;
+};
+// EVERY MEASURED OFFSET IS ACCOUNTED FOR, not just the ones with a tidy reason.
+//
+// The first version of this loop reported one of its three refusals and dropped the other
+// two with a bare `continue`. It said "16 measured offset(s) NOT applied", which reads as
+// the whole shortfall; the file held 71 and only 12 were being applied. 38 of them were
+// leaving no trace at all — the same silent-discard fault this pipeline keeps finding,
+// here in the code that fixes it elsewhere. Each refusal now carries a reason and the
+// counts are asserted to add up to the file, so a new refusal cannot be added silently.
+const posSkipped = [];            // the origin has no definite size — the reportable one
+const posNoNode = [];             // measured deeper than the tree walk reaches
+const posSizeDisagrees = [];      // the tree and the measurement disagree on the child
+const posParentLaysOut = [];      // the parent auto-lays out, so order already places it
+for (const p of posRows) {
+  const row = treeByKey.get(p.component + '|' + p.path);
+  if (!row) { posNoNode.push(p.component + '|' + p.path); continue; }
+  if (row.size !== `${p.w}x${p.h}`) {
+    posSizeDisagrees.push(`${p.component} ${p.path} — measured ${p.w}x${p.h}, tree says ${row.size}`);
+    continue;
+  }
+  const parentPath = p.path.includes('.') ? p.path.slice(0, p.path.lastIndexOf('.')) : '';
+  const parent = treeByKey.get(p.component + '|' + parentPath);
+  if (!parent) { posNoNode.push(p.component + '|' + p.path); continue; }
+  if (parent.layout && parent.layout !== 'NONE') {
+    posParentLaysOut.push(p.component + '|' + p.path); continue;
+  }
+  // THE ORIGIN MUST HAVE A DEFINITE SIZE — and the origin is the PARENT, not the component.
+  //
+  // An offset is measured inside a box, so the box has to exist. Measured empirically: a
+  // class with no width whose children are all absolute renders 0x200, because nothing is
+  // left in flow to give it a width. That is why these are gated at all.
+  //
+  // The first version asked the question of the COMPONENT ROOT — the class must carry the
+  // whole box — and so refused every placement in a component whose class drops its artboard
+  // width, including placements on inner containers that have nothing to do with the root.
+  // An inner origin is given its own measured width and height a few lines below, so it is
+  // definite by construction; only a ROOT origin depends on what the class happens to carry.
+  if (parentPath === '') {
+    const rootSize = (treeByKey.get(p.component + '|') || {}).size;
+    if (!rootSize || bareBox(cls(p.component)) !== rootSize) { posSkipped.push(p.component + '|' + p.path); continue; }
+  } else if (!/^\d+x\d+$/.test(parent.size || '')) {
+    posSkipped.push(p.component + '|' + p.path); continue;
+  }
+  // BORDER-BOX, because Figma's width and height INCLUDE the frame's padding and CSS's do
+  // not. `AI Assistant`'s slot is 1108 wide with 20px padding either side; stated as a
+  // content width it rendered 1148 and hung 39px out of its own component.
+  ABS.set(p.component + '|' + p.path,
+    `position:absolute;left:${p.dx}px;top:${p.dy}px;width:${p.w}px;height:${p.h}px;`
+    + `box-sizing:border-box`);
+  REL.add(p.component + '|' + parentPath);
+}
 const libClasses = new Set([...css.matchAll(/\.(pf-[a-z0-9-]+)/g)].map(m => m[1]));
 const typeClasses = new Set([...readFileSync('dist/type.css', 'utf8')
   .matchAll(/\.(pf-text-[a-z0-9-]+)/g)].map(m => m[1]));
@@ -91,7 +180,20 @@ const ALIGN = { MIN: 'flex-start', CENTER: 'center', MAX: 'flex-end', BASELINE: 
 const JUSTIFY = { MIN: 'flex-start', CENTER: 'center', MAX: 'flex-end', SPACE_BETWEEN: 'space-between' };
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
+// EVERY NOTE CARRIES ITS KIND, tagged where it is written rather than guessed from its
+// wording at report time. These are five different facts with five different severities —
+// a component binding a PRIMITIVE will not adapt between modes, which is the rule this
+// repo opens with; a label with no type class is a known gap in the ramp and entirely
+// benign. They were reported as one flat list headed "things the library cannot name",
+// truncated at 20 of 84. The list is roughly alphabetical, so `Card`, `Time picker` and
+// `Toggle` binding primitives sat past the cut and had never been printed at all, while
+// the twenty that were printed were mostly the benign kind.
 const unresolved = [];
+// Named `flag`, not `note`: `render` already declares a local `const note`, which shadows
+// a module-level one for the whole function body and puts every earlier use in the
+// temporal dead zone. It crashed on the first run rather than misreporting, which is the
+// good failure mode, but the name is worth keeping distinct.
+const flag = (kind, msg) => unresolved.push({ kind, msg });
 
 // The type class for a text node, via the same resolver the stylesheet composition uses.
 function typeClassFor(component, row) {
@@ -106,8 +208,29 @@ function typeClassFor(component, row) {
   return typeClasses.has(c) ? c : null;
 }
 
+// The measured box for a node, or ''. Placement is applied wherever a node is emitted —
+// not only through styleFor — because the IMAGE and INSTANCE branches return their own
+// markup and would otherwise flow while their siblings were positioned, which is worse
+// than all of them flowing together.
+const absStyle = (component, path) => ABS.get(component + '|' + path) || '';
+
 function styleFor(component, row) {
   const s = [];
+  // Absolute placement comes FIRST, so a later `align-self:stretch` or `width` from the
+  // decorative-box rule below cannot quietly override the measured box.
+  const abs = absStyle(component, row.path);
+  if (abs) s.push(abs);
+  if (REL.has(component + '|' + row.path)) {
+    s.push('position:relative');
+    // AN ORIGIN WHOSE CHILDREN ARE ALL ABSOLUTE HOLDS NOTHING IN FLOW, so it collapses to
+    // zero and everything after it slides up. `Menu`'s inner frame did exactly that and the
+    // component's other five children ended up outside its box. The measured size is what
+    // the frame is, so it is stated. Not needed on the root — the class carries that box,
+    // and the gate above required it to.
+    const [rw, rh] = (row.size || '').split('x').map(Number);
+    if (row.path && Number.isFinite(rw) && Number.isFinite(rh))
+      s.push(`width:${rw}px`, `height:${rh}px`, 'box-sizing:border-box');
+  }
   if (row.layout && row.layout !== 'NONE') {
     const [mode, counter, primary] = row.layout.split(/\s+/);
     s.push('display:flex', `flex-direction:${mode === 'VERTICAL' ? 'column' : 'row'}`);
@@ -121,19 +244,19 @@ function styleFor(component, row) {
   const r = parseInt(row.radius, 10);
   if (Number.isFinite(r) && r > 0) s.push(`border-radius:${r}px`);
   if (row.fill && row.fill !== 'LITERAL' && row.fill !== 'IMAGE' && row.fill !== 'GRADIENT') {
-    if (isPrimitive(row.fill)) unresolved.push(`${component}: fill binds the PRIMITIVE "${row.fill}" — will not adapt between modes`);
+    if (isPrimitive(row.fill)) flag('primitive', `${component}: fill binds the PRIMITIVE "${row.fill}"`);
     else {
       const v = tokenVar.get(row.fill);
       if (v) s.push(`background:var(${v})`);
-      else unresolved.push(`${component}: fill "${row.fill}" has no token`);
+      else flag('no-token', `${component}: fill "${row.fill}"`);
     }
   }
   if (row.stroke && row.stroke !== 'LITERAL') {
-    if (isPrimitive(row.stroke)) unresolved.push(`${component}: stroke binds the PRIMITIVE "${row.stroke}" — will not adapt between modes`);
+    if (isPrimitive(row.stroke)) flag('primitive', `${component}: stroke binds the PRIMITIVE "${row.stroke}"`);
     else {
       const v = tokenVar.get(row.stroke);
       if (v) s.push(`border:1px solid var(${v})`);
-      else unresolved.push(`${component}: stroke "${row.stroke}" has no token`);
+      else flag('no-token', `${component}: stroke "${row.stroke}"`);
     }
   }
   return s;
@@ -187,7 +310,7 @@ function render(component, rows, path, depth) {
     // inside itself and renders an empty box twice over. The wrapper adds nothing the
     // class does not already have.
     if (source === component) {
-      unresolved.push(`${component}: instances itself — the wrapper adds nothing, so the class alone is the component`);
+      flag('self', `${component}: instances itself — the wrapper adds nothing, so the class alone is the component`);
       return `${pad}<!-- ${esc(component)} instances itself here; the outer class already is it -->`;
     }
     const c = cls(source);
@@ -212,23 +335,30 @@ function render(component, rows, path, depth) {
       // and over the option beside it. Below 44px — Figma's own smallest control size —
       // the class paints the box and the name goes in a comment instead.
       const [iw] = (row.size || '').split('x').map(Number);
+      const iabs = absStyle(component, row.path);
+      const istyle = iabs ? ` style="${iabs}"` : '';
       if (Number.isFinite(iw) && iw > 0 && iw < 44)
-        return `${pad}<div class="${c}"${attrs}></div><!-- ${esc(source)} -->`;
-      return `${pad}<div class="${c}"${attrs}>${esc(source)}</div>`;
+        return `${pad}<div class="${c}"${attrs}${istyle}></div><!-- ${esc(source)} -->`;
+      return `${pad}<div class="${c}"${attrs}${istyle}>${esc(source)}</div>`;
     }
     const icon = iconFor(source);
     if (icon) {
       const px = parseInt(row.size, 10);
-      return `${pad}<!--pf-icon:${icon}${Number.isFinite(px) && px !== 18 ? ' ' + px : ''}-->`;
+      const marker = `<!--pf-icon:${icon}${Number.isFinite(px) && px !== 18 ? ' ' + px : ''}-->`;
+      // AN ICON MARKER IS A COMMENT, and a comment cannot carry a style. Where Figma places
+      // this icon by hand the placement has nowhere to go, and it was being dropped while
+      // the build counted it as applied — a number that flattered itself. Wrapped in a span
+      // so the measurement survives; build-prototype expands the marker inside it either way.
+      const iabs = absStyle(component, row.path);
+      return iabs ? `${pad}<span style="${iabs}">${marker}</span>` : `${pad}${marker}`;
     }
     // Not a class and not an icon. Every one of these so far has turned out to be a
     // DETACHED component — one the file uses but that sits on no page, so no walk could
     // capture it. They are recorded in uncaptured-reasons.tsv with the reason; the
     // template says so in place rather than pretending the gap is not there.
     const known = detachedNames.has(source);
-    unresolved.push(`${component}: instances "${source}"`
-      + (source !== row.name ? ` (labelled "${row.name}")` : '') + ', '
-      + (known ? 'a DETACHED component (recorded)' : 'which is neither a class nor an icon'));
+    flag(known ? 'detached' : 'unnamed', `${component}: instances "${source}"`
+      + (source !== row.name ? ` (labelled "${row.name}")` : ''));
     return `${pad}<!-- ${esc(source)}: ${known
       ? 'detached from the Figma page tree, so the library has no class for it — see uncaptured-reasons.tsv'
       : 'not in the library'} -->`;
@@ -237,6 +367,13 @@ function render(component, rows, path, depth) {
   if (row.type === 'TEXT') {
     const tc = typeClassFor(component, row);
     const bits = [];
+    // Placement first, for the same reason the icon branch needs it: this branch builds its
+    // own style and never calls styleFor, so a measured offset had nowhere to go. In
+    // `Search navigation` the icon WAS placed and the word "Search" was not, and the two
+    // rendered on top of each other — placing some children of a hand-laid-out parent and
+    // flowing the rest is worse than flowing all of them.
+    const tabs = absStyle(component, path);
+    if (tabs) bits.push(tabs);
     // A TEXT COLOUR IS SUBJECT TO THE PRIMITIVE RULE TOO — and for a long time it was the
     // one place here that was not. `styleFor` checks a child's fill and stroke, and this
     // branch went straight to tokenVar, which resolves a primitive perfectly well: to the
@@ -248,18 +385,17 @@ function render(component, rows, path, depth) {
     // readable and an unadaptable one is not.
     const stranded = row.fill && onDroppedSurface(rows, path);
     if (stranded) {
-      unresolved.push(`${component}: text "${row.text}" binds "${row.fill}" over a surface whose own `
-        + `fill is a primitive with no semantic equivalent — the pair cannot be carried, so the `
-        + `colour is left to inherit`);
+      flag('stranded', `${component}: text "${row.text}" binds "${row.fill}" over a surface whose `
+        + `own fill is a primitive with no semantic equivalent`);
     } else if (row.fill && isPrimitive(row.fill)) {
       const alias = (PRIMITIVE_ALIAS[row.fill] || {}).color;
       if (alias) bits.push(`color:var(${alias})`);
-      else unresolved.push(`${component}: text binds the PRIMITIVE "${row.fill}" and no semantic `
-        + `token has that role — left to inherit rather than shipped unable to change between modes`);
+      else flag('primitive', `${component}: text binds the PRIMITIVE "${row.fill}" and no semantic `
+        + `token has that role`);
     } else {
       const colour = tokenVar.get(row.fill);
       if (colour) bits.push(`color:var(${colour})`);
-      else if (row.fill) unresolved.push(`${component}: text colour "${row.fill}" has no token`);
+      else if (row.fill) flag('no-token', `${component}: text colour "${row.fill}"`);
     }
     if (!tc) {
       // No type class means the label's style is off the ramp or ambiguous — the same 27
@@ -272,7 +408,7 @@ function render(component, rows, path, depth) {
         bits.push(`font-size:${m[1]}px`);
         if (m[2] === 'SemiBold' || m[2] === 'Bold') bits.push('font-weight:600');
       }
-      unresolved.push(`${component}: text "${row.text}" — no type class (${row.font || 'no font'}), measurement emitted`);
+      flag('no-type-class', `${component}: text "${row.text}" (${row.font || 'no font'})`);
     }
     const style = bits.length ? ` style="${bits.join(';')}"` : '';
     const klass = tc ? ` class="${tc}"` : '';
@@ -286,7 +422,7 @@ function render(component, rows, path, depth) {
   if (row.type === 'LINE' || (row.type === 'RECTANGLE' && parseInt(row.size) > 100 && row.size.endsWith('x0'))) {
     const bound = row.stroke || row.fill;
     if (isPrimitive(bound)) {
-      unresolved.push(`${component}: rule binds the PRIMITIVE "${bound}" — will not adapt between modes`);
+      flag('primitive', `${component}: rule binds the PRIMITIVE "${bound}"`);
       return `${pad}<!-- rule: Figma binds "${esc(bound)}", a primitive, which cannot change between modes. `
         + `Left unpainted rather than shipped broken — see FIGMA-ISSUES.md section 1. -->`;
     }
@@ -300,6 +436,52 @@ function render(component, rows, path, depth) {
   // template rendered an empty box. The slot is a real layout box AND a marker.
   if (row.type === 'SLOT') {
     const style = styleFor(component, row);
+    // A HORIZONTAL SLOT IS A STRIP, AND A STRIP SCROLLS — IT NEVER WRAPS OR SPILLS.
+    //
+    // Reported from a phone: the filter chips and nav tabs should be one row that scrolls,
+    // never two rows. Figma says the same in two places — the row is a SLOT laid out
+    // HORIZONTAL (`Secondary nav`/Content, `Table action bar`/Filter content, `Navigation
+    // tabs`, `Tertiary nav`, `Stepper`/Steps, `Table (AG)`/Unfixed columns), and each item in
+    // it is a fixed-height component whose label is one line. Ten slots in the whole file.
+    //
+    // Flex already refuses to wrap, so the row was one row — it just ran off the edge with no
+    // way to reach the rest. This makes it reachable. It is deliberately NOT the
+    // `overflow: hidden` that CLAUDE.md refuses to carry from Figma's clip setting: that one
+    // deletes content from view, this one lets you scroll to it. Measured before adding, at
+    // 390px: of the nine horizontal containers whose children exceed them, ZERO have a child
+    // sticking out vertically, so nothing is lost to the y-axis becoming a scroll port.
+    if (/^HORIZONTAL/.test(row.layout || '')) {
+      style.push('overflow-x:auto');
+      // A SCROLL CONTAINER HAS NO AUTOMATIC MINIMUM HEIGHT, and that is how making a strip
+      // scroll quietly cropped every chip in it. `min-height: auto` resolves to 0 for a
+      // scroll container, so `Table action bar`'s filter strip stopped growing to its 42px
+      // chips and was squashed by its parent to 32 — with `align-items: center` the chips
+      // then hung 5px above and below, and the overflow the scroll port brings with it ate
+      // exactly those 5px: the top and bottom of every chip's border, while the rounded
+      // left and right ends stayed. Reported from a phone as the borders not showing.
+      // Figma's own measured height for the slot is restored as a floor.
+      // `fit-content` rather than Figma's measured slot height. Both stop the squash, but
+      // stating a number imposes one: `Footer`'s slot is 28px in Figma and its real contents
+      // are shorter, so pinning 28 pushed the footer's own contents out of its class box and
+      // check-template-overflow reported a new overflow that was entirely of my making.
+      // `fit-content` restores exactly what the scroll container suppressed — grow to what
+      // you hold — and imposes nothing beyond it.
+      if (!style.some(d => /^min-height:/.test(d))) style.push('min-height:fit-content');
+      // CENTRING A STRIP THAT OVERFLOWS PUTS THE START OF IT OUT OF REACH.
+      //
+      // `Secondary nav`'s slot is HORIZONTAL CENTER CENTER, so the row is centred. Once its
+      // children are wider than it, a centred flex row spills equally BOTH ways — and the
+      // left spill cannot be scrolled to, because scrollLeft is already 0. Measured at 390px:
+      // the first Nav tabs sat 83px to the left of the scroll origin with scrollLeft 0, so
+      // the first tab in the strip was permanently invisible. That is content deleted from
+      // view, which is the very thing the clipping decision refuses to do.
+      //
+      // `safe` is the CSS keyword for exactly this: centre while it fits, fall back to the
+      // start when it does not. The design intent is kept and nothing becomes unreachable.
+      for (let i = 0; i < style.length; i++) {
+        style[i] = style[i].replace(/^justify-content:(?!safe|flex-start|start)(.+)$/, 'justify-content:safe $1');
+      }
+    }
     const open = `${pad}<div${style.length ? ` style="${style.join(';')}"` : ''}>`
       + `<!-- SLOT: Figma marks this as where the component's content goes. -->`;
     if (!kids.length) return open + cutNote(row) + '</div>';
@@ -313,7 +495,8 @@ function render(component, rows, path, depth) {
   // with an image fill, so without this the template was an empty div.
   if (row.fill === 'IMAGE') {
     const [w, h] = (row.size || '').split('x').map(Number);
-    return `${pad}<div style="width:100%;${Number.isFinite(h) ? `height:${h}px;` : ''}`
+    const abs = absStyle(component, row.path);
+    return `${pad}<div style="${abs ? abs + ';' : `width:100%;${Number.isFinite(h) ? `height:${h}px;` : ''}`}`
       + `background:var(--pf-bg-tertiary)">`
       + `<!-- artwork: Figma fills this with an IMAGE. Export it through the `
       + `component-art pipeline (see CLAUDE.md) — a placeholder stands in until then. --></div>`;
@@ -414,10 +597,16 @@ for (const [component, rows] of [...byComponent.entries()].sort()) {
   const kids = [...rows.keys()].filter(p => p && !p.includes('.'))
     .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
   const body = kids.map(k => render(component, rows, k, 1)).join('\n');
+  // THE OUTER ELEMENT IS THE POSITIONING ORIGIN when Figma places this component's own
+  // children by hand. Without it they resolve against whatever ancestor on the page happens
+  // to be positioned — which is not the component, and on a plain page is the document
+  // itself, so every one of them flies to the top-left corner. The first run of this put
+  // position:relative on every parent EXCEPT the root, and the overflow count went up.
+  const rootRel = REL.has(component + '|') ? ' style="position:relative"' : '';
   const html = `<!-- ${component} — generated from Figma by scripts/build-templates.mjs.\n`
     + `     The outer element is the component's own class; everything inside is its Figma\n`
     + `     child tree. Do not hand-edit: regenerate with npm run build. -->\n`
-    + `<div class="${base}">\n${body}\n</div>\n`;
+    + `<div class="${base}"${rootRel}>\n${body}\n</div>\n`;
   writeFileSync(`dist/templates/${base}.html`, html);
   made.push({ component, base, nodes: rows.size, html });
 }
@@ -480,12 +669,94 @@ g.push('</div>');
 writeFileSync('docs/templates.html', g.join('\n'));
 
 console.log(`${made.length} component template(s) written to dist/templates/, gallery in docs/templates.html`);
+// COUNT WHAT REACHED THE PAGE, not what was intended. Reported straight from the written
+// templates rather than from the ABS map: the two differed, because a placement on an icon
+// marker had nowhere to go and the map did not know that.
+const placed = made.filter(m => m.html.includes('position:absolute'));
+if (ABS.size) {
+  const n = placed.reduce((t, m) => t + (m.html.match(/position:absolute/g) || []).length, 0);
+  console.log(`  ${n} child(ren) placed at Figma's own offsets in ${placed.length} component(s) `
+    + `whose parent has no auto-layout — without this they flow, and Figma overlays them`);
+}
+// COUNT THE PLACEMENTS, NOT THE COMPONENTS. A component can have some placements applied
+// and others refused — `Image picker` and `Search navigation` do — and listing it as "not
+// applied" said something false about the ones that were.
+// THE ACCOUNTING MUST ADD UP TO THE FILE. A count that is merely printed can quietly stop
+// covering everything; one that is checked against the row count cannot.
+{
+  const comps = list => [...new Set(list.map(x => x.split('|')[0]))].sort();
+  const total = posRows.length;
+  const seen = ABS.size + posSkipped.length + posNoNode.length
+    + posSizeDisagrees.length + posParentLaysOut.length;
+  console.log(`  ${total} measured child offset(s) in component-child-pos.tsv: `
+    + `${ABS.size} applied, ${total - ABS.size} refused`);
+  if (posSkipped.length) {
+    console.log(`    ${posSkipped.length} across ${comps(posSkipped).length} component(s) — the box they are `
+      + `measured inside has no definite size, because the class drops the artboard width: `
+      + `${comps(posSkipped).join(', ')}`);
+  }
+  if (posNoNode.length) {
+    console.log(`    ${posNoNode.length} across ${comps(posNoNode).length} component(s) — measured deeper than `
+      + `the tree walk reaches (WALK_DEPTH ${WALK_DEPTH}), so there is no node to place: `
+      + `${comps(posNoNode).join(', ')}`);
+  }
+  if (posSizeDisagrees.length) {
+    console.log(`    ${posSizeDisagrees.length} — the tree and the measurement disagree on the child's own `
+      + `size, so the offset may belong to a different node:`);
+    for (const x of posSizeDisagrees) console.log(`      ${x}`);
+  }
+  if (posParentLaysOut.length) {
+    console.log(`    ${posParentLaysOut.length} across ${comps(posParentLaysOut).length} component(s) — the parent `
+      + `auto-lays out, so writing the same direction and gap already places them: `
+      + `${comps(posParentLaysOut).join(', ')}`);
+  }
+  if (seen !== total) {
+    console.error(`  child offsets do not add up: ${seen} accounted for, ${total} in the file`);
+    process.exitCode = 1;
+  }
+}
 if (noClass.length) {
   console.log(`  ${noClass.length} walked but NOT written — the stylesheet has no class to hang them on:`);
   for (const n of noClass) console.log(`    ${n.component} (would be .${n.base})`);
 }
+// SEVERITY FIRST, AND THE SEVERE ONES ARE NEVER TRUNCATED. A flat list cut at 20 printed
+// the benign majority and hid the four components binding a raw primitive, which is the
+// one thing in here that breaks dark mode. The benign bulk is still capped — it is a known,
+// documented gap and 46 lines of it would bury everything above — but the cap now says how
+// many it withheld instead of ending mid-list.
 if (unresolved.length) {
-  const u = [...new Set(unresolved)];
-  console.log(`  ${u.length} thing(s) the tree references that the library cannot name:`);
-  for (const x of u.slice(0, 20)) console.log('    ' + x);
+  const KINDS = [
+    ['primitive', 'bind a raw PRIMITIVE, so the value cannot change between modes — the '
+      + 'generator emits nothing rather than ship that, and the colour is left to inherit', Infinity],
+    ['stranded', 'colour text against a surface whose own fill is an uncarryable primitive, '
+      + 'so the pair cannot be carried and the text is left to inherit', Infinity],
+    ['no-token', 'name a colour the token set does not contain', Infinity],
+    ['unnamed', 'instance something that is neither a library class nor an icon', Infinity],
+    ['self', 'instance themselves, so the class alone is the component', Infinity],
+    ['detached', 'instance a DETACHED component — one the file uses but that sits on no '
+      + 'Figma page, recorded in uncaptured-reasons.tsv', 6],
+    ['no-type-class', 'use type the ramp cannot express, so the measurement is emitted '
+      + 'instead of a class — see FIGMA-ISSUES.md section 7', 6],
+  ];
+  const seen = new Set();
+  const byKind = new Map(KINDS.map(k => [k[0], []]));
+  for (const { kind, msg } of unresolved) {
+    if (seen.has(kind + '|' + msg)) continue;
+    seen.add(kind + '|' + msg);
+    (byKind.get(kind) || byKind.set(kind, []).get(kind)).push(msg);
+  }
+  const total = [...byKind.values()].reduce((t, v) => t + v.length, 0);
+  console.log(`  ${total} thing(s) in the tree the library cannot carry as-is, by kind:`);
+  for (const [kind, why, cap] of KINDS) {
+    const list = byKind.get(kind) || [];
+    if (!list.length) continue;
+    console.log(`    ${list.length} ${why}:`);
+    for (const x of list.slice(0, cap)) console.log(`      ${x}`);
+    if (list.length > cap) console.log(`      ... and ${list.length - cap} more of the same kind`);
+  }
+  const untagged = [...byKind.keys()].filter(k => !KINDS.some(x => x[0] === k));
+  if (untagged.length) {
+    console.error(`  note kind(s) with no entry in KINDS, so they printed without a heading: ${untagged.join(', ')}`);
+    process.exitCode = 1;
+  }
 }

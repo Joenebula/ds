@@ -231,7 +231,22 @@
 }
 
 /* ---- Semantic colours — Darkmode (explicit) ---- */
+/*
+ * `color-scheme` has to move with the attribute, not just with the OS.
+ *
+ * `:root { color-scheme: light dark }` tells the browser to follow the SYSTEM preference
+ * for everything it paints itself — the default text colour, form controls, scrollbars.
+ * `data-theme="dark"` swapped all 111 tokens and left that alone, so on a light OS the
+ * page went dark and the browser went on painting inherited text BLACK. Measured: 69 of
+ * the 160 component classes rendered a different colour depending on WHICH WAY dark mode
+ * was turned on, every one of them a class that inherits its text colour rather than
+ * stating one. Reported from a phone as the filter chips looking wrong in dark mode.
+ *
+ * Every dark screenshot in this repo is taken with the attribute (scripts/shoot.mjs sets
+ * data-theme), so this is the path the eye actually sees.
+ */
 :root[data-theme="dark"] {
+  color-scheme: dark;
   --pf-bg-configr-light-theme: var(--pf-base-dark-violet);
   --pf-bg-configr-theme: var(--pf-base-light-violet);
   --pf-bg-highlight: var(--pf-base-blue-oxford);
@@ -343,6 +358,11 @@
   --pf-text-secondary: var(--pf-base-grey-dolphin);
   --pf-text-theme: var(--pf-base-blue-turquoise);
   --pf-text-warning: var(--pf-base-orange);
+}
+
+/* The same for a page pinning light mode on a dark OS. */
+:root[data-theme="light"] {
+  color-scheme: light;
 }
 
 /* ---- Semantic colours — Darkmode (system preference) ---- */
@@ -482,6 +502,7 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-draggable-card[data-state="Drop"] {
   height: 50px;
@@ -535,11 +556,12 @@
   gap: 689px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-accordion[data-expanded="False"][data-mobile="True"] {
   height: 56px;
@@ -588,10 +610,9 @@
 /* Card
  * 1 variant captured. shadow 0 0 4px
  * Figma draws this 520px wide; treated as layout, not a rule
- * Figma draws this 358px tall; emitted as a minimum, since content decides the real height
+ * Figma HUGS its contents vertically — 358px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-card {
-  min-height: 358px;
   padding: 20px;
   border-radius: 8px;
   display: inline-flex;
@@ -601,7 +622,7 @@
   gap: 20px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -615,10 +636,9 @@
 
 /* Content cards
  * 1 variant captured
- * Figma draws this 366px tall; emitted as a minimum, since content decides the real height
+ * Figma HUGS its contents vertically — 366px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-content-cards {
-  min-height: 366px;
   padding: 20px;
   border-radius: 8px;
   display: inline-flex;
@@ -628,7 +648,7 @@
   gap: 20px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -655,10 +675,9 @@
 /* Spotlight Card
  * 1 variant captured
  * Figma draws this 375px wide; treated as layout, not a rule
- * Figma draws this 302px tall; emitted as a minimum, since content decides the real height
+ * Figma HUGS its contents vertically — 302px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-spotlight-card {
-  min-height: 302px;
   padding: 0 0 10px 0;
   border-radius: 8px;
   display: inline-flex;
@@ -668,7 +687,7 @@
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -718,7 +737,7 @@
   gap: 20px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -754,11 +773,12 @@
   justify-content: flex-start;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-editable-list-card,
 .pf-editable-list-card[data-property-1="Default"] {
@@ -782,11 +802,12 @@
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-secondary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-settings-card,
 .pf-settings-card[data-property-1="Default"] {
@@ -808,7 +829,7 @@
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-secondary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -845,7 +866,7 @@
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-tertiary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -871,7 +892,7 @@
 /* Side panel
  * 3 variants captured. shadow 0 0 4px
  * Figma draws this 375px wide; treated as layout, not a rule
- * Figma draws this 726px tall — the artboard it sits on, not a rule; dropped
+ * Figma HUGS its contents vertically — 726px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-side-panel {
   border-radius: 15px 15px 0 0;
@@ -881,7 +902,7 @@
   justify-content: flex-start;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -940,15 +961,16 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: safe flex-end;
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-side-panel-header,
 .pf-side-panel-header[data-size="Default"] {
@@ -971,7 +993,7 @@
   gap: 20px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -1003,10 +1025,9 @@
 /* Layout container (magazine style)
  * 2 variants captured
  * Figma draws this 1600px wide; treated as layout, not a rule
- * Figma draws this 667px tall; emitted as a minimum, since content decides the real height
+ * Figma HUGS its contents vertically — 667px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-layout-container-magazine-style {
-  min-height: 667px;
   padding: 30px;
   display: inline-flex;
   flex-direction: column;
@@ -1054,7 +1075,7 @@
 
 /* Org chart
  * 3 variants captured
- * Figma draws this 293px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 293px is what they came to, not a rule
  */
 .pf-org-chart {
   height: 48px;
@@ -1065,11 +1086,12 @@
   justify-content: flex-start;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-org-chart[data-type="Manager"] {
   height: 97px;
@@ -1109,9 +1131,9 @@
 /* Note
  * 1 variant captured
  * Figma draws this 440px wide; treated as layout, not a rule
+ * Figma HUGS its contents vertically — 130px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-note {
-  height: 130px;
   border-radius: 8px;
   display: inline-flex;
   flex-direction: column;
@@ -1134,7 +1156,7 @@
 /* Side filter
  * 1 variant captured
  * Figma draws this 400px wide; treated as layout, not a rule
- * Figma draws this 885px tall — the artboard it sits on, not a rule; dropped
+ * Figma HUGS its contents vertically — 885px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-side-filter {
   border-radius: 8px 0 0 0;
@@ -1144,7 +1166,7 @@
   justify-content: flex-start;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -1169,7 +1191,7 @@
 
 /* Attachments
  * 1 variant captured
- * Figma draws this 440px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 440px is what they came to, not a rule
  */
 .pf-attachments {
   height: 56px;
@@ -1192,9 +1214,9 @@
 /* Attachment with person
  * 1 variant captured
  * Figma draws this 440px wide; treated as layout, not a rule
+ * Figma HUGS its contents vertically — 112px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-attachment-with-person {
-  height: 112px;
   border-radius: 8px;
   display: inline-flex;
   flex-direction: column;
@@ -1287,6 +1309,7 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-switcher {
   color: var(--pf-text-primary);
@@ -1310,6 +1333,7 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-layout-container-title {
   color: var(--pf-text-primary);
@@ -1340,7 +1364,7 @@
 
 /* 50/50 layout container
  * 1 variant captured
- * Figma draws this 1600px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 1600px is what they came to, not a rule
  * Figma draws this 368px tall; emitted as a minimum, since content decides the real height
  */
 .pf-50-50-layout-container {
@@ -1383,7 +1407,7 @@
 
 /* [S] Attachment
  * 1 variant captured
- * Figma draws this 440px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 440px is what they came to, not a rule
  */
 .pf-s-attachment {
   height: 56px;
@@ -1400,6 +1424,7 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-s-attachment {
   border-color: var(--pf-border-secondary);
@@ -1455,7 +1480,7 @@
 
 /* Detail item
  * 1 variant captured
- * Figma draws this 162px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 162px is what they came to, not a rule
  */
 .pf-detail-item {
   height: 18px;
@@ -1471,6 +1496,7 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-detail-item {
   color: var(--pf-text-primary);
@@ -1478,7 +1504,7 @@
 
 /* Component 1
  * 2 variants captured. UNNAMED IN FIGMA. It is the row inside Editable list card: a label with a trailing add or remove action. Property 1=Frame 6270951 is the ADD state (no fill, green Plus circle icon); Frame 6270952 is the ADDED state (Background/Tertiary fill, grey Remove icon). The component and both variant values carry Figma default names — raise with design.
- * Figma draws this 432px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 432px is what they came to, not a rule
  */
 .pf-component-1 {
   height: 48px;
@@ -1496,6 +1522,7 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-component-1[data-property-1="Frame 6270951"] {
   border-color: var(--pf-border-default-full);

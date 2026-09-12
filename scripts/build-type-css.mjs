@@ -12,6 +12,7 @@
 // Names drop Figma's "Desktop text/" prefix, since desktop is the default; the mobile
 // ramp keeps its prefix because it is a genuinely different set of sizes.
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { declarationsFor } from './resolve-component-type.mjs';
 
 const [header, ...lines] = readFileSync('tokens/_raw/text-styles.tsv', 'utf8').trim().split('\n');
 const keys = header.split('\t');
@@ -63,29 +64,10 @@ for (const s of styles) {
   seen.set(cls, n);
   if (n > 1) cls = `${cls}-${n}`;
 
-  const d = [];
-  d.push(`font-size: ${s.size}px`);
-  if (s.weight) {
-    d.push(`font-weight: ${WEIGHT[s.weight] || '400'}`);
-    if (s.weight === 'Italic') { d.pop(); d.push('font-weight: 400', 'font-style: italic'); }
-  } else {
-    // Figma records no weight on ten styles. Emitting nothing does NOT mean "inherit the
-    // design system's default" — it means the browser's UA stylesheet decides, and on an
-    // <h2> that is 700. Open Sans here ships 400 and 600 only, so 700 was synthesised:
-    // `.pf-text-sub-heading` on a heading rendered a weight the design system does not
-    // have, and no check could see it.
-    //
-    // 400 is not a guess. Every unweighted style has a "(semi bold, 600)" sibling —
-    // `Sub heading` next to `Sub heading (semi bold, 600)`, `Label text` next to
-    // `Label text (semibold)`. The pair only makes sense if the plain one is Regular.
-    d.push('font-weight: 400');
-    noWeight.push(s.name);
-  }
-  const ls = parseFloat(s.letterSpacing);
-  if (Number.isFinite(ls) && ls !== 0) d.push(`letter-spacing: ${ls / 100}em`);
-  if (s.textCase === 'UPPER') d.push('text-transform: uppercase');
-  d.push('line-height: normal');
-  d.push('font-family: var(--pf-font-body)');
+  // One source with build-components-css.mjs — see declarationsFor's note on the
+  // line-height the two had already drifted over.
+  const d = declarationsFor(s, { fontFamily: true });
+  if (!s.weight) noWeight.push(s.name);
 
   out.push(`/* ${s.name}${s.weight ? '' : '  — NO WEIGHT SET IN FIGMA; 400 emitted, see the note in the generator'}${
     OFF_RAMP.has(s.weight) ? `  — ${s.weight} is outside the system's stated 400/600 weights` : ''} */`);

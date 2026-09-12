@@ -231,7 +231,22 @@
 }
 
 /* ---- Semantic colours — Darkmode (explicit) ---- */
+/*
+ * `color-scheme` has to move with the attribute, not just with the OS.
+ *
+ * `:root { color-scheme: light dark }` tells the browser to follow the SYSTEM preference
+ * for everything it paints itself — the default text colour, form controls, scrollbars.
+ * `data-theme="dark"` swapped all 111 tokens and left that alone, so on a light OS the
+ * page went dark and the browser went on painting inherited text BLACK. Measured: 69 of
+ * the 160 component classes rendered a different colour depending on WHICH WAY dark mode
+ * was turned on, every one of them a class that inherits its text colour rather than
+ * stating one. Reported from a phone as the filter chips looking wrong in dark mode.
+ *
+ * Every dark screenshot in this repo is taken with the attribute (scripts/shoot.mjs sets
+ * data-theme), so this is the path the eye actually sees.
+ */
 :root[data-theme="dark"] {
+  color-scheme: dark;
   --pf-bg-configr-light-theme: var(--pf-base-dark-violet);
   --pf-bg-configr-theme: var(--pf-base-light-violet);
   --pf-bg-highlight: var(--pf-base-blue-oxford);
@@ -343,6 +358,11 @@
   --pf-text-secondary: var(--pf-base-grey-dolphin);
   --pf-text-theme: var(--pf-base-blue-turquoise);
   --pf-text-warning: var(--pf-base-orange);
+}
+
+/* The same for a page pinning light mode on a dark OS. */
+:root[data-theme="light"] {
+  color-scheme: light;
 }
 
 /* ---- Semantic colours — Darkmode (system preference) ---- */
@@ -465,9 +485,9 @@
 /* Form field
  * 14 variants captured. WRAPPER: label + input + helper text. 40 variants (Input type x State) - Text, Dropdown, Search, Date picker, Time picker x Default, Disabled, Error, Selected
  * Figma draws this 564px wide; treated as layout, not a rule
+ * Figma HUGS its contents vertically — 69px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-form-field {
-  height: 69px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -826,16 +846,18 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: safe flex-end;
   gap: 10px;
   font-size: 16px;
+  line-height: normal;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-field[data-right-aligned="No"][data-filled="Yes"] {
   height: 42px;
@@ -845,7 +867,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: safe flex-end;
   gap: 10px;
 }
 .pf-field[data-property-1="Default"] {
@@ -883,10 +905,9 @@
 /* Text area
  * 4 variants captured. inner frame r8
  * Figma draws this 300px wide; treated as layout, not a rule
- * Figma draws this 267px tall; emitted as a minimum, since content decides the real height
+ * Figma HUGS its contents vertically — 267px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-text-area {
-  min-height: 267px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -927,6 +948,7 @@
   justify-content: flex-start;
   gap: 5px;
   font-size: 16px;
+  line-height: normal;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -934,6 +956,7 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-option[data-selected="No"] {
   color: var(--pf-text-primary);
@@ -945,9 +968,9 @@
 /* Inline search
  * 2 variants captured. 2 variants
  * Figma draws this 400px wide; treated as layout, not a rule
+ * Figma HUGS its contents vertically — 130px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-inline-search {
-  height: 130px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -984,11 +1007,12 @@
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-primary-search[data-darkmode="False"][data-icon-only="True"] {
   width: 36px;
@@ -999,7 +1023,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 0px;
 }
 .pf-primary-search,
@@ -1024,7 +1048,7 @@
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -1040,9 +1064,9 @@
 /* [S] Text area
  * 1 variant captured. small variant
  * Figma draws this 300px wide; treated as layout, not a rule
+ * Figma HUGS its contents vertically — 240px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-s-text-area {
-  height: 240px;
   border-radius: 8px;
   display: inline-flex;
   flex-direction: column;
@@ -1063,10 +1087,9 @@
 
 /* Signature
  * 1 variant captured
- * Figma draws this 384px tall; emitted as a minimum, since content decides the real height
+ * Figma HUGS its contents vertically — 384px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-signature {
-  min-height: 384px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1094,6 +1117,7 @@
   justify-content: flex-start;
   gap: 8px;
   font-size: 16px;
+  line-height: normal;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -1101,6 +1125,7 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-required-field {
   color: var(--pf-text-primary);
@@ -1124,6 +1149,7 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-field-label {
   color: var(--pf-text-primary);
@@ -1132,9 +1158,9 @@
 /* Browser drop down
  * 1 variant captured
  * Figma draws this 440px wide; treated as layout, not a rule
+ * Figma HUGS its contents vertically — 222px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-browser-drop-down {
-  height: 222px;
   padding: 5px;
   border-radius: 8px;
   display: inline-flex;
@@ -1143,9 +1169,10 @@
   justify-content: flex-start;
   gap: 5px;
   font-size: 16px;
+  line-height: normal;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-secondary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -1158,7 +1185,7 @@
 
 /* People and department drop down
  * 1 variant captured
- * Figma draws this 440px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 440px is what they came to, not a rule
  * Figma draws this 320px tall; emitted as a minimum, since content decides the real height
  */
 .pf-people-and-department-drop-down {
@@ -1167,11 +1194,11 @@
   display: inline-flex;
   flex-direction: row;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -1200,6 +1227,7 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-multiselect-tag {
   /* Figma binds the primitive "Base colours/Blue Ocean" here; no semantic token has this role */
@@ -1211,9 +1239,9 @@
 /* [S] Post content
  * 1 variant captured. 73px left padding leaves room for an avatar
  * Figma draws this 520px wide; treated as layout, not a rule
+ * Figma HUGS its contents vertically — 198px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-s-post-content {
-  height: 198px;
   padding: 0 20px 10px 73px;
   display: inline-flex;
   flex-direction: column;
@@ -1234,10 +1262,9 @@
 
 /* Calendar picker
  * 1 variant captured
- * Figma draws this 323px tall; emitted as a minimum, since content decides the real height
+ * Figma HUGS its contents vertically — 323px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-calendar-picker {
-  min-height: 323px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1259,10 +1286,9 @@
 
 /* Time picker
  * 1 variant captured
- * Figma draws this 269px tall; emitted as a minimum, since content decides the real height
+ * Figma HUGS its contents vertically — 269px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-time-picker {
-  min-height: 269px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;

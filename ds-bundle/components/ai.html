@@ -231,7 +231,22 @@
 }
 
 /* ---- Semantic colours — Darkmode (explicit) ---- */
+/*
+ * `color-scheme` has to move with the attribute, not just with the OS.
+ *
+ * `:root { color-scheme: light dark }` tells the browser to follow the SYSTEM preference
+ * for everything it paints itself — the default text colour, form controls, scrollbars.
+ * `data-theme="dark"` swapped all 111 tokens and left that alone, so on a light OS the
+ * page went dark and the browser went on painting inherited text BLACK. Measured: 69 of
+ * the 160 component classes rendered a different colour depending on WHICH WAY dark mode
+ * was turned on, every one of them a class that inherits its text colour rather than
+ * stating one. Reported from a phone as the filter chips looking wrong in dark mode.
+ *
+ * Every dark screenshot in this repo is taken with the attribute (scripts/shoot.mjs sets
+ * data-theme), so this is the path the eye actually sees.
+ */
 :root[data-theme="dark"] {
+  color-scheme: dark;
   --pf-bg-configr-light-theme: var(--pf-base-dark-violet);
   --pf-bg-configr-theme: var(--pf-base-light-violet);
   --pf-bg-highlight: var(--pf-base-blue-oxford);
@@ -343,6 +358,11 @@
   --pf-text-secondary: var(--pf-base-grey-dolphin);
   --pf-text-theme: var(--pf-base-blue-turquoise);
   --pf-text-warning: var(--pf-base-orange);
+}
+
+/* The same for a page pinning light mode on a dark OS. */
+:root[data-theme="light"] {
+  color-scheme: light;
 }
 
 /* ---- Semantic colours — Darkmode (system preference) ---- */
@@ -473,7 +493,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;
@@ -482,6 +502,7 @@
   border: 1px solid transparent;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-ai-button[data-style="Light mode"][data-mobile="True"],
 .pf-ai-button[data-style="Light mode"][data-mobile="True"][data-hover="False"] {
@@ -492,7 +513,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
 }
 .pf-ai-button[data-style="Inverted"][data-mobile="False"],
@@ -504,7 +525,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
 }
 .pf-ai-button[data-style="Inverted"][data-mobile="True"],
@@ -516,7 +537,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
 }
 .pf-ai-button[data-style="Inverted"][data-mobile="False"]:hover,
@@ -528,7 +549,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
 }
 .pf-ai-button[data-style="Inverted"][data-mobile="True"]:hover,
@@ -540,7 +561,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
 }
 .pf-ai-button[data-style="Light mode"][data-mobile="False"]:hover,
@@ -552,7 +573,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
 }
 .pf-ai-button[data-style="Light mode"][data-mobile="True"]:hover,
@@ -564,7 +585,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
 }
 .pf-ai-button[data-style="Light mode"],
@@ -591,7 +612,7 @@
 
 /* AI Assistant
  * 3 variants captured
- * Figma draws this 1628px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 1628px is what they came to, not a rule
  * Figma draws this 1080px tall — the artboard it sits on, not a rule; dropped
  */
 .pf-ai-assistant {
@@ -601,7 +622,7 @@
   justify-content: space-between;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -623,6 +644,7 @@
   gap: 0px;
   font-size: 24px;
   font-weight: var(--pf-font-weight-bold);
+  line-height: normal;
 }
 .pf-ai-assistant[data-mobile="False"][data-darkmode="False"][data-type="Active chat"] {
   min-height: 0;
@@ -635,6 +657,7 @@
   gap: 0px;
   font-size: 24px;
   font-weight: var(--pf-font-weight-bold);
+  line-height: normal;
 }
 .pf-ai-assistant[data-mobile="True"][data-darkmode="False"][data-type="Default"] {
   min-height: 0;
@@ -647,6 +670,7 @@
   gap: 0px;
   font-size: 24px;
   font-weight: var(--pf-font-weight-bold);
+  line-height: normal;
 }
 .pf-ai-assistant[data-mobile="True"][data-darkmode="False"][data-type="Active chat"] {
   min-height: 0;
@@ -659,6 +683,7 @@
   gap: 0px;
   font-size: 24px;
   font-weight: var(--pf-font-weight-bold);
+  line-height: normal;
 }
 .pf-ai-assistant[data-type="Default"] {
   background: var(--pf-bg-primary);
@@ -678,7 +703,7 @@
 
 /* AI banner
  * 1 variant captured
- * Figma draws this 1315px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 1315px is what they came to, not a rule
  */
 .pf-ai-banner {
   height: 94px;
@@ -691,11 +716,12 @@
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-ai-banner[data-darkmode="False"][data-mobile="True"] {
   height: 159px;
@@ -717,10 +743,9 @@
 /* AI card modal
  * 1 variant captured
  * Figma draws this 440px wide; treated as layout, not a rule
- * Figma draws this 505px tall; emitted as a minimum, since content decides the real height
+ * Figma HUGS its contents vertically — 505px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-ai-card-modal {
-  min-height: 505px;
   padding: 20px;
   border-radius: 8px;
   display: inline-flex;
@@ -730,7 +755,7 @@
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -744,7 +769,7 @@
 
 /* Clickable AI element
  * 2 variants captured
- * Figma draws this 382px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 382px is what they came to, not a rule
  */
 .pf-clickable-ai-element {
   height: 38px;
@@ -762,6 +787,7 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-clickable-ai-element {
   color: var(--pf-text-primary);
@@ -775,15 +801,16 @@
 /* AI message bubble
  * 2 variants captured
  * Figma draws this 455px wide; treated as layout, not a rule
+ * Figma HUGS its contents vertically — 149px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-ai-message-bubble {
-  height: 149px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
   gap: 5px;
   font-size: 12px;
+  line-height: normal;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -803,6 +830,7 @@
   justify-content: center;
   gap: 4px;
   font-size: 12px;
+  line-height: normal;
 }
 .pf-ai-message-bubble[data-type="AI chat"] {
   color: var(--pf-text-secondary);
@@ -814,16 +842,16 @@
 /* Adaptive card
  * 1 variant captured
  * Figma draws this 478px wide; treated as layout, not a rule
- * Figma draws this 389px tall; emitted as a minimum, since content decides the real height
+ * Figma HUGS its contents vertically — 389px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-adaptive-card {
-  min-height: 389px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
   gap: 5px;
   font-size: 12px;
+  line-height: normal;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -843,6 +871,7 @@
   justify-content: flex-start;
   gap: 5px;
   font-size: 12px;
+  line-height: normal;
 }
 .pf-adaptive-card {
   color: var(--pf-text-secondary);
@@ -858,6 +887,7 @@
   display: inline-block;
   font-size: 24px;
   font-weight: var(--pf-font-weight-bold);
+  line-height: normal;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;

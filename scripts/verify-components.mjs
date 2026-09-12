@@ -7,8 +7,12 @@
 //
 // verify-geometry.mjs does this for a single page. This does it for the whole library,
 // which is what you need once screens are built from classes rather than hand-written CSS.
+import { hugsVertically } from './hugs.mjs';
 import { readFileSync, writeFileSync, unlinkSync } from 'node:fs';
 import { chromium } from 'playwright-core';
+
+// Figma's own answer about which frames hug — see scripts/hugs-vertically.mjs.
+const HUGS = hugsVertically();
 
 // Mirrors build-components-css.mjs: a component-level text colour that is really one
 // child's, identified by the child tree binding more than one label colour.
@@ -86,17 +90,21 @@ variants.forEach((r, i) => {
   const radius = num(g?.radius);
   const fontPx = (g?.font || '').match(/^(\d+)px/);
   const mode = (g?.layout || '').split(/\s+/)[0];
+  const hugs = HUGS.has(r.component);
 
   specs.push({
     id, component: r.component, variant: r.variant,
     html: `<div class="${base}" id="${id}"${attrs}>x</div>`,
     expect: {
-      // Mirror the generator's three height tiers (see build-components-css.mjs): a
-      // control's height is exact, a panel's is a floor, and an artboard's is not a rule
-      // at all. Asserting the raw Figma number for all three would fail the checker on
-      // values the generator is deliberately, and correctly, not emitting.
-      height: h !== null && h <= 260 ? h : null,
-      minHeight: h !== null && h > 260 && h <= 700 ? h : null,
+      // Mirror the generator's FOUR height tiers (see build-components-css.mjs): a
+      // hugging frame states none at all, a control's is exact, a panel's is a floor, and
+      // an artboard's is not a rule. Asserting the raw Figma number for all of them would
+      // fail the checker on values the generator is deliberately, and correctly, not
+      // emitting — and on a hugging component it would be measuring an EMPTY box against
+      // the height of Figma's sample contents, which said 69px expected, 19px got.
+      hugs,
+      height: !hugs && h !== null && h <= 260 ? h : null,
+      minHeight: !hugs && h !== null && h > 260 && h <= 700 ? h : null,
       radiusPill: h !== null && radius !== null && radius >= h / 2 - 1,
       radius: radius !== null && !(h !== null && radius >= h / 2 - 1) && radius > 0 ? radius : null,
       fontSize: fontPx ? +fontPx[1] : null,
@@ -135,6 +143,10 @@ for (const theme of ['light', 'dark']) {
       return {
         id: s.id,
         height: Math.round(el.getBoundingClientRect().height),
+        declaredHeight: (() => { for (const sh of document.styleSheets) {
+          let rs; try { rs = sh.cssRules; } catch { continue; }
+          for (const rr of rs) { if (rr.selectorText === '.' + el.className.split(' ')[0]
+            && rr.style && rr.style.height) return rr.style.height; } } return ''; })(),
         radius: parseFloat(cs.borderTopLeftRadius),
         fontSize: parseFloat(cs.fontSize),
         minHeight: cs.minHeight,
@@ -160,6 +172,10 @@ for (const theme of ['light', 'dark']) {
     if (!f || f.missing) { add('exists', 'in DOM', 'missing', false); continue; }
     const e = s.expect;
 
+    // The negative, so a hugging component is still asserted rather than merely skipped:
+    // its class must state no height of its own, which is what lets the content decide.
+    if (e.hugs) add('height (hugs)', 'not stated', f.declaredHeight || 'not stated',
+      !f.declaredHeight || f.declaredHeight === 'auto');
     if (e.height !== null) add('height', e.height + 'px', f.height + 'px', Math.abs(f.height - e.height) <= 1);
     if (e.minHeight !== null) add('min-height', e.minHeight + 'px', f.minHeight, f.minHeight === e.minHeight + 'px');
     if (e.radiusPill) add('radius (pill)', '>= half height', f.radius + 'px', f.radius >= f.height / 2 - 1);

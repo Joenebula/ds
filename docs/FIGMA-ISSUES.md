@@ -369,6 +369,78 @@ headers can keep their surface, and the white text with it. This is the same sha
 
 ---
 
+## 12. Eighteen shadows the design system has no token for
+
+`Elevation` in the design system is two tokens and nothing else:
+
+| Token | Value |
+|---|---|
+| `--pf-shadow-drop-shadow` | `0 0 4px #c1c1c1` |
+| `--pf-shadow-modal-header-shadow` | `0 4px 4px rgba(0,0,0,.1)` |
+
+Figma casts a drop shadow on **47 component variants**. Twenty-nine match one of those two
+exactly and are emitted as `box-shadow: var(--pf-shadow-*)`. The other **eighteen do not
+match either token**, and the pipeline deliberately emits nothing for them rather than
+writing Figma's rgba into the stylesheet — that would put a raw colour in generated CSS and
+freeze it across both modes.
+
+| Component | Shadow in Figma |
+|---|---|
+| `Toast message` (4 variants) | `0 0 25px rgba(0,0,0,.2)` |
+| `Side navigation` (3) | `0 0 4px rgba(0,0,0,.2)` |
+| `Org chart` (3) | `2 2 4px rgba(0,0,0,.3)` |
+| `Configuration` (2), `Configuration tile` (2) | `0 0 4px rgba(0,0,0,.2)` |
+| `Notification categories`, `Notification list` | `2 0 4px rgba(0,0,0,.1)` |
+| `Browser drop down` | `0 2 4px rgba(0,0,0,.3)` |
+| `Settings card` | `0 1 3px rgba(0,0,0,.25)` |
+
+Four shapes account for all eighteen: a soft black at .2, .25 and .3, and two directional
+ones. `0 0 4px rgba(0,0,0,.2)` alone covers seven variants across three components and is
+plainly meant to be the same shadow each time.
+
+**Suggested fix:** publish these as effect styles bound to variables, the way the two
+existing ones are, and the pipeline picks them up on the next extract with no code change.
+Naming the `0 0 4px rgba(0,0,0,.2)` one would clear seven of the eighteen on its own.
+
+**Second, separate problem: neither existing shadow token changes between modes.** Both are
+defined once in `:root`. `--pf-shadow-drop-shadow` is `#c1c1c1` — a light grey glow, which
+is correct on a white page and wrong on a dark one, where a shadow should be darker than its
+surface rather than lighter. The file already has a mode-aware colour for exactly this:
+`Border/Border - Drop shadow`, which is Grey Dolphin in light and Grey Slate in dark. The
+shadow tokens do not use it. The pipeline emits the tokens as published rather than
+recomposing them, because composing a shadow the design system has not stated would be
+inventing an elevation ramp — which the skill explicitly forbids.
+
+---
+
+## 13. Three components have a mobile variant for only some values of an axis
+
+A component's breakpoint variants are what let the stylesheet make it responsive. Where every
+variant at a width agrees on a value, that value is carried to the class and the component
+follows the viewport on its own. Three components cannot be carried, because Figma draws their
+mobile or tablet variant for only **part** of another axis:
+
+| Component | Axis | Drawn at desktop | Drawn at mobile / tablet | What is missing |
+|---|---|---|---|---|
+| `Navigation item` | `System` | People First, Configr | People First only | A **Configr** nav item at Device=Mobile (86x76) and Device=Tablet (86x56) |
+| `Graph legend` | `Key type` | Line graph only | Donut graph only | A **Line graph** legend at Mobile=True, and a **Donut graph** one at Mobile=False |
+| `Spotlight Card` | `Horizontal` | True (585x218), False | True only (375x168) | A **vertical** Spotlight Card at Mobile=True |
+
+`Graph legend` is the clearest: it has exactly two variants and they differ on **both** axes at
+once, so neither breakpoint covers both key types and neither key type covers both breakpoints.
+
+**Why the pipeline will not guess.** Applying the donut legend's 27px to a bare `pf-graph-legend`
+would state a mobile height for the line legend that Figma has never drawn, and it would look
+right — a component that is confidently the wrong size is worse than one that does not respond,
+because nothing downstream can tell. `check-responsive.mjs` reports each of them by name against
+Figma's own number instead.
+
+**Fix:** draw the missing variant. Each is one variant in an existing component set, and the
+pipeline picks it up on the next extract with no code change — the count in
+`check-responsive.mjs` rises on its own.
+
+---
+
 ## What happens after you fix any of this
 
 Re-extract and rebuild, and the stylesheet, the component list and the example screens all

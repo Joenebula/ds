@@ -231,7 +231,22 @@
 }
 
 /* ---- Semantic colours — Darkmode (explicit) ---- */
+/*
+ * `color-scheme` has to move with the attribute, not just with the OS.
+ *
+ * `:root { color-scheme: light dark }` tells the browser to follow the SYSTEM preference
+ * for everything it paints itself — the default text colour, form controls, scrollbars.
+ * `data-theme="dark"` swapped all 111 tokens and left that alone, so on a light OS the
+ * page went dark and the browser went on painting inherited text BLACK. Measured: 69 of
+ * the 160 component classes rendered a different colour depending on WHICH WAY dark mode
+ * was turned on, every one of them a class that inherits its text colour rather than
+ * stating one. Reported from a phone as the filter chips looking wrong in dark mode.
+ *
+ * Every dark screenshot in this repo is taken with the attribute (scripts/shoot.mjs sets
+ * data-theme), so this is the path the eye actually sees.
+ */
 :root[data-theme="dark"] {
+  color-scheme: dark;
   --pf-bg-configr-light-theme: var(--pf-base-dark-violet);
   --pf-bg-configr-theme: var(--pf-base-light-violet);
   --pf-bg-highlight: var(--pf-base-blue-oxford);
@@ -343,6 +358,11 @@
   --pf-text-secondary: var(--pf-base-grey-dolphin);
   --pf-text-theme: var(--pf-base-blue-turquoise);
   --pf-text-warning: var(--pf-base-orange);
+}
+
+/* The same for a page pinning light mode on a dark OS. */
+:root[data-theme="light"] {
+  color-scheme: light;
 }
 
 /* ---- Semantic colours — Darkmode (system preference) ---- */
@@ -480,6 +500,7 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-bar[data-label="Vertical"] {
   width: 29px;
@@ -540,6 +561,7 @@
   display: inline-block;
   font-size: 13px;
   font-weight: var(--pf-font-weight-regular);
+  line-height: normal;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -566,6 +588,7 @@
   height: 200px;
   display: inline-block;
   font-size: 60px;
+  line-height: normal;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -573,6 +596,7 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-donut-pie-chart[data-segments="2"][data-icon="True"] {
   height: 200px;
@@ -586,6 +610,7 @@
   border-radius: 0;
   display: inline-block;
   font-size: 60px;
+  line-height: normal;
 }
 .pf-donut-pie-chart[data-segments="4"][data-icon="True"] {
   height: 200px;
@@ -599,6 +624,7 @@
   border-radius: 0;
   display: inline-block;
   font-size: 60px;
+  line-height: normal;
 }
 .pf-donut-pie-chart[data-segments="1"][data-icon="True"] {
   height: 200px;
@@ -612,6 +638,7 @@
   border-radius: 0;
   display: inline-block;
   font-size: 60px;
+  line-height: normal;
 }
 .pf-donut-pie-chart[data-segments="3"][data-icon="True"] {
   height: 200px;
@@ -634,6 +661,7 @@
   justify-content: flex-start;
   gap: 21px;
   font-size: 60px;
+  line-height: normal;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -653,6 +681,7 @@
   justify-content: flex-start;
   gap: 20px;
   font-size: 60px;
+  line-height: normal;
 }
 .pf-donut-chart-with-ledger {
   color: var(--pf-text-primary);
@@ -660,9 +689,9 @@
 
 /* Hemisphere chart
  * 1 variant captured
+ * Figma HUGS its contents vertically — 146px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-hemisphere-chart {
-  height: 146px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -682,9 +711,9 @@
 
 /* Data variance
  * 1 variant captured
+ * Figma HUGS its contents vertically — 45px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-data-variance {
-  height: 45px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -716,11 +745,12 @@
   gap: 165px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-tertiary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-metric-card[data-mobile="True"] {
   height: 65px;
@@ -749,6 +779,7 @@
   justify-content: flex-start;
   gap: 5px;
   font-size: 20px;
+  line-height: normal;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -756,6 +787,7 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-data-variance-alternative {
   color: var(--pf-text-primary);
@@ -778,6 +810,7 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-graph-legend[data-mobile="False"][data-key-type="Line graph"] {
   height: 18px;
@@ -802,6 +835,7 @@
   gap: 5px;
   font-size: 20px;
   font-weight: var(--pf-font-weight-regular);
+  line-height: normal;
 }
 .pf-graph-legend {
   color: var(--pf-text-primary);
@@ -809,7 +843,7 @@
 
 /* Graph axis
  * 1 variant captured
- * Figma draws this 492px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 492px is what they came to, not a rule
  */
 .pf-graph-axis {
   height: 232px;
@@ -819,6 +853,7 @@
   justify-content: flex-start;
   gap: 10px;
   font-size: 13px;
+  line-height: normal;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -826,6 +861,7 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-graph-axis[data-breakpoint="Mobile"] {
   height: 179px;
@@ -850,7 +886,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;
@@ -859,6 +895,7 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-square-progress-bar[data-variant="Inline"][data-progress="0%"] {
   height: 18px;
@@ -868,7 +905,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
 }
 .pf-square-progress-bar[data-variant="Inline"][data-progress="25%"] {
@@ -879,7 +916,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
 }
 .pf-square-progress-bar[data-variant="Inline"][data-progress="50%"] {
@@ -890,7 +927,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
 }
 .pf-square-progress-bar[data-variant="Inline"][data-progress="100%"] {
@@ -901,7 +938,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
 }
 .pf-square-progress-bar[data-variant="Bottom label"][data-progress="0%"] {
@@ -956,7 +993,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   gap: 10px;
 }
 .pf-square-progress-bar[data-variant="Bottom label"][data-progress="75%"] {
@@ -976,7 +1013,7 @@
 
 /* Table progress bar
  * 1 variant captured
- * Figma draws this 246px wide; treated as layout, not a rule
+ * Figma HUGS its contents horizontally — 246px is what they came to, not a rule
  */
 .pf-table-progress-bar {
   height: 14px;
@@ -992,6 +1029,7 @@
   border: 0;
   box-sizing: border-box;
   font-family: var(--pf-font-body);
+  white-space: nowrap;
 }
 .pf-table-progress-bar {
   color: var(--pf-text-primary);
@@ -1000,9 +1038,9 @@
 /* Percentage bar
  * 1 variant captured
  * Figma draws this 343px wide; treated as layout, not a rule
+ * Figma HUGS its contents vertically — 37px is what they came to, not a rule, so no height is emitted and the content decides it
  */
 .pf-percentage-bar {
-  height: 37px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;

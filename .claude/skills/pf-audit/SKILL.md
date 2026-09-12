@@ -90,7 +90,8 @@ failures — colours are correct. Shape, library use and naming are separate che
 
 ## Fixing what it finds
 
-Load the `people-first` skill for the token tables and `references/geometry.md` for
+Load the `people-first` skill for the token tables and
+`.claude/skills/people-first/references/geometry.md` for
 shape. The usual root causes:
 
 - Raw hex where a token exists → swap for the named token.
