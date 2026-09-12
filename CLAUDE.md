@@ -351,6 +351,35 @@ ways** and asserts they agree. The OS is set the OPPOSITE way in each pair on pu
 them would let a page pass by following the system while ignoring the attribute entirely, which
 is the actual fault.
 
+### Which checks only ever look at one mode
+
+That lesson has an obvious next question — *what else is only tested from one side?* — and it
+was asked rather than assumed. Of the checks that render in a browser, five switch mode
+(`verify-components`, `check-contrast`, `pf-audit`, `check-theme-paths`, `verify-rendered`) and
+**seventeen never did**. Each of the seventeen was run again against a dark-rendered page and
+its output diffed: **sixteen are identical**, because what they measure — a height, an offset,
+a border width, an icon, a font face, a template's contents — is not a colour and cannot move
+with the mode. So being light-only is correct for those, and that is now a measurement rather
+than a hope.
+
+**The seventeenth was measuring the value instead of the declaration.**
+`check-breakpoint-consistency` decided whether a class "states its own text colour" by comparing
+its rendered colour against the body's. In dark mode `--pf-text-primary` resolves to
+`--pf-base-white` — and so does the colour a bare body inherits. Measured: **91 classes state a
+colour in light mode and 16 in dark.** It was not finding fewer faults in dark mode, it was
+asking a smaller question, and the stranded colour it exists to catch **is white**, the one
+value dark mode cannot tell from the default.
+
+The question was never "is this colour different from the default", it is "does this element
+inherit its colour or set one" — so vary what there is to inherit. Every class now renders
+**twice on the same page, once under a red parent and once under a green one**, and a class that
+renders identically under both states its own colour. That needs no token to differ from
+anything and gives **91 in both modes**. The check runs the whole assertion in each mode and
+carries a third one: whether a class states a colour, and whether it paints its own surface, are
+facts about its rules, so **the two modes must agree on them** — a disagreement means the
+detection has gone soft in one of them again. Putting the old comparison back fires that
+assertion 226 times.
+
 ## A fill every variant agrees on belongs on the bare class
 
 The colour rules are emitted per variant, so a class painted **nothing** until a page wrote
@@ -392,7 +421,7 @@ Figma clips the contents of **34 of the 62 components** on Cards and panels, 22 
 a corner radius, and `dist/components.css` sets `overflow` once. After the border and the
 shadow this looked like the obvious next thing to carry, and it is the one that must not be.
 
-The measurement that settled it: **26 of the 154 templates already render outside the box
+The measurement that settled it: **23 of the 154 templates already render outside the box
 their own class draws** — `pf-hemisphere-chart` by 333px, `pf-donut-pie-chart` by 284px,
 `pf-content` by 180px. `overflow: hidden` would not have reproduced the design on those; it
 would have deleted part of the component's own generated contents from view. And nothing
@@ -406,7 +435,7 @@ the component at, and a template holds placeholder contents of their own size; t
 never promised to agree.
 
 `npm run verify` runs `check-template-overflow.mjs`, which reports and pins the count **and
-the magnitude — 1363px of overflow in total**. How many is not how much: placing
+the magnitude — 1171px of overflow in total**. How many is not how much: placing
 `Hemisphere chart`'s children at Figma's own offsets took it from 333px to 77px, a large
 real improvement the count alone could not see, because it still overflows by something.
 Both numbers are the precondition: **clipping can only ever be carried once they reach
@@ -415,7 +444,7 @@ zero.**
 **And both are measured at two widths now.** They were desktop-only for as long as a class was
 the same size at every width; making components follow the viewport ended that, and the pinned
 pair described half the library. A class box shrinks to its mobile artboard while the template's
-placeholder contents do not, so at 390px it is **30 templates and 1688px**. Four templates
+placeholder contents do not, so at 390px it is **27 templates and 1529px**. Four templates
 overflow *only* once the class shrinks — `pf-navigation-tabs`, `pf-search-navigation`,
 `pf-table-ag` — and no check could see them. A precondition checked at one width is not checked.
 

@@ -32,62 +32,112 @@
 // what it must never do is state one at some widths and not others, because the breakpoint
 // then decides whether the text is the component's colour or the page's. That is precisely
 // what happened: nothing at desktop, white at mobile, over no background at all.
+//
+// HOW "states its own text colour" IS MEASURED, and why it is not the obvious way.
+//
+// The first version asked whether the class's rendered colour differed from the body's. That
+// is a proxy, and it silently stops working in the mode where the fault actually lives: in
+// dark mode `--pf-text-primary` resolves to `--pf-base-white`, and so does the colour a bare
+// body inherits, so a class that plainly states `color: var(--pf-text-primary)` reads as
+// stating nothing. Measured: 91 classes state a colour in light mode and 16 in dark. The
+// check was not finding fewer faults in dark mode, it was asking a smaller question — and the
+// stranded colour it exists to catch IS white, the one value dark mode cannot distinguish.
+//
+// The question is not "is this colour different from the default", it is "does this element
+// inherit its colour or set one". So vary what there is to inherit: every class is rendered
+// TWICE on the same page, once under a red parent and once under a green one. A class that
+// states its own colour renders identically in both; one that inherits follows its parent.
+// That is exact, it needs no token to differ from anything, and it gives the same answer in
+// both modes — which is now asserted rather than assumed.
 import { readFileSync, writeFileSync, unlinkSync } from 'node:fs';
 import { chromium } from 'playwright-core';
 
 const css = readFileSync('dist/components.css', 'utf8');
 const classes = [...new Set([...css.matchAll(/\.(pf-[a-z0-9-]+)/g)].map(m => m[1]))].sort();
 const WIDTHS = { desktop: 1400, tablet: 800, mobile: 390 };
+const MODES = ['light', 'dark'];
 
+const copy = (tag, colour) => `<div id="${tag}" style="color:${colour}">`
+  + classes.map((c, i) => `<div class="${c}" id="${tag}c${i}">x</div>`).join('') + '</div>';
 writeFileSync('tmp-bpc.html',
   ['fonts', 'tokens', 'components', 'type'].map(f => `<style>${readFileSync(`dist/${f}.css`, 'utf8')}</style>`).join('')
-  + `<body style="margin:0">${classes.map((c, i) => `<div class="${c}" id="c${i}">x</div>`).join('')}</body>`);
+  + `<body style="margin:0">${copy('A', 'rgb(255, 0, 0)')}${copy('B', 'rgb(0, 255, 0)')}</body>`);
 
 const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
 const seen = {};
-for (const [name, width] of Object.entries(WIDTHS)) {
-  const page = await browser.newPage({ viewport: { width, height: 900 } });
-  await page.goto('file://' + process.cwd() + '/tmp-bpc.html');
-  await page.evaluate(() => document.fonts.ready);
-  seen[name] = await page.evaluate(n => Array.from({ length: n }, (_, i) => {
-    const el = document.getElementById('c' + i);
-    const s = getComputedStyle(el);
-    const bg = s.backgroundColor;
-    // The element's OWN paint only — an inherited page colour is not the component's answer.
-    const paints = (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') || s.backgroundImage !== 'none';
-    // A colour it merely inherited is not a colour it states; compare against the body's.
-    const stated = s.color !== getComputedStyle(document.body).color;
-    return { paints, stated, shadow: s.boxShadow };
-  }), classes.length);
-  await page.close();
+for (const mode of MODES) {
+  seen[mode] = {};
+  for (const [name, width] of Object.entries(WIDTHS)) {
+    const page = await browser.newPage({ viewport: { width, height: 900 }, colorScheme: mode });
+    await page.goto('file://' + process.cwd() + '/tmp-bpc.html');
+    await page.evaluate(() => document.fonts.ready);
+    seen[mode][name] = await page.evaluate(n => Array.from({ length: n }, (_, i) => {
+      const a = getComputedStyle(document.getElementById('Ac' + i));
+      const b = getComputedStyle(document.getElementById('Bc' + i));
+      const bg = a.backgroundColor;
+      // The element's OWN paint only — an inherited page colour is not the component's answer.
+      const paints = (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') || a.backgroundImage !== 'none';
+      // Two different things to inherit. Same answer under both = the class states it itself.
+      const stated = a.color === b.color;
+      return { paints, stated, shadow: a.boxShadow };
+    }), classes.length);
+    await page.close();
+  }
 }
 await browser.close();
 unlinkSync('tmp-bpc.html');
 
 const widths = Object.keys(WIDTHS);
 const problems = [];
-let consistent = 0, stating = 0, onOwnSurface = 0;
-const pairedAtOneWidth = [];
-classes.forEach((c, i) => {
-  const says = widths.filter(w => seen[w][i].stated);
-  // An asymmetry alone is not the fault — the fault is a colour arriving WITHOUT the surface it
-  // was chosen against. `Notification categories` gains a text colour and its own background
-  // together at mobile: a complete pair, self-consistent, and simply a distinct mobile
-  // appearance Figma drew. `Header` gained white and nothing to put it on.
-  const bare = says.filter(w => !seen[w][i].paints);
-  if (says.length && says.length !== widths.length && bare.length) {
-    const quiet = widths.filter(w => !says.includes(w));
-    problems.push(`.${c} states its own text colour at ${says.join('/')} width and not at `
-      + `${quiet.join('/')}, and at ${bare.join('/')} it paints no background to state it `
-      + `against — so at that width alone the colour lands on whatever the page provides`);
-  } else if (says.length && says.length !== widths.length) {
-    pairedAtOneWidth.push(`${c} (at ${says.join('/')})`);
-    consistent++;
-  } else {
-    consistent++;
-    if (says.length) { stating++; if (seen[widths[0]][i].paints) onOwnSurface++; }
-  }
-});
+const count = {};
+const pairedAtOneWidth = {};
+for (const mode of MODES) {
+  let consistent = 0, stating = 0, onOwnSurface = 0;
+  pairedAtOneWidth[mode] = [];
+  classes.forEach((c, i) => {
+    const says = widths.filter(w => seen[mode][w][i].stated);
+    // An asymmetry alone is not the fault — the fault is a colour arriving WITHOUT the surface it
+    // was chosen against. `Notification categories` gains a text colour and its own background
+    // together at mobile: a complete pair, self-consistent, and simply a distinct mobile
+    // appearance Figma drew. `Header` gained white and nothing to put it on.
+    const bare = says.filter(w => !seen[mode][w][i].paints);
+    if (says.length && says.length !== widths.length && bare.length) {
+      const quiet = widths.filter(w => !says.includes(w));
+      problems.push(`.${c} states its own text colour at ${says.join('/')} width and not at `
+        + `${quiet.join('/')}, and at ${bare.join('/')} it paints no background to state it `
+        + `against — so at that width alone the colour lands on whatever the page provides `
+        + `(${mode} mode)`);
+    } else if (says.length && says.length !== widths.length) {
+      pairedAtOneWidth[mode].push(`${c} (at ${says.join('/')})`);
+      consistent++;
+    } else {
+      consistent++;
+      if (says.length) { stating++; if (seen[mode][widths[0]][i].paints) onOwnSurface++; }
+    }
+  });
+  count[mode] = { consistent, stating, onOwnSurface };
+}
+
+// The two modes must be asking the SAME question. Whether a class states its own colour, and
+// whether it paints its own surface, are structural facts about the rules that match it, so
+// they cannot depend on the mode — and when the measurement was a proxy they did, badly. This
+// is the assertion that stops a proxy creeping back in: if the two modes ever start disagreeing
+// about how many classes are even candidates, the detection has gone soft in one of them again.
+for (const w of widths) {
+  classes.forEach((c, i) => {
+    const l = seen.light[w][i], d = seen.dark[w][i];
+    if (l.stated !== d.stated) {
+      problems.push(`.${c} at ${w} width is read as stating its own text colour in `
+        + `${l.stated ? 'light' : 'dark'} mode and inheriting it in ${l.stated ? 'dark' : 'light'} `
+        + `— whether a class states a colour is a fact about its rules, so a check that answers `
+        + `differently per mode is measuring the value rather than the declaration`);
+    }
+    if (l.paints !== d.paints) {
+      problems.push(`.${c} at ${w} width paints its own background in `
+        + `${l.paints ? 'light' : 'dark'} mode only`);
+    }
+  });
+}
 
 // 2. A DROP SHADOW must be the same at every width unless Figma's own measurements differ.
 //
@@ -110,7 +160,7 @@ for (const line of readFileSync('tokens/_raw/component-shadow.tsv', 'utf8').trim
 let sameShadow = 0;
 const shadowExcused = [];
 classes.forEach((c, i) => {
-  const vals = new Set(widths.map(w => seen[w][i].shadow));
+  const vals = new Set(MODES.flatMap(m => widths.map(w => seen[m][w][i].shadow)));
   if (vals.size === 1) { sameShadow++; return; }
   if ((figmaShadows.get(c) || new Set()).size > 1) { shadowExcused.push(c); return; }
   problems.push(`.${c} casts a different drop shadow at different widths (${[...vals].map(v => v === 'none' ? 'none' : v.slice(0, 24)).join('  vs  ')}) `
@@ -118,20 +168,25 @@ classes.forEach((c, i) => {
     + `on a desktop and shadowed on a phone`);
 });
 
-console.log(`${classes.length} class(es) checked at ${Object.values(WIDTHS).join('/')}px`);
-console.log(`  ${sameShadow} cast the same drop shadow at every width`);
+console.log(`${classes.length} class(es) checked at ${Object.values(WIDTHS).join('/')}px in `
+  + `${MODES.join(' and ')} mode`);
+console.log(`  ${sameShadow} cast the same drop shadow at every width, in both modes`);
 if (shadowExcused.length) {
   console.log(`  ${shadowExcused.length} differ because Figma's own measurements differ: ${shadowExcused.join(', ')}`);
 }
-console.log(`  ${consistent} answer the same way at every width — a breakpoint never decides whose `
-  + `colour the text is`);
-console.log(`  ${stating} of those state a colour of their own, ${onOwnSurface} of them over a `
-  + `surface they paint themselves; the rest sit on one something else paints, which is the design`);
-if (pairedAtOneWidth.length) {
-  console.log(`  ${pairedAtOneWidth.length} take on a colour AND their own surface at one width `
-    + `only, which is a complete pair and a mobile appearance Figma drew: ${pairedAtOneWidth.join(', ')}`);
+for (const mode of MODES) {
+  const { consistent, stating, onOwnSurface } = count[mode];
+  console.log(`  ${mode}: ${consistent} answer the same way at every width — a breakpoint never `
+    + `decides whose colour the text is`);
+  console.log(`    ${stating} of those state a colour of their own, ${onOwnSurface} of them over a `
+    + `surface they paint themselves; the rest sit on one something else paints, which is the design`);
+  if (pairedAtOneWidth[mode].length) {
+    console.log(`    ${pairedAtOneWidth[mode].length} take on a colour AND their own surface at one `
+      + `width only, which is a complete pair and a mobile appearance Figma drew: `
+      + pairedAtOneWidth[mode].join(', '));
+  }
 }
-if (!stating) {
+if (MODES.some(m => !count[m].stating)) {
   console.error('  this check proved nothing: not one class stated a colour, so nothing was tested');
   process.exit(1);
 }
