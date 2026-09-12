@@ -14,6 +14,7 @@
 //      attribute spelling the skill documents
 import { readFileSync, writeFileSync, unlinkSync, readdirSync, existsSync } from 'node:fs';
 import { chromium } from 'playwright-core';
+import { offSystem } from './check-off-system.mjs';
 
 const md = readFileSync('.claude/skills/people-first/SKILL.md', 'utf8');
 const section = md.split('### The classes you will reach for most')[1];
@@ -67,6 +68,59 @@ const matches = await p.evaluate(n => [...Array(n).keys()].map(i => {
       if (r.selectorText && el.matches(r.selectorText)) count++;
   return count;
 }), cases.length);
+
+// ---- HOW MUCH OF WHAT PAINTS IS THE LIBRARY'S -------------------------------
+//
+// CLAUDE.md carried "about 78–86% of what paints on them uses a real library class" as a
+// hand-measurement with no method written down and nothing computing it. It could not be
+// reproduced — the method is gone — so rather than keep quoting a number nobody can check,
+// the question is asked in a way that IS defined and IS pinned:
+//
+//   an element PAINTS if the reader can see it as itself — a background, a visible border,
+//   or its own direct text (a descendant's text belongs to the descendant);
+//   it is the LIBRARY'S if it carries a class from components.css or type.css.
+//
+// SVG internals are skipped: an icon's paths are one icon, not forty painted elements, and
+// counting them would swamp the figure with whichever icons a page happens to use.
+//
+// The numbers this gives are NOT comparable to the old 78–86% — different method, stated
+// here so nobody reads a fall from 86 to 62 as a regression. What it does show is the thing
+// the paragraph is actually about: it tracks the off-system score. The page built on the
+// templates scores 0 off-system and 90% here; the most hand-built one scores 163 and 39%.
+const paintCoverage = async (file) => {
+  const page = await (await browser.newContext({ viewport: { width: 1440, height: 1080 } })).newPage();
+  await page.goto('file://' + process.cwd() + '/' + file);
+  const r = await page.evaluate(known => {
+    const set = new Set(known);
+    const clear = c => !c || c === 'transparent' || /^rgba\(\s*0,\s*0,\s*0,\s*0\s*\)$/.test(c);
+    const paints = el => {
+      const o = getComputedStyle(el);
+      if (!clear(o.backgroundColor)) return true;
+      if (o.backgroundImage && o.backgroundImage !== 'none') return true;
+      for (const s of ['Top', 'Right', 'Bottom', 'Left'])
+        if ((parseFloat(o[`border${s}Width`]) || 0) > 0 && !clear(o[`border${s}Color`])) return true;
+      return [...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim());
+    };
+    let painting = 0, viaClass = 0;
+    for (const el of document.body.querySelectorAll('*')) {
+      if (el.tagName === 'SVG' || el.closest('svg')) continue;
+      if (!paints(el)) continue;
+      painting++;
+      if ([...el.classList].some(c => set.has(c))) viaClass++;
+    }
+    return { painting, viaClass };
+  }, [...new Set([...(readFileSync('dist/components.css', 'utf8') + readFileSync('dist/type.css', 'utf8'))
+    .replace(/\/\*[\s\S]*?\*\//g, ' ').matchAll(/\.(pf-[a-z0-9-]+)/g)].map(m => m[1]))]);
+  await page.close();
+  // A page where NOTHING paints would divide by zero and read as a perfect score.
+  if (!r.painting) { problems.push(`${file}: nothing on the page paints, so its coverage cannot be measured`); return 0; }
+  return Math.round(r.viaClass / r.painting * 100);
+};
+const pctAbsence = await paintCoverage('prototypes/absence-requests.html');
+const pctTimesheet = await paintCoverage('prototypes/timesheet-approvals.html');
+const pctPayroll = await paintCoverage('prototypes/payroll-run-summary.html');
+const pctRecruitment = await paintCoverage('prototypes/recruitment-pipeline.html');
+
 await browser.close();
 unlinkSync('tmp-skill-classes.html');
 
@@ -300,7 +354,27 @@ const treeNames = new Set(readFileSync('tokens/_raw/component-tree.tsv', 'utf8')
   .trim().split('\n').slice(1).map(l => l.split('\t')[0]));
 const walked = productPage.filter(c => treeNames.has(c.name)).length;
 
+// WHAT EACH PROTOTYPE SCORES OFF-SYSTEM, from the scorer the check itself uses rather than
+// from a number typed into the docs. CLAUDE.md quoted "30-63 off-system each" long after the
+// real answers were 82, 138 and 163 — nothing re-measured it as the check grew, which is the
+// exact drift this section exists to stop.
+const offSystemScore = f => offSystem(`prototypes/${f}.src.html`).length;
+const nOffAbsence = offSystemScore('absence-requests');
+const nOffTimesheet = offSystemScore('timesheet-approvals');
+const nOffPayroll = offSystemScore('payroll-run-summary');
+const nOffRecruitment = offSystemScore('recruitment-pipeline');
+
 const figures = [
+  // Whitespace-tolerant at every join, for the reason the note further down already gives:
+  // a figure in prose lands wherever the line happens to wrap, and a literal space in the
+  // pattern makes the check fail on a reflow rather than on a wrong number.
+  ['off-system on the three oldest prototypes', [nOffAbsence, nOffTimesheet, nOffPayroll],
+    /`absence-requests`\s+\*\*(\d+)\*\*,\s+`timesheet-approvals`\s+\*\*(\d+)\*\*\s+and\s+`payroll-run-summary`\s+\*\*(\d+)\*\*\s+off-system/g],
+  ['off-system on the prototype built from templates', nOffRecruitment,
+    /`recruitment-pipeline`, built on the templates, scores \*\*(\d+)\*\*/g],
+  ['% of what paints carrying a library class',
+    [pctAbsence, pctTimesheet, pctPayroll, pctRecruitment],
+    /\*\*(\d+)%\*\*,\s+\*\*(\d+)%\*\*,\s+\*\*(\d+)%\*\*\s+and\s+\*\*(\d+)%\*\*\s+of\s+what\s+paints/g],
   ['templates', templateCount, /\b(\d+) (?:composite components have one|of them render NOTHING|rendered, light and dark)/g],
   ['templates', templateCount, /all (\d+) rendered/g],
   ['templates', templateCount, /all (\d+) of them\*\*, which is exactly why/g],
@@ -384,14 +458,29 @@ const WORDS = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, ei
   nine: 9, ten: 10, eleven: 11, twelve: 12 };
 const figure = t => (WORDS[String(t).toLowerCase()] ?? Number(t));
 
+// A SENTENCE MAY CARRY MORE THAN ONE FIGURE, and only the first was ever compared. Prose
+// naturally groups related numbers — "82, 138 and 163 off-system", "16, 15, 22 and 23 each" —
+// and splitting those into one sentence per number to make them checkable would be writing
+// the docs around the checker. An `actual` that is an array is compared against the capture
+// groups in order, so the whole list is pinned; a single value keeps the old behaviour.
 let matched = 0;
 for (const [what, actual, re] of figures) {
+  const wanted = Array.isArray(actual) ? actual : [actual];
   let hits = 0;
   for (const [name, text] of docs)
     for (const m of text.matchAll(re)) {
       hits++;
-      if (figure(m[1]) !== actual)
-        problems.push(`${name} says ${m[1]} ${what}; the build says ${actual} — "${m[0].replace(/\s+/g, ' ').trim()}"`);
+      // A pattern with fewer groups than expected values would silently check only the ones
+      // it has, which is the vacuous pass this whole section exists to prevent.
+      if (m.length - 1 !== wanted.length) {
+        problems.push(`the pattern for "${what}" captures ${m.length - 1} figure(s) but `
+          + `${wanted.length} are expected — "${m[0].replace(/\s+/g, ' ').trim()}"`);
+        continue;
+      }
+      wanted.forEach((want, i) => {
+        if (figure(m[i + 1]) !== want)
+          problems.push(`${name} says ${m[i + 1]} ${what}; the build says ${want} — "${m[0].replace(/\s+/g, ' ').trim()}"`);
+      });
     }
   if (!hits) problems.push(`nothing matches the pattern for "${what}" (${re.source}) — the `
     + `sentence it checked has been reworded, so that figure is no longer verified`);

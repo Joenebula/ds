@@ -995,11 +995,17 @@ count is checked against the script now, so it cannot drift again.)
 It does not look at type classes. A component composes its own type, so a page must not add
 `pf-text-*` inside one — see the rule above.
 
-**`prototypes/` are exempt** — they are hand-built fixtures. Measured today, the three oldest
-score **82, 138 and 163** off-system; `recruitment-pipeline`, built on the templates, scores
-**0**. That spread is what the exemption is for, not a licence: a prototype CAN be on-system,
-and the newest one is. (This read "30-63 each" for a long time, which was never re-measured as
-the check grew.) Builds FROM a design are not exempt.
+**`prototypes/` are exempt** — they are hand-built fixtures. `absence-requests` **82**,
+`timesheet-approvals` **138** and `payroll-run-summary` **163** off-system;
+`recruitment-pipeline`, built on the templates, scores **0**. That spread is what the
+exemption is for, not a licence: a prototype CAN be on-system, and the newest one is. Builds
+FROM a design are not exempt.
+
+Those four numbers are **checked**, not typed. `check-off-system.mjs` exports its scorer and
+`check-skill-classes.mjs` imports it, so the figure in this file and the figure the check
+computes have one source. That was the loose end: this paragraph read "30-63 off-system each"
+for a long time — never re-measured as the check grew, and nothing could see it. A number in
+prose that no check reaches is a number that is already drifting.
 
 ## Editing tokens
 
@@ -1022,19 +1028,34 @@ Figma (`aRWjBnTvdLiG50xtwodGwH`) and turn a Figma design into correct, tagged ou
 
 **`prototypes/` are rough test fixtures.** They exist to exercise the token layer and a
 subset of components, and their page composition — sidebar shell, top bar, metric tiles,
-side-panel rows — is hand-built rather than taken from Figma, and about 78–86% of what paints
-on the three oldest uses a real library class. Measured across all four today,
-**126 of the 160 classes are never used by any of them** — the four screens reach for 34
+side-panel rows — is hand-built rather than taken from Figma. **62%**, **51%**, **39%** and
+**90%** of what paints on them carries a library class — `absence-requests`,
+`timesheet-approvals`, `payroll-run-summary` and `recruitment-pipeline` in that order — and
+**126 of the 160 classes are never used by any of them**, the four screens reaching for 34
 between them, 16, 15, 22 and 23 each. That is acceptable for what they are. Do not describe
 them as reference implementations, do not hand them to a developer as one, and do not rebuild
 them to chase component fidelity unless asked — the user has explicitly said they are not real
 screens.
 
-(This read "136 never used, the three screens reach for 24" until `recruitment-pipeline` was
-added and they were re-counted. Only the 160 is verified — `check-skill-classes` pins the
-total, and rewording the sentence away from "N of the 160 classes are never used" un-checks
-even that, which is what happened on the first attempt at this paragraph. The 78–86% is the
-older hand-measurement of the three it was taken on and has not been re-run across four.)
+**What "paints" means is defined, because it used to not be.** This paragraph read "about
+78–86% of what paints on them uses a real library class" — a hand-measurement with no method
+recorded and nothing computing it, so it could not be re-run, and adding a fourth prototype
+made it wrong in a way nothing could detect. `check-skill-classes.mjs` now measures it: an
+element paints if the reader can see it as itself (a background, a visible border, or its own
+direct text — a descendant's text belongs to the descendant), and it is the library's if it
+carries a class from `components.css` or `type.css`. SVG internals are skipped, because an
+icon's paths are one icon and counting them would swamp the figure with whichever icons a page
+happens to use.
+
+**The new numbers are not comparable to the old 78–86%** — different method — so read the fall
+from 86 to 62 as a change of question, not a regression. What it does show is the point the
+paragraph is making: coverage tracks the off-system score. The page built on the templates is
+0 off-system and 90% here; the most hand-built one is 163 and 39%.
+
+(The class counts read "136 never used, the three screens reach for 24" until
+`recruitment-pipeline` was added and they were re-counted. The 160 is pinned by
+`check-skill-classes`; rewording the sentence away from "N of the 160 classes are never used"
+un-checks even that, which is what happened on the first attempt at this paragraph.)
 
 **The thing that must be correct is the other direction:** when asked to build something
 FROM a Figma design, the output must match that design.
