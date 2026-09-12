@@ -42,7 +42,9 @@ import { isIconPage } from './check-catalogue-drift.mjs';
 
 const RAW = 'tokens/_raw';
 const FILES = [
-  { file: 'component-variants.tsv', nameCol: 'component' },
+  // `rowPageCol` narrows a name published on two pages to the candidate on THIS row's page.
+  // Only this file records one, so only this file gets it.
+  { file: 'component-variants.tsv', nameCol: 'component', rowPageCol: 'page' },
   { file: 'component-geometry.tsv', nameCol: 'component' },
   // ICONS TOO. icons.tsv is index/figmaName/file/svg and had no identity at all, which is the
   // same defect the component extracts were fixed for here: without an id a rename is
@@ -62,15 +64,21 @@ const FILES = [
 
 const key = (n) => String(n || '').trim();
 
-export function backfill(text, nameCol, byName, { prefer = null, pageOf = new Map() } = {}) {
+export function backfill(text, nameCol, byName,
+  { prefer = null, pageOf = new Map(), rowPageCol = null, listingByName = null } = {}) {
   const lines = text.replace(/\n+$/, '').split('\n');
   const header = lines[0].split('\t');
   const idx = header.indexOf(nameCol);
   if (idx === -1) throw new Error(`no "${nameCol}" column`);
 
   const already = header.indexOf('nodeId');
+  // The row's OWN page, when the file records one. Stronger evidence than any page predicate:
+  // it is data already in the row rather than a claim about what kind of file this is.
+  const pageIdx = rowPageCol ? header.indexOf(rowPageCol) : -1;
+  if (rowPageCol && pageIdx === -1) throw new Error(`no "${rowPageCol}" column`);
   const out = [];
   let filled = 0; const missing = []; const ambiguous = []; const narrowed = [];
+  const contradicted = [];
 
   out.push(already === -1 ? [...header, 'nodeId'].join('\t') : lines[0]);
 
@@ -92,12 +100,56 @@ export function backfill(text, nameCol, byName, { prefer = null, pageOf = new Ma
     // one, it is discarded and the ambiguity stands.
     if (prefer && candidates.length > 1) {
       const onPage = candidates.filter((c) => prefer(pageOf.get(c) || ''));
-      if (onPage.length === 1) { narrowed.push(`${name} -> ${onPage[0]}`); candidates = onPage; }
+      if (onPage.length === 1) {
+        narrowed.push(`${name} -> ${onPage[0]} — published more than once, one on the icon page`);
+        candidates = onPage;
+      }
+    }
+    // THE SAME NARROWING, WITH THE ROW'S OWN EVIDENCE. component-variants.tsv records the page it
+    // captured each component from, so a name published on two pages is not ambiguous there at
+    // all: only the candidate on THIS row's page can be what the row means. It resolves five of
+    // the six — `Bar chart`, `Configuration`, `Header`, `Org chart` and `Signature` — each an
+    // exact page match, and `Field` stays ambiguous because both its candidates are on `Forms`.
+    //
+    // Note what is NOT used here. Narrowing to "not an excluded page" would look equivalent and
+    // is wrong: `Icons` is a legitimate page in component-variants.tsv — `Circle icons` is
+    // captured from it — so that rule would discard a row's own correct candidate. That is the
+    // same mistake sync-check made in the GONE direction, one layer down.
+    if (pageIdx !== -1 && candidates.length > 1) {
+      const rowPage = key(cells[pageIdx]);
+      const onPage = rowPage
+        ? candidates.filter((c) => key(pageOf.get(c) || '') === rowPage) : [];
+      if (onPage.length === 1) {
+        narrowed.push(`${name} -> ${onPage[0]} — published more than once; this row records `
+          + `page "${rowPage}", which matches exactly one`);
+        candidates = onPage;
+      }
     }
     // An ambiguous name is NOT a match. Filling one of two candidates would be a coin toss
     // wearing a measurement's clothes, and every later read would trust the result.
     if (candidates.length > 1) ambiguous.push(name);
-    const id = candidates.length === 1 ? candidates[0] : '';
+    let id = candidates.length === 1 ? candidates[0] : '';
+
+    // AN ID IS ONLY AN IDENTITY IF THE CURRENT LISTING STILL PUBLISHES IT. This fills from
+    // components.json, an INVENTORY that can be older than the saved listing — so a name whose
+    // component was rebuilt in Figma resolves here to the id it used to have. Writing that is
+    // worse than writing nothing: a stale id is indistinguishable from a live one, and every
+    // later read trusts it. `Header` is the real case — the inventory has one Navigation Header
+    // (13658:7653), the listing has two others (32488:24634, 32527:39433) and not that one.
+    //
+    // The test is CONTRADICTION, never absence: refuse only when the listing publishes this NAME
+    // and does not publish this ID. A name the listing omits entirely proves nothing — it may sit
+    // on a page the listing does not cover — and refusing on that would be the "not in this
+    // listing means not in Figma" error this repo has already made once.
+    // `have` is read once and used by BOTH the test and the report, so a report can never throw
+    // on a name the test did not require to be present. A reporting line that crashes hides a
+    // logic error behind a stack trace — and a mutant that dies of a crash proves nothing.
+    const have = (id && listingByName) ? listingByName.get(name) : null;
+    if (have && !have.has(id)) {
+      contradicted.push(`${name} -> ${id} is not published under that name in the listing, which `
+        + `has ${[...have].join(', ')} — left empty as a STALE pin`);
+      id = '';
+    }
     if (already === -1) {
       cells.push(id);
     } else {
@@ -110,7 +162,7 @@ export function backfill(text, nameCol, byName, { prefer = null, pageOf = new Ma
   }
   const uniq = (a) => [...new Set(a)].sort();
   return { text: out.join('\n') + '\n', filled, missing: uniq(missing),
-    ambiguous: uniq(ambiguous), narrowed: uniq(narrowed) };
+    ambiguous: uniq(ambiguous), narrowed: uniq(narrowed), contradicted: uniq(contradicted) };
 }
 
 // ---------------------------------------------------------------------------
@@ -126,6 +178,24 @@ function main() {
     byName.get(n).push(c.nodeId);
     pageOf.set(c.nodeId, key(c.pageName || c.page));
   }
+  // The saved LISTING, when there is one. Used only to refuse a pin it contradicts — see the
+  // guard in backfill(). Optional by design: a fresh clone may not have it, and its absence must
+  // change nothing except that the guard cannot fire.
+  let listingByName = null;
+  try {
+    const listing = JSON.parse(readFileSync(`${RAW}/figma-components.json`, 'utf8'));
+    listingByName = new Map();
+    for (const c of listing) {
+      const n = key(c.name); const id = key(c.nodeId || c.id);
+      if (!n || !id) continue;
+      if (!listingByName.has(n)) listingByName.set(n, new Set());
+      listingByName.get(n).add(id);
+    }
+  } catch { listingByName = null; }
+  console.log(listingByName
+    ? `${listingByName.size} name(s) in the saved listing, used to refuse a stale pin`
+    : 'no saved listing — a pin the listing would contradict cannot be caught');
+
   const dupes = [...byName].filter(([, ids]) => ids.length > 1);
   console.log(`${byName.size} name(s) available from components.json`);
   console.log(`${dupes.length} of them are published more than once and can fill NOTHING:`);
@@ -134,16 +204,18 @@ function main() {
   }
   console.log('');
 
-  for (const { file, nameCol, prefer } of FILES) {
+  for (const { file, nameCol, prefer, rowPageCol } of FILES) {
     const path = `${RAW}/${file}`;
-    const r = backfill(readFileSync(path, 'utf8'), nameCol, byName, { prefer, pageOf });
+    const r = backfill(readFileSync(path, 'utf8'), nameCol, byName,
+      { prefer, pageOf, rowPageCol, listingByName });
     const total = r.filled + r.missing.length;
     console.log(`${file}`);
     console.log(`  ${r.filled} row-name(s) matched exactly one inventory id, `
       + `${r.missing.length} matched none, ${r.ambiguous.length} matched more than one`);
     for (const m of r.missing) console.log(`    no id     "${m}"`);
     for (const a of r.ambiguous) console.log(`    AMBIGUOUS "${a}" — left empty, resolve by hand`);
-    for (const n of r.narrowed) console.log(`    by page   ${n} — published twice, one on the icon page`);
+    for (const n of r.narrowed) console.log(`    by page   ${n}`);
+    for (const c of r.contradicted) console.log(`    STALE     ${c}`);
     if (write) { writeFileSync(path, r.text); console.log('  written'); }
     console.log('');
   }
@@ -257,6 +329,98 @@ function selfTest() {
     const r4 = backfill('figmaName\tfile\nOrg chart\torg-chart\n', 'figmaName', onlyOneOnPage);
     if (r4.filled !== 0 || !r4.ambiguous.includes('Org chart')) {
       miss('a file with no prefer must still refuse an ambiguous name outright');
+    }
+  }
+
+  // THE ROW'S OWN PAGE. The same narrowing with better evidence: component-variants.tsv records
+  // the page each component was captured from, so only the candidate on THIS row's page can be
+  // what the row means. Five of the six ambiguities in the real file fall to it.
+  {
+    const pages = new Map([['ic', 'Icons'], ['chart', 'Analytics and charts'],
+      ['f1', 'Forms'], ['f2', 'Forms'], ['nopage', '']]);
+    const by = new Map([['Bar chart', ['chart', 'ic']], ['Field', ['f1', 'f2']],
+      ['Ghost', ['nopage', 'ic']]]);
+    const opt = { pageOf: pages, rowPageCol: 'page' };
+
+    const r5 = backfill('page\tcomponent\nAnalytics and charts\tBar chart\n', 'component', by, opt);
+    if (r5.filled !== 1 || !r5.text.includes('\tchart')) {
+      miss("the row's own page must resolve a name published on two pages — it is evidence in the "
+        + 'row, not a guess about the file');
+    }
+    if (r5.ambiguous.length) miss('a row-page narrowing must not also report the name ambiguous');
+    if (!r5.narrowed.length) miss('a row-page narrowing must be REPORTED like any other');
+
+    // Both candidates on the row's page: nothing is narrowed and the refusal stands. This is the
+    // real `Field`, whose two components are both on `Forms`.
+    const r6 = backfill('page\tcomponent\nForms\tField\n', 'component', by, opt);
+    if (r6.filled !== 0 || !r6.ambiguous.includes('Field')) {
+      miss('two candidates on the ROW\'s own page narrow to nothing, so the refusal must stand');
+    }
+
+    // A row whose page matches NEITHER candidate must not be resolved. Picking the survivor of a
+    // filter that matched nothing is exactly the coin toss this rule exists to refuse.
+    const r7 = backfill('page\tcomponent\nTables\tBar chart\n', 'component', by, opt);
+    if (r7.filled !== 0 || !r7.ambiguous.includes('Bar chart')) {
+      miss('a row page matching no candidate must leave the ambiguity standing');
+    }
+
+    // A row with an EMPTY page cell carries no evidence, so it narrows nothing. The candidate
+    // here is one the INVENTORY records no page for, which is the only way this can go wrong:
+    // comparing the two blanks for equality matches unknown to unknown and calls it a fact.
+    const r8 = backfill('page\tcomponent\n\tGhost\n', 'component', by, opt);
+    if (r8.filled !== 0 || !r8.ambiguous.includes('Ghost')) {
+      miss('a blank page cell is not evidence — an unknown row page must not be matched against '
+        + 'a candidate whose page is equally unknown');
+    }
+
+    // Without the option, the old behaviour is untouched — the same row stays ambiguous.
+    const r9 = backfill('page\tcomponent\nAnalytics and charts\tBar chart\n', 'component', by,
+      { pageOf: pages });
+    if (r9.filled !== 0 || !r9.ambiguous.includes('Bar chart')) {
+      miss('without rowPageCol the ambiguity refusal must be exactly as it was');
+    }
+
+    // A file declaring a page column it does not have is a wiring mistake, not a silent no-op.
+    let threw = false;
+    try { backfill('component\nBar chart\n', 'component', by, opt); } catch { threw = true; }
+    if (!threw) miss('a missing rowPageCol column must throw rather than silently not narrowing');
+  }
+
+  // THE STALE PIN. components.json is an inventory that can lag the saved listing, so a name whose
+  // component was rebuilt in Figma resolves to the id it USED to have. `Header` is the real case.
+  {
+    const by2 = new Map([['Header', ['old']], ['Tags', ['t1']], ['Offpage', ['p1']]]);
+    const listing = new Map([
+      ['Header', new Set(['new1', 'new2'])],   // rebuilt: the old id is not published any more
+      ['Tags', new Set(['t1'])],               // agrees
+    ]);                                        // `Offpage` is absent from the listing entirely
+
+    const r10 = backfill('component\nHeader\n', 'component', by2, { listingByName: listing });
+    if (r10.filled !== 0 || r10.text.includes('old')) {
+      miss('an id the listing does not publish under that name is STALE and must not be written — '
+        + 'a stale id is indistinguishable from a live one to every later reader');
+    }
+    if (!r10.contradicted.length) {
+      miss('a refused stale pin must be REPORTED, naming what the listing has instead');
+    }
+
+    // ABSENCE IS NOT CONTRADICTION. A name the listing never mentions may simply sit on a page the
+    // listing does not cover. Refusing on that is the "not in this listing means not in Figma"
+    // error this repo has already made once, and it would empty ids that are perfectly good.
+    const r11 = backfill('component\nOffpage\n', 'component', by2, { listingByName: listing });
+    if (r11.filled !== 1 || r11.contradicted.length) {
+      miss('a name the listing does not mention at all must still be filled — absence proves '
+        + 'nothing, and only a contradiction is evidence');
+    }
+
+    // An id both files agree on is untouched.
+    const r12 = backfill('component\nTags\n', 'component', by2, { listingByName: listing });
+    if (r12.filled !== 1 || !r12.text.includes('t1')) miss('an agreed id must still be written');
+
+    // No listing on disk: the guard cannot fire, and nothing else changes.
+    const r13 = backfill('component\nHeader\n', 'component', by2);
+    if (r13.filled !== 1 || r13.contradicted.length) {
+      miss('with no listing the guard must be inert rather than refusing everything');
     }
   }
 

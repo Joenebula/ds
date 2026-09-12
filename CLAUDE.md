@@ -430,6 +430,41 @@ and never invents one — an unmatched row keeps an empty id and is reported. 18
 have no id on purpose: they are measured sub-parts (`Links (primary)`, `People (row)`) that
 Figma never published as component sets, so they never will.
 
+**A name published twice is resolved by the row's OWN page, and that took the blind spot from 6 to
+2.** Six component names matched more than one inventory id and were left empty as a coin toss:
+`Bar chart`, `Configuration`, `Header`, `Org chart`, `Signature` and `Field`. Five of them are the
+double-published names — once as a component, once as a glyph — and `component-variants.tsv`
+already records the page it captured each row from, so only the candidate on THAT page can be what
+the row means. Every one is an exact page match, and `Field` stays ambiguous because both its
+components are on `Forms` — the same shape as `GIF` and `Transfer` staying ambiguous on the icon
+side because both are published on `Icons`.
+
+**What is deliberately NOT used is a page CLASS.** Narrowing to "not an excluded page" looks
+equivalent and is wrong: `Icons` is a legitimate row page in `component-variants.tsv`, because
+`Circle icons` is captured from it, so that rule would discard a row's own correct candidate. It is
+the mistake `sync-check` made in the GONE direction, one layer down, and the row's own recorded page
+is evidence where a page class is an assumption.
+
+**And the sixth one found something.** `Header` narrowed cleanly to `13658:7653` — and that id is
+not in the saved listing at all. The two Figma files disagree: `components.json` has one Navigation
+`Header`, the listing has **two others**, `32488:24634` and `32527:39433`. The component was rebuilt
+or split in Figma, which changes the node id, and **nobody had seen it because the id-less row fell
+back to a NAME match that succeeded** — reporting `Header` unchanged while Figma had replaced it.
+That is exactly what the nodeId column exists to prevent, hiding inside the gap the column had not
+reached yet.
+
+So the backfill now refuses a pin the listing contradicts, because **an id is only an identity if
+the current listing still publishes it**: `components.json` is an INVENTORY and can lag, and writing
+a stale id is worse than writing nothing — it is indistinguishable from a live one to every later
+reader. The test is CONTRADICTION and never absence: it refuses only when the listing publishes the
+NAME and not the ID. A name the listing omits entirely proves nothing and is still filled, because
+refusing on absence is the *"not in this listing means not in Figma"* error made once already.
+
+`Header` is therefore an open question for a person rather than a pinned row: which of the two
+Navigation `Header`s in Figma is the one this repo ships `.pf-header` for, or whether it is now
+both. Nine mutants hold the two rules, including one that fires the guard on absence and one that
+writes the stale pin anyway.
+
 **Has Figma changed since we last looked?** One call, on demand:
 
 ```
