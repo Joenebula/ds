@@ -330,5 +330,37 @@ if (!slackFrames || !sizeFrames) {
   failures++;
 }
 
+// A FIGMA STROKE TAKES NO SPACE, SO IT IS NEVER A CSS `border` HERE.
+//
+// Figma's width and height ARE the frame box and a stroke is painted inside it; CSS adds a
+// border to the box. Every bordered template frame was therefore 2px taller and 2px wider than
+// Figma drew it, and nothing said so — a 2px error is invisible until two components that
+// should match are put side by side. Reported exactly that way: `Table progress bar`'s track
+// rendered 16px against `Percentage bar`'s 14, from the same Figma measurement of 14.
+//
+// The test is textual for the same reason `check-space-between-gap`'s is: the fault is a
+// declaration that must never be written, and rendered it is two pixels no assertion about a
+// single frame would think to ask about. `border-radius` is not a border and is left alone.
+let strokeFrames = 0;
+for (const f of readdirSync('dist/templates').filter(f => f.endsWith('.html'))) {
+  const html = readFileSync(`dist/templates/${f}`, 'utf8');
+  for (const m of html.matchAll(/style="([^"]*)"/g)) {
+    for (const d of m[1].split(';')) {
+      if (/^\s*border(?!-radius)/.test(d)) {
+        failures++;
+        console.error(`FAIL dist/templates/${f} draws a frame's stroke as "${d.trim()}" — a CSS `
+          + `border grows the box and a Figma stroke does not. Use box-shadow:inset 0 0 0 1px.`);
+      }
+      if (/^\s*box-shadow:\s*inset/.test(d)) strokeFrames++;
+    }
+  }
+}
+console.log(`  ${strokeFrames} frame(s) paint their Figma stroke as an inset shadow, which takes `
+  + `no layout space — a CSS border would make each one 2px bigger than Figma measured it`);
+if (!strokeFrames) {
+  console.error('FAIL no template frame paints a stroke, so this checked nothing');
+  failures++;
+}
+
 
 process.exit(failures ? 1 : 0);

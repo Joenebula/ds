@@ -424,7 +424,7 @@ Figma clips the contents of **34 of the 62 components** on Cards and panels, 22 
 a corner radius, and `dist/components.css` sets `overflow` once. After the border and the
 shadow this looked like the obvious next thing to carry, and it is the one that must not be.
 
-The measurement that settled it: **20 of the 154 templates already render outside the box
+The measurement that settled it: **19 of the 154 templates already render outside the box
 their own class draws** — `pf-hemisphere-chart` by 333px, `pf-donut-pie-chart` by 284px,
 `pf-content` by 180px. `overflow: hidden` would not have reproduced the design on those; it
 would have deleted part of the component's own generated contents from view. And nothing
@@ -438,7 +438,7 @@ the component at, and a template holds placeholder contents of their own size; t
 never promised to agree.
 
 `npm run verify` runs `check-template-overflow.mjs`, which reports and pins the count **and
-the magnitude — 866px of overflow in total**. How many is not how much: placing
+the magnitude — 854px of overflow in total**. How many is not how much: placing
 `Hemisphere chart`'s children at Figma's own offsets took it from 333px to 77px, a large
 real improvement the count alone could not see, because it still overflows by something.
 Both numbers are the precondition: **clipping can only ever be carried once they reach
@@ -447,9 +447,38 @@ zero.**
 **And both are measured at two widths now.** They were desktop-only for as long as a class was
 the same size at every width; making components follow the viewport ended that, and the pinned
 pair described half the library. A class box shrinks to its mobile artboard while the template's
-placeholder contents do not, so at 390px it is **24 templates and 1224px**. Four templates
+placeholder contents do not, so at 390px it is **23 templates and 1212px**. Four templates
 overflow *only* once the class shrinks — `pf-navigation-tabs`, `pf-search-navigation`,
 `pf-table-ag` — and no check could see them. A precondition checked at one width is not checked.
+
+### A Figma stroke takes no space, and a CSS border does
+
+Reported as two progress bars that should be the same height and were not, with the shorter one
+named as correct: *"Can we make them the same height use the bottom as the fuide"*. Figma draws
+both `Bar` frames at 14px. `Percentage bar`'s track rendered 14 and `Table progress bar`'s
+rendered **16**, and the only difference between them is that one binds a stroke.
+
+Figma's width and height ARE the frame box and a stroke is painted inside it. CSS adds a border
+to the box. So every template frame that bound a stroke came out **2px taller and 2px wider than
+Figma measured it** — **25 frames across 17 templates**, each wrong by an amount too small to see
+until two of them are put side by side, which is how it was found. A page pasting one got a
+component that did not match the one beside it for a reason nothing in the markup explained.
+
+`box-shadow: inset 0 0 0 1px var(...)` paints the same line in the same place — inside the box,
+following the radius — and occupies no layout space, which is precisely what Figma is describing.
+Template overflow fell at **both** widths: 866 to 854 desktop, 1224 to 1212 mobile.
+
+**Stating the measured height instead was tried and reverted**, and the reason is the rule above.
+It takes the desktop number down (866 to 851) and puts the mobile one UP (1224 to 1262), because
+a stated height cannot reflow when the class shrinks to its mobile artboard. A fix that improves
+the number you are looking at and worsens the one you are not is not a fix — which is the whole
+reason that pair is measured at two widths.
+
+`npm run verify` runs this inside `check-templates.mjs`, and **the test is textual**, the same
+deliberate exception `check-space-between-gap` makes: the fault is a declaration that must never
+be written, and rendered it is two pixels no assertion about a single frame would think to ask
+about. This is about the template's own child frames only — a component CLASS's border is
+measured per edge and per width in `components.css` and is a real border, with its own check.
 
 ## Hug: a height that is the sum of the contents is not a rule
 

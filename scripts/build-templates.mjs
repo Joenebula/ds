@@ -310,7 +310,20 @@ function styleFor(component, row) {
     if (isPrimitive(row.stroke)) flag('primitive', `${component}: stroke binds the PRIMITIVE "${row.stroke}"`);
     else {
       const v = tokenVar.get(row.stroke);
-      if (v) s.push(`border:1px solid var(${v})`);
+      // A FIGMA STROKE TAKES NO SPACE, AND A CSS BORDER DOES.
+      //
+      // Figma's width and height are the frame box; a stroke on it is painted, not added.
+      // A CSS `border` is added — so every bordered frame here rendered 2px taller and 2px
+      // wider than Figma drew it. Measured: `Table progress bar`'s track came out 208x16
+      // against a Figma `Bar` of 208x14, while `Percentage bar`'s identical 343x14 track,
+      // which binds no stroke, rendered at 14. Reported as two bars that should be the same
+      // height and were not. 25 frames across 17 templates were each 2px out.
+      //
+      // An inset box-shadow paints the same line in the same place — inside the box,
+      // following the radius — and occupies no layout space, which is exactly what Figma
+      // is describing. Stating the measured height instead was tried and reverted: it fixes
+      // the desktop number and RAISES the mobile one, because a stated height cannot reflow.
+      if (v) s.push(`box-shadow:inset 0 0 0 1px var(${v})`);
       else flag('no-token', `${component}: stroke "${row.stroke}"`);
     }
   }

@@ -29,10 +29,10 @@ import { chromium } from 'playwright-core';
 // It was first set to 5 from a sample of eighteen components, which is how many of THOSE
 // overflowed; run across all 154 it is 28. A baseline taken from a subset is a baseline
 // that fails the moment it meets the whole set — measure the population you are pinning.
-const OVERFLOW_BASELINE = 20;
+const OVERFLOW_BASELINE = 19;
 // The sum of each overflowing template's worst edge, in pixels. Same rule: it may fall
 // freely, and may not rise without somebody deciding to raise it.
-const OVERFLOW_PX_BASELINE = 866;
+const OVERFLOW_PX_BASELINE = 854;
 
 // AND THE SAME TWO NUMBERS ON A PHONE.
 //
@@ -45,7 +45,7 @@ const OVERFLOW_PX_BASELINE = 866;
 //
 // It matters because these numbers are the precondition for carrying Figma's clipping (see
 // CLAUDE.md, "Clipping"), and a precondition checked at one width is not checked.
-const MOBILE_OVERFLOW_BASELINE = 24;
+const MOBILE_OVERFLOW_BASELINE = 23;
 // RAISED ON PURPOSE, from 1536, and this is the one place the rule allows it.
 //
 // Keeping a fixed-height component's label on one line stopped it wrapping downward and let
@@ -59,7 +59,7 @@ const MOBILE_OVERFLOW_BASELINE = 24;
 // the filter strip grow back to the 42px chips it holds — instead of being squashed to 32 and
 // cropping their top and bottom borders — means those chips now extend 5px further past the
 // component's own box. Five pixels of measured overflow for a border that renders.
-const MOBILE_OVERFLOW_PX_BASELINE = 1224;
+const MOBILE_OVERFLOW_PX_BASELINE = 1212;
 const WIDTHS = [['desktop', 1280, OVERFLOW_BASELINE, OVERFLOW_PX_BASELINE],
                 ['mobile', 390, MOBILE_OVERFLOW_BASELINE, MOBILE_OVERFLOW_PX_BASELINE]];
 
