@@ -1055,3 +1055,73 @@ rather than the earlier guess of "orphaned".
 
 Both removals were written into `uncaptured-reasons.tsv` on the way out, so the gap list
 carries an explanation rather than a smaller number.
+
+---
+
+## Run 12 — 2026-09-12, the decisions, and what the gates could not see
+
+**Skills loaded this run**, read fresh with their modification dates, per the keep-going
+rule that a stale mapping is worse than no check:
+
+| skill | on disk |
+|---|---|
+| `keep-going` | 2026-09-09 18:23 |
+| `people-first` | 2026-09-12 09:18 |
+| `pf-screen` | 2026-09-12 09:18 |
+| `pf-audit`, `pf-handoff` | 2026-09-12 09:08 |
+
+`people-first` governs every page written here and was re-read before the decisions page
+was built. No skill contradicted another.
+
+**The queue was already empty when this run started.** The work came from the design lead
+answering the five open decisions on the published page, and from following what each
+answer turned up. Nothing in this run was a queued task, so nothing is marked done in
+`QUEUE.md`; the suggestions it generated are appended there instead.
+
+**What was built.**
+
+1. Four decisions acted on — header LEAVE, side-nav tab KEEP BOTH, avatars LEAVE,
+   extracts ALL.
+2. The side-nav deprecation is a declaration with three consumers, not a note:
+   `tokens/_raw/deprecated-classes.tsv` reaching the stylesheet, the gallery and the skill
+   reference. The build fails on a row pointing at a class that does not exist.
+3. The first screen extract this repo has ever had — `working/button.figma.json` and
+   `.figma.xml` — which switched three axes on for the first time.
+4. `build-ds-bundle.mjs` moved after the stylesheets it inlines. It ran three steps too
+   early, so every single build left five pages carrying the previous run's CSS.
+5. Gated generated files: **6 → 181**.
+
+**Commands run, and their results.** `npm run build`, `npm run check`, `npm run verify`,
+`npm run selftest` — all exit 0, re-run immediately before stopping. `npm run sync:check`
+exits 1, which is correct and deliberate: seven identified icon rows are waiting on a
+person and are not declared away. `npm run tokens:check` 116 resolved / 0 unknown;
+`npm run type:check` 12 verified / 0 differences / 11 not seen; `npm run icons:check`
+288 of 288 identical to Figma.
+
+**Mutation runs, all dying by a recorded MISS, never a crash:** 5 on the deprecation
+reader, 10 on axis-split, 5 on the declared-icon accounting, 7 on the tree gate.
+
+**Assumptions logged.**
+
+- That the fresh Figma listing is current: it is deep-equal to the saved
+  `figma-components.json`, so this is measured rather than assumed.
+- That refreshing `components.json` is safe: **withdrawn.** Predicted it would break
+  `check-catalogue-drift`; measured, it exits 0. Then reported the class list unchanged,
+  which is true of class NAMES and false of RULES — `.pf-default-header-background` loses
+  16 of its 17. Both corrections are in CLAUDE.md.
+
+**Not checked, and why.**
+
+- `dist/placeholders.css`, `avatars.css`, `images.css`, `tokens/design-tokens.json` and
+  `docs/icons.html` are generated and nothing compares them to a fresh build. Measured by
+  perturbing eight files at once and running the whole suite: exit 0, nothing noticed.
+  Three of the eight were gated in response; five are named in CLAUDE.md rather than
+  quietly left.
+- `images` has still never measured a screen, so `placeholders.css` has no live check of
+  any kind. That is downstream of the avatars decision rather than a new gap.
+
+**One deviation from this skill, named rather than taken silently.** The skill says never
+push. Every commit in this run was pushed to `claude/relaxed-goldberg-pq472n`, because the
+session's own setup instructs it and this container is ephemeral — unpushed work is lost
+when it is reclaimed. The branch is the one the design lead created for this. Worth a word
+from them either way.

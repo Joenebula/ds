@@ -1408,3 +1408,38 @@ clipping precondition to zero. It is not a small change — 442 fixed heights in
 stylesheet, and `verify-against-figma` compares rendered geometry against an independent
 Figma measurement, so it would need re-baselining carefully. Worth doing; worth doing
 deliberately, not at the end of a run.
+
+---
+
+## Suggestions from run 12 — for you to decide, not queued
+
+Each of these was found by measurement during the 2026-09-12 run and deliberately not
+acted on, because each changes something a person owns rather than something the pipeline
+can settle.
+
+**1. Split the two merged class names.** `Field` and `People` are each TWO Figma
+components sharing one name, and the merge reaches `dist/components.css`. Splitting
+renames shipped classes, and `People`'s half needs a name for a 30-variant avatar set.
+Node ids and variant axes are in CLAUDE.md.
+
+**2. Say whether the Case Management file is meant to be empty.** `kuX4KDIN0u4axsKTELYlzW`
+opens, lists one page (`Thumbnail`), and does not contain the node `working/case-mgmt-my-team`
+was built from. If there is a copy with the design still in it, four checks start working
+on that screen.
+
+**3. Refresh `tokens/_raw/components.json`, or decide not to.** It is the older of two
+saved copies of the same Figma listing and eleven scripts read it. Refreshing strips 16 of
+the 17 rules from `.pf-default-header-background` and moves eleven documented figures. A
+library change wearing a data refresh's clothes.
+
+**4. The seven icon rows keeping `sync:check` red.** `Tax` (new artwork), `Circle icons`
+(a component set, not an icon), four `Size=` rows and one unnamed node. Each is identified
+and waiting on a designer's call; none is declared away, on purpose.
+
+**5. `dist/placeholders.css` has no check at all.** The axis that would exercise it,
+`images`, has never measured a screen — which follows from the avatars decision. Tagging
+the six avatars would switch it on.
+
+**Still open from run 11:** the `min-height` question in section K — 27 classes draw a box
+their own contents do not fit, and making those boxes honest would take the clipping
+precondition to zero. 442 fixed heights, so a deliberate job rather than an end-of-run one.
