@@ -484,7 +484,54 @@ source this pipeline extracts, so where the two disagree the annotation is the t
   `textCase = ORIGINAL`, and the stylesheet is therefore mixed case. Nothing in the library is
   uppercase.
 
-## 15. Three status colours miss AA on the recessed surface
+## 15. White text bound onto a white surface, and a tag fill with no dark value
+
+Reported from a phone as *"the white tag is not the right colour for dark mode — please check
+other tags"*. Checking the other tags found one real fault there and, sweeping for the same
+shape, three worse ones nobody had reported.
+
+### 15a. `Tags Type=Theme` does not change between modes
+
+`Tags` binds a different fill per type and **six of the seven invert correctly** — `Neutral`
+goes pale-blue-on-dark-text in light and dark-blue-on-white in dark, and so on. `Type=Theme`
+binds `Tags/Fills/Info`, which Figma gives **the same value in both modes**:
+`@Base colours/White` / `@Base colours/White`. Its text token `Tags/Borders/Info` does move,
+`#c82f3c → #4e6998`.
+
+So the tag is a white block on a dark page with slate-blue text — the surface frozen and the
+text adapting. That is §11's rule again: a colour and the surface it was chosen against are a
+pair. The contrast is fine either way (5.35:1 and 5.53:1); it is the white block that is wrong.
+
+**What would clear it:** give `Tags/Fills/Info` a dark-mode value, as its six siblings have.
+(Its text is also bound to a *Borders* token, which is worth a look at the same time.)
+
+### 15b. Three components render white text on a white surface in LIGHT mode
+
+Found by sweeping every variant that paints its own background and states its own text colour,
+in both modes, rather than by report. All three are invisible:
+
+| Component | Fill | Text | Light |
+|---|---|---|---|
+| `Sticky footer` `Default=Default` | `Background/Primary` | `Base colours/White` | **1:1** |
+| `People and department drop down` | `Background/Primary` | `Base colours/White` | **1:1** |
+| `Browser drop down` | `Background/Secondary` (`#fafafa`) | `Text/Always White` | **1.04:1** |
+
+`Sticky footer` proves itself wrong without any outside judgement: its **other** variant,
+`Default=Stepper`, binds `Text/Primary` on the same fill and reads correctly. One variant of one
+component has the wrong text token.
+
+**What would clear it:** bind `Text/Primary` (or a mode-aware equivalent) on all three. A token
+named "Always White" belongs only over a surface that is always dark.
+
+### 15c. The other nine are recorded, not yet judged
+
+The same sweep lists nine more class/mode pairs below AA — `Multi-select checkbox`, `Status`,
+`Config child menu`, `AI Assistant`, `Radio card`, `AG filter menus`, `AG field`, `Toggle`.
+Several of those hold a glyph rather than a label, where WCAG's threshold is 3:1 for a graphic
+rather than 4.5:1 for text, so some may not be faults at all. They are pinned by name in
+`check-component-contrast.mjs` so the set cannot grow or be substituted while someone decides.
+
+## 16. Three status colours miss AA on the recessed surface
 
 `Background/Tertiary` is what `Metric card` and `Title panel` paint, and three text tokens
 land on it below 4.5:1 in **light mode**:
@@ -517,6 +564,7 @@ is a pairing the check has to test.
 **What would clear it:** darken the three tokens for light mode, or give `Background/Tertiary`
 a lighter value than `#f2f2f2`. Either is a Figma decision — the pipeline will not substitute
 a colour, for the reason §1c gives.
+
 
 ## What happens after you fix any of this
 

@@ -1686,3 +1686,26 @@ correctly inside their own boxes, on the same pixels. Found by LOOKING at a scre
 
 **Done when:** met. `check-text-overlap.mjs`, glyphs against glyphs. 8 outstanding, all on the
 two oldest fixtures; `working/` held at zero.
+
+### P11. A committed screenshot can no longer go stale — DONE
+
+Looking at the picture is this project's final word, and twice this week the picture was wrong
+while every check passed. `check-screenshots.mjs` re-shoots every capture and compares it byte
+for byte; 14 reproduce, 12 cannot and are named in `screenshots/ORPHANS.md`.
+
+### P12. A SPACE_BETWEEN frame has no gap — DONE
+
+Reported as the percentage bar being aligned left. Figma ignores `itemSpacing` under
+SPACE_BETWEEN and both generators were emitting it — `.pf-accordion` carried `gap: 689px`
+inside a 1200px component. 19 of the 51 such frames could not fit their own stored gap.
+Template overflow fell 1171px → 866.
+
+### P13. Every own-surface pair measured in both modes — DONE
+
+Reported as the white tag being wrong in dark mode. True, and `check-contrast.mjs` could never
+have found it: its pairs are a hand-kept list and it ends in `process.exit(0)`. The sweep found
+three worse ones nobody had reported — `Sticky footer`, `People and department drop down` and
+`Browser drop down` render white text on white at 1:1 in LIGHT mode. FIGMA-ISSUES §15.
+
+**Open for the user:** §14 (button weight by state) and §15 (the four colour bindings) are both
+changes to the Figma file. The pipeline carries them through on the next extract.

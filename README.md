@@ -106,7 +106,7 @@ passed while the screen was visibly broken.
 components actually bind (not assumed pairings). **29 of 33 pass WCAG AA in light,
 32 of 33 in dark.** The margins are documented in the skill; the three that fail are
 all on `--pf-bg-tertiary` in light mode and are written up in
-`docs/FIGMA-ISSUES.md` §15.
+`docs/FIGMA-ISSUES.md` §16.
 
 ## Regenerating after Figma changes
 

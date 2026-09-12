@@ -608,7 +608,7 @@ actually use: **29 of 33 pass WCAG AA in light, 32 of 33 in dark.** Four things 
   paint, and three tokens miss AA on it in light mode: `--pf-text-link` 4.37:1,
   `--pf-text-positive` 4.48:1, `--pf-text-warning` 4.22:1. All three are fine in dark.
   `Metric card`'s own template puts `--pf-text-link` on it, so pasting that template as
-  generated ships a 4.37:1 label — see `docs/FIGMA-ISSUES.md` §15. At 20px SemiBold these
+  generated ships a 4.37:1 label — see `docs/FIGMA-ISSUES.md` §16. At 20px SemiBold these
   are WCAG large text and pass at 3:1; at 13px Regular they do not.
 - `--pf-text-disabled` on `--pf-bg-primary` is 3.64:1 in light mode. WCAG exempts
   disabled controls, so this is acceptable — but never use that token for live text.

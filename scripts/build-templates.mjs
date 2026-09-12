@@ -236,8 +236,13 @@ function styleFor(component, row) {
     s.push('display:flex', `flex-direction:${mode === 'VERTICAL' ? 'column' : 'row'}`);
     if (ALIGN[counter]) s.push(`align-items:${ALIGN[counter]}`);
     if (JUSTIFY[primary]) s.push(`justify-content:${JUSTIFY[primary]}`);
+    // Figma IGNORES itemSpacing on a SPACE_BETWEEN frame, so the number in that field is a
+    // leftover and emitting it as a CSS `gap` invents a minimum separation on top of
+    // space-between. `Percentage bar`'s label row is 343px wide with a stored gap of 370, which
+    // forced it to 551 and pushed the component out of its own box. See build-components-css
+    // for the arithmetic that proves it: 19 of these frames cannot fit their own stored gap.
     const gap = parseInt(row.gap, 10);
-    if (Number.isFinite(gap) && gap > 0) s.push(`gap:${gap}px`);
+    if (Number.isFinite(gap) && gap > 0 && primary !== 'SPACE_BETWEEN') s.push(`gap:${gap}px`);
     const pad = (row.padding || '').trim().split(/\s+/).map(Number);
     if (pad.length === 4 && pad.some(n => n > 0)) s.push(`padding:${pad.map(n => n + 'px').join(' ')}`);
   }
