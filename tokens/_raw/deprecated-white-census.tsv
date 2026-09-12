@@ -1,5 +1,5 @@
 # checked: 2026-09-11
-# references-at-last-sweep: 141
+# references-at-last-sweep: 141, as at 2026-09-11
 # A SNAPSHOT, not a live reading. Nothing in this repo can re-count it: every check here
 # reads transcripts or TSVs, and these numbers came from sweeping the live Figma file. If
 # this date is old, the file has moved on and the only way to know by how much is to sweep

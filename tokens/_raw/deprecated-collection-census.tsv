@@ -1,8 +1,8 @@
 # checked: 2026-09-11
-# outside-documentation: 403 nodes / 414 references as at 2026-09-12, two agreeing sweeps
-# IN A COMPONENT: 35 of those 403, across 27 components. The rest is boards and canvas artwork.
+# outside-documentation: 403 nodes / 414 references, two agreeing sweeps, as at 2026-09-12
+# in-a-component: 35 of those 403, across 27 components (the rest is boards and canvas artwork), as at 2026-09-12
 # dry-run-of-nine-styles: 2026-09-12 — 105 nodes in scope, 6 applicable, then applied (1429 -> 1423)
-# references-at-last-sweep: 1423
+# references-at-last-sweep: 1423, as at 2026-09-12
 # A SNAPSHOT, not a live reading. Nothing in this repo can re-count it: every check here
 # reads transcripts or TSVs, and these numbers came from sweeping the live Figma file. If
 # this date is old, the file has moved on and the only way to know by how much is to sweep

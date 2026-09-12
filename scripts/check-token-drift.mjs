@@ -129,21 +129,64 @@ export const isDeprecatedCollection = (key) => /^deprecated-colours\//.test(Stri
 // staleness signal rots in silence, which is the same failure one layer up. A missing or undated
 // census is said out loud rather than skipped — this check cannot re-count Figma, and pretending
 // otherwise is how the nine got here.
+// EACH READING CARRIES ITS OWN DATE, and the first version of this did not. It read one
+// `# checked:` header and one count, and printed them together — so when a later sweep put a newer
+// number in the file, the line reported a 12 September figure as at 11 September. Attaching the
+// newest date to every reading would have been the opposite error and worse: it would overstate the
+// freshness of the oldest number in the file.
+//
+// So a reading is a `# key: value` header, and the date is whatever ISO date sits inside its OWN
+// value. A reading with no date is named as unable to be aged rather than quietly dated by its
+// neighbour — the same rule the file-level version already applied, one level down.
+export const CENSUS_READINGS = [
+  ['checked', 'whole-file sweep'],
+  ['references-at-last-sweep', 'references file-wide'],
+  ['outside-documentation', 'outside documentation'],
+  ['in-a-component', 'inside a component'],
+];
+
+export function readings(text) {
+  const out = [];
+  for (const [key, label] of CENSUS_READINGS) {
+    const m = text.match(new RegExp(`^# ${key}:[ \\t]*(.+)$`, 'mi'));
+    if (!m) continue;
+    const value = m[1].trim();
+    out.push({ key, label, value, date: (value.match(/\b\d{4}-\d{2}-\d{2}\b/) || [])[0] || null });
+  }
+  return out;
+}
+
 export function censusNote(read) {
   const files = ['tokens/_raw/deprecated-collection-census.tsv', 'tokens/_raw/deprecated-white-census.tsv'];
   const seen = [];
   for (const f of files) {
     const text = read(f);
     if (text === null) { seen.push(`${f} IS MISSING`); continue; }
-    const date = (text.match(/^# checked:\s*(\S+)/m) || [])[1];
-    const refs = (text.match(/^# references-at-last-sweep:\s*(\d+)/m) || [])[1];
-    if (!date) { seen.push(`${f} carries no "# checked:" date, so nothing can say how stale it is`); continue; }
-    seen.push(`${f} — ${refs || '?'} references as at ${date}`);
+    const rs = readings(text);
+    if (!rs.length) { seen.push(`${f} carries no "# checked:" date, so nothing can say how stale it is`); continue; }
+    if (rs.every((r) => r.key === 'checked')) { seen.push(`${f} — dated ${rs[0].date || 'not at all'} and carries no reading to report`); continue; }
+    // A reading with no date of its own falls back to the file's `# checked:` — but ONLY while
+    // nothing in the file is NEWER than that. The moment a later sweep is present, an undated
+    // number cannot be assumed to be from either date, and that ambiguity is exactly what printed
+    // a 12 September figure as at 11 September. It is named rather than resolved by guessing.
+    const fileDate = (rs.find((r) => r.key === 'checked') || {}).date || null;
+    const newest = rs.map((r) => r.date).filter(Boolean).sort().pop() || null;
+    const ambiguous = Boolean(fileDate && newest && newest > fileDate);
+    // `checked` is the file's own date and the fallback for anything undated — it is not a reading
+    // in its own right, and printing "2026-09-11 whole-file sweep as at 2026-09-11" is noise of
+    // exactly the kind this line exists to remove.
+    const parts = rs.filter((r) => r.key !== 'checked').map((r) => {
+      const value = r.value.replace(/[,;]?\s*as at \d{4}-\d{2}-\d{2}\.?$/i, '').trim();
+      if (r.date) return `${value} ${r.label} as at ${r.date}`;
+      if (!ambiguous && fileDate) return `${value} ${r.label} as at ${fileDate}`;
+      return `${value} ${r.label} — UNDATED beside a ${newest} reading, so nothing can say which sweep it is from`;
+    });
+    seen.push(`${f} — ${parts.join(', ')}`);
   }
   return 'this check reads TRANSCRIPTS, so it cannot see a retired style used anywhere Figma has not '
     + 'been read into one. The live count lives in a dated snapshot instead: '
     + seen.join('; ')
-    + '. Re-sweep with docs/figma-rebind-deprecated.js before trusting either.';
+    + '. Re-sweep with docs/figma-rebind-deprecated.js before trusting any of it.';
 }
 
 // A declaration nothing binds any more. Normally that is FOLKLORE — a reason kept for something
@@ -432,9 +475,30 @@ function selfTest() {
   const ok = censusNote((f) => f.includes('collection')
     ? '# checked: 2026-09-11\n# references-at-last-sweep: 1429\n'
     : '# checked: 2026-09-11\n# references-at-last-sweep: 141\n');
-  if (!/1429 references as at 2026-09-11/.test(ok)) miss('the note must carry the census COUNT and DATE, not a number of its own');
+  if (!/1429 references file-wide as at 2026-09-11/.test(ok)) miss('the note must carry the census COUNT and DATE, not a number of its own');
   if (!/re-sweep/i.test(ok)) miss('the note must say the snapshot has to be re-swept to be trusted');
   if (/\bnine\b/.test(ok)) miss('no hardcoded count may come back into this line');
+
+  // EVERY READING, AND EACH BY ITS OWN DATE. This printed "1423 references as at 2026-09-11" once
+  // a later sweep had put 1423 in the file — a 12 September number wearing an 11 September date —
+  // and it could not see the two most actionable figures in the census at all.
+  const dated = censusNote(() => '# checked: 2026-09-11\n'
+    + '# references-at-last-sweep: 1423, as at 2026-09-12\n'
+    + '# outside-documentation: 403 nodes, as at 2026-09-12\n'
+    + '# in-a-component: 35 of those 403, as at 2026-09-12\n');
+  if (!/1423 references file-wide as at 2026-09-12/.test(dated)) miss("a reading carrying its OWN date must be reported under that date, not the file's");
+  if (!/403 nodes outside documentation/.test(dated)) miss('a reading the census holds must not be dropped from the line — that is how the actionable number stays invisible');
+  if (!/35 of those 403 inside a component/.test(dated)) miss('the shipped-library figure is the one a reader acts on and must be named');
+  if (/as at 2026-09-12 as at/.test(dated)) miss('a value that already ends "as at <date>" must not have a second one appended');
+
+  // An undated reading beside a NEWER one cannot be dated by guessing. Fall back to the file's own
+  // date only while nothing in the file is newer than it.
+  const quiet = censusNote(() => '# checked: 2026-09-11\n# references-at-last-sweep: 1429\n');
+  if (!/1429 references file-wide as at 2026-09-11/.test(quiet)) miss("with no later sweep present, an undated reading takes the file's date");
+  const mixedDates = censusNote(() => '# checked: 2026-09-11\n# references-at-last-sweep: 1429\n'
+    + '# outside-documentation: 403 nodes, as at 2026-09-12\n');
+  if (!/UNDATED beside a 2026-09-12 reading/.test(mixedDates)) miss('an undated number standing beside a LATER sweep must be called out, not silently dated');
+  if (/1429 references file-wide as at 2026-09-11/.test(mixedDates)) miss('...and it must not be given the older date either — that is the bug this replaced');
   const missingCensus = censusNote(() => null);
   if (!/IS MISSING/.test(missingCensus)) miss('a census this line points at, that is not there, must be REPORTED not skipped');
   const undated = censusNote(() => 'style\tvalue\trefs\n');

@@ -676,7 +676,7 @@ and every one of those surfaces is its own entry in the census. That reorders th
 retirement is not a sweep down a list of colours, it is surfaces first and everything that sits on
 them second. The token layer cannot fix a page whose panels are raw hex.
 
-### Only 346 of it is the shipped library
+### Only 346 of it is the shipped library — and 346 was still a PAGE count
 
 The retirement reads like a quarter of work until you split the remaining 1,592 by page. Two
 agreeing sweeps:
@@ -951,12 +951,23 @@ true of the extracted components when it was written, was never re-measured, and
 46 retired styles. A hardcoded figure in a verdict line is the thing this file keeps diagnosing in
 other people's mechanisms — **a number people learn to read past** — and it was sitting in ours.
 
-It now names the dated snapshot instead: `censusNote()` reads the `# checked:` header of both
-census files and prints *"1429 references as at 2026-09-11 … re-sweep with
-`docs/figma-rebind-deprecated.js` before trusting either"*. A census that is MISSING is said out
-loud, and one carrying no date is called out as unable to be aged. This check reads transcripts and
-cannot re-count Figma; pretending otherwise is how the nine got there. Four mutants hold it, and the
-same numbers came out of the comment above `isDeprecatedCollection` for the same reason.
+It now names the dated snapshot instead. A census that is MISSING is said out loud, and one
+carrying no date is called out as unable to be aged. This check reads transcripts and cannot
+re-count Figma; pretending otherwise is how the nine got there.
+
+**And the first version of THAT had the same bug one size smaller.** It read one `# checked:` header
+and one count and printed them together — so the moment the 12 September sweep put a new number in
+the file, the line reported *"1423 references as at 2026-09-11"*: a 12 September figure wearing an
+11 September date. It also could not see the two most actionable readings in the census at all, so
+the shipped-library figure — **35 nodes** — never reached anyone running the check.
+
+**Each reading now carries its own date**, and attaching the NEWEST date to every reading would have
+been the opposite error and worse: it would overstate the freshness of the oldest number in the
+file. A reading with no date of its own falls back to `# checked:` **only while nothing in the file
+is newer than that** — the moment a later sweep is present, an undated number cannot be assumed to
+be from either date, and it is named rather than resolved by guessing. Nine mutants hold it now,
+including one that restores the silent older-dating and one that drops the newest readings from the
+line.
 
 **And the first version of those four assertions could only ever PASS.** They were written at the
 top of `selfTest`, above its own `const miss` — and `if (!ok) miss(...)` never touches `miss` while
