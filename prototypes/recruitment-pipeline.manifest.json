@@ -1,0 +1,1809 @@
+{
+  "screen": "recruitment-pipeline",
+  "generated": "scripts/tag-elements.mjs — do not hand-edit",
+  "about": "Every design-system element on this screen, addressable by name. Regenerate with: node scripts/tag-elements.mjs <screen>.html --write",
+  "fields": {
+    "id": "Stable name for this ONE element. The only authored value; everything else is derived. Address elements by this, never by CSS selector — a selector changes every time the layout does.",
+    "component": "Figma component name, exactly as it appears in the Figma library (e.g. 'Side navigation tab').",
+    "cls": "CSS class in dist/components.css that renders it (e.g. 'pf-button'). Component and class are two names for the same thing.",
+    "variant": "Figma's variant properties for this instance, as an object: {\"type\": \"Positive\"} means Figma's Type property is set to Positive. Keys are only ever properties the component really has.",
+    "parent": "id of the nearest enclosing element in this list, or null if it is a top-level one. Gives you the component tree, not just a flat list.",
+    "tag": "HTML element it was rendered as.",
+    "repeat": "'row' if it is part of a repeating template rather than a distinct element — the cells of a table body are one row rendered N times, which is what an *ngFor consumes. null otherwise.",
+    "text": "Visible text, first 60 characters. Sample content, not a label to build against."
+  },
+  "counts": {
+    "elements": 143,
+    "roots": 11,
+    "repeating": 88
+  },
+  "elements": [
+    {
+      "id": "side-navigation-tab-dashboard",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": {
+        "selected": "false"
+      },
+      "parent": null,
+      "tag": "a",
+      "repeat": null,
+      "text": "Dashboard"
+    },
+    {
+      "id": "side-navigation-tab-my-team",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": {
+        "selected": "false"
+      },
+      "parent": null,
+      "tag": "a",
+      "repeat": null,
+      "text": "My team"
+    },
+    {
+      "id": "side-navigation-tab-absence",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": {
+        "selected": "false"
+      },
+      "parent": null,
+      "tag": "a",
+      "repeat": null,
+      "text": "Absence"
+    },
+    {
+      "id": "side-navigation-tab-timesheets",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": {
+        "selected": "false"
+      },
+      "parent": null,
+      "tag": "a",
+      "repeat": null,
+      "text": "Timesheets"
+    },
+    {
+      "id": "side-navigation-tab-recruitment",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": {
+        "selected": "true"
+      },
+      "parent": null,
+      "tag": "a",
+      "repeat": null,
+      "text": "Recruitment"
+    },
+    {
+      "id": "side-navigation-tab-onboarding",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": {
+        "selected": "false"
+      },
+      "parent": null,
+      "tag": "a",
+      "repeat": null,
+      "text": "Onboarding"
+    },
+    {
+      "id": "side-navigation-tab-learning",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": {
+        "selected": "false"
+      },
+      "parent": null,
+      "tag": "a",
+      "repeat": null,
+      "text": "Learning"
+    },
+    {
+      "id": "layout-container-title-recruitment-pipeline",
+      "component": "Layout container title",
+      "cls": "pf-layout-container-title",
+      "variant": {
+        "property-1": "Default"
+      },
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "Recruitment pipeline Raise a vacancy Export"
+    },
+    {
+      "id": "circle-icons-m-44px",
+      "component": "Circle icons",
+      "cls": "pf-circle-icons",
+      "variant": {
+        "size": "M - 44px"
+      },
+      "parent": "layout-container-title-recruitment-pipeline",
+      "tag": "span",
+      "repeat": null,
+      "text": ""
+    },
+    {
+      "id": "button-raise-a-vacancy",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Action"
+      },
+      "parent": "layout-container-title-recruitment-pipeline",
+      "tag": "button",
+      "repeat": null,
+      "text": "Raise a vacancy"
+    },
+    {
+      "id": "button-export",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Hollow"
+      },
+      "parent": "layout-container-title-recruitment-pipeline",
+      "tag": "button",
+      "repeat": null,
+      "text": "Export"
+    },
+    {
+      "id": "information-box-3-vacancies",
+      "component": "Information box",
+      "cls": "pf-information-box",
+      "variant": {
+        "type": "Warning"
+      },
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "3 vacancies are past their target close date. Learning Desig"
+    },
+    {
+      "id": "table-card-ag-open-vacancies-you",
+      "component": "Table card (AG)",
+      "cls": "pf-table-card-ag",
+      "variant": {
+        "mobile": "False"
+      },
+      "parent": null,
+      "tag": "section",
+      "repeat": null,
+      "text": "Open vacancies you own All stages (8) Advertising (2) Screen"
+    },
+    {
+      "id": "table-action-bar-all-stages",
+      "component": "Table action bar",
+      "cls": "pf-table-action-bar",
+      "variant": {
+        "mobile": "False"
+      },
+      "parent": "table-card-ag-open-vacancies-you",
+      "tag": "div",
+      "repeat": null,
+      "text": "All stages (8) Advertising (2) Screening (2) Interviewing (2"
+    },
+    {
+      "id": "filter-chip-all-stages",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": {
+        "state": "Selected",
+        "active": "True",
+        "mobile": "False"
+      },
+      "parent": "table-action-bar-all-stages",
+      "tag": "button",
+      "repeat": null,
+      "text": "All stages (8)"
+    },
+    {
+      "id": "filter-chip-advertising",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": {
+        "state": "Default",
+        "active": "False",
+        "mobile": "False"
+      },
+      "parent": "table-action-bar-all-stages",
+      "tag": "button",
+      "repeat": null,
+      "text": "Advertising (2)"
+    },
+    {
+      "id": "filter-chip-screening",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": {
+        "state": "Default",
+        "active": "False",
+        "mobile": "False"
+      },
+      "parent": "table-action-bar-all-stages",
+      "tag": "button",
+      "repeat": null,
+      "text": "Screening (2)"
+    },
+    {
+      "id": "filter-chip-interviewing",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": {
+        "state": "Default",
+        "active": "False",
+        "mobile": "False"
+      },
+      "parent": "table-action-bar-all-stages",
+      "tag": "button",
+      "repeat": null,
+      "text": "Interviewing (2)"
+    },
+    {
+      "id": "primary-search-search-vacancies",
+      "component": "Primary search",
+      "cls": "pf-primary-search",
+      "variant": {
+        "darkmode": "False",
+        "icon-only": "False"
+      },
+      "parent": "table-action-bar-all-stages",
+      "tag": "span",
+      "repeat": null,
+      "text": "Search vacancies…"
+    },
+    {
+      "id": "table-ag-vacancy-hiring-stage",
+      "component": "Table (AG)",
+      "cls": "pf-table-ag",
+      "variant": {
+        "mobile": "False"
+      },
+      "parent": "table-card-ag-open-vacancies-you",
+      "tag": "div",
+      "repeat": null,
+      "text": "Vacancy Hiring stage Stage progress Applicants Target close "
+    },
+    {
+      "id": "table-header-ag-checkbox",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": {
+        "alignment": "Checkbox"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "th",
+      "repeat": null,
+      "text": ""
+    },
+    {
+      "id": "multi-select-checkbox-some-vacancies-selected",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Mixed selection"
+      },
+      "parent": "table-header-ag-checkbox",
+      "tag": "span",
+      "repeat": null,
+      "text": ""
+    },
+    {
+      "id": "table-header-ag-vacancy",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": {
+        "alignment": "Left"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "th",
+      "repeat": null,
+      "text": "Vacancy"
+    },
+    {
+      "id": "table-header-icons-sorted-ascending",
+      "component": "Table header icons",
+      "cls": "pf-table-header-icons",
+      "variant": {
+        "variant": "Sort",
+        "state": "Ascending"
+      },
+      "parent": "table-header-ag-vacancy",
+      "tag": "span",
+      "repeat": null,
+      "text": ""
+    },
+    {
+      "id": "table-header-ag-hiring-stage",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": {
+        "alignment": "Left"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "th",
+      "repeat": null,
+      "text": "Hiring stage"
+    },
+    {
+      "id": "table-header-icons-filtered",
+      "component": "Table header icons",
+      "cls": "pf-table-header-icons",
+      "variant": {
+        "variant": "Filter",
+        "state": "Filtered"
+      },
+      "parent": "table-header-ag-hiring-stage",
+      "tag": "span",
+      "repeat": null,
+      "text": ""
+    },
+    {
+      "id": "table-header-ag-stage-progress",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": {
+        "alignment": "Left"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "th",
+      "repeat": null,
+      "text": "Stage progress"
+    },
+    {
+      "id": "table-header-ag-applicants",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": {
+        "alignment": "Left"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "th",
+      "repeat": null,
+      "text": "Applicants"
+    },
+    {
+      "id": "table-header-ag-target-close",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": {
+        "alignment": "Left"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "th",
+      "repeat": null,
+      "text": "Target close"
+    },
+    {
+      "id": "table-header-ag-status",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": {
+        "alignment": "Left"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "th",
+      "repeat": null,
+      "text": "Status"
+    },
+    {
+      "id": "table-header-icons-column-options",
+      "component": "Table header icons",
+      "cls": "pf-table-header-icons",
+      "variant": {
+        "variant": "Context menu",
+        "state": "Default"
+      },
+      "parent": "table-header-ag-status",
+      "tag": "span",
+      "repeat": null,
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r1c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Checkbox",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r1c1-multi-select-checkbox",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Selected"
+      },
+      "parent": "table-cell-ag-r1c1",
+      "tag": "span",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r1c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Senior Reward Analyst REC-2041 · Manchester · Permanent"
+    },
+    {
+      "id": "table-cell-ag-r1c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Interviewing"
+    },
+    {
+      "id": "table-cell-ag-r1c3-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Theme"
+      },
+      "parent": "table-cell-ag-r1c3",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Interviewing"
+    },
+    {
+      "id": "table-cell-ag-r1c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "75%"
+    },
+    {
+      "id": "table-cell-ag-r1c4-table-progress-bar",
+      "component": "Table progress bar",
+      "cls": "pf-table-progress-bar",
+      "variant": {
+        "completion": "75%",
+        "dark-cell-background": "No"
+      },
+      "parent": "table-cell-ag-r1c4",
+      "tag": "span",
+      "repeat": "row",
+      "text": "75%"
+    },
+    {
+      "id": "table-cell-ag-r1c5",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "34 6 new this week"
+    },
+    {
+      "id": "table-cell-ag-r1c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "26 Sep 2026"
+    },
+    {
+      "id": "table-cell-ag-r1c7",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "On track"
+    },
+    {
+      "id": "table-cell-ag-r1c7-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Positive"
+      },
+      "parent": "table-cell-ag-r1c7",
+      "tag": "span",
+      "repeat": "row",
+      "text": "On track"
+    },
+    {
+      "id": "table-cell-ag-r2c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Checkbox",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r2c1-multi-select-checkbox",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Selected"
+      },
+      "parent": "table-cell-ag-r2c1",
+      "tag": "span",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r2c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "HR Business Partner REC-2038 · Leeds · Permanent"
+    },
+    {
+      "id": "table-cell-ag-r2c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Offer"
+    },
+    {
+      "id": "table-cell-ag-r2c3-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Positive"
+      },
+      "parent": "table-cell-ag-r2c3",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Offer"
+    },
+    {
+      "id": "table-cell-ag-r2c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "90%"
+    },
+    {
+      "id": "table-cell-ag-r2c4-table-progress-bar",
+      "component": "Table progress bar",
+      "cls": "pf-table-progress-bar",
+      "variant": {
+        "completion": "90%",
+        "dark-cell-background": "No"
+      },
+      "parent": "table-cell-ag-r2c4",
+      "tag": "span",
+      "repeat": "row",
+      "text": "90%"
+    },
+    {
+      "id": "table-cell-ag-r2c5",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "21 Shortlist closed"
+    },
+    {
+      "id": "table-cell-ag-r2c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "12 Sep 2026"
+    },
+    {
+      "id": "table-cell-ag-r2c7",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "On track"
+    },
+    {
+      "id": "table-cell-ag-r2c7-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Positive"
+      },
+      "parent": "table-cell-ag-r2c7",
+      "tag": "span",
+      "repeat": "row",
+      "text": "On track"
+    },
+    {
+      "id": "table-cell-ag-r3c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Checkbox",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r3c1-multi-select-checkbox",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": "table-cell-ag-r3c1",
+      "tag": "span",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r3c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Payroll Officer REC-2052 · Sheffield · Permanent"
+    },
+    {
+      "id": "table-cell-ag-r3c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Screening"
+    },
+    {
+      "id": "table-cell-ag-r3c3-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Other"
+      },
+      "parent": "table-cell-ag-r3c3",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Screening"
+    },
+    {
+      "id": "table-cell-ag-r3c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "45%"
+    },
+    {
+      "id": "table-cell-ag-r3c4-table-progress-bar",
+      "component": "Table progress bar",
+      "cls": "pf-table-progress-bar",
+      "variant": {
+        "completion": "45%",
+        "dark-cell-background": "No"
+      },
+      "parent": "table-cell-ag-r3c4",
+      "tag": "span",
+      "repeat": "row",
+      "text": "45%"
+    },
+    {
+      "id": "table-cell-ag-r3c5",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "47 12 new this week"
+    },
+    {
+      "id": "table-cell-ag-r3c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "3 Oct 2026"
+    },
+    {
+      "id": "table-cell-ag-r3c7",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Shortlist due"
+    },
+    {
+      "id": "table-cell-ag-r3c7-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Warning"
+      },
+      "parent": "table-cell-ag-r3c7",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Shortlist due"
+    },
+    {
+      "id": "table-cell-ag-r4c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Checkbox",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r4c1-multi-select-checkbox",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": "table-cell-ag-r4c1",
+      "tag": "span",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r4c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Learning Designer REC-2029 · Remote · Fixed term"
+    },
+    {
+      "id": "table-cell-ag-r4c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Advertising"
+    },
+    {
+      "id": "table-cell-ag-r4c3-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Neutral"
+      },
+      "parent": "table-cell-ag-r4c3",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Advertising"
+    },
+    {
+      "id": "table-cell-ag-r4c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "20%"
+    },
+    {
+      "id": "table-cell-ag-r4c4-table-progress-bar",
+      "component": "Table progress bar",
+      "cls": "pf-table-progress-bar",
+      "variant": {
+        "completion": "20%",
+        "dark-cell-background": "No"
+      },
+      "parent": "table-cell-ag-r4c4",
+      "tag": "span",
+      "repeat": "row",
+      "text": "20%"
+    },
+    {
+      "id": "table-cell-ag-r4c5",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "9 No activity for 11 days"
+    },
+    {
+      "id": "table-cell-ag-r4c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "17 Sep 2026"
+    },
+    {
+      "id": "table-cell-ag-r4c7",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Overdue"
+    },
+    {
+      "id": "table-cell-ag-r4c7-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Negative"
+      },
+      "parent": "table-cell-ag-r4c7",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Overdue"
+    },
+    {
+      "id": "table-cell-ag-r5c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Checkbox",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r5c1-multi-select-checkbox",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": "table-cell-ag-r5c1",
+      "tag": "span",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r5c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Recruitment Coordinator REC-2044 · Manchester · Permanent"
+    },
+    {
+      "id": "table-cell-ag-r5c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Interviewing"
+    },
+    {
+      "id": "table-cell-ag-r5c3-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Theme"
+      },
+      "parent": "table-cell-ag-r5c3",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Interviewing"
+    },
+    {
+      "id": "table-cell-ag-r5c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "65%"
+    },
+    {
+      "id": "table-cell-ag-r5c4-table-progress-bar",
+      "component": "Table progress bar",
+      "cls": "pf-table-progress-bar",
+      "variant": {
+        "completion": "65%",
+        "dark-cell-background": "No"
+      },
+      "parent": "table-cell-ag-r5c4",
+      "tag": "span",
+      "repeat": "row",
+      "text": "65%"
+    },
+    {
+      "id": "table-cell-ag-r5c5",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "18 4 at second stage"
+    },
+    {
+      "id": "table-cell-ag-r5c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "30 Sep 2026"
+    },
+    {
+      "id": "table-cell-ag-r5c7",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "On track"
+    },
+    {
+      "id": "table-cell-ag-r5c7-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Positive"
+      },
+      "parent": "table-cell-ag-r5c7",
+      "tag": "span",
+      "repeat": "row",
+      "text": "On track"
+    },
+    {
+      "id": "table-cell-ag-r6c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Checkbox",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r6c1-multi-select-checkbox",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": "table-cell-ag-r6c1",
+      "tag": "span",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r6c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Occupational Health Nurse REC-2011 · Birmingham · Part time"
+    },
+    {
+      "id": "table-cell-ag-r6c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Screening"
+    },
+    {
+      "id": "table-cell-ag-r6c3-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Other"
+      },
+      "parent": "table-cell-ag-r6c3",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Screening"
+    },
+    {
+      "id": "table-cell-ag-r6c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "40%"
+    },
+    {
+      "id": "table-cell-ag-r6c4-table-progress-bar",
+      "component": "Table progress bar",
+      "cls": "pf-table-progress-bar",
+      "variant": {
+        "completion": "40%",
+        "dark-cell-background": "No"
+      },
+      "parent": "table-cell-ag-r6c4",
+      "tag": "span",
+      "repeat": "row",
+      "text": "40%"
+    },
+    {
+      "id": "table-cell-ag-r6c5",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "6 Paused by the hiring manager"
+    },
+    {
+      "id": "table-cell-ag-r6c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "22 Aug 2026"
+    },
+    {
+      "id": "table-cell-ag-r6c7",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "On hold"
+    },
+    {
+      "id": "table-cell-ag-r6c7-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Expired"
+      },
+      "parent": "table-cell-ag-r6c7",
+      "tag": "span",
+      "repeat": "row",
+      "text": "On hold"
+    },
+    {
+      "id": "table-cell-ag-r7c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Checkbox",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r7c1-multi-select-checkbox",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": "table-cell-ag-r7c1",
+      "tag": "span",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r7c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Talent Acquisition Apprentice REC-2057 · Leeds · Apprentices"
+    },
+    {
+      "id": "table-cell-ag-r7c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Advertising"
+    },
+    {
+      "id": "table-cell-ag-r7c3-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Neutral"
+      },
+      "parent": "table-cell-ag-r7c3",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Advertising"
+    },
+    {
+      "id": "table-cell-ag-r7c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "15%"
+    },
+    {
+      "id": "table-cell-ag-r7c4-table-progress-bar",
+      "component": "Table progress bar",
+      "cls": "pf-table-progress-bar",
+      "variant": {
+        "completion": "15%",
+        "dark-cell-background": "No"
+      },
+      "parent": "table-cell-ag-r7c4",
+      "tag": "span",
+      "repeat": "row",
+      "text": "15%"
+    },
+    {
+      "id": "table-cell-ag-r7c5",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "63 28 new this week"
+    },
+    {
+      "id": "table-cell-ag-r7c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "10 Oct 2026"
+    },
+    {
+      "id": "table-cell-ag-r7c7",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "On track"
+    },
+    {
+      "id": "table-cell-ag-r7c7-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Positive"
+      },
+      "parent": "table-cell-ag-r7c7",
+      "tag": "span",
+      "repeat": "row",
+      "text": "On track"
+    },
+    {
+      "id": "table-cell-ag-r8c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Checkbox",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r8c1-multi-select-checkbox",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": "table-cell-ag-r8c1",
+      "tag": "span",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r8c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Head of People Operations REC-2003 · Manchester · Permanent"
+    },
+    {
+      "id": "table-cell-ag-r8c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Onboarding"
+    },
+    {
+      "id": "table-cell-ag-r8c3-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Positive"
+      },
+      "parent": "table-cell-ag-r8c3",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Onboarding"
+    },
+    {
+      "id": "table-cell-ag-r8c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "100%"
+    },
+    {
+      "id": "table-cell-ag-r8c4-table-progress-bar",
+      "component": "Table progress bar",
+      "cls": "pf-table-progress-bar",
+      "variant": {
+        "completion": "100%",
+        "dark-cell-background": "No"
+      },
+      "parent": "table-cell-ag-r8c4",
+      "tag": "span",
+      "repeat": "row",
+      "text": "100%"
+    },
+    {
+      "id": "table-cell-ag-r8c5",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "4 Start date to confirm"
+    },
+    {
+      "id": "table-cell-ag-r8c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "5 Sep 2026"
+    },
+    {
+      "id": "table-cell-ag-r8c7",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-vacancy-hiring-stage",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Contract due"
+    },
+    {
+      "id": "table-cell-ag-r8c7-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Warning"
+      },
+      "parent": "table-cell-ag-r8c7",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Contract due"
+    },
+    {
+      "id": "card-people-and-culture",
+      "component": "Card",
+      "cls": "pf-card",
+      "variant": {
+        "property-1": "Default"
+      },
+      "parent": null,
+      "tag": "section",
+      "repeat": null,
+      "text": "People & Culture — recruitment activity Recruitment reports "
+    },
+    {
+      "id": "links-recruitment-reports",
+      "component": "Links",
+      "cls": "pf-links",
+      "variant": {
+        "link-type": "Secondary",
+        "hover": "False",
+        "icon-position": "Left"
+      },
+      "parent": "card-people-and-culture",
+      "tag": "a",
+      "repeat": null,
+      "text": "Recruitment reports"
+    },
+    {
+      "id": "metric-card-32d-down",
+      "component": "Metric card",
+      "cls": "pf-metric-card",
+      "variant": {
+        "mobile": "False"
+      },
+      "parent": "card-people-and-culture",
+      "tag": "div",
+      "repeat": null,
+      "text": "32d DOWN BY 4d"
+    },
+    {
+      "id": "data-variance-down-by-4d",
+      "component": "Data variance",
+      "cls": "pf-data-variance",
+      "variant": {
+        "data-change": "Down",
+        "mobile": "False"
+      },
+      "parent": "metric-card-32d-down",
+      "tag": "div",
+      "repeat": null,
+      "text": "DOWN BY 4d"
+    },
+    {
+      "id": "metric-card-86-up",
+      "component": "Metric card",
+      "cls": "pf-metric-card",
+      "variant": {
+        "mobile": "False"
+      },
+      "parent": "card-people-and-culture",
+      "tag": "div",
+      "repeat": null,
+      "text": "86% UP BY 5pp"
+    },
+    {
+      "id": "data-variance-up-by-5pp",
+      "component": "Data variance",
+      "cls": "pf-data-variance",
+      "variant": {
+        "data-change": "Up",
+        "mobile": "False"
+      },
+      "parent": "metric-card-86-up",
+      "tag": "div",
+      "repeat": null,
+      "text": "UP BY 5pp"
+    },
+    {
+      "id": "metric-card-14-down",
+      "component": "Metric card",
+      "cls": "pf-metric-card",
+      "variant": {
+        "mobile": "False"
+      },
+      "parent": "card-people-and-culture",
+      "tag": "div",
+      "repeat": null,
+      "text": "14 DOWN BY 3"
+    },
+    {
+      "id": "data-variance-down",
+      "component": "Data variance",
+      "cls": "pf-data-variance",
+      "variant": {
+        "data-change": "Down",
+        "mobile": "False"
+      },
+      "parent": "metric-card-14-down",
+      "tag": "div",
+      "repeat": null,
+      "text": "DOWN BY 3"
+    },
+    {
+      "id": "metric-card-18-up",
+      "component": "Metric card",
+      "cls": "pf-metric-card",
+      "variant": {
+        "mobile": "False"
+      },
+      "parent": "card-people-and-culture",
+      "tag": "div",
+      "repeat": null,
+      "text": "18 UP BY 3"
+    },
+    {
+      "id": "data-variance-up",
+      "component": "Data variance",
+      "cls": "pf-data-variance",
+      "variant": {
+        "data-change": "Up",
+        "mobile": "False"
+      },
+      "parent": "metric-card-18-up",
+      "tag": "div",
+      "repeat": null,
+      "text": "UP BY 3"
+    },
+    {
+      "id": "graph-legend-72-advertising",
+      "component": "Graph legend",
+      "cls": "pf-graph-legend",
+      "variant": {
+        "mobile": "False",
+        "key-type": "Donut graph"
+      },
+      "parent": "card-people-and-culture",
+      "tag": "div",
+      "repeat": null,
+      "text": "72Advertising"
+    },
+    {
+      "id": "graph-legend-53-screening",
+      "component": "Graph legend",
+      "cls": "pf-graph-legend",
+      "variant": {
+        "mobile": "False",
+        "key-type": "Donut graph"
+      },
+      "parent": "card-people-and-culture",
+      "tag": "div",
+      "repeat": null,
+      "text": "53Screening"
+    },
+    {
+      "id": "graph-legend-52-interviewing",
+      "component": "Graph legend",
+      "cls": "pf-graph-legend",
+      "variant": {
+        "mobile": "False",
+        "key-type": "Donut graph"
+      },
+      "parent": "card-people-and-culture",
+      "tag": "div",
+      "repeat": null,
+      "text": "52Interviewing"
+    },
+    {
+      "id": "graph-legend-21-offer",
+      "component": "Graph legend",
+      "cls": "pf-graph-legend",
+      "variant": {
+        "mobile": "False",
+        "key-type": "Donut graph"
+      },
+      "parent": "card-people-and-culture",
+      "tag": "div",
+      "repeat": null,
+      "text": "21Offer"
+    },
+    {
+      "id": "graph-legend-4-onboarding",
+      "component": "Graph legend",
+      "cls": "pf-graph-legend",
+      "variant": {
+        "mobile": "False",
+        "key-type": "Donut graph"
+      },
+      "parent": "card-people-and-culture",
+      "tag": "div",
+      "repeat": null,
+      "text": "4Onboarding"
+    },
+    {
+      "id": "details-vacancies-advertised",
+      "component": "Details",
+      "cls": "pf-details",
+      "variant": {
+        "layout": "Horizontal"
+      },
+      "parent": "card-people-and-culture",
+      "tag": "div",
+      "repeat": null,
+      "text": "Vacancies advertised: 23 Applications received: 414 Intervie"
+    },
+    {
+      "id": "detail-item-vacancies-advertised",
+      "component": "Detail item",
+      "cls": "pf-detail-item",
+      "variant": {},
+      "parent": "details-vacancies-advertised",
+      "tag": "div",
+      "repeat": null,
+      "text": "Vacancies advertised: 23"
+    },
+    {
+      "id": "detail-item-applications-received",
+      "component": "Detail item",
+      "cls": "pf-detail-item",
+      "variant": {},
+      "parent": "details-vacancies-advertised",
+      "tag": "div",
+      "repeat": null,
+      "text": "Applications received: 414"
+    },
+    {
+      "id": "detail-item-interviews-scheduled",
+      "component": "Detail item",
+      "cls": "pf-detail-item",
+      "variant": {},
+      "parent": "details-vacancies-advertised",
+      "tag": "div",
+      "repeat": null,
+      "text": "Interviews scheduled: 61"
+    },
+    {
+      "id": "detail-item-offers-made",
+      "component": "Detail item",
+      "cls": "pf-detail-item",
+      "variant": {},
+      "parent": "details-vacancies-advertised",
+      "tag": "div",
+      "repeat": null,
+      "text": "Offers made: 17"
+    },
+    {
+      "id": "detail-item-talent-pool-additions",
+      "component": "Detail item",
+      "cls": "pf-detail-item",
+      "variant": {},
+      "parent": "details-vacancies-advertised",
+      "tag": "div",
+      "repeat": null,
+      "text": "Talent pool additions: 86"
+    },
+    {
+      "id": "detail-item-starters-onboarding",
+      "component": "Detail item",
+      "cls": "pf-detail-item",
+      "variant": {},
+      "parent": "details-vacancies-advertised",
+      "tag": "div",
+      "repeat": null,
+      "text": "Starters onboarding: 9"
+    },
+    {
+      "id": "detail-item-withdrawn-by-candidate",
+      "component": "Detail item",
+      "cls": "pf-detail-item",
+      "variant": {},
+      "parent": "details-vacancies-advertised",
+      "tag": "div",
+      "repeat": null,
+      "text": "Withdrawn by candidate: 12"
+    },
+    {
+      "id": "detail-item-roles",
+      "component": "Detail item",
+      "cls": "pf-detail-item",
+      "variant": {},
+      "parent": "details-vacancies-advertised",
+      "tag": "div",
+      "repeat": null,
+      "text": "Roles with a diverse shortlist: 19 of 23"
+    }
+  ]
+}
