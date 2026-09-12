@@ -1127,8 +1127,23 @@ against box** — boxes overlap constantly and legitimately, a card inside a pan
 lapping its parent's corner, so the rect comes from a Range over each element's OWN direct text
 nodes and a parent is never compared against the child whose text it holds. Out-of-flow
 elements are excluded for the same reason `verify-layout` excludes them: a dropdown open over
-the page is text over text on purpose. **8 pairs outstanding, all on the two oldest fixtures in
-`prototypes/`; `working/` is held at zero and is at zero**, as is the newest prototype.
+the page is text over text on purpose.
+
+**A CLIPPED RUN IS NOT ON THE PAGE, AND A RECT DOES NOT KNOW THAT.** The first version of this
+check reported **8** pairs and six of them were invisible: `getBoundingClientRect` says where a
+box WOULD be, so a child scrolled out of an `overflow: auto` ancestor still has full
+coordinates — the property this file already names in the clipping section, *"a clipped child
+still has a bounding rect"*, walked into by the check written after it. Each run is now
+intersected with every clipping ancestor first, and one with nothing left is dropped.
+
+What gave it away was measuring rather than reasoning: every element reported as escaping its
+container was `position: static`, which is impossible for a real spill out of a scroll
+container. **The honest figure is 2** — a footer line over another on `payroll-run-summary`, and
+a 40px² clash on `timesheet-approvals`. `working/` is held at zero and is at zero, as is the
+newest prototype, **and the docs pages are at zero** (they were 3, all of them the template
+stage scrolling its contents rather than spilling them). Because zero is also the state in which
+that half could pass while measuring nothing, it asserts it found at least 500 runs of text
+there; it finds 1956.
 
 It measures at 1440px only, and the reason is named rather than left implicit: every screen here
 is drawn for a desktop and pins its components to Desktop, so at 390px they squeeze and overlap
@@ -1150,8 +1165,8 @@ component (`Circle icons` five times, `People` eight), and fixing it took seven 
 The size rule stays alongside it, because it answers a different question — a component that
 *does* carry type can still be too small for its own name.
 
-Three remain and are pinned rather than fixed: one is `Donut pie chart`'s 60px centre number,
-and the charts are being reworked by the design owner.
+None remain. Three appeared to, and all three turned out to be the stage scrolling a template's
+contents rather than spilling them — see the clipping note above.
 
 **Always screenshot the result in light and dark and look at it** before saying a screen
 is done:

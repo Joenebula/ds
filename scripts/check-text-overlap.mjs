@@ -36,7 +36,7 @@ import { resolve, basename } from 'node:path';
 // Overlaps outstanding on the hand-built fixtures in `prototypes/`. It may fall; it may not
 // rise. `working/` — the pages built FROM a Figma design, which is the direction this repo
 // exists to get right — must be at zero, and is.
-const BASELINE = 8;
+const BASELINE = 2;
 const WIDTH = 1440;
 
 // THE TEMPLATE GALLERY IS CHECKED TOO, and it is the one that matters most: `docs/templates.html`
@@ -55,13 +55,38 @@ const WIDTH = 1440;
 // The three that remain are pinned rather than fixed: one is `Donut pie chart`'s 60px centre
 // number, and the charts are being reworked by the design owner, so this does not touch them.
 const DOCS = ['docs/templates.html', 'docs/components.html'];
-const DOCS_BASELINE = 3;
+const DOCS_BASELINE = 0;
+// Clipping cuts the docs pages to zero, which is the right answer and also the one state in
+// which this half of the check could pass while measuring nothing. It asserts it looked.
+const DOCS_MIN_RUNS = 500;
 const files = process.argv.slice(2).filter(f => f.endsWith('.html') && !f.endsWith('.src.html'));
 if (!files.length) { console.error('usage: node scripts/check-text-overlap.mjs <built>.html ...'); process.exit(2); }
 
 // ONE PROBE, USED ON BOTH. Two copies of this arithmetic would be the same question with a
 // second chance to drift — the reason `hugs.mjs` is shared by its generator and its checker.
 const overlapScript = () => {
+  // A CLIPPED RUN IS NOT ON THE PAGE, and a rect does not know that. `getBoundingClientRect`
+  // reports where a box WOULD be, so a child scrolled out of an `overflow: auto` ancestor still
+  // has full coordinates — the same property CLAUDE.md names in the clipping section: "a
+  // clipped child still has a bounding rect". Without this, the first version of this check
+  // reported three overlaps on `docs/templates.html` between a template's contents and the
+  // code listing below it, and every one of them was invisible: the `.stage` was scrolling
+  // them, not spilling them. Measured: all three escaping elements are `position: static`,
+  // which is impossible for a real spill out of a scroll container and is what gave it away.
+  //
+  // So each run is intersected with every clipping ancestor before it is compared, and a run
+  // with nothing left is dropped.
+  const clipOf = el => {
+    let r = { top: -1e9, left: -1e9, right: 1e9, bottom: 1e9 };
+    for (let n = el.parentElement; n; n = n.parentElement) {
+      const s = getComputedStyle(n);
+      if (s.overflow === 'visible' && s.overflowX === 'visible' && s.overflowY === 'visible') continue;
+      const b = n.getBoundingClientRect();
+      r = { top: Math.max(r.top, b.top), left: Math.max(r.left, b.left),
+            right: Math.min(r.right, b.right), bottom: Math.min(r.bottom, b.bottom) };
+    }
+    return r;
+  };
   const runs = [];
   for (const e of document.querySelectorAll('body *')) {
     const s = getComputedStyle(e);
@@ -71,8 +96,12 @@ const overlapScript = () => {
       if (n.nodeType !== 3 || !n.textContent.trim()) continue;
       const range = document.createRange();
       range.selectNodeContents(n);
-      const box = range.getBoundingClientRect();
-      if (box.width < 2 || box.height < 2) continue;
+      const raw = range.getBoundingClientRect();
+      if (raw.width < 2 || raw.height < 2) continue;
+      const c = clipOf(e);
+      const box = { top: Math.max(raw.top, c.top), left: Math.max(raw.left, c.left),
+                    right: Math.min(raw.right, c.right), bottom: Math.min(raw.bottom, c.bottom) };
+      if (box.right - box.left < 2 || box.bottom - box.top < 2) continue;   // scrolled out of view
       runs.push({ el: e, box, text: n.textContent.trim().replace(/\s+/g, ' ').slice(0, 40) });
     }
   }
@@ -110,16 +139,17 @@ for (const file of files) {
 
 // The docs pages, on their own baseline: they are generated documentation rather than a screen
 // built from a design, and one of the three left is a chart that is being reworked.
-let docsTotal = 0;
+let docsTotal = 0, docsRuns = 0;
 const docsBy = [];
 for (const file of DOCS) {
   if (!existsSync(file)) continue;
   const page = await browser.newPage({ viewport: { width: WIDTH, height: 1080 } });
   await page.goto('file://' + resolve(file));
   await page.evaluate(() => document.fonts.ready);
-  const { pairs } = await page.evaluate(overlapScript);
+  const { pairs, runs } = await page.evaluate(overlapScript);
   await page.close();
   docsTotal += pairs.length;
+  docsRuns += runs;
   docsBy.push({ file, n: pairs.length, top: pairs.slice(0, 3) });
 }
 await browser.close();
@@ -139,7 +169,12 @@ if (total > BASELINE) {
   problems.push(`${total} overlapping pairs, up from ${BASELINE} — text has been printed over `
     + `text on a screen that did not do it before`);
 }
-console.log(`${docsTotal} pair(s) on ${DOCS.join(' and ')} (baseline ${DOCS_BASELINE})`);
+console.log(`${docsTotal} pair(s) on ${DOCS.join(' and ')} (baseline ${DOCS_BASELINE}), from `
+  + `${docsRuns} run(s) of text`);
+if (docsRuns < DOCS_MIN_RUNS) {
+  problems.push(`only ${docsRuns} run(s) of text were found on the docs pages, below the `
+    + `${DOCS_MIN_RUNS} expected — this half of the check measured almost nothing`);
+}
 for (const d of docsBy) {
   if (!d.n) continue;
   console.log(`  ${basename(d.file)}: ${d.n}`);
