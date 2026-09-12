@@ -320,6 +320,36 @@ paths, `Information box` wraps an instance of itself — and two have no class t
 template on: Figma has two components called `Field` and two called `People`, and only the
 first of each pair has rules.
 
+**That last sentence is true of the CLASSES and false of the EXTRACT, and three Figma reads on
+2026-09-12 showed why the backfill could never pin those two names.** They are not ambiguous
+components. They are **two components each, merged under one name**, so there is no single id to
+pin and refusing was correct:
+
+| name | rows that belong to it | rows that belong to something else |
+|---|---|---|
+| `Field` | `Right aligned × Filled`, 300×42 — **`13737:25495`** | `Field\|Property 1=Default`, auto×42 — that is **`18846:28925`**, a one-variant 95×42 component |
+| `People` | `Who?=…`, 91×91 and 64×64 — **`329:422`**, the avatar set | `Item × Type × Mobile` — that is **`10773:126429`**, a 5-type list/card/header set |
+
+**And the merge reaches the shipped stylesheet.** `dist/components.css` carries
+`.pf-field[data-property-1="Default"]` and both `.pf-people[data-who=…]` and
+`.pf-people[data-item=…]` — one class wearing two components' variant axes. A page writing
+`data-property-1` on `.pf-field` would get the other component's geometry. Nothing does today.
+
+The evidence is the AXES, and they are decisive without a judgement: Figma publishes
+`13737:25495` with four variants on `Right aligned × Filled` at 300×42 and `18846:28925` with one
+on `Property 1` at 95×42, which is exactly how the rows divide. `Field (second component)` already
+exists as a separate geometry row, so the split was started and one row was left behind under the
+wrong name.
+
+**Not fixed here.** Separating them renames shipped classes, and `People`'s half would mint a class
+for a 30-variant avatar set — a library change, not a data tidy-up. Put to the design lead with the
+node ids and the axes, because the answer decides what the classes are called.
+
+**Note what this is NOT: a case for pinning harder.** The right response to a name the backfill
+cannot resolve is sometimes that the name covers two things. Forcing an id onto either of these
+would have made half its rows lie, and the refusal that looked like a gap was the mechanism
+working.
+
 **A template is only as deep as the walk that made it, and it says where it stopped.**
 The walk records each node's child count, so a container that came back empty is
 distinguishable from one Figma leaves empty, and any container it did stop short of carries
