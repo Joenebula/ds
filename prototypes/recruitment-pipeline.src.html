@@ -1,0 +1,736 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Recruitment pipeline</title>
+<!-- Open Sans ships with the build, inlined by dist/fonts.css. Never link Google Fonts:
+     the request is blocked by this environment's egress policy and inside an artifact,
+     and the page then falls back to DejaVu Sans with weight 600 synthesised as Bold. -->
+<style>
+/*__TOKENS__*/
+/*__COMPONENTS__*/
+/*__TYPE__*/
+
+/* ======================================================================
+   LOCAL CSS — layout and behaviour only.
+   Everything that paints on this page is a class from dist/components.css or
+   dist/type.css. The rules below place those classes on the page; where one of
+   them has to set a property a component would normally own, it carries a
+   pf-new marker saying why. Run `npm run off-system -- <file>` to check that claim.
+   ====================================================================== */
+
+* { box-sizing: border-box; }
+
+/* pf-new: the page ground. No component covers the scrolling document — `Full page`
+   is a 1920x1080 Figma artboard frame, not a page shell, so <body> has nothing to
+   inherit from and needs the surface and the default text token set here. */
+body {
+  margin: 0;
+  background: var(--pf-bg-secondary);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-body);
+}
+
+/* Behaviour the extract deliberately does not capture. */
+a { text-decoration: none; }
+:focus-visible { outline: 2px solid var(--pf-border-theme); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+svg { display: block; }
+.pf-button, .pf-filter-chip, .pf-side-navigation-tab, .pf-links { cursor: pointer; }
+.pf-button, .pf-filter-chip { transition: background-color .12s, border-color .12s, color .12s; }
+.pf-button svg, .pf-filter-chip svg { flex: none; }
+
+/* pf-new: a type class sets size, weight, case and line-height but never colour —
+   that pairing has to be written somewhere, and one utility per token keeps it
+   reviewable instead of scattered through the markup. */
+.t-secondary { color: var(--pf-text-secondary); }
+/* pf-new: as above — the link colour for text inside a Links component's label. */
+.t-link { color: var(--pf-text-link); }
+/* pf-new: as above — positive figures in the activity panel. */
+.t-positive { color: var(--pf-text-positive); }
+/* pf-new: as above — the one negative figure in the activity panel. */
+.t-negative { color: var(--pf-text-negative); }
+/* pf-new: as above. `Table cell (AG)` binds one text colour for the whole component and
+   it is Text/Link, so every figure and date in the table would read as a link. Figma's
+   own child tree is what resolves this: dist/templates/pf-table-cell-ag.html pairs the
+   cell's plain label spans with --pf-text-primary and keeps the link colour for the
+   children that are links. The vacancy name keeps it here; nothing else does. */
+.t-primary { color: var(--pf-text-primary); }
+
+.num { font-variant-numeric: tabular-nums; }
+
+/* ---------- app frame ---------- */
+.app { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+@media (max-width: 900px) { .app { grid-template-columns: 1fr; } .rail { display: none; } }
+
+/* pf-new: the nav RAIL. `Side navigation tab` is the 268x48 row and is used below;
+   `Side navigation` is the 90px icon rail for `Navigation item`, a different
+   component. Nothing in the library is the labelled rail that holds these rows, so
+   its surface and divider are written here. */
+.rail {
+  background: var(--pf-bg-primary);
+  border-right: 1px solid var(--pf-border-default-full);
+  padding: var(--pf-space-large) var(--pf-space-small);
+  display: flex; flex-direction: column; gap: var(--pf-space-xsmall);
+}
+.rail .pf-side-navigation-tab { align-self: stretch; }
+/* pf-new: the product mark above the nav. It is the People First logo icon beside the
+   product name — page furniture, with no component in the library. */
+.brand {
+  display: flex; align-items: center; gap: var(--pf-space-small);
+  padding: 0 var(--pf-space-small) var(--pf-space-large);
+  color: var(--pf-text-theme);
+}
+
+/* ---------- page ---------- */
+.main { min-width: 0; display: flex; flex-direction: column; }
+
+/* pf-new: the sticky top band the title sits on. `Header` in the library is the 1920x86
+   branded app header with its own artwork and app-context row; this page's band is a
+   plain surface, so the surface and its rule live here. */
+.topbar {
+  background: var(--pf-bg-primary);
+  border-bottom: 1px solid var(--pf-border-default-full);
+  padding: var(--pf-space-large) var(--pf-space-xlarge);
+  display: flex; flex-direction: column; gap: var(--pf-space-small);
+}
+.topbar .pf-layout-container-title { width: 100%; }
+.titlegroup { display: flex; align-items: center; gap: var(--pf-space-small); min-width: 0; }
+.actions { display: flex; align-items: center; justify-content: flex-end; gap: var(--pf-space-small); }
+.crumbs { display: flex; align-items: center; gap: var(--pf-space-xsmall); }
+
+.content {
+  padding: var(--pf-space-large) var(--pf-space-xlarge) var(--pf-space-xlarge);
+  display: flex; flex-direction: column; gap: var(--pf-space-large);
+}
+@media (max-width: 620px) {
+  .topbar, .content { padding-left: var(--pf-space-large); padding-right: var(--pf-space-large); }
+}
+
+.pf-circle-icons { flex: none; }
+.pf-information-box { display: flex; gap: var(--pf-space-small); }
+
+/* ---------- the vacancies table ---------- */
+.pf-table-card-ag { width: 100%; }
+.pf-table-card-ag > * { align-self: stretch; }
+.pf-table-action-bar { width: 100%; }
+.pf-table-action-bar > * { align-self: stretch; }
+.chiprow { display: flex; align-items: center; gap: var(--pf-space-large); flex-wrap: wrap; }
+.barright { display: flex; align-items: center; gap: var(--pf-space-small); flex-wrap: wrap; justify-content: flex-end; }
+.refresh { display: flex; align-items: center; justify-content: center; gap: var(--pf-space-xsmall); }
+
+.pf-table-ag { overflow: hidden; }
+.tablescroll { overflow-x: auto; }
+/* pf-new: the <table> element itself. Figma's `Table (AG)` is a frame of columns, not a
+   grid, so the library has no rule for a real table: `border-collapse` is what stops the
+   cell borders doubling, and the min-width is what makes the seven columns scroll rather
+   than crush. Neither is a Figma value. (check-off-system reads `border-collapse` as a
+   border property; it is not one.) */
+table { width: 100%; border-collapse: collapse; min-width: 1000px; }
+/* Line height is `normal` because that is what Figma sets on all 23 text styles; a
+   cell treats its Figma height as a minimum, so an icon or a second line grows it. */
+thead th { text-align: left; white-space: nowrap; line-height: normal; }
+tbody td { line-height: normal; vertical-align: middle; }
+/* pf-new: a component used AS a table cell has to stay a table cell. components.css ships this
+   fix-up as `td.pf-table-cell-ag, th.pf-table-header-ag` (0,1,1), which every variant rule
+   out-specifies: `.pf-table-header-ag[data-alignment="Checkbox"]` (0,2,0) puts the header
+   back to inline-flex, the checkbox inside becomes a flex item and shrinks 20px -> 14px.
+   Matching the variant attributes is what makes this rule win. `display` and
+   `vertical-align` are layout, not paint, so nothing here restates a Figma value. */
+.pf-table-header-ag, .pf-table-cell-ag,
+th.pf-table-header-ag[data-alignment],
+td.pf-table-cell-ag[data-type][data-style] { display: table-cell; vertical-align: middle; }
+.headcell { display: flex; align-items: center; gap: var(--pf-space-small); }
+.cellstack { display: flex; flex-direction: column; }
+.cellrow { display: flex; align-items: center; gap: var(--pf-space-small); }
+.pf-table-progress-bar { width: 100%; }
+/* A Tags pill is 28px tall in Figma; a two-word status that wraps breaks it. */
+.pf-tags { white-space: nowrap; }
+
+/* pf-new: the tick inside a selected Multi-select checkbox is a child glyph drawn in
+   Figma, not a bound colour, so the outer-box extract cannot reach it. */
+.pf-multi-select-checkbox { position: relative; }
+/* pf-new: as above — the tick itself. */
+.pf-multi-select-checkbox[data-state="Selected"]::after {
+  content: ""; position: absolute; left: 6.5px; top: 2.5px; width: 5px; height: 9px;
+  border: solid var(--pf-icon-always-white); border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* ---------- department activity panel ---------- */
+.pf-card { width: 100%; }
+.cardhead { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; align-self: stretch; }
+.pf-card > div { align-self: stretch; }
+.cardslot { align-items: stretch; }
+.cardslot > * + * { margin-top: var(--pf-space-small); }
+.metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(480px, 1fr)); gap: var(--pf-space-large); }
+.metric { display: flex; flex-direction: column; gap: var(--pf-space-xsmall); min-width: 0; }
+.metric .pf-metric-card { width: 100%; }
+.ledger { display: flex; flex-wrap: wrap; gap: var(--pf-space-large); }
+.detailwrap { display: flex; flex-wrap: wrap; gap: var(--pf-space-large); }
+/* pf-new: the panel's section rule. Figma draws this divider inside the components that
+   have one (Note, Table header); a Card has no divider child, so this one is new. */
+.rule { height: 1px; border: 0; margin: 0; background: var(--pf-border-secondary); }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ============ nav rail ============ -->
+  <nav class="rail" aria-label="Main">
+    <div class="brand">
+      <!--pf-icon:people-first-logo 28-->
+      <span class="pf-text-body-text-semibold">People First</span>
+    </div>
+    <a class="pf-side-navigation-tab" data-selected="false" href="#" data-pf-id="side-navigation-tab-dashboard"><!--pf-icon:dasboard-gauge 22-->Dashboard</a>
+    <a class="pf-side-navigation-tab" data-selected="false" href="#" data-pf-id="side-navigation-tab-my-team"><!--pf-icon:team 22-->My team</a>
+    <a class="pf-side-navigation-tab" data-selected="false" href="#" data-pf-id="side-navigation-tab-absence"><!--pf-icon:absence 22-->Absence</a>
+    <a class="pf-side-navigation-tab" data-selected="false" href="#" data-pf-id="side-navigation-tab-timesheets"><!--pf-icon:overtime 22-->Timesheets</a>
+    <a class="pf-side-navigation-tab" data-selected="true" href="#" aria-current="page" data-pf-id="side-navigation-tab-recruitment"><!--pf-icon:recruitment-search 22-->Recruitment</a>
+    <a class="pf-side-navigation-tab" data-selected="false" href="#" data-pf-id="side-navigation-tab-onboarding"><!--pf-icon:onboarding-door 22-->Onboarding</a>
+    <a class="pf-side-navigation-tab" data-selected="false" href="#" data-pf-id="side-navigation-tab-learning"><!--pf-icon:learning 22-->Learning</a>
+  </nav>
+
+  <div class="main">
+
+    <!-- ============ page header ============ -->
+    <header class="topbar">
+      <p class="crumbs" style="margin:0">
+        <span class="pf-text-label-text t-secondary">Recruitment</span>
+        <!--pf-icon:right-chevron 14-->
+        <span class="pf-text-label-text t-secondary">Vacancies I own</span>
+      </p>
+
+      <!-- Layout container title — dist/templates/pf-layout-container-title.html -->
+      <div class="pf-layout-container-title" data-property-1="Default" data-pf-id="layout-container-title-recruitment-pipeline">
+        <div class="titlegroup">
+          <span class="pf-circle-icons" data-size="M - 44px" data-pf-id="circle-icons-m-44px"><!--pf-icon:recruitment-search 22--></span>
+          <span class="pf-text-sub-heading">Recruitment pipeline</span>
+        </div>
+        <div class="actions">
+          <button class="pf-button" data-type="Action" type="button" data-pf-id="button-raise-a-vacancy"><!--pf-icon:vacancy-request 16-->Raise a vacancy</button>
+          <button class="pf-button" data-type="Hollow" type="button" data-pf-id="button-export"><!--pf-icon:export 16-->Export</button>
+        </div>
+      </div>
+
+      <p class="pf-text-body-text t-secondary" style="margin:0">
+        Alina Novak &middot; Talent Acquisition Manager &middot; People &amp; Culture &mdash;
+        8 open vacancies you own, 202 active applicants, week commencing 7 September 2026
+      </p>
+    </header>
+
+    <div class="content">
+
+      <div class="pf-information-box" data-type="Warning" data-pf-id="information-box-3-vacancies">
+        <!--pf-icon:warning 22-->
+        <span class="pf-text-body-text">
+          <span class="pf-text-body-text-semibold">3 vacancies are past their target close date.</span>
+          Learning Designer has had no shortlisting activity for 11 days.
+        </span>
+      </div>
+
+      <!-- ============ open vacancies ============ -->
+      <!-- Table card (AG) — dist/templates/pf-table-card-ag.html: action bar, then the table.
+           The Selected action banner the template also lists is left out; nothing on this
+           screen acts on a multi-row selection yet. -->
+      <section class="pf-table-card-ag" data-mobile="False" aria-labelledby="vacancies" data-pf-id="table-card-ag-open-vacancies-you">
+        <h2 id="vacancies" class="pf-text-sub-heading-semibold" style="margin:0">Open vacancies you own</h2>
+
+        <!-- Table action bar — dist/templates/pf-table-action-bar.html -->
+        <div class="pf-table-action-bar" data-mobile="False" data-pf-id="table-action-bar-all-stages">
+          <div class="chiprow" role="group" aria-label="Filter by hiring stage">
+            <button class="pf-filter-chip" data-state="Selected" data-active="True" data-mobile="False" type="button" aria-pressed="true" data-pf-id="filter-chip-all-stages"><!--pf-icon:tick 22-->All stages (8)</button>
+            <button class="pf-filter-chip" data-state="Default" data-active="False" data-mobile="False" type="button" aria-pressed="false" data-pf-id="filter-chip-advertising">Advertising (2)</button>
+            <button class="pf-filter-chip" data-state="Default" data-active="False" data-mobile="False" type="button" aria-pressed="false" data-pf-id="filter-chip-screening">Screening (2)</button>
+            <button class="pf-filter-chip" data-state="Default" data-active="False" data-mobile="False" type="button" aria-pressed="false" data-pf-id="filter-chip-interviewing">Interviewing (2)</button>
+          </div>
+          <div class="barright">
+            <span class="pf-primary-search" data-darkmode="False" data-icon-only="False" data-pf-id="primary-search-search-vacancies">
+              <!--pf-icon:search 22--><span class="pf-text-label-text t-secondary">Search vacancies&hellip;</span>
+            </span>
+            <span class="refresh">
+              <span class="pf-text-label-text-semibold">Last refresh</span>
+              <span class="pf-text-label-text num">09:41</span>
+              <span class="pf-text-label-text num">11/09/2026</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Table (AG) — dist/templates/pf-table-ag.html. The template's structure is
+             Figma's column-of-cells frame; this screen uses a real <table> so the cells
+             stay addressable as a grid to a screen reader, which is what the other
+             prototypes in this directory do. Every header and cell is the library class. -->
+        <div class="pf-table-ag" data-mobile="False" data-pf-id="table-ag-vacancy-hiring-stage">
+          <div class="tablescroll">
+            <table>
+              <thead>
+                <tr>
+                  <th class="pf-table-header-ag" data-alignment="Checkbox" style="width:46px" data-pf-id="table-header-ag-checkbox">
+                    <span class="pf-multi-select-checkbox" data-state="Mixed selection" role="img" aria-label="Some vacancies selected" data-pf-id="multi-select-checkbox-some-vacancies-selected"></span>
+                  </th>
+                  <th class="pf-table-header-ag" data-alignment="Left" data-pf-id="table-header-ag-vacancy">
+                    <span class="headcell"><span class="pf-text-label-text-semibold">Vacancy</span>
+                      <span class="pf-table-header-icons" data-variant="Sort" data-state="Ascending" aria-label="Sorted ascending" data-pf-id="table-header-icons-sorted-ascending"><!--pf-icon:sort-arrow-ag-grid 12--></span>
+                    </span>
+                  </th>
+                  <th class="pf-table-header-ag" data-alignment="Left" data-pf-id="table-header-ag-hiring-stage">
+                    <span class="headcell"><span class="pf-text-label-text-semibold">Hiring stage</span>
+                      <span class="pf-table-header-icons" data-variant="Filter" data-state="Filtered" aria-label="Filtered" data-pf-id="table-header-icons-filtered"><!--pf-icon:filter 11--></span>
+                    </span>
+                  </th>
+                  <th class="pf-table-header-ag" data-alignment="Left" data-pf-id="table-header-ag-stage-progress">
+                    <span class="headcell"><span class="pf-text-label-text-semibold">Stage progress</span></span>
+                  </th>
+                  <th class="pf-table-header-ag" data-alignment="Left" data-pf-id="table-header-ag-applicants">
+                    <span class="headcell"><span class="pf-text-label-text-semibold">Applicants</span></span>
+                  </th>
+                  <th class="pf-table-header-ag" data-alignment="Left" data-pf-id="table-header-ag-target-close">
+                    <span class="headcell"><span class="pf-text-label-text-semibold">Target close</span></span>
+                  </th>
+                  <th class="pf-table-header-ag" data-alignment="Left" data-pf-id="table-header-ag-status">
+                    <span class="headcell"><span class="pf-text-label-text-semibold">Status</span>
+                      <span class="pf-table-header-icons" data-variant="Context menu" data-state="Default" aria-label="Column options" data-pf-id="table-header-icons-column-options"><!--pf-icon:context-menu 12--></span>
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <tr>
+                  <td class="pf-table-cell-ag" data-type="Checkbox" data-style="Default" data-pf-id="table-cell-ag-r1c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="Selected" data-pf-id="table-cell-ag-r1c1-multi-select-checkbox" data-pf-repeat="row"></span></td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r1c2" data-pf-repeat="row">
+                    <span class="cellstack">
+                      <span class="pf-text-label-text-semibold">Senior Reward Analyst</span>
+                      <span class="pf-text-label-text t-secondary">REC-2041 &middot; Manchester &middot; Permanent</span>
+                    </span>
+                  </td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r1c3" data-pf-repeat="row"><span class="pf-tags" data-type="Theme" data-pf-id="table-cell-ag-r1c3-tags" data-pf-repeat="row">Interviewing</span></td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r1c4" data-pf-repeat="row">
+                    <span class="pf-table-progress-bar" data-completion="75%" data-dark-cell-background="No" data-pf-id="table-cell-ag-r1c4-table-progress-bar" data-pf-repeat="row">
+                      <span style="display:flex;flex-direction:row;align-items:flex-start;justify-content:center;border-radius:50px;background:var(--pf-bg-secondary);border:1px solid var(--pf-progress-bar-border);width:110px">
+                        <span style="background:var(--pf-chart-4);min-height:14px;align-self:stretch;width:75%;border-radius:50px"></span>
+                      </span>
+                      <span style="display:flex;flex-direction:row;align-items:center;justify-content:flex-end">
+                        <span class="pf-text-label-text num">75</span><span class="pf-text-label-text">%</span>
+                      </span>
+                    </span>
+                  </td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r1c5" data-pf-repeat="row">
+                    <span class="cellstack"><span class="pf-text-label-text-semibold t-primary num">34</span>
+                      <span class="pf-text-label-text t-secondary num">6 new this week</span></span>
+                  </td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r1c6" data-pf-repeat="row"><span class="pf-text-label-text t-primary num">26 Sep 2026</span></td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r1c7" data-pf-repeat="row"><span class="pf-tags" data-type="Positive" data-pf-id="table-cell-ag-r1c7-tags" data-pf-repeat="row">On track</span></td>
+                </tr>
+
+                <tr>
+                  <td class="pf-table-cell-ag" data-type="Checkbox" data-style="Stripe" data-pf-id="table-cell-ag-r2c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="Selected" data-pf-id="table-cell-ag-r2c1-multi-select-checkbox" data-pf-repeat="row"></span></td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r2c2" data-pf-repeat="row">
+                    <span class="cellstack">
+                      <span class="pf-text-label-text-semibold">HR Business Partner</span>
+                      <span class="pf-text-label-text t-secondary">REC-2038 &middot; Leeds &middot; Permanent</span>
+                    </span>
+                  </td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r2c3" data-pf-repeat="row"><span class="pf-tags" data-type="Positive" data-pf-id="table-cell-ag-r2c3-tags" data-pf-repeat="row">Offer</span></td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r2c4" data-pf-repeat="row">
+                    <span class="pf-table-progress-bar" data-completion="90%" data-dark-cell-background="No" data-pf-id="table-cell-ag-r2c4-table-progress-bar" data-pf-repeat="row">
+                      <span style="display:flex;flex-direction:row;align-items:flex-start;justify-content:center;border-radius:50px;background:var(--pf-bg-secondary);border:1px solid var(--pf-progress-bar-border);width:110px">
+                        <span style="background:var(--pf-chart-4);min-height:14px;align-self:stretch;width:90%;border-radius:50px"></span>
+                      </span>
+                      <span style="display:flex;flex-direction:row;align-items:center;justify-content:flex-end">
+                        <span class="pf-text-label-text num">90</span><span class="pf-text-label-text">%</span>
+                      </span>
+                    </span>
+                  </td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r2c5" data-pf-repeat="row">
+                    <span class="cellstack"><span class="pf-text-label-text-semibold t-primary num">21</span>
+                      <span class="pf-text-label-text t-secondary">Shortlist closed</span></span>
+                  </td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r2c6" data-pf-repeat="row"><span class="pf-text-label-text t-primary num">12 Sep 2026</span></td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r2c7" data-pf-repeat="row"><span class="pf-tags" data-type="Positive" data-pf-id="table-cell-ag-r2c7-tags" data-pf-repeat="row">On track</span></td>
+                </tr>
+
+                <tr>
+                  <td class="pf-table-cell-ag" data-type="Checkbox" data-style="Default" data-pf-id="table-cell-ag-r3c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected" data-pf-id="table-cell-ag-r3c1-multi-select-checkbox" data-pf-repeat="row"></span></td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r3c2" data-pf-repeat="row">
+                    <span class="cellstack">
+                      <span class="pf-text-label-text-semibold">Payroll Officer</span>
+                      <span class="pf-text-label-text t-secondary">REC-2052 &middot; Sheffield &middot; Permanent</span>
+                    </span>
+                  </td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r3c3" data-pf-repeat="row"><span class="pf-tags" data-type="Other" data-pf-id="table-cell-ag-r3c3-tags" data-pf-repeat="row">Screening</span></td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r3c4" data-pf-repeat="row">
+                    <span class="pf-table-progress-bar" data-completion="45%" data-dark-cell-background="No" data-pf-id="table-cell-ag-r3c4-table-progress-bar" data-pf-repeat="row">
+                      <span style="display:flex;flex-direction:row;align-items:flex-start;justify-content:center;border-radius:50px;background:var(--pf-bg-secondary);border:1px solid var(--pf-progress-bar-border);width:110px">
+                        <span style="background:var(--pf-chart-4);min-height:14px;align-self:stretch;width:45%;border-radius:50px"></span>
+                      </span>
+                      <span style="display:flex;flex-direction:row;align-items:center;justify-content:flex-end">
+                        <span class="pf-text-label-text num">45</span><span class="pf-text-label-text">%</span>
+                      </span>
+                    </span>
+                  </td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r3c5" data-pf-repeat="row">
+                    <span class="cellstack"><span class="pf-text-label-text-semibold t-primary num">47</span>
+                      <span class="pf-text-label-text t-secondary num">12 new this week</span></span>
+                  </td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r3c6" data-pf-repeat="row"><span class="pf-text-label-text t-primary num">3 Oct 2026</span></td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r3c7" data-pf-repeat="row"><span class="pf-tags" data-type="Warning" data-pf-id="table-cell-ag-r3c7-tags" data-pf-repeat="row">Shortlist due</span></td>
+                </tr>
+
+                <tr>
+                  <td class="pf-table-cell-ag" data-type="Checkbox" data-style="Stripe" data-pf-id="table-cell-ag-r4c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected" data-pf-id="table-cell-ag-r4c1-multi-select-checkbox" data-pf-repeat="row"></span></td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r4c2" data-pf-repeat="row">
+                    <span class="cellstack">
+                      <span class="pf-text-label-text-semibold">Learning Designer</span>
+                      <span class="pf-text-label-text t-secondary">REC-2029 &middot; Remote &middot; Fixed term</span>
+                    </span>
+                  </td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r4c3" data-pf-repeat="row"><span class="pf-tags" data-type="Neutral" data-pf-id="table-cell-ag-r4c3-tags" data-pf-repeat="row">Advertising</span></td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r4c4" data-pf-repeat="row">
+                    <span class="pf-table-progress-bar" data-completion="20%" data-dark-cell-background="No" data-pf-id="table-cell-ag-r4c4-table-progress-bar" data-pf-repeat="row">
+                      <span style="display:flex;flex-direction:row;align-items:flex-start;justify-content:center;border-radius:50px;background:var(--pf-bg-secondary);border:1px solid var(--pf-progress-bar-border);width:110px">
+                        <span style="background:var(--pf-chart-4);min-height:14px;align-self:stretch;width:20%;border-radius:50px"></span>
+                      </span>
+                      <span style="display:flex;flex-direction:row;align-items:center;justify-content:flex-end">
+                        <span class="pf-text-label-text t-primary num">20</span><span class="pf-text-label-text">%</span>
+                      </span>
+                    </span>
+                  </td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r4c5" data-pf-repeat="row">
+                    <span class="cellstack"><span class="pf-text-label-text-semibold t-primary num">9</span>
+                      <span class="pf-text-label-text t-secondary">No activity for 11 days</span></span>
+                  </td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r4c6" data-pf-repeat="row"><span class="pf-text-label-text t-primary num">17 Sep 2026</span></td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r4c7" data-pf-repeat="row"><span class="pf-tags" data-type="Negative" data-pf-id="table-cell-ag-r4c7-tags" data-pf-repeat="row">Overdue</span></td>
+                </tr>
+
+                <tr>
+                  <td class="pf-table-cell-ag" data-type="Checkbox" data-style="Default" data-pf-id="table-cell-ag-r5c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected" data-pf-id="table-cell-ag-r5c1-multi-select-checkbox" data-pf-repeat="row"></span></td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r5c2" data-pf-repeat="row">
+                    <span class="cellstack">
+                      <span class="pf-text-label-text-semibold">Recruitment Coordinator</span>
+                      <span class="pf-text-label-text t-secondary">REC-2044 &middot; Manchester &middot; Permanent</span>
+                    </span>
+                  </td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r5c3" data-pf-repeat="row"><span class="pf-tags" data-type="Theme" data-pf-id="table-cell-ag-r5c3-tags" data-pf-repeat="row">Interviewing</span></td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r5c4" data-pf-repeat="row">
+                    <span class="pf-table-progress-bar" data-completion="65%" data-dark-cell-background="No" data-pf-id="table-cell-ag-r5c4-table-progress-bar" data-pf-repeat="row">
+                      <span style="display:flex;flex-direction:row;align-items:flex-start;justify-content:center;border-radius:50px;background:var(--pf-bg-secondary);border:1px solid var(--pf-progress-bar-border);width:110px">
+                        <span style="background:var(--pf-chart-4);min-height:14px;align-self:stretch;width:65%;border-radius:50px"></span>
+                      </span>
+                      <span style="display:flex;flex-direction:row;align-items:center;justify-content:flex-end">
+                        <span class="pf-text-label-text num">65</span><span class="pf-text-label-text">%</span>
+                      </span>
+                    </span>
+                  </td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r5c5" data-pf-repeat="row">
+                    <span class="cellstack"><span class="pf-text-label-text-semibold t-primary num">18</span>
+                      <span class="pf-text-label-text t-secondary num">4 at second stage</span></span>
+                  </td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r5c6" data-pf-repeat="row"><span class="pf-text-label-text t-primary num">30 Sep 2026</span></td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r5c7" data-pf-repeat="row"><span class="pf-tags" data-type="Positive" data-pf-id="table-cell-ag-r5c7-tags" data-pf-repeat="row">On track</span></td>
+                </tr>
+
+                <tr>
+                  <td class="pf-table-cell-ag" data-type="Checkbox" data-style="Stripe" data-pf-id="table-cell-ag-r6c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected" data-pf-id="table-cell-ag-r6c1-multi-select-checkbox" data-pf-repeat="row"></span></td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r6c2" data-pf-repeat="row">
+                    <span class="cellstack">
+                      <span class="pf-text-label-text-semibold">Occupational Health Nurse</span>
+                      <span class="pf-text-label-text t-secondary">REC-2011 &middot; Birmingham &middot; Part time</span>
+                    </span>
+                  </td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r6c3" data-pf-repeat="row"><span class="pf-tags" data-type="Other" data-pf-id="table-cell-ag-r6c3-tags" data-pf-repeat="row">Screening</span></td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r6c4" data-pf-repeat="row">
+                    <span class="pf-table-progress-bar" data-completion="40%" data-dark-cell-background="No" data-pf-id="table-cell-ag-r6c4-table-progress-bar" data-pf-repeat="row">
+                      <span style="display:flex;flex-direction:row;align-items:flex-start;justify-content:center;border-radius:50px;background:var(--pf-bg-secondary);border:1px solid var(--pf-progress-bar-border);width:110px">
+                        <span style="background:var(--pf-chart-4);min-height:14px;align-self:stretch;width:40%;border-radius:50px"></span>
+                      </span>
+                      <span style="display:flex;flex-direction:row;align-items:center;justify-content:flex-end">
+                        <span class="pf-text-label-text num">40</span><span class="pf-text-label-text">%</span>
+                      </span>
+                    </span>
+                  </td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r6c5" data-pf-repeat="row">
+                    <span class="cellstack"><span class="pf-text-label-text-semibold t-primary num">6</span>
+                      <span class="pf-text-label-text t-secondary">Paused by the hiring manager</span></span>
+                  </td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r6c6" data-pf-repeat="row"><span class="pf-text-label-text t-primary num">22 Aug 2026</span></td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r6c7" data-pf-repeat="row"><span class="pf-tags" data-type="Expired" data-pf-id="table-cell-ag-r6c7-tags" data-pf-repeat="row">On hold</span></td>
+                </tr>
+
+                <tr>
+                  <td class="pf-table-cell-ag" data-type="Checkbox" data-style="Default" data-pf-id="table-cell-ag-r7c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected" data-pf-id="table-cell-ag-r7c1-multi-select-checkbox" data-pf-repeat="row"></span></td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r7c2" data-pf-repeat="row">
+                    <span class="cellstack">
+                      <span class="pf-text-label-text-semibold">Talent Acquisition Apprentice</span>
+                      <span class="pf-text-label-text t-secondary">REC-2057 &middot; Leeds &middot; Apprenticeship</span>
+                    </span>
+                  </td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r7c3" data-pf-repeat="row"><span class="pf-tags" data-type="Neutral" data-pf-id="table-cell-ag-r7c3-tags" data-pf-repeat="row">Advertising</span></td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r7c4" data-pf-repeat="row">
+                    <span class="pf-table-progress-bar" data-completion="15%" data-dark-cell-background="No" data-pf-id="table-cell-ag-r7c4-table-progress-bar" data-pf-repeat="row">
+                      <span style="display:flex;flex-direction:row;align-items:flex-start;justify-content:center;border-radius:50px;background:var(--pf-bg-secondary);border:1px solid var(--pf-progress-bar-border);width:110px">
+                        <span style="background:var(--pf-chart-4);min-height:14px;align-self:stretch;width:15%;border-radius:50px"></span>
+                      </span>
+                      <span style="display:flex;flex-direction:row;align-items:center;justify-content:flex-end">
+                        <span class="pf-text-label-text num">15</span><span class="pf-text-label-text">%</span>
+                      </span>
+                    </span>
+                  </td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r7c5" data-pf-repeat="row">
+                    <span class="cellstack"><span class="pf-text-label-text-semibold t-primary num">63</span>
+                      <span class="pf-text-label-text t-secondary num">28 new this week</span></span>
+                  </td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r7c6" data-pf-repeat="row"><span class="pf-text-label-text t-primary num">10 Oct 2026</span></td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r7c7" data-pf-repeat="row"><span class="pf-tags" data-type="Positive" data-pf-id="table-cell-ag-r7c7-tags" data-pf-repeat="row">On track</span></td>
+                </tr>
+
+                <tr>
+                  <td class="pf-table-cell-ag" data-type="Checkbox" data-style="Stripe" data-pf-id="table-cell-ag-r8c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected" data-pf-id="table-cell-ag-r8c1-multi-select-checkbox" data-pf-repeat="row"></span></td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r8c2" data-pf-repeat="row">
+                    <span class="cellstack">
+                      <span class="pf-text-label-text-semibold">Head of People Operations</span>
+                      <span class="pf-text-label-text t-secondary">REC-2003 &middot; Manchester &middot; Permanent</span>
+                    </span>
+                  </td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r8c3" data-pf-repeat="row"><span class="pf-tags" data-type="Positive" data-pf-id="table-cell-ag-r8c3-tags" data-pf-repeat="row">Onboarding</span></td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r8c4" data-pf-repeat="row">
+                    <span class="pf-table-progress-bar" data-completion="100%" data-dark-cell-background="No" data-pf-id="table-cell-ag-r8c4-table-progress-bar" data-pf-repeat="row">
+                      <span style="display:flex;flex-direction:row;align-items:flex-start;justify-content:center;border-radius:50px;background:var(--pf-bg-secondary);border:1px solid var(--pf-progress-bar-border);width:110px">
+                        <span style="background:var(--pf-chart-4);min-height:14px;align-self:stretch;width:100%;border-radius:50px"></span>
+                      </span>
+                      <span style="display:flex;flex-direction:row;align-items:center;justify-content:flex-end">
+                        <span class="pf-text-label-text num">100</span><span class="pf-text-label-text">%</span>
+                      </span>
+                    </span>
+                  </td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r8c5" data-pf-repeat="row">
+                    <span class="cellstack"><span class="pf-text-label-text-semibold t-primary num">4</span>
+                      <span class="pf-text-label-text t-secondary">Start date to confirm</span></span>
+                  </td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r8c6" data-pf-repeat="row"><span class="pf-text-label-text t-primary num">5 Sep 2026</span></td>
+                  <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r8c7" data-pf-repeat="row"><span class="pf-tags" data-type="Warning" data-pf-id="table-cell-ag-r8c7-tags" data-pf-repeat="row">Contract due</span></td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ department recruitment activity ============ -->
+      <!-- Card — dist/templates/pf-card.html is an empty box in Figma (a Card is one
+           rounded rectangle with nothing inside it), so the panel's contents are built
+           from the library classes the rest of this screen uses: Metric card, Graph
+           legend, Details / Detail item, Links. Each of those is pasted from its own
+           template in dist/templates/. -->
+      <section class="pf-card" data-property-1="Default" aria-labelledby="dept" data-pf-id="card-people-and-culture">
+        <!-- the Card template's own header block: a title row, then the rule Figma binds
+             to a primitive and the template therefore leaves unpainted. -->
+        <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:10px;align-self:stretch">
+          <div class="cardhead" style="gap:13px">
+            <span id="dept" class="pf-text-sub-heading">People &amp; Culture &mdash; recruitment activity</span>
+            <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:5px">
+              <a class="pf-links" data-link-type="Secondary" data-hover="False" data-icon-position="Left" href="#" data-pf-id="links-recruitment-reports">
+                <!--pf-icon:reports 22--><span class="pf-text-body-text t-link">Recruitment reports</span>
+              </a>
+            </div>
+          </div>
+          <span class="pf-text-label-text t-secondary">Rolling 30 days to 11 September 2026, all recruiters in the department</span>
+        </div>
+
+        <!-- SLOT: Figma marks this as where the Card's content goes. Figma's hug-contents
+             alignment is a canvas behaviour, so the slot stretches its children here the
+             same way components.css does for `.pf-table-ag`. -->
+        <div class="cardslot" style="display:flex;flex-direction:column;justify-content:flex-start;gap:10px;padding:10px 10px 10px 10px;align-self:stretch">
+
+        <div class="metrics">
+          <!-- Metric card — dist/templates/pf-metric-card.html. The component carries a
+               value, a Data variance and a "More details" link, and no label slot, so the
+               caption above each card is page text. -->
+          <div class="metric">
+            <span class="pf-text-label-text-semibold t-secondary">Median time to hire</span>
+            <div class="pf-metric-card" data-mobile="False" data-pf-id="metric-card-32d-down">
+              <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
+                <span class="pf-text-xl-heading num">32d</span>
+                <div class="pf-data-variance" data-data-change="Down" data-mobile="False" data-pf-id="data-variance-down-by-4d">
+                  <span class="pf-text-label-text t-secondary">DOWN BY</span>
+                  <span style="display:flex;flex-direction:row;align-items:center">
+                    <span class="pf-text-sub-heading-semibold t-positive num">4d</span><!--pf-icon:trend-arrow-down 18-->
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="metric">
+            <span class="pf-text-label-text-semibold t-secondary">Offer acceptance rate</span>
+            <div class="pf-metric-card" data-mobile="False" data-pf-id="metric-card-86-up">
+              <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
+                <span class="pf-text-xl-heading num">86%</span>
+                <div class="pf-data-variance" data-data-change="Up" data-mobile="False" data-pf-id="data-variance-up-by-5pp">
+                  <span class="pf-text-label-text t-secondary">UP BY</span>
+                  <span style="display:flex;flex-direction:row;align-items:center">
+                    <span class="pf-text-sub-heading-semibold t-positive num">5pp</span><!--pf-icon:trend-up-arrow 18-->
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="metric">
+            <span class="pf-text-label-text-semibold t-secondary">Vacancies filled this quarter</span>
+            <div class="pf-metric-card" data-mobile="False" data-pf-id="metric-card-14-down">
+              <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
+                <span class="pf-text-xl-heading num">14</span>
+                <div class="pf-data-variance" data-data-change="Down" data-mobile="False" data-pf-id="data-variance-down">
+                  <span class="pf-text-label-text t-secondary">DOWN BY</span>
+                  <span style="display:flex;flex-direction:row;align-items:center">
+                    <span class="pf-text-sub-heading-semibold t-negative num">3</span><!--pf-icon:trend-arrow-down 18-->
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="metric">
+            <span class="pf-text-label-text-semibold t-secondary">Applications per vacancy</span>
+            <div class="pf-metric-card" data-mobile="False" data-pf-id="metric-card-18-up">
+              <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
+                <span class="pf-text-xl-heading num">18</span>
+                <div class="pf-data-variance" data-data-change="Up" data-mobile="False" data-pf-id="data-variance-up">
+                  <span class="pf-text-label-text t-secondary">UP BY</span>
+                  <span style="display:flex;flex-direction:row;align-items:center">
+                    <span class="pf-text-sub-heading-semibold t-positive num">3</span><!--pf-icon:trend-up-arrow 18-->
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="rule">
+
+        <div>
+          <p class="pf-text-label-text-semibold" style="margin:0 0 var(--pf-space-small)">
+            Where the department&rsquo;s 202 active applicants sit
+          </p>
+          <!-- Graph legend — dist/templates/pf-graph-legend.html, one per stage. The
+               chart palette is used in its documented order, 1 to 5. -->
+          <div class="ledger">
+            <div class="pf-graph-legend" data-mobile="False" data-key-type="Donut graph" data-pf-id="graph-legend-72-advertising">
+              <span style="background:var(--pf-chart-1);min-height:8px;width:8px"></span>
+              <span style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
+                <span class="pf-text-large-heading num">72</span><span class="pf-text-label-text">Advertising</span>
+              </span>
+            </div>
+            <div class="pf-graph-legend" data-mobile="False" data-key-type="Donut graph" data-pf-id="graph-legend-53-screening">
+              <span style="background:var(--pf-chart-2);min-height:8px;width:8px"></span>
+              <span style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
+                <span class="pf-text-large-heading num">53</span><span class="pf-text-label-text">Screening</span>
+              </span>
+            </div>
+            <div class="pf-graph-legend" data-mobile="False" data-key-type="Donut graph" data-pf-id="graph-legend-52-interviewing">
+              <span style="background:var(--pf-chart-3);min-height:8px;width:8px"></span>
+              <span style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
+                <span class="pf-text-large-heading num">52</span><span class="pf-text-label-text">Interviewing</span>
+              </span>
+            </div>
+            <div class="pf-graph-legend" data-mobile="False" data-key-type="Donut graph" data-pf-id="graph-legend-21-offer">
+              <span style="background:var(--pf-chart-4);min-height:8px;width:8px"></span>
+              <span style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
+                <span class="pf-text-large-heading num">21</span><span class="pf-text-label-text">Offer</span>
+              </span>
+            </div>
+            <div class="pf-graph-legend" data-mobile="False" data-key-type="Donut graph" data-pf-id="graph-legend-4-onboarding">
+              <span style="background:var(--pf-chart-5);min-height:8px;width:8px"></span>
+              <span style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px">
+                <span class="pf-text-large-heading num">4</span><span class="pf-text-label-text">Onboarding</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <hr class="rule">
+
+        <!-- Details / Detail item — dist/templates/pf-details.html and
+             dist/templates/pf-detail-item.html. Two columns of four, which is what the
+             component's 102px height holds. -->
+        <div class="detailwrap">
+          <div class="pf-details" data-layout="Horizontal" data-pf-id="details-vacancies-advertised">
+            <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:10px">
+              <div class="pf-detail-item" data-pf-id="detail-item-vacancies-advertised">
+                <!--pf-icon:megaphone-->
+                <span style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:5px">
+                  <span class="pf-text-label-text">Vacancies advertised:</span>
+                  <span class="pf-text-label-text t-primary num">23</span>
+                </span>
+              </div>
+              <div class="pf-detail-item" data-pf-id="detail-item-applications-received">
+                <!--pf-icon:users-->
+                <span style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:5px">
+                  <span class="pf-text-label-text">Applications received:</span>
+                  <span class="pf-text-label-text num">414</span>
+                </span>
+              </div>
+              <div class="pf-detail-item" data-pf-id="detail-item-interviews-scheduled">
+                <!--pf-icon:calendar-->
+                <span style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:5px">
+                  <span class="pf-text-label-text">Interviews scheduled:</span>
+                  <span class="pf-text-label-text num">61</span>
+                </span>
+              </div>
+              <div class="pf-detail-item" data-pf-id="detail-item-offers-made">
+                <!--pf-icon:user-tick-->
+                <span style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:5px">
+                  <span class="pf-text-label-text">Offers made:</span>
+                  <span class="pf-text-label-text num">17</span>
+                </span>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:10px">
+              <div class="pf-detail-item" data-pf-id="detail-item-talent-pool-additions">
+                <!--pf-icon:talent-pool-->
+                <span style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:5px">
+                  <span class="pf-text-label-text">Talent pool additions:</span>
+                  <span class="pf-text-label-text num">86</span>
+                </span>
+              </div>
+              <div class="pf-detail-item" data-pf-id="detail-item-starters-onboarding">
+                <!--pf-icon:new-starter-->
+                <span style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:5px">
+                  <span class="pf-text-label-text">Starters onboarding:</span>
+                  <span class="pf-text-label-text num">9</span>
+                </span>
+              </div>
+              <div class="pf-detail-item" data-pf-id="detail-item-withdrawn-by-candidate">
+                <!--pf-icon:leaver-->
+                <span style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:5px">
+                  <span class="pf-text-label-text">Withdrawn by candidate:</span>
+                  <span class="pf-text-label-text num">12</span>
+                </span>
+              </div>
+              <div class="pf-detail-item" data-pf-id="detail-item-roles">
+                <!--pf-icon:diversity-->
+                <span style="display:flex;flex-direction:row;align-items:flex-start;justify-content:flex-start;gap:5px">
+                  <span class="pf-text-label-text">Roles with a diverse shortlist:</span>
+                  <span class="pf-text-label-text num">19 of 23</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </section>
+
+      <p class="pf-text-label-text t-secondary" style="margin:0">
+        Every colour on this page resolves to a People First token, so the whole screen
+        re-resolves in dark mode with no second stylesheet. People, vacancies and figures
+        are sample data.
+      </p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
