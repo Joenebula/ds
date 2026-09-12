@@ -1,5 +1,6 @@
 # checked: 2026-09-11
 # outside-documentation: 403 nodes / 414 references as at 2026-09-12, two agreeing sweeps
+# IN A COMPONENT: 35 of those 403, across 27 components. The rest is boards and canvas artwork.
 # dry-run-of-nine-styles: 2026-09-12 — 105 nodes in scope, 6 applicable, then applied (1429 -> 1423)
 # references-at-last-sweep: 1423
 # A SNAPSHOT, not a live reading. Nothing in this repo can re-count it: every check here
@@ -366,3 +367,54 @@ Darkmode theme	#33B5E5	0
 # GREY STEEL'S LAST 9 ARE ALL FILLS, and all hold on Border/Default full vs Border/Default hidden
 # — the split this repo confirmed with the design lead. A border colour used as a FILL is the
 # reason: as a stroke there was one answer and 240 nodes took it.
+#
+# ── "ON A COMPONENT PAGE" IS NOT "IN A COMPONENT", 2026-09-12 ────────────────
+# Every count in this file up to here was scoped by PAGE. A page is not a component. Classifying
+# the same 403 nodes by their ANCESTRY, twice agreeing:
+#
+#	213	inside an INSTANCE placed on a board
+#	155	loose on the canvas — specimens, rules, annotation chrome
+#	35	inside a COMPONENT or COMPONENT_SET	<- the published library
+#
+# THE SHIPPED JOB IS 35 NODES ACROSS 27 COMPONENTS. The line above this one calls 346 "COMPONENT
+# pages — the shipped library. The real job." That was the same scope error this file has now made
+# three times, one level further out: the component pages are mostly BOARDS — a master beside a
+# dozen placed instances of it, a Dos-and-don'ts panel, a rules strip, a specimen row. All of it
+# looks identical in a render and none of it publishes.
+#
+# WHY AN INSTANCE NODE IS NOT THE LIBRARY, stated so the claim can be checked rather than trusted.
+# An instance node carrying the style either (a) inherits it from its master, in which case that
+# master node is itself in the 35 — it is on the same page and this sweep found it — or its master
+# is in another file, or (b) carries it as a board-level override. DEPRECATED COLOURS styles are
+# LOCAL to this file (remote: false), and a remote component cannot reference a local style, so
+# case (a)-via-another-file resolves to an override too. That is the same property that settled the
+# waffle. Either way the instance is a USAGE, and fixing the master is what fixes the library.
+#
+# THE 27 COMPONENTS, with how many nodes each:
+#	7	Navigation	System=People First, Tablet=No, Mobile=Yes, Darkmode=Yes
+#	3	Tables	Table header icons
+#	1 each	Navigation	[S] Config child menu, Waffle, Size=Large, Size=Small,
+#		Theme=Configr Mobile=No, Theme=Configr Mobile=Yes, Theme=Classic Mobile=No,
+#		System=Configr Tablet=No Mobile=No Darkmode=No,
+#		System=People First Tablet=No Mobile=No Darkmode=Yes
+#	1 each	Buttons and links	Link=Key actions, Link=External links, Link=Out of office,
+#		Link=Social activity, Link=Recognition trends, Link=MHR, Hover=False
+#	1 each	Cards and panels	Layout=Horizontal, Layout=Vertical
+#	1 each	Tables	Type=Default Style=Default, Type=Default Style=Stripe
+#	1 each	AI	Style=Inverted Hover=False Mobile=False, State=Hover
+#	1 each	Icons	Upload CSV, MP4
+#	1	System messages	Status type=New social group
+#
+# Seventeen of the 35 are `White`, seven are `Grey slate (A)`, three `Grey steel`, three
+# `Default theme pink (A)`, two `Grey`, two `Blue shark`, one `Blue deep ocean (A)`.
+#
+# AND THE SURFACES UNDER THE OTHER 368 ARE MOSTLY BOARDS TOO. Of the 403, 301 sit on a surface
+# that does not follow the mode — and the biggest of those surfaces are Figma SECTIONS and
+# specimen frames: `Button rules` (14 nodes), `How to use` (9), `Bar chart` (8), `Dos and don'ts`,
+# `Rules`, `Text alignment`. 249 of the 301 sit on a raw #FFFFFF. A text node whose nearest filled
+# ancestor is a SECTION is not inside any component at all — it is a label on the board.
+#	raw hex	265
+#	variable	98	<- these DO follow the mode; they are held on candidate ambiguity, not surfaces
+#	deprecated style	36
+#	no filled ancestor	4
+# 190 distinct surfaces do not follow the mode, carrying 301 nodes between them.

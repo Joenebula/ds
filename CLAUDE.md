@@ -744,6 +744,47 @@ are recorded with their ratios rather than written; the fix is the series colour
 `Border/Default hidden`. As a STROKE that colour had one answer and 240 nodes took it; used as a
 fill it has two. The split this repo confirmed with the design lead is what makes it ambiguous.
 
+### "On a component page" is not "in a component", and that was the last scope error
+
+The section above this one says **346 COMPONENT pages — the shipped library. The real job.** It is
+wrong, and it is the same mistake one level further out: a page is not a component. Classifying the
+403 by ANCESTRY rather than by page, twice agreeing:
+
+| | |
+|---|---|
+| 213 | inside an INSTANCE placed on a board |
+| 155 | loose on the canvas — specimens, rules, annotation chrome |
+| **35** | **inside a COMPONENT or COMPONENT_SET — the published library** |
+
+**The shipped job is 35 nodes across 27 components.** A component page in this file is mostly
+BOARDS: a master beside a dozen placed instances of it, a Dos-and-don'ts panel, a rules strip, a
+specimen row. All of it renders identically to the real thing and none of it publishes — which is
+exactly why a page-scoped count read as a library-scoped one for so long.
+
+**Why an instance node is not the library, stated so it can be checked rather than trusted.** An
+instance node carrying the style either inherits it from its master — in which case that master
+node is itself among the 35, since it is on the same page and the sweep found it — or carries it as
+a board-level override. A master in *another* file cannot be the source: `DEPRECATED COLOURS` styles
+are `remote: false`, and a remote component cannot reference a local style. That is the property
+that settled the waffle, used again. Either way the instance is a USAGE, and fixing the master is
+what fixes the library.
+
+Seventeen of the 35 are `White`, seven `Grey slate (A)`, three `Grey steel`, three `Default theme
+pink (A)`, two `Grey`, two `Blue shark`, one `Blue deep ocean (A)`. Seven of them are one
+`Navigation` variant; three are `Table header icons`, the known hover case. The full list of 27 is
+in `tokens/_raw/deprecated-collection-census.tsv`.
+
+**And the surfaces holding the rest are boards too.** 301 of the 403 sit on something that does not
+follow the mode, and the largest of those surfaces are Figma SECTIONS and specimen frames —
+`Button rules` (14 nodes under it), `How to use` (9), `Bar chart` (8), `Dos and don'ts`, `Rules`.
+**249 of the 301 sit on a raw `#FFFFFF`.** A text node whose nearest filled ancestor is a SECTION is
+not inside any component at all; it is a label on the board. Meanwhile **98 of the 403 DO sit on a
+variable-bound surface** — those are held on candidate ambiguity, not on surfaces, and the earlier
+grey run conflated the two.
+
+So the *"574 nodes are waiting on their surfaces"* framing holds, and the thing they are waiting on
+is mostly the page furniture rather than the product.
+
 ### The scope rule, and the thing it does not prove
 
 Pink and `Grey` `#868686` went next, and the method got sharper: rather than choosing a token by
