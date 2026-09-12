@@ -817,9 +817,10 @@
 
 /* Configuration tile
  * 1 variant captured. shadow 0 0 4px
+ * Figma draws this 260px tall holding its sample text; emitted as a minimum, because this component's own content can grow and a fixed height would clip it
  */
 .pf-configuration-tile {
-  height: 260px;
+  min-height: 260px;
   padding: 40px 20px;
   border-radius: 8px;
   display: inline-flex;
@@ -836,8 +837,8 @@
   font-family: var(--pf-font-body);
 }
 .pf-configuration-tile[data-device="Mobile"] {
-  height: 230px;
-  min-height: 0;
+  height: auto;
+  min-height: 230px;
   padding: 30px 20px;
   border-radius: 8px;
   display: inline-flex;
@@ -855,9 +856,10 @@
 /* Title panel
  * 1 variant captured
  * Figma draws this 375px wide; treated as layout, not a rule
+ * Figma draws this 135px tall holding its sample text; emitted as a minimum, because this component's own content can grow and a fixed height would clip it
  */
 .pf-title-panel {
-  height: 135px;
+  min-height: 135px;
   padding: 40px 20px;
   display: inline-flex;
   flex-direction: column;
@@ -873,8 +875,8 @@
   font-family: var(--pf-font-body);
 }
 .pf-title-panel[data-mobile="false"] {
-  height: 135px;
-  min-height: 0;
+  height: auto;
+  min-height: 135px;
   padding: 40px 207px;
   border-radius: 0;
   display: inline-flex;
@@ -1192,9 +1194,10 @@
 /* Attachments
  * 1 variant captured
  * Figma HUGS its contents horizontally — 440px is what they came to, not a rule
+ * Figma draws this 56px tall holding its sample text; emitted as a minimum, because this component's own content can grow and a fixed height would clip it
  */
 .pf-attachments {
-  height: 56px;
+  min-height: 56px;
   display: inline-flex;
   flex-direction: row;
   align-items: flex-start;
@@ -1238,9 +1241,10 @@
 /* Configuration panel
  * 1 variant captured
  * Figma draws this 1600px wide; treated as layout, not a rule
+ * Figma draws this 189px tall holding its sample text; emitted as a minimum, because this component's own content can grow and a fixed height would clip it
  */
 .pf-configuration-panel {
-  height: 189px;
+  min-height: 189px;
   border-radius: 8px 8px 0 0;
   display: inline-flex;
   flex-direction: column;
@@ -1458,9 +1462,10 @@
 /* Content
  * 1 variant captured
  * Figma draws this 375px wide; treated as layout, not a rule
+ * Figma draws this 74px tall holding its sample text; emitted as a minimum, because this component's own content can grow and a fixed height would clip it
  */
 .pf-content {
-  height: 74px;
+  min-height: 74px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;

@@ -88,3 +88,72 @@ export const hugsVertically = () => hugs('v');
 // Put a longer label in any of them and the width Figma computed from the old one is still
 // there.
 export const hugsHorizontally = () => hugs('h');
+
+
+// A COMPONENT WHOSE OWN CONTENT CAN GROW MUST NOT CAP ITS HEIGHT.
+//
+// Reported by looking at a screenshot and asking the right question: why is the text's height
+// not pushing the rest down? On `timesheet-approvals` the side panel's working-time warning
+// runs straight through the "Daily hours" heading below it, and the reason is in the library
+// rather than the page — `.pf-information-box` states `height: 56px`, a FIXED height, so two
+// lines of real message overflow it and the next block sits where the 56 says.
+//
+// The generator emits a height three ways, and the middle threshold is where this went wrong:
+// up to 260px the height is emitted EXACTLY, on the reasoning that "a control, row or tile —
+// the height IS the design (a 32px button, a 58px table row)". That is true of a button, whose
+// label is one line and cannot wrap. It is not true of anything holding a paragraph, and the
+// threshold cannot tell the two apart because a px number does not know what is inside.
+//
+// So read what is inside. Two signals, and both are needed:
+//
+//   1. The component holds a TEXT node Figma itself draws on MORE THAN ONE LINE — the same
+//      measurement the nowrap rule uses in the other direction, a node at least twice its own
+//      font-size. `Message box`, `Tool tip`, `Toast message`, `Note`, `Title panel`: 12 of them.
+//   2. Its height comes ENTIRELY from a single nested INSTANCE that fills it, so the component
+//      states no height of its own — whatever is inside decides. `Information box` holds one
+//      child, an instance of itself, and the walk stops there so signal 1 cannot see any text.
+//      6 of them.
+//
+// Deliberately NOT the cross-axis hug. On a HORIZONTAL frame the height is the cross axis and a
+// hugging frame's height is the TALLEST child plus padding, which is readable from the same
+// data — and it matches 55 components, including `Filter chip`, `Links`, `Option` and
+// `Pagination buttons`, where the height genuinely is the design. A child set to stretch fills
+// its parent by definition, so max(child) + padding == parent whether the frame hugs or not:
+// the signature is the same for both answers and this data cannot separate them. Acting on it
+// would be a guess dressed as a measurement across a third of the library.
+//
+// The change only ever lets a box grow — `height` becomes `min-height`, so nothing gets
+// smaller and nothing that fitted before stops fitting.
+export function growsWithContent() {
+  const byComp = new Map();
+  for (const line of readFileSync('tokens/_raw/component-tree.tsv', 'utf8').trim().split('\n').slice(1)) {
+    const c = line.split('\t');
+    if (!byComp.has(c[0])) byComp.set(c[0], new Map());
+    byComp.get(c[0]).set(c[1], c);
+  }
+  const hOf = s => {
+    const m = /^(auto|[\d.]+)\s*x\s*(auto|[\d.]+)$/.exec((s || '').trim());
+    return (!m || m[2] === 'auto') ? null : +m[2];
+  };
+  const out = new Set();
+  for (const [comp, nodes] of byComp) {
+    const root = nodes.get('');
+    if (!root) continue;
+    const H = hOf(root[7]);
+    const kids = [...nodes.entries()].filter(([k]) => k && !k.includes('.')).map(([, v]) => v);
+
+    // 1. a TEXT node Figma draws on more than one line
+    for (const k of kids.length ? [...nodes.values()] : []) {
+      if (k[2] !== 'TEXT') continue;
+      const size = /^(\d+)x(\d+)$/.exec((k[7] || '').trim());
+      const font = /^(\d+)px/.exec((k[15] || '').trim());
+      if (size && font && +size[2] >= 2 * +font[1]) { out.add(comp); break; }
+    }
+    // 2. one nested instance that fills the height
+    if (H !== null && kids.length === 1 && kids[0][2] === 'INSTANCE') {
+      const kh = hOf(kids[0][7]);
+      if (kh !== null && Math.abs(kh - H) <= 1) out.add(comp);
+    }
+  }
+  return out;
+}

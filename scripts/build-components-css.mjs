@@ -17,7 +17,8 @@
 // CSS equivalent (:hover, :disabled, :focus-visible) get one as well as the attribute,
 // so a live control behaves correctly and a gallery can still force any state.
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
-import { hugsVertically as hugsVerticallySet, hugsHorizontally as hugsHorizontallySet } from './hugs.mjs';
+import { hugsVertically as hugsVerticallySet, hugsHorizontally as hugsHorizontallySet,
+         growsWithContent as growsWithContentSet } from './hugs.mjs';
 import { buildResolver, WEIGHT, declarationsFor } from './resolve-component-type.mjs';
 import { PRIMITIVE_ALIAS } from './primitive-alias.mjs';
 
@@ -192,7 +193,7 @@ function geometryDecls(g, notes, isVariant = false, composedType = null, compone
   // 31 of them for the wrong reason while pinning four that are under it. `Links` is a text
   // link frozen at the 58px its old label came to; put a longer one in and the width Figma
   // computed from the previous one is still there.
-  if (w !== null && component && hugsHorizontally.has(component)) {
+  if (w !== null && !isVariant && component && hugsHorizontally.has(component)) {
     notes.push(`Figma HUGS its contents horizontally — ${w}px is what they came to, not a rule`);
     huggedWide++;
   } else if (w !== null && w <= 120) d.push(`width: ${w}px`);
@@ -217,6 +218,20 @@ function geometryDecls(g, notes, isVariant = false, composedType = null, compone
     notes.push(`Figma HUGS its contents vertically — ${h}px is what they came to, not a rule, `
       + `so no height is emitted and the content decides it`);
     hugged++;
+  } else if (h !== null && h <= 260 && component && growsWithContent.has(component)) {
+    // A SHORT COMPONENT WHOSE CONTENT CAN GROW STATES A FLOOR, NOT A HEIGHT.
+    // The 260px tier emits the height exactly, because at that scale it is usually a control
+    // or a row whose height IS the design. That reasoning holds for a button, whose label is
+    // one line and cannot wrap, and fails for anything holding a paragraph — and a px number
+    // cannot tell which it is looking at. `Information box` is 56px and holds a message of any
+    // length; two lines of it overflowed the box and the next block sat where the 56 said, so
+    // the side panel's warning printed straight through the heading below it. See hugs.mjs for
+    // what "can grow" is read from. The box can still never be SMALLER than Figma drew it.
+    if (isVariant) d.push('height: auto');
+    d.push(`min-height: ${h}px`);
+    notes.push(`Figma draws this ${h}px tall holding its sample text; emitted as a minimum, `
+      + `because this component's own content can grow and a fixed height would clip it`);
+    grows++;
   } else if (h !== null && h <= 260) {
     d.push(`height: ${h}px`);
     if (isVariant) d.push('min-height: 0');
@@ -472,6 +487,8 @@ function colourDecls(row) {
 // See scripts/hugs-vertically.mjs for why the height of a hugging frame is not a rule.
 const hugsVertically = hugsVerticallySet();
 const hugsHorizontally = hugsHorizontallySet();
+const growsWithContent = growsWithContentSet();
+let grows = 0;
 let huggedWide = 0;
 let hugged = 0;
 
@@ -622,7 +639,13 @@ for (const [component, rows] of [...byComponent.entries()].sort()) {
   for (const vg of geometryByVariant.get(component) || []) {
     const vnotes = [];
     const vType = resolveType(component, vg.font, vg.variant);
-    const vdecls = geometryDecls(vg, vnotes, true, vType);
+    // The component name is passed for VARIANT rows too. Without it none of the
+    // component-aware branches can fire on a variant, and the base rule's floor is then
+    // overwritten by the variant's own `height` — `.pf-information-box` took its minimum
+    // and `[data-type="Error"]` put the cap straight back, which is what a page actually
+    // writes. The two hug branches keep their own `!isVariant` guard, so this changes
+    // nothing they already decided.
+    const vdecls = geometryDecls(vg, vnotes, true, vType, component);
     const sels = selectorsFor(base, parseVariant(vg.variant));
     // A variant whose ONLY difference from the base row was its type now emits no
     // declarations of its own — its type comes from the composed rule instead. The
@@ -1397,6 +1420,9 @@ if (shapeOnly.length) {
   console.log(`    ${shapeOnly.sort().join(', ')}`);
 }
 console.log(`  with measured geometry : ${[...byComponent.keys()].filter(c => geometry.has(c)).length}`);
+console.log(`  ${grows} rule(s) state their height as a MINIMUM rather than a fixed height, `
+  + `because the component holds text that can grow — a fixed height there clips the message `
+  + `and leaves the next block sitting where the old number said`);
 console.log(`  ${huggedWide} class(es) state NO width because Figma hugs their contents `
   + `horizontally — measured, not the old 120px guess`);
 console.log(`  ${hugged} class(es) state NO height because Figma hugs their contents vertically — `

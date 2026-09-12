@@ -487,6 +487,43 @@ Three guards, each of which earned its place:
   asserts the negative instead: a hugging class must state no height of its own, which is what
   lets the content decide.
 
+### A height is a floor when the content can grow
+
+Asked by looking at the overlap above: *why is the text's height not moving the rest down?*
+Because the component would not let it. `.pf-information-box` stated `height: 56px` — **fixed** —
+so two lines of a real message overflowed the box and the next block sat where the 56 said.
+
+The generator emits a height three ways, and the first threshold is where this went wrong: up
+to **260px the height is emitted EXACTLY**, on the reasoning that at that scale it is a control,
+row or tile whose height IS the design — a 32px button, a 58px table row. That is true of a
+button, whose label is one line and cannot wrap. It is false for anything holding a paragraph,
+and **a px number cannot tell the two apart**.
+
+So read what is inside instead. Two signals, both needed:
+
+- **A TEXT node Figma itself draws on more than one line** — the same measurement the nowrap
+  rule uses in the other direction, a node at least twice its own font-size. `Message box`,
+  `Tool tip`, `Toast message`, `Note`, `Title panel`: 12 of them.
+- **A height that comes entirely from a single nested INSTANCE that fills it**, so the component
+  states no height of its own. `Information box` holds one child — an instance of itself — and
+  the walk stops there, so the first signal cannot see any text at all. 6 of them.
+
+**36 rules** now state a minimum instead of a cap. The change only ever lets a box grow, so
+nothing gets smaller and nothing that fitted before stops fitting.
+
+**The cross-axis hug is deliberately NOT used here, and the reason matters.** On a HORIZONTAL
+frame the height is the cross axis, and a hugging frame's height is the TALLEST child plus
+padding — readable from the same data, and it matches **55 components**, including `Filter chip`,
+`Links`, `Option` and `Pagination buttons`, where the height genuinely is the design. A child set
+to stretch fills its parent by definition, so `max(child) + padding == parent` whether the frame
+hugs or not: **the signature is identical for both answers and this data cannot separate them.**
+Acting on it would be a guess dressed as a measurement, across a third of the library.
+
+**A variant row was never told which component it belonged to**, so none of the component-aware
+branches could fire on one — the base class took its floor and `[data-type="Error"]` put the cap
+straight back, which is what a page actually writes. It is passed now; the two hug branches keep
+their own `!isVariant` guard so nothing they already decided moves.
+
 **The width has the same question, and it is the one the checker gave up on.**
 `verify-against-figma.mjs` says so in a comment: *"Width is deliberately NOT compared: a Figma
 frame may hug or be fixed, and the extract"* does not say which. It reads the same way — on a

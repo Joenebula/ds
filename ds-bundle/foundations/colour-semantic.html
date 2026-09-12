@@ -1013,8 +1013,8 @@
   font-family: var(--pf-font-body);
 }
 .pf-ai-message-bubble[data-type="User chat"] {
-  height: 62px;
-  min-height: 0;
+  height: auto;
+  min-height: 62px;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -1245,9 +1245,10 @@
 /* Attachments
  * 1 variant captured
  * Figma HUGS its contents horizontally — 440px is what they came to, not a rule
+ * Figma draws this 56px tall holding its sample text; emitted as a minimum, because this component's own content can grow and a fixed height would clip it
  */
 .pf-attachments {
-  height: 56px;
+  min-height: 56px;
   display: inline-flex;
   flex-direction: row;
   align-items: flex-start;
@@ -2110,8 +2111,8 @@
   font-family: var(--pf-font-body);
 }
 .pf-config-child-menu[data-type="Selected"] {
-  height: 42px;
-  min-height: 0;
+  height: auto;
+  min-height: 42px;
   padding: 0;
   border-radius: 4px;
   display: inline-flex;
@@ -2211,9 +2212,10 @@
 /* Configuration panel
  * 1 variant captured
  * Figma draws this 1600px wide; treated as layout, not a rule
+ * Figma draws this 189px tall holding its sample text; emitted as a minimum, because this component's own content can grow and a fixed height would clip it
  */
 .pf-configuration-panel {
-  height: 189px;
+  min-height: 189px;
   border-radius: 8px 8px 0 0;
   display: inline-flex;
   flex-direction: column;
@@ -2233,9 +2235,10 @@
 
 /* Configuration tile
  * 1 variant captured. shadow 0 0 4px
+ * Figma draws this 260px tall holding its sample text; emitted as a minimum, because this component's own content can grow and a fixed height would clip it
  */
 .pf-configuration-tile {
-  height: 260px;
+  min-height: 260px;
   padding: 40px 20px;
   border-radius: 8px;
   display: inline-flex;
@@ -2252,8 +2255,8 @@
   font-family: var(--pf-font-body);
 }
 .pf-configuration-tile[data-device="Mobile"] {
-  height: 230px;
-  min-height: 0;
+  height: auto;
+  min-height: 230px;
   padding: 30px 20px;
   border-radius: 8px;
   display: inline-flex;
@@ -2427,9 +2430,10 @@
 /* Content
  * 1 variant captured
  * Figma draws this 375px wide; treated as layout, not a rule
+ * Figma draws this 74px tall holding its sample text; emitted as a minimum, because this component's own content can grow and a fixed height would clip it
  */
 .pf-content {
-  height: 74px;
+  min-height: 74px;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -4609,9 +4613,10 @@
 /* Information box
  * 4 variants captured
  * Figma HUGS its contents horizontally — 440px is what they came to, not a rule
+ * Figma draws this 56px tall holding its sample text; emitted as a minimum, because this component's own content can grow and a fixed height would clip it
  */
 .pf-information-box {
-  height: 56px;
+  min-height: 56px;
   display: inline-flex;
   flex-direction: row;
   align-items: flex-start;
@@ -4625,8 +4630,8 @@
   font-family: var(--pf-font-body);
 }
 .pf-information-box[data-type="Warning"] {
-  height: 74px;
-  min-height: 0;
+  height: auto;
+  min-height: 74px;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -4636,8 +4641,8 @@
   gap: 0px;
 }
 .pf-information-box[data-type="Error"] {
-  height: 74px;
-  min-height: 0;
+  height: auto;
+  min-height: 74px;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -4647,8 +4652,8 @@
   gap: 0px;
 }
 .pf-information-box[data-type="Success"] {
-  height: 74px;
-  min-height: 0;
+  height: auto;
+  min-height: 74px;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -4998,9 +5003,10 @@
 /* Message box
  * 1 variant captured
  * Figma draws this 455px wide; treated as layout, not a rule
+ * Figma draws this 138px tall holding its sample text; emitted as a minimum, because this component's own content can grow and a fixed height would clip it
  */
 .pf-message-box {
-  height: 138px;
+  min-height: 138px;
   padding: 15px;
   border-radius: 8px;
   display: inline-flex;
@@ -5102,9 +5108,10 @@
  * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
  * carries its measured geometry and leaves colour to the page. 6 variants (Link). No colour variable bound in Figma.
  * Figma draws this 126px wide; treated as layout, not a rule
+ * Figma draws this 103px tall holding its sample text; emitted as a minimum, because this component's own content can grow and a fixed height would clip it
  */
 .pf-mobile-key-actions {
-  height: 103px;
+  min-height: 103px;
   display: inline-block;
   appearance: none;
   -webkit-appearance: none;
@@ -5115,20 +5122,20 @@
   font-family: var(--pf-font-body);
 }
 .pf-mobile-key-actions[data-link="Social activity"] {
-  height: 103px;
-  min-height: 0;
+  height: auto;
+  min-height: 103px;
   border-radius: 0;
   display: inline-block;
 }
 .pf-mobile-key-actions[data-link="Recognition trends"] {
-  height: 103px;
-  min-height: 0;
+  height: auto;
+  min-height: 103px;
   border-radius: 0;
   display: inline-block;
 }
 .pf-mobile-key-actions[data-link="MHR"] {
-  height: 103px;
-  min-height: 0;
+  height: auto;
+  min-height: 103px;
   border-radius: 0;
   display: inline-block;
   font-size: 15px;
@@ -5624,10 +5631,11 @@
 /* Notification image
  * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
  * carries its measured geometry and leaves colour to the page.
+ * Figma draws this 44px tall holding its sample text; emitted as a minimum, because this component's own content can grow and a fixed height would clip it
  */
 .pf-notification-image {
   width: 44px;
-  height: 44px;
+  min-height: 44px;
   display: inline-block;
   appearance: none;
   -webkit-appearance: none;
@@ -5639,43 +5647,43 @@
 }
 .pf-notification-image[data-type="Person"][data-with-status="False"][data-mobile="True"][data-status-position="High"] {
   width: 36px;
-  height: 36px;
-  min-height: 0;
+  height: auto;
+  min-height: 36px;
   border-radius: 0;
   display: inline-block;
 }
 .pf-notification-image[data-type="Custom"][data-with-status="False"][data-mobile="True"][data-status-position="High"] {
   width: 36px;
-  height: 36px;
-  min-height: 0;
+  height: auto;
+  min-height: 36px;
   border-radius: 0;
   display: inline-block;
 }
 .pf-notification-image[data-type="Custom"][data-with-status="True"][data-mobile="True"][data-status-position="High"] {
   width: 36px;
-  height: 36px;
-  min-height: 0;
+  height: auto;
+  min-height: 36px;
   border-radius: 0;
   display: inline-block;
 }
 .pf-notification-image[data-type="Custom"][data-with-status="True"][data-mobile="True"][data-status-position="Low"] {
   width: 36px;
-  height: 36px;
-  min-height: 0;
+  height: auto;
+  min-height: 36px;
   border-radius: 0;
   display: inline-block;
 }
 .pf-notification-image[data-type="Person"][data-with-status="True"][data-mobile="True"][data-status-position="High"] {
   width: 36px;
-  height: 36px;
-  min-height: 0;
+  height: auto;
+  min-height: 36px;
   border-radius: 0;
   display: inline-block;
 }
 .pf-notification-image[data-type="Person"][data-with-status="True"][data-mobile="True"][data-status-position="Low"] {
   width: 36px;
-  height: 36px;
-  min-height: 0;
+  height: auto;
+  min-height: 36px;
   border-radius: 0;
   display: inline-block;
 }
@@ -6971,10 +6979,11 @@
 /* Stars
  * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class
  * carries its measured geometry and leaves colour to the page. 2 variants (Active). No colour variable bound in Figma.
+ * Figma draws this 24px tall holding its sample text; emitted as a minimum, because this component's own content can grow and a fixed height would clip it
  */
 .pf-stars {
   width: 25px;
-  height: 24px;
+  min-height: 24px;
   display: inline-block;
   appearance: none;
   -webkit-appearance: none;
@@ -8021,9 +8030,10 @@
 /* Title panel
  * 1 variant captured
  * Figma draws this 375px wide; treated as layout, not a rule
+ * Figma draws this 135px tall holding its sample text; emitted as a minimum, because this component's own content can grow and a fixed height would clip it
  */
 .pf-title-panel {
-  height: 135px;
+  min-height: 135px;
   padding: 40px 20px;
   display: inline-flex;
   flex-direction: column;
@@ -8039,8 +8049,8 @@
   font-family: var(--pf-font-body);
 }
 .pf-title-panel[data-mobile="false"] {
-  height: 135px;
-  min-height: 0;
+  height: auto;
+  min-height: 135px;
   padding: 40px 207px;
   border-radius: 0;
   display: inline-flex;
@@ -8058,9 +8068,10 @@
 /* Toast message
  * 4 variants captured. fixed light surface — see dark-mode note
  * Figma draws this 350px wide; treated as layout, not a rule
+ * Figma draws this 114px tall holding its sample text; emitted as a minimum, because this component's own content can grow and a fixed height would clip it
  */
 .pf-toast-message {
-  height: 114px;
+  min-height: 114px;
   padding: 30px 0 30px 25px;
   border-radius: 4px;
   display: inline-flex;
@@ -8514,9 +8525,10 @@
 /* [S] People
  * 5 variants captured
  * Figma HUGS its contents horizontally — 380px is what they came to, not a rule
+ * Figma draws this 40px tall holding its sample text; emitted as a minimum, because this component's own content can grow and a fixed height would clip it
  */
 .pf-s-people {
-  height: 40px;
+  min-height: 40px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -8531,8 +8543,8 @@
   font-family: var(--pf-font-body);
 }
 .pf-s-people[data-property-1="Header"][data-mobile="False"] {
-  height: 64px;
-  min-height: 0;
+  height: auto;
+  min-height: 64px;
   padding: 0 10px 0 0;
   border-radius: 0;
   display: inline-flex;
@@ -8542,8 +8554,8 @@
   gap: 10px;
 }
 .pf-s-people[data-property-1="Header"][data-mobile="True"] {
-  height: 58px;
-  min-height: 0;
+  height: auto;
+  min-height: 58px;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -8553,8 +8565,8 @@
   gap: 10px;
 }
 .pf-s-people[data-property-1="Small card"][data-mobile="False"] {
-  height: 36px;
-  min-height: 0;
+  height: auto;
+  min-height: 36px;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -8564,8 +8576,8 @@
   gap: 10px;
 }
 .pf-s-people[data-property-1="Small card"][data-mobile="True"] {
-  height: 36px;
-  min-height: 0;
+  height: auto;
+  min-height: 36px;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -8575,8 +8587,8 @@
   gap: 10px;
 }
 .pf-s-people[data-property-1="Large card"][data-mobile="False"] {
-  height: 54px;
-  min-height: 0;
+  height: auto;
+  min-height: 54px;
   padding: 0 10px 0 0;
   border-radius: 0;
   display: inline-flex;
@@ -8586,8 +8598,8 @@
   gap: 10px;
 }
 .pf-s-people[data-property-1="Large card"][data-mobile="True"] {
-  height: 43px;
-  min-height: 0;
+  height: auto;
+  min-height: 43px;
   padding: 0 10px 0 0;
   border-radius: 0;
   display: inline-flex;
@@ -8597,8 +8609,8 @@
   gap: 10px;
 }
 .pf-s-people[data-property-1="Table"][data-mobile="False"] {
-  height: 54px;
-  min-height: 0;
+  height: auto;
+  min-height: 54px;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -8608,8 +8620,8 @@
   gap: 10px;
 }
 .pf-s-people[data-property-1="Table"][data-mobile="True"] {
-  height: 91px;
-  min-height: 0;
+  height: auto;
+  min-height: 91px;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -9970,8 +9982,8 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     gap: 5px;
   }
   .pf-configuration-tile:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
-    height: 230px;
-    min-height: 0;
+    height: auto;
+    min-height: 230px;
     padding: 30px 20px;
     border-radius: 8px;
     display: inline-flex;
@@ -10583,43 +10595,43 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
   }
   .pf-notification-image[data-type="Person"][data-with-status="False"][data-status-position="High"]:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
     width: 36px;
-    height: 36px;
-    min-height: 0;
+    height: auto;
+    min-height: 36px;
     border-radius: 0;
     display: inline-block;
   }
   .pf-notification-image[data-type="Custom"][data-with-status="False"][data-status-position="High"]:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
     width: 36px;
-    height: 36px;
-    min-height: 0;
+    height: auto;
+    min-height: 36px;
     border-radius: 0;
     display: inline-block;
   }
   .pf-notification-image[data-type="Custom"][data-with-status="True"][data-status-position="High"]:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
     width: 36px;
-    height: 36px;
-    min-height: 0;
+    height: auto;
+    min-height: 36px;
     border-radius: 0;
     display: inline-block;
   }
   .pf-notification-image[data-type="Custom"][data-with-status="True"][data-status-position="Low"]:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
     width: 36px;
-    height: 36px;
-    min-height: 0;
+    height: auto;
+    min-height: 36px;
     border-radius: 0;
     display: inline-block;
   }
   .pf-notification-image[data-type="Person"][data-with-status="True"][data-status-position="High"]:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
     width: 36px;
-    height: 36px;
-    min-height: 0;
+    height: auto;
+    min-height: 36px;
     border-radius: 0;
     display: inline-block;
   }
   .pf-notification-image[data-type="Person"][data-with-status="True"][data-status-position="Low"]:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
     width: 36px;
-    height: 36px;
-    min-height: 0;
+    height: auto;
+    min-height: 36px;
     border-radius: 0;
     display: inline-block;
   }
@@ -11118,8 +11130,8 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     gap: 10px;
   }
   .pf-s-people[data-property-1="Header"]:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
-    height: 58px;
-    min-height: 0;
+    height: auto;
+    min-height: 58px;
     padding: 0;
     border-radius: 0;
     display: inline-flex;
@@ -11129,8 +11141,8 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     gap: 10px;
   }
   .pf-s-people[data-property-1="Small card"]:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
-    height: 36px;
-    min-height: 0;
+    height: auto;
+    min-height: 36px;
     padding: 0;
     border-radius: 0;
     display: inline-flex;
@@ -11140,8 +11152,8 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     gap: 10px;
   }
   .pf-s-people[data-property-1="Large card"]:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
-    height: 43px;
-    min-height: 0;
+    height: auto;
+    min-height: 43px;
     padding: 0 10px 0 0;
     border-radius: 0;
     display: inline-flex;
@@ -11151,8 +11163,8 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
     gap: 10px;
   }
   .pf-s-people[data-property-1="Table"]:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
-    height: 91px;
-    min-height: 0;
+    height: auto;
+    min-height: 91px;
     padding: 0;
     border-radius: 0;
     display: inline-flex;
@@ -11950,8 +11962,8 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
   }
   .pf-notification-image:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint]) {
     width: 36px;
-    height: 36px;
-    min-height: 0;
+    height: auto;
+    min-height: 36px;
     border-radius: 0;
     display: inline-block;
   }

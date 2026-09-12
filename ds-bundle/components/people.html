@@ -485,9 +485,10 @@
 /* [S] People
  * 5 variants captured
  * Figma HUGS its contents horizontally — 380px is what they came to, not a rule
+ * Figma draws this 40px tall holding its sample text; emitted as a minimum, because this component's own content can grow and a fixed height would clip it
  */
 .pf-s-people {
-  height: 40px;
+  min-height: 40px;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -502,8 +503,8 @@
   font-family: var(--pf-font-body);
 }
 .pf-s-people[data-property-1="Header"][data-mobile="False"] {
-  height: 64px;
-  min-height: 0;
+  height: auto;
+  min-height: 64px;
   padding: 0 10px 0 0;
   border-radius: 0;
   display: inline-flex;
@@ -513,8 +514,8 @@
   gap: 10px;
 }
 .pf-s-people[data-property-1="Header"][data-mobile="True"] {
-  height: 58px;
-  min-height: 0;
+  height: auto;
+  min-height: 58px;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -524,8 +525,8 @@
   gap: 10px;
 }
 .pf-s-people[data-property-1="Small card"][data-mobile="False"] {
-  height: 36px;
-  min-height: 0;
+  height: auto;
+  min-height: 36px;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -535,8 +536,8 @@
   gap: 10px;
 }
 .pf-s-people[data-property-1="Small card"][data-mobile="True"] {
-  height: 36px;
-  min-height: 0;
+  height: auto;
+  min-height: 36px;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -546,8 +547,8 @@
   gap: 10px;
 }
 .pf-s-people[data-property-1="Large card"][data-mobile="False"] {
-  height: 54px;
-  min-height: 0;
+  height: auto;
+  min-height: 54px;
   padding: 0 10px 0 0;
   border-radius: 0;
   display: inline-flex;
@@ -557,8 +558,8 @@
   gap: 10px;
 }
 .pf-s-people[data-property-1="Large card"][data-mobile="True"] {
-  height: 43px;
-  min-height: 0;
+  height: auto;
+  min-height: 43px;
   padding: 0 10px 0 0;
   border-radius: 0;
   display: inline-flex;
@@ -568,8 +569,8 @@
   gap: 10px;
 }
 .pf-s-people[data-property-1="Table"][data-mobile="False"] {
-  height: 54px;
-  min-height: 0;
+  height: auto;
+  min-height: 54px;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
@@ -579,8 +580,8 @@
   gap: 10px;
 }
 .pf-s-people[data-property-1="Table"][data-mobile="True"] {
-  height: 91px;
-  min-height: 0;
+  height: auto;
+  min-height: 91px;
   padding: 0;
   border-radius: 0;
   display: inline-flex;
