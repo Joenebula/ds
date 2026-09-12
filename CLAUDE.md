@@ -1842,11 +1842,26 @@ the real People First default avatar, which is a legitimate design element — s
 they are turns the axis red rather than counted. Choosing between a screen that looks finished and
 one that shows its gaps is a design decision, so it is recorded here rather than made.
 
-`screen-viewport.mjs` reads the same missing `<screen>.figma.json`, so it is inert too, and
-every screen is measured at the 1280 default. That is not academic: with the space-between gap
-bug fixed, `case-mgmt-my-team` renders at its natural width and its 9-column people grid
-overlaps its own avatars at 1280. Whether 1280 is the right width is precisely what the
-declaration exists to answer, and nothing has ever answered it.
+`screen-viewport.mjs` reads the same missing `<screen>.figma.json`, so it is inert too. Every
+check therefore measures every screen at the 1280 default — and `screenshot-screen.mjs`, reading
+the same absent declaration, shoots it at **640**. So the picture a person looks at and the width
+the checks measure are not the same width, and neither was chosen for this design.
+
+**That mattered immediately, and not in the way first written here.** This paragraph claimed the
+9-column people grid "overlaps its own avatars at 1280". It does not, at any width: measured,
+**0 overlapping avatar pairs and 0 overlapping text pairs at 1280, 1440 and 1920**, and no
+horizontal overflow. The claim came from reading a 1280px capture displayed at 879px — a 1.46×
+downscale closes the gaps between a 76px avatar and its 120px cell until they look welded
+together. *Measuring with the eye on a resized image is not measuring*, and it is the same
+failure this file catalogues in every mechanism: a reading that cannot distinguish two states,
+reported confidently.
+
+What IS measured, at 640px where the screenshots are taken: before the space-between gap fix the
+page overflowed horizontally to **972px**; after it, it fits 640 exactly. The title wrapping to
+two lines there is unchanged by that fix and is simply a desktop design in a mobile window.
+
+Whether either width is right for this design is precisely what the declaration exists to answer,
+and nothing has ever answered it.
 
 The verdict line now **names** them rather than only counting: *"images measured nothing on 5 of
 5 screens — EVERY one, so this axis has never run"*. A bare tally of 22 reads like a rounding

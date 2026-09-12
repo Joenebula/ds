@@ -291,13 +291,21 @@ function geometryDecls(g, notes, isVariant = false, composedType = null) {
     // made — invisible while the page is as wide as the artboard, and squeezing or overflowing
     // the children the moment it is narrower.
     //
-    // That is not hypothetical: `.pf-layout-container-title` carried `gap: 464px`, and on
-    // working/case-mgmt-my-team it forced "Department insights" to wrap onto two lines and its
-    // two links onto three each. Every check was green — a gap is not a colour, a class or a
-    // clipped box, and the row was inside its container the whole time. It was found by looking
-    // at the screenshot. The same shape is `Selected action banner` at 899px, which
-    // verify-clipped DID catch, and `Accordion` 689, `Layout container tabs` 204, `Metric card`
-    // 165 — 44 rows in all.
+    // That is not hypothetical, and the measurement is worth stating exactly because a looser
+    // reading of it was wrong. `.pf-layout-container-title` carried `gap: 464px`. Rendered at
+    // 640px — the width scripts/screenshot-screen.mjs uses for a screen that declares no
+    // viewport — working/case-mgmt-my-team overflowed horizontally to 972px; with the gap gone
+    // it fits 640 exactly. That is the whole of the effect, and it is a real one: 332px of
+    // horizontal overflow on a page every check called clean.
+    //
+    // What it is NOT: the same page at 1280px never overflowed and never wrapped, with the gap
+    // or without it, because there the free space (506px) exceeds the gap and it does not bind.
+    // The title wrapping to two lines at 640px is unchanged by this fix — that is a desktop
+    // design in a mobile window, not a gap. Both were claimed here from a downscaled screenshot
+    // and both were false; the numbers above come from measuring the before and after files.
+    //
+    // The same shape is `Selected action banner` at 899px, which verify-clipped DID catch, and
+    // `Accordion` 689, `Layout container tabs` 204, `Metric card` 165 — 44 rows in all.
     //
     // Dropping it is never worse: where the container is wide enough the gap does not bind and
     // space-between decides anyway, and where it is not, the gap was the bug.
