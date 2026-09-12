@@ -2,7 +2,7 @@
      The outer element is the component's own class; everything inside is its Figma
      child tree. Do not hand-edit: regenerate with npm run build. -->
 <div class="pf-percentage-bar">
-  <div style="display:flex;flex-direction:row;align-items:flex-start;justify-content:space-between">
+  <div style="width:100%;box-sizing:border-box;display:flex;flex-direction:row;align-items:flex-start;justify-content:space-between"><!-- states its width: space-between distributes the SLACK, and a frame sized to its content has none. -->
     <div style="display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:5px">
       <span class="pf-text-label-text" style="color:var(--pf-text-primary)">Percentage b</span>
       <!--pf-icon:dashboard-star 16-->
@@ -12,7 +12,7 @@
       <span class="pf-text-label-text-semibold" style="color:var(--pf-text-primary)">%</span>
     </div>
   </div>
-  <div style="display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:10px;border-radius:100px;background:var(--pf-bg-tertiary)">
-    <div style="border-radius:100px;background:var(--pf-chart-1);min-height:14px;align-self:stretch"></div>
+  <div style="width:343px;box-sizing:border-box;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:10px;border-radius:100px;background:var(--pf-bg-tertiary)"><!-- states its own size: Figma draws its only child at zero on this axis, so there is nothing here to hug. -->
+    <div style="border-radius:100px;background:var(--pf-chart-1);min-height:14px;width:0"></div>
   </div>
 </div>

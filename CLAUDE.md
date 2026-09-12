@@ -873,6 +873,39 @@ where it claims. A first version scanned the whole file for `justify-content: ce
 on `Percentage`, which Figma packs to the end for good reason — a check has to name the node,
 not the file.
 
+### Two more from the same degenerate sample
+
+Pasting that template and looking at it found the rest of the family. **A template gives its
+children no dimensions on purpose** — on a real page they size to their content — and that
+assumes there IS content.
+
+- **A frame whose only child measures zero cannot hug it.** `Table progress bar`'s `Bar` is
+  **208x14** in Figma and rendered **2x16**: the fill is `0x14`, so the frame hugged nothing and
+  collapsed to its own border. Whoever pasted it got an invisible track — the template failing at
+  the one thing templates exist for. **8 frames** state their own measured size for this reason.
+- **A SPACE_BETWEEN frame that hugs distributes nothing.** Measured: **27 space-between frames
+  across the templates and not one stated a width**, so `space-between` was `flex-start` with
+  extra words on every single one. `Percentage bar`'s label row is 343px holding 181px of
+  children — **the 162px of slack IS the layout** — and pasted, the label and the percentage sat
+  against each other. The width is a reading both ways: **37 of the 46** such frames are exactly
+  as wide as their parent's content box, so `width: 100%` is a measurement there and keeps the
+  row fluid; the other **9** are genuinely narrower and take their measured px.
+
+And one more, in the branch that sizes a leaf: the test was `w > 0 && w <= 120 ? width :
+align-self: stretch`, which **cannot tell "no useful width" from "measured zero"**. So
+`Percentage bar`'s fill, drawn by Figma as `0x14` at `Completion=0%`, stretched to the full width
+of its track: the template said 0% in the label and showed a full blue bar. Zero is a measurement.
+Only a `RECTANGLE` reaches that branch — the seven other children measured at zero on their
+parent's cross axis are all `LINE` dividers, handled by their own branch, where stretching across
+the parent is exactly right.
+
+**The checks for these two are asserted FROM THE FILE, not from the reading**, and that is the
+fix to a first version. The reading names frames some templates legitimately do not contain — a
+run the walk collapsed, a node inside a nested instance — so *"the reading names it, therefore the
+file must mark it"* reported three templates that were right. What holds file-locally is the
+property that matters: **no space-between frame in any template may be without a width**, and
+every frame marked as stating its own size must state one.
+
 ## A SPACE_BETWEEN frame has no gap
 
 Reported from a phone as the percentage bar being aligned left. The cause is bigger than that

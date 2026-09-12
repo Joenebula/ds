@@ -281,8 +281,52 @@ for (const key of packStart) {
 }
 console.log(`  ${packMarked} frame(s) whose only child measured zero on the packing axis pack to `
   + `the START and say so — a zero-wide child cannot evidence a centre`);
-if (!packStart.size || !packMarked) {
-  console.error('FAIL the unfalsifiable-packing reading found nothing, so it checked nothing');
+
+// A SPACE_BETWEEN FRAME THAT HUGS DISTRIBUTES NOTHING, and every template had one.
+//
+// Measured: **27 space-between frames across the templates and not one stated a width**, so
+// `justify-content: space-between` was `flex-start` with extra words on every single one.
+// `Percentage bar`'s label row is 343px in Figma holding 181px of children — the 162px of slack
+// IS the layout, and pasted, the label and the percentage sat against each other.
+//
+// This is asserted FROM THE FILE rather than from the reading, and that is the fix to a first
+// version: the reading names frames some templates legitimately do not contain (a run the walk
+// collapsed, a node inside a nested instance), so "the reading names it, therefore the file must
+// mark it" reported three templates that were right. What is true file-locally is the property
+// that matters — no space-between frame may be without a width.
+//
+// The companion reading is `collapsesOnZeroChild`: a frame whose ONLY child measures zero cannot
+// hug it. `Table progress bar`'s `Bar` is 208x14 in Figma and rendered 2x16, because the fill is
+// `0x14` at `Completion=0%`. Whoever pasted that template got an invisible track. Both are
+// marked in the markup, because the size is a READING and whoever pastes it has to see that.
+let slackFrames = 0, sizeFrames = 0;
+for (const f of readdirSync('dist/templates').filter(f => f.endsWith('.html'))) {
+  const html = readFileSync(`dist/templates/${f}`, 'utf8');
+  for (const m of html.matchAll(/<div style="([^"]*justify-content:\s*(?:safe\s+)?space-between[^"]*)">((?:<!--[^>]*-->)*)/g)) {
+    slackFrames++;
+    if (!/(?:^|;)width:\s*(?:\d|100%)/.test(m[1])) {
+      failures++;
+      console.error(`FAIL dist/templates/${f} lays a frame out with space-between and states no `
+        + `width, so it hugs its children and distributes nothing — space-between with no slack `
+        + `is flex-start with extra words`);
+    } else if (!/states its width/.test(m[2])) {
+      failures++;
+      console.error(`FAIL dist/templates/${f} states a width on a space-between frame without `
+        + `saying why — that width is a READING, and whoever pastes this has to see that`);
+    }
+  }
+  for (const m of html.matchAll(/<div style="([^"]*)">((?:<!--[^>]*-->)*<!-- states its own size)/g)) {
+    sizeFrames++;
+    if (!/(?:^|;)(?:width|height):\s*\d/.test(m[1])) {
+      failures++;
+      console.error(`FAIL dist/templates/${f} marks a frame as stating its own size and states none`);
+    }
+  }
+}
+console.log(`  ${slackFrames} space-between frame(s) state a width, so the slack they distribute `
+  + `exists; ${sizeFrames} state their own size because their only child measures zero`);
+if (!slackFrames || !sizeFrames) {
+  console.error('FAIL one of the degenerate-sample readings matched no template, so it checked nothing');
   failures++;
 }
 

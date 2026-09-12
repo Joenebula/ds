@@ -27,7 +27,9 @@
 // A node whose fill or colour Figma did not bind to a variable is emitted with a comment
 // saying so rather than a guessed value — the same treatment the colour extract gives an
 // unbound paint.
-import { unfalsifiablePacking as unfalsifiablePackingSet } from './hugs.mjs';
+import { unfalsifiablePacking as unfalsifiablePackingSet,
+         collapsesOnZeroChild as collapsesOnZeroChildMap,
+         spaceBetweenWidth as spaceBetweenWidthMap } from './hugs.mjs';
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync, existsSync } from 'node:fs';
 import { buildResolver } from './resolve-component-type.mjs';
 import { PRIMITIVE_ALIAS } from './primitive-alias.mjs';
@@ -136,6 +138,12 @@ const libClasses = new Set([...css.matchAll(/\.(pf-[a-z0-9-]+)/g)].map(m => m[1]
 // The reading lives in hugs.mjs, shared with check-templates so the two cannot drift.
 const unfalsifiablePacking = unfalsifiablePackingSet();
 const packNotes = new Set();
+const collapsesOnZeroChild = collapsesOnZeroChildMap();
+const sizeNotes = new Set();
+const spaceBetweenWidth = spaceBetweenWidthMap();
+const slackNotes = new Set();
+const SLACK_NOTE = "<!-- states its width: space-between distributes the SLACK, and a frame sized to its content has none. -->";
+const SIZE_NOTE = "<!-- states its own size: Figma draws its only child at zero on this axis, so there is nothing here to hug. -->";
 const PACK_NOTE = "<!-- packs to the START: Figma's only child here measures zero on this axis, so its centre is unfalsifiable — a real one goes at the start. -->";
 
 // A COMPONENT FIGMA GIVES NO TYPE HOLDS NO LABEL. Read per component from the geometry's own
@@ -246,6 +254,26 @@ function styleFor(component, row) {
     const [rw, rh] = (row.size || '').split('x').map(Number);
     if (row.path && Number.isFinite(rw) && Number.isFinite(rh))
       s.push(`width:${rw}px`, `height:${rh}px`, 'box-sizing:border-box');
+  }
+  // A FRAME WHOSE ONLY CHILD MEASURES ZERO CANNOT HUG IT — see hugs.mjs. A template gives its
+  // children no dimensions on purpose, because on a real page they size to their content, and
+  // that assumes there IS content. `Table progress bar`'s `Bar` is 208x14 in Figma and rendered
+  // 2x16 here: its only child is the fill, which Figma draws at `Completion=0%` as 0x14, so the
+  // frame hugged nothing and collapsed to its own border. Whoever pasted the template got an
+  // invisible track.
+  // A SPACE_BETWEEN FRAME THAT HUGS DISTRIBUTES NOTHING — see hugs.mjs. The slack between the
+  // children IS the layout, and a frame sized to its content has none of it.
+  const slack = spaceBetweenWidth.get(`${component}|${row.path}`);
+  if (slack) {
+    s.push(`width:${slack}`, 'box-sizing:border-box');
+    slackNotes.add(`${component}|${row.path}`);
+  }
+  const zero = collapsesOnZeroChild.get(`${component}|${row.path}`);
+  if (zero) {
+    const [zw, zh] = (row.size || '').split('x').map(Number);
+    if (zero.w && Number.isFinite(zw)) s.push(`width:${zw}px`, 'box-sizing:border-box');
+    if (zero.h && Number.isFinite(zh)) s.push(`height:${zh}px`, 'box-sizing:border-box');
+    sizeNotes.add(`${component}|${row.path}`);
   }
   if (row.layout && row.layout !== 'NONE') {
     const [mode, counter, primary] = row.layout.split(/\s+/);
@@ -522,7 +550,9 @@ function render(component, rows, path, depth) {
     }
     const open = `${pad}<div${style.length ? ` style="${style.join(';')}"` : ''}>`
       + `<!-- SLOT: Figma marks this as where the component's content goes. -->`
-      + (packNotes.has(`${component}|${row.path}`) ? PACK_NOTE : '');
+      + (packNotes.has(`${component}|${row.path}`) ? PACK_NOTE : '')
+      + (sizeNotes.has(`${component}|${row.path}`) ? SIZE_NOTE : '')
+      + (slackNotes.has(`${component}|${row.path}`) ? SLACK_NOTE : '');
     if (!kids.length) return open + cutNote(row) + '</div>';
     const note = cutNote(row, kids.length);
     return [open, ...kids.map(k => render(component, rows, k, depth + 1)),
@@ -552,12 +582,24 @@ function render(component, rows, path, depth) {
   if (!kids.length && (row.fill || row.stroke)) {
     const [w, h] = (row.size || '').split('x').map(Number);
     if (Number.isFinite(h) && h > 0) style.push(`min-height:${h}px`);
-    if (Number.isFinite(w) && w > 0 && w <= 120) style.push(`width:${w}px`);
+    // A CHILD MEASURED AT ZERO FELL INTO `stretch` BY ACCIDENT. The test was `w > 0 && w <= 120`,
+    // which cannot tell "no useful width" from "measured zero" — so `Percentage bar`'s
+    // `Progress` fill, which Figma draws as `0x14` at `Completion=0%`, stretched to the full
+    // width of its track. The template said 0% in the label and showed a full blue bar.
+    // Zero is a measurement, and stating it is what `Completion=0%` looks like.
+    //
+    // Only a RECTANGLE reaches here. The seven other children measured at zero on their
+    // parent's cross axis are all LINE nodes — dividers, handled by their own branch above,
+    // where stretching across the parent is exactly right.
+    if (Number.isFinite(w) && w === 0) style.push('width:0');
+    else if (Number.isFinite(w) && w > 0 && w <= 120) style.push(`width:${w}px`);
     else style.push('align-self:stretch');
   }
 
   const open = `${pad}<div${style.length ? ` style="${style.join(';')}"` : ''}>`
-    + (packNotes.has(`${component}|${row.path}`) ? PACK_NOTE : '');
+    + (packNotes.has(`${component}|${row.path}`) ? PACK_NOTE : '')
+    + (sizeNotes.has(`${component}|${row.path}`) ? SIZE_NOTE : '')
+    + (slackNotes.has(`${component}|${row.path}`) ? SLACK_NOTE : '');
   if (!kids.length) return open + cutNote(row) + '</div>';
   const note = cutNote(row, kids.length);
   return [open, ...kids.map(k => render(component, rows, k, depth + 1)),

@@ -204,3 +204,94 @@ export function unfalsifiablePacking() {
   }
   return out;
 }
+
+
+// A FRAME WHOSE ONLY CHILD MEASURES ZERO CANNOT HUG IT.
+//
+// The companion to `unfalsifiablePacking`, from the same degenerate sample and found by the
+// same route. A template gives its children no dimensions on purpose — on a real page they
+// size to their content — and that assumes there IS content. `Table progress bar`'s `Bar` is
+// **208x14** in Figma and rendered **2x16** in the template: its only child is the fill, which
+// Figma draws at `Completion=0%` as `0x14`, so the frame hugged nothing and collapsed to its
+// own border. Anyone pasting that template got an invisible track, which is the template
+// failing at the one thing templates exist for.
+//
+// So on an axis where the only child measures zero, the frame states its own measured size.
+// Returns `component|path` -> { w, h }, true on an axis that needs stating.
+export function collapsesOnZeroChild() {
+  const byComp = new Map();
+  for (const line of readFileSync('tokens/_raw/component-tree.tsv', 'utf8').trim().split('\n').slice(1)) {
+    const c = line.split('\t');
+    if (!byComp.has(c[0])) byComp.set(c[0], new Map());
+    byComp.get(c[0]).set(c[1], c);
+  }
+  const dim = (v, i) => {
+    const m = /^(auto|[\d.]+)\s*x\s*(auto|[\d.]+)$/.exec((v || '').trim());
+    return (!m || m[i] === 'auto') ? null : +m[i];
+  };
+  const out = new Map();
+  for (const [comp, nodes] of byComp) {
+    for (const [path, n] of nodes) {
+      if (!path) continue;                       // the root's box is the class's, not the template's
+      if (!(n[8] || '') || n[8] === 'NONE') continue;
+      const kids = [...nodes.entries()]
+        .filter(([k]) => k && (k.includes('.') ? k.slice(0, k.lastIndexOf('.')) : '') === path);
+      if (kids.length !== 1) continue;
+      const kw = dim(kids[0][1][7], 1), kh = dim(kids[0][1][7], 2);
+      const w = kw !== null && kw <= 0.5, hh = kh !== null && kh <= 0.5;
+      if (w || hh) out.set(`${comp}|${path}`, { w, h: hh });
+    }
+  }
+  return out;
+}
+
+
+// A SPACE_BETWEEN FRAME THAT HUGS ITS CONTENT DISTRIBUTES NOTHING.
+//
+// The third reading from the same degenerate-template family, and the one with the widest
+// reach: **27 space-between frames across the templates, and not one of them stated a width**,
+// so `justify-content: space-between` was `flex-start` with extra words on every single one.
+// `Percentage bar`'s label row is 343px in Figma holding a 146px label and a 35px percentage —
+// the 162px of slack IS the layout, and a frame that hugs to 181 has none of it. Pasted, the
+// label and the percentage sat against each other.
+//
+// A template gives its children no dimensions on purpose, because on a real page they size to
+// their content. A space-between row is the case where that assumption destroys the design
+// rather than adapting it, so the width is stated — and stated as a READING both ways:
+//
+//   - Measured, **37 of the 46** such frames are exactly as wide as their parent's content box,
+//     so `width: 100%` is a measurement there and keeps the row fluid on a real page.
+//   - The other **9** are genuinely narrower than their parent — `Menu-search-settings`'s rows
+//     are 950 inside 1880 — and take their own measured px.
+//
+// Returns `component|path` -> '100%' or 'NNNpx'.
+export function spaceBetweenWidth() {
+  const byComp = new Map();
+  for (const line of readFileSync('tokens/_raw/component-tree.tsv', 'utf8').trim().split('\n').slice(1)) {
+    const c = line.split('\t');
+    if (!byComp.has(c[0])) byComp.set(c[0], new Map());
+    byComp.get(c[0]).set(c[1], c);
+  }
+  const dim = (v, i) => {
+    const m = /^(auto|[\d.]+)\s*x\s*(auto|[\d.]+)$/.exec((v || '').trim());
+    return (!m || m[i] === 'auto') ? null : +m[i];
+  };
+  const out = new Map();
+  for (const [comp, nodes] of byComp) {
+    for (const [path, n] of nodes) {
+      if (!path || !(n[8] || '').includes('SPACE_BETWEEN')) continue;
+      const horiz = (n[8] || '').startsWith('HORIZONTAL');
+      const w = dim(n[7], horiz ? 1 : 2);
+      if (w === null) continue;
+      const parent = nodes.get(path.includes('.') ? path.slice(0, path.lastIndexOf('.')) : '');
+      if (!parent) continue;
+      const pw = dim(parent[7], horiz ? 1 : 2);
+      const pad = (parent[9] || '0').trim().split(/\s+/).map(Number);
+      const at = i => pad[i] ?? pad[i - 2] ?? pad[0] ?? 0;
+      const inner = pw === null ? null
+        : pw - (horiz ? (pad.length >= 4 ? pad[3] : at(1)) + at(1) : at(0) + at(2));
+      out.set(`${comp}|${path}`, (inner !== null && Math.abs(inner - w) <= 1) ? '100%' : `${w}px`);
+    }
+  }
+  return out;
+}
