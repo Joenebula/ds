@@ -1081,6 +1081,7 @@ const emitted = out.join('\n');
 const mobileRules = [], tabletRules = [];
 const byBucket = new Map();
 let bareHoisted = 0;
+const strandedColour = [];
 const respComponents = new Set();
 
 // EACH SELECTOR IN A LIST IS JUDGED ON ITS OWN. The composed-type rules carry one selector
@@ -1109,7 +1110,31 @@ for (const m of emitted.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/([^{}]+)\{([^
     const cls = (/\.(pf-[a-z0-9-]+)/.exec(sel) || [])[1];
     if (!cls) continue;
     respComponents.add(cls);
-    (bucket === 'mobile' ? mobileRules : tabletRules).push(`  ${guarded(sel)} {\n    ${decls}\n  }`);
+    // A TEXT COLOUR IS NOT CARRIED ONTO A BARE CLASS THAT PAINTS NO BACKGROUND.
+    //
+    // FIGMA-ISSUES §11's rule, walked straight back into by the responsive pass. `.pf-header`
+    // and `.pf-header-navigation` have NO bare-class rules of their own at all — the pink band
+    // is separate artwork by design — and their mobile variants bind white. Stripping the
+    // breakpoint left that white sitting on the bare class over whatever the page provides.
+    // Measured: 1:1 at 390px, white on white, and only at phone width, because the desktop
+    // variants bind no text colour at all so nothing showed there.
+    //
+    // Only a selector that is now the BARE class is at risk; one that still carries an
+    // attribute mirrors a rule a page already gets today by writing it, unchanged. The pair is
+    // carried where the class paints a background of its own or this rule brings one —
+    // `Notification categories` keeps its colour that way — and dropped otherwise, which
+    // leaves the text to inherit exactly as a stranded label does in a template.
+    let body = decls;
+    if (!/\[/.test(sel) && /(^|\n)\s*color:/.test(decls)) {
+      const paintsOwnBg = /background(?:-color)?:\s*var\(/.test(decls)
+        || new RegExp(`(?<![-\\w])\\.${cls} \\{[^}]*background(?:-color)?:\\s*var\\(`).test(emitted);
+      if (!paintsOwnBg) {
+        body = decls.split('\n').filter(d => !/^\s*color:/.test(d)).join('\n');
+        strandedColour.push(cls);
+      }
+    }
+    if (!body.trim()) continue;
+    (bucket === 'mobile' ? mobileRules : tabletRules).push(`  ${guarded(sel)} {\n    ${body}\n  }`);
     const key = cls + '|' + bucket;
     if (!byBucket.has(key)) byBucket.set(key, []);
     byBucket.get(key).push({ cls, bucket, leftover: sel.replace(`.${cls}`, ''), decls });
@@ -1207,9 +1232,28 @@ for (const [, all] of byBucket) {
     });
     if (covers) agreed.push(said[0].decl);
   }
-  if (!agreed.length) continue;
+  // A TEXT COLOUR IS NOT CARRIED ONTO A CLASS THAT PAINTS NO BACKGROUND.
+  //
+  // This is FIGMA-ISSUES §11's rule, and the responsive hoist walked straight back into it.
+  // `.pf-header` and `.pf-header-navigation` have NO bare-class rules of their own at all —
+  // the header's pink band is separate artwork by design — so hoisting the white their mobile
+  // variants bind gave them white text on whatever the page provides. Measured: 1:1 at 390px,
+  // white on white, and only at phone width. The desktop side never showed it because the
+  // desktop variants bind no text colour at all.
+  //
+  // A colour is carried only where the pair can be: the class paints a background of its own,
+  // or this same hoist is giving it one. `Notification categories` brings both and keeps its
+  // colour; the two headers bring neither and lose it, which leaves the text to inherit —
+  // exactly what the template generator does with a stranded label.
+  // Read off the emitted stylesheet, which already contains the shared-fill hoist — that pass
+  // runs in the component loop above, so a class given a background there is covered here.
+  const paintsOwnBg = new RegExp(`(?<![-\\w])\\.${cls} \\{[^}]*background(?:-color)?:\\s*var\\(`).test(emitted);
+  const carriesBg = agreed.some(d => /^background(-color)?:/.test(d));
+  const kept = (paintsOwnBg || carriesBg) ? agreed : agreed.filter(d => !/^color:/.test(d));
+  if (kept.length !== agreed.length) strandedColour.push(cls);
+  if (!kept.length) continue;
   (bucket === 'mobile' ? mobileRules : tabletRules)
-    .push(`  .${cls}${GUARD} {\n    ${agreed.join(';\n    ')};\n  }`);
+    .push(`  .${cls}${GUARD} {\n    ${kept.join(';\n    ')};\n  }`);
   bareHoisted++;
 }
 
@@ -1240,6 +1284,12 @@ if (mobileRules.length || tabletRules.length) {
 console.log(`  ${respComponents.size} class(es) now follow the viewport: ${mobileRules.length} mobile `
   + `and ${tabletRules.length} tablet rule(s) mirrored from the variants Figma draws, so a class `
   + `with no breakpoint attribute responds on its own`);
+if (strandedColour.length) {
+  console.log(`  ${strandedColour.length} class(es) keep their breakpoint geometry but NOT the text `
+    + `colour their variants bind, because the class paints no background of its own and the pair `
+    + `cannot be carried — it would be that colour on whatever the page provides: `
+    + `${[...new Set(strandedColour)].join(', ')}`);
+}
 console.log(`  ${bareHoisted} of them reach the BARE class because every variant of that component `
   + `agrees on the value at that width — without this a component whose variants carry another `
   + `axis (Header has 16 themes) mirrors a rule that matches nothing`);

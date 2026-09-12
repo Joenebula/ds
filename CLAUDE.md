@@ -274,6 +274,36 @@ removed: the components adapt and the page is worse, because its shell — a 90p
 fixed grid — is page layout, which the library has no say over. Unpinning a page is only
 worth doing together with its own layout work.
 
+### White text at one width only
+
+Mirroring a variant with the breakpoint stripped out puts the rule on the bare class wherever
+the breakpoint was a component's only axis — and `Header` and `Header navigation` have **no
+bare-class rules of their own at all**, because the pink band behind them is separate artwork
+by design. Their mobile variants bind white. So at 390px, and only at 390px, those two classes
+carried **white text over whatever the page provides**. Measured at the time: **1:1**. The
+desktop side showed nothing, because the desktop variants bind no text colour at all.
+
+That is `docs/FIGMA-ISSUES.md` §11's rule — a colour and the surface it was chosen against are
+a pair, and half a pair is worse than neither — walked straight back into by the responsive
+pass. A colour is now carried onto a bare class only where the class paints a background of
+its own or the same rule brings one. **Seven classes keep their breakpoint geometry and lose
+the colour**; `Notification categories` gains a colour *and* a surface together and keeps both.
+
+`npm run verify` runs `check-breakpoint-contrast.mjs`. Two wrong questions came first and both
+are worth knowing:
+
+- **A contrast ratio is not the test.** It needs a background to measure against, and the whole
+  fault is that there isn't one — white text reads 1:1 on a white test page and 21:1 on a dark
+  one, and neither number is about the component.
+- **"States a colour but paints no background" is not the test either.** It fired on sixty
+  classes at every width, which is not a finding but a wrong question: most components sit on a
+  surface something else paints — `Detail item` on a card, `Top bar app context` on the header
+  band, which this file names as correct.
+
+The fault is the **asymmetry with a missing surface**: a class that states its own text colour
+at some widths and not others, at a width where it paints no background. A complete pair
+appearing at one width only is a mobile appearance Figma drew, and passes.
+
 ### The checker had to learn that a media query is a condition
 
 `verify-against-figma.mjs` reads declared values by walking every rule in every stylesheet,
