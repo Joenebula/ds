@@ -509,7 +509,7 @@ so nobody has to guess whether one is an oversight — none of them is.
 
 `Default header background`
 
-**1 — RENAMED in Figma to `Notification tabs` (node 22973:20747, unchanged). components.json still lists the old name, so it reads as an unmeasured component; it is measured, under its current name.**
+**1 — RENAMED in Figma to `Notification tabs` (node 22973:20747). components.json still lists the old name, so it reads as an unmeasured component; it is measured, under its current name. The NODE is unchanged and the COMPONENT is not: this extract holds two measurements of it, 268x48 with an 8px radius under the old name and 279x65 square-cornered under the new, with different variant axes and a different selected colour. It was redesigned as well as renamed, so .pf-side-navigation-tab is a stale snapshot that still ships and that three prototypes paint with. Which one those screens should use is a design decision, open on the work queue.**
 
 `Side navigation tab`
 
