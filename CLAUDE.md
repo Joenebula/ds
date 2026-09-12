@@ -770,9 +770,30 @@ that settled the waffle, used again. Either way the instance is a USAGE, and fix
 what fixes the library.
 
 Seventeen of the 35 are `White`, seven `Grey slate (A)`, three `Grey steel`, three `Default theme
-pink (A)`, two `Grey`, two `Blue shark`, one `Blue deep ocean (A)`. Seven of them are one
-`Navigation` variant; three are `Table header icons`, the known hover case. The full list of 27 is
-in `tokens/_raw/deprecated-collection-census.tsv`.
+pink (A)`, two `Grey`, two `Blue shark`, one `Blue deep ocean (A)`.
+
+**It is 15 components, not the 27 first recorded, and the node-by-node list is now written down** in
+`tokens/_raw/deprecated-shipped-worklist.tsv`. The 27 came from a classifier that stopped at the
+nearest COMPONENT — which inside a component SET is the VARIANT — so `Link=Key actions` and
+`Link=MHR` were counted as two components when they are two variants of `Mobile key actions`.
+Climbing to the set gives 15, and three of them are 18 of the 35: `Full page` 9, `Mobile key
+actions` 6, `Header` 3.
+
+**And that list disproves something this file says twice.** `Full page`, `Header` and `Mobile key
+actions` are recorded above as *"already clean — no deprecated style at all"*. They are not: those
+three hold **18 of the 35**, over half the shipped job. The claim was scoped to the colours being
+measured on 2026-09-11 and was written as though it were general — the same scope error, for the
+fourth time, and the reason the sentence above now carries its scope in the sentence itself.
+
+**Three patterns account for most of the 35, and each is ONE fix rather than N.** The six `Mobile
+key actions` rows are the same `Key actions` label in six Link variants. The five `Full page`
+mobile-nav vectors are five glyphs in one frame inside one `Navigation item` instance. The Configr
+`Folder organiser` glyph appears three times because `Full page` embeds `Header` — fixing Header's
+master clears two of them, and it is the known white-on-white case where `Navigation/Configr nav`
+is probably right and would change light mode from invisible to grey.
+
+**13 of the 35 are direct and 22 sit inside an instance nested within a component master.** That is
+published content of that master, so it ships either way; what it changes is where the edit goes.
 
 **And the surfaces holding the rest are boards too.** 301 of the 403 sit on something that does not
 follow the mode, and the largest of those surfaces are Figma SECTIONS and specimen frames —

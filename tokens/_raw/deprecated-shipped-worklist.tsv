@@ -1,0 +1,86 @@
+# checked: 2026-09-12
+# in-a-component: 35 nodes across 15 components, two agreeing sweeps, as at 2026-09-12
+#
+# THE WHOLE SHIPPED-LIBRARY JOB, node by node. Everything else still carrying a DEPRECATED COLOURS
+# style outside the documentation pages — 368 of the 403 — is a placed instance on a board or loose
+# canvas artwork. It renders identically to the real thing and none of it publishes.
+#
+# Read by no check: a worklist for a person, like the censuses beside it.
+#
+# TWO THINGS THIS READ CORRECTED, both of them mine from 2026-09-11:
+#
+#  * "27 components" was 27 VARIANTS. The earlier classifier stopped at the nearest COMPONENT, which
+#    inside a set is the variant — so `Link=Key actions` and `Link=MHR` were counted as two
+#    components when they are two variants of `Mobile key actions`. Climbing to the SET gives 15.
+#
+#  * `Full page`, `Header` and `Mobile key actions` are NOT "already clean". CLAUDE.md has said so
+#    since 2026-09-11. They hold 9, 3 and 6 of these 35 between them — over half the job. That claim
+#    was scoped to the colours being measured at the time and was written as though it were general,
+#    which is the scope error this repo keeps finding in itself.
+#
+# DIRECT vs VIA A NESTED INSTANCE is where the edit goes, not whether it ships. A node inside an
+# instance that is itself inside a component master is published content of that master; the style
+# is an override on the nested instance. 13 are direct, 22 are through a nested instance — and 20 of
+# those 22 are in just three components.
+#
+# nodeId	page	component	variant	reach	layerPath	layer	type	role	style
+28330:3196	Icons	MP4		direct	Subtract	Vector	VECTOR	fill	Blue deep ocean (A)
+32517:29161	Navigation	Waffle		direct		Theme=Dark mode	COMPONENT	fill	Blue shark
+I32530:48885;32517:29172	Navigation	Full page	System=People First, Tablet=No, Mobile=No, Darkmode=Yes	via a nested instance	Side navigation	Waffle	INSTANCE	fill	Blue shark
+26965:1779	AI	AI button	Style=Inverted, Hover=False, Mobile=False	direct		AI button label	TEXT	fill	Default theme pink (A)
+26970:14563	AI	Clickable AI element	State=Hover	direct		What can I ask the AI Assistant?	TEXT	fill	Default theme pink (A)
+32493:25628	Navigation	Header	Theme=Classic, Mobile=No	direct	Actions	Clock in	INSTANCE	fill	Default theme pink (A)
+18235:41125	Buttons and links	Tooltip	Hover=False	direct	Union	Vector (Stroke)	VECTOR	stroke	Grey
+649:13287	Icons	Upload CSV		direct	Layer 5 / Subtract / Union	Vector	VECTOR	stroke	Grey
+564:243	Navigation	Menu	Size=Large	direct		Label	TEXT	fill	Grey slate (A)
+803:57	Navigation	Menu	Size=Small	direct		Label	TEXT	fill	Grey slate (A)
+I13658:8249;13658:7756;14990:13384;20911:7324	Navigation	Full page	System=People First, Tablet=No, Mobile=Yes, Darkmode=Yes	via a nested instance	Mobile bottom navigation / Navigation item/Unselected/True/Mobile / Counter/true	7	TEXT	fill	Grey slate (A)
+I27716:4764;20063:45758	Tables	Table cell (AG)	Type=Default, Style=Default	via a nested instance	Context menu	Vector	VECTOR	fill	Grey slate (A)
+I27719:3047;20063:45758	Tables	Table cell (AG)	Type=Default, Style=Stripe	via a nested instance	Context menu	Vector	VECTOR	fill	Grey slate (A)
+I30637:16759;30637:16554	Cards and panels	Details	Layout=Horizontal	via a nested instance	Slot / Detail item / Text	Pathway text	TEXT	fill	Grey slate (A)
+I30638:22253;30637:16554	Cards and panels	Details	Layout=Vertical	via a nested instance	Slot / Detail item / Text	Pathway text	TEXT	fill	Grey slate (A)
+30777:24383	Tables	Table header icons		direct		Variant=Sort, State=Hover	COMPONENT	fill	Grey steel
+30777:24385	Tables	Table header icons		direct		Variant=Filter, State=Hover	COMPONENT	fill	Grey steel
+30777:24387	Tables	Table header icons		direct		Variant=Context menu, State=Hover	COMPONENT	fill	Grey steel
+930:30364	Navigation	[S] Config child menu		direct	Frame 80190	Vector	VECTOR	fill	White
+I13658:8249;13658:7751;16425:98179;20063:41355	Navigation	Full page	System=People First, Tablet=No, Mobile=Yes, Darkmode=Yes	via a nested instance	Mobile bottom navigation / Navigation item/Unselected/True/Mobile / Frame 84862 / App menu	Vector	VECTOR	fill	White
+I13658:8249;13658:7755;16425:98179;20063:47676	Navigation	Full page	System=People First, Tablet=No, Mobile=Yes, Darkmode=Yes	via a nested instance	Mobile bottom navigation / Navigation item/Unselected/True/Mobile / Frame 84862 / Clock	Vector	VECTOR	fill	White
+I13658:8249;13658:7756;16425:98179;19799:15945	Navigation	Full page	System=People First, Tablet=No, Mobile=Yes, Darkmode=Yes	via a nested instance	Mobile bottom navigation / Navigation item/Unselected/True/Mobile / Frame 84862 / Notification bell	Vector	VECTOR	fill	White
+I13658:8249;13710:19754;16425:98179;19799:28619	Navigation	Full page	System=People First, Tablet=No, Mobile=Yes, Darkmode=Yes	via a nested instance	Mobile bottom navigation / Navigation item/Unselected/True/Mobile / Frame 84862 / News	Vector	VECTOR	fill	White
+I13658:8249;13710:19755;16425:98179;19799:24089	Navigation	Full page	System=People First, Tablet=No, Mobile=Yes, Darkmode=Yes	via a nested instance	Mobile bottom navigation / Navigation item/Unselected/True/Mobile / Frame 84862 / User	Vector	VECTOR	fill	White
+I13658:8249;13710:19833;16425:98179;20063:46208	Navigation	Full page	System=People First, Tablet=No, Mobile=Yes, Darkmode=Yes	via a nested instance	Mobile bottom navigation / Navigation item/Unselected/True/Mobile / Frame 84862 / Team	Vector	VECTOR	fill	White
+I1536:44306;1536:44291	Buttons and links	Mobile key actions	Link=Key actions	via a nested instance	Key actions	Key actions	TEXT	fill	White
+I1536:44345;1536:44291	Buttons and links	Mobile key actions	Link=External links	via a nested instance	Key actions	Key actions	TEXT	fill	White
+I1536:44404;1536:44291	Buttons and links	Mobile key actions	Link=Out of office	via a nested instance	Key actions	Key actions	TEXT	fill	White
+I1536:44428;1536:44291	Buttons and links	Mobile key actions	Link=Social activity	via a nested instance	Key actions	Key actions	TEXT	fill	White
+I1536:44448;1536:44291	Buttons and links	Mobile key actions	Link=Recognition trends	via a nested instance	Key actions	Key actions	TEXT	fill	White
+I1536:44470;1536:44291	Buttons and links	Mobile key actions	Link=MHR	via a nested instance	Key actions	Key actions	TEXT	fill	White
+I32493:25081;32559:58811;6387:69441;19799:32500	Navigation	Header	Theme=Configr, Mobile=No	via a nested instance	Title / Top bar app context / top bar app icon / Folder organiser	Vector	VECTOR	fill	White
+I32544:52752;32530:45205;32493:25081;32559:58811;6387:69441;19799:32500	Navigation	Full page	System=Configr, Tablet=No, Mobile=No, Darkmode=No	via a nested instance	Header navigation / Header / Title / Top bar app context / top bar app icon / Folder organiser	Vector	VECTOR	fill	White
+I32544:53137;32559:57379;6387:69441;19799:32500	Navigation	Header	Theme=Configr, Mobile=Yes	via a nested instance	Title / Top bar app context / top bar app icon / Folder organiser	Vector	VECTOR	fill	White
+I3435:66955;19864:25502	System messages	Status	Status type=New social group	via a nested instance	Add people	Vector	VECTOR	fill	White
+#
+# BY COMPONENT — 15, and three of them are 18 of the 35:
+#	9	Full page	Navigation	1 Blue shark, 1 Grey slate (A), 7 White
+#	6	Mobile key actions	Buttons and links	6 White — one per Link variant, all the same "Key actions" label
+#	3	Header	Navigation	1 Default theme pink (A), 2 White (the Configr folder-organiser glyph)
+#	3	Table header icons	Tables	3 Grey steel — the known Hover case, no semantic at #E5E5E5 with SHAPE_FILL
+#	2	Menu	Navigation	2 Grey slate (A) — the Size=Large and Size=Small labels
+#	2	Table cell (AG)	Tables	2 Grey slate (A) — the context-menu glyph in both stripe states
+#	2	Details	Cards and panels	2 Grey slate (A) — "Pathway text" in both layouts
+#	1 each	Waffle, [S] Config child menu, MP4, Upload CSV, Tooltip, AI button,
+#		Clickable AI element, Status
+#
+# THREE PATTERNS ACCOUNT FOR MOST OF IT, and each is ONE fix rather than N:
+#
+#  * The six `Mobile key actions` rows are the same "Key actions" label in six Link variants.
+#  * The five `Full page` mobile-nav vectors are five glyphs in one `Frame 84862` inside one
+#    `Navigation item` instance — and the Waffle row beside them is the same App-menu descendant
+#    the 2026-09-11 waffle run rebound elsewhere.
+#  * The `Header` / `Full page` Configr "Folder organiser" glyph appears three times because
+#    `Full page` embeds `Header`. Fixing Header's master clears two of the three.
+#
+# AND THE HEADER CONFIGR GLYPH IS THE KNOWN white-on-white case: CLAUDE.md records it as white
+# artwork on a white surface, invisible as drawn, where `Navigation/Configr nav` (#656565 light,
+# #FFFFFF dark) is probably right and would change light mode from invisible to grey. That is a
+# designer's call, not a rebind — and it is 3 of these 35.

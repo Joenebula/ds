@@ -1,6 +1,6 @@
 # checked: 2026-09-11
 # outside-documentation: 403 nodes / 414 references, two agreeing sweeps, as at 2026-09-12
-# in-a-component: 35 of those 403, across 27 components (the rest is boards and canvas artwork), as at 2026-09-12
+# in-a-component: 35 of those 403, across 15 components (the rest is boards and canvas artwork), as at 2026-09-12
 # dry-run-of-nine-styles: 2026-09-12 — 105 nodes in scope, 6 applicable, then applied (1429 -> 1423)
 # references-at-last-sweep: 1423, as at 2026-09-12
 # A SNAPSHOT, not a live reading. Nothing in this repo can re-count it: every check here
@@ -390,20 +390,28 @@ Darkmode theme	#33B5E5	0
 # case (a)-via-another-file resolves to an override too. That is the same property that settled the
 # waffle. Either way the instance is a USAGE, and fixing the master is what fixes the library.
 #
-# THE 27 COMPONENTS, with how many nodes each:
-#	7	Navigation	System=People First, Tablet=No, Mobile=Yes, Darkmode=Yes
-#	3	Tables	Table header icons
-#	1 each	Navigation	[S] Config child menu, Waffle, Size=Large, Size=Small,
-#		Theme=Configr Mobile=No, Theme=Configr Mobile=Yes, Theme=Classic Mobile=No,
-#		System=Configr Tablet=No Mobile=No Darkmode=No,
-#		System=People First Tablet=No Mobile=No Darkmode=Yes
-#	1 each	Buttons and links	Link=Key actions, Link=External links, Link=Out of office,
-#		Link=Social activity, Link=Recognition trends, Link=MHR, Hover=False
-#	1 each	Cards and panels	Layout=Horizontal, Layout=Vertical
-#	1 each	Tables	Type=Default Style=Default, Type=Default Style=Stripe
-#	1 each	AI	Style=Inverted Hover=False Mobile=False, State=Hover
-#	1 each	Icons	Upload CSV, MP4
-#	1	System messages	Status type=New social group
+# IT IS 15 COMPONENTS, NOT 27, AND THIS LINE USED TO SAY 27. The classifier behind that number
+# stopped at the nearest COMPONENT — which, inside a component SET, is the VARIANT. So
+# `Link=Key actions` and `Link=MHR` were counted as two components when they are two variants of
+# `Mobile key actions`. Climbing to the set gives 15, and the node-by-node list is in
+# tokens/_raw/deprecated-shipped-worklist.tsv.
+#
+#	9	Full page	Navigation
+#	6	Mobile key actions	Buttons and links
+#	3	Header	Navigation
+#	3	Table header icons	Tables
+#	2	Menu	Navigation
+#	2	Table cell (AG)	Tables
+#	2	Details	Cards and panels
+#	1 each	Waffle, [S] Config child menu, MP4, Upload CSV, Tooltip, AI button,
+#		Clickable AI element, Status
+#
+# AND `Full page`, `Header` AND `Mobile key actions` ARE NOT "ALREADY CLEAN". CLAUDE.md has said so
+# since 2026-09-11; they hold 9, 3 and 6 of these 35 between them — over half the shipped job. That
+# claim was scoped to the colours being measured at the time and written as though it were general.
+#
+# 13 of the 35 are DIRECT; 22 sit inside an instance nested within a component master, which is
+# published content of that master. That changes where the edit goes, not whether it ships.
 #
 # Seventeen of the 35 are `White`, seven are `Grey slate (A)`, three `Grey steel`, three
 # `Default theme pink (A)`, two `Grey`, two `Blue shark`, one `Blue deep ocean (A)`.
