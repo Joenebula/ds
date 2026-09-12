@@ -33,6 +33,32 @@ for (const theme of ['light', 'dark']) {
   const page = await (await browser.newContext({ viewport: { width: VW, height: 1080 } })).newPage();
   await page.goto('file://' + resolve(file));
   await page.evaluate(t => document.documentElement.setAttribute('data-theme', t), theme);
+  // WAIT FOR THE PAGE TO SETTLE BEFORE PRESSING THE SHUTTER.
+  //
+  // Flipping `data-theme` changes every colour at once, and the screens give their chips and
+  // buttons a 120ms colour transition. This shot was taken in the same tick as the flip, so
+  // every dark screenshot this project has ever produced caught the page PART WAY BETWEEN the
+  // two themes. Measured on `absence-requests`: the filter chips came out at 1.09:1 — a mid-fade
+  // grey on a mid-fade grey — while the settled page reads 13.03:1. That was reported twice as
+  // "the filter chips' dark mode colours are not correct". The colours were right; the picture
+  // was wrong, and looking at it is the step this project treats as the final word.
+  //
+  // Fonts matter for the same reason: an unsettled webfont shoots the fallback face.
+  await page.evaluate(() => document.fonts.ready);
+  await page.evaluate(() => Promise.race([
+    Promise.all(document.getAnimations().map(a => a.finished.catch(() => {}))),
+    new Promise(r => setTimeout(r, 2000)),   // an infinite animation must not hang the shot
+  ]));
+  // And SAY SO if it did not settle. A wait that silently was not long enough is the same
+  // failure again, one layer up.
+  const moved = await page.evaluate(async () => {
+    const els = [...document.querySelectorAll('*')].slice(0, 400);
+    const read = () => els.map(e => { const s = getComputedStyle(e); return s.color + s.backgroundColor + s.borderTopColor; }).join('|');
+    const a = read();
+    await new Promise(r => setTimeout(r, 150));
+    return a !== read();
+  });
+  if (moved) console.error(`  WARNING ${name}.${theme} was still changing colour when it was shot`);
   const out = `${outDir}/${name}.${theme}${full ? '.full' : ''}.png`;
   await page.screenshot({ path: out, fullPage: full });
   console.log(out);
