@@ -1,4 +1,5 @@
 # checked: 2026-09-11
+# outside-documentation: 403 nodes / 414 references as at 2026-09-12, two agreeing sweeps
 # dry-run-of-nine-styles: 2026-09-12 — 105 nodes in scope, 6 applicable, then applied (1429 -> 1423)
 # references-at-last-sweep: 1423
 # A SNAPSHOT, not a live reading. Nothing in this repo can re-count it: every check here
@@ -303,3 +304,65 @@ Darkmode theme	#33B5E5	0
 # dark. The hold was right and its reason was false. Where every candidate resolves the same in
 # both modes no render can separate them, so the hold is about MEANING rather than appearance, and
 # chooseToken now says which of the two it is. Four mutants.
+#
+# ── THE WHOLE COLLECTION RE-SWEPT, 2026-09-12 ────────────────────────────────
+# All 46 styles, ONE traversal, WRITE = false, two agreeing sweeps: 403 nodes outside the three
+# documentation pages carry 414 style references (a node can carry a fill AND a stroke). This is
+# the first measurement of the collection that is not an aggregate of separate per-style runs.
+#
+# READ THE SCOPE BEFORE THE NUMBER. It EXCLUDES WIKI, STYLE GUIDE and DOCUMENT MANAGEMENT, so it
+# is not comparable with the 1423 file-wide figure above, and it does NOT split component pages
+# from the AI exploration page — that split is not something this sweep measured, and this file
+# has twice written a scoped count as though it were a file-wide one.
+#
+#	style	value	nodes	would apply	held
+#	Grey slate (A)	#3E3E3E	177	0	177
+#	White	#FFFFFF	52	0	52
+#	Grey fog (A)	#656565	28	0	28
+#	Blue ocean (A)	#0075BE	28	0	28
+#	Grey dolphin	#FFFFFF	23	0	23
+#	Light ivory	#FAFAFA	23	0	23
+#	Green leaf	#00AD60	14	6 strokes	8
+#	Default theme pink (A)	#CD2359	14	0	14
+#	Blue Charade	#2C313C	14	0	14
+#	Red (A)	#BE2028	10	0	10
+#	Grey steel	#E5E5E5	9	0	9
+#	Green button (A)	#517A38	5	0	5
+#	Grey	#868686	4	0	4
+#	Blue shark	#1D1F27	4	0	4
+#	White Ivory	#F2F2F2	3	0	3
+#	Black	#1A1A1A	2	0	2
+#	Orange	#FC8700	2	0	2
+#	Blue deep ocean (A)	#2066AF	1	0	1
+#	Blue sky	#33B5E5	1	0	1
+#
+# TWENTY-SEVEN OF THE FORTY-SIX STYLES HAVE NO NODE OUTSIDE DOCUMENTATION AT ALL. Colour blue,
+# Fern green, Blue Turquoise, Purple orchid, Button blue (A), Default 5% theme, Red Dark Mode,
+# Purple iris, Copper (A), Striking red, Velvet red, Berry pink, Royal purple, Cobalt blue, Blue
+# lagoon, Teal ocean, Orange flame, Blue iceberg, Pink candy, White lilac, Light purple (A), Green
+# mint, Pink Rhubarb, Blue marine, Cranberry red, Cool grey, Darkmode theme. Nineteen styles are
+# the entire shipped-side job.
+#
+# SIX WOULD APPLY AND ARE NOT BEING APPLIED, which is the one judgement in this run. They are
+# Green leaf STROKES taking Charts/Chart 3 — 26967:14438, 26967:14440, 18255:96123, 18262:96584,
+# 18255:95883, 18255:96020. The rule applies a stroke and REPORTS its ratio rather than holding,
+# and that exists so the 240 Grey steel dividers could be rebound; its own note on five of these
+# six reads "only 2.82:1 in dark — fine for a divider, wrong for an icon outline". A chart series
+# line is a mark a reader has to read, not a divider, and the eight Green leaf FILLS beside them
+# were held by the guard at exactly those ratios. Applying the strokes and holding the fills would
+# split one cluster on a distinction node type cannot see. Left for a designer with the ratios
+# measured — the badge/series colour is the fix, not the token.
+#
+# THE HOLDS ARE THE REAL WORKLIST, and 174 of the 414 are one question:
+#	174	Grey slate (A) fill:TEXT	Text/Primary #FFFFFF vs Text/Always grey slate #3E3E3E
+#	26	White fill:TEXT	4 candidates
+#	24	Grey fog (A) fill:VECTOR	4 candidates
+#	17	White fill:VECTOR	7 candidates
+#	23	Grey dolphin stroke	4 candidates
+#	23	Light ivory fill:FRAME	Background/Secondary vs Table/Stripe cell
+#	28	Blue ocean (A)	Icons/Icon - Link vs Charts/Chart 1
+# Answering the first one alone settles 42% of what is left.
+#
+# GREY STEEL'S LAST 9 ARE ALL FILLS, and all hold on Border/Default full vs Border/Default hidden
+# — the split this repo confirmed with the design lead. A border colour used as a FILL is the
+# reason: as a stroke there was one answer and 240 nodes took it.

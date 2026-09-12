@@ -709,6 +709,41 @@ A page background and a table stripe are the same colour in light and different 
 between them from a light-mode render is the decision this repo exists to stop anyone making by
 accident, so the surfaces stay for a person — and with them the 574 text nodes that sit on them.
 
+### The whole collection in one sweep, and the number every earlier one was a piece of
+
+Every figure above came from a per-style run, so the collection total was an aggregate of separate
+measurements taken at different moments. On 2026-09-12 the driver swept **all 46 styles in one
+traversal**, twice agreeing: **403 nodes outside the three documentation pages, carrying 414 style
+references** (a node can carry a fill and a stroke).
+
+**Read the scope before the number.** That count EXCLUDES `WIKI`, `STYLE GUIDE` and
+`DOCUMENT MANAGEMENT`, so it is not the 1,423 file-wide figure minus documentation, and it does not
+split component pages from the `AI` page — a split this sweep did not measure. This file has twice
+written a scoped count as though it were a file-wide one; saying which is which is the cheap half
+of not doing it a third time.
+
+**Twenty-seven of the forty-six styles have no node outside documentation at all.** Nineteen styles
+are the entire shipped-side job, and two of them are half of it: `Grey slate (A)` at 177 and
+`White` at 52.
+
+**174 of the 414 are one question.** `Grey slate (A)` text holds on `Text/Primary` (`#FFFFFF` dark)
+against `Text/Always grey slate` (`#3E3E3E` dark) — answering it settles 42% of what is left, and
+it is the same surfaces question this file has been circling: `Text/Primary` is correct only where
+the panel underneath follows the mode.
+
+**Six nodes would have applied and were deliberately not.** They are `Green leaf` STROKES taking
+`Charts/Chart 3`. The rule applies a stroke and REPORTS its ratio rather than holding, which exists
+so the 240 `Grey steel` dividers could be rebound — and its own note on five of the six reads
+*"only 2.82:1 in dark — fine for a divider, wrong for an icon outline"*. A chart series line is a
+mark a reader has to read, and the eight `Green leaf` FILLS beside them were held by the guard at
+exactly those ratios. Applying the strokes while holding the fills would split one cluster on a
+distinction node type cannot see. **The rule is not wrong and it is not enough here**, so the six
+are recorded with their ratios rather than written; the fix is the series colour, not the token.
+
+**`Grey steel`'s last 9 are all FILLS**, every one holding on `Border/Default full` against
+`Border/Default hidden`. As a STROKE that colour had one answer and 240 nodes took it; used as a
+fill it has two. The split this repo confirmed with the design lead is what makes it ambiguous.
+
 ### The scope rule, and the thing it does not prove
 
 Pink and `Grey` `#868686` went next, and the method got sharper: rather than choosing a token by
