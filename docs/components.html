@@ -6496,6 +6496,11 @@
 }
 
 /* Side navigation tab
+ * DEPRECATED 2026-09-12 — use .pf-notification-tabs (Notification tabs) instead.
+ * One Figma node, renamed AND redesigned: a 48px pill became a 65px bordered tab. Both measurements are captured and three prototypes still render the pill. Decision was keep-both — ship the current design, keep the old class, mark it.
+ * Same Figma node 22973:20747. Decided by the design lead; the class is kept so
+ * existing pages keep rendering, and is not for new work.
+ *
  * 2 variants captured
  * Figma draws this 268px wide; treated as layout, not a rule
  */
@@ -9698,6 +9703,11 @@ strong, b, th {
   h2 { font-size: 15px; margin: 36px 0 4px; padding-bottom: 6px;
        border-bottom: 1px solid var(--pf-border-primary); }
   h3 { font-size: 13px; margin: 22px 0 2px; }
+  .dep-flag { font-size: 10px; letter-spacing: .06em; padding: 2px 6px; border-radius: 3px;
+              vertical-align: 2px; background: var(--pf-bg-tertiary); color: var(--pf-text-secondary);
+              border: 1px solid var(--pf-border-primary); }
+  .dep { font-size: 11px; margin: 2px 0 8px; color: var(--pf-text-secondary);
+         border-left: 2px solid var(--pf-border-primary); padding-left: 8px; }
   .meta { color: var(--pf-text-secondary); font-size: 11px; margin: 0 0 10px;
           font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
   .row { display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-start;
@@ -11186,7 +11196,8 @@ variant names.</p>
     <span class="label"></span>
   </div>
 </div>
-<h3>Side navigation tab</h3>
+<h3>Side navigation tab <span class="dep-flag">DEPRECATED</span></h3>
+<p class="dep">Deprecated 2026-09-12 — use <code>.pf-notification-tabs</code> (Notification tabs) instead. One Figma node, renamed AND redesigned: a 48px pill became a 65px bordered tab. Both measurements are captured and three prototypes still render the pill. Decision was keep-both — ship the current design, keep the old class, mark it.</p>
 <p class="meta">2 variants  ·  .pf-side-navigation-tab  ·  268 x 48  ·  horizontal center min</p>
 <div class="row">
   <div class="spec">

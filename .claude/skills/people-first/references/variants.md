@@ -503,7 +503,9 @@ Figma component actually binds.
 | State=Hover | — | — | `var(--pf-text-theme)` |
 | State=Selected | — | — | `var(--pf-text-theme)` |
 
-### Side navigation tab
+### Side navigation tab — DEPRECATED
+
+> **Deprecated 2026-09-12.** Use `.pf-notification-tabs` (Notification tabs) instead. One Figma node, renamed AND redesigned: a 48px pill became a 65px bordered tab. Both measurements are captured and three prototypes still render the pill. Decision was keep-both — ship the current design, keep the old class, mark it.
 
 | Variant | Background | Border | Text |
 |---|---|---|---|

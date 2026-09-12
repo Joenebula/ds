@@ -46,6 +46,8 @@ try {
   uncapturedWhy = new Map(tsv('tokens/_raw/uncaptured-reasons.tsv').map(r => [r.component, r.reason]));
 } catch { /* not extracted yet */ }
 
+import { readDeprecated } from './lib/deprecated-classes.mjs';
+const deprecated = readDeprecated();
 const kebab = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
@@ -118,6 +120,11 @@ out.push(`<style>
   h2 { font-size: 15px; margin: 36px 0 4px; padding-bottom: 6px;
        border-bottom: 1px solid var(--pf-border-primary); }
   h3 { font-size: 13px; margin: 22px 0 2px; }
+  .dep-flag { font-size: 10px; letter-spacing: .06em; padding: 2px 6px; border-radius: 3px;
+              vertical-align: 2px; background: var(--pf-bg-tertiary); color: var(--pf-text-secondary);
+              border: 1px solid var(--pf-border-primary); }
+  .dep { font-size: 11px; margin: 2px 0 8px; color: var(--pf-text-secondary);
+         border-left: 2px solid var(--pf-border-primary); padding-left: 8px; }
   .meta { color: var(--pf-text-secondary); font-size: 11px; margin: 0 0 10px;
           font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
   .row { display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-start;
@@ -179,12 +186,19 @@ if (textStyles.length) {
 for (const [page, comps] of [...byPage.entries()].sort()) {
   out.push(`<h2>${esc(page)}</h2>`);
   for (const [component, rows] of [...comps.entries()].sort()) {
+    const dep = deprecated.get(component);
     const g = geometry.get(component);
     const base = 'pf-' + kebab(component);
     const tag = TAG[component] || 'div';
     const text = SAMPLE[component] || component;
 
-    out.push(`<h3>${esc(component)}</h3>`);
+    out.push(`<h3>${esc(component)}${dep ? ' <span class="dep-flag">DEPRECATED</span>' : ''}</h3>`);
+    if (dep) {
+      // The gallery is what CLAUDE.md tells a person to open rather than guess whether a class
+      // exists, so a class that exists and should not be used has to say so HERE.
+      out.push(`<p class="dep">Deprecated ${esc(dep.decided)} — use <code>.pf-${esc(kebab(dep.supersededBy))}</code> `
+        + `(${esc(dep.supersededBy)}) instead. ${esc(dep.why)}</p>`);
+    }
     const bits = [`${rows.length} variant${rows.length === 1 ? '' : 's'}`, `.${base}`];
     if (g) bits.push(g.size); else bits.push('no geometry measured');
     if (g && g.layout) bits.push(g.layout.toLowerCase());

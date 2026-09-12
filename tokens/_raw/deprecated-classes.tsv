@@ -1,0 +1,16 @@
+# Components this repo still ships a class for, and should not be used on new work.
+#
+# A component gets a row here when Figma has MOVED ON but the class stays — a rename plus a
+# redesign, a superseded pattern — and the decision was to keep both rather than break the
+# pages using the old one. Without this the two classes sit side by side in components.css
+# looking equally current, which is how a page picks the stale one by accident.
+#
+# This is NOT the file for a component Figma has deleted; that is gone-components.tsv, and a
+# `retired` verdict there means the class has already gone. A row here means the class SHIPS.
+#
+# build-components-css.mjs reads it, writes the notice into the class's own comment block, and
+# counts and names every row in its verdict line. It FAILS on a row naming a component with no
+# rules, or a supersededBy with no rules — a deprecation pointing at nothing is worse than none.
+#
+# component	supersededBy	nodeId	decided	decidedBy	why
+Side navigation tab	Notification tabs	22973:20747	2026-09-12	design lead	One Figma node, renamed AND redesigned: a 48px pill became a 65px bordered tab. Both measurements are captured and three prototypes still render the pill. Decision was keep-both — ship the current design, keep the old class, mark it.

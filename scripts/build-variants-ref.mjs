@@ -10,6 +10,10 @@ import { dirname } from 'node:path';
 // default is unchanged, so every existing caller behaves exactly as before.
 const OUT = process.argv[2] || '.claude/skills/people-first/references/variants.md';
 
+import { readDeprecated } from './lib/deprecated-classes.mjs';
+const deprecated = readDeprecated();
+const depClass = (n) => n.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
 const t = JSON.parse(readFileSync('tokens/design-tokens.json', 'utf8'));
 
 // Figma variable name -> CSS var
@@ -79,7 +83,12 @@ for (const page of pages) {
   md += `\n## ${page}\n`;
   for (const [comp, list] of byPage.get(page)) {
     componentCount++;
-    md += `\n### ${comp}\n\n`;
+    const dep = deprecated.get(comp);
+    md += `\n### ${comp}${dep ? ' — DEPRECATED' : ''}\n\n`;
+    // The skill quotes this reference as fact, so a class that still ships and should not be
+    // used has to carry the notice here too, not only in a stylesheet nobody reads.
+    if (dep) md += `> **Deprecated ${dep.decided}.** Use \`.pf-${depClass(dep.supersededBy)}\` `
+      + `(${dep.supersededBy}) instead. ${dep.why}\n\n`;
     md += `| Variant | Background | Border | Text |\n|---|---|---|---|\n`;
     for (const r of list) {
       md += `| ${r.variant} | ${v(r.fill)} | ${v(r.stroke)} | ${v(r.text)} |\n`;

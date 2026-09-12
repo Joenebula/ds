@@ -480,6 +480,31 @@ for (const comp of geometry.keys()) {
   shapeOnly.push(comp);
 }
 
+// DEPRECATED CLASSES. A component Figma has moved on from whose class still ships — kept on
+// purpose, so that pages using it keep working, and marked so that nothing picks it up by
+// accident. Two classes sitting side by side in this file look equally current; that is the
+// whole problem, and the notice goes in the class's own comment block where a reader is.
+//
+// A row pointing at nothing is worse than no row, so both ends must be real components in
+// this build. That is checked below, after every class is known.
+const deprecated = new Map();
+if (existsSync('tokens/_raw/deprecated-classes.tsv')) {
+  for (const line of readFileSync('tokens/_raw/deprecated-classes.tsv', 'utf8').split('\n')) {
+    if (!line.trim() || line.startsWith('#')) continue;
+    const [component, supersededBy, nodeId, decided, decidedBy, why] = line.split('\t');
+    deprecated.set(component, { supersededBy, nodeId, decided, decidedBy, why });
+  }
+}
+for (const [component, d] of deprecated) {
+  for (const [what, name] of [['component', component], ['supersededBy', d.supersededBy]]) {
+    if (!byComponent.has(name)) {
+      console.error(`deprecated-classes.tsv: ${what} "${name}" has no rules in this build — a `
+        + 'deprecation notice pointing at a class that does not exist is worse than none');
+      process.exit(1);
+    }
+  }
+}
+
 for (const [component, rows] of [...byComponent.entries()].sort()) {
   const base = cls(component);
   const g = geometry.get(component);
@@ -492,6 +517,14 @@ for (const [component, rows] of [...byComponent.entries()].sort()) {
   if (baseType && baseType.resolved) composed.get(baseType.resolved.id).sels.add('.' + base);
 
   out.push(`/* ${component}${g ? '' : '  (no geometry measured — colours only)'}`);
+  const dep = deprecated.get(component);
+  if (dep) {
+    out.push(` * DEPRECATED ${dep.decided} — use .${cls(dep.supersededBy)} (${dep.supersededBy}) instead.`);
+    out.push(` * ${dep.why}`);
+    out.push(` * Same Figma node ${dep.nodeId}. Decided by the ${dep.decidedBy}; the class is kept so`);
+    out.push(' * existing pages keep rendering, and is not for new work.');
+    out.push(' *');
+  }
   out.push(rows.length
     ? ` * ${rows.length} variant${rows.length === 1 ? '' : 's'} captured${g && g.notes ? '. ' + g.notes : ''}`
     : ` * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class`);
@@ -1017,6 +1050,11 @@ if (shapeOnly.length) {
   console.log(`    ${shapeOnly.sort().join(', ')}`);
 }
 console.log(`  with measured geometry : ${[...byComponent.keys()].filter(c => geometry.has(c)).length}`);
+if (deprecated.size) {
+  console.log(`  DEPRECATED classes     : ${deprecated.size} — still shipped, not for new work`);
+  for (const [c, d] of [...deprecated].sort())
+    console.log(`    .${cls(c)} -> .${cls(d.supersededBy)}  (${c} -> ${d.supersededBy}, decided ${d.decided})`);
+}
 if (sourceIssues.size) {
   const affected = new Set([...sourceIssues.keys()].map(k => k.split(' — ')[0])).size;
   console.log(`  Figma SOURCE ISSUES    : ${sourceIssues.size} bindings across ${affected} components  (primitive bound where a semantic token belongs)`);
