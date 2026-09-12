@@ -1078,6 +1078,11 @@ a colour off it.
 differ with nothing wrong, which is why the message says *re-shoot* rather than *the page is
 broken*.)
 
+(That sentence used to read *"the other screens' dark screenshots predate the pre-paint fix and
+are still the wrong ones"*, and it stayed there after they were re-taken — **a caveat nobody
+re-checks is the same drift as a figure nobody re-measures**, which is the whole reason this is
+a check now rather than a note.)
+
 A full-page capture (`--full`) flattens `position: sticky`, so a pinned sidebar looks
 like it stops halfway down and a sticky footer looks like it is clipping the panel above
 it. Neither is a bug. The default viewport shot shows the truth.
