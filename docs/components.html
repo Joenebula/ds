@@ -12239,6 +12239,11 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
   .spec { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; max-width: 100%; }
   .spec > .label { color: var(--pf-text-secondary); font-size: 10px;
                    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  /* A specimen Figma gives no type renders no text, so a class that paints nothing would be
+     an invisible gap on the page. This outline is the DOCS PAGE's own chrome — outside the
+     box, never a border on the component — so the specimen can be seen without the gallery
+     drawing anything the stylesheet does not. */
+  .spec > :empty { outline: 1px dashed var(--pf-border-secondary); outline-offset: 3px; }
   .bar { position: sticky; top: 0; z-index: 5; display: flex; gap: 8px; align-items: center;
          background: var(--pf-bg-secondary); padding: 10px 0 14px; margin: -24px 0 0; }
   .bar button { font: inherit; font-size: 12px; padding: 5px 12px; cursor: pointer;
@@ -13098,11 +13103,11 @@ variant names.</p>
 <p class="meta">2 variants  ·  .pf-control  ·  20 x 20  ·  vertical center center</p>
 <div class="row">
   <div class="spec">
-    <div class="pf-control" data-radio="No">Control</div>
+    <div class="pf-control" data-radio="No"></div>
     <span class="label">Radio=No</span>
   </div>
   <div class="spec">
-    <div class="pf-control" data-radio="Yes">Control</div>
+    <div class="pf-control" data-radio="Yes"></div>
     <span class="label">Radio=Yes</span>
   </div>
 </div>
@@ -13143,7 +13148,7 @@ variant names.</p>
 <p class="meta">1 variant  ·  .pf-image-picker  ·  440 x 220  ·  none</p>
 <div class="row">
   <div class="spec">
-    <div class="pf-image-picker" data-property-1="Default">Image picker</div>
+    <div class="pf-image-picker" data-property-1="Default"></div>
     <span class="label">Property 1=Default</span>
   </div>
 </div>
@@ -13444,7 +13449,7 @@ variant names.</p>
 <p class="meta" style="opacity:.75">Size dropped — a stylesheet is not breakpoint-scoped</p>
 <div class="row">
   <div class="spec">
-    <div class="pf-circle-icons">Circle icons</div>
+    <div class="pf-circle-icons"></div>
     <span class="label"></span>
   </div>
 </div>
@@ -13950,19 +13955,19 @@ variant names.</p>
 <p class="meta">4 variants  ·  .pf-status  ·  22 x 22  ·  none</p>
 <div class="row">
   <div class="spec">
-    <div class="pf-status" data-status-type="Like">Pending</div>
+    <div class="pf-status" data-status-type="Like"></div>
     <span class="label">Status type=Like</span>
   </div>
   <div class="spec">
-    <div class="pf-status" data-status-type="Absence">Pending</div>
+    <div class="pf-status" data-status-type="Absence"></div>
     <span class="label">Status type=Absence</span>
   </div>
   <div class="spec">
-    <div class="pf-status" data-status-type="Recognition">Pending</div>
+    <div class="pf-status" data-status-type="Recognition"></div>
     <span class="label">Status type=Recognition</span>
   </div>
   <div class="spec">
-    <div class="pf-status" data-status-type="Comment">Pending</div>
+    <div class="pf-status" data-status-type="Comment"></div>
     <span class="label">Status type=Comment</span>
   </div>
 </div>
@@ -14051,19 +14056,19 @@ variant names.</p>
 <p class="meta">4 variants  ·  .pf-multi-select-checkbox  ·  20 x 20  ·  none</p>
 <div class="row">
   <div class="spec">
-    <div class="pf-multi-select-checkbox" data-state="Default">Multi-select checkbox</div>
+    <div class="pf-multi-select-checkbox" data-state="Default"></div>
     <span class="label">State=Default</span>
   </div>
   <div class="spec">
-    <div class="pf-multi-select-checkbox" data-state="Hover">Multi-select checkbox</div>
+    <div class="pf-multi-select-checkbox" data-state="Hover"></div>
     <span class="label">State=Hover</span>
   </div>
   <div class="spec">
-    <div class="pf-multi-select-checkbox" data-state="Selected">Multi-select checkbox</div>
+    <div class="pf-multi-select-checkbox" data-state="Selected"></div>
     <span class="label">State=Selected</span>
   </div>
   <div class="spec">
-    <div class="pf-multi-select-checkbox" data-state="Mixed selection">Multi-select checkbox</div>
+    <div class="pf-multi-select-checkbox" data-state="Mixed selection"></div>
     <span class="label">State=Mixed selection</span>
   </div>
 </div>
@@ -14147,23 +14152,23 @@ variant names.</p>
 <p class="meta">5 variants  ·  .pf-table-header-icons  ·  24 x 24  ·  horizontal center center</p>
 <div class="row">
   <div class="spec">
-    <div class="pf-table-header-icons" data-variant="Sort" data-state="Default">Table header icons</div>
+    <div class="pf-table-header-icons" data-variant="Sort" data-state="Default"></div>
     <span class="label">Variant=Sort, State=Default</span>
   </div>
   <div class="spec">
-    <div class="pf-table-header-icons" data-variant="Sort" data-state="Ascending">Table header icons</div>
+    <div class="pf-table-header-icons" data-variant="Sort" data-state="Ascending"></div>
     <span class="label">Variant=Sort, State=Ascending</span>
   </div>
   <div class="spec">
-    <div class="pf-table-header-icons" data-variant="Sort" data-state="Descending">Table header icons</div>
+    <div class="pf-table-header-icons" data-variant="Sort" data-state="Descending"></div>
     <span class="label">Variant=Sort, State=Descending</span>
   </div>
   <div class="spec">
-    <div class="pf-table-header-icons" data-variant="Filter" data-state="Filtered">Table header icons</div>
+    <div class="pf-table-header-icons" data-variant="Filter" data-state="Filtered"></div>
     <span class="label">Variant=Filter, State=Filtered</span>
   </div>
   <div class="spec">
-    <div class="pf-table-header-icons" data-variant="Context menu" data-state="Active">Table header icons</div>
+    <div class="pf-table-header-icons" data-variant="Context menu" data-state="Active"></div>
     <span class="label">Variant=Context menu, State=Active</span>
   </div>
 </div>

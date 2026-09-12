@@ -1359,10 +1359,15 @@ console.log(`  ${respComponents.size} class(es) now follow the viewport: ${mobil
   + `and ${tabletRules.length} tablet rule(s) mirrored from the variants Figma draws, so a class `
   + `with no breakpoint attribute responds on its own`);
 if (strandedColour.length) {
-  console.log(`  ${strandedColour.length} class(es) keep their breakpoint geometry but NOT the text `
-    + `colour their variants bind, because the class paints no background of its own and the pair `
-    + `cannot be carried — it would be that colour on whatever the page provides: `
-    + `${[...new Set(strandedColour)].join(', ')}`);
+  // A class is pushed once per RULE the drop touches, and a class stranded at both mobile and
+  // tablet is pushed twice — so the count of the array is rules, not classes. It was printed as
+  // "7 class(es)" beside a list of four names, and CLAUDE.md carried the 7 forward as a count of
+  // classes. Both numbers are worth having; neither is the other.
+  const strandedClasses = [...new Set(strandedColour)];
+  console.log(`  ${strandedClasses.length} class(es), over ${strandedColour.length} rule(s), keep `
+    + `their breakpoint geometry but NOT the text colour their variants bind, because the class `
+    + `paints no background of its own and the pair cannot be carried — it would be that colour `
+    + `on whatever the page provides: ${strandedClasses.join(', ')}`);
 }
 console.log(`  ${bareHoisted} of them reach the BARE class because every variant of that component `
   + `agrees on the value at that width — without this a component whose variants carry another `

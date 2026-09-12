@@ -120,6 +120,11 @@ out.push(`<style>
   .spec { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; max-width: 100%; }
   .spec > .label { color: var(--pf-text-secondary); font-size: 10px;
                    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  /* A specimen Figma gives no type renders no text, so a class that paints nothing would be
+     an invisible gap on the page. This outline is the DOCS PAGE's own chrome — outside the
+     box, never a border on the component — so the specimen can be seen without the gallery
+     drawing anything the stylesheet does not. */
+  .spec > :empty { outline: 1px dashed var(--pf-border-secondary); outline-offset: 3px; }
   .bar { position: sticky; top: 0; z-index: 5; display: flex; gap: 8px; align-items: center;
          background: var(--pf-bg-secondary); padding: 10px 0 14px; margin: -24px 0 0; }
   .bar button { font: inherit; font-size: 12px; padding: 5px 12px; cursor: pointer;
@@ -176,7 +181,15 @@ for (const [page, comps] of [...byPage.entries()].sort()) {
     const g = geometry.get(component);
     const base = 'pf-' + kebab(component);
     const tag = TAG[component] || 'div';
-    const text = SAMPLE[component] || component;
+    // A component Figma gives NO TYPE is not a box that holds a label, and the gallery must
+    // not invent one for it. It did: `Multi-select checkbox` is 20x20 and was rendering the
+    // words "Multi-select checkbox", which escaped its own box by 57px and landed on top of
+    // the variant caption below it — four classes doing that, fifteen specimens in all, and
+    // it read as a layout bug in the stylesheet rather than as the docs page inventing text.
+    // The reading is the geometry's own `font` column: `Filter chip` is `auto x 42` at
+    // `16px SemiBold` and is labelled; `Status` is `22 x 22` at `—` and is a dot.
+    const labelled = !g || (g.font && g.font !== '\u2014');
+    const text = labelled ? (SAMPLE[component] || component) : '';
 
     out.push(`<h3>${esc(component)}</h3>`);
     const bits = [`${rows.length} variant${rows.length === 1 ? '' : 's'}`, `.${base}`];

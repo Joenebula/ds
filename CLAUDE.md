@@ -286,8 +286,11 @@ desktop side showed nothing, because the desktop variants bind no text colour at
 That is `docs/FIGMA-ISSUES.md` §11's rule — a colour and the surface it was chosen against are
 a pair, and half a pair is worse than neither — walked straight back into by the responsive
 pass. A colour is now carried onto a bare class only where the class paints a background of
-its own or the same rule brings one. **Seven classes keep their breakpoint geometry and lose
-the colour**; `Notification categories` gains a colour *and* a surface together and keeps both.
+its own or the same rule brings one. **Four classes, over seven rules, keep their breakpoint
+geometry and lose the colour**; `Notification categories` gains a colour *and* a surface together
+and keeps both. (This read "Seven classes" until the build was asked to name them and listed
+four: a class stranded at both mobile and tablet is counted once per rule, and the count of rules
+had been printed as a count of classes. The build prints both now.)
 
 `npm run verify` runs `check-breakpoint-consistency.mjs`, which asks the general question — does
 what a component looks like depend on the viewport where Figma does not say it should — and
@@ -733,6 +736,32 @@ below it was attributed to nothing: nine shape-only classes — `Field icons`, `
 `Horizontal scroll`, `Map`, `Notification image`, `People`, `Stars`, `Tooltip`, `Waffle` —
 had never been in the census at all. None of them lost anything; the check simply could not
 see them. That is the third time this one check has been found counting the wrong set.)
+
+## The docs page is a screen too
+
+`docs/components.html` is the page this file tells you to look at, and the one the user
+actually reads on a phone. Nothing measured whether it renders legibly.
+
+It did not. The gallery fills each specimen with a real-world label where it knows one and
+otherwise falls back to the component's own name — and a component Figma gives **no type at
+all** is a box that holds no label. `Multi-select checkbox` is 20x20 and was rendering the
+words "Multi-select checkbox", **57px outside its own box** and on top of the variant caption
+below it. Four classes, fifteen specimens: `Multi-select checkbox`, `Status`,
+`Table header icons`, `Control`. On a phone that reads as text escaping a component — a
+stylesheet bug — when the stylesheet was right and the docs page was inventing text for a box
+Figma never puts text in.
+
+The reading is the geometry's own `font` column: `Filter chip` is `auto x 42` at
+`16px SemiBold` and is labelled; `Status` is `22 x 22` at `—` and is a dot. **Six classes now
+render as the bare box**, marked with a dashed outline that is the docs page's own chrome —
+outside the box, never a border on the component, so the gallery still draws nothing the
+stylesheet does not.
+
+`npm run verify` runs `check-docs-specimens.mjs`, which measures the text's own rect against
+the element's in the browser. The generator cannot do that arithmetic — it does not know how
+wide a string renders — so it decides from the reading it has and this asserts the result
+independently. It also asserts the negative: a run where no specimen carried text at all would
+pass while measuring nothing.
 
 ## The rule: only design-system components
 
