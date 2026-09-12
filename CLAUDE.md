@@ -737,6 +737,34 @@ below it was attributed to nothing: nine shape-only classes — `Field icons`, `
 had never been in the census at all. None of them lost anything; the check simply could not
 see them. That is the third time this one check has been found counting the wrong set.)
 
+## Does a state change the type? Only where Figma says so
+
+Reported as *"the button weight never changes on any state — it's the same as default"*, and
+the answer is that **Figma draws it that way**: `Button` is `13px SemiBold` on every one of its
+24 labelled variants, so its states differ by colour and nothing else. Measured across the
+whole library, **15 components DO change size or weight between variants** — `Filter chip`
+Selected is SemiBold and Hover is not, `Nav tabs` and `Tab` go SemiBold when selected, `Steps`
+on Hover and Selected, `Filter tab single` at 20px SemiBold on a phone — and every one of them
+renders exactly what Figma measures.
+
+**The part worth fixing was that nothing could answer the question.**
+`check-component-type.mjs` reads the stylesheet text against the resolver that generated it,
+so it is internally consistent by construction. `verify-against-figma.mjs` does compare type —
+but only `if (declared('font-size'))`, and a component that COMPOSES its text style declares
+nothing on its own rule. The skip is triggered by exactly the mechanism the type layer is
+built on, so the more correct a component was, the less of it was checked.
+
+`npm run verify` runs `check-variant-type.mjs`, which renders **267 variants that carry a
+measured font** and reads the size and weight back. Its expectation is
+`component-geometry.tsv`'s per-variant `font` column — a different walk from the
+`component-type.tsv` the composition is generated from, so the two sides have separate
+origins. It refuses to pass if no component varies its type at all, which is the state in
+which a stylesheet that ignored the variant entirely would look perfect.
+
+**The markup is written with the axes the STYLESHEET uses**, read back out of its own
+selectors, not the axes Figma names — that is the mistake `check-stroke-sides` made, where
+spelling out every Figma axis let a rule no page can produce match anyway.
+
 ## The docs page is a screen too
 
 `docs/components.html` is the page this file tells you to look at, and the one the user
