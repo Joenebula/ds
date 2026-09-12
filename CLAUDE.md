@@ -1911,6 +1911,29 @@ wrote a `verify-layout.mjs` and they ask different questions**; the merge kept b
 `verify-clipped.mjs` is the one that finds content cut off or escaping its container, and
 `verify-layout.mjs` is the one that finds things that should line up and do not.
 
+**Neither asks whether anything is painted ON TOP of anything else, and `check-overlap.mjs`
+is that third question.** Two elements can sit fully inside their containers, aligned to
+everything they should align to, and still be drawn over one another. It exists because I
+reported exactly that from a screenshot, wrote it into three files, and it was false — the
+picture was displayed at 0.7× and a downscale closes gaps until things look welded. There
+was no mechanism to settle it, so settling it took a throwaway probe. The probe is a check
+now, because the next person to squint at a screenshot should get a number.
+
+It found a real one that thirteen axes call clean: `prototypes/absence-requests` paints a
+checkbox label **10px into the textarea above it**, both `position: static`, both in normal
+flow — a collision rather than an overlay. `working/` is at **zero**, which is the number
+that matters; the two on prototypes are pinned rather than fixed, since those are rough
+fixtures and rebuilding them is not this check's business.
+
+**The exclusion is the whole design, and getting it half-right made the first baseline 71%
+noise.** Deliberate stacking is what `absolute`, `fixed` and `sticky` are FOR — a badge on
+an avatar, a menu over a page, a sticky side panel sliding over the table beside it. The
+first version tested the element's own `position` and reported 7; a child of an overlay is
+itself `static`, so five of those seven were `payroll-run-summary`'s sticky side panel doing
+its job. The walk goes up to `body` now and the honest number is **2**. A baseline full of
+false positives is the number people learn to read past, which is the failure this check was
+written to stop.
+
 There are two screenshot tools and they are not the same:
 
 ```bash
