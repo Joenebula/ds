@@ -222,11 +222,16 @@ files['foundations/type-classes.html'] = shell({
 // does; without this, a page that is no longer generated lingers on disk and the Design
 // System pane indexes it alongside the real one. Three hand-written pages from the
 // previous generator were doing exactly that.
-for (const d of ['ds-bundle/foundations', 'ds-bundle/components'])
+// OUTPUT ROOT IS OVERRIDABLE, so a gate can rebuild this somewhere else and compare it against
+// what is committed — the same reason every other generated file's builder takes one. Until
+// 2026-09-12 this wrote only to `ds-bundle/`, which is why the five pages could not be gated:
+// a check cannot rebuild a file it has nowhere to put. The default is unchanged.
+const ROOT = (process.argv[2] || 'ds-bundle').replace(/\/+$/, '');
+for (const d of [`${ROOT}/foundations`, `${ROOT}/components`])
   if (existsSync(d)) rmSync(d, { recursive: true });
-mkdirSync('ds-bundle/foundations', { recursive: true });
-mkdirSync('ds-bundle/components', { recursive: true });
+mkdirSync(`${ROOT}/foundations`, { recursive: true });
+mkdirSync(`${ROOT}/components`, { recursive: true });
 let total = 0;
-for (const [p, html] of Object.entries(files)) { writeFileSync(`ds-bundle/${p}`, html); total += html.length; }
-console.log(`ds-bundle: ${Object.keys(files).length} preview pages, ${(total / 1024).toFixed(0)} KB total`);
+for (const [p, html] of Object.entries(files)) { writeFileSync(`${ROOT}/${p}`, html); total += html.length; }
+console.log(`${ROOT}: ${Object.keys(files).length} preview pages, ${(total / 1024).toFixed(0)} KB total`);
 for (const p of Object.keys(files)) console.log('  ' + p);

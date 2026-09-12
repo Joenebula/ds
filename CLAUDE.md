@@ -1909,10 +1909,28 @@ anywhere"* — and the 2026-09-12 merge restored it deliberately, because the ot
 `package.json` calls its builder on every build. A gap closed by ABSENCE stays closed only while the
 thing is absent, and nothing re-checked.
 
-**It is still ungated, and that is now named rather than quietly true.** `GENERATED` is a table of
-`[one output file, its builder]` invoked as `node <builder> <out>`; `build-ds-bundle.mjs` writes a
-whole directory it first removes. Gating it needs an out-ROOT argument and a directory compare —
-a different shape from that table, not a row in it.
+**And it is gated now.** That took the two things the old shape could not do: `GENERATED` is a table
+of `[one output file, its builder]` invoked as `node <builder> <out>`, while `build-ds-bundle.mjs`
+writes a whole directory it first removes. So the builder takes an output ROOT (default unchanged),
+and `verify-generated.mjs` grew a second table, `GENERATED_DIRS`, with a `compareTrees` that walks
+both trees and reports three things rather than one:
+
+| | |
+|---|---|
+| `STALE` | committed and rebuilt copies differ — compared BYTE for byte, because two files of the same length that differ are still different |
+| `EXTRA` | on disk and the builder does not produce it. The builder removes its output first, so a leftover page is one nothing generates any more, and it would go on being browsed as though it did |
+| `MISSING` | the builder produces it and it is not committed |
+
+**19 more files are gated**, taking the count from 6 to 25. Proved end to end rather than asserted:
+put the build order back the way it was, change one input, build once — `FAIL ds-bundle/ — the
+committed tree is not what scripts/build-ds-bundle.mjs builds`. With the order fixed, 0 stale.
+
+Five mutants, all dying by MISS, and **the one that matters is on the BUILDER**: make
+`build-ds-bundle.mjs` ignore its root argument and the gate's own self-test catches it. Without that
+assertion the builder would rebuild over the committed tree, the gate would compare it against
+itself, pass for ever — and destroy the thing it was checking on the way past. That is the same
+hazard the single-file half of this gate was already written to refuse, which is why it is asserted
+in both halves rather than once.
 
 ## The repo holds the same Figma listing twice, and the readers use the older copy
 
