@@ -239,6 +239,17 @@ All use a 20px gutter and 47px column width, centre-aligned.
 `references/variants.md` carries **147 components and 302 variants**, each with the
 exact tokens that variant binds in Figma, already translated to CSS vars.
 
+**Components follow the viewport on their own.** Figma draws 52 of them at more than one
+width, and those mobile and tablet variants are now media queries as well as attributes. So
+`<div class="pf-header">` is the desktop header on a laptop and the mobile one on a phone,
+with nothing written. Breakpoints: mobile below 768px, tablet 768–1023px, desktop above.
+
+Writing a breakpoint attribute — `data-mobile`, `data-tablet`, `data-device`,
+`data-breakpoint` — means *you* are managing breakpoints, and the component then stops
+responding and stays on the variant you named at every width. Only write one when you mean
+that. Note this makes the COMPONENTS responsive, not the page: your own layout CSS still has
+to stack and reflow.
+
 **Some classes need a variant attribute before they paint anything.** The colour rules are
 written per variant, so where a component's variants bind *different* fills — `Button` has
 eight, `Tags` seven — the bare class carries shape and no colour, and `<button class="pf-button">`

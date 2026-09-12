@@ -198,6 +198,76 @@ That is a gap in the design system rather than in the pipeline, recorded in §12
 already has a mode-aware `Border/Border - Drop shadow` colour that the shadow tokens do not
 use.
 
+## Responsive — components follow the viewport
+
+Figma draws **52 components at more than one width**: `Header` at 1830 and 390, `Header
+navigation` at 1830/768/390, `Full page` at 1830/768/375. The stylesheet exposed every one
+of those as a data attribute and **nothing else**, and `dist/components.css` contained no
+viewport media query at all — all four `@media` rules in the system were
+`prefers-color-scheme`. So the library did not respond to the viewport: the only way to get
+the mobile header was for a page to write `data-mobile="Yes"` itself, and every page in this
+repo instead hard-writes Desktop. A phone got the desktop component in a 390px window.
+
+The mobile and tablet variants are now **mirrored into media queries** — a post-pass over the
+rules already emitted, so the phone rule is the SAME declarations as the attribute-driven one
+with the breakpoint axis stripped out. Re-deriving them from the extracts would produce a
+second copy that can drift; mirroring cannot.
+
+```html
+<div class="pf-header"></div>          <!-- 86px on a desktop, 62px on a phone, by itself -->
+<div class="pf-header" data-mobile="No"><!-- pinned: 86px at every width --></div>
+```
+
+**The boundaries:** mobile below 768px, tablet 768–1023px, desktop above. **768 is measured**
+— every tablet artboard in the file is 768–801 wide and no mobile artboard exceeds 392.
+**1024 is chosen, not measured**: Figma has no artboard between 801 and 1130, so that line is
+a judgement and is named as one rather than presented as a reading of the file.
+
+Three things this took, each of which looked finished before it worked:
+
+- **A mirrored rule that still demands an axis matches nothing.** `Header`'s variants are
+  `Theme=X, Mobile=Yes`, so stripping the breakpoint leaves `.pf-header[data-theme="Berry
+  pink"]` — and a bare `pf-header` carries no theme. Measured: it stayed 86px tall on a phone
+  while `pf-header-navigation`, whose only axis IS the breakpoint, went 130/118/106 perfectly.
+  Two components out of five worked and the block looked complete. The fix is the shared-fill
+  rule again — a value **every** variant agrees on is a fact, so it goes on the bare class —
+  and the agreement is tested **per declaration**, because Figma lays 15 of the 16 mobile
+  headers out as a row and `Default - Cranberry red` as a column, and a whole-block test threw
+  away the height all 16 do agree on over two declarations they do not.
+- **The bare rule is not a variant.** A rule already scoped to the bare class at that
+  breakpoint was being counted as a 17th `Header` "variant", putting the denominator one above
+  the 16 themes that carry a height, so the 62px every one of them agrees on was refused.
+- **Specificity does not deliver "explicit wins".** `Header`'s desktop rules are keyed on the
+  theme too, so `<div class="pf-header" data-mobile="No">` matches no desktop rule at all and
+  the mirrored phone rule won on the bare class — it went to 62px having been told not to.
+  Every mirrored rule is therefore guarded with
+  `:not([data-mobile]):not([data-tablet]):not([data-device]):not([data-breakpoint])`.
+  **Present means the page is managing breakpoints itself and these rules stand down**,
+  whatever the value. That is what keeps every existing page — all of which pin Desktop —
+  behaving exactly as before.
+
+`npm run verify` runs `check-responsive.mjs`, which takes its expectation from
+`component-geometry.tsv` rather than from the stylesheet or the generator's agreement logic,
+and asserts both directions: a bare class must render Figma's height for its breakpoint
+(**23 of 28** do; the other five carry another axis the class still demands, or Figma's own
+variants disagree), and a class that writes the attribute must **not move at any width**
+(28 of 28). It refuses to pass if nothing was measured.
+
+**This does not make a PAGE responsive.** Measured, on `case-mgmt-my-team` with its 17 pins
+removed: the components adapt and the page is worse, because its shell — a 90px sidebar and a
+fixed grid — is page layout, which the library has no say over. Unpinning a page is only
+worth doing together with its own layout work.
+
+### The checker had to learn that a media query is a condition
+
+`verify-against-figma.mjs` reads declared values by walking every rule in every stylesheet,
+and it walked **into** `@media` blocks and treated their rules as applying unconditionally.
+That went unnoticed for as long as the only media blocks were dark mode, whose rules are all
+prefixed `:root:not([data-theme="light"]) …` so a bare test div never matches them. The
+responsive block is the first without a `:root` guard, and it was read as always-on — so the
+phone heights of `Full page`, `Side filter` and `Table (AG)` were reported as their desktop
+heights being wrong. It now carries each rule's enclosing condition and asks `matchMedia`.
+
 ## A fill every variant agrees on belongs on the bare class
 
 The colour rules are emitted per variant, so a class painted **nothing** until a page wrote

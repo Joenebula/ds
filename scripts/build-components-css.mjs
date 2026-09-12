@@ -966,6 +966,173 @@ if (shadowRows.length) {
 }
 
 mkdirSync('dist', { recursive: true });
+// ---- responsive: carry Figma's own mobile and tablet variants to the viewport ---------
+//
+// Figma draws 52 components at more than one width — `Header` at 1830 and 390, `Header
+// navigation` at 1830/768/390, `Full page` at 1830/768/375 — and the stylesheet exposed
+// every one of them as a data attribute and nothing else. So the library did not respond
+// to the viewport at all: the ONLY way to get the mobile header was for a page to write
+// data-mobile="Yes" itself, and every page in this repo instead hard-writes Desktop. A
+// phone got the desktop component in a 390px window.
+//
+// This is a POST-PASS over the rules already emitted, on purpose. Re-deriving the mobile
+// declarations from the geometry and colour extracts would produce a second copy that can
+// drift from the attribute-driven one; mirroring the emitted rule cannot. The media rule is
+// the SAME declarations with the responsive axis stripped out of the selector.
+//
+// PRECEDENCE IS THE WHOLE DESIGN. The mirrored rule carries one attribute fewer than the
+// rule it mirrors, so a page that deliberately pins a variant — data-mobile="No" — still
+// outranks the media query at every width and keeps working exactly as before. Nothing
+// existing changes; only markup that says nothing about breakpoint starts responding.
+//
+// THE BOUNDARIES: 768 is measured — it is the width Figma draws every tablet artboard at
+// (768, 774, 801) and no mobile artboard exceeds 392. 1024 is CHOSEN, not measured: Figma
+// has no artboard between 801 and 1130, so the line between tablet and desktop is a
+// judgement and is named here rather than presented as a reading of the file.
+const RESPONSIVE_AXES = ['mobile', 'tablet', 'device', 'breakpoint'];
+const bucketOf = (axis, value) => {
+  const v = String(value).toLowerCase();
+  if (axis === 'mobile') return /^(yes|true)$/.test(v) ? 'mobile' : null;
+  if (axis === 'tablet') return /^(yes|true)$/.test(v) ? 'tablet' : null;
+  if (axis === 'device' || axis === 'breakpoint') {
+    if (v === 'mobile') return 'mobile';
+    if (v === 'tablet') return 'tablet';
+    return null;                      // Desktop is the default and needs no query
+  }
+  return null;
+};
+
+// A PAGE THAT WRITES THE BREAKPOINT ATTRIBUTE OWNS THE BREAKPOINT.
+//
+// Specificity alone does not deliver that. `Header`'s desktop rules are keyed on the theme
+// as well (`[data-theme="Classic"][data-mobile="No"]`), so `<div class="pf-header"
+// data-mobile="No">` matches NO desktop rule at all, and the mirrored phone rule — which by
+// construction no longer carries a breakpoint attribute — won on the bare class. Measured:
+// it went to 62px on a phone having been told not to. Sixteen classes did this, every page
+// in this repo pins Desktop, and the plain reading of "explicit wins" was simply false.
+//
+// So every mirrored rule is guarded against the attribute existing AT ALL, whatever its
+// value. Present means the page is managing breakpoints itself and these rules stand down;
+// absent means it is not, and they apply.
+const GUARD = RESPONSIVE_AXES.map(a => `:not([data-${a}])`).join('');
+const guarded = sel => sel.replace(/^(\.[a-z0-9-]+(?:\[[^\]]*\])*)/, `$1${GUARD}`);
+
+const emitted = out.join('\n');
+const mobileRules = [], tabletRules = [];
+const byBucket = new Map();
+let bareHoisted = 0;
+const respComponents = new Set();
+
+// EACH SELECTOR IN A LIST IS JUDGED ON ITS OWN. The composed-type rules carry one selector
+// list spanning dozens of components — `.pf-filter-chip, .pf-header[data-mobile="Yes"], …` —
+// and bucketing the list as a whole mirrored every unrelated component into the phone media
+// query because ONE member mentioned mobile. Harmless here only because the declarations are
+// identical; wrong in principle, and it inflated the count.
+for (const m of emitted.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+  const selectorList = m[1].trim(), body = m[2].trim();
+  if (!body || selectorList.startsWith('@') || selectorList.startsWith(':root')) continue;
+  const decls = body.split('\n').map(x => x.trim()).filter(Boolean).join('\n    ');
+  for (const one of selectorList.split(',').map(x => x.trim()).filter(Boolean)) {
+    const buckets = new Set();
+    let sel = one, sawResponsive = false;
+    for (const axis of RESPONSIVE_AXES) {
+      const re = new RegExp(`\\[data-${axis}="([^"]*)"\\]`, 'g');
+      for (const a of one.matchAll(re)) {
+        sawResponsive = true;
+        const b = bucketOf(axis, a[1]);
+        if (b) buckets.add(b);
+      }
+      sel = sel.replace(re, '');
+    }
+    if (!sawResponsive || buckets.size !== 1) continue;
+    const bucket = buckets.has('mobile') ? 'mobile' : 'tablet';
+    const cls = (/\.(pf-[a-z0-9-]+)/.exec(sel) || [])[1];
+    if (!cls) continue;
+    respComponents.add(cls);
+    (bucket === 'mobile' ? mobileRules : tabletRules).push(`  ${guarded(sel)} {\n    ${decls}\n  }`);
+    const key = cls + '|' + bucket;
+    if (!byBucket.has(key)) byBucket.set(key, []);
+    byBucket.get(key).push({ cls, bucket, leftover: sel.replace(`.${cls}`, ''), decls });
+  }
+}
+
+// A MIRRORED RULE THAT STILL DEMANDS AN AXIS MATCHES NOTHING ON A BARE CLASS.
+//
+// `Header`'s variants are `Theme=X, Mobile=Yes`, so stripping the breakpoint leaves
+// `.pf-header[data-theme="Berry pink"]` — and `<div class="pf-header">` carries no theme, so
+// the phone rule never fired. Measured: pf-header stayed 86px tall at 390px while
+// pf-header-navigation, whose only axes ARE the breakpoint, went 130/118/106 correctly. Two
+// components out of five worked and the block looked finished.
+//
+// The fix is the shared-fill hoist's principle again: a value every variant AGREES on is a
+// fact, not a default someone picked. The agreement is tested PER DECLARATION, not per
+// block, because a block is too coarse to be useful — Figma lays 15 of the 16 mobile headers
+// out as a row and `Default - Cranberry red` as a column, so a whole-block test threw away
+// the height, padding and radius all 16 do agree on over two declarations they do not.
+// A property only some variants declare is not agreement either, and is left alone.
+for (const [, all] of byBucket) {
+  // A rule whose selector is ALREADY bare at this breakpoint is not a competing variant —
+  // it is the component-level rule, and it is emitted as-is above. Counting it as a 17th
+  // "variant" of `Header` put the denominator one above the 16 themes that carry a height,
+  // so the height every one of them agrees on (62px) was refused and the bare class got
+  // only the colour. pf-header stayed 86px tall on a phone with the block looking complete.
+  const group = all.filter(g => g.leftover !== '');
+  const leftovers = new Set(group.map(g => g.leftover));
+  if (leftovers.size < 2) continue;              // nothing left to demand; already bare
+  const values = new Map();                      // prop -> Map(leftover -> value)
+  for (const g of group) {
+    for (const d of g.decls.split('\n').map(x => x.trim()).filter(Boolean)) {
+      const i = d.indexOf(':');
+      if (i < 0) continue;
+      const prop = d.slice(0, i).trim();
+      if (!values.has(prop)) values.set(prop, new Map());
+      values.get(prop).set(g.leftover, d.replace(/;$/, ''));
+    }
+  }
+  const agreed = [];
+  for (const [, perLeftover] of values) {
+    if (perLeftover.size !== leftovers.size) continue;          // not declared by all
+    const distinct = new Set(perLeftover.values());
+    if (distinct.size === 1) agreed.push([...distinct][0]);
+  }
+  if (!agreed.length) continue;
+  const { cls, bucket } = group[0];
+  (bucket === 'mobile' ? mobileRules : tabletRules)
+    .push(`  .${cls}${GUARD} {\n    ${agreed.join(';\n    ')};\n  }`);
+  bareHoisted++;
+}
+
+if (mobileRules.length || tabletRules.length) {
+  out.push('');
+  out.push('/* ---- Responsive -----------------------------------------------------------');
+  out.push(' * Figma draws these components at more than one width. Each mobile and tablet');
+  out.push(' * variant below is the SAME rule the data attribute produces, with the');
+  out.push(' * breakpoint axis stripped out, so a class with no breakpoint attribute follows');
+  out.push(' * the viewport. A page that writes the attribute explicitly carries one more');
+  out.push(' * attribute than these rules do and therefore still wins at every width.');
+  out.push(' *');
+  out.push(' * 768px is measured — every tablet artboard in the file is 768-801 wide and no');
+  out.push(' * mobile artboard exceeds 392. 1024px is a CHOSEN boundary: Figma has no');
+  out.push(' * artboard between 801 and 1130, so that line is a judgement, not a reading.');
+  out.push(' * -------------------------------------------------------------------------- */');
+  if (tabletRules.length) {
+    out.push('@media (min-width: 768px) and (max-width: 1023px) {');
+    out.push(tabletRules.join('\n'));
+    out.push('}');
+  }
+  if (mobileRules.length) {
+    out.push('@media (max-width: 767px) {');
+    out.push(mobileRules.join('\n'));
+    out.push('}');
+  }
+}
+console.log(`  ${respComponents.size} class(es) now follow the viewport: ${mobileRules.length} mobile `
+  + `and ${tabletRules.length} tablet rule(s) mirrored from the variants Figma draws, so a class `
+  + `with no breakpoint attribute responds on its own`);
+console.log(`  ${bareHoisted} of them reach the BARE class because every variant of that component `
+  + `agrees on the value at that width — without this a component whose variants carry another `
+  + `axis (Header has 16 themes) mirrors a rule that matches nothing`);
+
 writeFileSync('dist/components.css', out.join('\n'));
 
 console.log(`components.css written — ${componentCount} components, ${ruleCount} rules`);
