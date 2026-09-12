@@ -1640,3 +1640,49 @@ declares none.
 
 **Open for the user:** whether Figma SHOULD vary the button weight by state. That is a design
 decision in the Figma file, not something the pipeline can or should invent.
+
+### P7. The shutter was firing mid-fade — DONE
+
+Chasing the filter chips one more time found that the COLOURS were right and the PICTURE was
+wrong. Flipping `data-theme` starts a 120ms colour transition on every chip and button, and
+`shoot.mjs` screenshotted in the same tick — so every dark screenshot this project produced
+caught the page part way between the themes. The chips measured 1.09:1 in the picture and
+13.03:1 on the settled page.
+
+It now waits for fonts and for every running animation, and warns when the page is still
+changing colour as it fires. (A second, independent fault in the same file — Chromium not
+re-resolving custom properties when the attribute is set after render — was found by another
+session on this branch and merged in; both fixes are needed and both are present.)
+
+**Done when:** met. Four screens re-shot; two of them twice, because the first re-shoot
+predated the other fix.
+
+### P8. Button weight by state — ANSWERED, and it is a Figma decision
+
+Read out of the Figma file rather than out of this repo's extract this time.
+`Type=Action, State=Hover, Label=Yes` (node `10732:112867`) is Open Sans SemiBold 13px,
+identical to Default; all 24 labelled variants are. Figma's own Button rules section defines
+the hover state as a background change and says nothing about type.
+
+Recorded as `docs/FIGMA-ISSUES.md` §14 with the node ids, exactly which variants to edit, and
+the caveat that SemiBold is wider so a weight change shifts the button under the pointer.
+§14a records two things the rules page annotates that the component does not — a 100px
+min-width and uppercase labels.
+
+**Open for the user:** whether to make that change in Figma.
+
+### P9. The gallery scrolled sideways on a phone — DONE
+
+Two specimens out of 325 are wider than 390px, so the whole document went to 514px and every
+heading slid under the finger. The row scrolls instead of the page — the third time that is
+the answer, after the template stages and the library's own strips.
+
+**Done when:** met. `check-docs-specimens` asserts it at 390px.
+
+### P10. Text printed on top of text — DONE
+
+`verify-layout` knew CLIPPED and ESCAPED. It did not know the third case: two elements both
+correctly inside their own boxes, on the same pixels. Found by LOOKING at a screenshot.
+
+**Done when:** met. `check-text-overlap.mjs`, glyphs against glyphs. 8 outstanding, all on the
+two oldest fixtures; `working/` held at zero.
