@@ -239,6 +239,15 @@ All use a 20px gutter and 47px column width, centre-aligned.
 `references/variants.md` carries **147 components and 302 variants**, each with the
 exact tokens that variant binds in Figma, already translated to CSS vars.
 
+**Filter chips and nav tabs are one row that scrolls — never two lines of text.** 72
+components whose height Figma fixes and whose label Figma draws on one line carry
+`white-space: nowrap`, so a label never folds onto a second line and out of its own box. The
+strips that hold them — `pf-secondary-nav`, `pf-tertiary-nav`, `pf-navigation-tabs`,
+`pf-table-action-bar`, `pf-stepper`, `pf-table-ag` — scroll horizontally instead of wrapping,
+and they start at their first item rather than centring the overflow out of reach. All of this
+is in the template and the class; a page writes none of it, and must not set `flex-wrap`,
+`white-space` or `overflow` on a component.
+
 **Components follow the viewport on their own.** Figma draws 52 of them at more than one
 width, and those mobile and tablet variants are now media queries as well as attributes. So
 `<div class="pf-header">` is the desktop header on a laptop and the mobile one on a phone,

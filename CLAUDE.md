@@ -325,7 +325,7 @@ Figma clips the contents of **34 of the 62 components** on Cards and panels, 22 
 a corner radius, and `dist/components.css` sets `overflow` once. After the border and the
 shadow this looked like the obvious next thing to carry, and it is the one that must not be.
 
-The measurement that settled it: **27 of the 154 templates already render outside the box
+The measurement that settled it: **26 of the 154 templates already render outside the box
 their own class draws** — `pf-hemisphere-chart` by 333px, `pf-donut-pie-chart` by 284px,
 `pf-content` by 180px. `overflow: hidden` would not have reproduced the design on those; it
 would have deleted part of the component's own generated contents from view. And nothing
@@ -339,11 +339,62 @@ the component at, and a template holds placeholder contents of their own size; t
 never promised to agree.
 
 `npm run verify` runs `check-template-overflow.mjs`, which reports and pins the count **and
-the magnitude — 1372px of overflow in total**. How many is not how much: placing
+the magnitude — 1363px of overflow in total**. How many is not how much: placing
 `Hemisphere chart`'s children at Figma's own offsets took it from 333px to 77px, a large
 real improvement the count alone could not see, because it still overflows by something.
 Both numbers are the precondition: **clipping can only ever be carried once they reach
 zero.**
+
+**And both are measured at two widths now.** They were desktop-only for as long as a class was
+the same size at every width; making components follow the viewport ended that, and the pinned
+pair described half the library. A class box shrinks to its mobile artboard while the template's
+placeholder contents do not, so at 390px it is **29 templates and 1683px**. Four templates
+overflow *only* once the class shrinks — `pf-navigation-tabs`, `pf-search-navigation`,
+`pf-table-ag` — and no check could see them. A precondition checked at one width is not checked.
+
+## Strips: one row, scrolling, never two lines of text
+
+Reported from a phone: the filter chips and the nav tabs were rendering "Filter chip" and
+"Nav tabs" stacked over **two lines**. Figma says one line in two places at once, and both are
+measured rather than taken on trust.
+
+**A label Figma draws on one line does not wrap.** `Nav tabs` is a 40px component whose `Label`
+TEXT node is 40x22; `Filter chip` is 42px around a 42x22 label. One line of 22px. A second line
+is about 44px and does not fit inside the component at all — so a wrap is not just ugly, it
+pushes the text out of its own box, and `Nav tabs` and `Table action bar` were two of the four
+templates that overflow only at mobile.
+
+The test is a measurement, not a list of names: **a TEXT node shorter than twice its own
+font-size is one line.** `AI message bubble` (88px at 16px) and `Configuration panel` (68px at
+13px) are real paragraphs and are excluded, as are 14 components whose height is auto or too
+tall to state, where a wrap is survivable. What is left is **72 components whose height is
+FIXED and whose every label is one line**, and those get `white-space: nowrap`.
+
+**A horizontal SLOT is a strip, and a strip scrolls.** Figma marks the row itself: `Secondary
+nav`/Content, `Table action bar`/Filter content, `Navigation tabs`, `Tertiary nav`,
+`Stepper`/Steps, `Table (AG)`/Unfixed columns — **ten horizontal SLOTs in the whole file**, and
+the template gives each `overflow-x: auto`. Flex already refuses to wrap, so the row was always
+one row; it simply ran off the edge with no way to reach the rest. This is deliberately NOT the
+`overflow: hidden` the clipping section refuses to carry: that one deletes content from view,
+this one lets you scroll to it. Measured before adding — of the nine horizontal containers whose
+children exceed them at 390px, **zero** have a child sticking out vertically, so nothing is lost
+to the y-axis becoming a scroll port.
+
+**Centring a strip that overflows puts the start of it out of reach.** `Secondary nav`'s slot is
+`HORIZONTAL CENTER CENTER`. Once its children are wider than it, a centred flex row spills
+equally *both* ways — and the left spill cannot be scrolled to, because `scrollLeft` is already
+0. Measured: the first `Nav tabs` sat **83px left of the scroll origin**, so the first tab in
+the strip was permanently invisible. `justify-content: safe center` keeps the design intent
+where it fits and falls back to the start where it does not.
+
+`npm run verify` runs `check-scroll-strips.mjs`, which squeezes every strip into 320px **on
+purpose** and asserts three things: it stays on one row, it can be scrolled, and it begins at
+its first item. The narrow harness is the point — the first version of this assertion lived
+inside `check-template-overflow`, where templates render at body width and a strip sized to its
+contents never overflows, so it could not fail at all. Two false positives had to be cleared
+before it was right: "two different top edges" is not a second row when the slot centres items
+of different heights, and `Horizontal scroll`'s `Spacer` renders 0x0, so its top equals its own
+bottom and it overlapped itself.
 
 ## Children a parent does not lay out
 

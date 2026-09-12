@@ -412,6 +412,33 @@ function colourDecls(row) {
 }
 
 // ---- build ------------------------------------------------------------------
+// A LABEL FIGMA DRAWS ON ONE LINE MUST NOT WRAP ONTO TWO.
+//
+// Reported from a phone: the filter chips and the nav tabs were rendering "Nav tabs" and
+// "Filter chip" stacked over two lines. Figma is unambiguous — `Nav tabs` is a 40px component
+// whose Label TEXT node is 40x22, and `Filter chip` is 42px around a 42x22 label. One line of
+// 22px. A second line is ~44px and does not fit inside the component at all, so a wrap does
+// not just look wrong, it pushes the text out of the box: `Nav tabs` and `Table action bar`
+// were two of the four templates that overflow ONLY once the class shrinks to its mobile
+// artboard, which is the same fault measured from the other end.
+//
+// The test is measured, not a list of component names. A TEXT node shorter than twice its own
+// font-size is one line; `AI message bubble` (88px at 16px) and `Configuration panel` (68px at
+// 13px) are real paragraphs and are excluded, as are 14 components whose height is auto or
+// too tall to state, where a wrap is survivable rather than impossible. What is left is 72
+// components whose height is FIXED and whose every label is one line.
+const singleLineText = new Map();     // component -> true when every TEXT node is one line
+for (const line of readFileSync('tokens/_raw/component-tree.tsv', 'utf8').trim().split('\n').slice(1)) {
+  const c = line.split('\t');
+  if (c[2] !== 'TEXT') continue;
+  const size = /^(\d+)x(\d+)$/.exec((c[7] || '').trim());
+  const font = /^(\d+)px/.exec((c[15] || '').trim());
+  if (!size || !font) continue;
+  const oneLine = +size[2] < 2 * +font[1];
+  singleLineText.set(c[0], (singleLineText.get(c[0]) ?? true) && oneLine);
+}
+let nowrapCount = 0;
+
 const hoistedFills = new Map();   // component -> the fill every one of its variants binds
 const byComponent = new Map();
 for (const r of variants) {
@@ -533,6 +560,13 @@ for (const [component, rows] of [...byComponent.entries()].sort()) {
       : '  border: 0;');
     out.push('  box-sizing: border-box;');
     out.push('  font-family: var(--pf-font-body);');
+    // Only where the height is STATED. geometryDecls emits an exact height below 260px and a
+    // minimum above it; a component free to grow can afford a second line, one pinned to
+    // 40px cannot.
+    if (singleLineText.get(component) && geo.some(d => /^height:\s*\d+px$/.test(d))) {
+      out.push('  white-space: nowrap;');
+      nowrapCount++;
+    }
     out.push('}');
     ruleCount++;
   }
@@ -1208,6 +1242,8 @@ if (shapeOnly.length) {
   console.log(`    ${shapeOnly.sort().join(', ')}`);
 }
 console.log(`  with measured geometry : ${[...byComponent.keys()].filter(c => geometry.has(c)).length}`);
+console.log(`  ${nowrapCount} class(es) keep their label on one line, because Figma draws it on one `
+  + `and their height is fixed — a wrap there pushes the text out of the component`);
 console.log(`  ${hoistedFills.size} class(es) carry a fill on the bare class because every one of their `
   + `variants binds it — without this the class painted nothing until a page wrote a data attribute`);
 if (sourceIssues.size) {

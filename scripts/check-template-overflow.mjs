@@ -29,10 +29,35 @@ import { chromium } from 'playwright-core';
 // It was first set to 5 from a sample of eighteen components, which is how many of THOSE
 // overflowed; run across all 154 it is 28. A baseline taken from a subset is a baseline
 // that fails the moment it meets the whole set — measure the population you are pinning.
-const OVERFLOW_BASELINE = 27;
+const OVERFLOW_BASELINE = 26;
 // The sum of each overflowing template's worst edge, in pixels. Same rule: it may fall
 // freely, and may not rise without somebody deciding to raise it.
-const OVERFLOW_PX_BASELINE = 1372;
+const OVERFLOW_PX_BASELINE = 1363;
+
+// AND THE SAME TWO NUMBERS ON A PHONE.
+//
+// These were desktop-only for as long as a class was the same size at every width. Making
+// components follow the viewport changed that and made the pinned pair describe half the
+// library: a class box shrinks to its mobile artboard while the template's placeholder
+// contents do not, so at 390px it is 31 templates and 1536px, not 27 and 1372. Four
+// templates and 164px of overflow that no check could see — the same blind spot this repo
+// keeps finding, introduced by the change that made the components responsive.
+//
+// It matters because these numbers are the precondition for carrying Figma's clipping (see
+// CLAUDE.md, "Clipping"), and a precondition checked at one width is not checked.
+const MOBILE_OVERFLOW_BASELINE = 29;
+// RAISED ON PURPOSE, from 1536, and this is the one place the rule allows it.
+//
+// Keeping a fixed-height component's label on one line stopped it wrapping downward and let
+// it run sideways instead, so the count fell (31 to 29, and 27 to 26 on the desktop pass)
+// while the worst-edge total rose. What the rise reveals is true and was previously hidden by
+// the wrap: `Search navigation` is a 32x32 ICON on mobile in Figma — no label at all — and
+// the template still holds the desktop contents, so the word "Search" now hangs 119px out of
+// a 32px box instead of folding up inside it. A template that disagrees with its mobile class
+// is worth seeing; a wrap that concealed it was not.
+const MOBILE_OVERFLOW_PX_BASELINE = 1683;
+const WIDTHS = [['desktop', 1280, OVERFLOW_BASELINE, OVERFLOW_PX_BASELINE],
+                ['mobile', 390, MOBILE_OVERFLOW_BASELINE, MOBILE_OVERFLOW_PX_BASELINE]];
 
 const expand = h => h.replace(/<!--pf-icon:([a-z0-9-]+)(?:\s+(\d+))?-->/g, (m, n, s) => {
   const f = `assets/icons/${n}.svg`;
@@ -51,7 +76,10 @@ writeFileSync('tmp-overflow-check.html',
   + `<body style="margin:0">${specs.map((s, i) => `<section id="w${i}">${s.html}</section>`).join('\n')}</body>`);
 
 const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
-const p = await browser.newPage();
+const measured = {};
+let mixed = null;
+for (const [name, width] of WIDTHS) {
+const p = await browser.newPage({ viewport: { width, height: 900 } });
 await p.goto('file://' + process.cwd() + '/tmp-overflow-check.html');
 await p.evaluate(() => document.fonts.ready);
 // PLACING SOME CHILDREN AND FLOWING THE REST IS WORSE THAN FLOWING ALL OF THEM.
@@ -65,7 +93,9 @@ await p.evaluate(() => document.fonts.ready);
 //
 // This asks the question directly, in the browser: inside a positioned container, is every
 // element child positioned the same way? A mix means a branch dropped a placement.
-const mixed = await p.evaluate(() => {
+// Asked once. Whether a container places some children and flows the rest is a fact about
+// the markup, not about the viewport.
+if (!mixed) mixed = await p.evaluate(() => {
   const out = [];
   for (const parent of document.querySelectorAll('*')) {
     if (getComputedStyle(parent).position !== 'relative') continue;
@@ -100,15 +130,23 @@ const got = await p.evaluate(n => {
   }
   return out;
 }, specs.length);
+await p.close();
+measured[name] = got;
+}
 await browser.close();
 unlinkSync('tmp-overflow-check.html');
 
-const over = [];
-for (const [i, s] of specs.entries()) {
-  const g = got[i];
-  if (!g || !g.count) continue;
-  over.push(`${s.base} — class box ${g.w}x${g.h}, ${g.count} element(s) outside it, by up to ${g.worst}px`);
-}
+const listFor = got => {
+  const over = [];
+  for (const [i, s] of specs.entries()) {
+    const g = got[i];
+    if (!g || !g.count) continue;
+    over.push(`${s.base} — class box ${g.w}x${g.h}, ${g.count} element(s) outside it, by up to ${g.worst}px`);
+  }
+  return over;
+};
+const got = measured.desktop;
+const over = listFor(got);
 
 // HOW MANY IS NOT HOW MUCH. Placing `Hemisphere chart`'s children at Figma's own offsets
 // took its overflow from 333px to 77px — a large, real improvement that the count alone
@@ -119,6 +157,22 @@ console.log(`${specs.length} template(s) measured against the box their own clas
 console.log(`  ${over.length} render outside it (baseline ${OVERFLOW_BASELINE}), `
   + `${worstPx}px of overflow in total (baseline ${OVERFLOW_PX_BASELINE})`);
 for (const o of over.sort()) console.log('    ' + o);
+// The phone numbers are reported and gated the same way. Only the count and magnitude are
+// listed, not every template again: the desktop list above already names them, and what the
+// second width adds is how much further they drift once the class box shrinks to its mobile
+// artboard and the contents do not.
+const mobileOver = listFor(measured.mobile);
+const mobilePx = measured.mobile.reduce((t, g) => t + (g && g.count ? g.worst : 0), 0);
+console.log(`  at 390px: ${mobileOver.length} render outside it (baseline ${MOBILE_OVERFLOW_BASELINE}), `
+  + `${mobilePx}px in total (baseline ${MOBILE_OVERFLOW_PX_BASELINE})`);
+{
+  const onlyMobile = mobileOver.map(x => x.split(' — ')[0])
+    .filter(b => !over.some(o => o.startsWith(b + ' — ')));
+  if (onlyMobile.length) {
+    console.log(`    ${onlyMobile.length} overflow ONLY once the class shrinks to its mobile `
+      + `artboard: ${onlyMobile.join(', ')}`);
+  }
+}
 console.log('  Figma clips these components; the pipeline deliberately does NOT emit');
 console.log('  overflow:hidden, because on these it would hide the template rather than');
 console.log('  reproduce the design. See CLAUDE.md, "Clipping".');
@@ -142,6 +196,21 @@ if (worstPx > OVERFLOW_PX_BASELINE) {
 } else if (worstPx < OVERFLOW_PX_BASELINE) {
   console.log(`  note  down ${OVERFLOW_PX_BASELINE - worstPx}px — lower OVERFLOW_PX_BASELINE to `
     + `${worstPx} to lock it in`);
+}
+if (mobilePx > MOBILE_OVERFLOW_PX_BASELINE) {
+  console.log(`  FAIL  at 390px templates overflow by ${mobilePx - MOBILE_OVERFLOW_PX_BASELINE}px `
+    + 'more than before.');
+  failed = 1;
+} else if (mobilePx < MOBILE_OVERFLOW_PX_BASELINE) {
+  console.log(`  note  at 390px down ${MOBILE_OVERFLOW_PX_BASELINE - mobilePx}px — lower `
+    + `MOBILE_OVERFLOW_PX_BASELINE to ${mobilePx} to lock it in`);
+}
+if (mobileOver.length > MOBILE_OVERFLOW_BASELINE) {
+  console.log('  FAIL  more templates overflow at 390px than before.');
+  failed = 1;
+} else if (mobileOver.length < MOBILE_OVERFLOW_BASELINE) {
+  console.log(`  note  at 390px down to ${mobileOver.length} — lower MOBILE_OVERFLOW_BASELINE `
+    + 'to lock it in');
 }
 if (over.length > OVERFLOW_BASELINE) {
   console.log('  FAIL  more templates overflow their class box than before — a template has '

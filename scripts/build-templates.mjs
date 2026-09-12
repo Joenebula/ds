@@ -436,6 +436,37 @@ function render(component, rows, path, depth) {
   // template rendered an empty box. The slot is a real layout box AND a marker.
   if (row.type === 'SLOT') {
     const style = styleFor(component, row);
+    // A HORIZONTAL SLOT IS A STRIP, AND A STRIP SCROLLS — IT NEVER WRAPS OR SPILLS.
+    //
+    // Reported from a phone: the filter chips and nav tabs should be one row that scrolls,
+    // never two rows. Figma says the same in two places — the row is a SLOT laid out
+    // HORIZONTAL (`Secondary nav`/Content, `Table action bar`/Filter content, `Navigation
+    // tabs`, `Tertiary nav`, `Stepper`/Steps, `Table (AG)`/Unfixed columns), and each item in
+    // it is a fixed-height component whose label is one line. Ten slots in the whole file.
+    //
+    // Flex already refuses to wrap, so the row was one row — it just ran off the edge with no
+    // way to reach the rest. This makes it reachable. It is deliberately NOT the
+    // `overflow: hidden` that CLAUDE.md refuses to carry from Figma's clip setting: that one
+    // deletes content from view, this one lets you scroll to it. Measured before adding, at
+    // 390px: of the nine horizontal containers whose children exceed them, ZERO have a child
+    // sticking out vertically, so nothing is lost to the y-axis becoming a scroll port.
+    if (/^HORIZONTAL/.test(row.layout || '')) {
+      style.push('overflow-x:auto');
+      // CENTRING A STRIP THAT OVERFLOWS PUTS THE START OF IT OUT OF REACH.
+      //
+      // `Secondary nav`'s slot is HORIZONTAL CENTER CENTER, so the row is centred. Once its
+      // children are wider than it, a centred flex row spills equally BOTH ways — and the
+      // left spill cannot be scrolled to, because scrollLeft is already 0. Measured at 390px:
+      // the first Nav tabs sat 83px to the left of the scroll origin with scrollLeft 0, so
+      // the first tab in the strip was permanently invisible. That is content deleted from
+      // view, which is the very thing the clipping decision refuses to do.
+      //
+      // `safe` is the CSS keyword for exactly this: centre while it fits, fall back to the
+      // start when it does not. The design intent is kept and nothing becomes unreachable.
+      for (let i = 0; i < style.length; i++) {
+        style[i] = style[i].replace(/^justify-content:(?!safe|flex-start|start)(.+)$/, 'justify-content:safe $1');
+      }
+    }
     const open = `${pad}<div${style.length ? ` style="${style.join(';')}"` : ''}>`
       + `<!-- SLOT: Figma marks this as where the component's content goes. -->`;
     if (!kids.length) return open + cutNote(row) + '</div>';
