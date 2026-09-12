@@ -16,7 +16,34 @@
 // Figma's exact spelling so they match what a designer sees. States that have a real
 // CSS equivalent (:hover, :disabled, :focus-visible) get one as well as the attribute,
 // so a live control behaves correctly and a gallery can still force any state.
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { buildResolver, WEIGHT } from './resolve-component-type.mjs';
+import { PRIMITIVE_ALIAS } from './primitive-alias.mjs';
+
+// THE TYPE LINK (spec fault 4). Until this existed, components.css carried 410 font-size
+// and 131 font-weight declarations transcribed from measurements, type.css carried the 23
+// Figma text styles, and nothing joined them — so a component could drift off the ramp
+// with both files passing their own checks. Now a label whose text style can be named
+// COMPOSES it: the component rule emits no type at all, and its selector is collected
+// here and emitted once, in a rule generated from the ramp.
+const typeResolver = buildResolver();
+const resolveType = (component, font, variant = null) => {
+  const r = typeResolver.resolve(component, font, variant);
+  if (!r || (r.outcome !== 'bound' && r.outcome !== 'matched')) return null;
+  // ITALIC IS NOT COMPOSED, and this is deliberate rather than an oversight. The label
+  // the walk measures is the FIRST text node in the variant, which on an input is the
+  // placeholder — and `Field`'s geometry note records exactly that: "Placeholder text is
+  // italic, the value is not." Composing the italic style would put font-style: italic on
+  // the input box itself and slant the typed value, a visual change this work has no
+  // business making. The generator never emitted italic before and still does not; the
+  // size and weight are emitted the old way and check-component-type reports it.
+  if (r.italic) return null;
+  return r;
+};
+// Keyed on the style's IDENTITY, not its name: two different styles are both called
+// `Desktop text/Button text`, so a map keyed on the name would merge them and emit one
+// set of values for both.
+const composed = new Map(typeResolver.styles.map(st => [st.id, { style: st, sels: new Set() }]));
 
 const tsv = (p) => {
   const [h, ...rows] = readFileSync(p, 'utf8').trim().split('\n');
@@ -36,8 +63,63 @@ const tokenVar = new Map();
   }
 })(JSON.parse(readFileSync('tokens/design-tokens.json', 'utf8')));
 
-const geometry = new Map(tsv('tokens/_raw/component-geometry.tsv').map(r => [r.component, r]));
+// A geometry row keyed `Component|Prop=Value` measures ONE variant rather than the
+// component as a whole. Circle icons is four sizes of the same circle and Default header
+// background is three heights of the same bar; both bind identical colours across those
+// variants, so the colour layer collapses them correctly and the SIZE is the only thing
+// that distinguishes them. Without this they would all render at one size.
+const geometryRows = tsv('tokens/_raw/component-geometry.tsv');
+const geometry = new Map(geometryRows.filter(r => !r.component.includes('|'))
+  .map(r => [r.component, r]));
+const geometryByVariant = new Map();
+for (const r of geometryRows) {
+  if (!r.component.includes('|')) continue;
+  const [comp, variant] = r.component.split('|');
+  if (!geometryByVariant.has(comp)) geometryByVariant.set(comp, []);
+  geometryByVariant.get(comp).push({ ...r, variant });
+}
 const variants = tsv('tokens/_raw/component-variants.tsv');
+
+// Artwork: a component whose visual IS an image. The colour extract has three slots —
+// fill, stroke, text — and every one of them wants a colour VARIABLE. The header's
+// swoosh is a 1920x86 raster fill bound to no variable at all, so it was recorded in
+// uncaptured-reasons.tsv as "nothing to put in a stylesheet" and the header shipped as
+// an empty transparent box. Anyone building a header then hand-wrote one, and that is
+// where the flat pink band and the wrong font weights came from.
+// Inlined as data: URIs, not url() paths, because an artifact or a .dc.html canvas
+// cannot reference a local file — a link there fails silently, which is the same class
+// of invisible failure all over again.
+const artByComponent = new Map();
+try {
+  for (const r of tsv('tokens/_raw/component-art.tsv')) {
+    const bytes = readFileSync(`assets/component-art/${r.file}`);
+    const mime = r.file.endsWith('.jpg') ? 'image/jpeg'
+      : r.file.endsWith('.png') ? 'image/png'
+      : r.file.endsWith('.svg') ? 'image/svg+xml' : 'application/octet-stream';
+    if (!artByComponent.has(r.component)) artByComponent.set(r.component, []);
+    artByComponent.get(r.component).push({
+      variant: r.variant,
+      uri: `data:${mime};base64,${bytes.toString('base64')}`,
+    });
+  }
+} catch (e) {
+  if (e.code !== 'ENOENT') throw e;
+}
+
+// Primitive names Figma binds directly, and the semantic token of identical value to
+// use instead — chosen per CSS property, because the semantic layer names the ROLE.
+// `Grey-slate` is #3e3e3e; `Text/Always grey slate` resolves to exactly that and is a
+// deliberately mode-stable token, so the rendered colour is unchanged.
+// The primitive-to-semantic substitution table. Shared with build-templates.mjs so the
+// two generators cannot disagree about what a raw primitive stands in for.
+// Every name in the primitive collection. A component binding one of these has reached
+// past the semantic layer to a raw colour, which is what stops it adapting between modes.
+// Detected by collection membership rather than by a list of names, so a new one cannot
+// slip through unnoticed.
+const PRIMITIVE_NAMES = new Set(
+  readFileSync('tokens/_raw/primitives.tsv', 'utf8').trim().split('\n')
+    .map(l => l.split('\t')[0]).filter(Boolean));
+const sourceIssues = new Map();
 
 // ---- naming ----------------------------------------------------------------
 const kebab = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -60,9 +142,23 @@ const parseVariant = v => Object.fromEntries(
 function selectorsFor(base, props) {
   let sel = '.' + base;
   for (const [k, val] of Object.entries(props)) {
-    if (k === 'State') continue;
+    if (k === 'State' || k === 'Hover') continue;
     sel += `[data-${kebab(k)}="${val}"]`;
   }
+
+  // A boolean Hover axis is a CSS state, not something a page should have to declare.
+  // Emitting it as a required attribute meant `.pf-links` painted NOTHING unless the
+  // markup carried data-hover="False" — so a link fell through to the browser's default
+  // blue, which is unreadable on a dark surface. The page cannot be expected to know
+  // that. False is the resting state and belongs on the bare selector; True is :hover.
+  if (props.Hover !== undefined) {
+    const on = /^(true|yes)$/i.test(props.Hover);
+    const withState = props.State && !/^default$/i.test(props.State)
+      ? `${sel}[data-state="${props.State}"]` : sel;
+    if (!on) return [withState, `${withState}[data-hover="False"]`];
+    return [`${withState}:hover`, `${withState}[data-hover="True"]`];
+  }
+
   const state = props.State;
   if (!state || /^default$/i.test(state)) return [sel];
   const out = [`${sel}[data-state="${state}"]`];
@@ -73,7 +169,15 @@ function selectorsFor(base, props) {
 // ---- geometry -> declarations ----------------------------------------------
 const num = s => { const n = parseFloat(s); return Number.isFinite(n) ? n : null; };
 
-function geometryDecls(g, notes) {
+// Components whose Figma frame clips. Their icons must not shrink — see the fix-up below.
+const clipComponents = new Set();
+
+// `isVariant` matters for ZERO. On a base row, "no padding" and "padding: 0" look the
+// same and emitting nothing is tidier. On a VARIANT row it is an override, and emitting
+// nothing means the base's padding leaks through — Confirmation modal Mobile=True resets
+// padding and radius to 0 in Figma and rendered with the desktop variant's 60 10 and its
+// 8px radius. Zero is a real value in an override.
+function geometryDecls(g, notes, isVariant = false, composedType = null) {
   if (!g) return [];
   const d = [];
   const m = (g.size || '').match(/^(auto|\d+)\s*x\s*(auto|\d+)$/);
@@ -93,15 +197,30 @@ function geometryDecls(g, notes) {
   //                grows. Emit as a floor so the measurement survives without capping it.
   //   above that   the artboard the component was drawn on (1080 is a screen, not a
   //                component). Emitting it would force a page-tall box. Drop and say so.
-  if (h !== null && h <= 260) d.push(`height: ${h}px`);
-  else if (h !== null && h <= 700) {
+  // A variant rule cascades over the base rule, so whichever of the two properties the
+  // variant does NOT set leaks through from the base. Spotlight Card's base is 302 tall
+  // (a min-height) and its Horizontal=True variant is 218 (a height); the base's
+  // min-height won and the variant rendered 302. A variant therefore resets the other
+  // property every time rather than relying on which branch it lands in.
+  if (h !== null && h <= 260) {
+    d.push(`height: ${h}px`);
+    if (isVariant) d.push('min-height: 0');
+  } else if (h !== null && h <= 700) {
+    if (isVariant) d.push('height: auto');
     d.push(`min-height: ${h}px`);
     notes.push(`Figma draws this ${h}px tall; emitted as a minimum, since content decides the real height`);
   } else if (h !== null) {
+    // The height is dropped, but a variant still has to clear the base row's floor:
+    // Document previewer's base is the 642px Mobile variant and its Tablet and Desktop
+    // variants are artboard-tall, so with nothing emitted they inherited 642 and every
+    // device rendered the phone. `min-height: 0` and not `height: auto` — the former
+    // reads as the absence of a claim, the latter collapses the box to its content.
+    if (isVariant) d.push('min-height: 0');
     notes.push(`Figma draws this ${h}px tall — the artboard it sits on, not a rule; dropped`);
   }
 
-  if (g.padding && g.padding !== '—' && g.padding !== '0') {
+  if (isVariant && g.padding === '0') d.push('padding: 0');
+  else if (g.padding && g.padding !== '—' && g.padding !== '0') {
     const parts = g.padding.trim().split(/\s+/).map(Number);
     // top/bottom, expanded from CSS shorthand
     const [pt, pb] = parts.length === 1 ? [parts[0], parts[0]]
@@ -120,11 +239,34 @@ function geometryDecls(g, notes) {
     }
   }
 
-  const r = num(g.radius);
-  if (r !== null) {
+  // The four-corner form has to be tested BEFORE num(), which parseFloats "16 16 0 0"
+  // down to 16 and emits a uniformly rounded box — exactly the shape being corrected.
+  const FOUR = /^[\d.]+( [\d.]+){3}$/;
+  const r = FOUR.test(g.radius || '') ? null : num(g.radius);
+  if (FOUR.test(g.radius || '')) {
+    // Four corners, measured individually. This used to be recorded as the single word
+    // "mixed" and dropped, so a panel Figma rounds along its top edge only rendered
+    // square — the same write-off that lost the header artwork.
+    d.push(`border-radius: ${g.radius.trim().split(/\s+/).map(v => v === '0' ? '0' : v + 'px').join(' ')}`);
+  } else if (r !== null) {
     if (h !== null && r >= h / 2 - 1) { d.push('border-radius: 999px'); notes.push('pill'); }
     else if (r > 0) d.push(`border-radius: ${r}px`);
-  } else if (g.radius === 'mixed') notes.push('corner radius varies per corner in Figma');
+    else if (isVariant) d.push('border-radius: 0');
+  } else if (g.radius === 'mixed') {
+    notes.push('corner radius varies per corner in Figma and has not been measured yet');
+  }
+
+  // CLIP in the notes means the Figma frame has clipsContent and a FIXED width, so its
+  // label overruns and is cut off. On the web the same box WRAPS instead, which is a
+  // different shape entirely — Clock in went from one line to two and lost its pill.
+  // A Figma text node with textAutoResize WIDTH_AND_HEIGHT never wraps, so nowrap plus
+  // the clip is the faithful translation, not an embellishment.
+  if (/\bCLIP\b/.test(g.notes || '')) {
+    d.push('overflow: hidden');
+    d.push('white-space: nowrap');
+    notes.push('Figma clips this frame and its label overruns; nowrap + hidden reproduces that');
+    clipComponents.add(cls(g.component));
+  }
 
   // Auto-layout. Direction matters even when the gap is 0 — without it a vertical
   // stack like `Form field` (label above input) lays out sideways.
@@ -138,7 +280,11 @@ function geometryDecls(g, notes) {
     d.push(`flex-direction: ${mode === 'VERTICAL' ? 'column' : 'row'}`);
     if (ALIGN[counter]) d.push(`align-items: ${ALIGN[counter]}`);
     if (JUSTIFY[primary]) d.push(`justify-content: ${JUSTIFY[primary]}`);
-    if (gap !== null && gap > 0) d.push(`gap: ${gap}px`);
+    // A variant row's 0 has to be EMITTED, not skipped: the variant rule cascades over
+    // the base rule, so a skipped 0 silently inherits the base row's gap. Tertiary nav
+    // Mobile=Yes/Page=Yes is gap 0 in Figma and was rendering the desktop row's 40.
+    // Same fault as padding and radius, which were fixed without noticing gap shared it.
+    if (gap !== null && (gap > 0 || (isVariant && gap === 0))) d.push(`gap: ${gap}px`);
   } else if (gap !== null && gap > 0) {
     // Direction not captured for this component — fall back to a row, and say so.
     d.push('display: inline-flex', 'align-items: center', `gap: ${gap}px`);
@@ -149,8 +295,18 @@ function geometryDecls(g, notes) {
     d.push('display: inline-block');
   }
 
+  // TYPE IS NOT WRITTEN HERE WHEN THE LABEL HAS A TEXT STYLE. Where Figma binds a style —
+  // or binds nothing but exactly one style has the label's size, weight, tracking and case
+  // — the component COMPOSES that style instead of carrying a transcribed copy of its
+  // values. The selector is collected and emitted once, at the end, in a rule generated
+  // from the type ramp. That is the fix for fault 4: there is one declaration site per
+  // style, so a component cannot drift from the ramp while both files pass.
+  //
+  // Where the label is ambiguous or off the ramp the measured values are still written
+  // here, because refusing to guess is the point and a 12px label is real even though no
+  // style has it. check-component-type.mjs reports every one.
   const f = (g.font || '').match(/^(\d+)px(?:\s+(\w+))?/);
-  if (f) {
+  if (f && !composedType) {
     d.push(`font-size: ${f[1]}px`);
     if (f[2] === 'SemiBold' || f[2] === 'Bold') d.push('font-weight: var(--pf-font-weight-bold)');
     else if (f[2] === 'Regular') d.push('font-weight: var(--pf-font-weight-regular)');
@@ -160,13 +316,81 @@ function geometryDecls(g, notes) {
   return d;
 }
 
+// A COMPONENT-LEVEL TEXT COLOUR THAT IS REALLY ONE CHILD'S.
+//
+// The colour extract gives a component one fill, one stroke and one text colour. For a
+// component that IS one box that is exactly right. For a composite one it takes whichever
+// label Figma recorded and paints EVERY descendant with it: `.pf-calendar-picker` shipped
+// `color: var(--pf-text-always-white)`, so the whole calendar — weekday names, dates,
+// disabled days — rendered white on white, while every check stayed green.
+//
+// Two components can look identical in that extract and mean opposite things.
+// `Top bar app context` also binds white text and no fill, and there it is CORRECT: the
+// component sits on the header band, which is dark. The difference is not in the colour
+// record, it is in the tree — Calendar picker's labels bind four different colours and
+// only one of them is white, Top bar app context's bind one. So the tree decides.
+//
+// Narrow on purpose: only a colour that came from a PRIMITIVE substitution, only where
+// the tree disagrees with it. Everything else keeps the colour the extract recorded.
+const labelColours = new Map();
+try {
+  for (const line of readFileSync('tokens/_raw/component-tree.tsv', 'utf8').trim().split('\n').slice(1)) {
+    const c = line.split('\t');
+    if (!c[1] || c[2] !== 'TEXT' || !c[12]) continue;
+    if (!labelColours.has(c[0])) labelColours.set(c[0], new Set());
+    labelColours.get(c[0]).add(c[12]);
+  }
+} catch { /* the tree is optional input; without it nothing is dropped */ }
+const colourIsOneChilds = (component) => (labelColours.get(component) || new Set()).size > 1;
+
 function colourDecls(row) {
   const d = [];
   const put = (figmaName, prop) => {
     if (!figmaName) return;
     const v = tokenVar.get(figmaName);
-    if (v) d.push(`${prop}: var(${v})`);
-    else d.push(`/* unmapped Figma token: ${figmaName} */`);
+    // A primitive resolves perfectly well through tokenVar — to the primitive — so the
+    // check has to come FIRST or the substitution never runs and the component ships
+    // with a colour that cannot change between modes.
+    if (PRIMITIVE_NAMES.has(figmaName) || PRIMITIVE_ALIAS[figmaName]) {
+      const alias = (PRIMITIVE_ALIAS[figmaName] || {})[prop];
+      if (alias) {
+        if (prop === 'color' && colourIsOneChilds(row.component)) {
+          d.push(`/* Figma records "${figmaName}" as this component's text colour, but its child`);
+          d.push(`   tree binds ${labelColours.get(row.component).size} different label colours — this is one of them`);
+          d.push(`   promoted to all. Emitting it painted every label alike; the template gives`);
+          d.push(`   each its own. See docs/FIGMA-ISSUES.md section 9. */`);
+          sourceIssues.set(`${row.component} — ${figmaName} (${prop})`,
+            `dropped — one child's colour recorded for the whole component; the tree has `
+            + `${labelColours.get(row.component).size} label colours`);
+          return;
+        }
+        d.push(`/* Figma binds the primitive "${figmaName}" here instead of a semantic token */`);
+        d.push(`${prop}: var(${alias})`);
+        sourceIssues.set(`${row.component} — ${figmaName} (${prop})`, `substituted ${alias}, same value`);
+        return;
+      }
+      if (v) {
+        d.push(`/* Figma binds the primitive "${figmaName}" here; no semantic token has this role */`);
+        d.push(`${prop}: var(${v})`);
+        sourceIssues.set(`${row.component} — ${figmaName} (${prop})`, `NO semantic equivalent — will not adapt between modes`);
+        return;
+      }
+    }
+    if (v) { d.push(`${prop}: var(${v})`); return; }
+    // A binding Figma records under a bare PRIMITIVE name rather than a semantic path.
+    // Every other binding in the file reads `Text/Primary`, `Background/Theme`; these
+    // reach past that layer to the raw colour, which is the thing that stops a component
+    // adapting between modes. We cannot fix their file, but emitting nothing at all is
+    // worse: the component then ships with no colour whatsoever. So substitute the
+    // SEMANTIC token that resolves to the same value, and report it as a source issue.
+    const alias = (PRIMITIVE_ALIAS[figmaName] || {})[prop];
+    if (alias) {
+      d.push(`/* Figma binds the primitive "${figmaName}" here instead of a semantic token */`);
+      d.push(`${prop}: var(${alias})`);
+      sourceIssues.set(figmaName, `bound directly on ${row.component} (${prop}); using ${alias}, same value`);
+      return;
+    }
+    d.push(`/* unmapped Figma token: ${figmaName} */`);
   };
   put(row.fill, 'background');
   put(row.stroke, 'border-color');
@@ -200,15 +424,44 @@ out.push('');
 
 let componentCount = 0, ruleCount = 0, unmapped = new Set();
 
+// Components Figma binds no colour variable to still have a shape, and a shape is most
+// of what a component is. Eleven of them had no rules at all — Tooltip, Menu, Stars among
+// them — because the build only ever walked the colour extract. Walk the union.
+//
+// But ONLY for names that are real Figma components. The geometry file also holds rows
+// measured against sub-parts, under descriptive labels written by hand — `Button (icon
+// only)`, `Field (second component)`, `Table (AG) container`. Those are measurement
+// notes, not components, and emitting `.pf-button-icon-only` would invent a component
+// this design system does not have. Figma's own inventory is the arbiter.
+const figmaComponents = new Set(
+  JSON.parse(readFileSync('tokens/_raw/components.json', 'utf8')).map(c => c.name));
+const shapeOnly = [];
+for (const comp of geometry.keys()) {
+  if (byComponent.has(comp)) continue;
+  if (!figmaComponents.has(comp)) continue;
+  byComponent.set(comp, []);
+  shapeOnly.push(comp);
+}
+
 for (const [component, rows] of [...byComponent.entries()].sort()) {
   const base = cls(component);
   const g = geometry.get(component);
   const notes = [];
-  const geo = geometryDecls(g, notes);
+  // Resolve the label's text style before emitting, so the type can be composed rather
+  // than transcribed. A null result means ambiguous or off the ramp: the measured values
+  // stay, and check-component-type.mjs reports it.
+  const baseType = g ? resolveType(component, g.font) : null;
+  const geo = geometryDecls(g, notes, false, baseType);
+  if (baseType && baseType.resolved) composed.get(baseType.resolved.id).sels.add('.' + base);
 
   out.push(`/* ${component}${g ? '' : '  (no geometry measured — colours only)'}`);
-  out.push(` * ${rows.length} variant${rows.length === 1 ? '' : 's'} captured${
-    g && g.notes ? '. ' + g.notes : ''}`);
+  out.push(rows.length
+    ? ` * ${rows.length} variant${rows.length === 1 ? '' : 's'} captured${g && g.notes ? '. ' + g.notes : ''}`
+    : ` * SHAPE ONLY — no variant of this binds a colour variable in Figma, so the class`);
+  if (!rows.length) {
+    out.push(' * carries its measured geometry and leaves colour to the page.' +
+             (g && g.notes ? ' ' + g.notes : ''));
+  }
   for (const n of notes) out.push(` * ${n}`);
   out.push(' */');
 
@@ -231,14 +484,91 @@ for (const [component, rows] of [...byComponent.entries()].sort()) {
     ruleCount++;
   }
 
+  for (const vg of geometryByVariant.get(component) || []) {
+    const vnotes = [];
+    const vType = resolveType(component, vg.font, vg.variant);
+    const vdecls = geometryDecls(vg, vnotes, true, vType);
+    const sels = selectorsFor(base, parseVariant(vg.variant));
+    // A variant whose ONLY difference from the base row was its type now emits no
+    // declarations of its own — its type comes from the composed rule instead. The
+    // selector still has to be collected, or the variant would silently inherit the base
+    // row's style: Nav tabs Selected is SemiBold and Unselected is not.
+    if (vType && vType.resolved) for (const sel of sels) composed.get(vType.resolved.id).sels.add(sel);
+    if (!vdecls.length) continue;
+    out.push(`${sels.join(',\n')} {`);
+    for (const d of vdecls) out.push(`  ${d};`);
+    out.push('}');
+    ruleCount++;
+  }
+
   for (const r of rows) {
     const decls = colourDecls(r);
     for (const d of decls) { const m = d.match(/unmapped Figma token: (.+) \*\//); if (m) unmapped.add(m[1]); }
     if (!decls.length) continue;
     const sels = selectorsFor(base, parseVariant(r.variant));
+    // A component with exactly ONE variant has no alternative to choose between, so its
+    // colours belong on the bare class as well as behind the attribute. Card binds
+    // Background/Primary under `Property 1=Default`; without this, `class="pf-card"`
+    // rendered a transparent box and the card vanished into the page. There is nothing
+    // for the bare selector to conflict with, so this cannot mask another variant.
+    if (rows.length === 1 && !sels.includes(`.${base}`)) sels.unshift(`.${base}`);
     out.push(`${sels.join(',\n')} {`);
     for (const d of decls) out.push(`  ${d.startsWith('/*') ? d : d + ';'}`);
     out.push('}');
+    ruleCount++;
+  }
+
+  for (const a of artByComponent.get(component) || []) {
+    // "*" means the artwork belongs to the component itself, not to one variant —
+    // the default avatar is the same picture at every size.
+    if (a.variant === '*') {
+      out.push(`.${base} {`);
+      out.push(`  background-image: url("${a.uri}");`);
+      out.push('  background-size: cover;');
+      out.push('  background-position: center;');
+      out.push('  background-repeat: no-repeat;');
+      out.push('}');
+      ruleCount++;
+      continue;
+    }
+    const props = parseVariant(a.variant);
+    // Figma models light/dark as a variant property. This project models it as
+    // data-theme on the root, the same way every token does. Emit both: the faithful
+    // variant selector, and the theme-driven one so the artwork follows dark mode
+    // without the page having to know a Darkmode attribute exists.
+    const dark = /^true$/i.test(props.Darkmode || '');
+    delete props.Darkmode;
+    // Every remaining axis stays an explicit attribute, except Breakpoint=Desktop,
+    // which also answers to the bare class. Without that, `class="pf-default-header-
+    // background"` on its own renders nothing at all — precisely the silent blank this
+    // whole change exists to stop.
+    const bare = props.Breakpoint === 'Desktop';
+    const rest = { ...props };
+    if (bare) delete rest.Breakpoint;
+    const plains = [selectorsFor(base, props)[0]];
+    if (bare) plains.push(selectorsFor(base, rest)[0]);
+
+    const sels = [];
+    for (const plain of plains) {
+      sels.push(`${plain}[data-darkmode="${dark ? 'True' : 'False'}"]`);
+      if (dark) sels.push(`:root[data-theme="dark"] ${plain}`);
+      else { sels.push(plain); sels.push(`:root[data-theme="light"] ${plain}`); }
+    }
+    out.push(`${sels.join(',\n')} {`);
+    out.push(`  background-image: url("${a.uri}");`);
+    out.push('  background-size: cover;');
+    out.push('  background-position: center;');
+    out.push('  background-repeat: no-repeat;');
+    out.push('}');
+    if (dark) {
+      out.push('@media (prefers-color-scheme: dark) {');
+      for (const plain of plains) {
+        out.push(`  :root:not([data-theme="light"]) ${plain} {`);
+        out.push(`    background-image: url("${a.uri}");`);
+        out.push('  }');
+      }
+      out.push('}');
+    }
     ruleCount++;
   }
   out.push('');
@@ -252,6 +582,30 @@ for (const [component, rows] of [...byComponent.entries()].sort()) {
 // anonymous one, and the cell's contents stack. It survived on a screen whose cells hold
 // a single value and broke visibly on one whose cells hold three, which is exactly the
 // kind of bug no check catches — the colours and the measured height are still correct.
+// Figma draws the header background as a fixed 1920x86 frame, so the generator emits a
+// fixed height and `display: inline-block` — which on a page is a box with no width, and
+// a background image on a zero-width box is invisible. Same trap as .pf-table-ag: a
+// canvas frame's fixed width is a canvas fact, not a page one. A full-bleed band spans.
+out.push('/* A full-bleed artwork band has to span its container; the fixed width it was');
+out.push('   measured at is a Figma canvas fact, not a page one. */');
+out.push('.pf-default-header-background {');
+out.push('  display: block;');
+out.push('  width: 100%;');
+out.push('}');
+out.push('');
+
+// A clipping flex box squeezes its children instead of overflowing them, so the icon
+// inside Clock in collapsed to a sliver — the box was right and the contents were not.
+// In Figma the icon is a fixed 22x22 and simply overruns. flex:none says the same thing.
+if (clipComponents.size) {
+  out.push('/* A fixed-size icon inside a clipping flex box must not shrink; in Figma it');
+  out.push('   keeps its size and the frame cuts it off. */');
+  out.push([...clipComponents].sort().map(c => `.${c} > svg, .${c} > img`).join(',\n') + ' {');
+  out.push('  flex: none;');
+  out.push('}');
+  out.push('');
+}
+
 out.push('/* Element fix-ups — a component used AS a table cell must stay a table cell. */');
 out.push('td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {');
 out.push('  display: table-cell;');
@@ -259,6 +613,8 @@ out.push('  vertical-align: middle;');
 out.push('}');
 out.push('');
 
+// BOTH BRANCHES ADDED A RULE HERE AND NEITHER REPLACES THE OTHER: a focus ring, and a fix for a
+// hug-contents table container that clipped its own last columns. Kept in that order.
 // ---- focus ------------------------------------------------------------------
 // A focus ring is BROWSER BEHAVIOUR, not a Figma variant, so it is not in the extract and
 // never will be — the same category as the fix-ups above. Until now the system shipped no
@@ -298,11 +654,337 @@ out.push('  box-shadow: 0 0 0 2px var(--pf-border-focus-inner);');
 out.push('}');
 out.push('');
 
+// The same trap one level up. Figma draws Table (AG) as a hug-contents frame, so the
+// faithful `display: inline-flex` shrink-wraps to whatever the table inside it measures.
+// Put that container in a page column narrower than the table and it does not scroll and
+// does not wrap — it grows past the column and its own overflow clips the last columns
+// off. The timesheet screen lost 126px of itself this way, Status column included, with
+// every geometry, colour, icon and contrast check still passing. (The payroll screen
+// looks the same in a screenshot and is not the same bug: its container is a plain div,
+// so its 206px is a real scroll region. scripts/verify-layout.mjs tells them apart.)
+out.push('/* A component used as a table CONTAINER has to be able to be narrower than its');
+out.push('   contents; hug-contents is a Figma canvas behaviour, not a page one. */');
+out.push('.pf-table-ag {');
+out.push('  display: flex;');
+out.push('  width: 100%;');
+out.push('  min-width: 0;');
+out.push('  max-width: 100%;');
+// Figma hugs its contents in BOTH directions, so align-items: flex-start leaves the
+// table sitting at its natural width with dead space beside it inside a full-width card.
+out.push('  align-items: stretch;');
+out.push('}');
+// A flex item defaults to min-width:auto, so the scroll region inside the container
+// grows to the table's natural width and overflows anyway — the container fix alone
+// moved the clipping one element inwards rather than removing it.
+out.push('.pf-table-ag > * { min-width: 0; max-width: 100%; width: 100%; }');
+// The container carries SemiBold because Figma sets it on the frame for the header row.
+// Inherited into the body it turns every cell bold, including the secondary line under a
+// name. A cell's weight belongs to the cell's own text, not to the frame around it.
+out.push('.pf-table-ag td, .pf-table-ag tbody { font-weight: var(--pf-font-weight-regular); }');
+out.push('');
+
+// ---- the composed type layer -----------------------------------------------
+//
+// One rule per text style, listing every component selector whose label uses it. This is
+// the whole of fault 4's fix: the values are generated from tokens/_raw/text-styles.tsv,
+// the same file type.css is generated from, so a component and the type ramp cannot
+// disagree. Before this, each component carried its own transcribed copy.
+//
+// Emitted LAST so that where a selector appears both here and in a component rule, this
+// wins. That cannot currently happen — a selector is only collected when its component
+// rule suppressed its type — but the ordering makes the intent explicit rather than
+// depending on it never happening.
+//
+// Specificity still does the right thing between rules here: `.pf-nav-tabs` and
+// `.pf-nav-tabs[data-status="Selected"]` land in different styles (Body text and Body
+// text semibold), and the attribute selector is more specific, so Selected stays
+// SemiBold.
+const composedRules = [...composed.values()].filter(c => c.sels.size)
+  .sort((a, b) => (a.style.name + a.style.size).localeCompare(b.style.name + b.style.size));
+if (composedRules.length) {
+  out.push('/* ---- type, composed from the Figma text styles -------------------------');
+  out.push(' *');
+  out.push(' * Each rule below IS a text style from tokens/_raw/text-styles.tsv, applied to');
+  out.push(' * every component label Figma gives that style. No component carries its own');
+  out.push(' * font-size or font-weight where its style could be named, so the library and');
+  out.push(' * the type ramp have one source rather than two that can drift apart.');
+  out.push(' *');
+  out.push(' * A component NOT listed here has type the ramp cannot express — an ambiguous');
+  out.push(' * match, or a size the ramp does not contain. Those keep their measured values');
+  out.push(' * and are reported by scripts/check-component-type.mjs.');
+  out.push(' */');
+  for (const { style: st, sels } of composedRules) {
+    // The name alone would be a lie where two styles share one, so the size is named too.
+    const name = `${st.name}  (${st.size}px ${st.weight || 'Regular'}${st.textCase === 'UPPER' ? ', uppercase' : ''})`;
+    const d = [`font-size: ${st.size}px`];
+    if (st.weight === 'Italic') { d.push('font-weight: 400', 'font-style: italic'); }
+    else d.push(`font-weight: ${WEIGHT[st.weight] || '400'}`);
+    const ls = parseFloat(st.letterSpacing);
+    if (Number.isFinite(ls) && ls !== 0) d.push(`letter-spacing: ${ls / 100}em`);
+    if (st.textCase === 'UPPER') d.push('text-transform: uppercase');
+    out.push('');
+    out.push(`/* ${name} */`);
+    out.push([...sels].sort().join(',\n') + ' {');
+    for (const x of d) out.push(`  ${x};`);
+    out.push('}');
+    ruleCount++;
+  }
+  out.push('');
+}
+
+// ---- boxes that centre one thing ------------------------------------------
+//
+// Reported from a screen: the icon at the top sat in the corner of its circle and was too
+// small. `.pf-circle-icons` is generated, so every use of it was wrong the same way, and
+// the one page here that looks right only does so because it carries a local
+// `place-items: center` — hand-written component CSS by another name.
+//
+// Figma lays these out as `NONE`, so the geometry extract has no alignment to give and
+// this generator rightly emitted none. What it does have, in `component-inner.tsv`, is a
+// measurement: the child's offsets are equal on both axes (so it IS centred, rather than
+// that being a guess) and its size is recorded per VARIANT — a 28px circle holds an 18px
+// icon, a 52px one holds 36. Both facts are emitted.
+//
+// `inline-grid` rather than `grid` because these sit inline beside a heading, which is
+// where the reported one was; the size variants already set their own box.
+// WHICH SIDES ARE ACTUALLY STROKED, AND HOW THICKLY.
+//
+// The colour extract records a stroke's TOKEN and nothing else, so every component with a
+// bound stroke was painted `border: 1px solid <token>` — a cage, one pixel, all four
+// sides. `component-stroke-sides.tsv` carries the departures, measured from Figma: which
+// edges carry a weight, what that weight is, and whether the paint is switched on at all.
+//
+// `Nav tabs` is the case that surfaced it. It is a file-folder tab: unselected it rules
+// only its BOTTOM edge; selected it rules top, left and right and leaves the bottom OPEN
+// so the tab joins the panel below. Drawn as a box, every tab became an outlined rectangle
+// and the selected one no longer read as selected.
+//
+// These land on the variant selector for the same reason the centred-child rules do — the
+// per-variant geometry rules outrank the bare class whatever the order — and after the
+// colour rules, which set `border-color` and never a width, so the two do not fight.
+// WHICH AXES A CLASS ACTUALLY USES — and why a measured variant string is not the answer.
+//
+// Figma names a variant with every axis it has: `Type=Standard, Darkmode=False`. The
+// stylesheet does not: the colour extract collapses an axis that changes nothing, so the
+// rules for Clock in are `.pf-clock-in[data-type="Standard"]` and a page writes only
+// data-type. A rule generated from the full Figma string therefore reads
+// `[data-type="Standard"][data-darkmode="False"]` and matches NOTHING a page ever writes —
+// it sits in the file looking correct and does nothing, which is this project's oldest
+// failure mode wearing a new hat. check-stroke-sides did not catch it either, because the
+// check builds its own markup and wrote every axis; check-off-system caught it, by noticing
+// the page still had to set the border width by hand.
+//
+// The authority is the stylesheet already generated above: whatever `data-` attributes its
+// own selectors use for this class are the axes a page is expected to write.
+const axesUsedBy = (base) => {
+  const seen = new Set();
+  // A run of attribute selectors, allowing SPACES inside a value: Figma names a size
+  // `XS - 28px`, and a pattern that stopped at whitespace found no axes for Circle icons
+  // at all, so all four sizes collapsed onto the bare class and a 28px circle got the
+  // 52px circle's icon. check-component-inner caught it, which is what it is for.
+  const re = new RegExp(`\\.${base}((?:\\[[^\\]]*\\])+)`, 'g');
+  for (const m of out.join('\n').matchAll(re))
+    for (const a of m[1].matchAll(/\[data-([a-z0-9-]+)=/g)) seen.add(a[1]);
+  return seen;
+};
+// Build a variant selector from a Figma variant string, keeping only the axes the class
+// really uses. Returns null when the component has no attribute selectors at all, which
+// means the class is not variant-addressable and the rule belongs on the bare class.
+const variantSel = (base, variant) => {
+  if (!variant) return '';
+  const axes = axesUsedBy(base);
+  return variant.split(', ').map(v => {
+    const axis = kebab(v.slice(0, v.indexOf('=')));
+    return axes.has(axis) ? `[data-${axis}="${v.slice(v.indexOf('=') + 1)}"]` : '';
+  }).join('');
+};
+
+let strokeSideSkips = [];
+const sideClashes = new Set();
+const sideRows = existsSync('tokens/_raw/component-stroke-sides.tsv')
+  ? tsv('tokens/_raw/component-stroke-sides.tsv') : [];
+if (sideRows.length) {
+  const noStrokeToken = new Set();
+  const sideSeen = new Map();
+  out.push('/* Borders Figma does not draw as a 1px box: per-side weights, widths that are');
+  out.push(' * not 1px, and strokes switched off in the file. Measured into');
+  out.push(' * tokens/_raw/component-stroke-sides.tsv; every component absent from it strokes');
+  out.push(' * 1px on all four sides. */');
+  for (const r of sideRows) {
+    const base = cls(r.component);
+    if (!byComponent.has(r.component)) continue;   // no class to hang it on
+    // A WIDTH WITH NO COLOUR IS NOT A BORDER. A component gets a border STYLE at all only
+    // where some variant binds a stroke token, and four bind none — for three different
+    // reasons: `AI banner` and `AI card modal` are stroked with a GRADIENT, which no colour
+    // variable can carry; `Status` keeps a paint Figma has switched off; `Mobile bottom
+    // navigation` binds no stroke paint at all. Emitting a width on any of them paints
+    // nothing, because border-style stays `none`. They are skipped and NAMED rather than
+    // skipped silently — the missing colour is a real gap in what the extract can carry.
+    if (!byComponent.get(r.component).some(x => x.stroke)) { noStrokeToken.add(r.component); continue; }
+    const at = variantSel(base, r.variant);
+    const px = n => (Number(n) ? `${Number(n)}px` : '0');
+    const width = r.visible === 'no' ? '0'
+      : `${px(r.top)} ${px(r.right)} ${px(r.bottom)} ${px(r.left)}`;
+    // DROPPING AN AXIS CAN MAKE TWO ROWS ONE. Where the two then disagree there is no
+    // honest rule to write — the stylesheet cannot tell the variants apart — so nothing is
+    // written and the clash is named. Where they agree, one rule covers both, which is
+    // what collapsing the axis meant in the first place.
+    const key = `.${base}${at}`;
+    if (sideSeen.has(key)) {
+      if (sideSeen.get(key) !== width) sideClashes.add(`${r.component} (${key})`);
+      continue;
+    }
+    sideSeen.set(key, width);
+    out.push(`${key} {`);
+    // A paint that is switched off in Figma is kept in the file and draws nothing. The
+    // colour rule above still binds its token — mirroring Figma, which also keeps the paint
+    // — and the width is what makes it invisible, exactly as it is in the design.
+    out.push(`  border-width: ${width};`);
+    out.push('}');
+    ruleCount++;
+  }
+  out.push('');
+  if (noStrokeToken.size)
+    strokeSideSkips = [...noStrokeToken].sort();
+}
+
+const innerRows = existsSync('tokens/_raw/component-inner.tsv')
+  ? tsv('tokens/_raw/component-inner.tsv') : [];
+if (innerRows.length) {
+  out.push('/* Boxes that hold one centred child. Figma lays these out as NONE — no auto-');
+  out.push(' * layout — so the alignment is not in the geometry extract; it is measured');
+  out.push(' * separately in tokens/_raw/component-inner.tsv, along with the child size for');
+  out.push(' * each variant. Without these a page has to centre the icon itself, which is');
+  out.push(' * component CSS the page should never be writing. */');
+  const seen = new Set();
+  for (const r of innerRows) {
+    const base = cls(r.component);
+    // THE CENTRING GOES ON THE SAME SELECTOR AS THE BOX, not on the bare class.
+    //
+    // A size variant carries its own `display: inline-block` — every variant row does,
+    // because that is what the geometry extract measured. `.pf-circle-icons` alone is one
+    // class and `.pf-circle-icons[data-size="XS - 28px"]` is a class plus an attribute, so
+    // the variant wins on specificity no matter how late the bare rule is written. The
+    // first version of this put `inline-grid` on the bare class, and the icon rendered
+    // 18px inside a 28px circle sitting against the top edge: correct size, no centring,
+    // which is half the fault the user reported and looks like the whole thing is fixed.
+    const box = `.${base}${variantSel(base, r.variant)}`;
+    if (!seen.has(box)) {
+      seen.add(box);
+      out.push(`${box} {`);
+      out.push('  display: inline-grid;');
+      out.push('  place-items: center;');
+      out.push('}');
+      ruleCount++;
+    }
+    const [w, h] = (r.child || '').split('x').map(Number);
+    if (!Number.isFinite(w) || !Number.isFinite(h)) continue;
+    // Where the class is not variant-addressable — `Waffle` is shape-only, so the
+    // stylesheet has no `[data-theme=...]` rule for it and a page cannot select one — all
+    // fifteen of its variants collapse onto the bare class. They measure the same 32px
+    // child, so one rule is the whole truth; fifteen identical copies of it were not.
+    if (seen.has(box + ' > *')) continue;
+    seen.add(box + ' > *');
+    out.push(`${box} > * {`);
+    out.push(`  width: ${w}px;`);
+    out.push(`  height: ${h}px;`);
+    out.push('}');
+    ruleCount++;
+  }
+  out.push('');
+}
+
+// THE SHADOW A COMPONENT CASTS.
+//
+// This file used to contain the string "box-shadow" zero times, while Figma put a drop
+// shadow on 50 component variants — `Card`, `Side panel`, `Side filter`, `Toast message`,
+// `Tool tip`, `Action menu`, `Table card (AG)`, `Header navigation`, `Side navigation`:
+// every floating surface in the system, rendering flat against the page.
+//
+// THE DESIGN SYSTEM HAS EXACTLY TWO SHADOW TOKENS and this does not invent a third. Where a
+// measurement matches a token exactly, the token is emitted. Where it does not, NOTHING is
+// emitted and the shadow is reported: writing Figma`s rgba straight into the rule would put
+// a raw colour in generated CSS, which is this project`s first rule, and freeze it across
+// both modes into the bargain. A shadow the design system has no token for is a gap in the
+// design system, and the build says so rather than papering over it.
+const SHADOW_TOKENS = [
+  // token, [x, y, blur, spread], r,g,b,a — read from dist/tokens.css, not from memory.
+  ['--pf-shadow-drop-shadow', [0, 0, 4, 0], '193,193,193,1'],
+  ['--pf-shadow-modal-header-shadow', [0, 4, 4, 0], '0,0,0,0.102'],
+];
+const shadowRows = existsSync('tokens/_raw/component-shadow.tsv')
+  ? tsv('tokens/_raw/component-shadow.tsv') : [];
+const shadowUnmatched = new Map(), shadowNotAShadow = new Map();
+if (shadowRows.length) {
+  const byVariant = new Map();
+  for (const r of shadowRows) {
+    if (!byComponent.has(r.component)) continue;      // no class to hang it on
+    if (r.type !== `DROP_SHADOW`) {
+      shadowNotAShadow.set(`${r.component} ${r.variant || `*`}`, r.type);
+      continue;
+    }
+    // Figma`s alpha is rounded to three places; the token`s comes from an 8-digit hex, so
+    // #0000001a is 26/255 = 0.10196. Compare at the precision both can express.
+    const near = (a, b) => Math.abs(a - b) < 0.006;
+    const [cr, cg, cb, ca] = (r.colour || ``).split(`,`).map(Number);
+    const hit = SHADOW_TOKENS.find(([, geo, col]) => {
+      const [tr, tg, tb, ta] = col.split(`,`).map(Number);
+      return geo[0] === Number(r.x) && geo[1] === Number(r.y)
+        && geo[2] === Number(r.blur) && geo[3] === Number(r.spread)
+        && tr === cr && tg === cg && tb === cb && near(ta, ca);
+    });
+    if (!hit) {
+      shadowUnmatched.set(`${r.component} ${r.variant || `*`}`,
+        `${r.x} ${r.y} ${r.blur} ${r.spread} rgba(${r.colour})`);
+      continue;
+    }
+    const sel = `.${cls(r.component)}${variantSel(cls(r.component), r.variant)}`;
+    if (!byVariant.has(sel)) byVariant.set(sel, []);
+    byVariant.get(sel).push(hit[0]);
+  }
+  if (byVariant.size) {
+    out.push(`/* Drop shadows. Figma puts one on every floating surface; the design system has`);
+    out.push(` * two shadow tokens and a measurement is emitted only where it matches one`);
+    out.push(` * exactly. Measured into tokens/_raw/component-shadow.tsv. */`);
+    for (const [sel, tokens] of [...byVariant.entries()].sort()) {
+      out.push(`${sel} {`);
+      out.push(`  box-shadow: ${[...new Set(tokens)].map(t => `var(${t})`).join(`, `)};`);
+      out.push(`}`);
+      ruleCount++;
+    }
+    out.push(``);
+  }
+}
 mkdirSync('dist', { recursive: true });
 writeFileSync('dist/components.css', out.join('\n'));
 
 console.log(`components.css written — ${componentCount} components, ${ruleCount} rules`);
+if (shadowUnmatched.size)
+  console.log(`  SHADOWS with no token   : ${shadowUnmatched.size} variant(s) cast a drop shadow `
+    + `the design system has no token for, so none is emitted (writing the rgba would be a raw `
+    + `colour, frozen across both modes)`)
+  || [...shadowUnmatched].sort().forEach(([k, v]) => console.log(`    ${k} — ${v}`));
+if (shadowNotAShadow.size)
+  console.log(`  ${shadowNotAShadow.size} effect(s) are not a shadow and have no box-shadow form: `
+    + `${[...shadowNotAShadow].sort().map(([k, v]) => `${k} (${v})`).join(', ')}`);
+if (sideClashes.size)
+  console.log(`  border width NOT emitted for ${sideClashes.size} variant(s) — the stylesheet `
+    + `collapses the axis that tells them apart, so no rule can distinguish them: `
+    + `${[...sideClashes].sort().join(', ')}`);
+if (strokeSideSkips.length)
+  console.log(`  border width measured but NOT emitted for ${strokeSideSkips.length} component(s) — `
+    + `they bind no stroke token, so the class has no border style to widen (gradients and `
+    + `paints switched off in Figma): ${strokeSideSkips.join(', ')}`);
+if (shapeOnly.length) {
+  console.log(`  SHAPE ONLY (no colour bound in Figma) : ${shapeOnly.length}`);
+  console.log(`    ${shapeOnly.sort().join(', ')}`);
+}
 console.log(`  with measured geometry : ${[...byComponent.keys()].filter(c => geometry.has(c)).length}`);
+if (sourceIssues.size) {
+  const affected = new Set([...sourceIssues.keys()].map(k => k.split(' — ')[0])).size;
+  console.log(`  Figma SOURCE ISSUES    : ${sourceIssues.size} bindings across ${affected} components  (primitive bound where a semantic token belongs)`);
+  for (const [k, v] of [...sourceIssues].sort()) console.log(`    ${k} — ${v}`);
+}
 if (unmapped.size) {
   console.log(`  UNMAPPED Figma tokens  : ${unmapped.size}`);
   for (const u of [...unmapped].sort()) console.log(`    ${u}`);

@@ -1,0 +1,552 @@
+<!--
+  Case Management — "My team" overview, built FROM Figma.
+
+  Source: kuX4KDIN0u4axsKTELYlzW, node 17708:13612 — a TEST-ONLY file (see CLAUDE.md).
+  Nothing here is extracted back into the pipeline.
+
+  WHAT IS REAL: the left rail (8 x Navigation item), the header, the secondary nav tabs,
+  and the Department insights card with its four Buttons — all built from
+  dist/components.css classes, with Figma's own variant attributes.
+
+  THE HEADER BAND IS NOW REAL. It was a stand-in until the extractor learned to export
+  raster fills: in Figma `Default header background` is a 1920x86 IMAGE fill — a crimson
+  swoosh, with a charcoal dark-mode twin — bound to no colour variable at all, so the
+  colour extract recorded "nothing to put in a stylesheet" and dropped the entire visual.
+  A flat `--pf-bg-theme` band stood in for it, which is why this screen shipped one solid
+  colour where the design has artwork. All six variants (Desktop/Tablet/Mobile x light/dark)
+  are now in assets/component-art/ and inlined by dist/components.css, so the band here is
+  `class="pf-default-header-background"` and nothing else.
+
+  THE PEOPLE GRID IS NOW BUILT, AND IT IS ONE CARD, NOT TWO. It was two dashed
+  placeholder boxes because the region reads as pasted screenshots in the source and I
+  wrote it off as "not components, nothing to extract" — the same reasoning that lost the
+  header swoosh, made twice. What it is: one white container holding the People title,
+  the My team / Out of office tabs, the count and eighteen person tiles. Each avatar is
+  `.pf-profile-image[data-size="Large"]`, the real People First component, now carrying
+  the real default-avatar artwork instead of an empty circle.
+
+  STILL NOT REAL: the individual photographs. In the design six of the eighteen people
+  have a photo rather than the default avatar. Those are content in the Case Management
+  file, not People First components, and that file's frame cannot be reached through the
+  plugin API from here — only its screenshot resolves. The default avatar is used for all
+  eighteen and the presence states (two red, sixteen green) follow the design.
+
+  LIBRARY ISSUE FOUND WHILE BUILDING — NOW FIXED IN THE LIBRARY: `.pf-navigation-item`
+  set `font-weight: bold` on the base class, but in Figma only Selected=Yes is SemiBold.
+  The geometry extract records ONE row per component, so the selected variant's type,
+  padding (0 vs 0 25), gap (22 vs 10) and Desktop size were applied to every state and
+  every device. Four measured rows now replace the one, so the local override is gone.
+
+  WHAT IS STILL LOCAL, AND WHY: the icon-above-label stack and the 3px selected bar.
+  In Figma the rail item's outer box is HORIZONTAL; the stack is an inner VERTICAL frame
+  (32x55, gap 5) and the bar is a sibling RECTANGLE 3x132. The extract captures a
+  component's outer box only, so neither child exists in the class and both are written
+  here by hand. That is the same gap that left the header band empty.
+-->
+<meta charset="utf-8">
+<title>Case Management — My team</title>
+<style>
+/*__TOKENS__*/
+/*__COMPONENTS__*/
+/*__TYPE__*/
+
+/* ---------- local: page layout and anything drawn INSIDE a component ---------- */
+* { box-sizing: border-box; }
+/* pf-new: the page ground. Figma's canvas fill and default text colour; there is no
+   component for the <body> element itself. */
+body { margin: 0; font-family: var(--pf-font-body); background: var(--pf-bg-secondary);
+       color: var(--pf-text-primary); }
+svg { display: block; }
+:focus-visible { outline: 2px solid var(--pf-border-theme); outline-offset: 2px; }
+
+.app { display: grid; grid-template-columns: 90px 1fr; min-height: 100vh; }
+
+/* pf-new: the rail is the page shell — the column that holds Navigation items. Figma has
+   a component for the items, none for the column they sit in. */
+.rail { background: var(--pf-bg-primary); border-right: 1px solid var(--pf-border-default-full);
+        display: flex; flex-direction: column; }
+.rail .spacer { flex: 1; }
+/* pf-new: the app-menu square at the top of the rail. No component covers it. */
+.railtop { width: 90px; height: 86px; display: grid; place-items: center;
+           background: var(--pf-bg-theme); color: var(--pf-icon-always-white); }
+/* This page renders the rail item AS the stack, so it owns direction, gap and padding
+   for every state. Figma's own numbers on the outer box describe a different thing:
+   gap 22 on Selected is the distance from the stack to the 3x132 bar beside it, and
+   padding 0 there is because that bar sits where the padding would be. Inherit them onto
+   a column and the icon is pushed out of the 86px item — which is exactly what happened
+   the moment the library started emitting the Selected variant's real geometry. The
+   inner frame's own gap is 5. */
+/* pf-new: the inner VERTICAL stack (32x55, gap 5) is a CHILD of the rail item in Figma.
+   The outer-box extract reaches the item, never the stack, so the stack's own direction,
+   gap and padding are written here. */
+.pf-navigation-item,
+.pf-navigation-item[data-selected="Yes"] {
+  flex-direction: column; gap: 5px; padding: 0 25px; text-decoration: none;
+  cursor: pointer; position: relative; color: var(--pf-text-secondary); }
+/* Weight now comes from the class: base is Regular, [data-selected="Yes"] is SemiBold,
+   exactly as Figma has it. Only the two CHILDREN the extract cannot reach are written
+   here — the inner vertical stack above, and the 3x132 selected bar below. */
+/* pf-new: the selected bar is a 3x132 sibling RECTANGLE in Figma, not part of the item's
+   own box, so no class carries it. */
+.pf-navigation-item[data-selected="Yes"]::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--pf-bg-theme);
+}
+/* Figma's 0 25 padding is sized for the 32px ICON, and the label simply overflows it —
+   a Figma text node does not wrap or clip unless told to. nowrap reproduces that; letting
+   it wrap would invent a two-line rail item the design does not have. */
+/* pf-new: the label is a TEXT child inside that stack. 13px is measured on the child, not
+   inherited from the item's outer box. */
+.pf-navigation-item .lbl { font-size: 13px; white-space: nowrap; }
+/* The colour here was Text/Always white, which read 5.28:1 in light and 2.36:1 in DARK —
+   Background/Theme is Default Pink in light and Blue Sky in dark, so white on it stops
+   being legible the moment the mode flips. Text/Inverted primary is the token for text on
+   a brand surface and adapts with it: 5.28 and 4.52, AA in both. Found by pointing
+   pf-audit at this page for the first time. */
+/* pf-new: the notification count on a rail item. Figma's `Counter` is not a component —
+   uncaptured-reasons.tsv records it as a variant child of the Header set ("System=People
+   First"), never a component in its own right — so there is no class to use. Measured off
+   that child. */
+.badge { position: absolute; top: 14px; right: 22px; min-width: 18px; height: 18px;
+         border-radius: 9px; background: var(--pf-bg-theme); color: var(--pf-text-inverted-primary);
+         font-size: 11px; font-weight: var(--pf-font-weight-bold);
+         display: grid; place-items: center; padding: 0 5px; }
+
+/* Header. Figma: Breakpoint=Desktop, Page type=App. The component carries its height and
+   type. The band itself is the real exported artwork — `.pf-default-header-background`,
+   one element, no colour of my own. Any contrast reading over it is a reading against a
+   photograph of a gradient, so it is not quoted here as a pass or a fail. */
+.pf-header { width: 100%; position: relative; }
+.pf-header > .pf-default-header-background {
+  position: absolute; inset: 0; height: 100%; }   /* Figma: child 0 of Header, behind the row */
+/* pf-new: the 86px row of header content is a CHILD frame of Header, sitting over the
+   artwork. The extract captures Header's outer box only. */
+.hdrow { height: 86px; display: flex; align-items: center; width: 100%; position: relative;
+         padding: 0 20px 0 23px; }   /* Figma: search at x=23, right group ends 20 from edge */
+.hdrow .grow { flex: 1; }
+/* Size now comes from `.pf-text-large-heading` — Figma's Desktop text/Large heading is
+   24px Regular, which is exactly what was hand-written here.
+   The colour is marked below. */
+/* The title group used to be `.hdtitle` here — a hand-written 66px flex row with a 10px
+   gap, 24px text and Text/Always white. That is `Top bar app context`, which carries all
+   four, so the class replaced it and the local rule went. */
+/* pf-new: the 66px disc is a child of the header title group in Figma; its own icon
+   (`top bar app icon`) is not in the library, so the disc stays page-local. */
+.pf-top-bar-app-context .disc { width: 66px; height: 66px; border-radius: 50%;
+                 background: var(--pf-bg-light-theme); color: var(--pf-text-theme);
+                 display: grid; place-items: center; }
+/* pf-new: header icons are loose instances on the band, not a component. Always-white
+   for the same reason as the title — the artwork behind them is dark in both modes. */
+.hdicon { color: var(--pf-icon-always-white); }
+/* Clock-in is a component. The hand-written version here had padding 7 16 7 6 from my
+   own measuring; the component says 7 20 7 10. Layout only now — the class owns the box. */
+/* The class carries the component's real box and colours. Only the stroke width and the
+   cursor are page concerns.
+
+   THE ONE OVERRIDE, AND WHY: Clock in binds `Text/Inverted primary`, which is White in
+   light mode and Grey Slate in dark. It sits on the header artwork, which is dark
+   in BOTH modes — so in dark the label measures 1.05-1.22:1 against the band and the
+   button renders as an empty outline. That is a fault in the design system, not in this
+   page; it is written up in docs/FIGMA-ISSUES.md section 6 with the suggested binding
+   (`Text/Always white`, 13.03:1). Overridden here only so the test screen is legible. */
+.pf-clock-in { cursor: pointer; }
+:root[data-theme="dark"] .pf-clock-in,
+.pf-clock-in[data-pf-issue="6"] { color: var(--pf-text-always-white); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .pf-clock-in { color: var(--pf-text-always-white); }
+}
+/* The class owns the fill — `Navigation/Search bg` — and the text colour. Overriding the
+   background with --pf-bg-primary here was the same fault as the sub nav: right in light
+   mode, a different grey in dark.
+   The 150px width and the type — size AND tracking — now come from the class. Search
+   navigation's label is Desktop text/Body text, which the library composes, so the
+   -0.01em written here was a hand-copied duplicate of a value the class already has.
+   pf-new: the 7px inset and the icon-to-text gap are the component's INTERNAL
+   arrangement, which the outer-box extract does not reach. */
+.pf-search-navigation { display: inline-flex; align-items: center; gap: 7px;
+  padding: 0 7px; }
+.rightgrp { display: flex; align-items: center; gap: var(--pf-space-large); }  /* Figma: Frame 84860 gap 20 */
+
+/* Secondary nav — Figma "[S] Main nav context", 1830x44, which the People First file
+   now calls Secondary nav. Its tabs are Nav tabs. */
+/* Measured: Secondary nav is 44px, fill `Navigation/Nav bg top`, with a
+   `Border/Default full` rule to either side of the tabs. The hand-written version used
+   --pf-bg-primary, which is white in light mode and so looked right, and a DIFFERENT
+   grey in dark mode — which is the band that showed up. The component class already
+   carries the correct token; using it is the whole fix. */
+/* Width only. The 44px height, the fill, the text colour AND the vertical alignment all
+   come from the class: Figma's counter-axis alignment on this frame is MAX, so the tabs sit
+   on the strip's bottom edge. This used to say `align-items: stretch`, which is an override
+   of a property the component owns — the tabs then sat at the TOP of the strip, four pixels
+   clear of the rule running out to either side of them, and the sub nav read as floating. */
+.pf-secondary-nav { width: 100%; }
+/* pf-new: the rules running out to either side of the tab group are children of the
+   Secondary nav frame in Figma (two LINE nodes at y=44), not part of its outer box. */
+.pf-secondary-nav::before, .pf-secondary-nav::after {
+  content: ""; flex: 1 1 auto; align-self: flex-end;
+  border-bottom: 1px solid var(--pf-border-default-full); }
+/* Behaviour only. Height, padding, gap, the stroke and every colour come from the class.
+   There is no underline here any more: Nav tabs is a FILE-FOLDER tab in Figma, not an
+   underlined one. Unselected it strokes its bottom edge; selected it strokes top, left and
+   right and leaves the bottom OPEN so the tab joins the panel below, with 8px 8px 0 0
+   corners. The page used to draw a 3px bar under the selected tab and claim in a comment
+   that Figma's Nav tabs had one as its second child — every variant has exactly one child,
+   the label. The class carries the real shape now. */
+.pf-nav-tabs { cursor: pointer; }
+
+.content { padding: var(--pf-space-large); display: flex; flex-direction: column;
+           gap: var(--pf-space-large); }
+
+/* The People card. One container, as in Figma. Layout only — every painted thing here
+   is a component class or a token. The avatar is `.pf-profile-image[data-size="Large"]`,
+   which is 76px and now carries the real artwork rather than an empty circle. */
+/* .pf-card owns the fill, radius, padding and gap. Figma hugs and centres its contents;
+   on a page it is a full-width block. */
+.peoplecard { width: 100%; display: flex; align-items: stretch; }
+.ppl-head { display: flex; align-items: center; gap: var(--pf-space-small); }
+/* Centring used to be here too — `display: grid; place-items: center` — which was
+   hand-written component CSS: `Circle icons` centres its own child in Figma and the class
+   now says so. Only the flex behaviour of this particular row is left, which is layout. */
+.ppl-mark { flex: 0 0 auto; }
+/* Tab binds no fill, so it sits on the card. Nav tabs binds `Navigation/Nav bg top` and
+   belongs in the top strip; using it here put a lighter box behind the unselected tab in
+   dark mode. The underline is a child of the Selected variant in Figma, so it is page CSS. */
+.ppl-tabs { display: flex; gap: var(--pf-space-medium); }
+.ppl-tabs .pf-tab, .cats .pf-tab { width: auto; cursor: pointer;
+  border-bottom: 2px solid transparent; }
+.ppl-tabs .pf-tab[data-state="Selected"], .cats .pf-tab[data-state="Selected"] {
+  border-bottom-color: var(--pf-border-theme); }
+.ppl-count { margin: 0; }
+.ppl-grid { list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: var(--pf-space-large) var(--pf-space-medium); }
+.person { display: flex; flex-direction: column; align-items: center; gap: var(--pf-space-xsmall);
+  text-align: center; min-width: 0; }
+/* pf-new: a positioning context for the dot and kebab. Sized to the Large avatar so the
+   two children can be placed against it. */
+.pav { position: relative; display: block; width: 76px; height: 76px; }
+/* pf-new: the presence dot is a child of the tile in Figma, not of any component. The
+   extract captures a component's outer box only, so there is no class for it. Its own
+   colour binding could not be read — the Case Management frame no longer resolves
+   through the plugin API — so the design system's solid green and red are used. */
+.dot { position: absolute; top: 2px; left: 2px; width: 14px; height: 14px;
+  border-radius: 999px; border: 2px solid var(--pf-bg-primary); }
+/* Background/Primary Button and Background/Negative Button — the design system's solid
+   green and red. --pf-bg-positive is Green Panache, a pale wash meant for a surface, and
+   using it made the dot nearly invisible. The dot's OWN binding could not be read: it is
+   in the Case Management frame, which no longer resolves through the plugin API. */
+/* pf-new: the dot is a child of the tile, and its own binding is unreadable. */
+.dot[data-presence="Available"] { background: var(--pf-bg-primary-button); }
+/* pf-new: as above — the dot is a child of the tile, and its own binding is unreadable. */
+.dot[data-presence="Away"] { background: var(--pf-bg-negative-button); }
+/* pf-new: the kebab is likewise a child of the tile, with no component of its own. */
+.kebab { position: absolute; top: 0; right: -14px; width: 20px; height: 20px;
+  display: grid; place-items: center; background: none; border: 0; padding: 0;
+  cursor: pointer; color: var(--pf-icon-secondary); }
+/* Measured on the People component: #Name is 13px Regular Text/Primary and #ID is
+   13px Regular Text/Secondary. 13px Regular IS `.pf-text-label-text`, so the type layer
+   carries both and only the secondary colour is set here. */
+/* pf-new: #ID is a second TEXT child of the People tile; the type class carries its size
+   and weight, and only this colour has nowhere else to live. */
+.prole { color: var(--pf-text-secondary); }
+
+/* Department insights — Layout container (magazine style) */
+/* The fill is the component's own, behind Row colour=False — set in the markup, not
+   here. Hand-writing --pf-bg-primary was the sub-nav fault again: correct in light mode,
+   a different grey in dark. */
+.pf-layout-container-magazine-style { width: 100%;
+  padding: var(--pf-space-large);
+  display: flex; flex-direction: column; gap: var(--pf-space-large); }
+.ins-title { display: flex; align-items: center; gap: var(--pf-space-small); }
+/* pf-new: a 1px rule under the card title. Figma draws it as a LINE node, which the
+   outer-box extract does not capture as a component. */
+.ins-rule { height: 1px; background: var(--pf-border-default-full); align-self: stretch; }
+/* In Figma both of these FILL the magazine container — the template shows them at 1540
+   wide inside it, and the 1160 on the class is the width they were drawn at standalone.
+   Left to themselves they are inline-flex and size to their contents, so the title row
+   came out 1062 inside a 1150 container and its links stopped short of the edge. This is
+   alignment, not size: the component still owns its height, padding and gap. */
+.pf-layout-container-title,
+.pf-layout-container-tabs { align-self: stretch; }
+/* Only the <p> default margin is reset. The colour is deliberately NOT set: this is page
+   copy, it inherits, and a local `color` here is a property a component owns. */
+.ins-meta { margin: 0; }
+.linkrow { display: flex; gap: var(--pf-space-large); }
+.cats { display: flex; gap: var(--pf-space-large); flex-wrap: wrap; }
+.btnrow { display: flex; gap: var(--pf-space-large); flex-wrap: wrap; }
+.pf-button { cursor: pointer; }
+/* Behaviour only. The component owns the box, the 5px gap and the alignment; the 6px
+   written here was measured by eye and quietly disagreed with Figma. */
+.pf-links { text-decoration: none; cursor: pointer; }
+</style>
+
+<div class="app">
+
+  <!-- Left rail — 8 x Navigation item (90x86), Device=Desktop -->
+  <!-- data-align: `pf-navigation-item` is the 90x86 rail item that puts the icon ABOVE the
+       label, so centring is the component's Figma shape rather than a stray rule. Declared
+       because intent cannot be read off the CSS — a deliberate centre and an accidental one
+       compute identically. -->
+  <nav class="rail" aria-label="Main" data-align="center">
+    <div class="railtop" aria-hidden="true"><!--pf-icon:app-menu 32--></div>
+    <a class="pf-navigation-item" data-pf-id="nav-home" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:home 32--><span class="lbl">Home</span></a>
+    <a class="pf-navigation-item" data-pf-id="nav-news" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:news 32--><span class="lbl">News</span></a>
+    <a class="pf-navigation-item" data-pf-id="nav-me" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:user 32--><span class="lbl">Me</span></a>
+    <a class="pf-navigation-item" data-pf-id="nav-my-team" data-device="Desktop" data-state="Selected" data-selected="Yes" aria-current="page" href="#"><!--pf-icon:team 32--><span class="lbl">My team</span></a>
+    <a class="pf-navigation-item" data-pf-id="nav-notifications" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:notification-bell 32--><span class="lbl">Notifications</span><span class="badge">7</span></a>
+    <div class="spacer"></div>
+    <a class="pf-navigation-item" data-pf-id="nav-support" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:tooltip-question 32--><span class="lbl">Support</span></a>
+    <a class="pf-navigation-item" data-pf-id="nav-settings" data-device="Desktop" data-state="Unselected" href="#"><!--pf-icon:settings 32--><span class="lbl">Settings</span></a>
+  </nav>
+
+  <div>
+    <!-- Header — Figma: Breakpoint=Desktop, Page type=App, Darkmode=False -->
+    <header class="pf-header" data-pf-id="app-header" data-breakpoint="Desktop">
+      <!-- Figma: Header child 0 is an instance of `Default header background` -->
+      <div class="pf-default-header-background" data-breakpoint="Desktop" aria-hidden="true"></div>
+      <div class="hdrow">
+        <span class="pf-search-navigation" data-pf-id="header-search" data-mobile="False"><!--pf-icon:search 22-->Search</span>
+        <span class="grow"></span>
+        <span class="pf-top-bar-app-context" data-pf-id="header-app-context"><span class="disc"><!--pf-icon:team 40--></span>HR</span>
+        <span class="grow"></span>
+        <span class="rightgrp">
+          <button class="pf-clock-in" data-pf-id="clock-in-button" data-type="Standard" data-pf-issue="6" type="button"><!--pf-icon:clock 22-->Clock-in</button>
+          <span class="hdicon" aria-label="Tasks"><!--pf-icon:tasks 32--></span>
+        </span>
+      </div>
+    </header>
+
+    <!-- [S] Main nav context (1830x44) — tabs are Nav tabs -->
+    <nav class="pf-secondary-nav" data-pf-id="section-nav" data-mobile="False" aria-label="Section">
+      <button class="pf-nav-tabs" data-pf-id="section-tab-overview" data-status="Selected" data-mobile="False" aria-current="page" type="button">Overview</button>
+      <button class="pf-nav-tabs" data-pf-id="section-tab-profile" data-status="Unselected" data-mobile="False" type="button">Profile</button>
+      <button class="pf-nav-tabs" data-pf-id="section-tab-schedule" data-status="Unselected" data-mobile="False" type="button">Schedule</button>
+      <button class="pf-nav-tabs" data-pf-id="section-tab-calendar" data-status="Unselected" data-mobile="False" type="button">Calendar</button>
+    </nav>
+
+    <main class="content">
+
+      <!-- ONE card. In Figma this is a single white container holding the People title,
+           the My team / Out of office tabs, the count and the 18-person grid. The build
+           had TWO dashed placeholder boxes here because the grid was written off as
+           "a screenshot, nothing to extract" — the same reasoning that lost the header
+           swoosh. The avatars are the real `Profile image` component; only the individual
+           photographs are content, and those are not in the People First library. -->
+      <section class="pf-card peoplecard" data-pf-id="people-card" aria-labelledby="ppl">
+        <div class="ppl-head">
+          <span class="pf-circle-icons ppl-mark" data-pf-id="people-card-mark" data-size="XS - 28px"><!--pf-icon:team--></span>
+          <h2 id="ppl" class="pf-text-sub-heading">People</h2>
+        </div>
+        <nav class="ppl-tabs" aria-label="People view">
+          <button class="pf-tab" data-pf-id="people-tab-my-team" data-state="Selected" data-mobile="No" aria-current="page" type="button">My team</button>
+          <button class="pf-tab" data-pf-id="people-tab-out-of-office" data-state="Default" data-mobile="No" type="button">Out of office</button>
+        </nav>
+        <p class="ppl-count pf-text-large-heading">34 people connected to you</p>
+        <ul class="ppl-grid">
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Alice Smith"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Alice Smith"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pf-text-label-text pname">Alice Smith</span>
+            <span class="pf-text-label-text prole"></span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Zach Da Rosa"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Zach Da Rosa"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pf-text-label-text pname">Zach Da Rosa</span>
+            <span class="pf-text-label-text prole"></span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="anna anna"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for anna anna"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pf-text-label-text pname">anna anna</span>
+            <span class="pf-text-label-text prole">Business Analyst</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="anna anna"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for anna anna"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pf-text-label-text pname">anna anna</span>
+            <span class="pf-text-label-text prole">Goal Keeper3</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Amelie Bennett"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Amelie Bennett"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pf-text-label-text pname">Amelie Bennett</span>
+            <span class="pf-text-label-text prole">Probation manager</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Ariel Castro"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Ariel Castro"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pf-text-label-text pname">Ariel Castro</span>
+            <span class="pf-text-label-text prole">Sales admin</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Penelope Furst"></span>
+              <span class="dot" data-presence="Away" title="Away"></span>
+              <button class="kebab" type="button" aria-label="Actions for Penelope Furst"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pf-text-label-text pname">Penelope Furst</span>
+            <span class="pf-text-label-text prole">HR Consultant</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Rebecca Jacobs"></span>
+              <span class="dot" data-presence="Away" title="Away"></span>
+              <button class="kebab" type="button" aria-label="Actions for Rebecca Jacobs"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pf-text-label-text pname">Rebecca Jacobs</span>
+            <span class="pf-text-label-text prole">HR Systems Lead</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="anna anna"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for anna anna"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pf-text-label-text pname">anna anna</span>
+            <span class="pf-text-label-text prole">Goal Keeper3</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Jane Jones"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Jane Jones"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pf-text-label-text pname">Jane Jones</span>
+            <span class="pf-text-label-text prole">Business Partner 3</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Jackson Keegan"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Jackson Keegan"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pf-text-label-text pname">Jackson Keegan</span>
+            <span class="pf-text-label-text prole">Business Partner Lead</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Jackson Keegan"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Jackson Keegan"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pf-text-label-text pname">Jackson Keegan</span>
+            <span class="pf-text-label-text prole">Developer BBB testing</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Jackson Keegan"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Jackson Keegan"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pf-text-label-text pname">Jackson Keegan</span>
+            <span class="pf-text-label-text prole">Business Partner 2</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Mark Keeling"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Mark Keeling"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pf-text-label-text pname">Mark Keeling</span>
+            <span class="pf-text-label-text prole">Campaign Admin</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Mary Kirby"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Mary Kirby"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pf-text-label-text pname">Mary Kirby</span>
+            <span class="pf-text-label-text prole">HR assistant</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Jonathon Lomax"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Jonathon Lomax"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pf-text-label-text pname">Jonathon Lomax</span>
+            <span class="pf-text-label-text prole">HR assistant</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Jonathon Lomax"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Jonathon Lomax"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pf-text-label-text pname">Jonathon Lomax</span>
+            <span class="pf-text-label-text prole">Employee Support</span>
+          </li>
+          <li class="person">
+            <span class="pav">
+              <span class="pf-profile-image" data-size="Large" role="img" aria-label="Jackson Keegan"></span>
+              <span class="dot" data-presence="Available" title="Available"></span>
+              <button class="kebab" type="button" aria-label="Actions for Jackson Keegan"><!--pf-icon:context-menu 14--></button>
+            </span>
+            <span class="pf-text-label-text pname">Jackson Keegan</span>
+            <span class="pf-text-label-text prole">Business Partner 2</span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Department insights — Layout container (magazine style) -->
+      <section class="pf-layout-container-magazine-style" data-pf-id="insights-panel" data-row-colour="False" aria-labelledby="ins">
+        <!-- The title row is `Layout container title`: a heading group on the left and an
+             action group on the right, one component. This was two hand-written divs.
+             Figma's own action group holds buttons; here it holds links, which is page
+             content — the group div carries layout only, as the template does. -->
+        <div class="pf-layout-container-title" data-pf-id="insights-title-row">
+          <div class="ins-title">
+            <h2 id="ins" class="pf-text-large-heading">Department insights</h2>
+          </div>
+          <div class="linkrow">
+            <a class="pf-links" data-pf-id="insights-link-design-query" data-link-type="Primary" data-icon-position="Left" href="#"><!--pf-icon:search 16-->Design a Query</a>
+            <a class="pf-links" data-pf-id="insights-link-thresholds" data-link-type="Primary" data-icon-position="Left" href="#"><!--pf-icon:settings 16-->Set department thresholds</a>
+          </div>
+        </div>
+
+        <div class="ins-rule"></div>
+        <p class="ins-meta pf-text-body-text">The data below is based on your reporting department, which may not be all of the people featured above.</p>
+
+        <!-- The category tabs and the action buttons are ONE component in Figma —
+             `Layout container tabs`, tabs packed left and buttons pushed right. The page
+             had them as two separate hand-written rows, which is why they stacked. -->
+        <div class="pf-layout-container-tabs" data-pf-id="insights-tabs-row">
+          <div class="cats" role="tablist" aria-label="Insight categories">
+            <button class="pf-tab" data-pf-id="insights-tab-people" data-state="Selected" role="tab" aria-selected="true" type="button">People</button>
+            <button class="pf-tab" data-pf-id="insights-tab-time" data-state="Default" role="tab" aria-selected="false" type="button">Time</button>
+            <button class="pf-tab" data-pf-id="insights-tab-talent" data-state="Default" role="tab" aria-selected="false" type="button">Talent</button>
+            <button class="pf-tab" data-pf-id="insights-tab-learning" data-state="Default" role="tab" aria-selected="false" type="button">Learning</button>
+            <button class="pf-tab" data-pf-id="insights-tab-surveys" data-state="Default" role="tab" aria-selected="false" type="button">Surveys</button>
+            <button class="pf-tab" data-pf-id="insights-tab-recruitment" data-state="Default" role="tab" aria-selected="false" type="button">Recruitment</button>
+          </div>
+          <div class="btnrow">
+            <button class="pf-button" data-type="Action" data-pf-id="insights-action-add" type="button"><!--pf-icon:add-plus 16-->Action</button>
+            <button class="pf-button" data-type="Positive" data-pf-id="insights-action-sort" type="button"><!--pf-icon:sort-arrow-ag-grid 16-->Action</button>
+            <button class="pf-button" data-type="Hollow" data-pf-id="insights-action-edit" type="button"><!--pf-icon:edit 16-->Action</button>
+            <button class="pf-button" data-type="Negative" data-pf-id="insights-action-delete" type="button"><!--pf-icon:bin-delete 16-->Action</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>

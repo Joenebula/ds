@@ -10,13 +10,15 @@ packaged so Claude Design — and any HTML/CSS output — generates on-brand UI.
 | Path | What it is |
 |---|---|
 | `tokens/_raw/` | Verbatim extract from Figma. The evidence trail. |
-| `tokens/design-tokens.json` | 177 tokens in W3C DTCG format. Generated. |
+| `tokens/design-tokens.json` | 196 tokens in W3C DTCG format. Generated. |
 | **`dist/fonts.css`** | **Open Sans variable (wght 300-800), self-hosted and base64-inlined. Generated.** |
-| `dist/tokens.css` | 365 CSS custom properties, light + dark. Generated. |
-| **`dist/components.css`** | **138 components, 282 variants, as ready classes. Generated.** |
+| `dist/tokens.css` | 414 CSS custom properties — 111 semantic tokens x 2 modes, plus the primitives they alias. Generated. |
+| **`dist/components.css`** | **160 classes. 147 components with 302 colour variants, plus 13 shape-only. Generated.** |
 | **`dist/type.css`** | **23 type classes, one per Figma text style. Generated.** |
 | `assets/icons/` | All 293 People First icons as individual SVGs. |
-| `docs/components.html` | Every component and variant, light and dark. |
+| **`docs/FIGMA-ISSUES.md`** | **What the design team needs to fix in Figma — with measured contrast figures. Hand-written.** |
+| **`docs/COMPONENTS.md`** | **Every component in one readable list — class, variants, size, and what needs attention. Generated.** |
+| `docs/components.html` | Every component and variant, rendered, light and dark. |
 | `docs/icons.html` | Every icon, browsable. |
 | `.claude/skills/` | Four skills: `people-first`, `pf-screen`, `pf-audit`, `pf-handoff`. |
 | `reference/index.html` | Visual proof sheet — every token rendered, with a dark-mode toggle. |
@@ -25,12 +27,12 @@ packaged so Claude Design — and any HTML/CSS output — generates on-brand UI.
 
 ## What was extracted
 
-- **52 primitive colours** (`Colours Primitive`) — raw palette, not for direct use
-- **96 semantic colours** (`Colours Semantic`) — **each with Lightmode and Darkmode values**
+- **56 primitive colours** (`Colours Primitive`) — raw palette, not for direct use
+- **111 semantic colours** (`Colours Semantic`) — **each with Lightmode and Darkmode values**
 - **13 dimensions** — spacing (5/10/15/20/40), radius (4/8), icon sizes (18–44)
 - **9 typography variables** — Open Sans, sizes 13–36, weights Regular/SemiBold
 - **23 text styles**, 2 shadows, 4 layout grids, 1 AI gradient
-- **469 published components** inventoried across 16 pages
+- **477 published components** inventoried across 16 pages
 
 Alias chains are preserved rather than flattened, so `Table/Card` → `Background/Primary`
 → `Base colours/White` survives as `var(--pf-bg-primary)` in the CSS. Change a

@@ -1,161 +1,503 @@
 component	size	padding	radius	gap	font	layout	notes	nodeId
-Button	auto x 32	0 20	20	10	13px SemiBold	HORIZONTAL CENTER CENTER	PILL. Leading icon on every variant. Icon-only variant is 32x32 circle.	1656:44983
-Button (icon only)	32 x 32	0 20	20	10	—		perfect circle	
-Links (primary)	auto x 22	0	0	5	16px, ls -1%		underline on hover	
-Links (secondary)	auto x 18	0	0	5	13px			
-Filter chip	auto x 42	10 20	76	5	16px, ls -1%	HORIZONTAL CENTER CENTER	RE-READ 2026-09-11: State=Hover has moved Background/Theme -> Background/Light theme. THIRD component with that exact change after Radio tile and Radio card, and the first that the shipped prototypes actually use. Unextracted, so the row is left as captured and is KNOWN STALE. Invisible in light (both #fcf4f7) and wrong in dark, where Background/Theme is #2c3844. Default and Selected rows are unchanged	8433:85634
-Filter chip (mobile)	auto x 34	8 15	76	5	13px		PILL	
-Tags	auto x 28	5 10	4	5	13px Regular	HORIZONTAL CENTER CENTER	SENTENCE CASE, not uppercase	18415:5426
-Field	300 x 42	10 10 10 20	8	10	16px	HORIZONTAL CENTER MAX	the input box itself. Placeholder text is italic, the value is not. 4 variants (Right aligned x Filled). NODE ID CORRECTED 2026-09-11: was 18846:28925, which is the OTHER component Figma also calls Field — a single Property 1=Default variant 95x42, recorded separately on this file's "Field (second component)" row. The real set is 13737:25495, whose four Right aligned x Filled variants are 300x42, exactly this row and the four captured variants RE-READ 2026-09-11 against the corrected id: Background/Primary, Border/Form input, Text/Primary and Text/Secondary are all still bound. UNCHANGED	13737:25495
-Primary search	auto x 38	0 10	20	10	13px	HORIZONTAL CENTER MIN	PILL. RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	6584:66405
 Option (dropdown row)	auto x 26	2 10 2 20	4	5	16px		tick icon 14x14	
-Text area	auto x 213	—	8	5	16px	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	13740:47785
-Message box	auto x 138	15	8	10	16px	VERTICAL MIN MIN	RE-READ 2026-09-11, MEASURED: root binds Background/Primary + Border/Form input, UNCHANGED. The captured Text/Secondary is CORRECT and nearly went down as stale: get_variable_defs does not list it, because it is on the placeholder line and placeholderText defaults to false. The render shows it. This is the mirror of the Toggle case and the reason an absence now needs BOTH tools to agree	26895:77316
-Toggle	55 x 25	0 7 0 2	13	0	13px	HORIZONTAL CENTER SPACE_BETWEEN	RE-READ 2026-09-11, CORRECTED SAME DAY: all four variants are UNCHANGED and still bind their captured tokens. The earlier note on this row claimed the two Locked=Yes variants had been flattened and bound nothing; that was read off a get_design_context render, which exports vector art as an <img> and drops its bindings. get_variable_defs on the variants themselves disproves it — 2816:1373 binds Background/Tertiary + Base colours/Grey Dolphin and 2816:1379 binds Background/Primary Button, exactly as captured	2816:1369
 Checkbox / radio box	20 x 20	—	4	—	—		r4 even for radio in this system	
 Checkbox/Radio item (row)	auto x 22	0	0	10	16px			
 Radio card / Radio tile	235 x 152	25 0	4	10	16px SemiBold			
-Table header (AG)	auto x 54	15	0	47	13px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN	RE-READ 2026-09-11: fill Table/Header cell is unchanged on all three Alignment variants. The stroke has moved Border/Default -> Border/Default full, which is unextracted, so all three rows are left as captured and are KNOWN STALE. NOTE THE METHOD: the render emits no border class at all here — the binding was only visible to get_variable_defs on 27719:2334	27719:2335
-Table cell (AG)	auto x 58	10 15	0	10	13px	HORIZONTAL CENTER MIN	rows are TALL. RE-READ 2026-09-11: all six rows are KNOWN STALE and none could be corrected. Stroke Border/Default -> Border/Default full on all six (invisible to the render, found by get_variable_defs on 27719:3033); fill Background/Theme -> Background/Light theme on the two Style=Hover rows. Both replacements are unextracted. The Table/Primary cell and Table/Stripe cell fills are unchanged	27719:3034
 Table (AG) container	—	0	8	0	13px SemiBold			
-Table card (AG)	—	20	8	20	16px SemiBold	VERTICAL CENTER MIN	RE-READ 2026-09-11: SCREENED, NOT MEASURED — same as Table (AG), and for the same reason: it embeds a whole table, so its variable set is the table's. Table/Card and Text/Theme are both still bound. Needs the python extract-from-transcript route	27744:18741
-Multi-select checkbox	20 x 20	0	4	0	—	NONE	RE-READ 2026-09-11: Default, Selected and Mixed selection are UNCHANGED. State=Hover has moved Background/Theme -> Background/Light theme and is KNOWN STALE. Mixed selection renders as a flat SVG with no bindings in the code, but get_variable_defs on 9099:90323 returns Icons/Icon - Theme exactly as captured — a second demonstration that the render cannot prove an absence	9040:87456
-Table header icons	24 x 24	10	4	10	—	HORIZONTAL CENTER CENTER	RE-READ 2026-09-11: all four captured coloured rows have moved Background/Theme -> Background/Light theme and are KNOWN STALE. Figma has also GROWN this component from the 5 captured variants to 10: Sort/Hover, Filter/Default, Filter/Hover, Context menu/Default and Context menu/Hover are new. The three new Hover states paint a RAW #e5e5e5 with no variable behind it, matching DEPRECATED COLOURS/Grey steel, while every other state in the component uses a variable. None of the five is captured: the rest of the component cannot be coloured correctly until the token layer lands, and adding a raw hex to the stylesheet is barred outright	30772:33402
-Selected action banner	auto x 48	8 20	8	—	16px	HORIZONTAL CENTER SPACE_BETWEEN	RE-READ 2026-09-11: UNCHANGED — Background/Tertiary and Text/Primary both still bound (screened with get_variable_defs on 23862:16596)	23862:16596
-AG sort item	auto x 52	16 20	0	20	13px	HORIZONTAL CENTER MIN	RE-READ 2026-09-11: State=Default is UNCHANGED. State=Hover and State=Active have moved Background/Theme -> Background/Light theme and are KNOWN STALE. Text/Primary is unchanged on all three	30792:46426
-AG Filter menus	208 x 252	16	4	20	12px	VERTICAL CENTER MIN	RE-READ 2026-09-11: UNCHANGED — Filter menu/Background, Filter menu/Border, Text/Primary and Text/Disabled all still bound (screened with get_variable_defs on 30782:46404)	30782:46404
-Card	auto	20	8	20	20px title	VERTICAL CENTER MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	5726:69614
-Content cards	auto	20	8	20	16px	VERTICAL MIN MIN	RE-READ 2026-09-11: stroke has moved Border/Default -> Border/Default full, which is unextracted, so the row is left as captured and is KNOWN STALE	20755:32197
-Settings card	auto	20	8	10	13px SemiBold	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	6033:65712
-Configuration tile	auto x 260	40 20	8	10	24px	VERTICAL CENTER CENTER	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	7063:83776
-Draggable card	auto x 50	10 15	8	20	16px	HORIZONTAL CENTER MIN	RE-READ 2026-09-11, MEASURED per variant: Click and Drag are UNCHANGED. Three rows are KNOWN STALE. Default's stroke Border/Default -> Border/Default hidden and Drop's fill Background/Theme -> Background/Light theme are the two blocked tokens. State=Hover is the one that is NEITHER: its stroke has moved Border/Secondary -> Border/Default hidden, a real colour change (#c1c1c1 -> #e5e5e5, visibly lighter) and not a rename at all. It is blocked only because the token it moved TO is unextracted	19979:2091
-Accordion	auto x 84	20	8	—	20px	HORIZONTAL CENTER SPACE_BETWEEN	RE-READ 2026-09-11: stroke has moved Border/Default -> Border/Default full, which is unextracted, so the row is left as captured and is KNOWN STALE	16812:1710
-Side panel	375 wide	0	mixed	0	20px	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	13909:5302
-Side panel header	auto x 60	10 15	0	10	20px	HORIZONTAL CENTER MAX	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	18222:8378
-Sticky footer	auto x 52	10 15	0	20	13px SemiBold	HORIZONTAL CENTER MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	20184:1662
 Org chart node	293 x 48	0	8	0	16px		shadow 2 2 4px	
 Layout container	auto	30	0	20	20px			
-Title panel	auto x 135	40 20	0	10	18px	VERTICAL CENTER CENTER	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	5050:63097
-Empty section	auto x 212			35	20px SemiBold	HORIZONTAL CENTER MIN		19552:92722
-Notification card	auto x 113	15 20	8	15	13px SemiBold	HORIZONTAL CENTER MIN		13846:5504
-Toast message	350 x 114	30 0 30 25	4	15	13px Regular	HORIZONTAL CENTER MIN	fixed light surface — see dark-mode note. TYPE IS A 10px LEFT ACCENT BAR, not a stroke: Success Border/Positive, Info Border/Info, Warning Border/Warning, Error Base colours/Red. The fill/stroke/text model cannot express it — recording it as a stroke would generate border-color and draw a full border — so all four types currently render identically	8213:79219
 Information box (row)	auto x 56	0	0	0	13px			
-Confirmation modal	400 x 413	60 10	8	36	24px Regular	VERTICAL CENTER MIN		5217:64300
-Next actions modal	400 x 565	0 0 30 0	8	30	24px Regular	VERTICAL CENTER MIN		30115:781
 Status dot	22 x 22	0	100	0	—		circle	
-Notification image	44 x 44				—	NONE		3435:66874
-Navigation item	90 x 86	0	0	22	13px SemiBold	HORIZONTAL CENTER CENTER	RE-READ 2026-09-11: BOTH captured colours have moved into the unextracted Navigation/* collection — fill Background/Primary -> Navigation/Nav bg left, text Text/Secondary -> Navigation/Nav items. Both are identical in light (#ffffff, #656565) and neither is readable in dark. It also binds the Configr theme (Icons/Icon - Configr, Text/Configr Theme, Background/Configr Theme), a second product theme this design system has never held	13658:8027
-Side navigation	90 wide	0	0	0	13px	VERTICAL MIN MIN	RE-READ 2026-09-11: fill Background/Primary -> Navigation/Nav bg left and text Text/Secondary -> Navigation/Nav items, both unextracted; rows left as captured and KNOWN STALE. It also binds four DEPRECATED COLOURS entries and Navigation/Configr nav	13658:7757
-Notification tabs	268 x 48	10 15	8	20	16px	HORIZONTAL CENTER MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	22973:20747
-Tab	40 x 34	6 0	0	10	16px	VERTICAL CENTER MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	13658:7879
-Navigation tabs	auto x 36	0	0	40	16px SemiBold	HORIZONTAL CENTER MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	23086:8084
-Tertiary nav	auto x 43	4 368	0	40	16px SemiBold	HORIZONTAL CENTER CENTER	RE-READ 2026-09-11: fill Background/Primary -> Navigation/Nav bg top, and it is NOT a rename of a token this repo holds — the whole Navigation/* collection is unextracted. Row left as captured and KNOWN STALE. Light value #ffffff either way, so a light-mode check cannot see it	13658:7900
-Nav tabs	80 x 40	0 20	mixed	10	16px		RE-READ 2026-09-11: stroke Border/Default -> Border/Default full, unextracted, so the row is left as captured and is KNOWN STALE, and fill Background/Primary -> Navigation/Nav bg top, also unextracted	13658:7817
-Header	auto x 86	0	0	0	16px	VERTICAL MIN MIN	NODE ID CORRECTED 2026-09-11: was 13658:7653, which matches NOTHING in the 475-component inventory. The real set is 32488:24634 on Navigation, whose Mobile=No variants are 86 tall — exactly this row; the other Navigation component called Header (32527:39433) is a 20x20 glyph pair. FIGMA HAS RE-AXED IT: the three captured Breakpoint=Desktop/Tablet/Mobile rows are gone, replaced by Theme(16) x Mobile(2) = 32 variants. Not recaptured — Navigation is blocked on Navigation/Nav bg top and Border/Default full, so its colours cannot be recorded without inventing a token	32488:24634
-Mobile bottom navigation	375 x 76	0	0	0	11px	HORIZONTAL MIN MIN	RE-READ 2026-09-11: text Text/Secondary -> Navigation/Nav items. Both resolve to #656565 in LIGHT, so this is invisible to every light-mode check — the same trap as Background/Light theme. The Navigation/* collection is unextracted; row left as captured and KNOWN STALE	13658:7742
-Clock in	107 x 32	7 20 7 10	20	5	16px	HORIZONTAL CENTER CENTER	RE-READ 2026-09-11: stroke Border/Default -> Border/Default full, unextracted, so the row is left as captured and is KNOWN STALE	13658:8019
-Filter tab single	224 x 100	20	0	5	24px Regular	VERTICAL MIN CENTER	RE-READ 2026-09-11: stroke Border/Default -> Border/Default full, unextracted, so the row is left as captured and is KNOWN STALE	23069:23190
-Top bar app context	242 x 66	0	0	0	24px	HORIZONTAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	13658:7955
-Metric card	392 x 89	20	8	165	36px		RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED	8206:79577
-Bar chart	415 x 193	0	0	10	13px		NODE ID CORRECTED 2026-09-11: was 6188:65918, which is a 36x36 GLYPH on the Icons page, not this chart. Figma publishes two components called Bar chart and backfill-node-ids.mjs let the last one win. The real set is 7658:72458, whose Breakpoint=Desktop variant is 415x193 — exactly this row. RE-READ against the corrected id: Text/Primary and Charts/Chart 1 are both still bound, UNCHANGED. Figma carries Breakpoint(2) x Darkmode axes this capture records as a single blank variant	7658:72458
-Bar chart with axis	326 x 221	0	0	0	13px Regular		RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED. Its axis rules bind Border/Default full, the blocked split token, on children	7667:71127
-Donut pie chart	200 x 200	0	0	0	60px Medium		RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED. Segments bind Charts/Chart 1-4 as children	8135:78219
-Donut chart with ledger	329 x 200	0	0	21	60px		RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED. Segments bind Charts/Chart 1-4 and 6 as children	8135:79063
-Hemisphere chart	200 x 146	0	0	5	13px		RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED. Segments bind Charts/Chart 1, 2, 3, 6 and 7 as children	16537:3845
-Graph legend	auto x 33	0	0	5	24px Regular		RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED	8117:78197
-Graph axis	492 x 232	0	0	10	13px		RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED. Its rules bind Border/Default full, the blocked split token, on children	7658:72461
-Square progress bar	177 x 34	0	0	10	13px		RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED	10239:114074
-Table progress bar	246 x 14	0	0	5	13px		RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED. Its bar binds Charts/Chart 4, Background/Secondary and Progress bar/Border as children	43:261
-Percentage bar	343 x 37	0	0	5	13px		RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED. Binds Charts/Chart 1 and Background/Tertiary on children	18093:998
-Data variance	41 x 45	0	0	0	13px		RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED. Its up/down states bind Text/Positive, Text/Negative and Icons/Icon - Positive as children	8206:79398
-Profile image	93 x 93		47	0	—		CIRCLE	141:142
+Side navigation tab	268 x 48	10 15	8	20	16px	HORIZONTAL CENTER MIN		22973:20747
 People (avatar)	91 x 91	0	0	0	—			
 People (row)	380 x 40	0	0	10	16px			
 People (card)	166 x 91	0	0	0	13px			
-AI card modal	440 x 505	20	8	10	20px	VERTICAL MIN MIN	RE-READ 2026-09-11, QUALIFIED SAME DAY: the render shows the root painted with two stacked linear-gradients and Figma does hold an AI gradient variable for this component. But the earlier claim that the captured Background/Primary is therefore STALE is NOT PROVEN — get_variable_defs on 22814:16588 still returns Background/Primary, so the token is bound somewhere in the component and the render cannot say whether that is the root. Left as captured. Its shadow binds Border/Border - Drop shadow	22814:16588
-AI button	146 x 32	3 15 3 10	55	10	13px Regular	HORIZONTAL CENTER CENTER	Figma binds RAW HEXES here, not variables: the Light mode border is #007ff3 and the desktop Inverted fill is a bare white while the MOBILE variant of the same fill uses Base colours/White. The Hover fill is a linear-gradient (the AI gradient style). None of the three can be recorded as a token, so the shipped class has no border and no hover fill. Figma also labels the pink DEPRECATED COLOURS/Default theme pink (A)	22814:16542
-AI banner	auto x 94	20	8	10	20px	HORIZONTAL MIN MIN		25225:6175
+Text template format editor	440 x auto	0	0	5	16px	VERTICAL MIN MIN	2 variants	5322:65728
+Field (second component)	auto x auto	0	0	2	13px	VERTICAL MIN MIN	Figma has two components named Field on the Forms page; this is the smaller one	
+Circle icons	auto x auto	0	999	0	—	NONE	CIRCLE. Four sizes as Size variants; each size row below carries its own box.	6580:66319
+Circle icons|Size=XS - 28px	28 x 28	0	999	0	—	NONE		
+Circle icons|Size=S - 36px	36 x 36	0	999	0	—	NONE		
+Circle icons|Size=M - 44px	44 x 44	0	999	0	—	NONE		
+Circle icons|Size=L - 52px	52 x 52	0	999	0	—	NONE		
+Default header background	auto x 86	0	0	0	—	NONE	Full-bleed header bar; height varies by Breakpoint (see size rows). Fill is a raw colour in Figma, not a variable.	13658:7639
+Default header background|Breakpoint=Desktop	auto x 86	0	0	0	—	NONE		
+Default header background|Breakpoint=Tablet	auto x 74	0	0	0	—	NONE		
+Default header background|Breakpoint=Mobile	auto x 62	0	0	0	—	NONE		
+50/50 layout container	1600 x 368	0	0	0	20px	HORIZONTAL MIN MIN		28405:3050
+50/50 layout container|Row colour=false, Mobile=true	auto x 774	0	0	0	18px	VERTICAL MIN MIN		
+50/50 layout container|Row colour=true, Mobile=true	355 x 774	0	0	0	18px	VERTICAL MIN MIN		
+AG Filter menus	208 x 252	16	4	20	12px	VERTICAL CENTER MIN		30782:46404
+AG Filter menus|Variant=Date, State=Default	auto x 260	20	4	30	16px	VERTICAL MIN MIN		
+AG Filter menus|Variant=Sort, State=Default	208 x 176	10 0	4	0	13px	VERTICAL CENTER MIN		
+AG field	140 x 43	2 4	8	10	12px	VERTICAL CENTER CENTER		30794:46519
+AG field|State=Unselected	140 x 36	10 4 10 8	4	6	12px	HORIZONTAL CENTER MIN		
+AG sort item	199 x 52	16 20	0	20	13px	HORIZONTAL CENTER MIN		30792:46426
+AI Assistant	1628 x 1080	0	0	0	20px	HORIZONTAL CENTER SPACE_BETWEEN		27507:11696
+AI Assistant|Mobile=True, Darkmode=False, Type=Expanded	376 x 770		15 15 0 0		16px	NONE		
+AI Assistant|Mobile=False, Darkmode=False, Type=Default	520 x 1080	0	0	0	24px SemiBold	VERTICAL CENTER MIN		
+AI Assistant|Mobile=False, Darkmode=False, Type=Active chat	520 x 1080	0	0	0	24px SemiBold	VERTICAL CENTER MIN		
+AI Assistant|Mobile=True, Darkmode=False, Type=Default	375 x 770	0	15 15 0 0	0	24px SemiBold	VERTICAL MIN MIN		
+AI Assistant|Mobile=True, Darkmode=False, Type=Active chat	375 x 770	0	15 15 0 0	0	24px SemiBold	VERTICAL MIN MIN		
+AI Gradient component	408 x 408		0		24px SemiBold	NONE		27295:318
+AI banner	1315 x 94	20	8	10	20px	HORIZONTAL MIN MIN		25225:6175
+AI banner|Darkmode=False, mobile=True	385 x 159	15	8	20	20px	VERTICAL MIN MIN		
+AI button	auto x 32	3 15 3 10	55	10	13px Regular	HORIZONTAL CENTER CENTER	PILL	22814:16542
+AI button|Style=Light mode, Hover=False, Mobile=True	auto x 32	3 6	55	10	—	HORIZONTAL CENTER CENTER		
+AI button|Style=Inverted, Hover=False, Mobile=False	auto x 32	3 15 3 10	55	10	13px	HORIZONTAL CENTER CENTER		
+AI button|Style=Inverted, Hover=False, Mobile=True	auto x 32	3 6	55	10	—	HORIZONTAL CENTER CENTER		
+AI button|Style=Inverted, Hover=True, Mobile=False	auto x 32	3 15 3 10	55	10	13px	HORIZONTAL CENTER CENTER		
+AI button|Style=Inverted, Hover=True, Mobile=True	auto x 32	3 6	55	10	—	HORIZONTAL CENTER CENTER		
+AI button|Style=Light mode, Hover=True, Mobile=False	auto x 32	3 15 3 10	55	10	13px	HORIZONTAL CENTER CENTER		
+AI button|Style=Light mode, Hover=True, Mobile=True	auto x 32	3 6	55	10	—	HORIZONTAL CENTER CENTER		
+AI card modal	440 x 505	20	8	10	20px	VERTICAL MIN MIN		22814:16588
+AI message bubble	455 x 149	0	0	5	12px	VERTICAL MIN MIN		27295:378
+AI message bubble|Type=User chat	328 x 62	0	0	4	12px	VERTICAL MAX CENTER		
+Accordion	1200 x 84	20	8	689	20px	HORIZONTAL CENTER SPACE_BETWEEN		16812:1710
+Accordion|Expanded=False, Mobile=True	355 x 56	10	8	689	18px	HORIZONTAL CENTER SPACE_BETWEEN		
+Accordion|Expanded=True, Mobile=False	1200 x 428	0	8	0	20px	VERTICAL CENTER MIN		
+Accordion|Expanded=True, Mobile=True	355 x 428	0	8	0	18px	VERTICAL CENTER MIN		
+Action menu button	auto x 28	0	0	0	16px	HORIZONTAL CENTER CENTER		5308:64681
+Action menu button|Circle=true	auto x 28	0	0	5	16px	HORIZONTAL CENTER CENTER		
+Action menu	199 x 136	4 5	4	0	13px	VERTICAL MIN MIN		5308:64663
+Adaptive card	478 x 389	0	0	5	12px	VERTICAL MIN MIN		27309:772
+Adaptive card|Mobile=True	355 x 374	0	0	5	12px	VERTICAL MIN MIN		
+Add attachment	440 x 466	0	0	20	13px SemiBold	VERTICAL CENTER MIN		4174:71096
+Attachment with person	440 x 112	0	8	0	13px	VERTICAL CENTER MIN		5235:65181
+Attachments	440 x 56	0	0	0	13px SemiBold	HORIZONTAL MIN MIN		5235:64884
+Bar chart with axis	326 x 221		0		13px Regular	NONE		7667:71127
+Bar chart with axis|Breakpoint=Desktop, Darkmode=False	492 x 250		0		13px	NONE		
+Bar chart	415 x 193	0	0	10	13px	HORIZONTAL MAX MIN		
+Bar chart|Breakpoint=Mobile, Darkmode=False	283 x 222	0	0	5	13px	HORIZONTAL MAX MIN		
+Bar	29 x 90	0	0	5	13px	VERTICAL CENTER MIN		7649:71538
+Bar|Label=Vertical	29 x 137	0	0	10	13px	VERTICAL CENTER MIN		
+Browser drop down	440 x 222	5	8	5	16px	VERTICAL MIN MIN		3479:69358
+Button	auto x 32	0 20	20	10	13px SemiBold	HORIZONTAL CENTER CENTER	PILL. Leading icon on every variant. Icon-only variant is 32x32 circle.	1656:44983
+Button|Type=Action, State=Default, Label=No	32 x 32	0 20	20	10	—	HORIZONTAL CENTER CENTER		
+Button|Type=Negative, State=Default, Label=No	32 x 32	0 20	20	10	—	HORIZONTAL CENTER CENTER		
+Button|Type=Positive, State=Default, Label=No	32 x 32	0 20	20	10	—	HORIZONTAL CENTER CENTER		
+Button|Type=Filter, State=Default, Label=Yes	auto x 32	0 15	20	10	13px SemiBold	HORIZONTAL CENTER CENTER		
+Button|Type=Sort, State=Default, Label=Yes	auto x 32	0 15	20	10	13px SemiBold	HORIZONTAL CENTER CENTER		
+Button|Type=Hollow, State=Default, Label=No	auto x 32	0 20	20	5	—	HORIZONTAL CENTER CENTER		
+Button|Type=Filter, State=Default, Label=No	auto x 32	0 8	20	5	—	HORIZONTAL CENTER CENTER		
+Button|Type=Sort, State=Default, Label=No	auto x 32	0 20	20	5	—	HORIZONTAL CENTER CENTER		
+Button|Type=Filter, State=Hover, Label=Yes	auto x 32	0 15	20	10	13px SemiBold	HORIZONTAL CENTER CENTER		
+Button|Type=Sort, State=Hover, Label=Yes	auto x 32	0 15	20	10	13px SemiBold	HORIZONTAL CENTER CENTER		
+Button|Type=Hollow, State=Hover, Label=No	auto x 32	0 20	20	5	—	HORIZONTAL CENTER CENTER		
+Button|Type=Filter, State=Hover, Label=No	auto x 32	0 8	20	5	—	HORIZONTAL CENTER CENTER		
+Button|Type=Sort, State=Hover, Label=No	auto x 32	0 20	20	5	—	HORIZONTAL CENTER CENTER		
+Button|Type=Filter, State=Disabled, Label=Yes	auto x 32	0 15	20	10	13px SemiBold	HORIZONTAL CENTER CENTER		
+Button|Type=Sort, State=Disabled, Label=Yes	auto x 32	0 15	20	10	13px SemiBold	HORIZONTAL CENTER CENTER		
+Button|Type=Hollow, State=Disabled, Label=No	auto x 32	0 20	20	5	—	HORIZONTAL CENTER CENTER		
+Button|Type=Filter, State=Disabled, Label=No	auto x 32	0 8	20	5	—	HORIZONTAL CENTER CENTER		
+Button|Type=Sort, State=Disabled, Label=No	auto x 32	0 20	20	5	—	HORIZONTAL CENTER CENTER		
+Button|Type=Action, State=Hover, Label=No	32 x 32	0 20	20	10	—	HORIZONTAL CENTER CENTER		
+Button|Type=Negative, State=Hover, Label=No	32 x 32	0 20	20	10	—	HORIZONTAL CENTER CENTER		
+Button|Type=Positive, State=Hover, Label=No	32 x 32	0 20	20	10	—	HORIZONTAL CENTER CENTER		
+Button|Type=Action, State=Disabled, Label=No	32 x 32	0 20	20	10	—	HORIZONTAL CENTER CENTER		
+Button|Type=Negative, State=Disabled, Label=No	32 x 32	0 20	20	10	—	HORIZONTAL CENTER CENTER		
+Button|Type=Positive, State=Disabled, Label=No	32 x 32	0 20	20	10	—	HORIZONTAL CENTER CENTER		
+Calendar picker	auto x 323	0	0	0	16px	VERTICAL MIN MIN		17411:5842
+Card	520 x 358	20	8	20	20px	VERTICAL CENTER MIN	shadow 0 0 4px	5726:69614
+Checkbox/Radio item	auto x 22	0	0	10	16px	HORIZONTAL CENTER MIN	box + label, 10px gap. 18 variants	30643:20637
+Checkbox/Radio list	194 x 81	0	0	5	16px	VERTICAL MIN MIN	5px between items. 4 variants	30644:37303
+Checkbox/Radio list|State=Error	194 x 101	0	0	5	16px	VERTICAL MIN MIN		
 Clickable AI element	382 x 38	10 10 10 20	8	10	13px	HORIZONTAL CENTER MIN		26970:14559
-AI message bubble	455 x 149	0	0	5	12px	VERTICAL MIN MIN	RE-READ 2026-09-11: both types render IDENTICALLY in the stylesheet — background transparent, border 0, colour Text/Secondary twice. The painted box is a CHILD of the component, not its root: the root is a column holding a timestamp AND a bubble, so recording the bubble fill (AI chat Background/Primary, User chat Background/Secondary) on the component class would paint the timestamp too. The captured Text/Secondary correctly describes the timestamp. User chat also binds Border/Default full, which is unextracted	27295:378
-Form field	564 x auto	0	0	5	16px	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED. All 14 State rows keep Text/Primary, Text/Negative and Text/Link	13737:25863
-Required field	auto x auto	0	0	8	16px	HORIZONTAL CENTER MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	14921:25589
-Field label	152 x auto	0	0	42	16px	HORIZONTAL CENTER SPACE_BETWEEN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	607:8116
-Field icons	auto x auto	0	0	5	—	HORIZONTAL CENTER MIN	2 variants	30523:18706
-Option	250 x auto	2 10 2 20	4	5	16px	HORIZONTAL CENTER MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED. Its Selected=Yes fill is DEPRECATED COLOURS/Blue ocean (A) on a child; the captured fill column is blank, so the row is unaffected	3479:69375
-Browser drop down	440 x auto	5	8	5	16px	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED. Its selected row is DEPRECATED COLOURS/Blue ocean (A) on a child	3479:69358
-Inline search	400 x auto	0	0	6	16px	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	8478:86031
-People and department drop down	440 x auto	10 5 10 10	0	10	16px	HORIZONTAL MIN CENTER	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED. Binds Border/Default full, the blocked split token, on children	24963:15286
-Multiselect tag	auto x auto	0	4	0	13px	HORIZONTAL CENTER MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	25959:29138
-[S] Text area	300 x 240	0	8	5	16px	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	607:90038
-Signature	auto x auto	0	0	0	16px	VERTICAL MIN MIN	NODE ID CORRECTED 2026-09-11: was 8136:78299, the Icons-page glyph of the same name. The real set is 2834:46484 on Forms, a 789x424 frame with a Mandatory x State axis this capture records as a single blank variant RE-READ 2026-09-11: SCREENED against the corrected id — Text/Primary still bound. UNCHANGED	2834:46484
-Text template format editor	440 x auto	0	0	5	16px	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED. Binds Border/Default full, the blocked split token, on children	5322:65728
-[S] Post content	520 x auto	0 20 10 73	0	2	20px	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	2977:43756
-Map	480 x 200	—	8	—	—	NONE	not auto-layout	1337:35965
-Calendar picker	auto x auto	0	0	0	16px	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	17411:5842
-Time picker	auto x auto	0	0	0	16px	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	17411:5843
-Field (second component)	auto x auto	0	0	2	13px	VERTICAL MIN MIN	the unrelated second Field. Given its id 2026-09-11 by elimination: the inventory publishes exactly two components called Field, the main row is now pinned to 13737:25495 on measured evidence, and this is the other — a single Property 1=Default variant, 95x42	18846:28925
-Radio tile	235 x auto	25 0	4	10	16px SemiBold	VERTICAL CENTER MIN	RE-READ 2026-09-11: its theme-tinted state has moved Background/Theme -> Background/Light theme and its resting border Border/Default -> Border/Default full. Both replacements are unextracted, so the rows are left as captured and are KNOWN STALE. The fill change is invisible in light mode (both resolve to #fcf4f7) and changes dark mode, where Background/Theme goes to #2c3844	26746:17352
-Radio card	235 x 152	25 0	4	10	16px SemiBold	VERTICAL CENTER MIN	RE-READ 2026-09-11: its theme-tinted state has moved Background/Theme -> Background/Light theme and its resting border Border/Default -> Border/Default full. Both replacements are unextracted, so the rows are left as captured and are KNOWN STALE. The fill change is invisible in light mode (both resolve to #fcf4f7) and changes dark mode, where Background/Theme goes to #2c3844	30573:16933
-Control	20 x 20	10	4	10	—	VERTICAL CENTER CENTER	RE-READ 2026-09-11, CORRECTED SAME DAY: UNCHANGED. The earlier note on this row said Figma binds NO colour variable here any more and .pf-control was generating a fill and border from nothing. That was false: get_variable_defs on 30641:14910 returns Background/Primary + Icons/Icon - Disabled, exactly the captured rows. The render draws the control as an exported SVG, which hides the bindings but does not remove them	30641:14910
-Checkbox/Radio item	auto x 22	0	0	10	16px	HORIZONTAL CENTER MIN	RE-READ 2026-09-11: all five captured State colours are unchanged. Figma’s matrix is now State(5) x Radio(2) x Filled(2) = 20, and the colour depends on State alone for 19 of them. The exception is State=Default, Radio=Yes, Filled=Yes, which binds Text/Link (link blue) where every other Default binds Text/Primary. That reads like a Figma slip rather than a decision — a default, unhovered radio should not be link-coloured — and it is why collapse() cannot drop the Radio and Filled axes, so the extractor reports "axes differ" rather than extending the rows	30643:20637
-Checkbox/Radio list	194 x auto	0	0	5	16px	VERTICAL MIN MIN	5px between items. 4 variants	30644:37303
-Date picker period	auto x auto	0	0	10	20px	HORIZONTAL CENTER CENTER		13717:57349
-Date range visual	371 x auto	0	0	20	16px	HORIZONTAL CENTER MIN		8478:85639
-Image picker	440 x 220	—	0	—	—	NONE	RE-READ 2026-09-11: CORRECTED. Figma paints Border/Form input as the root FILL — the grey placeholder panel IS the component — and the 2026-09-08 capture put it in the STROKE column, so the panel never shipped: .pf-image-picker had background: transparent and a border nobody sees	10306:112952
-Slider	600 x auto	0	0	20	13px	VERTICAL MIN CENTER		14948:93064
-Document previewer	375 x 642	0	0	0	16px	VERTICAL MIN MIN	RE-READ 2026-09-11: stroke has moved Border/Default -> Border/Default full on all three Device variants. Unextracted, so the rows are left as captured and are KNOWN STALE	27479:15917
-Attachments	440 x auto				13px SemiBold	HORIZONTAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	5235:64884
-Attachment with person	440 x auto		8		13px	VERTICAL CENTER MIN	RE-READ 2026-09-11: stroke has moved Border/Default -> Border/Default full, which is unextracted, so the row is left as captured and is KNOWN STALE	5235:65181
-Note	440 x auto		8		13px	VERTICAL CENTER MIN	RE-READ 2026-09-11: stroke has moved Border/Default -> Border/Default full, which is unextracted, so the row is left as captured and is KNOWN STALE	5235:65705
-Editable list card	auto x auto		4		13px	HORIZONTAL MIN MIN	RE-READ 2026-09-11: stroke has moved Border/Default -> Border/Default hidden, which is unextracted, so the row is left as captured and is KNOWN STALE. Border/Default full is also bound, on a child	5127:69366
-Org chart	293 x auto		8		16px	HORIZONTAL CENTER MIN	shadow 2 2 4px. NODE ID CORRECTED 2026-09-11: was 6237:66512, the Icons-page glyph of the same name. The real set is 31040:34148, whose Type=Org/Manager/Reportee variants are 293 wide — exactly this row and the three captured variants RE-READ 2026-09-11 against the corrected id: SCREENED — Background/Primary and Text/Primary still bound, UNCHANGED. Its cards bind Org cards/Fills/BG Dark, BG Light and BG Main on children	31040:34148
-Configuration panel	1600 x auto		mixed		20px	VERTICAL CENTER MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	7064:68025
-Side filter	400 x 885		mixed		20px	VERTICAL CENTER MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	9374:93485
-Spotlight Card	375 x auto	0 0 10 0	8	10	13px	VERTICAL MIN MIN	RE-READ 2026-09-11: stroke has moved Border/Default -> Border/Default hidden, which is unextracted, so the row is left as captured and is KNOWN STALE. It is the ONLY component left on this page still binding Background/Theme itself	26820:17383
-Details	355 x auto			10	13px	HORIZONTAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	30638:22248
-Switcher	auto x auto			10	16px	HORIZONTAL CENTER MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	27561:5474
-Layout container (magazine style)	1600 x auto	30		20	20px	VERTICAL MIN MIN	RE-READ 2026-09-11: fill has moved Background/Theme -> Background/Light theme, which is unextracted, so the row is left as captured and is KNOWN STALE. Invisible in light (both #fcf4f7) and wrong in dark, where Background/Theme is #2c3844	16370:9151
-Layout container title	1160 x auto			464	20px	HORIZONTAL CENTER SPACE_BETWEEN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	16418:9936
-Layout container tabs	1160 x auto			204	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	16418:10087
-single layout card	800 x auto	30		20	20px	VERTICAL CENTER MIN	RE-READ 2026-09-11: stroke has moved Border/Default -> Border/Default full, which is unextracted, so the row is left as captured and is KNOWN STALE	20787:9281
-50/50 layout container	1600 x auto				20px	HORIZONTAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	28405:3050
-[S] Attachment	440 x auto	10 20	8		13px SemiBold	HORIZONTAL CENTER MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	1455:40546
-Footer	375 x auto	0 10		10	13px Regular	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	30637:15576
-Content	375 x auto			10	13px	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	30637:15470
-Detail item	162 x auto			5	13px	HORIZONTAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	30637:16556
-Config child menu	auto x auto				16px	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	958:30289
-Config menu items	auto x auto				16px	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	958:30298
-Config parent menu	auto x auto	5 20 5 0		5	16px	HORIZONTAL CENTER MIN	RE-READ 2026-09-11: stroke Border/Default -> Border/Default full, unextracted, so the row is left as captured and is KNOWN STALE	4931:63962
-Header navigation	1834 x auto				16px	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	13658:7772
-Secondary nav	947 x 44				16px SemiBold	HORIZONTAL MAX CENTER	RE-READ 2026-09-11: fill Background/Primary -> Navigation/Nav bg top, and it is NOT a rename of a token this repo holds — the whole Navigation/* collection is unextracted. Row left as captured and KNOWN STALE. Light value #ffffff either way, so a light-mode check cannot see it	13658:7842
-Search navigation	150 x 32				16px		RE-READ 2026-09-11: the captured Text/Theme is no longer bound anywhere in this component — CONFIRMED by both tools, the render and get_variable_defs agreeing, which is what this repo now requires before calling an absence. Today it binds Text/Secondary, Icons/Icon - Theme and Navigation/Search bg (#ffffffe5, a TRANSLUCENT white with no equivalent in the token layer). The row is STALE; it is left rather than half-corrected because the replacement is unextracted	13658:8009
-Full page	1920 x 1080				13px	HORIZONTAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	13658:8240
-Filter tabs	1600 x auto				24px SemiBold	HORIZONTAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	23069:23560
-Config side menu	325 x 980		8		16px	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	5942:65619
-[S] Config child menu	auto x auto	10 0 0 11		10	16px	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	930:30367
-Counter	20 x 20	0 4	38	10	11px SemiBold	VERTICAL CENTER CENTER	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound. UNCHANGED	14990:11954
-Links	auto x auto			5	16px	HORIZONTAL CENTER MIN		9707:98838
-Add attachment	440 x auto			20	13px SemiBold	VERTICAL CENTER MIN	RE-READ 2026-09-11: UNCHANGED. The root is an ordinary auto-layout frame and the render gives it no fill and no stroke, which matches the captured blank columns either way. Figma-side: the note body is Open Sans Medium (500) and an italic line, both outside the 400/600 system; the attachment and note cards bind Border/Default full, the blocked split token, on their card borders	4174:71096
-Action menu button	auto x auto				16px	HORIZONTAL CENTER CENTER	RE-READ 2026-09-11: UNCHANGED. Figma carries a Circle boolean variant not captured as an axis — both variants bind the same single token (Text/Primary) and differ only by a 5px gap	5308:64681
-Tool tip	auto x auto	10	4		13px	VERTICAL MIN MIN	RE-READ 2026-09-11: UNCHANGED. Drop shadow binds the effect colour Border/Border - Drop shadow, which the variants extract has no column for	5322:66068
-Drop down button	192 x auto	7 10 7 20	48		13px Regular	HORIZONTAL CENTER MIN		22421:5021
-Repeating group	auto x auto			20	16px Italic	VERTICAL MIN MIN	RE-READ 2026-09-11: UNCHANGED. The Background/Primary and Border/Form input this component holds are on its descendant form fields — every one of them appears on a child in the render — so the captured blank fill and stroke stand. Confirms the cleared row from b80a234	32392:8259
-Action menu	199 x auto	4 5	4		13px	VERTICAL MIN MIN	RE-READ 2026-09-11: UNCHANGED. Its option separators bind Border/Default full, the blocked split token, but on children rather than the root, so the captured row is unaffected	5308:64663
-Manage columns	520 x auto				20px	VERTICAL MIN MIN	RE-READ 2026-09-11: UNCHANGED — Background/Primary and Text/Primary both still bound (screened with get_variable_defs on 20798:19026). A child of it binds Border/Default hidden, the other half of the split token	20798:19026
-Footer (AG)	1560 x auto				13px	VERTICAL MIN MIN	RE-READ 2026-09-11: UNCHANGED — Table/Card and Text/Primary both still bound (screened with get_variable_defs on 27725:51239)	27725:51239
-Table action bar	1654 x auto			20	16px SemiBold	VERTICAL MIN CENTER	RE-READ 2026-09-11: UNCHANGED — Text/Theme still bound (screened with get_variable_defs on 27742:15071)	27742:15071
-AG field	140 x 43	2 4	8	10	12px	VERTICAL CENTER CENTER	RE-READ 2026-09-11: UNCHANGED — Background/Primary, Filter menu/Border, Icons/Icon - Primary and Text/Disabled all still bound (screened with get_variable_defs on 30794:46519)	30794:46519
-Table (AG)	1705 x auto		8		13px SemiBold	VERTICAL MIN MIN	RE-READ 2026-09-11: SCREENED, NOT MEASURED. get_design_context refuses this node as too large, so it was checked with get_variable_defs on 27737:47827 instead: Table/Border and Text/Primary are both still bound and no captured token has gone. That screens the component; it does not re-measure which node holds which role. Needs the python extract-from-transcript route to be read properly	27737:49017
-Status	22 x 22		100				Status type=Custom binds a RAW HEX (#3e3e3e, a DEPRECATED COLOURS style), not a variable, so it cannot be recorded; Status type=New social group binds no fill at all. Both are real Figma variants absent from this extract for that reason	3435:66939
-Information box	440 x 56	10 10 10 4	8	10	13px Regular	HORIZONTAL CENTER MIN		3341:64984
-Star rating	auto x auto				13px	VERTICAL CENTER CENTER		30806:31238
-AI Assistant	1628 x auto				20px	HORIZONTAL CENTER SPACE_BETWEEN	RE-READ 2026-09-11, CONFIRMED SAME DAY by a sound method: get_variable_defs on the component set 27507:11696 does NOT contain Base colours/Default Pink, and absence from the whole subtree IS absence on the root. So the Type=Default and Type=Active chat text rows are genuinely STALE. Today it binds Text/Primary, Text/Secondary and Text/Link. Its stroke has moved Border/Default -> Border/Default full, which is unextracted, so the rows were left rather than half-corrected. It also carries 11 raw #007ff3 borders with no variable behind them	27507:11696
-Adaptive card	478 x auto			5	12px	VERTICAL MIN MIN	Same wrapper shape as AI message bubble: the root is a column holding a timestamp and a card, and the captured Text/Secondary is the timestamp. The card child binds Background/Primary with a raw #007ff3 border. Unchanged on re-read	27309:772
-AI Gradient component	408 x 408				24px SemiBold			27295:318
-Configuration	1600 x 809		8		24px			13717:37944
-Form	355 x auto	20 10	8	30	18px	VERTICAL CENTER MIN		13717:37949
-Menu-search-settings	1920 x 1080	20		30	24px	VERTICAL CENTER MIN		829:31644
-Bar	29 x 90			5	13px	VERTICAL CENTER MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED. Its bars bind Charts/Chart 1 as children	7649:71538
-Data variance alternative	auto x auto			5	20px	HORIZONTAL CENTER MIN	RE-READ 2026-09-11: SCREENED with get_variable_defs — every captured token is still bound and no rename or split has touched it. UNCHANGED. Binds Icons/Icon - Theme and Text/Theme on children	828:31772
-[S] People	380 x auto			10	16px	HORIZONTAL CENTER CENTER		10682:112860
-Text template format editor 	440 x auto			5	16px	VERTICAL MIN MIN		5322:65728
+Clock in	107 x 32	7 20 7 10	20	5	16px	HORIZONTAL CENTER CENTER	PILL. CLIP — fixed 107 wide with clipsContent on. Icon 22 at x=6, label 58 at x=33, so the label overruns the right padding by 4px and Figma cuts it off.	13658:8019
+Component 1	432 x 48	10	8	10	20px	HORIZONTAL CENTER MIN	UNNAMED IN FIGMA. It is the row inside Editable list card: a label with a trailing add or remove action. Property 1=Frame 6270951 is the ADD state (no fill, green Plus circle icon); Frame 6270952 is the ADDED state (Background/Tertiary fill, grey Remove icon). The component and both variant values carry Figma default names — raise with design.	29261:8781
+Config child menu	auto x 42	0	0	0	16px	VERTICAL MIN MIN		958:30289
+Config child menu|Type=Selected	352 x 42	0	4	0	16px	VERTICAL MIN MIN		
+Config menu items	auto x 74	0	0	0	16px	VERTICAL MIN MIN		958:30298
+Config parent menu	auto x 32	5 20 5 0	0	5	16px	HORIZONTAL CENTER MIN		4931:63962
+Config side menu	325 x 980	0	8	0	16px	VERTICAL MIN MIN		5942:65619
+Configuration panel	1600 x 189	0	8 8 0 0	0	20px	VERTICAL CENTER MIN		7064:68025
+Configuration tile	auto x 260	40 20	8	10	24px	VERTICAL CENTER CENTER	shadow 0 0 4px	7063:83776
+Configuration tile|Device=Mobile	auto x 230	30 20	8	10	24px	VERTICAL CENTER CENTER		
+Configuration	1600 x 809		8		24px	NONE		
+Configuration|Mobile=True	355 x 809		8		24px	NONE		
+Confirmation modal	400 x 413	60 10	8	36	24px Regular	VERTICAL CENTER MIN		5217:64300
+Confirmation modal|Mobile=false, Type=Success, Dark mode=False	400 x 413	60 10	8	65	24px Regular	VERTICAL CENTER MIN		
+Confirmation modal|Mobile=false, Type=Information, Dark mode=False	400 x 550	60 10	8	65	24px Regular	VERTICAL CENTER MIN		
+Confirmation modal|Mobile=True, Type=Confirmation, Dark mode=False	375 x 695	0	0	71	24px Regular	VERTICAL CENTER CENTER		
+Confirmation modal|Mobile=True, Type=Success, Dark mode=False	375 x 695	0	0	71	24px Regular	VERTICAL CENTER CENTER		
+Confirmation modal|Mobile=True, Type=Information, Dark mode=False	375 x 695	0	0	71	24px Regular	VERTICAL CENTER CENTER		
+Content cards	auto x 366	20	8	20	16px	VERTICAL MIN MIN		20755:32197
+Content cards|Mobile=true	auto x 333	10	8	15	16px	VERTICAL MIN MIN		
+Content	375 x 74	0	0	10	13px	VERTICAL MIN MIN		30637:15470
+Control	20 x 20	10	4	10	—	VERTICAL CENTER CENTER	the checkbox/radio box itself, 20x20 r4. 2 variants	30641:14910
+Control|Radio=Yes	20 x 20	0	50	0	—	HORIZONTAL CENTER CENTER		
+Data variance alternative	auto x 27	0	0	5	20px	HORIZONTAL CENTER MIN		828:31772
+Data variance	auto x 45	0	0	0	13px	VERTICAL MIN MIN		8206:79398
+Date picker period	auto x 27	0	0	10	20px	HORIZONTAL CENTER CENTER		13717:57349
+Date range visual	371 x 42	0	0	20	16px	HORIZONTAL CENTER MIN		8478:85639
+Detail item	162 x 18	0	0	5	13px	HORIZONTAL MIN MIN		30637:16556
+Details	355 x 102	0	0	10	13px	HORIZONTAL MIN MIN		30638:22248
+Details|Layout=Vertical	355 x 102	0	0	10	13px	VERTICAL MIN MIN		
+Document previewer	375 x 642	0	0	0	16px	VERTICAL MIN MIN	3 variants	27479:15917
+Document previewer|Device=Tablet	801 x 1049	0	0	0	16px	VERTICAL MIN MIN		
+Document previewer|Device=Desktop	960 x 1433	0	0	0	16px	VERTICAL MIN MIN		
+Donut chart with ledger	auto x 200	0	0	21	60px	HORIZONTAL CENTER MIN		8135:79063
+Donut chart with ledger|Darkmode=False, Mobile=True	auto x 388	0	0	20	60px	VERTICAL CENTER MIN		
+Donut pie chart	200 x 200		0		60px Medium	NONE	centre figure is 60px	8135:78219
+Donut pie chart|Segments=2, Icon=True	200 x 200		0		—	NONE		
+Donut pie chart|Segments=4, Icon=False	200 x 200		0		60px	NONE		
+Donut pie chart|Segments=4, Icon=True	200 x 200		0		—	NONE		
+Donut pie chart|Segments=1, Icon=False	200 x 200		0		60px	NONE		
+Donut pie chart|Segments=1, Icon=True	200 x 200		0		—	NONE		
+Donut pie chart|Segments=3, Icon=False	200 x 200		0		60px	NONE		
+Donut pie chart|Segments=3, Icon=True	200 x 200		0		—	NONE		
+Draggable card	480 x 50	10 15	8	20	16px	HORIZONTAL CENTER MIN		19979:2091
+Draggable card|State=Drop	480 x 50	10 15	8	20	—	HORIZONTAL CENTER MIN		
+Drop down button	192 x 32	7 10 7 20	48	0	13px Regular	HORIZONTAL CENTER MIN		22421:5021
+Editable list card	auto x 82	0	4	0	13px	HORIZONTAL MIN MIN		5127:69366
+Empty section	auto x 212	0	0	35	20px SemiBold	HORIZONTAL CENTER MIN		19552:92722
+Empty section|Mobile=True	auto x 351	0	0	20	18px SemiBold	VERTICAL CENTER MIN		
+Field icons	auto x 28	0	0	5	—	HORIZONTAL CENTER MIN	2 variants	30523:18706
+Field label	152 x 22	0	0	42	16px	HORIZONTAL CENTER SPACE_BETWEEN	label sits above its input, 5px gap	607:8116
+Field	300 x 42	10 10 10 20	8	10	16px Italic	HORIZONTAL CENTER MAX	the input box itself. Placeholder text is italic, the value is not. 4 variants (Right aligned x Filled). Figma has a second, unrelated component also called Field.	
+Field|Right aligned=No, Filled=Yes	300 x 42	10 10 10 20	8	10	16px	HORIZONTAL CENTER MAX		
+Field|Property 1=Default	auto x 42	0	0	2	13px	VERTICAL MIN MIN		
+Filter chip	auto x 42	10 20	76	10	16px SemiBold	HORIZONTAL CENTER CENTER	PILL. Selected uses SemiBold, gap 10.	8433:85634
+Filter chip|State=Default, Active=False, Mobile=False	auto x 42	10 20	78	5	16px	HORIZONTAL CENTER CENTER		
+Filter chip|State=Selected, Active=True, Mobile=True	auto x 34	8 15	76	10	13px SemiBold	HORIZONTAL CENTER CENTER		
+Filter chip|State=Default, Active=False, Mobile=True	auto x 34	8 15	78	5	13px	HORIZONTAL CENTER CENTER		
+Filter chip|State=Hover, Active=False, Mobile=False	auto x 42	10 20	78	5	16px	HORIZONTAL CENTER CENTER		
+Filter chip|State=Hover, Active=False, Mobile=True	auto x 34	8 15	78	5	13px	HORIZONTAL CENTER CENTER		
+Filter tab single	224 x 100	20	0	5	24px Regular	VERTICAL MIN CENTER		23069:23190
+Filter tab single|Selected=False, Breakpoint=Tablet, State=Default	224 x 74	10	0	5	20px	VERTICAL MIN CENTER		
+Filter tab single|Selected=False, Breakpoint=Tablet, State=Hover	224 x 74	10	0	5	20px	VERTICAL MIN CENTER		
+Filter tab single|Selected=False, Breakpoint=Mobile, State=Default	172 x 70	10	0	5	20px	VERTICAL MIN CENTER		
+Filter tab single|Selected=False, Breakpoint=Mobile, State=Hover	172 x 70	10	0	5	20px	VERTICAL MIN CENTER		
+Filter tab single|Selected=True, Breakpoint=Desktop, State=Default	224 x 100	20	0	5	24px SemiBold	VERTICAL MIN CENTER		
+Filter tab single|Selected=True, Breakpoint=Tablet, State=Default	224 x 74	10	0	5	20px SemiBold	VERTICAL MIN CENTER		
+Filter tab single|Selected=True, Breakpoint=Mobile, State=Default	172 x 70	10	0	5	20px SemiBold	VERTICAL MIN CENTER		
+Filter tabs	1600 x 100	0	0	0	24px SemiBold	HORIZONTAL MIN MIN		23069:23560
+Filter tabs|Breakpoints=Tablet	761 x 74	0	0	0	20px SemiBold	HORIZONTAL MIN MIN		
+Filter tabs|Breakpoints=Mobile	375 x 70	0	0	0	20px SemiBold	HORIZONTAL MIN MIN		
+Floaters	auto x 40	0	0	5	—	HORIZONTAL CENTER MIN	Single component. No colour variable bound in Figma.	30638:22956
+Footer (AG)	1560 x 48	0	0	0	13px	VERTICAL MIN MIN		27725:51239
+Footer (AG)|Mobile=True	355 x 48	0	0	0	13px	VERTICAL MIN MIN		
+Footer	375 x 28	0 10	0	10	13px Regular	VERTICAL MIN MIN		30637:15576
+Form field	564 x 69	0	0	5	16px	VERTICAL MIN MIN	WRAPPER: label + input + helper text. 40 variants (Input type x State) - Text, Dropdown, Search, Date picker, Time picker x Default, Disabled, Error, Selected	13737:25863
+Form field|Input type=Text, State=Default, Full width=No	267 x 69	0	0	5	16px	VERTICAL MIN MIN		
+Form field|Input type=Text, State=Disabled, Full width=No	267 x 69	0	0	5	16px	VERTICAL MIN MIN		
+Form field|Input type=Text, State=Error, Full width=Yes	564 x 92	0	0	5	16px	VERTICAL MIN MIN		
+Form field|Input type=Text, State=Error, Full width=No	267 x 92	0	0	5	16px	VERTICAL MIN MIN		
+Form field|Input type=Text, State=Selected, Full width=No	267 x 69	0	0	5	16px	VERTICAL MIN MIN		
+Form field|Input type=Dropdown, State=Default, Full width=No	267 x 69	0	0	5	16px	VERTICAL MIN MIN		
+Form field|Input type=Dropdown, State=Disabled, Full width=No	267 x 69	0	0	5	16px	VERTICAL MIN MIN		
+Form field|Input type=Dropdown, State=Error, Full width=Yes	564 x 92	0	0	5	16px	VERTICAL MIN MIN		
+Form field|Input type=Dropdown, State=Error, Full width=No	267 x 92	0	0	5	16px	VERTICAL MIN MIN		
+Form field|Input type=Dropdown, State=Selected, Full width=No	267 x 69	0	0	5	16px	VERTICAL MIN MIN		
+Form field|Input type=Search, State=Default, Full width=No	267 x 69	0	0	5	16px	VERTICAL MIN MIN		
+Form field|Input type=Search, State=Disabled, Full width=No	267 x 69	0	0	5	16px	VERTICAL MIN MIN		
+Form field|Input type=Search, State=Error, Full width=Yes	564 x 92	0	0	5	16px	VERTICAL MIN MIN		
+Form field|Input type=Search, State=Error, Full width=No	267 x 92	0	0	5	16px	VERTICAL MIN MIN		
+Form field|Input type=Search, State=Selected, Full width=No	267 x 69	0	0	5	16px	VERTICAL MIN MIN		
+Form field|Input type=Date picker, State=Default, Full width=No	267 x 69	0	0	5	16px	VERTICAL MIN MIN		
+Form field|Input type=Date picker, State=Disabled, Full width=No	267 x 69	0	0	5	16px	VERTICAL MIN MIN		
+Form field|Input type=Date picker, State=Error, Full width=Yes	564 x 92	0	0	5	16px	VERTICAL MIN MIN		
+Form field|Input type=Date picker, State=Error, Full width=No	267 x 92	0	0	5	16px	VERTICAL MIN MIN		
+Form field|Input type=Date picker, State=Selected, Full width=No	267 x 69	0	0	5	16px	VERTICAL MIN MIN		
+Form field|Input type=Time picker, State=Default, Full width=No	267 x 69	0	0	5	16px	VERTICAL MIN MIN		
+Form field|Input type=Time picker, State=Disabled, Full width=No	267 x 69	0	0	5	16px	VERTICAL MIN MIN		
+Form field|Input type=Time picker, State=Error, Full width=Yes	564 x 92	0	0	5	16px	VERTICAL MIN MIN		
+Form field|Input type=Time picker, State=Error, Full width=No	267 x 92	0	0	5	16px	VERTICAL MIN MIN		
+Form field|Input type=Time picker, State=Selected, Full width=No	267 x 69	0	0	5	16px	VERTICAL MIN MIN		
+Form	355 x 1046	20 10	8	30	18px	VERTICAL CENTER MIN		13717:37949
+Form|Mobile=False	1200 x 1004	40 318	8	30	20px	VERTICAL CENTER MIN		
+Full page	1920 x 1080		0		13px	NONE	7 variants. Figma draws it 1920x1080 — a whole page frame, not a component box.	13658:8240
+Full page|System=People First, Tablet=No, Mobile=Yes, Darkmode=Yes	375 x 667	0	0	0	13px	VERTICAL MIN SPACE_BETWEEN		
+Full page|System=People First, Tablet=No, Mobile=Yes, Darkmode=No	375 x 667	0	0	0	13px	VERTICAL MIN SPACE_BETWEEN		
+Full page|System=People First, Tablet=Yes, Mobile=No, Darkmode=No	768 x 1057	0	0	0	13px	VERTICAL MIN SPACE_BETWEEN		
+Full page|System=People First, Tablet=Yes, Mobile=No, Darkmode=Yes	768 x 1057	0	0	0	13px	VERTICAL MIN SPACE_BETWEEN		
+Full page/Header navigation/Yes/No	375 x 138	0	0	0	13px	VERTICAL MIN MIN	Single component, mobile width.	32530:49675
+Graph axis	492 x 232	0	0	10	13px	HORIZONTAL MIN MIN		7658:72461
+Graph axis|Breakpoint=Mobile	326 x 179	0	0	10	13px Regular	HORIZONTAL MIN MIN		
+Graph legend	auto x 33	0	0	5	24px Regular	HORIZONTAL CENTER MIN		8117:78197
+Graph legend|Mobile=False, Key type=Line graph	auto x 18	0	0	5	13px	HORIZONTAL CENTER MIN		
+Graph legend|Mobile=True, Key type=Donut graph	auto x 27	0	0	5	20px Regular	HORIZONTAL CENTER MIN		
+Header navigation	1830 x 130	0	0	0	16px	VERTICAL MIN MIN	3 variants (Mobile x Tablet). Figma draws it 1830x130 — the artboard, not a rule.	13658:7772
+Header navigation|Mobile=Yes, Tablet=No	390 x 106	0	0	0	13px	VERTICAL MIN MIN		
+Header navigation|Mobile=No, Tablet=Yes	768 x 118	0	0	0	13px	VERTICAL MIN MIN		
+Header	1830 x 86	10 20	0	10	24px	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Configr, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Default - Cranberry red, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Default - Cranberry red, Mobile=Yes	390 x 62	0 10	0	10	13px	VERTICAL MIN SPACE_BETWEEN		
+Header|Theme=Dark mode, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Dark mode, Mobile=Yes	390 x 62	0 10	0	10	13px	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Purple orchid, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Purple orchid, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Berry pink, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Berry pink, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Purple iris, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Purple iris, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Royal purple, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Royal purple, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Velvet red, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Velvet red, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Striking red, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Striking red, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Orange flame, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Orange flame, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Cobalt blue, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Cobalt blue, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Blue lagoon, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Blue lagoon, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Cool grey, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Cool grey, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Teal ocean, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Teal ocean, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Fern green, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Fern green, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Classic, Mobile=No	1830 x 86	10 20	0	10	16px	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|Theme=Classic, Mobile=Yes	390 x 62	0 10	0	10	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN		
+Header|System=People First	20 x 20	0 4	38	10	11px SemiBold	VERTICAL CENTER CENTER		
+Header|System=Configr	20 x 20	0 4	38	10	11px SemiBold	VERTICAL CENTER CENTER		
+Hemisphere chart	auto x 146	0	0	5	13px	VERTICAL MIN MIN		16537:3845
+Horizontal scroll	1160 x 32	0	0	390	—	HORIZONTAL CENTER CENTER	2 variants (Page). Figma draws it 1160px wide — the artboard, not a rule. No colour variable bound.	16418:10121
+Image picker	440 x 220		0		—	NONE	not auto-layout	10306:112952
+Information box	440 x 56	0	0	0	13px	HORIZONTAL MIN MIN		3341:64984
+Information box|Type=Warning	auto x 74	0	0	0	13px	HORIZONTAL MIN MIN		
+Information box|Type=Error	440 x 74	0	0	0	13px	HORIZONTAL MIN MIN		
+Information box|Type=Success	440 x 74	0	0	0	13px	HORIZONTAL CENTER MIN		
+Inline search	400 x 130	0	0	6	16px	VERTICAL MIN MIN	2 variants	8478:86031
+Layout container (magazine style)	1600 x 667	30	0	20	20px	VERTICAL MIN MIN		16370:9151
+Layout container (magazine style)|Row colour=False, Mobile=True	375 x 646	20	0	20	20px	VERTICAL MIN MIN		
+Layout container (magazine style)|Row colour=True, Mobile=True	375 x 646	20 10	0	20	20px	VERTICAL MIN MIN		
+Layout container tabs	1160 x 36	0	0	204	16px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN		16418:10087
+Layout container title	1160 x 44	0	0	464	20px	HORIZONTAL CENTER SPACE_BETWEEN		16418:9936
+Links	auto x 22	0	0	5	16px	HORIZONTAL CENTER MIN		9707:98838
+Links|Link type=Secondary, Hover=False, Icon position=Left	auto x 18	0	0	5	13px	HORIZONTAL CENTER MIN		
+Links|Link type=Secondary, Hover=True, Icon position=Left	auto x 18	0	0	5	13px	HORIZONTAL CENTER MIN		
+Links|Link type=Secondary, Hover=False, Icon position=Right	auto x 18	0	0	5	13px	HORIZONTAL CENTER MIN		
+Links|Link type=Secondary, Hover=True, Icon position=Right	auto x 18	0	0	5	13px	HORIZONTAL CENTER MIN		
+Manage columns	520 x 1078	0	0	0	20px	VERTICAL MIN MIN		20798:19026
+Manage columns|Mobile=True, Darkmode=False	375 x 726	0	15 15 0 0	0	20px	VERTICAL MIN MIN		
+Map	480 x 200		8		—	NONE	not auto-layout	1337:35965
+Menu	50 x 73	0	0	5	13px	VERTICAL CENTER MIN	2 variants (Size). No colour variable bound in Figma.	803:148
+Menu|Size=Small	317 x 26	0	0	5	13px	HORIZONTAL CENTER MIN		
+Menu-search-settings	1920 x 1080	20	0	30	24px	VERTICAL CENTER MIN		829:31644
+Message box	455 x 138	15	8	10	16px	VERTICAL MIN MIN		26895:77316
+Metric card	392 x 89	20	8	165	36px	HORIZONTAL CENTER SPACE_BETWEEN	big-number tile	8206:79577
+Metric card|Mobile=True	392 x 65	10	8	165	30px Regular	HORIZONTAL CENTER SPACE_BETWEEN		
+Mobile bottom navigation	375 x 76	0	0	0	11px	HORIZONTAL MIN MIN		13658:7742
+Mobile bottom navigation|Tablet=Yes	768 x 56	0	0	0	11px	HORIZONTAL CENTER MIN		
+Mobile key actions	126 x 103		0		16px	NONE	6 variants (Link). No colour variable bound in Figma.	1536:44461
+Mobile key actions|Link=Social activity	132 x 103		0		16px	NONE		
+Mobile key actions|Link=Recognition trends	132 x 103		0		16px	NONE		
+Mobile key actions|Link=MHR	126 x 103		0		15px	NONE		
+Multi-select checkbox	20 x 20		4		—	NONE		9040:87456
+Multi-select checkbox|State=Selected, Darkmode=False	20 x 20	5	4	10	—	HORIZONTAL CENTER CENTER		
+Multi-select checkbox|State=Mixed selection, Darkmode=False	20 x 20	5	4	10	—	HORIZONTAL CENTER CENTER		
+Multiselect tag	auto x 24	0	4	0	13px	HORIZONTAL CENTER MIN	the removable tag inside a multiselect	25959:29138
+Nav tabs	auto x 40	0 20	8 8 0 0	10	16px	VERTICAL CENTER CENTER	6 variants (Status x Mobile); Mobile does not change the colours.	13658:7817
+Nav tabs|Status=Unselected, Mobile=True	auto x 42	0 10	8 8 0 0	10	13px	VERTICAL CENTER CENTER		
+Nav tabs|Status=Hover, Mobile=True	auto x 42	0 10	8 8 0 0	10	13px	VERTICAL CENTER CENTER		
+Nav tabs|Status=Selected, Mobile=False	auto x 40	0 20	8 8 0 0	5	16px SemiBold	VERTICAL CENTER CENTER		
+Nav tabs|Status=Selected, Mobile=True	auto x 42	0 10	8 8 0 0	5	13px SemiBold	VERTICAL CENTER CENTER		
+Navigation item	90 x 86	0	0	22	13px SemiBold	HORIZONTAL CENTER CENTER	the selected rail item: no side padding, wider gap, and the only SemiBold state	13658:8027
+Navigation item|System=People First, State=Default, Device=Desktop, Selected=No	90 x 86	0 25	0	10	13px	HORIZONTAL CENTER CENTER		
+Navigation item|System=Configr, State=Default, Device=Desktop, Selected=No	90 x 86	0 25	0	10	13px	HORIZONTAL CENTER CENTER		
+Navigation item|System=People First, State=Default, Device=Mobile, Selected=No	86 x 76	0 25	0	10	11px	HORIZONTAL CENTER CENTER		
+Navigation item|System=People First, State=Default, Device=Tablet, Selected=No	86 x 56	0 25	0	10	11px	HORIZONTAL CENTER CENTER		
+Navigation item|System=People First, State=Hover, Device=Desktop, Selected=No	90 x 86	0 25	0	10	13px	HORIZONTAL CENTER CENTER		
+Navigation item|System=Configr, State=Hover, Device=Desktop, Selected=No	90 x 86	0 25	0	10	13px	HORIZONTAL CENTER CENTER		
+Navigation item|System=People First, State=Selected, Device=Mobile, Selected=No	86 x 76	0 25	0	10	11px Regular	HORIZONTAL CENTER CENTER		
+Navigation item|System=People First, State=Selected, Device=Tablet, Selected=No	86 x 56	0 25	0	10	11px Regular	HORIZONTAL CENTER CENTER		
+Navigation tabs	202 x 36	0	0	40	16px SemiBold	HORIZONTAL CENTER MIN		23086:8084
+Navigation tabs|System=People First, Mobile=Yes	202 x 32	0	0	25	13px SemiBold	HORIZONTAL CENTER MIN		
+Navigation tabs|System=Configr, Mobile=Yes	202 x 32	0	0	25	13px SemiBold	HORIZONTAL CENTER MIN		
+Next actions modal	400 x 565	0 0 30 0	8	30	24px Regular	VERTICAL CENTER MIN		30115:781
+Note	440 x 130	0	8	0	13px	VERTICAL CENTER MIN		5235:65705
+Notification card	1160 x 117	15 20	8	10	16px SemiBold	HORIZONTAL CENTER MIN		13846:5504
+Notification card|Mobile=Yes	355 x 153	15	8	10	16px SemiBold	HORIZONTAL MIN MIN		
+Notification categories	300 x 1020	5 10	0	0	16px	VERTICAL MIN MIN	2 variants (Mobile). Figma draws it 1020px tall — the artboard, not a rule.	32559:69378
+Notification categories|Mobile=Yes	390 x 824	0	16 16 0 0	0	18px	VERTICAL MIN MIN		
+Notification image	44 x 44		0		—	NONE		3435:66874
+Notification image|Type=Person, With status?=False, Mobile=True, Status position=High	36 x 36		0		—	NONE		
+Notification image|Type=Custom, With status?=False, Mobile=True, Status position=High	36 x 36		0		—	NONE		
+Notification image|Type=Custom, With status?=True, Mobile=True, Status position=High	36 x 36		0		—	NONE		
+Notification image|Type=Custom, With status?=True, Mobile=True, Status position=Low	36 x 36		0		—	NONE		
+Notification image|Type=Person, With status?=True, Mobile=True, Status position=High	36 x 36		0		—	NONE		
+Notification image|Type=Person, With status?=True, Mobile=True, Status position=Low	36 x 36		0		—	NONE		
+Notification list	1117 x 730	0	0	0	16px	VERTICAL MIN MIN	2 variants (Mobile). Figma draws it 1117x730 — the artboard, not a rule.	32559:70451
+Notification list|Mobile=Yes	390 x 779		0		16px	NONE		
+Notification panel	1500 x 1080	0	0	0	20px	VERTICAL MIN MIN	2 variants (Mobile). Figma draws it 1500x1080 — the artboard, not a rule.	32559:69672
+Notification panel|Mobile=Yes	390 x 824	0	16 16 0 0	0	18px	VERTICAL MIN MIN		
+Notification tabs	279 x 65	18.5 15 18.5 15	0	20	16px	HORIZONTAL CENTER MIN	3 variants (State x Selected). Node 22973:20747, which this extract previously held as "Side navigation tab" with a different variant structure.	22973:20747
+Option	250 x 26	2 10 2 20	4	5	16px	HORIZONTAL CENTER MIN	dropdown list row. 2 variants	3479:69375
+Org chart	293 x 48	0	8	0	16px	HORIZONTAL CENTER MIN		
+Org chart|Type=Manager	293 x 97	0	8	0	16px	HORIZONTAL CENTER MIN		
+Org chart|Type=Reportee	293 x 55	0	8	0	16px	HORIZONTAL CENTER MIN		
+Pagination buttons	358 x 32	0	0	30	13px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN	Single component. Binds a primitive for its text — see source issues.	32559:60567
+People and department drop down	440 x 320	10 5 10 10	0	10	16px	HORIZONTAL MIN CENTER		24963:15286
+People	91 x 91		0		—	NONE		
+People|Who?=D - Chance Siphron	91 x 91		78		—	NONE		
+People|Who?=Department	64 x 64		40		—	NONE		
+People|Item=Nolan George, Type=Table, Mobile=True	auto x 91	0	0	0	13px	VERTICAL MIN MIN		
+People|Item=Corey Franci, Type=Table, Mobile=True	auto x 109	0	0	0	13px	VERTICAL MIN MIN		
+People|Item=Organisation, Type=Table, Mobile=True	156 x 73	0	0	0	13px	VERTICAL MIN MIN		
+People|Item=Nolan George, Type=Card large, Mobile=True	auto x 43	0	0	0	18px	HORIZONTAL MIN MIN		
+People|Item=Nolan George, Type=Card small, Mobile=True	auto x 36	0	0	0	13px	HORIZONTAL MIN MIN		
+People|Item=Nolan George, Type=Inline search, Mobile=True	auto x 40	0	0	0	16px	HORIZONTAL MIN MIN		
+People|Item=Nolan George, Type=Header, Mobile=True	auto x 58	0	0	0	13px	VERTICAL MIN MIN		
+People|Item=Organisation, Type=Header, Mobile=True	auto x 40	0	0	0	16px SemiBold	VERTICAL MIN MIN		
+People|Item=Nolan George, Type=Table, Mobile=False	auto x 54	0	0	0	13px	HORIZONTAL MIN MIN		
+People|Item=Organisation, Type=Table, Mobile=False	auto x 36	0	0	0	13px	HORIZONTAL MIN MIN		
+People|Item=Nolan George, Type=Card large, Mobile=False	auto x 54	0	0	0	20px	HORIZONTAL MIN MIN		
+People|Item=Nolan George, Type=Card small, Mobile=False	auto x 36	0	0	0	13px	HORIZONTAL MIN MIN		
+People|Item=Nolan George, Type=Header, Mobile=False	auto x 64	0	0	0	13px	HORIZONTAL MIN MIN		
+People|Item=Organisation, Type=Header, Mobile=False	auto x 64	0	0	0	24px Regular	HORIZONTAL MIN MIN		
+People|Item=Nolan George, Type=Inline search, Mobile=False	auto x 40	0	0	0	16px	HORIZONTAL MIN MIN		
+People|Who?=Organisation	64 x 64		40		—	NONE		
+People|Who?=Job	64 x 64		40		—	NONE		
+People|Who?=Initials	64 x 64		40		—	NONE		
+Percentage bar	343 x 37	0	0	5	13px	VERTICAL MIN MIN		18093:998
+Primary search	300 x 38	0 10	20	10	13px	HORIZONTAL CENTER MIN	PILL	6584:66405
+Primary search|Darkmode=False, Icon only=True	36 x 36	0 10	20	0	—	HORIZONTAL CENTER CENTER		
+Profile image	93 x 93		47		—	NONE	CIRCLE. Six sizes; Medium is the default. The base row used to carry Extra large's 93px, so every avatar rendered at the largest size. The picture itself is a raster fill bound to no colour variable — see assets/component-art/.	141:142
+Profile image|Size=Large	76 x 76	0	47	0	—	VERTICAL CENTER MIN		
+Profile image|Size=Medium plus	54 x 54		47		—	NONE		
+Profile image|Size=Medium	43 x 43		47		—	NONE		
+Profile image|Size=Small	28 x 28		47		—	NONE		
+Profile image|Size=Extra small	22 x 22		47		—	NONE		
+Radio card	235 x 152	25 0	4	10	16px SemiBold	VERTICAL CENTER MIN	4 variants	30573:16933
+Radio tile	235 x 152	25 0	4	10	16px SemiBold	VERTICAL CENTER MIN	2 variants	26746:17352
+Repeating group	auto x 258	0	0	20	16px Italic	VERTICAL MIN MIN		32392:8259
+Required field	auto x 22	0	0	8	16px Italic	HORIZONTAL CENTER MIN	the asterisk marker	14921:25589
+Search navigation	150 x 32		50		16px	NONE	2 variants (Mobile). PILL.	13658:8009
+Search navigation|Mobile=True	32 x 32		0		—	NONE		
+Secondary nav	562 x 44	0	0	0	16px SemiBold	HORIZONTAL MAX CENTER	2 variants (Mobile); both bind the same colours. Mobile=True sets 13px text.	13658:7842
+Secondary nav|Mobile=True	375 x 40	2 0 0 0	0	0	13px SemiBold	HORIZONTAL MAX CENTER		
+Selected action banner	1560 x 48	8 20	8	899	16px	HORIZONTAL CENTER SPACE_BETWEEN		23862:16596
+Selected action banner|Darkmode=False, Mobile=True	335 x 48	8 20	4	899	16px	HORIZONTAL CENTER SPACE_BETWEEN		
+Settings card	300 x 255	20	8	10	13px SemiBold	VERTICAL MIN MIN	shadow 0 1 3px	6033:65712
+Side filter	400 x 885	0	8 0 0 0	0	20px	VERTICAL CENTER MIN		9374:93485
+Side filter|Mobile=True	375 x 667	0	0	0	18px	VERTICAL CENTER MIN		
+Side navigation	auto x 1080	0	0	0	13px	VERTICAL MIN MIN	collapsed rail	13658:7757
+Side panel header	449 x 60	10 15	0	10	20px	HORIZONTAL CENTER MAX		18222:8378
+Side panel	375 x 726	0	15 15 0 0	0	20px	VERTICAL MIN MIN	shadow 0 0 4px	13909:5302
+Side panel|Mobile=No, Size=Small	520 x 1080	0	0	0	20px	VERTICAL MIN MIN		
+Side panel|Mobile=No, Size=Medium	960 x 1080	0	0	0	20px	VERTICAL MIN MIN		
+Side panel|Mobile=No, Size=Large	1500 x 1080	0	0	0	20px	VERTICAL MIN MIN		
+Signature	auto x 384	0	0	0	16px	VERTICAL MIN MIN		
+Slider	600 x 81	0	0	20	13px	VERTICAL MIN CENTER		14948:93064
+Spotlight Card	375 x 302	0 0 10 0	8	10	13px	VERTICAL MIN MIN		26820:17383
+Spotlight Card|Horizontal=True, Mobile=False	585 x 218	10	8	10	13px	VERTICAL MIN MIN		
+Spotlight Card|Horizontal=True, Mobile=True	375 x 168	10	8	10	13px	VERTICAL MIN MIN		
+Square progress bar	auto x 34	0	0	10	13px	HORIZONTAL CENTER CENTER		10239:114074
+Square progress bar|Variant=Inline, Progress=0%	auto x 18	0	0	10	13px	HORIZONTAL CENTER CENTER		
+Square progress bar|Variant=Inline, Progress=25%	auto x 18	0	0	10	13px	HORIZONTAL CENTER CENTER		
+Square progress bar|Variant=Inline, Progress=50%	auto x 18	0	0	10	13px	HORIZONTAL CENTER CENTER		
+Square progress bar|Variant=Inline, Progress=100%	auto x 18	0	0	10	13px	HORIZONTAL CENTER CENTER		
+Square progress bar|Variant=Bottom label, Progress=0%	auto x 38	0	0	0	13px	VERTICAL CENTER CENTER		
+Square progress bar|Variant=Bottom label, Progress=25%	auto x 38	0	0	0	13px	VERTICAL CENTER CENTER		
+Square progress bar|Variant=Bottom label, Progress=50%	auto x 38	0	0	0	13px	VERTICAL CENTER CENTER		
+Square progress bar|Variant=Bottom label, Progress=100%	auto x 38	0	0	0	13px	VERTICAL CENTER CENTER		
+Square progress bar|Variant=Inline, Progress=75%	auto x 18	0	0	10	13px	HORIZONTAL CENTER CENTER		
+Square progress bar|Variant=Bottom label, Progress=75%	auto x 38	0	0	0	13px	VERTICAL CENTER CENTER		
+Star rating	auto x 24	0	0	0	13px	VERTICAL CENTER CENTER		30806:31238
+Stars	25 x 24		0		—	NONE	2 variants (Active). No colour variable bound in Figma.	3389:66380
+Status	22 x 22		100		—	NONE		3435:66939
+Status|Status type=Custom	22 x 22		100		13px	NONE		
+Stepper	auto x 160	0	0	0	13px	VERTICAL CENTER CENTER	2 variants (System); both bind the same colours.	32559:60451
+Steps	110 x 48	0	0	5	13px	VERTICAL CENTER MIN	26 variants across System x State x Position; 6 distinct colour bindings, keyed on State.	32462:23898
+Steps|System=People First, State=Selected, Position=Middle, Current step=Yes, Completed step=No	110 x 48	0	0	5	13px SemiBold	VERTICAL CENTER MIN		
+Steps|System=People First, State=Selected, Position=First, Current step=Yes, Completed step=No	110 x 48	0	0	5	13px SemiBold	VERTICAL CENTER MIN		
+Steps|System=People First, State=Selected, Position=Last, Current step=Yes, Completed step=No	110 x 48	0	0	5	13px SemiBold	VERTICAL CENTER MIN		
+Steps|System=Configr, State=Selected, Position=Middle, Current step=Yes, Completed step=No	110 x 48	0	0	5	13px SemiBold	VERTICAL CENTER MIN		
+Steps|System=Configr, State=Selected, Position=First, Current step=Yes, Completed step=No	110 x 48	0	0	5	13px SemiBold	VERTICAL CENTER MIN		
+Steps|System=Configr, State=Selected, Position=Last, Current step=Yes, Completed step=No	110 x 48	0	0	5	13px SemiBold	VERTICAL CENTER MIN		
+Steps|System=People First, State=Hover, Position=Middle, Current step=No, Completed step=No	110 x 48	0	0	5	13px SemiBold	VERTICAL CENTER MIN		
+Steps|System=People First, State=Hover, Position=First, Current step=No, Completed step=No	110 x 48	0	0	5	13px SemiBold	VERTICAL CENTER MIN		
+Steps|System=People First, State=Hover, Position=Last, Current step=No, Completed step=No	110 x 48	0	0	5	13px SemiBold	VERTICAL CENTER MIN		
+Steps|System=Configr, State=Hover, Position=Middle, Current step=No, Completed step=No	110 x 48	0	0	5	13px SemiBold	VERTICAL CENTER MIN		
+Steps|System=Configr, State=Hover, Position=First, Current step=No, Completed step=No	110 x 48	0	0	5	13px SemiBold	VERTICAL CENTER MIN		
+Steps|System=Configr, State=Hover, Position=Last, Current step=No, Completed step=No	110 x 48	0	0	5	13px SemiBold	VERTICAL CENTER MIN		
+Sticky footer	446 x 52	10 15	0	20	13px SemiBold	HORIZONTAL CENTER MIN		20184:1662
+Sticky footer|Default=Stepper	446 x 52	10 15	0	20	13px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN		
+Switcher	auto x 28	0	0	10	16px	HORIZONTAL CENTER MIN		27561:5474
+Tab	auto x 34	6 0	0	10	16px	VERTICAL CENTER MIN		13658:7879
+Tab|System=People First, State=Default, Mobile=Yes, Selected=No	auto x 30	6 0	0	10	13px	VERTICAL CENTER MIN		
+Tab|System=Configr, State=Default, Mobile=Yes, Selected=No	auto x 30	6 0	0	10	13px	VERTICAL CENTER MIN		
+Tab|System=People First, State=Hover, Mobile=Yes, Selected=No	auto x 30	6 0	0	10	13px	VERTICAL CENTER MIN		
+Tab|System=Configr, State=Hover, Mobile=Yes, Selected=No	auto x 30	6 0	0	10	13px	VERTICAL CENTER MIN		
+Tab|System=People First, State=Selected, Mobile=No, Selected=Yes	auto x 36	6 0	0	2	16px SemiBold	VERTICAL CENTER MIN		
+Tab|System=People First, State=Selected, Mobile=Yes, Selected=Yes	auto x 32	6 0	0	2	13px SemiBold	VERTICAL CENTER MIN		
+Tab|System=Configr, State=Selected, Mobile=No, Selected=Yes	auto x 36	6 0	0	2	16px SemiBold	VERTICAL CENTER MIN		
+Tab|System=Configr, State=Selected, Mobile=Yes, Selected=Yes	auto x 32	6 0	0	2	13px SemiBold	VERTICAL CENTER MIN		
+Table (AG)	1705 x 856	0	8	0	13px SemiBold	VERTICAL MIN MIN		27737:49017
+Table (AG)|Mobile=True	370 x 576	0	8	0	13px SemiBold	VERTICAL MIN MIN		
+Table action bar	1654 x 98	0	0	20	16px SemiBold	VERTICAL MIN CENTER		27742:15071
+Table action bar|Mobile=True	335 x 90	0	0	20	13px SemiBold	VERTICAL MIN CENTER		
+Table card (AG)	1600 x 1014	20	8	20	16px SemiBold	VERTICAL CENTER MIN		27744:18741
+Table card (AG)|Mobile=True	370 x 726	20	0	20	13px SemiBold	VERTICAL CENTER MIN		
+Table cell (AG)	300 x 58	10 15	0	10	13px	HORIZONTAL CENTER MIN	rows are TALL	27719:3034
+Table cell (AG)|Type=Default, Style=Hover	300 x 58	10 15	0	10	13px Italic	HORIZONTAL CENTER MIN		
+Table cell (AG)|Type=Checkbox, Style=Default	auto x 58	10 15	0	10	—	HORIZONTAL CENTER MIN		
+Table cell (AG)|Type=Checkbox, Style=Stripe	auto x 58	10 15	0	10	—	HORIZONTAL CENTER MIN		
+Table cell (AG)|Type=Checkbox, Style=Hover	auto x 58	10 15	0	10	—	HORIZONTAL CENTER MIN		
+Table header (AG)	300 x 54	15	0	47	13px SemiBold	HORIZONTAL CENTER SPACE_BETWEEN		27719:2335
+Table header (AG)|Alignment=Checkbox	auto x 54	15	0	47	—	HORIZONTAL CENTER MIN		
+Table header icons	24 x 24	10	4	10	—	HORIZONTAL CENTER CENTER		30772:33402
+Table progress bar	246 x 14	0	0	5	13px	HORIZONTAL CENTER MIN		43:261
+Tags	auto x 28	5 10	4	5	13px Regular	HORIZONTAL CENTER CENTER	SENTENCE CASE, not uppercase	18415:5426
+Tags|Type=Neutral, Small=Yes	auto x 22	2 5	4	5	13px Regular	HORIZONTAL CENTER CENTER		
+Tags|Type=Expired, Small=Yes	auto x 22	2 5	4	5	13px Regular	HORIZONTAL CENTER CENTER		
+Tags|Type=Positive, Small=Yes	auto x 22	2 5	4	5	13px Regular	HORIZONTAL CENTER CENTER		
+Tags|Type=Warning, Small=Yes	auto x 22	2 5	4	5	13px Regular	HORIZONTAL CENTER CENTER		
+Tags|Type=Negative, Small=Yes	auto x 22	2 5	4	5	13px Regular	HORIZONTAL CENTER CENTER		
+Tags|Type=Other, Small=Yes	auto x 22	2 5	4	5	13px Regular	HORIZONTAL CENTER CENTER		
+Tags|Type=Theme, Small=Yes	auto x 22	2 5	4	5	13px Regular	HORIZONTAL CENTER CENTER		
+Tertiary nav	562 x 55	0 20	0	40	16px SemiBold	HORIZONTAL CENTER CENTER	4 variants (Mobile x Page); Mobile does not change the colours.	13658:7900
+Tertiary nav|Mobile=Yes, Page=No	375 x 39	0 10	0	30	13px SemiBold	HORIZONTAL CENTER CENTER		
+Tertiary nav|Mobile=No, Page=Yes	562 x 45	0 20	0	10	20px	HORIZONTAL CENTER CENTER		
+Tertiary nav|Mobile=Yes, Page=Yes	375 x 41	0 10	0	0	16px SemiBold	HORIZONTAL CENTER MIN		
+Text area	300 x 267	0	0	5	16px	VERTICAL MIN MIN	inner frame r8	13740:47785
+Text template format editor 	440 x 246	0	0	5	16px	VERTICAL MIN MIN		5322:65728
+Text template format editor |Type=Correspondence	760 x 366	0	0	5	16px	VERTICAL MIN MIN		
+Time picker	auto x 269	0	0	0	16px	VERTICAL MIN MIN		17411:5843
+Title panel	375 x 135	40 20	0	10	18px	VERTICAL CENTER CENTER		5050:63097
+Title panel|Mobile=false	1130 x 135	40 207	0	10	20px	VERTICAL CENTER CENTER		
+Toast message	350 x 114	30 0 30 25	4	15	13px	HORIZONTAL CENTER MIN	fixed light surface — see dark-mode note	8213:79219
+Toggle	55 x 25	0 7 0 2	13	0	13px	HORIZONTAL CENTER SPACE_BETWEEN	PILL; knob inset	2816:1369
+Toggle|On=No, Locked=Yes	55 x 25	0 5 0 2	13	6	—	HORIZONTAL CENTER MIN		
+Toggle|On=Yes, Locked=No	55 x 25	0 2 0 7	13	0	13px	HORIZONTAL CENTER SPACE_BETWEEN		
+Toggle|On=Yes, Locked=Yes	55 x 25	0 2 0 7	13	0	—	HORIZONTAL CENTER SPACE_BETWEEN		
+Tool tip	auto x 92	10	4	0	13px	VERTICAL MIN MIN		5322:66068
+Tooltip	28 x 28		0		—	NONE	2 variants (Hover). No colour variable bound in Figma.	18235:41129
+Top bar app context	auto x 66	0	0	10	24px	HORIZONTAL CENTER MIN		13658:7955
+Top bar app context|Area=Administration, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN		
+Top bar app context|Area=Payroll, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN		
+Top bar app context|Area=Audit, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN		
+Top bar app context|Area=Onboarding, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN		
+Top bar app context|Area=Learning, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN		
+Top bar app context|Area=Available jobs, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN		
+Top bar app context|Area=HRM, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN		
+Top bar app context|Area=General ledger, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN		
+Top bar app context|Area=Accounts payable, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN		
+Top bar app context|Area=Accounts receivable, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN		
+Top bar app context|Area=Taxes, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN		
+Top bar app context|Area=News, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN		
+Top bar app context|Area=Data explorer, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN		
+Top bar app context|Area=Case Management, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN		
+Top bar app context|Area=Absence, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN		
+Top bar app context|Area=Goals, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN		
+Top bar app context|Area=Insights, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN		
+Top bar app context|Area=Recruitment, Mobile=True	auto x 40	0	0	10	16px SemiBold	HORIZONTAL CENTER MIN		
+Waffle	90 x 86		0		—	NONE	15 variants (Theme). No colour variable bound in Figma.	32517:29171
+[S] Attachment	440 x 56	10 20	8	0	13px SemiBold	HORIZONTAL CENTER MIN		1455:40546
+[S] Config child menu	auto x 42	10 0 0 11	0	10	16px	VERTICAL MIN MIN		930:30367
+[S] People	380 x 40	0	0	10	16px	HORIZONTAL CENTER CENTER		10682:112860
+[S] People|Property 1=Header, Mobile=False	auto x 64	0 10 0 0	0	10	13px	HORIZONTAL CENTER MIN		
+[S] People|Property 1=Header, Mobile=True	auto x 58	0	0	10	13px	HORIZONTAL CENTER MIN		
+[S] People|Property 1=Small card, Mobile=False	auto x 36	0	0	10	13px	HORIZONTAL CENTER MIN		
+[S] People|Property 1=Small card, Mobile=True	auto x 36	0	0	10	13px	HORIZONTAL CENTER MIN		
+[S] People|Property 1=Large card, Mobile=False	auto x 54	0 10 0 0	0	10	20px	HORIZONTAL CENTER MIN		
+[S] People|Property 1=Large card, Mobile=True	auto x 43	0 10 0 0	0	10	18px	HORIZONTAL CENTER MIN		
+[S] People|Property 1=Table, Mobile=False	auto x 54	0	0	10	13px	HORIZONTAL CENTER MIN		
+[S] People|Property 1=Table, Mobile=True	auto x 91	0	0	5	13px	VERTICAL CENTER CENTER		
+[S] Post content	520 x 198	0 20 10 73	0	2	20px	VERTICAL MIN MIN	73px left padding leaves room for an avatar	2977:43756
+[S] Text area	300 x 240	0	8	5	16px	VERTICAL MIN MIN	small variant	607:90038
+single layout card	800 x 368	30	0	20	20px	VERTICAL CENTER MIN		20787:9281
+single layout card|Mobile=true	355 x 347	10	0	15	18px	VERTICAL CENTER MIN		

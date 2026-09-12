@@ -1,0 +1,209 @@
+component	variant	boundStyle	size	weight	letterSpacing	textCase
+50/50 layout container	Row colour=false, Mobile=false	Desktop text/Sub heading	20		0%	ORIGINAL
+50/50 layout container	Row colour=false, Mobile=true	Mobile text/Sub heading	18		0%	ORIGINAL
+AG Filter menus	Variant=Date, State=Default	Desktop text/Body text	16		-1%	ORIGINAL
+AG Filter menus	Variant=Multi & search, State=Default		12		2%	ORIGINAL
+AG Filter menus	Variant=Sort, State=Default	Desktop text/Label text	13		0%	ORIGINAL
+AG field	State=Selected		12		2%	ORIGINAL
+AG sort item	State=Default	Desktop text/Label text	13		0%	ORIGINAL
+AI Assistant	Mobile=False, Darkmode=False, Type=Default		24	SemiBold	0%	ORIGINAL
+AI Assistant	Mobile=False, Darkmode=False, Type=Expanded	Desktop text/Sub heading	20		0%	ORIGINAL
+AI Assistant	Mobile=True, Darkmode=False, Type=Expanded	Desktop text/Body text	16		-1%	ORIGINAL
+AI Gradient component	Property 1=Frame 62710147		24	SemiBold	0%	ORIGINAL
+AI banner	Darkmode=True, mobile=False	Desktop text/Sub heading	20		0%	ORIGINAL
+AI button	Style=Inverted, Hover=False, Mobile=False		13		0%	ORIGINAL
+AI button	Style=Light mode, Hover=False, Mobile=False		13	Regular	0%	ORIGINAL
+AI card modal	Property 1=Default	Desktop text/Sub heading	20		0%	ORIGINAL
+AI message bubble	Type=AI chat		12		0%	ORIGINAL
+Accordion	Expanded=False, Mobile=False	Desktop text/Sub heading	20		0%	ORIGINAL
+Accordion	Expanded=False, Mobile=True	Mobile text/Sub heading	18		0%	ORIGINAL
+Action menu		Desktop text/Label text	13		0%	ORIGINAL
+Action menu button	Circle=false	Desktop text/Body text	16		-1%	ORIGINAL
+Adaptive card	Mobile=False		12		0%	ORIGINAL
+Add attachment	Property 1=Default		13	SemiBold	0%	ORIGINAL
+Attachment with person	Property 1=Default	Desktop text/Label text	13		0%	ORIGINAL
+Attachments	Actions=Remove	Desktop text/Label text (semi bold, 600)	13	SemiBold	0%	ORIGINAL
+Bar	Label=Horizontal	Desktop text/Label text	13		0%	ORIGINAL
+Bar chart	Breakpoint=Desktop, Darkmode=False	Desktop text/Label text	13		0%	ORIGINAL
+Bar chart with axis	Breakpoint=Desktop, Darkmode=False	Desktop text/Label text	13		0%	ORIGINAL
+Bar chart with axis	Breakpoint=Mobile, Darkmode=False		13	Regular	-1%	UPPER
+Browser drop down			16		-2%	ORIGINAL
+Button	Type=Action, State=Default, Label=Yes		13	SemiBold	0%	ORIGINAL
+Calendar picker		EXTERNAL	16		-1%	ORIGINAL
+Card	Property 1=Default	Desktop text/Sub heading	20		0%	ORIGINAL
+Checkbox/Radio item	State=Default, Radio=No, Filled=No	Desktop text/Body text	16		-1%	ORIGINAL
+Checkbox/Radio list	State=Default	Desktop text/Body text	16		-1%	ORIGINAL
+Clickable AI element	State=default	Desktop text/Label text	13		0%	ORIGINAL
+Clock in	Type=Standard, Darkmode=False	Desktop text/Body text	16		-1%	ORIGINAL
+Component 1	Property 1=Frame 6270952	Desktop text/Sub heading	20		0%	ORIGINAL
+Config child menu	Type=Child		16		-1%	ORIGINAL
+Config menu items	Kind=Child		16		0%	UPPER
+Config parent menu	open=false		16		0%	UPPER
+Config side menu			16		0%	UPPER
+Configuration	Mobile=False	Desktop text/Large heading (light)	24		0%	ORIGINAL
+Configuration panel	Property 1=Default	Desktop text/Sub heading	20		0%	ORIGINAL
+Configuration tile	Device=Desktop	Desktop text/Large heading (light)	24		0%	ORIGINAL
+Confirmation modal	Mobile=false, Type=Confirmation, Dark mode=False	Desktop text/Large heading	24	Regular	0%	ORIGINAL
+Content		Desktop text/Label text	13		0%	ORIGINAL
+Content cards	Mobile=false	Desktop text/Body text	16		-1%	ORIGINAL
+Data variance	Data change=Up, Mobile=False	Desktop text/Label text	13		0%	ORIGINAL
+Data variance alternative	Property 1=Default		20		0%	ORIGINAL
+Date picker period	Type=Date	Desktop text/Sub heading	20		0%	ORIGINAL
+Date range visual	Property 1=Default	Desktop text/Body text	16		-1%	ORIGINAL
+Detail item		Desktop text/Label text	13		0%	ORIGINAL
+Details	Layout=Horizontal	Desktop text/Label text	13		0%	ORIGINAL
+Document previewer	Device=Mobile	Desktop text/Body text	16		-1%	ORIGINAL
+Donut chart with ledger	Darkmode=False, Mobile=False		60		0%	ORIGINAL
+Donut pie chart	Segments=2, Icon=False		60	Medium	0%	ORIGINAL
+Donut pie chart	Segments=4, Icon=False		60		0%	ORIGINAL
+Draggable card	State=Default	Desktop text/Body text	16		-1%	ORIGINAL
+Drop down button	Hover=False		13	Regular	-1%	ORIGINAL
+Editable list card	Property 1=Default	Desktop text/Label text	13		0%	ORIGINAL
+Empty section	Mobile=False	Desktop text/Sub heading (semi bold, 600)	20	SemiBold	0%	ORIGINAL
+Empty section	Mobile=True	Mobile text/Sub heading (bold)	18	SemiBold	0%	ORIGINAL
+Field	Property 1=Default	Desktop text/Label text	13		0%	ORIGINAL
+Field	Right aligned=No, Filled=No	Desktop text/Body text (italic)	16	Italic	-1%	ORIGINAL
+Field	Right aligned=No, Filled=Yes	Desktop text/Body text	16		-1%	ORIGINAL
+Field label		Desktop text/Body text	16		-1%	ORIGINAL
+Filter chip	State=Default, Active=False, Mobile=False	Desktop text/Body text	16		-1%	ORIGINAL
+Filter chip	State=Default, Active=False, Mobile=True	Desktop text/Label text	13		0%	ORIGINAL
+Filter chip	State=Selected, Active=True, Mobile=False	Desktop text/Body text (semi bold, 600)	16	SemiBold	-1%	ORIGINAL
+Filter chip	State=Selected, Active=True, Mobile=True	Desktop text/Label text (semi bold, 600)	13	SemiBold	0%	ORIGINAL
+Filter tab single	Selected=False, Breakpoint=Desktop, State=Default	Desktop text/Large heading	24	Regular	0%	ORIGINAL
+Filter tab single	Selected=False, Breakpoint=Tablet, State=Default	Desktop text/Sub heading	20		0%	ORIGINAL
+Filter tab single	Selected=True, Breakpoint=Desktop, State=Default		24	SemiBold	0%	ORIGINAL
+Filter tab single	Selected=True, Breakpoint=Tablet, State=Default	Desktop text/Sub heading (semi bold, 600)	20	SemiBold	0%	ORIGINAL
+Filter tabs	Breakpoints=Desktop		24	SemiBold	0%	ORIGINAL
+Filter tabs	Breakpoints=Tablet	Desktop text/Sub heading (semi bold, 600)	20	SemiBold	0%	ORIGINAL
+Footer		EXTERNAL	13	Regular	0%	ORIGINAL
+Footer (AG)	Mobile=False	Desktop text/Label text	13		0%	ORIGINAL
+Form	Mobile=False	Desktop text/Sub heading	20		0%	ORIGINAL
+Form	Mobile=True	Mobile text/Sub heading	18		0%	ORIGINAL
+Form field	Input type=Text, State=Default, Full width=Yes	Desktop text/Body text	16		-1%	ORIGINAL
+Full page	System=People First, Tablet=No, Mobile=No, Darkmode=No	Desktop text/Label text	13		0%	ORIGINAL
+Full page/Header navigation/Yes/No		Desktop text/Label text	13		0%	ORIGINAL
+Graph axis	Breakpoint=Desktop	Desktop text/Label text	13		0%	ORIGINAL
+Graph axis	Breakpoint=Mobile		13	Regular	-1%	UPPER
+Graph legend	Mobile=False, Key type=Donut graph	Desktop text/Large heading	24	Regular	0%	ORIGINAL
+Graph legend	Mobile=False, Key type=Line graph	Desktop text/Label text	13		0%	ORIGINAL
+Graph legend	Mobile=True, Key type=Donut graph		20	Regular	0%	ORIGINAL
+Header	System=People First		11	SemiBold	0%	ORIGINAL
+Header	Theme=Configr, Mobile=No		24		0%	ORIGINAL
+Header	Theme=Configr, Mobile=Yes	Desktop text/Body text (semi bold, 600)	16	SemiBold	-1%	ORIGINAL
+Header	Theme=Default - Cranberry red, Mobile=No	EXTERNAL	16		-1%	ORIGINAL
+Header	Theme=Default - Cranberry red, Mobile=Yes	Desktop text/Label text	13		0%	ORIGINAL
+Header navigation	Mobile=No, Tablet=No	EXTERNAL	16		-1%	ORIGINAL
+Header navigation	Mobile=Yes, Tablet=No	Desktop text/Label text	13		0%	ORIGINAL
+Hemisphere chart	Status=None	Desktop text/Label text	13		0%	ORIGINAL
+Information box	Type=Information	Desktop text/Label text	13		0%	ORIGINAL
+Inline search	Filled=False	Desktop text/Body text	16		-1%	ORIGINAL
+Layout container (magazine style)	Row colour=False, Mobile=False	Desktop text/Sub heading	20		0%	ORIGINAL
+Layout container tabs	Property 1=Default	Desktop text/Body text (semi bold, 600)	16	SemiBold	-1%	ORIGINAL
+Layout container title	Property 1=Default	Desktop text/Sub heading	20		0%	ORIGINAL
+Links	Link type=Primary, Hover=False, Icon position=Left	Desktop text/Body text	16		-1%	ORIGINAL
+Links	Link type=Secondary, Hover=False, Icon position=Left	Desktop text/Label text	13		0%	ORIGINAL
+Manage columns	Mobile=False, Darkmode=False	Desktop text/Sub heading	20		0%	ORIGINAL
+Menu	Size=Large	Desktop text/Label text	13		0%	ORIGINAL
+Menu-search-settings	Page=Menu, Darkmode=False	Desktop text/Large heading (light)	24		0%	ORIGINAL
+Message box	Property 1=Default	Desktop text/Body text	16		-1%	ORIGINAL
+Metric card	Mobile=False	Desktop text/XL heading	36		0%	ORIGINAL
+Metric card	Mobile=True	Mobile text/XL heading	30	Regular	0%	ORIGINAL
+Mobile bottom navigation	Tablet=No		11		0%	ORIGINAL
+Mobile key actions	Link=Key actions	Desktop text/Body text	16		-1%	ORIGINAL
+Mobile key actions	Link=MHR		15		0%	ORIGINAL
+Multiselect tag		Desktop text/Label text	13		0%	ORIGINAL
+Nav tabs	Status=Selected, Mobile=False	Desktop text/Body text (semi bold, 600)	16	SemiBold	-1%	ORIGINAL
+Nav tabs	Status=Selected, Mobile=True	Desktop text/Label text (semi bold, 600)	13	SemiBold	0%	ORIGINAL
+Nav tabs	Status=Unselected, Mobile=False	Desktop text/Body text	16		-1%	ORIGINAL
+Nav tabs	Status=Unselected, Mobile=True	Desktop text/Label text	13		0%	ORIGINAL
+Navigation item	System=People First, State=Default, Device=Desktop, Selected=No	Desktop text/Label text	13		0%	ORIGINAL
+Navigation item	System=People First, State=Default, Device=Mobile, Selected=No		11		0%	ORIGINAL
+Navigation item	System=People First, State=Selected, Device=Desktop, Selected=Yes	Desktop text/Label text (semi bold, 600)	13	SemiBold	0%	ORIGINAL
+Navigation item	System=People First, State=Selected, Device=Mobile, Selected=No		11	Regular	0%	ORIGINAL
+Navigation tabs	System=People First, Mobile=No	Desktop text/Body text (semi bold, 600)	16	SemiBold	-1%	ORIGINAL
+Navigation tabs	System=People First, Mobile=Yes	Desktop text/Label text (semi bold, 600)	13	SemiBold	0%	ORIGINAL
+Next actions modal	Mobile=false, Type=Warning	Desktop text/Large heading	24	Regular	0%	ORIGINAL
+Note	Property 1=Default	Desktop text/Label text	13		0%	ORIGINAL
+Notification card	Mobile=No	Desktop text/Body text (semi bold, 600)	16	SemiBold	-1%	ORIGINAL
+Notification card	Mobile=Yes	Desktop text/Button text	16	SemiBold	0%	ORIGINAL
+Notification categories	Mobile=No	EXTERNAL	16		-1%	ORIGINAL
+Notification categories	Mobile=Yes		18		0%	ORIGINAL
+Notification list	Mobile=No	Desktop text/Body text	16		-1%	ORIGINAL
+Notification list	Mobile=Yes	EXTERNAL	16		-1%	ORIGINAL
+Notification panel	Mobile=No	Desktop text/Sub heading	20		0%	ORIGINAL
+Notification panel	Mobile=Yes		18		0%	ORIGINAL
+Notification tabs	State=Default, Selected=No	EXTERNAL	16		-1%	ORIGINAL
+Option	Selected=No		16		-2%	ORIGINAL
+Org chart	Type=Org	Desktop text/Body text	16		-1%	ORIGINAL
+Pagination buttons			13	SemiBold	0%	ORIGINAL
+People	Item=Nolan George, Type=Card large, Mobile=False	Desktop text/Sub heading	20		0%	ORIGINAL
+People	Item=Nolan George, Type=Card large, Mobile=True	Mobile text/Sub heading	18		0%	ORIGINAL
+People	Item=Nolan George, Type=Inline search, Mobile=True	Desktop text/Body text	16		-1%	ORIGINAL
+People	Item=Nolan George, Type=Table, Mobile=True	Desktop text/Label text	13		0%	ORIGINAL
+People	Item=Organisation, Type=Header, Mobile=False	Desktop text/Large heading	24	Regular	0%	ORIGINAL
+People	Item=Organisation, Type=Header, Mobile=True	Desktop text/Body text (semi bold, 600)	16	SemiBold	-1%	ORIGINAL
+People and department drop down		Desktop text/Body text	16		-1%	ORIGINAL
+Percentage bar	Percentage=0	Desktop text/Label text	13		0%	ORIGINAL
+Primary search	Darkmode=False, Icon only=False	Desktop text/Label text	13		0%	ORIGINAL
+Radio card	State=Enabled, Selected=No	Desktop text/Body text (semi bold, 600)	16	SemiBold	-1%	ORIGINAL
+Radio tile	State=Default	Desktop text/Body text (semi bold, 600)	16	SemiBold	-1%	ORIGINAL
+Repeating group		EXTERNAL	16	Italic	-1%	ORIGINAL
+Required field		Desktop text/Body text (italic)	16	Italic	-1%	ORIGINAL
+Search navigation	Mobile=False	EXTERNAL	16		-1%	ORIGINAL
+Secondary nav	Mobile=False	Desktop text/Body text (semi bold, 600)	16	SemiBold	-1%	ORIGINAL
+Secondary nav	Mobile=True	EXTERNAL	13	SemiBold	0%	ORIGINAL
+Selected action banner	Darkmode=False, Mobile=False		16		-1%	ORIGINAL
+Settings card	Property 1=Default	Desktop text/Label text (semi bold, 600)	13	SemiBold	0%	ORIGINAL
+Side filter	Mobile=False	Desktop text/Sub heading	20		0%	ORIGINAL
+Side filter	Mobile=True	Mobile text/Sub heading	18		0%	ORIGINAL
+Side navigation	System=People First	Desktop text/Label text	13		0%	ORIGINAL
+Side panel	Mobile=Yes, Size=Medium	Desktop text/Sub heading	20		0%	ORIGINAL
+Side panel header	Size=Default	Desktop text/Sub heading	20		0%	ORIGINAL
+Signature	Mandatory=False, State=Default	Desktop text/Body text	16		-1%	ORIGINAL
+Slider	Property 1=Default	Desktop text/Label text	13		0%	ORIGINAL
+Spotlight Card	Horizontal=False, Mobile=False	Desktop text/Label text	13		0%	ORIGINAL
+Square progress bar	Variant=Default, Progress=0%	Desktop text/Label text	13		0%	ORIGINAL
+Star rating	Rating=0, State=Default, Read only=No	Desktop text/Label text	13		0%	ORIGINAL
+Status	Status type=Custom		13		-1%	ORIGINAL
+Stepper	System=People First	Desktop text/Label text	13		0%	ORIGINAL
+Steps	System=People First, State=Completed, Position=Middle, Current step=No, Completed step=Yes	Desktop text/Label text	13		0%	ORIGINAL
+Steps	System=People First, State=Selected, Position=Middle, Current step=Yes, Completed step=No	Desktop text/Label text (semi bold, 600)	13	SemiBold	0%	ORIGINAL
+Sticky footer	Default=Default		13	SemiBold	0%	ORIGINAL
+Switcher	Property 1=Default	Desktop text/Body text	16		-1%	ORIGINAL
+Tab	System=People First, State=Default, Mobile=No, Selected=No	Desktop text/Body text	16		-1%	ORIGINAL
+Tab	System=People First, State=Default, Mobile=Yes, Selected=No	Desktop text/Label text	13		0%	ORIGINAL
+Tab	System=People First, State=Selected, Mobile=No, Selected=Yes	Desktop text/Body text (semi bold, 600)	16	SemiBold	-1%	ORIGINAL
+Tab	System=People First, State=Selected, Mobile=Yes, Selected=Yes	Desktop text/Label text (semi bold, 600)	13	SemiBold	0%	ORIGINAL
+Table (AG)	Mobile=False	Desktop text/Label text (semi bold, 600)	13	SemiBold	0%	ORIGINAL
+Table action bar	Mobile=False	Desktop text/Body text (semi bold, 600)	16	SemiBold	-1%	ORIGINAL
+Table action bar	Mobile=True	Desktop text/Label text (semi bold, 600)	13	SemiBold	0%	ORIGINAL
+Table card (AG)	Mobile=False	Desktop text/Body text (semi bold, 600)	16	SemiBold	-1%	ORIGINAL
+Table card (AG)	Mobile=True	Desktop text/Label text (semi bold, 600)	13	SemiBold	0%	ORIGINAL
+Table cell (AG)	Type=Default, Style=Default	Desktop text/Label text	13		0%	ORIGINAL
+Table cell (AG)	Type=Default, Style=Hover	Desktop text/Label text (italic)	13	Italic	-1%	ORIGINAL
+Table header (AG)	Alignment=Left	Desktop text/Label text (semi bold, 600)	13	SemiBold	0%	ORIGINAL
+Table progress bar	Completion=0%, Dark cell background=No	Desktop text/Label text	13		0%	ORIGINAL
+Tags	Type=Neutral, Small=No	EXTERNAL	13	Regular	0%	ORIGINAL
+Tertiary nav	Mobile=No, Page=No	Desktop text/Body text (semi bold, 600)	16	SemiBold	-1%	ORIGINAL
+Tertiary nav	Mobile=No, Page=Yes	Desktop text/Sub heading	20		0%	ORIGINAL
+Tertiary nav	Mobile=Yes, Page=No	EXTERNAL	13	SemiBold	0%	ORIGINAL
+Text area	Type=Standard	Desktop text/Body text	16		-1%	ORIGINAL
+Text template format editor 	Type=Modal	Desktop text/Body text	16		-1%	ORIGINAL
+Time picker		EXTERNAL	16		-1%	ORIGINAL
+Title panel	Mobile=false	Desktop text/Sub heading	20		0%	ORIGINAL
+Title panel	Mobile=true	Mobile text/Sub heading	18		0%	ORIGINAL
+Toast message	Message type=Success	Desktop text/Label text	13		0%	ORIGINAL
+Toggle	On=No, Locked=No	Desktop text/Label text	13		0%	ORIGINAL
+Tool tip	Property 1=Default	Desktop text/Label text	13		0%	ORIGINAL
+Top bar app context	Area=Administration, Mobile=False		24		0%	ORIGINAL
+Top bar app context	Area=Administration, Mobile=True	Desktop text/Body text (semi bold, 600)	16	SemiBold	-1%	ORIGINAL
+[S] Attachment		Desktop text/Label text (semi bold, 600)	13	SemiBold	0%	ORIGINAL
+[S] Config child menu			16		-1%	ORIGINAL
+[S] People	Property 1=Header, Mobile=False	Desktop text/Label text	13		0%	ORIGINAL
+[S] People	Property 1=Inline, Mobile=False	Desktop text/Body text	16		-1%	ORIGINAL
+[S] People	Property 1=Large card, Mobile=False	Desktop text/Sub heading	20		0%	ORIGINAL
+[S] People	Property 1=Large card, Mobile=True	Mobile text/Sub heading	18		0%	ORIGINAL
+[S] Post content		Desktop text/Sub heading	20		0%	ORIGINAL
+[S] Text area	Property 1=Default	Desktop text/Body text	16		-1%	ORIGINAL
+single layout card	Mobile=false	Desktop text/Sub heading	20		0%	ORIGINAL
+single layout card	Mobile=true	Mobile text/Sub heading	18		0%	ORIGINAL

@@ -32,11 +32,20 @@ Non-negotiables from that skill:
 Four stylesheets. For a page:
 
 ```html
-<link rel="stylesheet" href="dist/fonts.css">       <!-- Open Sans, self-hosted -->
+<link rel="stylesheet" href="dist/fonts.css">       <!-- Open Sans, self-hosted — load FIRST -->
 <link rel="stylesheet" href="dist/tokens.css">      <!-- the colours -->
 <link rel="stylesheet" href="dist/components.css">  <!-- the components -->
 <link rel="stylesheet" href="dist/type.css">        <!-- the type -->
 ```
+
+`fonts.css` ships Open Sans 400 and 600 (vendored in `assets/fonts/`, inlined as data:
+URIs). Never link Google Fonts — the request fails in an artifact and behind an egress
+policy, and the page then falls back silently. It also maps the UA stylesheet's 700 onto
+600, because no 700 face exists and the browser would synthesise one.
+
+`npm run verify` runs `check-fonts.mjs`, which asks the one question no other check asks:
+**which face actually rendered.** For the whole life of this project the answer was DejaVu
+Sans, with weight 600 painting as DejaVu Bold, while every check was green.
 
 For a self-contained artifact or `.dc.html` canvas artboard: inline the contents of
 all four into a `<style>` block. Artifacts and canvases can't reference local files, so the
@@ -60,7 +69,326 @@ variant property is a data attribute, values keep Figma's spelling:
 `docs/components.html` shows every one. Your own CSS is for page layout and behaviour
 only.
 
+**Type comes from the text styles, not from the component.** A component whose label Figma
+gives a text style does not carry its own `font-size` or `font-weight` — it composes the
+style, in a rule at the end of `components.css` generated from the same source as
+`type.css`. So a page must never set type on a component class: the class already has it,
+and writing your own puts a second, drifting copy next to the generated one.
+`npm run verify` fails on it. 181 of the 208 component labels work this way; the other 27
+use type the ramp cannot express and are listed in `docs/FIGMA-ISSUES.md` §7.
+
 Dark mode: `data-theme="dark"` / `"light"` on the root, or omit to follow the OS.
+
+
+<!-- The eight sections below came from the other branch in the 2026-09-12 merge. They are
+     about what a component class CARRIES — artwork, borders, shadows, clipping — and nothing
+     in this half covers that ground, so neither document could replace the other. -->
+
+## Component artwork
+
+Some components' visual **is an image**, not a colour. The header band
+(`Default header background`) is a 1920x86 raster swoosh with a charcoal dark-mode twin —
+six variants in all. It binds no colour variable, so the colour extract has nothing to put
+in its `fill / stroke / text` slots and used to drop the artwork entirely; the class then
+rendered as an empty transparent box and whoever needed a header hand-wrote one. That is
+where the flat pink band and the wrong font weights came from.
+
+Artwork now lives in `assets/component-art/`, is listed in `tokens/_raw/component-art.tsv`,
+and is **inlined as data: URIs** by `dist/components.css` — a `url()` path would fail
+silently in an artifact or a `.dc.html` canvas, which is the same invisible failure again.
+
+```html
+<div class="pf-default-header-background"></div>          <!-- desktop, follows the theme -->
+<div class="pf-default-header-background" data-breakpoint="Mobile"></div>
+```
+
+Light/dark is automatic via `data-theme`; you never set `data-darkmode` yourself, though
+Figma's own variant attribute still works.
+
+A component whose artwork is the same at every variant uses `*` as its variant, and the
+rule lands on the bare class. To add artwork for another component: export it through `use_figma` in base64 chunks
+headed `ART\t<slug>\t<format>\t<part>\t<total>`, declare the slug's owning component and
+variant in the `EXPORTS` table in `scripts/extract-component-art.mjs`, run that script,
+then `npm run build`.
+
+## Boxes that centre their own child
+
+A few components hold ONE smaller thing in the middle of themselves — `Circle icons` is a
+28/36/44/52px circle around an 18/22/28/36px glyph, `Status` a 22px dot around a 16px one,
+`Waffle` a 90x86 tile around a 32px mark. Figma lays all three out as **NONE**: no
+auto-layout, the child positioned by hand. The geometry extract reads auto-layout, so it
+had nothing to read, and the classes shipped with no alignment at all.
+
+A page then centred the icon itself — `display: grid; place-items: center` written next to
+the component class — which is hand-written component CSS, the thing this repo exists to
+stop. `working/case-mgmt-my-team` did exactly that, and a screen built independently from
+the same docs shipped an icon sitting small and off-centre at the top of the page, because
+the page had no way to know.
+
+The alignment is now measured rather than assumed. `scripts/extract-component-inner.mjs`
+keeps a component only where the child's offsets are **equal on each axis** — so "centred"
+is a reading, not a guess — and records the child's size per variant in
+`tokens/_raw/component-inner.tsv`: **23 variants across 3 components**. `npm run build`
+emits both facts, and a page sets neither.
+
+```html
+<span class="pf-circle-icons" data-size="XS - 28px"><!--pf-icon:team--></span>
+```
+
+No size on the icon marker: the class sizes its own child, and 21 other layout-NONE
+components are deliberately absent from that file because their child FILLS them.
+
+**The rule goes on the variant selector, not the bare class.** Every size variant carries
+its own `display`, so a bare-class rule is outranked however late it is written. The first
+version of this centred nothing while sizing correctly, which looks fixed.
+`npm run verify` runs `check-component-inner.mjs`, which renders each variant and measures
+where the child actually landed.
+
+## Borders: which edges, and how thick
+
+The colour extract records one thing about a stroke — its token — so the generator painted
+every bound stroke as `1px solid <token>`: a box, all four sides, one pixel. Figma says
+otherwise 56 times, and none of it was visible to the pipeline:
+
+- **26 variants stroke some edges and not others.** `Nav tabs` is a FILE-FOLDER tab, not an
+  underlined one: unselected it rules its bottom edge; selected it rules top, left and right
+  and leaves the bottom OPEN so the tab joins the panel below, with 8px top corners. Drawn
+  as a box, every tab in the strip became an outlined rectangle and the selected one stopped
+  reading as selected. `Table cell (AG)`, `Filter tab single`, `Sticky footer`, `Side panel
+  header` and `Config parent menu` are the same mistake: a rule on one edge, drawn as a cage.
+- **12 stroke all four sides at a width that is not 1px** — `AI button`, `AI banner`,
+  `Draggable card` and `AG field` at 2px, `Clock in` at 1.5px. The 1px was not measured by
+  eye; it was a default nobody chose.
+- **18 keep a stroke paint Figma has switched OFF** and draw no border at all. Every
+  `Table cell (AG)` variant is one, so a table rendered as a grid of boxes.
+
+Measured into `tokens/_raw/component-stroke-sides.tsv` by
+`scripts/extract-component-stroke-sides.mjs`. **Any component absent from that file strokes
+1px on all four sides**, which is what the generator already emitted; the file is the
+departures and only the departures. `npm run verify` runs `check-stroke-sides.mjs`, which
+renders each one and reads the border back.
+
+Four components are measured but not emitted — `AI banner`, `AI card modal`, `Mobile bottom
+navigation` and `Status` bind no stroke token at all (two are stroked with a gradient, which
+no colour variable can carry; one keeps a paint switched off; one has no stroke paint), so
+there is no border style to widen. A width with no colour is not a border. The build names
+them rather than skipping them quietly.
+
+**A rule must be written with the axes the STYLESHEET uses, not the axes Figma names.**
+Figma calls a variant `Type=Standard, Darkmode=False`; the stylesheet collapses an axis that
+changes nothing, so the class is `.pf-clock-in[data-type="Standard"]` and a page writes only
+`data-type`. The first version generated the full Figma string, so the rule matched nothing
+any page produces and sat in the file looking correct. `check-stroke-sides` did not catch it
+either — it built its own markup and wrote every axis. `check-off-system` did, by noticing
+the page still had to set the width by hand.
+
+## Shadows
+
+`dist/components.css` contained the string `box-shadow` **zero times**. Figma casts a drop
+shadow on **47 component variants** — `Card`, `Side panel`, `Side filter`, `Toast message`,
+`Tool tip`, `Action menu`, `Table card (AG)`, `Header navigation`, `Side navigation`: every
+floating surface in the system, all of them rendering flat against the page. Same shape as
+the border fault — the colour extract knows a fill, a stroke and a text token, and a shadow
+is none of the three.
+
+Measured into `tokens/_raw/component-shadow.tsv` by `scripts/extract-component-shadow.mjs`.
+All twelve product pages were swept and four have no effects at all, so absence from that
+file means "measured, has none", not "not looked at".
+
+**The design system has exactly two shadow tokens and the pipeline does not invent a third.**
+`--pf-shadow-drop-shadow` and `--pf-shadow-modal-header-shadow`. **29 of the 47 match one
+exactly** and are emitted as `box-shadow: var(--pf-shadow-*)`. The other **18 match neither**,
+and nothing is emitted for them — writing Figma's rgba into the stylesheet would put a raw
+colour in generated CSS and freeze it across both modes. The build names all 18 and they are
+written up in `docs/FIGMA-ISSUES.md` §12, with the four shadow shapes that would clear them.
+
+A page never writes a `box-shadow` on a component class. `npm run verify` runs
+`check-shadows.mjs`, which measures the RENDERED shadow against Figma's numbers rather than
+against the token name the generator picked — a wrong token, a selector matching nothing and
+a token whose value drifts are three faults that all show up as the same wrong pixels. It
+also asserts the negative: if one of the 18 ever starts painting, that rule was hand-written.
+
+Neither shadow token changes between modes — both are defined once in `:root`, and
+`--pf-shadow-drop-shadow` is `#c1c1c1`, a light glow that does not read on a dark ground.
+That is a gap in the design system rather than in the pipeline, recorded in §12; the file
+already has a mode-aware `Border/Border - Drop shadow` colour that the shadow tokens do not
+use.
+
+## Clipping — measured, and deliberately NOT carried
+
+Figma clips the contents of **34 of the 62 components** on Cards and panels, 22 of them with
+a corner radius, and `dist/components.css` sets `overflow` once. After the border and the
+shadow this looked like the obvious next thing to carry, and it is the one that must not be.
+
+The measurement that settled it: **27 of the 154 templates already render outside the box
+their own class draws** — `pf-hemisphere-chart` by 333px, `pf-donut-pie-chart` by 284px,
+`pf-content` by 180px. `overflow: hidden` would not have reproduced the design on those; it
+would have deleted part of the component's own generated contents from view. And nothing
+would have said so: a clipped child still has a bounding rect, so `check-templates` would
+have gone on reporting that every template renders its contents while a fifth of one was
+invisible. That is precisely the silent failure this project keeps finding — introduced on
+purpose, in the name of fidelity.
+
+The overflow is not a fault in the templates. A class's height is the artboard Figma drew
+the component at, and a template holds placeholder contents of their own size; the two were
+never promised to agree.
+
+`npm run verify` runs `check-template-overflow.mjs`, which reports and pins the count. It is
+the precondition: **clipping can only ever be carried once that number is zero.**
+
+## Children a parent does not lay out
+
+For an auto-layout parent, the order of the children is enough: the template writes the same
+direction, gap and padding, and they land where Figma put them. For a parent laid out
+**NONE** there is nothing to copy, and flowing them is not merely imprecise — it is a
+different picture. `Profile image` is 93x93 and holds two children, a photo and a `People`
+instance, **both at 0,0 at 93x93**: overlaid in Figma, stacked by the template, 93px tall
+becoming 184.
+
+`tokens/_raw/component-child-pos.tsv` records where each child sits inside a parent Figma
+does not lay out, and the template places it there. Three guards, because a position applied
+to the wrong node is worse than none:
+
+1. the tree must carry that exact component and path;
+2. it must **agree on the child's size** — two rotated `LINE` nodes in `Donut pie chart`
+   report a rotated bounding box against the tree's unrotated size, and are refused;
+3. **the class must carry the whole box.** A pixel offset means nothing unless the element
+   it is measured inside is the size Figma measured it in, and the stylesheet drops a width
+   above 120px on purpose. Nine components are measured and deliberately not placed for this
+   reason — `Full page`, `Configuration`, `AI Assistant`, the three charts and others — and
+   the build names them. Applying the offsets to them anyway pushed their children straight
+   out of the box and the overflow count went UP, which is how the guard was found.
+
+Two more things this cost, both worth knowing before touching it:
+
+- **The outer element is the positioning origin.** Put `position: relative` on every parent
+  except the root and the children resolve against whatever ancestor on the page happens to
+  be positioned — on a plain page, the document, so they fly to the top-left corner.
+- **An origin whose children are all absolute holds nothing in flow**, so it collapses to
+  zero and everything after it slides up. It is given its measured size.
+
+An icon is emitted as an HTML comment (`<!--pf-icon:home-->`), which cannot carry a style,
+so a placement on one is wrapped in a positioned span. Before that it was silently dropped
+while the build counted it as applied — which is why the build now counts what reached the
+written template rather than what it intended.
+
+## What the component classes do and do not carry
+
+A component is modelled as **one outer box plus three colour slots**
+(`component-geometry.tsv` + `component-variants.tsv`). There is nowhere for a component's
+*contents* to go — no children, no nested instances, no per-child type. So a component that
+IS one box works as a class (`.pf-button`, `.pf-tag`, `.pf-filter-chip`) and a composite one
+does not: `.pf-header`, `.pf-card`, `.pf-metric-card`, `.pf-calendar-picker` and
+`.pf-table-ag` carry a size and nothing inside it.
+
+**There are now templates for this.** `dist/templates/<class>.html` holds working markup
+for each composite component, generated from its Figma child tree, and `docs/templates.html`
+shows every one rendered. Paste the template — every class in it is a real library class,
+every colour is a token, and every icon is a real icon. Do not hand-write the contents.
+
+```
+dist/templates/pf-metric-card.html      docs/templates.html   — see them all rendered
+```
+
+`npm run verify` runs `check-templates.mjs`, which fails if a composite component has no
+template, if a template renders an empty box, or if a template's outer class is not a real
+class in `components.css`. It also reports how many of them render NOTHING from the bare
+class — currently **all 154 of them**, which is exactly why this exists.
+
+**Coverage: 158 of the 161 product-page components are walked, and 154 have templates.**
+The three unwalked ones are each unwalkable rather than skipped: `Multi-select checkbox`
+has no children in Figma, `Side navigation tab` is the old name of `Notification tabs`, and
+`Default header background` is detached from the page tree (it is artwork, and has its own
+section above). Of the walked ones, four are not composite — `Tooltip` is drawn from vector
+paths, `Information box` wraps an instance of itself — and two have no class to hang a
+template on: Figma has two components called `Field` and two called `People`, and only the
+first of each pair has rules.
+
+**A template is only as deep as the walk that made it, and it says where it stopped.**
+The walk records each node's child count, so a container that came back empty is
+distinguishable from one Figma leaves empty, and any container it did stop short of carries
+a comment saying how many children Figma has there. **Three** are left, each holding a
+single leaf. A blank inner div with no comment IS empty in Figma.
+
+A run of identical siblings is kept short on purpose — `Table (AG)` has thirteen rows per
+column and the template carries two plus `<!-- 11 more of the same in Figma -->`. Repeat
+the elements above it for real data; the third row never said anything the second did not.
+
+**A template never uses a primitive token** (`--pf-base-*`), and `npm run verify` fails if
+one appears. Six had slipped in, because the rule was applied to a child's fill and stroke
+and not to its text.
+
+(The same section used to cite "69 classes with no paint". That number was wrong —
+`check-component-art.mjs` was counting rules rather than classes. The real figure is
+**14 classes with no paint**, and it was never the right measure anyway: a class can have a
+perfectly good background and still be an empty box. It read 2 until `Calendar picker`,
+`Time picker` and `Repeating group` had their one text colour dropped, which is explained in
+`docs/FIGMA-ISSUES.md` §11 — for those three, losing their only paint was the fix rather
+than the fault. It then read 5 until the census was found to be splitting a rule's selector
+list on commas, so a generated comment containing one became the "selector" and the rule
+below it was attributed to nothing: nine shape-only classes — `Field icons`, `Floaters`,
+`Horizontal scroll`, `Map`, `Notification image`, `People`, `Stars`, `Tooltip`, `Waffle` —
+had never been in the census at all. None of them lost anything; the check simply could not
+see them. That is the third time this one check has been found counting the wrong set.)
+
+## The rule: only design-system components
+
+A page may use design-system components. Its own CSS does **layout**, and nothing else.
+`npm run verify` enforces this on anything in `working/`; run it anywhere with
+`npm run off-system -- <file>`.
+
+Three ways a page goes off-system, all of which happened on this project:
+
+1. **An invented class.** `pf-text-medium-heading` does not exist. The title fell back to
+   the browser's bold `h2` default and read as a font-weight bug for two rounds.
+2. **A hand-written component.** The sub nav was written with `--pf-bg-primary`, which is
+   white in light mode so it looked right and was a different grey in dark. Clock-in was
+   written with `padding: 7 16 7 6` measured by eye; the component says `7 20 7 10`.
+3. **An override.** Setting a property the component already owns silently undoes the
+   extract.
+
+**Properties a component owns** — and a page therefore must not set on its own class:
+size, padding, radius, gap, font-size, font-weight, background, colour, border, shadow,
+letter-spacing. Spacing is the exception: `padding` and `gap` are fine on a layout element
+as long as every value is a `var(--pf-space-*)` token or zero.
+
+**When something genuinely is new** — a Figma child the outer-box extract cannot reach, or
+a page-shell element with no component — say so where you write it:
+
+```css
+/* pf-new: the presence dot is a child of the tile in Figma, not of any component */
+.dot { ... }
+```
+
+The marker must sit immediately before the rule. It makes the exception visible and
+reviewable rather than invisible.
+
+**4. A component used as a shell.** The newest route, and the one `check-off-system`
+cannot see. A page can pass every other check while hand-building the INSIDE of each
+component it uses: `working/case-mgmt-my-team.html` rebuilds the whole of
+`.pf-layout-container-magazine-style` out of local divs, and writes its own header contents
+inside `.pf-header`. The outer class is real and the colours are tokens, so it is
+"on-system" by that check's definition — and Figma's structure for the contents is thrown
+away all the same. That is hand-writing a component, one level in.
+
+`npm run verify` runs `check-template-fidelity.mjs`, which counts how many of the library
+classes a component's template puts inside it the page actually uses. It reports rather
+than judges — a real card holds real data, and a page may leave parts out — but a component
+using NONE of several is one rebuilt by hand, and that total is pinned and may only fall.
+**One is outstanding**, on `case-mgmt-my-team`: `pf-layout-container-title`, the
+"Department insights" row, which Figma gives a circle icon and a title on the left and
+three buttons on the right, and the page fills with a title and two text links.
+
+(This sentence read "Two are outstanding — `pf-header` and
+`pf-layout-container-magazine-style`" for a while after those two stopped being outstanding:
+rebuilding that page on its templates fixed both and left a third the note never named. The
+count is checked against the script now, so it cannot drift again.)
+
+It does not look at type classes. A component composes its own type, so a page must not add
+`pf-text-*` inside one — see the rule above.
+
+**`prototypes/` are exempt** — they are hand-built fixtures and score 30-63 off-system
+each. That is what they are; see the section above. Builds FROM a design are not exempt.
 
 ## Keeping up with Figma
 
@@ -1011,6 +1339,60 @@ a dot and none contains a backslash**, so the dot is gone and a backslash is leg
 `\/` pair a kebab variable uses to escape its separator. Four mutants hold it, including one that
 allows the dot back and one that rejects the real names too.
 
+## What the 2026-09-12 merge corrected
+
+Two branches ran side by side from 2026-09-09 — this one on the colour retirement and the drift
+checks, the other on component fidelity — and 52 files conflicted. Merging them corrected four
+things that neither branch could see alone, and each is the same shape: **a claim that was true of
+one branch's evidence, written as though it were true of Figma.**
+
+**`Border/Default full` and `-hidden` were never blocked.** This file says at length that applying
+the 38-row split waits on `figma-variables.json`, a file this environment cannot fetch. The other
+branch's `semantic.tsv` already had both, with light and dark values — along with 14 more tokens
+recorded here as missing, the whole Configr set among them. Its extract had already applied the
+split: 0 rows on the old name against 43 on `-full`. **The file we were waiting for was on the
+other branch**, and 13 `uncaptured-tokens.tsv` declarations were dead the moment the two met.
+
+**Emitting no `font-weight` does not mean "inherits 400".** This file states that
+`build-type-css.mjs` deliberately emits nothing for off-system weights *so they inherit 400*. They
+inherit whatever the UA stylesheet says, which on an `<h2>` is **700** — a weight this system does
+not ship, so the browser synthesises it. The other branch had found that for unweighted styles and
+fixed it; the same argument applies to the off-ramp, and the merged build now emits 400 explicitly
+for both. The same fault one layer out: `<strong>`, `<b>` and `<th>` are 700 in every UA stylesheet
+and the type layer declared nothing for them, so the "400 and 600 only" rule was true of the
+classes and false of the page.
+
+**One screen had been shipping with no type layer at all.** `build-prototype.mjs` read
+`if (html.includes('/*__TYPE__*/'))` — so a source without the placeholder was built silently
+without the type layer, and `timesheet-approvals.src.html` was in that state. It now fails loudly.
+A silently skipped layer is the same failure as a silently skipped check.
+
+**And the rename was real, after I recorded that it was not.** `Side navigation tab` →
+`Notification tabs`: the other branch's extract carries both names as separate components with
+different variant axes, which looked like proof that nothing had been renamed. `sync:check` settled
+it the way this repo always settles a rename — **by node id**. All five rows under both names are
+`22973:20747`, and `components.json` lists that one id twice. It is one component captured twice,
+and a name-only comparison fooled me in both directions inside one afternoon.
+
+**Two checks wanted the opposite of each other from one file.** `check-detached.mjs` requires every
+uncaptured detached component to be written up in `uncaptured-reasons.tsv`; `check-catalogue-drift`
+calls a reason stale when its component is in no source — which a detached component never is.
+Running both, one demanded exactly the 23 rows the other deleted. The file serves two purposes and
+both are legitimate, so the carve-out is declared rather than inferred.
+
+**Two branches also wrote a `verify-layout.mjs` independently, asking different questions** — one
+"is anything cut off or escaping?", the other "does anything that should line up, line up?".
+Keeping one would have lost an axis silently, so the first is now `verify-clipped.mjs`. It
+immediately found a `Selected action banner` pushing its buttons 369px outside its own box, because
+the extract measured a hug-contents gap of **899px** on the Figma canvas and the generator emitted
+it faithfully. Hug-contents is a canvas behaviour, not a page one.
+
+**What was deliberately NOT merged away:** `ds-bundle/` and its builder. This branch deleted them
+as having no reader; the other branch's `package.json` calls the builder on every build, and git
+never flagged the deletion because that branch had not modified the file. Restoring it was the
+conservative move — a silent deletion inside someone else's merge is the thing this file forbids
+everywhere else. Re-applying it is a decision, not a merge artefact.
+
 ## Provenance: who said it
 
 Every content heuristic above closed a SPELLING. None closed the class, and the class kept
@@ -1236,10 +1618,44 @@ about Effect styles, and that is how the comment was found to be wrong.
 ## Editing tokens
 
 `tokens/_raw/` is the input; everything else is generated. Re-extract from Figma into
-those files, then `npm run build`. Never hand-edit `tokens/design-tokens.json`,
-`dist/tokens.css`, `dist/components.css`, `dist/type.css` or `dist/fonts.css` — they are overwritten. Run `npm run check`
+those files, then **`npm run build`** — the whole build, never a single generator. Six
+files inline `dist/components.css` (the component gallery and five ds-bundle pages), and
+running only `build-components-css.mjs` leaves every one of them carrying the previous
+version while every check still passes, because the checks read `dist/`. `npm run verify`
+now fails if any generated file is stale.
+
+Never hand-edit `tokens/design-tokens.json`, `dist/tokens.css`, `dist/components.css`,
+`dist/type.css` or `dist/fonts.css` — they are overwritten. Run `npm run check`
 after any token change to re-verify WCAG contrast, and `npm run verify` to re-check the
 component library and the example screens against Figma.
+
+## What this repo is, and what `prototypes/` is not
+
+This is a **pipeline**, not a design system file. Its job is to extract People First from
+Figma (`aRWjBnTvdLiG50xtwodGwH`) and turn a Figma design into correct, tagged output.
+
+**`prototypes/` are rough test fixtures.** They exist to exercise the token layer and a
+subset of components, and their page composition — sidebar shell, top bar, metric tiles,
+side-panel rows — is hand-built rather than taken from Figma. Measured: about 78–86% of
+what paints on them uses a real library class, and **136 of the 160 classes are never used
+by any of them** — the three screens between them reach for 24. That is acceptable for what they are. Do not describe them as reference
+implementations, do not hand them to a developer as one, and do not rebuild them to chase
+component fidelity unless asked — the user has explicitly said they are not real screens.
+
+**The thing that must be correct is the other direction:** when asked to build something
+FROM a Figma design, the output must match that design.
+
+### Test-only Figma files — never extract these
+
+A file may be supplied purely to test the Figma-to-output path. Such a file is **read-only
+input for that one task**. Never extract its tokens, components, variants or icons into
+`tokens/_raw/`, and never let it reach `dist/`, the skills or the docs — the pipeline's
+design system comes from `aRWjBnTvdLiG50xtwodGwH` and nowhere else.
+
+| File | Key | Use |
+|---|---|---|
+| People First design system | `aRWjBnTvdLiG50xtwodGwH` | **The** source. Extract from this only. |
+| Case Management (Copy) | `kuX4KDIN0u4axsKTELYlzW` | **Testing only.** Build from it to check fidelity; never extract into the pipeline. |
 
 ## Checking any screen
 
@@ -1287,3 +1703,30 @@ keeping a tinted panel from quietly becoming the finished thing.
 `node scripts/screenshot-screen.mjs <screen.html>`, which refuses to write a PNG if the page
 is not rendering in Open Sans. A screenshot in the wrong typeface is worse than none: it is
 false evidence, and it is what this project shipped for months.
+
+### The suite runs against `working/` too, and that is the direction that matters
+
+For most of this project the axes ran against `prototypes/` alone, which is exactly
+backwards: the prototypes are rough fixtures that are allowed to be wrong, and `working/`
+holds the pages built FROM a Figma design, which is the direction this repo exists to get
+right. Pointing the suite at `working/` for the first time found a shape check that could
+not run anywhere but the screen it was written for, 35 unnamed elements on the page meant
+to be handed to a developer, and a notification badge that was white-on-sky-blue in dark
+mode.
+
+`verify-layout` is the one axis that asks whether an element can be SEEN at all — five
+others passed on a screen slicing 126px off its own table. **Two branches independently
+wrote a `verify-layout.mjs` and they ask different questions**; the merge kept both, so
+`verify-clipped.mjs` is the one that finds content cut off or escaping its container, and
+`verify-layout.mjs` is the one that finds things that should line up and do not.
+
+There are two screenshot tools and they are not the same:
+
+```bash
+node scripts/screenshot-screen.mjs <screen.html>   # refuses to write if not in Open Sans
+node scripts/shoot.mjs prototypes/<screen>.html screenshots
+```
+
+A full-page capture (`--full`) flattens `position: sticky`, so a pinned sidebar looks like
+it stops halfway down and a sticky footer looks like it is clipping the panel above it.
+Neither is a bug. The default viewport shot shows the truth.

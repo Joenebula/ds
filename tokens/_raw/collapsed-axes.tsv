@@ -15,6 +15,7 @@ Bar	Label	Horizontal/Vertical	context
 Button	Label	No/Yes	context
 Checkbox/Radio item	Radio	No/Yes	state
 Checkbox/Radio item	Filled	No/Yes	state
+Circle icons	Size	XS - 28px/S - 36px/M - 44px/L - 52px	context
 Config parent menu	open	false/true	state
 Confirmation modal	Mobile	false/True	context
 Data variance	Data change	Up/Down/No change	state
@@ -28,41 +29,38 @@ Filter tab single	Breakpoint	Desktop/Tablet/Mobile	context
 Filter tabs	Breakpoints	Desktop/Tablet/Mobile	state
 Form field	Full width	Yes/No	context
 Form	Mobile	False/True	context
-Full page	System	People First/Configr	state
-Full page	Tablet	No/Yes	state
-Full page	Mobile	Yes/No	context
-Full page	Darkmode	No/Yes	context
+Full page	Breakpoint	Desktop/Tablet/Mobile	context
 Graph axis	Breakpoint	Mobile/Desktop	context
 Graph legend	Mobile	True/False	context
 Graph legend	Key type	Donut graph/Line graph	state
-Header navigation	Mobile	No/Yes	context
-Header navigation	Tablet	No/Yes	state
+Header navigation	Darkmode	True/False	context
+Header navigation	Levels of navigation	0/1/2	context
+Header navigation	Breakpoint	Desktop/Mobile/Tablet	context
 Hemisphere chart	Status	None/Negative/Warning/Neutral/Positive	state
 Layout container (magazine style)	Mobile	False/True	context
 Links	Icon position	Right/Left	state
 Metric card	Mobile	True/False	context
-Mobile bottom navigation	Tablet	No/Yes	state
+Mobile bottom navigation	Darkmode	False/True	context
+Mobile bottom navigation	Breakpoint	Tablet/Mobile	context
 Nav tabs	Mobile	True/False	context
-Navigation item	System	People First/Configr	state
-Navigation item	Selected	No/Yes	state
-Navigation tabs	System	People First/Configr	state
 Navigation tabs	Mobile	No/Yes	context
-Notification tabs	State	Default/Hover/Selected	state
+Notification panel	Mobile	Yes/No	context
 Percentage bar	Percentage	0/25/50/75/100	state
 Secondary nav	Mobile	False/True	context
-Side navigation	System	People First/Finance/Configr	state
+Side navigation	Darkmode	True/False	context
 Spotlight Card	Mobile	False/True	context
 Square progress bar	Variant	Default/Inline/Bottom label	state
 Square progress bar	Progress	0%/25%/50%/75%/100%	state
 Star rating	Read only	No/Yes	state
-Tab	System	People First/Configr	state
-Tab	Mobile	No/Yes	context
-Tab	Selected	No/Yes	state
+Stepper	System	People First/Configr	state
+Steps	Position	Middle/First/Last	state
+Steps	Current step	No/Yes	state
+Steps	Completed step	No/Yes	state
 Table progress bar	Completion	0%/25%/50%/75%/100%	state
 Table progress bar	Dark cell background	No/Yes	state
 Tags	Small	No/Yes	state
-Tertiary nav	Mobile	Yes/No	context
-Tertiary nav	Page	Yes/No	state
+Tertiary nav	Mobile	True/False	context
+Tertiary nav	Navigation type	Chips/Page	state
 Text template format editor 	Type	Modal/Correspondence	state
 Top bar app context	Area	Administration/Insights/Recruitment/Goals/Payroll/Audit/Available jobs/Learning/Onboarding/HRM/General ledger/Accounts payable/Accounts receivable/Taxes/News/Data explorer/Case Management/Absence	context
 Top bar app context	Mobile	False/True	context

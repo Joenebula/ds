@@ -768,3 +768,290 @@ Also caught while there: my own `<td>` regex mangled `<thead>` into `<th ...ead>
 mistake as Run 2; and `verify-rendered` treated a component simply not present on a page as
 a failure, which is wrong now that it runs against every screen — absent bindings are
 skipped and reported, but a page where NOTHING matched still fails.
+
+---
+
+## Run 7 — element tagging for the developer pipeline
+
+Skills loaded: `people-first` (SKILL.md, current), `pf-screen` (SKILL.md, current),
+`keep-going`. Commands run and their results are named inline below.
+
+**Built:** a naming layer (`scripts/name-elements.mjs`) and a manifest writer
+(`scripts/tag-elements.mjs`), so every element on a screen can be addressed by name
+rather than by CSS selector. All three screens: 86, 106 and 176 elements, none unnamed.
+
+**The check I wrote passed while the thing it checked was useless.** It reported "176 of
+176 elements addressable by name" on a screen whose names included
+`button-path-d-m29-2-9-7c29-64`, `filter-chip-all-248` and `tags-approved-4`. Present and
+unique was all it measured. 84 of 208 names on that screen were unusable. Three causes:
+the label reader was looking through 900 characters of inline icon path data and picking
+up the truncated tag; sample data (a count, a date, a currency amount) was being baked
+into names that go stale the moment the data changes; and a colliding name got a number,
+which tells a developer nothing. Names are now qualified by what they sit inside
+(`card-marcus-webb-tags-approved`), and the check fails on all three kinds — verified by
+running it against the pre-fix page from git, where it reports 84 and exits 1.
+
+**Two of the three screens never marked their specimen gallery.** `data-pf-ignore` exists
+precisely so a block showing every button variant does not put six identical
+`button-action`s in a manifest a developer is meant to trust. Only absence-requests had
+it. That was most of the collisions.
+
+**A variant Figma does not have.** `data-darkmode="False"` sat on a Selected action
+banner whose only Figma property is `Mobile`. A pipeline would have generated an `@Input`
+for it. Removed, and the check now fails on any data attribute that is not a real Figma
+variant property for that component — proven by putting it back on a scratch copy.
+
+**Looking at the screenshots found what six checks did not.** The timesheet screen was
+slicing 126px off its own table, the whole Status column, because Figma draws `Table (AG)`
+as a hug-contents frame: the faithful `display: inline-flex` grew past its column and its
+own `overflow: hidden` amputated the rest. Geometry, colour, icons, contrast and tagging
+all passed. Fixed in the generator (same place as the earlier `<td>` fix-up) and added
+`scripts/verify-layout.mjs`, which asks the one question the others cannot — can the
+element be seen? It fails the pre-fix build and passes the fixed one.
+
+**The first version of that check was hollow** and I nearly shipped it. It looked only at
+`[class*="pf-"], td, th` and reported a clean bill of health on the very page it was
+written for: the thing being amputated was the scroll `<div>` around the table, which
+carries no `pf-` class. It walks every element now.
+
+**And two "bugs" I nearly fixed that were not bugs.** A full-page screenshot flattens
+`position: sticky`, so the payroll sidebar looked like it stopped halfway down the page
+and the panel's sticky footer looked like it was clipping the content above it. Both are
+correct at viewport size. `scripts/shoot.mjs` now shoots the viewport by default and says
+so; `--full` is opt-in.
+
+**Also fixed while looking:** `.searchwrap .control` was a dead selector on the payroll
+screen — the input's class is `pf-field` — so the search icon sat on top of the
+placeholder text; and Figma gives Information box no gap, so its icon was glued to the
+first word on two screens.
+
+Checks run: `verify-screens` (geometry, colour, icons, audit, tagging, layout on all
+three screens), `verify-components` 2622/2622, `verify-type` 107/107,
+`check-skill-classes` 15 classes / 86 variants / 0 problems.
+
+**Not checked:** whether the manifest is the shape the Angular pipeline actually wants.
+Its contract is in a session I cannot read, so the fields are my best guess.
+
+**There is no JSON contract to match.** I had been treating the manifest shape as
+provisional pending the Angular pipeline's expected input; there isn't one. So the
+manifest is the contract, and the thing that mattered was making it readable without a
+companion document — a companion document is what gets lost or goes stale. Every manifest
+now carries an `about` line and a `fields` block defining each key, and the writer aborts
+rather than emit a manifest whose field guide disagrees with the data (verified by adding
+a field and watching it refuse). `pf-handoff` had never mentioned the manifest at all; it
+now hands it over alongside the prose spec.
+
+**Generated files went stale and nothing noticed.** A fix to the components generator was
+applied by running `node scripts/build-components-css.mjs` rather than `npm run build`, so
+`dist/components.css` was correct while the six files that INLINE it — the component
+gallery and five ds-bundle pages — kept the previous version, and the repo was committed
+in that state. Every check passed, because every check reads `dist/`, not the copies. The
+git stop-hook caught it, not the suite. `scripts/check-generated.mjs` now runs first in
+`npm run verify` and fails if the build would change anything; verified by reverting the
+gallery to the stale version and watching it name all six files.
+
+---
+
+## Run 8 — closing the four gaps
+
+Skills loaded: `figma-use` (MCP resource, current) before every Figma read; `pf-handoff`
+(SKILL.md, current) for the payroll spec; `keep-going`.
+
+**I gave the wrong number for gap 3 and corrected it before starting.** I had told the
+user 33 components were "catalogued but unmeasured — they exist as classes". They had no
+rules at all, and 22 of the 33 should not: 20 are project documentation on the DOCUMENT
+MANAGEMENT page, one is an unnamed `Component 1`, one is sample employee data. The real
+gap was 11 — Tooltip, Menu, Stars, Field icons, Map, Floaters, Horizontal scroll, Profile
+image, Notification image, Mobile key actions, Default header background.
+
+**The generator only ever walked the colour extract.** A component Figma binds no colour
+variable to therefore got no rules at all, even where its geometry had been measured. It
+now walks the union and emits those as SHAPE ONLY, with a comment saying so.
+
+**And the first version of that emitted 29 components, 18 of which do not exist.** The
+geometry file also holds rows measured against sub-parts under labels I wrote by hand —
+`Button (icon only)`, `Field (second component)`, `Table (AG) container`. Emitting those
+would have invented components this design system does not have, in the one file
+everything else is generated from. Figma's own inventory is now the arbiter: a shape-only
+class is emitted only for a name that is really a component in the file. 11, as expected.
+
+**`Circle icons` was never missing a colour — it was never looked at.** The component
+extract skips the Icons page and the icon exporter only takes single icons, so the one
+component set on that page belonged to neither. It binds `Background/Light Theme` and
+`Border/Theme`, has four sizes, and is a circle.
+
+**Which uncovered that the token extract itself was incomplete.** `Background/Light Theme`
+was not in it. Nor were 16 others — the entire `Navigation/*` group (7), both `Configr`
+themes, `Border/Default full`, `Border/Default hidden`, `Icons/Icon - Always white`. Four
+primitives were missing too (the violets), which is why the first rebuild after adding the
+semantic tokens reported unresolved aliases. Figma has 111 semantic and 56 primitive
+variables; the extract now has all of them.
+
+**Two tokens in the shipped system have no Figma variable at all.** `--pf-border-default`
+(38 uses in components.css) and `--pf-bg-theme-full`. Not missing from the extract —
+absent from the file. Left alone and raised with the user, because repointing
+`--pf-border-default` at `Border/Default full` changes every hairline in dark mode from
+white to Grey Fog, which is a design decision.
+
+**Seven primitives were being used directly in the screens** — `--pf-base-white` for tick
+marks and toggle knobs, `--pf-base-grey-dolphin` for a checkbox border — which CLAUDE.md
+forbids because a primitive cannot adapt between modes. The reason was the missing
+extract: `Icons/Icon - Always white` did not exist to use. Now it does; zero primitive uses
+remain on any screen.
+
+**Geometry can now vary by variant.** `Circle icons` is four sizes of one circle and
+`Default header background` is three heights of one bar; both bind identical colours, so
+the colour layer correctly collapses them and the size was the only thing left to carry.
+Geometry rows keyed `Component|Prop=Value` emit a rule on that variant's selector.
+
+Also: the primitive `Grey-slate` that `Repeating group` binds directly now resolves to
+`Text/Always grey slate` (same value, semantic layer) instead of emitting nothing, and is
+reported as a Figma SOURCE ISSUE rather than as an unmapped token. `UNMAPPED` is 0.
+
+Reconciliation of Figma's 460 components is now: 139 with colour rules, 11 shape-only, 282
+icons, 39 excluded with a written reason, 1 unaccounted — a component whose name is a
+single space.
+
+Checks run: `npm run build` clean, no unresolved aliases; `npm run check` 27/28 AA in both
+modes (the two AA-large-only entries are Figma's own values, unchanged); `npm run verify`
+— result recorded with the commit.
+
+---
+
+## Run 9 — "33 components is still way off the full list surely"
+
+The user was right, and the reason is worse than a miscount.
+
+**My inventory extract never descended into Figma SECTIONs.** A page-by-page count taken
+live from Figma shows 157 distinct components across the 12 real pages; the inventory had
+142. Navigation is organised almost entirely in sections and lost 14; `Repeating group` on
+Buttons and links lost the same way. Everything downstream inherited it — the "460
+components" figure, the gallery's gap list, and the reconciliation I had reported as
+complete. It was internally consistent and wrong at the source.
+
+**And six of those fourteen were not new components at all — they were RENAMES.** Keyed on
+nodeId rather than name, six node ids carry two names: the one my extract recorded and the
+one Figma uses today.
+
+    Header top navigation      is now  Header navigation
+    [S] Navigation/main tabs   is now  Nav tabs
+    [S] Main nav context       is now  Secondary nav
+    Secondary nav              is now  Tertiary nav
+    Search home button         is now  Search navigation
+    Full page navigation       is now  Full page
+    Side navigation tab        is now  Notification tabs
+
+I had already added all fourteen before checking node ids, which would have shipped six
+duplicate classes for components that were already there. Backed out.
+
+The last one matters most: **`.pf-side-navigation-tab`, which every one of the three
+prototypes uses for its sidebar, is derived from a component Figma now calls `Notification
+tabs`.** The class is not wrong — it renders what was extracted — but its name no longer
+means what Figma means by it.
+
+Three inventory entries are stale in other ways: `Counter` is a variant child my old
+extract mistook for a component, `Side navigation panel` has been deleted from Figma, and
+`Default header background` exists but is no longer listed among the Navigation page's
+owners. All three are flagged in the inventory rather than removed, because deleting an
+entry that still has rules would silently drop a class.
+
+**Net:** 8 components genuinely added (Steps, Stepper, Waffle, Pagination buttons,
+Notification panel/list/categories, Full page/Header navigation/Yes/No), 6 renames
+recorded not acted on, 3 stale entries flagged. Nothing in Figma is now missing from the
+extract under some name.
+
+Also, primitive detection is now by COLLECTION MEMBERSHIP rather than a list of names, and
+the check has to run before the normal token lookup — a primitive resolves perfectly well
+to itself, so the substitution never fired. That immediately surfaced four more components
+binding primitives directly that had been shipping silently: Toast message, Status, AI
+button, Top bar app context.
+
+---
+
+## Run 10 — the last real component
+
+The user went through the list of 28 components with no rules and confirmed 27 are notes:
+project documentation, brand assets, sample employee content, a wiki menu. Only
+`Component 1` on Cards and panels was required.
+
+It is the row inside `Editable list card` — a label with a trailing add or remove action.
+`Property 1=Frame 6270951` is the add state (no fill, green Plus circle, Icons/Icon -
+Positive); `Frame 6270952` is the added state (Background/Tertiary fill, grey Remove icon,
+Icons/Icon - Secondary). 432x48, radius 8, 10px padding, 10px gap, 20px text, both
+variants bound to Border/Default full and Text/Secondary.
+
+Captured with Figma's own names kept. `.pf-component-1[data-property-1="Frame 6270951"]`
+is accurate and unusable, and that is the honest state of it: the component and both its
+variant values are Figma defaults nobody renamed. Renaming them is the design team's call,
+not something to invent here, so the generated CSS carries a note saying what the thing
+actually is and that it needs naming at source.
+
+**Two mistakes in writing four values.** The geometry file's layout column is
+`LAYOUT COUNTER PRIMARY`; I wrote it as `LAYOUT PRIMARY COUNTER`, and I had not measured
+the alignment at all — I inferred it from the screenshot. The first version emitted
+`align-items: flex-start; justify-content: center` for a row Figma centres vertically and
+packs from the left. Both caught by reading the generated rule back and not recognising it,
+then going to Figma for the real values: primary MIN, counter CENTER.
+
+No real component page now has anything without rules. 160 classes; the 27 remaining are
+documentation and sample content.
+
+---
+
+## Run 11 — creating the seven under their current names
+
+The user asked for all seven renamed navigation components to exist under Figma's current
+names, since the main template will use them, and said the prototypes can be updated later.
+
+Six were used by no prototype (checked before touching anything: `pf-side-navigation-tab`
+has 29 uses, the other six have zero), so they were RENAMED rather than added alongside —
+adding would have left two classes for one component. Figma's rename is a swap, so order
+mattered: `Secondary nav` had to vacate before `[S] Main nav context` could take the name.
+
+**My first attempt was wrong and I backed it out.** I started by ADDING eighteen rows under
+the new names, which would have duplicated six components, and one of those rows used a
+name I invented on the spot (`Secondary nav (current)`) to dodge the collision. Deleted,
+and redone as a rename once I had checked which names were actually in use.
+
+**The rename was hiding the real problem.** Comparing the stored rows against the values
+read from Figma this session, all six had drifted in substance, not just in name:
+
+    Header navigation   stored a Breakpoint axis; Figma now has Mobile x Tablet
+    Nav tabs            stored fill Background/Primary; Figma binds Navigation/Nav bg top
+    Nav tabs            stored stroke Border/Default;   Figma binds Border/Default full
+    Tertiary nav        stored Navigation type=Chips;   Figma has Mobile x Page
+    Search navigation   stored Mobile=Mobile3;          Figma has Mobile=True
+    Full page           stored a Breakpoint axis;       Figma has System x Tablet x Mobile x Darkmode
+
+A pure rename would have shipped six components whose variants and colours do not match
+Figma, under names that made them look freshly checked. Replaced with current values.
+
+**This resolves the parked token question.** `--pf-border-default` is not a token that never
+existed: it is the OLD NAME of `Border/Default full`, renamed at the same time as the
+components. 32 components still bind it. Left alone because the user parked it, but the
+decision is now "follow a rename", not "invent a value".
+
+The seventh, `Side navigation tab`, stays as a legacy snapshot because three prototypes
+depend on it; its node is Figma's `Notification tabs` today and is captured separately with
+the real State x Selected structure. Both are flagged in the inventory.
+
+149 components, 304 variants.
+
+---
+
+## Run 10 — group 3, the stale entries
+
+Three entries, three different causes, and the only way to tell them apart was to ask Figma
+by NODE ID. By name they looked identical: "in my extract, not in Figma".
+
+One was deleted. One was never a component — a variant child called `System=People First`
+that an old extract recorded as a component in its own right. And one was neither: it
+exists, reads fine, has six variants, and is only missing from the page I expected it on.
+
+I kept that third one. The temptation with a cleanup task is to make the list shorter, and
+deleting a live component to tidy a report would have been the worst outcome available.
+Its flag now says what is actually true — the node is fine, its address is uncertain —
+rather than the earlier guess of "orphaned".
+
+Both removals were written into `uncaptured-reasons.tsv` on the way out, so the gap list
+carries an explanation rather than a smaller number.

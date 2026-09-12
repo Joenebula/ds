@@ -55,7 +55,7 @@ const tsv = (file) => {
 
 // ---------------------------------------------------------------------------
 // The judgement, pure so --self-test can drive it with fixtures.
-export function judge({ inventory, library, geometry, reasons }) {
+export function judge({ inventory, library, geometry, reasons, detached = [] }) {
   const problems = [];
 
   // MATCH ON THE TRIMMED NAME, AND REPORT THE UNTRIMMED ONE. `Text template format editor `
@@ -72,8 +72,21 @@ export function judge({ inventory, library, geometry, reasons }) {
   const named = (n) => key(n).length > 0;
   const inv = new Map(inventory.filter((c) => named(c.name)).map((c) => [note(c.name), c]));
   const lib = new Set(library.filter((r) => named(r.component)).map((r) => note(r.component)));
-  const geo = new Set(geometry.filter(named).map(note));
+  // Normalised HERE and not only in the reader: a caller handing judge() raw rows must get the
+  // same answer as one that went through readAll. The self-test found this the moment it was
+  // written, which is the rule this file already applies to the verdict column.
+  const geo = new Set(geometry.map((g) => String(g).split('|')[0].trim()).filter(named).map(note));
   const why = new Map(reasons.filter((r) => named(r.component)).map((r) => [note(r.component), r.reason]));
+  // A DETACHED COMPONENT IS NOT IN ANY SOURCE BY DEFINITION, and its reason is not stale.
+  //
+  // The 2026-09-12 merge brought in `detached-components.tsv` and `check-detached.mjs`, which
+  // REQUIRES every uncaptured detached component to be written up in uncaptured-reasons.tsv. This
+  // check reads the same file and calls a reason stale when its component is in no source — which
+  // a detached component never is. Run together, one check demanded exactly the rows the other
+  // deleted: 23 of them, and dropping them made this check green and that one red.
+  //
+  // The file serves two purposes and both are legitimate. This is the carve-out that says so.
+  const det = new Set(detached.filter(named).map(note));
 
   // 1. A CLASS WITH NO INVENTORY ENTRY. This is `Repeating group`: it ships as CSS, so it is
   //    part of the published library, and the inventory has never heard of it. Nothing
@@ -107,7 +120,8 @@ export function judge({ inventory, library, geometry, reasons }) {
   // 4. A REASON FOR SOMETHING THAT IS NOT THERE. Dead rows: the file is merged and never
   //    pruned, so an explanation outlives the thing it explained. Harmless until someone
   //    trusts the file as a description of the present.
-  const orphans = [...why.keys()].filter((n) => !inv.has(n) && !lib.has(n) && !geo.has(n)).sort();
+  const orphans = [...why.keys()]
+    .filter((n) => !inv.has(n) && !lib.has(n) && !geo.has(n) && !det.has(n)).sort();
 
   // Names Figma publishes with leading or trailing whitespace. Not a failure — the join
   // already survives them — but a real inconsistency in the design file, and the kind of thing
@@ -136,10 +150,20 @@ function load() {
     .map((c) => ({ name: c.name, pageName: c.pageName }));
   const library = tsv(`${RAW}/component-variants.tsv`).map((r) => ({ page: r[0], component: r[1] }))
     .filter((r) => r.component);
+  // A GEOMETRY ROW MAY BE KEYED "Component|Variant". The 2026-09-12 merge brought in a deeper
+  // extraction that measures each VARIANT rather than each component — 503 rows against 162 — and
+  // this check reads the first column as a component name. Left alone it reported 300+ DRIFT lines
+  // for components that are in the inventory, because "AI Assistant|Mobile=True, ..." matches no
+  // entry. The component is the part before the pipe; the variant is not this check's business.
   const geometry = tsv(`${RAW}/component-geometry.tsv`).map((r) => r[0]).filter(Boolean);
   const reasons = tsv(`${RAW}/uncaptured-reasons.tsv`).map((r) => ({ component: r[0], reason: r[2] }))
     .filter((r) => r.component);
-  return { inventory, library, geometry, reasons };
+  // check-detached.mjs requires a reason for every uncaptured detached component, and a detached
+  // component is in none of the three sources above — so without this the two checks demand the
+  // opposite of each other on the same 23 rows.
+  const detached = existsSync(`${RAW}/detached-components.tsv`)
+    ? tsv(`${RAW}/detached-components.tsv`).map((r) => r[0]).filter(Boolean) : [];
+  return { inventory, library, geometry, reasons, detached };
 }
 
 function main() {
@@ -188,6 +212,11 @@ function selfTest() {
     ['geometry for something in neither source', () =>
       run({ geometry: ['Button', 'Links (primary)'] }),
       (r) => r.problems.some((p) => /"Links \(primary\)" has measured geometry/.test(p))],
+    // A variant-keyed row resolves to its COMPONENT, or a deep geometry extract reports every
+    // variant of every captured component as drift.
+    ['a "Component|Variant" geometry row is judged on the component', () =>
+      run({ geometry: ['Button|Type=Action, State=Default'] }),
+      (r) => !r.problems.some((p) => /has measured geometry/.test(p))],
 
     ['...unless it is declared', () =>
       run({ geometry: ['Button', 'Links (primary)'],
@@ -213,6 +242,13 @@ function selfTest() {
     ['a reason for something that exists nowhere is stale, not a failure', () =>
       run({ reasons: [{ component: 'Long gone', reason: 'deleted in Figma' }] }),
       (r) => r.problems.length === 0 && r.orphans.length === 1 && r.orphans[0] === 'Long gone'],
+    // ...but a reason for a DETACHED component is not stale: it is in no source by construction,
+    // and check-detached.mjs requires it to exist. Without this the two checks delete each other's
+    // rows — which they did, 23 of them, on the merge that brought them together.
+    ['a reason for a detached component is NOT stale', () =>
+      run({ reasons: [{ component: 'Search result', reason: 'detached, not captured' }],
+            detached: ['Search result'] }),
+      (r) => r.orphans.length === 0],
   ];
 
   let failures = 0;

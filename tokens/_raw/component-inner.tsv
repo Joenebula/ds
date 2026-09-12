@@ -1,0 +1,24 @@
+component	variant	box	child	childType	childName
+Circle icons	Size=L - 52px	52x52	36x36	INSTANCE	Home
+Circle icons	Size=M - 44px	44x44	28x28	INSTANCE	Home
+Circle icons	Size=S - 36px	36x36	22x22	INSTANCE	Home
+Circle icons	Size=XS - 28px	28x28	18x18	INSTANCE	Home
+Status	Status type=Absence	22x22	16x16	INSTANCE	Calendar
+Status	Status type=Comment	22x22	17x17	INSTANCE	Check in conversation
+Status	Status type=Like	22x22	16x16	INSTANCE	Like thumbs up
+Status	Status type=Recognition	22x22	16x16	INSTANCE	Heart recognition
+Waffle	Theme=Berry pink	90x86	32x32	INSTANCE	App menu
+Waffle	Theme=Blue lagoon	90x86	32x32	INSTANCE	App menu
+Waffle	Theme=Classic	90x86	32x32	INSTANCE	App menu
+Waffle	Theme=Cobalt blue	90x86	32x32	INSTANCE	App menu
+Waffle	Theme=Cool grey	90x86	32x32	INSTANCE	App menu
+Waffle	Theme=Dark mode	90x86	32x32	INSTANCE	App menu
+Waffle	Theme=Default - Cranberry red	90x86	32x32	INSTANCE	App menu
+Waffle	Theme=Fern green	90x86	32x32	INSTANCE	App menu
+Waffle	Theme=Orange flame	90x86	32x32	INSTANCE	App menu
+Waffle	Theme=Purple iris	90x86	32x32	INSTANCE	App menu
+Waffle	Theme=Purple orchid	90x86	32x32	INSTANCE	App menu
+Waffle	Theme=Royal purple	90x86	32x32	INSTANCE	App menu
+Waffle	Theme=Striking red	90x86	32x32	INSTANCE	App menu
+Waffle	Theme=Teal ocean	90x86	32x32	INSTANCE	App menu
+Waffle	Theme=Velvet red	90x86	32x32	INSTANCE	App menu

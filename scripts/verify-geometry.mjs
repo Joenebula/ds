@@ -83,6 +83,9 @@ for (const c of CHECKS) {
   const add = (prop, expected, actual, ok, note = '') =>
     results.push({ component: c.component, sel: c.sel, prop, expected, actual, ok, note });
 
+  // BOTH BRANCHES FOUND THIS INDEPENDENTLY AND AGREED, which is worth recording: a check that
+  // cannot tell "this is wrong" from "this is not here" asserts a page's INVENTORY inside a
+  // check about SHAPE, and it made this unusable on any screen but the one it was born on.
   // A component that is not on the page is NOT a geometry failure. It used to be
   // recorded as one, and nothing noticed because the three screens that existed were all
   // large dashboards that happened to contain every component in the list. The first
@@ -133,8 +136,12 @@ for (const r of results) {
   const mark = r.ok === true ? 'ok  ' : r.ok === false ? 'FAIL' : '--  ';
   console.log(`${mark} ${r.component.padEnd(24)} ${r.prop.padEnd(15)} expected ${String(r.expected).padEnd(12)} got ${r.actual}${r.note ? '  — ' + r.note : ''}`);
 }
-console.log(`\n${pass} geometry checks match Figma, ${fail.length} off`
-  + (absent.length ? `, ${absent.length} component(s) not on this page` : ''));
+console.log(`\n${pass} geometry checks match the extract, ${fail.length} off`);
+// Named, not just counted — the other branch's addition, and right: a screen that quietly stopped
+// using a component should be visible without being a failure.
+if (absent.length)
+  console.log(`  ${absent.length} component(s) the extract measures are not on this page, `
+    + `so nothing was measured for them: ${absent.map((r) => r.component).sort().join(', ')}`);
 
 // A page carrying NONE of the library's components measures nothing, and "0 off" would
 // read as a clean bill of health. Exit 2 — the vacuous code this repo uses everywhere —

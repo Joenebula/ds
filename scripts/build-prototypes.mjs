@@ -16,15 +16,21 @@
 //
 // Screens are discovered from the directory, exactly as verify-screens.mjs discovers
 // them, so a new one is built the moment it exists rather than when someone adds a line.
-import { readdirSync } from 'node:fs';
+import { readdirSync, existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 
-const dir = 'prototypes';
-const srcs = readdirSync(dir).filter((f) => f.endsWith('.src.html')).sort();
-if (!srcs.length) { console.error('no prototypes/*.src.html to build'); process.exit(1); }
+// EVERY DIRECTORY verify-screens CHECKS, which is the whole point of the paragraph above and was
+// briefly untrue: the 2026-09-12 merge brought in `working/`, whose screens were still built one
+// at a time by hand. The first full build after the merge changed dist/ and both of them went
+// stale immediately — `verify-built` caught it, which is what that gate is for, but the fix is
+// here rather than in a habit.
+const DIRS = ['working', 'prototypes'].filter((d) => existsSync(d));
+const jobs = DIRS.flatMap((dir) =>
+  readdirSync(dir).filter((f) => f.endsWith('.src.html')).sort().map((src) => ({ dir, src })));
+if (!jobs.length) { console.error('no *.src.html to build in ' + DIRS.join(', ')); process.exit(1); }
 
 let failed = 0;
-for (const src of srcs) {
+for (const { dir, src } of jobs) {
   const out = src.replace(/\.src\.html$/, '.html');
   try {
     execFileSync('node', ['scripts/build-prototype.mjs', `${dir}/${src}`, `${dir}/${out}`],
@@ -38,5 +44,5 @@ for (const src of srcs) {
   }
 }
 
-console.log(`${srcs.length - failed} of ${srcs.length} prototype screen(s) built`);
+console.log(`${jobs.length - failed} of ${jobs.length} screen(s) built across ${DIRS.join(', ')}`);
 process.exit(failed ? 1 : 0);

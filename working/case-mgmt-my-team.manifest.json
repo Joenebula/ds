@@ -1,0 +1,451 @@
+{
+  "screen": "case-mgmt-my-team",
+  "generated": "scripts/tag-elements.mjs — do not hand-edit",
+  "about": "Every design-system element on this screen, addressable by name. Regenerate with: node scripts/tag-elements.mjs <screen>.html --write",
+  "fields": {
+    "id": "Stable name for this ONE element. The only authored value; everything else is derived. Address elements by this, never by CSS selector — a selector changes every time the layout does.",
+    "component": "Figma component name, exactly as it appears in the Figma library (e.g. 'Side navigation tab').",
+    "cls": "CSS class in dist/components.css that renders it (e.g. 'pf-button'). Component and class are two names for the same thing.",
+    "variant": "Figma's variant properties for this instance, as an object: {\"type\": \"Positive\"} means Figma's Type property is set to Positive. Keys are only ever properties the component really has.",
+    "parent": "id of the nearest enclosing element in this list, or null if it is a top-level one. Gives you the component tree, not just a flat list.",
+    "tag": "HTML element it was rendered as.",
+    "repeat": "'row' if it is part of a repeating template rather than a distinct element — the cells of a table body are one row rendered N times, which is what an *ngFor consumes. null otherwise.",
+    "text": "Visible text, first 60 characters. Sample content, not a label to build against."
+  },
+  "counts": {
+    "elements": 35,
+    "roots": 35,
+    "repeating": 0
+  },
+  "elements": [
+    {
+      "id": null,
+      "component": "Navigation item",
+      "cls": "pf-navigation-item",
+      "variant": {
+        "device": "Desktop",
+        "state": "Unselected"
+      },
+      "parent": null,
+      "tag": "a",
+      "repeat": null,
+      "text": "Home"
+    },
+    {
+      "id": null,
+      "component": "Navigation item",
+      "cls": "pf-navigation-item",
+      "variant": {
+        "device": "Desktop",
+        "state": "Unselected"
+      },
+      "parent": null,
+      "tag": "a",
+      "repeat": null,
+      "text": "News"
+    },
+    {
+      "id": null,
+      "component": "Navigation item",
+      "cls": "pf-navigation-item",
+      "variant": {
+        "device": "Desktop",
+        "state": "Unselected"
+      },
+      "parent": null,
+      "tag": "a",
+      "repeat": null,
+      "text": "Me"
+    },
+    {
+      "id": null,
+      "component": "Navigation item",
+      "cls": "pf-navigation-item",
+      "variant": {
+        "device": "Desktop",
+        "state": "Selected",
+        "selected": "Yes"
+      },
+      "parent": null,
+      "tag": "a",
+      "repeat": null,
+      "text": "My team"
+    },
+    {
+      "id": null,
+      "component": "Navigation item",
+      "cls": "pf-navigation-item",
+      "variant": {
+        "device": "Desktop",
+        "state": "Unselected"
+      },
+      "parent": null,
+      "tag": "a",
+      "repeat": null,
+      "text": "Notifications7"
+    },
+    {
+      "id": null,
+      "component": "Navigation item",
+      "cls": "pf-navigation-item",
+      "variant": {
+        "device": "Desktop",
+        "state": "Unselected"
+      },
+      "parent": null,
+      "tag": "a",
+      "repeat": null,
+      "text": "Support"
+    },
+    {
+      "id": null,
+      "component": "Navigation item",
+      "cls": "pf-navigation-item",
+      "variant": {
+        "device": "Desktop",
+        "state": "Unselected"
+      },
+      "parent": null,
+      "tag": "a",
+      "repeat": null,
+      "text": "Settings"
+    },
+    {
+      "id": null,
+      "component": "Header",
+      "cls": "pf-header",
+      "variant": {
+        "breakpoint": "Desktop"
+      },
+      "parent": null,
+      "tag": "header",
+      "repeat": null,
+      "text": "Search HR Clock-in"
+    },
+    {
+      "id": null,
+      "component": "Search navigation",
+      "cls": "pf-search-navigation",
+      "variant": {
+        "mobile": "False"
+      },
+      "parent": null,
+      "tag": "span",
+      "repeat": null,
+      "text": "Search"
+    },
+    {
+      "id": null,
+      "component": "Top bar app context",
+      "cls": "pf-top-bar-app-context",
+      "variant": {},
+      "parent": null,
+      "tag": "span",
+      "repeat": null,
+      "text": "HR"
+    },
+    {
+      "id": null,
+      "component": "Clock in",
+      "cls": "pf-clock-in",
+      "variant": {
+        "type": "Standard",
+        "pf-issue": "6"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Clock-in"
+    },
+    {
+      "id": null,
+      "component": "Secondary nav",
+      "cls": "pf-secondary-nav",
+      "variant": {
+        "mobile": "False"
+      },
+      "parent": null,
+      "tag": "nav",
+      "repeat": null,
+      "text": "Overview Profile Schedule Calendar"
+    },
+    {
+      "id": null,
+      "component": "Nav tabs",
+      "cls": "pf-nav-tabs",
+      "variant": {
+        "status": "Selected",
+        "mobile": "False"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Overview"
+    },
+    {
+      "id": null,
+      "component": "Nav tabs",
+      "cls": "pf-nav-tabs",
+      "variant": {
+        "status": "Unselected",
+        "mobile": "False"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Profile"
+    },
+    {
+      "id": null,
+      "component": "Nav tabs",
+      "cls": "pf-nav-tabs",
+      "variant": {
+        "status": "Unselected",
+        "mobile": "False"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Schedule"
+    },
+    {
+      "id": null,
+      "component": "Nav tabs",
+      "cls": "pf-nav-tabs",
+      "variant": {
+        "status": "Unselected",
+        "mobile": "False"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Calendar"
+    },
+    {
+      "id": null,
+      "component": "Card",
+      "cls": "pf-card",
+      "variant": {},
+      "parent": null,
+      "tag": "section",
+      "repeat": null,
+      "text": "People My team Out of office 34 people connected to you Alic"
+    },
+    {
+      "id": null,
+      "component": "Circle icons",
+      "cls": "pf-circle-icons",
+      "variant": {
+        "size": "XS - 28px"
+      },
+      "parent": null,
+      "tag": "span",
+      "repeat": null,
+      "text": ""
+    },
+    {
+      "id": null,
+      "component": "Tab",
+      "cls": "pf-tab",
+      "variant": {
+        "state": "Selected",
+        "mobile": "No"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "My team"
+    },
+    {
+      "id": null,
+      "component": "Tab",
+      "cls": "pf-tab",
+      "variant": {
+        "state": "Default",
+        "mobile": "No"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Out of office"
+    },
+    {
+      "id": null,
+      "component": "Layout container (magazine style)",
+      "cls": "pf-layout-container-magazine-style",
+      "variant": {
+        "row-colour": "False"
+      },
+      "parent": null,
+      "tag": "section",
+      "repeat": null,
+      "text": "Department insights Design a Query Set department thresholds"
+    },
+    {
+      "id": null,
+      "component": "Layout container title",
+      "cls": "pf-layout-container-title",
+      "variant": {},
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "Department insights Design a Query Set department thresholds"
+    },
+    {
+      "id": null,
+      "component": "Links",
+      "cls": "pf-links",
+      "variant": {
+        "link-type": "Primary",
+        "icon-position": "Left"
+      },
+      "parent": null,
+      "tag": "a",
+      "repeat": null,
+      "text": "Design a Query"
+    },
+    {
+      "id": null,
+      "component": "Links",
+      "cls": "pf-links",
+      "variant": {
+        "link-type": "Primary",
+        "icon-position": "Left"
+      },
+      "parent": null,
+      "tag": "a",
+      "repeat": null,
+      "text": "Set department thresholds"
+    },
+    {
+      "id": null,
+      "component": "Layout container tabs",
+      "cls": "pf-layout-container-tabs",
+      "variant": {},
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "People Time Talent Learning Surveys Recruitment Action Actio"
+    },
+    {
+      "id": null,
+      "component": "Tab",
+      "cls": "pf-tab",
+      "variant": {
+        "state": "Selected"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "People"
+    },
+    {
+      "id": null,
+      "component": "Tab",
+      "cls": "pf-tab",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Time"
+    },
+    {
+      "id": null,
+      "component": "Tab",
+      "cls": "pf-tab",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Talent"
+    },
+    {
+      "id": null,
+      "component": "Tab",
+      "cls": "pf-tab",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Learning"
+    },
+    {
+      "id": null,
+      "component": "Tab",
+      "cls": "pf-tab",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Surveys"
+    },
+    {
+      "id": null,
+      "component": "Tab",
+      "cls": "pf-tab",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Recruitment"
+    },
+    {
+      "id": null,
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Action"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Action"
+    },
+    {
+      "id": null,
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Positive"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Action"
+    },
+    {
+      "id": null,
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Hollow"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Action"
+    },
+    {
+      "id": null,
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Negative"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Action"
+    }
+  ]
+}

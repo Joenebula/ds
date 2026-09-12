@@ -29,7 +29,7 @@ node scripts/verify-geometry.mjs <page>.html      # measured shapes vs Figma
 
 Then map each element to its Figma origin using
 `.claude/skills/people-first/references/variants.md` (which component and variant) and
-`references/geometry.md` (its measured size, padding, radius, type).
+`.claude/skills/people-first/references/geometry.md` (its measured size, padding, radius, type).
 
 **Name the class as well as the component.** Most elements on a People First page are
 already a class in `dist/components.css` — the class name is written straight off the
@@ -57,6 +57,20 @@ One paragraph. The user's job, not the UI's structure.
 The class column matters: `dist/components.css` already implements these, so a
 developer who uses it inherits the right shape and colour instead of rebuilding them
 from the tables below.
+
+**For a composite component, cite its template as well as its class.** A card, table,
+panel or modal renders nothing from the bare class — a developer handed only
+`.pf-metric-card` will build its contents from your screenshot, which is the guesswork this
+spec exists to remove. `dist/templates/<class>.html` holds the markup, generated from the
+component's Figma child tree, and `docs/templates.html` shows all 154 rendered.
+
+| Element | Figma component | Variant | Class to use | Template |
+|---|---|---|---|---|
+| Absence card | Metric card | Mobile=False | `.pf-metric-card` | `dist/templates/pf-metric-card.html` |
+
+Leave the Template column blank for a component that genuinely is one box — a button, a
+tag, a chip. If `dist/templates/` has no file for the class, there is no template and the
+class IS the component.
 
 ## Tokens
 | Purpose | Token | Light | Dark |
@@ -99,6 +113,36 @@ get wrong:
 - `--pf-text-inverted-primary` **flips** between modes.
 - `--pf-text-always-white` and `--pf-text-always-grey-slate` deliberately **do not**.
 - Chart colours are mode-stable by design — safe on any surface.
+
+## Hand over the manifest too
+
+A prose spec is for a person reading it. A pipeline that turns the screen into Angular
+needs the same facts as data, and every screen already has them:
+
+```bash
+node scripts/tag-elements.mjs <page>.html --write   # writes <page>.manifest.json
+```
+
+One entry per design-system element — its name, its Figma component, its variant
+properties as an object, what it sits inside, and whether it is one of a repeating set:
+
+```json
+{ "id": "button-approve", "component": "Button", "cls": "pf-button",
+  "variant": { "type": "Positive" }, "parent": "card-marcus-webb",
+  "tag": "button", "repeat": null, "text": "Approve" }
+```
+
+The file carries its own `fields` block explaining every key, so nobody needs this page
+to read it — and the generator refuses to write a manifest whose field guide has drifted
+from the data.
+
+Two things about it worth saying out loud in the handoff:
+
+- **The `id` is the contract.** It is the only authored value; everything else is derived
+  from the class and its data attributes. A developer wires to the name, not a selector,
+  because a selector changes every time the layout does.
+- **`repeat: "row"` means one template, not N elements.** The cells of a table body are a
+  single row rendered many times — an `*ngFor`, not eight components.
 
 ## Known source issues to carry into the spec
 

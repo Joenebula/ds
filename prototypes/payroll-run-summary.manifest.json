@@ -1,0 +1,1363 @@
+{
+  "screen": "payroll-run-summary",
+  "generated": "scripts/tag-elements.mjs — do not hand-edit",
+  "about": "Every design-system element on this screen, addressable by name. Regenerate with: node scripts/tag-elements.mjs <screen>.html --write",
+  "fields": {
+    "id": "Stable name for this ONE element. The only authored value; everything else is derived. Address elements by this, never by CSS selector — a selector changes every time the layout does.",
+    "component": "Figma component name, exactly as it appears in the Figma library (e.g. 'Side navigation tab').",
+    "cls": "CSS class in dist/components.css that renders it (e.g. 'pf-button'). Component and class are two names for the same thing.",
+    "variant": "Figma's variant properties for this instance, as an object: {\"type\": \"Positive\"} means Figma's Type property is set to Positive. Keys are only ever properties the component really has.",
+    "parent": "id of the nearest enclosing element in this list, or null if it is a top-level one. Gives you the component tree, not just a flat list.",
+    "tag": "HTML element it was rendered as.",
+    "repeat": "'row' if it is part of a repeating template rather than a distinct element — the cells of a table body are one row rendered N times, which is what an *ngFor consumes. null otherwise.",
+    "text": "Visible text, first 60 characters. Sample content, not a label to build against."
+  },
+  "counts": {
+    "elements": 107,
+    "roots": 40,
+    "repeating": 60
+  },
+  "elements": [
+    {
+      "id": "side-navigation-tab-dashboard",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": {
+        "selected": "false"
+      },
+      "parent": null,
+      "tag": "a",
+      "repeat": null,
+      "text": "Dashboard"
+    },
+    {
+      "id": "side-navigation-tab-my-team",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": {
+        "selected": "false"
+      },
+      "parent": null,
+      "tag": "a",
+      "repeat": null,
+      "text": "My team"
+    },
+    {
+      "id": "side-navigation-tab-absence",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": {
+        "selected": "false"
+      },
+      "parent": null,
+      "tag": "a",
+      "repeat": null,
+      "text": "Absence"
+    },
+    {
+      "id": "side-navigation-tab-timesheets",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": {
+        "selected": "false"
+      },
+      "parent": null,
+      "tag": "a",
+      "repeat": null,
+      "text": "Timesheets"
+    },
+    {
+      "id": "side-navigation-tab-payroll",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": {
+        "selected": "true"
+      },
+      "parent": null,
+      "tag": "a",
+      "repeat": null,
+      "text": "Payroll"
+    },
+    {
+      "id": "side-navigation-tab-recruitment",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": {
+        "selected": "false"
+      },
+      "parent": null,
+      "tag": "a",
+      "repeat": null,
+      "text": "Recruitment"
+    },
+    {
+      "id": "side-navigation-tab-learning",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": {
+        "selected": "false"
+      },
+      "parent": null,
+      "tag": "a",
+      "repeat": null,
+      "text": "Learning"
+    },
+    {
+      "id": "side-navigation-tab-reports",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": {
+        "selected": "false"
+      },
+      "parent": null,
+      "tag": "a",
+      "repeat": null,
+      "text": "Reports"
+    },
+    {
+      "id": "button-audit-history",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Hollow"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Audit history"
+    },
+    {
+      "id": "button-export",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Hollow"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Export"
+    },
+    {
+      "id": "button-approve-pay-run",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Positive"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Approve pay run"
+    },
+    {
+      "id": "information-box-3-employees",
+      "component": "Information box",
+      "cls": "pf-information-box",
+      "variant": {
+        "type": "Warning"
+      },
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "3 employees have validation errors. Missing or invalid bank "
+    },
+    {
+      "id": "filter-chip-all",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": {
+        "state": "Selected",
+        "active": "True"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "All 248"
+    },
+    {
+      "id": "filter-chip-needs-review",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": {
+        "state": "Default",
+        "active": "False"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Needs review 12"
+    },
+    {
+      "id": "filter-chip-approved",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": {
+        "state": "Default",
+        "active": "False"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Approved 214"
+    },
+    {
+      "id": "filter-chip-changed-this-period",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": {
+        "state": "Default",
+        "active": "False"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Changed this period 31"
+    },
+    {
+      "id": "filter-chip-new-starters",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": {
+        "state": "Default",
+        "active": "False"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "New starters 5"
+    },
+    {
+      "id": "filter-chip-leavers",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": {
+        "state": "Default",
+        "active": "False"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Leavers 2"
+    },
+    {
+      "id": "field-search-employees",
+      "component": "Field",
+      "cls": "pf-field",
+      "variant": {
+        "right-aligned": "No",
+        "filled": "No"
+      },
+      "parent": null,
+      "tag": "input",
+      "repeat": null,
+      "text": ""
+    },
+    {
+      "id": "field-department",
+      "component": "Field",
+      "cls": "pf-field",
+      "variant": {
+        "right-aligned": "No",
+        "filled": "No"
+      },
+      "parent": null,
+      "tag": "select",
+      "repeat": null,
+      "text": "All departments FinanceOperationsPeople TechnologyRetailLogi"
+    },
+    {
+      "id": "field-pay-group",
+      "component": "Field",
+      "cls": "pf-field",
+      "variant": {
+        "right-aligned": "No",
+        "filled": "No"
+      },
+      "parent": null,
+      "tag": "select",
+      "repeat": null,
+      "text": "All pay groups Monthly salariedWeekly hourly"
+    },
+    {
+      "id": "button-sort",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Hollow"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Sort"
+    },
+    {
+      "id": "toggle-no",
+      "component": "Toggle",
+      "cls": "pf-toggle",
+      "variant": {
+        "on": "No",
+        "locked": "No"
+      },
+      "parent": null,
+      "tag": "span",
+      "repeat": null,
+      "text": ""
+    },
+    {
+      "id": "selected-action-banner-3-employees-selected",
+      "component": "Selected action banner",
+      "cls": "pf-selected-action-banner",
+      "variant": {
+        "mobile": "False"
+      },
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "3 employees selected Approve selected Put on hold"
+    },
+    {
+      "id": "button-approve-selected",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Action"
+      },
+      "parent": "selected-action-banner-3-employees-selected",
+      "tag": "button",
+      "repeat": null,
+      "text": "Approve selected"
+    },
+    {
+      "id": "button-put-on-hold",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Negative"
+      },
+      "parent": "selected-action-banner-3-employees-selected",
+      "tag": "button",
+      "repeat": null,
+      "text": "Put on hold"
+    },
+    {
+      "id": "table-ag-employee-pay-status",
+      "component": "Table (AG)",
+      "cls": "pf-table-ag",
+      "variant": {
+        "mobile": "False"
+      },
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "Employee pay status — September 2026 run Employee Department"
+    },
+    {
+      "id": "multi-select-checkbox-all",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Selected"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "span",
+      "repeat": null,
+      "text": ""
+    },
+    {
+      "id": "table-header-icons-sorted-ascending",
+      "component": "Table header icons",
+      "cls": "pf-table-header-icons",
+      "variant": {
+        "variant": "Sort",
+        "state": "Ascending"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "span",
+      "repeat": null,
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r1c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r1c1-multi-select-checkbox",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": "table-cell-ag-r1c1",
+      "tag": "span",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r1c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Aisha BelloSoftware Engineer · 100482"
+    },
+    {
+      "id": "table-cell-ag-r1c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Technology"
+    },
+    {
+      "id": "table-cell-ag-r1c8",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Approved"
+    },
+    {
+      "id": "table-cell-ag-r1c8-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Positive"
+      },
+      "parent": "table-cell-ag-r1c8",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Approved"
+    },
+    {
+      "id": "table-cell-ag-r2c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r2c1-multi-select-checkbox",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": "table-cell-ag-r2c1",
+      "tag": "span",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r2c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Danny OkonkwoCustomer Adviser · 100517"
+    },
+    {
+      "id": "table-cell-ag-r2c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Service"
+    },
+    {
+      "id": "table-cell-ag-r2c8",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Query raised"
+    },
+    {
+      "id": "table-cell-ag-r2c8-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Other"
+      },
+      "parent": "table-cell-ag-r2c8",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Query raised"
+    },
+    {
+      "id": "table-cell-ag-r3c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r3c1-multi-select-checkbox",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Selected"
+      },
+      "parent": "table-cell-ag-r3c1",
+      "tag": "span",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r3c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Elin PrydderchStore Manager · 100238"
+    },
+    {
+      "id": "table-cell-ag-r3c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Retail"
+    },
+    {
+      "id": "table-cell-ag-r3c8",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Approved"
+    },
+    {
+      "id": "table-cell-ag-r3c8-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Positive"
+      },
+      "parent": "table-cell-ag-r3c8",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Approved"
+    },
+    {
+      "id": "table-cell-ag-r4c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r4c1-multi-select-checkbox",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": "table-cell-ag-r4c1",
+      "tag": "span",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r4c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Grace ElleryMarketing Executive · 100611"
+    },
+    {
+      "id": "table-cell-ag-r4c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Marketing"
+    },
+    {
+      "id": "table-cell-ag-r4c8",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Not started"
+    },
+    {
+      "id": "table-cell-ag-r4c8-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Neutral"
+      },
+      "parent": "table-cell-ag-r4c8",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Not started"
+    },
+    {
+      "id": "table-cell-ag-r5c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r5c1-multi-select-checkbox",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": "table-cell-ag-r5c1",
+      "tag": "span",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r5c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Marcus FarrellHR Adviser · 100094"
+    },
+    {
+      "id": "table-cell-ag-r5c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "People"
+    },
+    {
+      "id": "table-cell-ag-r5c8",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Approved"
+    },
+    {
+      "id": "table-cell-ag-r5c8-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Positive"
+      },
+      "parent": "table-cell-ag-r5c8",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Approved"
+    },
+    {
+      "id": "table-cell-ag-r6c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r6c1-multi-select-checkbox",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Selected"
+      },
+      "parent": "table-cell-ag-r6c1",
+      "tag": "span",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r6c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Nadia HussainNurse Practitioner · 100355"
+    },
+    {
+      "id": "table-cell-ag-r6c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Clinical"
+    },
+    {
+      "id": "table-cell-ag-r6c8",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Leaver"
+    },
+    {
+      "id": "table-cell-ag-r6c8-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Expired"
+      },
+      "parent": "table-cell-ag-r6c8",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Leaver"
+    },
+    {
+      "id": "table-cell-ag-r7c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r7c1-multi-select-checkbox",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Selected"
+      },
+      "parent": "table-cell-ag-r7c1",
+      "tag": "span",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r7c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Tomasz KowalczykDelivery Driver · 100729"
+    },
+    {
+      "id": "table-cell-ag-r7c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Logistics"
+    },
+    {
+      "id": "table-cell-ag-r7c8",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Failed validation"
+    },
+    {
+      "id": "table-cell-ag-r7c8-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Negative"
+      },
+      "parent": "table-cell-ag-r7c8",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Failed validation"
+    },
+    {
+      "id": "table-cell-ag-r8c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r8c1-multi-select-checkbox",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": "table-cell-ag-r8c1",
+      "tag": "span",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r8c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Owen WhitlockWarehouse Operative · 100803"
+    },
+    {
+      "id": "table-cell-ag-r8c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Operations"
+    },
+    {
+      "id": "table-cell-ag-r8c8",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Needs review"
+    },
+    {
+      "id": "table-cell-ag-r8c8-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Warning"
+      },
+      "parent": "table-cell-ag-r8c8",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Needs review"
+    },
+    {
+      "id": "table-cell-ag-r9c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r9c1-multi-select-checkbox",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": "table-cell-ag-r9c1",
+      "tag": "span",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r9c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Priya RaghunathanPayroll Analyst · 100011"
+    },
+    {
+      "id": "table-cell-ag-r9c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Finance"
+    },
+    {
+      "id": "table-cell-ag-r9c8",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Approved"
+    },
+    {
+      "id": "table-cell-ag-r9c8-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Positive"
+      },
+      "parent": "table-cell-ag-r9c8",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Approved"
+    },
+    {
+      "id": "table-cell-ag-r10c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r10c1-multi-select-checkbox",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": "table-cell-ag-r10c1",
+      "tag": "span",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r10c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Samuel AdeyemiFinance Business Partner · 100147"
+    },
+    {
+      "id": "table-cell-ag-r10c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Finance"
+    },
+    {
+      "id": "table-cell-ag-r10c8",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-employee-pay-status",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Needs review"
+    },
+    {
+      "id": "table-cell-ag-r10c8-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Warning"
+      },
+      "parent": "table-cell-ag-r10c8",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Needs review"
+    },
+    {
+      "id": "button-close-panel",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Hollow"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": ""
+    },
+    {
+      "id": "tags-failed-validation",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Negative"
+      },
+      "parent": null,
+      "tag": "span",
+      "repeat": null,
+      "text": "Failed validation"
+    },
+    {
+      "id": "tags-overtime-above-average",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Warning"
+      },
+      "parent": null,
+      "tag": "span",
+      "repeat": null,
+      "text": "Overtime above average"
+    },
+    {
+      "id": "information-box-sort-code-fails",
+      "component": "Information box",
+      "cls": "pf-information-box",
+      "variant": {
+        "type": "Error"
+      },
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "Sort code fails the modulus check. Correct it before this ru"
+    },
+    {
+      "id": "button-add",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Hollow"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Add"
+    },
+    {
+      "id": "draggable-card-basic-salary",
+      "component": "Draggable card",
+      "cls": "pf-draggable-card",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "Basic salary£2,145.60"
+    },
+    {
+      "id": "draggable-card-overtime-18-5-hrs",
+      "component": "Draggable card",
+      "cls": "pf-draggable-card",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "Overtime · 18.5 hrs£454.40"
+    },
+    {
+      "id": "draggable-card-paye",
+      "component": "Draggable card",
+      "cls": "pf-draggable-card",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "PAYE£331.80"
+    },
+    {
+      "id": "draggable-card-national-insurance",
+      "component": "Draggable card",
+      "cls": "pf-draggable-card",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "National Insurance£168.29"
+    },
+    {
+      "id": "draggable-card-pension",
+      "component": "Draggable card",
+      "cls": "pf-draggable-card",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "Pension · 5%£131.00"
+    },
+    {
+      "id": "form-field-pay-method-bacs",
+      "component": "Form field",
+      "cls": "pf-form-field",
+      "variant": {
+        "input-type": "Text",
+        "state": "Selected"
+      },
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "Pay method BACS — 3 working days Faster Payment Cheque"
+    },
+    {
+      "id": "field-bacs-3-working",
+      "component": "Field",
+      "cls": "pf-field",
+      "variant": {
+        "right-aligned": "No",
+        "filled": "No"
+      },
+      "parent": "form-field-pay-method-bacs",
+      "tag": "select",
+      "repeat": null,
+      "text": "BACS — 3 working days Faster Payment Cheque"
+    },
+    {
+      "id": "form-field-sort-code",
+      "component": "Form field",
+      "cls": "pf-form-field",
+      "variant": {
+        "input-type": "Text",
+        "state": "Error"
+      },
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "Sort code * Enter 6 digits. This sort code fails the modulus"
+    },
+    {
+      "id": "field-enter-6-digits",
+      "component": "Field",
+      "cls": "pf-field",
+      "variant": {
+        "right-aligned": "No",
+        "filled": "No"
+      },
+      "parent": "form-field-sort-code",
+      "tag": "input",
+      "repeat": null,
+      "text": ""
+    },
+    {
+      "id": "form-field-note-for-payroll",
+      "component": "Form field",
+      "cls": "pf-form-field",
+      "variant": {
+        "input-type": "Text",
+        "state": "Default"
+      },
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "Note for payroll"
+    },
+    {
+      "id": "field-no",
+      "component": "Field",
+      "cls": "pf-field",
+      "variant": {
+        "right-aligned": "No",
+        "filled": "No"
+      },
+      "parent": "form-field-note-for-payroll",
+      "tag": "textarea",
+      "repeat": null,
+      "text": ""
+    },
+    {
+      "id": "button-approve-pay",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Positive"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Approve pay"
+    },
+    {
+      "id": "button-raise-query",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Negative"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Raise query"
+    }
+  ]
+}

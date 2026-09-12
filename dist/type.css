@@ -15,16 +15,18 @@
  * Figma value — this was being hand-written on screens before it was checked.
  */
 
-/* Desktop text/XL heading  — NO WEIGHT SET IN FIGMA; inherits */
+/* Desktop text/XL heading  — NO WEIGHT SET IN FIGMA; 400 emitted, see the note in the generator */
 .pf-text-xl-heading {
   font-size: 36px;
+  font-weight: 400;
   line-height: normal;
   font-family: var(--pf-font-body);
 }
 
-/* Desktop text/XL heading (light)  — Figma says Light (300), OUTSIDE the system's 400/600 rule, so no font-weight is emitted and this inherits 400 */
+/* Desktop text/XL heading (light)  — Figma says Light (300), OUTSIDE the system's 400/600 rule, so 400 is emitted instead */
 .pf-text-xl-heading-light {
   font-size: 36px;
+  font-weight: 400;
   line-height: normal;
   font-family: var(--pf-font-body);
 }
@@ -37,9 +39,10 @@
   font-family: var(--pf-font-body);
 }
 
-/* Desktop text/Large heading (light)  — Figma says Light (300), OUTSIDE the system's 400/600 rule, so no font-weight is emitted and this inherits 400 */
+/* Desktop text/Large heading (light)  — Figma says Light (300), OUTSIDE the system's 400/600 rule, so 400 is emitted instead */
 .pf-text-large-heading-light {
   font-size: 24px;
+  font-weight: 400;
   line-height: normal;
   font-family: var(--pf-font-body);
 }
@@ -131,25 +134,28 @@
   font-family: var(--pf-font-body);
 }
 
-/* Desktop text/Tag text  — NO WEIGHT SET IN FIGMA; inherits */
+/* Desktop text/Tag text  — NO WEIGHT SET IN FIGMA; 400 emitted, see the note in the generator */
 .pf-text-tag-text {
   font-size: 13px;
+  font-weight: 400;
   letter-spacing: -0.01em;
   text-transform: uppercase;
   line-height: normal;
   font-family: var(--pf-font-body);
 }
 
-/* Mobile text/XXL heading  — Figma says Medium (500), OUTSIDE the system's 400/600 rule, so no font-weight is emitted and this inherits 400 */
+/* Mobile text/XXL heading  — Figma says Medium (500), OUTSIDE the system's 400/600 rule, so 400 is emitted instead */
 .pf-text-mobile-xxl-heading {
   font-size: 50px;
+  font-weight: 400;
   line-height: normal;
   font-family: var(--pf-font-body);
 }
 
-/* Mobile text/XXL heading (light)  — NO WEIGHT SET IN FIGMA; inherits */
+/* Mobile text/XXL heading (light)  — NO WEIGHT SET IN FIGMA; 400 emitted, see the note in the generator */
 .pf-text-mobile-xxl-heading-light {
   font-size: 50px;
+  font-weight: 400;
   line-height: normal;
   font-family: var(--pf-font-body);
 }
@@ -162,9 +168,10 @@
   font-family: var(--pf-font-body);
 }
 
-/* Mobile text/XL heading (light)  — NO WEIGHT SET IN FIGMA; inherits */
+/* Mobile text/XL heading (light)  — NO WEIGHT SET IN FIGMA; 400 emitted, see the note in the generator */
 .pf-text-mobile-xl-heading-light {
   font-size: 30px;
+  font-weight: 400;
   line-height: normal;
   font-family: var(--pf-font-body);
 }
@@ -177,9 +184,10 @@
   font-family: var(--pf-font-body);
 }
 
-/* Mobile text/Large heading (light)  — NO WEIGHT SET IN FIGMA; inherits */
+/* Mobile text/Large heading (light)  — NO WEIGHT SET IN FIGMA; 400 emitted, see the note in the generator */
 .pf-text-mobile-large-heading-light {
   font-size: 20px;
+  font-weight: 400;
   line-height: normal;
   font-family: var(--pf-font-body);
 }
@@ -198,4 +206,10 @@
   font-weight: 600;
   line-height: normal;
   font-family: var(--pf-font-body);
+}
+
+/* Plain HTML bold. The UA stylesheet says 700 and this system has 400 and 600, so without
+ * this the browser synthesises a weight the design system does not ship. See build-type-css.mjs. */
+strong, b, th {
+  font-weight: var(--pf-font-weight-bold);
 }

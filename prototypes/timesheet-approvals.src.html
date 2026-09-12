@@ -4,9 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Team timesheet approvals</title>
+<!-- Open Sans used to be fetched from Google Fonts here. That request is blocked by
+     this environment's egress policy and would also fail inside an artifact, so the page
+     silently fell back to DejaVu Sans and weight 600 rendered as synthesised Bold. The
+     font now ships with the build, inlined by dist/fonts.css. -->
 <style>
-/*__FONTS__*/
 /*__TOKENS__*/
+/*__TYPE__*/
 /*__COMPONENTS__*/
 
 /* ==========================================================================
@@ -34,9 +38,7 @@ h1, h2, h3 { margin: 0; letter-spacing: 0; text-wrap: balance; }
 h1 { font-size: var(--pf-font-size-l); font-weight: var(--pf-font-weight-regular); }
 h2 { font-size: var(--pf-font-size-m); font-weight: var(--pf-font-weight-bold); }
 h3 { font-size: var(--pf-font-size-s); font-weight: var(--pf-font-weight-bold); }
-/* Focus comes from dist/components.css above — a two-tone ring that reads on every
-   surface. This page used to define its own here, and it was invisible on 12 of 32
-   surfaces including every filled button. See dsskill DEF-0003. */
+:focus-visible { outline: 2px solid var(--pf-border-theme); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 svg { display: block; }
 
@@ -49,7 +51,7 @@ svg { display: block; }
 .num { font-variant-numeric: tabular-nums; }
 .row { display: flex; gap: var(--pf-space-small); flex-wrap: wrap; align-items: center; }
 .stack { display: flex; flex-direction: column; gap: var(--pf-space-large); }
-.divider { height: 1px; background: var(--pf-border-default); border: 0; margin: 0; }
+.divider { height: 1px; background: var(--pf-border-default-full); border: 0; margin: 0; }
 
 /* ---------- app frame ---------- */
 /* The two side columns stretch to the full page height so the chrome never
@@ -59,7 +61,7 @@ svg { display: block; }
 .main { min-width: 0; display: flex; flex-direction: column; }
 
 /* Side navigation — .pf-side-navigation is a column with no width of its own */
-.side { display: block; width: 100%; border-right: 1px solid var(--pf-border-default); }
+.side { display: block; width: 100%; border-right: 1px solid var(--pf-border-default-full); }
 .side-inner {
   position: sticky; top: 0; height: 100vh; overflow-y: auto;
   padding: var(--pf-space-large) var(--pf-space-small);
@@ -72,7 +74,7 @@ svg { display: block; }
 }
 .brand .mark {
   width: 26px; height: 26px; border-radius: var(--pf-radius-small);
-  background: var(--pf-bg-theme-full); flex: none;
+  background: var(--pf-bg-theme); flex: none;
 }
 /* Side navigation tab is the sidebar row component; these are layout + behaviour */
 .nav-item { width: 100%; text-decoration: none; cursor: pointer;
@@ -81,7 +83,7 @@ svg { display: block; }
 
 /* ---------- header ---------- */
 .topbar {
-  background: var(--pf-bg-primary); border-bottom: 1px solid var(--pf-border-default);
+  background: var(--pf-bg-primary); border-bottom: 1px solid var(--pf-border-default-full);
   padding: var(--pf-space-large) var(--pf-space-xlarge);
   display: flex; align-items: flex-start; gap: var(--pf-space-large); flex-wrap: wrap;
 }
@@ -129,17 +131,43 @@ svg { display: block; }
 .pf-selected-action-banner { display: flex; width: 100%; flex-wrap: wrap; gap: var(--pf-space-large); }
 
 /* ---------- table ---------- */
+/* .pf-table-ag became `display: flex` in the 2026-09-12 merge, so a container holding the table
+   AND a footer line lays them out side by side unless the page says otherwise. Page layout is the
+   page's job; the component rule is right for the component. */
+.tablewrap { flex-direction: column; }
 .tablewrap { background: var(--pf-table-card); border: 1px solid var(--pf-table-border);
              border-radius: var(--pf-radius-medium); overflow: hidden; }
-.tablescroll { overflow-x: auto; }
+.tablescroll { overflow-x: auto; scrollbar-gutter: stable; }
+/* A nine-column table does not fit beside a detail panel at 1440, so it scrolls. These
+   style the scrollbar where the platform draws one; where it uses overlay scrollbars
+   (headless Chromium, macOS by default) nothing here is visible and the region still
+   scrolls. `scrollbar-gutter: stable` only stops the layout shifting when it appears. */
+.tablescroll::-webkit-scrollbar { height: 10px; }
+.tablescroll::-webkit-scrollbar-track { background: var(--pf-bg-secondary); border-radius: 5px; }
+.tablescroll::-webkit-scrollbar-thumb { background: var(--pf-border-secondary); border-radius: 5px; }
+.tablescroll::-webkit-scrollbar-thumb:hover { background: var(--pf-border-theme); }
+.tablescroll { scrollbar-width: thin; scrollbar-color: var(--pf-border-secondary) var(--pf-bg-secondary); }
+
+/* The table is wider than the column it sits in and scrolls. Without this the last
+   column is simply sliced in half at the card edge and the screen reads as broken —
+   which is how it looked in every screenshot while geometry, colour, icons and contrast
+   all passed. The fade says "there is more this way". */
+.tablewrap { position: relative; }
+.tablewrap::after {
+  content: ""; position: absolute; top: 1px; right: 1px; bottom: 1px; width: 32px;
+  pointer-events: none;
+  border-radius: 0 var(--pf-radius-medium) var(--pf-radius-medium) 0;
+  background: linear-gradient(to left, var(--pf-table-card), transparent);
+}
+
 table { width: 100%; border-collapse: collapse; min-width: 878px; table-layout: fixed; }
 /* A table cell treats height as a minimum, so a 24px header icon would grow the
    line box past Figma's 54px. line-height is not captured by the extract. */
 .pf-table-header-ag, .pf-table-cell-ag { display: table-cell; }
 thead th { text-align: left; white-space: nowrap; line-height: 1.2;
-           border-bottom: 1px solid var(--pf-border-default); }
+           border-bottom: 1px solid var(--pf-border-default-full); }
 tbody td { line-height: 1.3; vertical-align: middle;
-           border-bottom: 1px solid var(--pf-border-default); }
+           border-bottom: 1px solid var(--pf-border-default-full); }
 tbody tr:last-child td { border-bottom: none; }
 th.num, td.num { text-align: right; }
 /* The employee name is the row's drill-in link, so it keeps the cell's own
@@ -152,27 +180,33 @@ td .plain { color: var(--pf-text-primary); }
 .col-sel { width: 44px; } .col-emp { width: 178px; } .col-period { width: 108px; }
 .col-hrs { width: 88px; } .col-ot { width: 84px; } .col-var { width: 84px; }
 .col-status { width: 148px; } .col-menu { width: 48px; }
-.tablefoot { display: flex; justify-content: space-between; align-items: center;
+/* The component now declares `flex-direction: column` (its Figma shape), and this rule's
+   `align-items: center` then centres the footer text instead of aligning it. The page states the
+   axis it is laying out on rather than inheriting one it did not expect. */
+.tablefoot { display: flex; flex-direction: row; justify-content: space-between; align-items: center;
              gap: var(--pf-space-small); padding: var(--pf-space-medium);
              background: var(--pf-table-card); border-top: 1px solid var(--pf-table-border);
              font-size: var(--pf-font-size-xs); color: var(--pf-text-secondary); flex-wrap: wrap; }
 
 /* the tick inside a selected checkbox is drawn art, not a token */
-.pf-multi-select-checkbox { position: relative; cursor: pointer; }
+/* `flex: none` because the component declares a fixed 20x20 from Figma and a flex parent will
+   shrink an inline-block child below it — it was rendering at 12px. Found by the geometry
+   check once the merge brought in an extract that measures this component. */
+.pf-multi-select-checkbox { position: relative; cursor: pointer; flex: none; }
 .pf-multi-select-checkbox[data-state="Selected"]::after {
   content: ""; position: absolute; left: 6.5px; top: 2.5px; width: 5px; height: 9px;
-  border: solid var(--pf-base-white); border-width: 0 2px 2px 0; transform: rotate(45deg);
+  border: solid var(--pf-icon-always-white); border-width: 0 2px 2px 0; transform: rotate(45deg);
 }
 /* Mixed selection is the same fill as Selected, so without its dash it reads as a
    plain filled square. The dash is drawn art, like the tick. */
 .pf-multi-select-checkbox[data-state="Mixed selection"]::after {
   content: ""; position: absolute; left: 4px; top: 7.5px; width: 10px; height: 0;
-  border-top: 2px solid var(--pf-base-white);
+  border-top: 2px solid var(--pf-icon-always-white);
 }
 
 /* ---------- avatar (Profile image: a circle) ---------- */
 .avatar { width: 36px; height: 36px; border-radius: 50%; flex: none;
-          background: var(--pf-bg-theme); color: var(--pf-text-theme);
+          background: var(--pf-bg-light-theme); color: var(--pf-text-theme);
           display: inline-flex; align-items: center; justify-content: center;
           font-size: var(--pf-font-size-xs); font-weight: var(--pf-font-weight-bold);
           letter-spacing: 0; }
@@ -198,7 +232,7 @@ td .plain { color: var(--pf-text-primary); }
 .pf-draggable-card .day { display: flex; align-items: center; gap: var(--pf-space-small); }
 .pf-draggable-card .hrs { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .sp-total { display: flex; justify-content: space-between; align-items: baseline;
-            padding-top: var(--pf-space-small); border-top: 1px solid var(--pf-border-default); }
+            padding-top: var(--pf-space-small); border-top: 1px solid var(--pf-border-default-full); }
 .sp-total .amt { font-size: var(--pf-font-size-m); font-variant-numeric: tabular-nums; }
 
 /* ---------- form fields ---------- */
@@ -233,14 +267,14 @@ select.pf-field { background-image:
                                                       border-color: var(--pf-icon-theme); }
 .pf-checkbox-radio-item[data-state="Selected"] .box::after {
   content: ""; position: absolute; left: 6.5px; top: 2.5px; width: 5px; height: 9px;
-  border: solid var(--pf-base-white); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+  border: solid var(--pf-icon-always-white); border-width: 0 2px 2px 0; transform: rotate(45deg); }
 .pf-checkbox-radio-item[data-state="Error"] .box { border-color: var(--pf-border-negative); }
 .pf-checkbox-radio-item[data-state="Disabled"] .box { border-color: var(--pf-border-disabled); }
 
 /* the knob is drawn art, not a token */
 .pf-toggle { position: relative; flex: none; cursor: pointer; }
 .pf-toggle::after { content: ""; position: absolute; top: 2px; left: 3px; width: 19px; height: 19px;
-                    border-radius: 50%; background: var(--pf-base-white);
+                    border-radius: 50%; background: var(--pf-icon-always-white);
                     box-shadow: var(--pf-shadow-drop-shadow); }
 .pf-toggle[data-on="Yes"]::after { left: auto; right: 3px; }
 
@@ -269,17 +303,17 @@ select.pf-field { background-image:
 <div class="app">
 
   <!-- ============ Side navigation ============ -->
-  <nav class="pf-side-navigation side" data-variant="Default" aria-label="Main">
+  <nav class="pf-side-navigation side" data-variant="Default" aria-label="Main" data-pf-id="side-navigation-main">
     <div class="side-inner">
       <div class="brand"><span class="mark"></span> People First</div>
-      <a class="pf-notification-tabs nav-item" data-selected="false" href="#">Dashboard</a>
-      <a class="pf-notification-tabs nav-item" data-selected="false" href="#">My team</a>
-      <a class="pf-notification-tabs nav-item" data-selected="false" href="#">Absence</a>
-      <a class="pf-notification-tabs nav-item" data-selected="true" href="#" aria-current="page">Timesheets</a>
-      <a class="pf-notification-tabs nav-item" data-selected="false" href="#">Payroll</a>
-      <a class="pf-notification-tabs nav-item" data-selected="false" href="#">Recruitment</a>
-      <a class="pf-notification-tabs nav-item" data-selected="false" href="#">Learning</a>
-      <a class="pf-notification-tabs nav-item" data-selected="false" href="#">Reports</a>
+      <a class="pf-side-navigation-tab nav-item" data-selected="false" href="#" data-pf-id="side-navigation-tab-dashboard">Dashboard</a>
+      <a class="pf-side-navigation-tab nav-item" data-selected="false" href="#" data-pf-id="side-navigation-tab-my-team">My team</a>
+      <a class="pf-side-navigation-tab nav-item" data-selected="false" href="#" data-pf-id="side-navigation-tab-absence">Absence</a>
+      <a class="pf-side-navigation-tab nav-item" data-selected="true" href="#" aria-current="page" data-pf-id="side-navigation-tab-timesheets">Timesheets</a>
+      <a class="pf-side-navigation-tab nav-item" data-selected="false" href="#" data-pf-id="side-navigation-tab-payroll">Payroll</a>
+      <a class="pf-side-navigation-tab nav-item" data-selected="false" href="#" data-pf-id="side-navigation-tab-recruitment">Recruitment</a>
+      <a class="pf-side-navigation-tab nav-item" data-selected="false" href="#" data-pf-id="side-navigation-tab-learning">Learning</a>
+      <a class="pf-side-navigation-tab nav-item" data-selected="false" href="#" data-pf-id="side-navigation-tab-reports">Reports</a>
     </div>
   </nav>
 
@@ -296,9 +330,9 @@ select.pf-field { background-image:
         </p>
       </div>
       <div class="row">
-        <button class="pf-button" data-type="Hollow" type="button"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path fill-rule="evenodd" d="M12.38 26.63H6C5.49 26.63 5.04 26.28 4.91 25.79C4.78 25.29 5 24.77 5.45 24.52C6.11 24.15 6.68 23.62 7.1 22.98C7.51 22.37 7.78 21.66 7.87 20.93V16.5C7.87 16.48 7.88 16.46 7.88 16.45C7.98 14.34 8.65 12.3 9.82 10.54C10.87 8.97 12.28 7.68 13.94 6.78C14.09 5.95 14.48 5.18 15.08 4.58C15.86 3.81 16.91 3.38 18 3.38C19.09 3.38 20.14 3.81 20.92 4.58C21.52 5.18 21.91 5.95 22.06 6.78C23.72 7.68 25.13 8.97 26.18 10.54C27.35 12.3 28.02 14.34 28.12 16.45C28.12 16.46 28.13 16.48 28.13 16.5V20.93C28.22 21.66 28.49 22.37 28.9 22.98C29.32 23.62 29.89 24.15 30.55 24.52C31 24.77 31.22 25.29 31.09 25.79C30.96 26.28 30.51 26.63 30 26.63H23.63V27C23.63 28.49 23.03 29.92 21.98 30.98C20.92 32.03 19.49 32.63 18 32.63C16.51 32.63 15.08 32.03 14.02 30.98C12.97 29.92 12.38 28.49 12.38 27V26.63ZM16.67 6.17C17.03 5.82 17.5 5.63 18 5.63C18.5 5.63 18.97 5.82 19.33 6.17C19.68 6.53 19.88 7 19.88 7.5C19.88 7.94 20.13 8.33 20.52 8.52C22.06 9.24 23.37 10.38 24.31 11.79C25.25 13.2 25.79 14.84 25.88 16.53V21C25.88 21.05 25.88 21.09 25.88 21.14C26.02 22.24 26.41 23.3 27.03 24.23C27.06 24.28 27.09 24.33 27.13 24.38H8.87C8.91 24.33 8.94 24.28 8.97 24.23C9.59 23.3 9.98 22.24 10.12 21.14C10.12 21.09 10.13 21.05 10.13 21V16.53C10.21 14.84 10.75 13.2 11.69 11.79C12.63 10.38 13.93 9.25 15.46 8.53C15.51 8.5 15.56 8.47 15.61 8.44C15.75 8.35 15.87 8.24 15.95 8.1C16.07 7.92 16.13 7.7 16.13 7.48C16.13 6.99 16.33 6.52 16.67 6.17ZM21.38 26.63V27C21.38 27.9 21.02 28.75 20.39 29.39C19.75 30.02 18.9 30.38 18 30.38C17.1 30.38 16.25 30.02 15.61 29.39C14.98 28.75 14.63 27.9 14.63 27V26.63H21.38Z"/></g></svg>Send reminder</button>
-        <button class="pf-button" data-type="Hollow" type="button"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M26.3 14.3C25.86 14.73 25.14 14.73 24.7 14.3L18 7.59L11.3 14.3C10.86 14.73 10.14 14.73 9.7 14.3C9.27 13.86 9.27 13.14 9.7 12.7L17.2 5.2C17.64 4.77 18.36 4.77 18.8 5.2L26.3 12.7C26.73 13.14 26.73 13.86 26.3 14.3Z"/><path d="M16.88 24C16.88 24.62 17.38 25.13 18 25.13C18.62 25.13 19.13 24.62 19.13 24L19.13 6C19.13 5.38 18.62 4.88 18 4.88C17.38 4.88 16.88 5.38 16.88 6L16.88 24Z"/><path d="M7.13 25.5C7.13 24.88 6.62 24.38 6 24.38C5.38 24.38 4.88 24.88 4.88 25.5V28.5C4.88 29.59 5.31 30.64 6.08 31.42C6.86 32.19 7.91 32.63 9 32.63H27C28.09 32.63 29.14 32.19 29.92 31.42C30.69 30.64 31.13 29.59 31.13 28.5V25.5C31.13 24.88 30.62 24.38 30 24.38C29.38 24.38 28.88 24.88 28.88 25.5V28.5C28.88 29 28.68 29.47 28.33 29.83C27.97 30.18 27.5 30.38 27 30.38H9C8.5 30.38 8.03 30.18 7.67 29.83C7.32 29.47 7.13 29 7.13 28.5V25.5Z"/></svg>Export</button>
-        <button class="pf-button" data-type="Action" type="button"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M29.2 9.7C29.64 9.27 30.36 9.27 30.8 9.7C31.23 10.14 31.23 10.86 30.8 11.3L15.8 26.3C15.36 26.73 14.64 26.73 14.2 26.3L6.7 18.8C6.27 18.36 6.27 17.64 6.7 17.2C7.14 16.77 7.86 16.77 8.3 17.2L15 23.91L29.2 9.7Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>Approve all valid</button>
+        <button class="pf-button" data-type="Hollow" type="button" data-pf-id="button-send-reminder"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path fill-rule="evenodd" d="M12.38 26.63H6C5.49 26.63 5.04 26.28 4.91 25.79C4.78 25.29 5 24.77 5.45 24.52C6.11 24.15 6.68 23.62 7.1 22.98C7.51 22.37 7.78 21.66 7.87 20.93V16.5C7.87 16.48 7.88 16.46 7.88 16.45C7.98 14.34 8.65 12.3 9.82 10.54C10.87 8.97 12.28 7.68 13.94 6.78C14.09 5.95 14.48 5.18 15.08 4.58C15.86 3.81 16.91 3.38 18 3.38C19.09 3.38 20.14 3.81 20.92 4.58C21.52 5.18 21.91 5.95 22.06 6.78C23.72 7.68 25.13 8.97 26.18 10.54C27.35 12.3 28.02 14.34 28.12 16.45C28.12 16.46 28.13 16.48 28.13 16.5V20.93C28.22 21.66 28.49 22.37 28.9 22.98C29.32 23.62 29.89 24.15 30.55 24.52C31 24.77 31.22 25.29 31.09 25.79C30.96 26.28 30.51 26.63 30 26.63H23.63V27C23.63 28.49 23.03 29.92 21.98 30.98C20.92 32.03 19.49 32.63 18 32.63C16.51 32.63 15.08 32.03 14.02 30.98C12.97 29.92 12.38 28.49 12.38 27V26.63ZM16.67 6.17C17.03 5.82 17.5 5.63 18 5.63C18.5 5.63 18.97 5.82 19.33 6.17C19.68 6.53 19.88 7 19.88 7.5C19.88 7.94 20.13 8.33 20.52 8.52C22.06 9.24 23.37 10.38 24.31 11.79C25.25 13.2 25.79 14.84 25.88 16.53V21C25.88 21.05 25.88 21.09 25.88 21.14C26.02 22.24 26.41 23.3 27.03 24.23C27.06 24.28 27.09 24.33 27.13 24.38H8.87C8.91 24.33 8.94 24.28 8.97 24.23C9.59 23.3 9.98 22.24 10.12 21.14C10.12 21.09 10.13 21.05 10.13 21V16.53C10.21 14.84 10.75 13.2 11.69 11.79C12.63 10.38 13.93 9.25 15.46 8.53C15.51 8.5 15.56 8.47 15.61 8.44C15.75 8.35 15.87 8.24 15.95 8.1C16.07 7.92 16.13 7.7 16.13 7.48C16.13 6.99 16.33 6.52 16.67 6.17ZM21.38 26.63V27C21.38 27.9 21.02 28.75 20.39 29.39C19.75 30.02 18.9 30.38 18 30.38C17.1 30.38 16.25 30.02 15.61 29.39C14.98 28.75 14.63 27.9 14.63 27V26.63H21.38Z"/></g></svg>Send reminder</button>
+        <button class="pf-button" data-type="Hollow" type="button" data-pf-id="button-export"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M26.3 14.3C25.86 14.73 25.14 14.73 24.7 14.3L18 7.59L11.3 14.3C10.86 14.73 10.14 14.73 9.7 14.3C9.27 13.86 9.27 13.14 9.7 12.7L17.2 5.2C17.64 4.77 18.36 4.77 18.8 5.2L26.3 12.7C26.73 13.14 26.73 13.86 26.3 14.3Z"/><path d="M16.88 24C16.88 24.62 17.38 25.13 18 25.13C18.62 25.13 19.13 24.62 19.13 24L19.13 6C19.13 5.38 18.62 4.88 18 4.88C17.38 4.88 16.88 5.38 16.88 6L16.88 24Z"/><path d="M7.13 25.5C7.13 24.88 6.62 24.38 6 24.38C5.38 24.38 4.88 24.88 4.88 25.5V28.5C4.88 29.59 5.31 30.64 6.08 31.42C6.86 32.19 7.91 32.63 9 32.63H27C28.09 32.63 29.14 32.19 29.92 31.42C30.69 30.64 31.13 29.59 31.13 28.5V25.5C31.13 24.88 30.62 24.38 30 24.38C29.38 24.38 28.88 24.88 28.88 25.5V28.5C28.88 29 28.68 29.47 28.33 29.83C27.97 30.18 27.5 30.38 27 30.38H9C8.5 30.38 8.03 30.18 7.67 29.83C7.32 29.47 7.13 29 7.13 28.5V25.5Z"/></svg>Export</button>
+        <button class="pf-button" data-type="Action" type="button" data-pf-id="button-approve-all-valid"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M29.2 9.7C29.64 9.27 30.36 9.27 30.8 9.7C31.23 10.14 31.23 10.86 30.8 11.3L15.8 26.3C15.36 26.73 14.64 26.73 14.2 26.3L6.7 18.8C6.27 18.36 6.27 17.64 6.7 17.2C7.14 16.77 7.86 16.77 8.3 17.2L15 23.91L29.2 9.7Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>Approve all valid</button>
       </div>
     </header>
 
@@ -306,22 +340,22 @@ select.pf-field { background-image:
 
       <!-- ============ This week at a glance ============ -->
       <section class="statgrid" aria-label="This week at a glance">
-        <div class="pf-card pf-card--raised stat" data-property-1="Default">
+        <div class="pf-card pf-card--raised stat" data-property-1="Default" data-pf-id="card-awaiting-approval">
           <span class="eyebrow">Awaiting approval</span>
           <span class="figure num">8</span>
           <span class="small muted">of 12 in your team</span>
         </div>
-        <div class="pf-card pf-card--raised stat" data-property-1="Default">
+        <div class="pf-card pf-card--raised stat" data-property-1="Default" data-pf-id="card-hours-submitted">
           <span class="eyebrow">Hours submitted</span>
           <span class="figure num">312.50</span>
           <span class="small muted">Against 300.00 contracted</span>
         </div>
-        <div class="pf-card pf-card--raised stat" data-property-1="Default">
+        <div class="pf-card pf-card--raised stat" data-property-1="Default" data-pf-id="card-overtime-hours">
           <span class="eyebrow">Overtime hours</span>
           <span class="figure num figure--warning">27.75</span>
           <span class="small muted">3 above the 48-hour average</span>
         </div>
-        <div class="pf-card pf-card--raised stat" data-property-1="Default">
+        <div class="pf-card pf-card--raised stat" data-property-1="Default" data-pf-id="card-open-queries">
           <span class="eyebrow">Open queries</span>
           <span class="figure num">1</span>
           <span class="small muted">Raised with Owen Whitlock</span>
@@ -329,9 +363,9 @@ select.pf-field { background-image:
       </section>
 
       <!-- ============ Working-time notice ============ -->
-      <div class="pf-card banner" data-property-1="Default">
+      <div class="pf-card banner" data-property-1="Default" data-pf-id="card-3-timesheets-take">
         <span style="color:var(--pf-icon-warning);flex:none"><svg width="22" height="22" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M18 11.88C18.62 11.88 19.13 12.38 19.13 13V19.5C19.13 20.12 18.62 20.63 18 20.63C17.38 20.63 16.88 20.12 16.88 19.5V13C16.88 12.38 17.38 11.88 18 11.88ZM18 22.38C18.62 22.38 19.13 22.88 19.13 23.5V23.52C19.13 24.14 18.62 24.64 18 24.64C17.38 24.64 16.88 24.14 16.88 23.52V23.5C16.88 22.88 17.38 22.38 18 22.38Z"/><path fill-rule="evenodd" d="M15.89 4.45C16.52 4.07 17.25 3.88 17.99 3.88C18.72 3.88 19.45 4.07 20.08 4.45C20.71 4.82 21.23 5.35 21.59 5.99L32.23 24.36C32.26 24.4 32.28 24.45 32.3 24.5C32.56 25.12 32.65 25.8 32.58 26.47C32.51 27.14 32.28 27.78 31.91 28.34C31.53 28.9 31.03 29.36 30.44 29.68C29.84 30 29.18 30.17 28.51 30.17L28.5 30.17H7.5C7.47 30.17 7.45 30.17 7.42 30.17C7.37 30.17 7.32 30.17 7.28 30.17C6.62 30.14 5.98 29.95 5.41 29.62C4.84 29.28 4.36 28.82 4.01 28.27C3.66 27.71 3.44 27.08 3.38 26.42C3.32 25.77 3.42 25.11 3.67 24.5C3.69 24.45 3.71 24.4 3.74 24.36L14.38 5.99C14.74 5.35 15.26 4.82 15.89 4.45ZM7.42 27.93C7.44 27.92 7.47 27.92 7.5 27.92H28.5C28.8 27.92 29.1 27.84 29.37 27.7C29.64 27.55 29.87 27.34 30.04 27.09C30.21 26.84 30.31 26.54 30.34 26.24C30.37 25.96 30.34 25.68 30.24 25.41L19.64 7.11L19.63 7.09C19.46 6.8 19.23 6.55 18.94 6.38C18.65 6.21 18.32 6.13 17.99 6.13C17.65 6.13 17.32 6.21 17.03 6.38C16.74 6.55 16.51 6.8 16.34 7.09L16.33 7.11L5.73 25.41C5.63 25.67 5.6 25.95 5.62 26.22C5.65 26.52 5.75 26.81 5.91 27.06C6.07 27.31 6.29 27.52 6.55 27.67C6.8 27.82 7.09 27.91 7.39 27.92C7.4 27.92 7.41 27.93 7.42 27.93Z"/></svg></span>
-        <div class="pf-information-box" data-type="Warning" style="display:block">
+        <div class="pf-information-box" data-type="Warning" style="display:block" data-pf-id="information-box-3-timesheets-take">
           <strong>3 timesheets take the 17-week average above 48 hours a week.</strong>
           Tomasz Kowalczyk, Priya Raghunathan and Nadia Hussain have no working-time opt-out on
           file. Approving these hours without one is a breach of the Working Time Regulations
@@ -342,40 +376,40 @@ select.pf-field { background-image:
       <!-- ============ Filters ============ -->
       <section class="stack" style="gap:var(--pf-space-medium)" aria-label="Filter timesheets">
         <div class="row" role="group" aria-label="Approval status">
-          <button class="pf-filter-chip" data-state="Selected" data-active="True" type="button" aria-pressed="true">
+          <button class="pf-filter-chip" data-state="Selected" data-active="True" type="button" aria-pressed="true" data-pf-id="filter-chip-awaiting-approval">
             Awaiting approval <span class="count num">8</span></button>
-          <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false">
+          <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false" data-pf-id="filter-chip-all">
             All <span class="count num">12</span></button>
-          <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false">
+          <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false" data-pf-id="filter-chip-approved">
             Approved <span class="count num">3</span></button>
-          <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false">
+          <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false" data-pf-id="filter-chip-queried">
             Queried <span class="count num">1</span></button>
-          <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false">
+          <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false" data-pf-id="filter-chip-overtime-flagged">
             Overtime flagged <span class="count num">3</span></button>
-          <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false">
+          <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false" data-pf-id="filter-chip-missing-entries">
             Missing entries <span class="count num">2</span></button>
         </div>
 
         <div class="filterline">
-          <div class="pf-form-field searchwrap" data-input-type="Search" data-state="Default">
+          <div class="pf-form-field searchwrap" data-input-type="Search" data-state="Default" data-pf-id="form-field-search">
             <label class="lbl" for="f-search">Search</label>
             <span class="icn"><svg width="16" height="16" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path fill-rule="evenodd" d="M15 3.38C8.58 3.38 3.38 8.58 3.38 15C3.38 21.42 8.58 26.63 15 26.63C17.81 26.63 20.38 25.63 22.39 23.98L30.7 32.3C31.14 32.73 31.86 32.73 32.3 32.3C32.73 31.86 32.73 31.14 32.3 30.7L23.98 22.39C25.63 20.38 26.63 17.81 26.63 15C26.63 8.58 21.42 3.38 15 3.38ZM5.63 15C5.63 9.82 9.82 5.63 15 5.63C20.18 5.63 24.38 9.82 24.38 15C24.38 20.18 20.18 24.38 15 24.38C9.82 24.38 5.63 20.18 5.63 15Z"/></g></svg></span>
             <input class="pf-field" data-right-aligned="No" data-filled="No" id="f-search"
-                   type="search" placeholder="Employee name or payroll number">
+                   type="search" placeholder="Employee name or payroll number" data-pf-id="field-period-week-ending">
           </div>
 
-          <div class="pf-form-field" data-input-type="Date picker" data-state="Default" style="width:auto">
+          <div class="pf-form-field" data-input-type="Date picker" data-state="Default" style="width:auto" data-pf-id="form-field-period-week-ending">
             <label class="lbl" for="f-period">Period</label>
-            <select class="pf-field" data-right-aligned="No" data-filled="Yes" id="f-period" style="min-width:230px">
+            <select class="pf-field" data-right-aligned="No" data-filled="Yes" id="f-period" style="min-width:230px" data-pf-id="field-week-ending">
               <option>Week ending 06/09/2026</option>
               <option>Week ending 30/08/2026</option>
               <option>Week ending 23/08/2026</option>
             </select>
           </div>
 
-          <div class="pf-form-field" data-input-type="Dropdown" data-state="Default" style="width:auto">
+          <div class="pf-form-field" data-input-type="Dropdown" data-state="Default" style="width:auto" data-pf-id="form-field-team-all">
             <label class="lbl" for="f-team">Team</label>
-            <select class="pf-field" data-right-aligned="No" data-filled="Yes" id="f-team" style="min-width:190px">
+            <select class="pf-field" data-right-aligned="No" data-filled="Yes" id="f-team" style="min-width:190px" data-pf-id="field-all-my-direct">
               <option>All my direct reports</option>
               <option>Logistics</option>
               <option>Warehouse</option>
@@ -383,27 +417,27 @@ select.pf-field { background-image:
             </select>
           </div>
 
-          <button class="pf-button" data-type="Sort" type="button" style="margin-bottom:5px"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M7.96 15.43C7.79 15.01 7.88 14.53 8.2 14.2L17.2 5.2C17.64 4.76 18.36 4.76 18.8 5.2L27.8 14.2C28.12 14.53 28.21 15.01 28.04 15.43C27.86 15.85 27.45 16.13 27 16.13L9 16.13C8.55 16.13 8.14 15.85 7.96 15.43ZM24.28 13.88L18 7.59L11.72 13.88L24.28 13.88Z"/><path d="M8.2 21.8C7.88 21.47 7.79 20.99 7.96 20.57C8.14 20.15 8.55 19.88 9 19.88L27 19.88C27.45 19.88 27.86 20.15 28.04 20.57C28.21 20.99 28.12 21.47 27.8 21.8L18.8 30.8C18.36 31.24 17.64 31.24 17.2 30.8L8.2 21.8ZM18 28.41L24.28 22.13L11.72 22.13L18 28.41Z"/></svg>Sort</button>
-          <button class="pf-button" data-type="Filter" type="button" style="margin-bottom:5px"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M7.04 6.64C7.02 6.7 7.02 6.77 7.03 6.84C7.03 6.88 7.04 6.92 7.05 6.95L15.3 16.9C15.79 17.49 16.05 18.21 16.05 18.96V28.13L19.47 29.35V18.96C19.47 18.21 19.73 17.49 20.22 16.9L28.47 6.95C28.48 6.92 28.49 6.88 28.49 6.84C28.5 6.77 28.5 6.7 28.48 6.64H7.04ZM28.78 6.64L28.78 6.64L28.78 6.64ZM29.99 7.84C30.14 7.6 30.24 7.32 30.27 7.03C30.31 6.74 30.28 6.45 30.2 6.17C30.11 5.89 29.97 5.64 29.79 5.43C29.68 5.31 29.56 5.21 29.43 5.12C29.24 5 29 4.97 28.77 4.97H6.75C6.52 4.97 6.28 5 6.09 5.12C5.96 5.21 5.84 5.31 5.73 5.43C5.55 5.64 5.41 5.89 5.32 6.17C5.24 6.45 5.21 6.74 5.25 7.03C5.28 7.32 5.38 7.6 5.53 7.84L13.89 17.93C14.13 18.22 14.26 18.58 14.26 18.96V28.13C14.26 28.82 14.72 29.44 15.41 29.69L18.82 30.92C20 31.34 21.26 30.53 21.26 29.35V18.96C21.26 18.58 21.39 18.22 21.63 17.93L29.99 7.84ZM6.74 6.64L6.74 6.64L6.74 6.64Z"/><path fill-rule="evenodd" d="M6.75 5.18C6.54 5.18 6.36 5.22 6.22 5.3C6.11 5.38 6.01 5.47 5.91 5.57C5.75 5.75 5.62 5.98 5.54 6.23C5.47 6.48 5.45 6.74 5.48 7.01C5.51 7.26 5.59 7.51 5.72 7.72L14.07 17.79C14.35 18.13 14.5 18.53 14.5 18.96V28.13C14.5 28.73 14.89 29.27 15.5 29.49L18.91 30.72C19.93 31.08 21.02 30.38 21.02 29.35V18.96C21.02 18.53 21.17 18.13 21.45 17.79L29.8 7.72C29.93 7.51 30.01 7.26 30.04 7.01C30.07 6.74 30.05 6.48 29.98 6.23C29.9 5.98 29.77 5.75 29.61 5.57C29.51 5.47 29.41 5.38 29.3 5.3C29.16 5.22 28.98 5.18 28.77 5.18H6.75ZM5.96 4.95C6.21 4.79 6.5 4.75 6.75 4.75H28.77C29.02 4.75 29.31 4.79 29.56 4.95C29.71 5.04 29.84 5.16 29.96 5.29C30.17 5.52 30.33 5.8 30.42 6.11C30.51 6.42 30.54 6.74 30.5 7.06C30.46 7.37 30.36 7.68 30.19 7.95C30.19 7.96 30.18 7.97 30.18 7.97L21.81 18.06C21.6 18.32 21.49 18.63 21.49 18.96V29.35C21.49 30.68 20.06 31.6 18.74 31.12L15.33 29.9C14.55 29.61 14.03 28.91 14.03 28.13V18.96C14.03 18.63 13.92 18.32 13.71 18.06L5.34 7.97C5.34 7.97 5.33 7.96 5.33 7.95C5.16 7.68 5.06 7.37 5.02 7.06C4.98 6.74 5.01 6.42 5.1 6.11C5.19 5.8 5.35 5.52 5.56 5.29C5.68 5.16 5.81 5.04 5.96 4.95ZM6.89 6.48C6.93 6.45 6.98 6.43 7.04 6.43H28.48C28.54 6.43 28.59 6.45 28.63 6.48C28.67 6.44 28.73 6.42 28.79 6.43L28.79 6.43L28.78 6.43C28.78 6.43 28.77 6.43 28.77 6.43C28.76 6.43 28.76 6.43 28.75 6.43C28.75 6.43 28.74 6.43 28.73 6.43C28.72 6.43 28.71 6.44 28.71 6.44C28.7 6.44 28.68 6.45 28.67 6.45L28.78 6.64L28.79 6.43L28.79 6.43C28.9 6.43 28.98 6.5 29.01 6.6C29.03 6.69 28.98 6.79 28.89 6.83C28.86 6.85 28.84 6.85 28.83 6.86C28.82 6.86 28.81 6.86 28.81 6.86C28.8 6.86 28.79 6.86 28.79 6.86C28.79 6.86 28.78 6.86 28.78 6.86L28.77 6.86L28.77 6.86L28.76 6.86L28.76 6.86C28.75 6.86 28.74 6.86 28.73 6.86C28.73 6.86 28.73 6.86 28.72 6.86C28.72 6.92 28.71 6.97 28.69 7.02C28.68 7.04 28.67 7.06 28.65 7.08L20.4 17.03C19.94 17.58 19.7 18.26 19.7 18.96V29.35C19.7 29.43 19.66 29.49 19.6 29.53C19.53 29.57 19.45 29.58 19.38 29.56L15.97 28.33C15.88 28.3 15.82 28.22 15.82 28.13V18.96C15.82 18.26 15.58 17.58 15.12 17.03L6.87 7.08C6.85 7.06 6.84 7.04 6.83 7.02C6.82 6.97 6.8 6.92 6.8 6.86C6.79 6.86 6.79 6.86 6.79 6.86C6.78 6.86 6.77 6.86 6.76 6.86L6.76 6.86L6.77 6.86C6.77 6.86 6.78 6.86 6.79 6.86C6.79 6.86 6.79 6.86 6.79 6.86C6.78 6.76 6.79 6.67 6.81 6.59C6.82 6.58 6.82 6.57 6.82 6.57L6.74 6.64L6.74 6.64L6.75 6.86L6.75 6.86C6.69 6.86 6.63 6.84 6.58 6.8C6.55 6.77 6.51 6.72 6.51 6.65C6.51 6.57 6.55 6.52 6.57 6.5C6.61 6.46 6.65 6.45 6.65 6.44C6.67 6.44 6.69 6.43 6.69 6.43C6.7 6.43 6.71 6.43 6.71 6.43L6.72 6.43L6.73 6.43L6.73 6.43M6.73 6.43L6.73 6.43C6.79 6.42 6.85 6.44 6.89 6.48M8.34 6.86C7.91 6.86 7.68 7.35 7.95 7.68L15.49 16.77C16 17.39 16.29 18.16 16.29 18.96V27.63C16.29 27.84 16.42 28.03 16.62 28.1L18.56 28.8C18.89 28.91 19.23 28.67 19.23 28.33V18.96C19.23 18.16 19.52 17.39 20.03 16.77L27.57 7.68C27.84 7.35 27.61 6.86 27.18 6.86H8.34Z"/></svg>More filters</button>
+          <button class="pf-button" data-type="Sort" type="button" style="margin-bottom:5px" data-pf-id="button-sort"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M7.96 15.43C7.79 15.01 7.88 14.53 8.2 14.2L17.2 5.2C17.64 4.76 18.36 4.76 18.8 5.2L27.8 14.2C28.12 14.53 28.21 15.01 28.04 15.43C27.86 15.85 27.45 16.13 27 16.13L9 16.13C8.55 16.13 8.14 15.85 7.96 15.43ZM24.28 13.88L18 7.59L11.72 13.88L24.28 13.88Z"/><path d="M8.2 21.8C7.88 21.47 7.79 20.99 7.96 20.57C8.14 20.15 8.55 19.88 9 19.88L27 19.88C27.45 19.88 27.86 20.15 28.04 20.57C28.21 20.99 28.12 21.47 27.8 21.8L18.8 30.8C18.36 31.24 17.64 31.24 17.2 30.8L8.2 21.8ZM18 28.41L24.28 22.13L11.72 22.13L18 28.41Z"/></svg>Sort</button>
+          <button class="pf-button" data-type="Filter" type="button" style="margin-bottom:5px" data-pf-id="button-more-filters"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M7.04 6.64C7.02 6.7 7.02 6.77 7.03 6.84C7.03 6.88 7.04 6.92 7.05 6.95L15.3 16.9C15.79 17.49 16.05 18.21 16.05 18.96V28.13L19.47 29.35V18.96C19.47 18.21 19.73 17.49 20.22 16.9L28.47 6.95C28.48 6.92 28.49 6.88 28.49 6.84C28.5 6.77 28.5 6.7 28.48 6.64H7.04ZM28.78 6.64L28.78 6.64L28.78 6.64ZM29.99 7.84C30.14 7.6 30.24 7.32 30.27 7.03C30.31 6.74 30.28 6.45 30.2 6.17C30.11 5.89 29.97 5.64 29.79 5.43C29.68 5.31 29.56 5.21 29.43 5.12C29.24 5 29 4.97 28.77 4.97H6.75C6.52 4.97 6.28 5 6.09 5.12C5.96 5.21 5.84 5.31 5.73 5.43C5.55 5.64 5.41 5.89 5.32 6.17C5.24 6.45 5.21 6.74 5.25 7.03C5.28 7.32 5.38 7.6 5.53 7.84L13.89 17.93C14.13 18.22 14.26 18.58 14.26 18.96V28.13C14.26 28.82 14.72 29.44 15.41 29.69L18.82 30.92C20 31.34 21.26 30.53 21.26 29.35V18.96C21.26 18.58 21.39 18.22 21.63 17.93L29.99 7.84ZM6.74 6.64L6.74 6.64L6.74 6.64Z"/><path fill-rule="evenodd" d="M6.75 5.18C6.54 5.18 6.36 5.22 6.22 5.3C6.11 5.38 6.01 5.47 5.91 5.57C5.75 5.75 5.62 5.98 5.54 6.23C5.47 6.48 5.45 6.74 5.48 7.01C5.51 7.26 5.59 7.51 5.72 7.72L14.07 17.79C14.35 18.13 14.5 18.53 14.5 18.96V28.13C14.5 28.73 14.89 29.27 15.5 29.49L18.91 30.72C19.93 31.08 21.02 30.38 21.02 29.35V18.96C21.02 18.53 21.17 18.13 21.45 17.79L29.8 7.72C29.93 7.51 30.01 7.26 30.04 7.01C30.07 6.74 30.05 6.48 29.98 6.23C29.9 5.98 29.77 5.75 29.61 5.57C29.51 5.47 29.41 5.38 29.3 5.3C29.16 5.22 28.98 5.18 28.77 5.18H6.75ZM5.96 4.95C6.21 4.79 6.5 4.75 6.75 4.75H28.77C29.02 4.75 29.31 4.79 29.56 4.95C29.71 5.04 29.84 5.16 29.96 5.29C30.17 5.52 30.33 5.8 30.42 6.11C30.51 6.42 30.54 6.74 30.5 7.06C30.46 7.37 30.36 7.68 30.19 7.95C30.19 7.96 30.18 7.97 30.18 7.97L21.81 18.06C21.6 18.32 21.49 18.63 21.49 18.96V29.35C21.49 30.68 20.06 31.6 18.74 31.12L15.33 29.9C14.55 29.61 14.03 28.91 14.03 28.13V18.96C14.03 18.63 13.92 18.32 13.71 18.06L5.34 7.97C5.34 7.97 5.33 7.96 5.33 7.95C5.16 7.68 5.06 7.37 5.02 7.06C4.98 6.74 5.01 6.42 5.1 6.11C5.19 5.8 5.35 5.52 5.56 5.29C5.68 5.16 5.81 5.04 5.96 4.95ZM6.89 6.48C6.93 6.45 6.98 6.43 7.04 6.43H28.48C28.54 6.43 28.59 6.45 28.63 6.48C28.67 6.44 28.73 6.42 28.79 6.43L28.79 6.43L28.78 6.43C28.78 6.43 28.77 6.43 28.77 6.43C28.76 6.43 28.76 6.43 28.75 6.43C28.75 6.43 28.74 6.43 28.73 6.43C28.72 6.43 28.71 6.44 28.71 6.44C28.7 6.44 28.68 6.45 28.67 6.45L28.78 6.64L28.79 6.43L28.79 6.43C28.9 6.43 28.98 6.5 29.01 6.6C29.03 6.69 28.98 6.79 28.89 6.83C28.86 6.85 28.84 6.85 28.83 6.86C28.82 6.86 28.81 6.86 28.81 6.86C28.8 6.86 28.79 6.86 28.79 6.86C28.79 6.86 28.78 6.86 28.78 6.86L28.77 6.86L28.77 6.86L28.76 6.86L28.76 6.86C28.75 6.86 28.74 6.86 28.73 6.86C28.73 6.86 28.73 6.86 28.72 6.86C28.72 6.92 28.71 6.97 28.69 7.02C28.68 7.04 28.67 7.06 28.65 7.08L20.4 17.03C19.94 17.58 19.7 18.26 19.7 18.96V29.35C19.7 29.43 19.66 29.49 19.6 29.53C19.53 29.57 19.45 29.58 19.38 29.56L15.97 28.33C15.88 28.3 15.82 28.22 15.82 28.13V18.96C15.82 18.26 15.58 17.58 15.12 17.03L6.87 7.08C6.85 7.06 6.84 7.04 6.83 7.02C6.82 6.97 6.8 6.92 6.8 6.86C6.79 6.86 6.79 6.86 6.79 6.86C6.78 6.86 6.77 6.86 6.76 6.86L6.76 6.86L6.77 6.86C6.77 6.86 6.78 6.86 6.79 6.86C6.79 6.86 6.79 6.86 6.79 6.86C6.78 6.76 6.79 6.67 6.81 6.59C6.82 6.58 6.82 6.57 6.82 6.57L6.74 6.64L6.74 6.64L6.75 6.86L6.75 6.86C6.69 6.86 6.63 6.84 6.58 6.8C6.55 6.77 6.51 6.72 6.51 6.65C6.51 6.57 6.55 6.52 6.57 6.5C6.61 6.46 6.65 6.45 6.65 6.44C6.67 6.44 6.69 6.43 6.69 6.43C6.7 6.43 6.71 6.43 6.71 6.43L6.72 6.43L6.73 6.43L6.73 6.43M6.73 6.43L6.73 6.43C6.79 6.42 6.85 6.44 6.89 6.48M8.34 6.86C7.91 6.86 7.68 7.35 7.95 7.68L15.49 16.77C16 17.39 16.29 18.16 16.29 18.96V27.63C16.29 27.84 16.42 28.03 16.62 28.1L18.56 28.8C18.89 28.91 19.23 28.67 19.23 28.33V18.96C19.23 18.16 19.52 17.39 20.03 16.77L27.57 7.68C27.84 7.35 27.61 6.86 27.18 6.86H8.34Z"/></svg>More filters</button>
 
           <label class="togglelab">
-            <span class="pf-toggle" data-on="No" data-locked="No" role="switch" aria-checked="false" tabindex="0"></span>
+            <span class="pf-toggle" data-on="No" data-locked="No" role="switch" aria-checked="false" tabindex="0" data-pf-id="toggle-no"></span>
             Only show exceptions
           </label>
         </div>
       </section>
 
       <!-- ============ Bulk action banner ============ -->
-      <div class="pf-selected-action-banner" data-mobile="False">
+      <div class="pf-selected-action-banner" data-mobile="False" data-pf-id="selected-action-banner-3-timesheets-selected">
         <span><strong>3 timesheets</strong> selected &middot; 118.25 hours</span>
         <div class="row" style="margin-left:auto">
-          <button class="pf-button" data-type="Positive" type="button"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M29.2 9.7C29.64 9.27 30.36 9.27 30.8 9.7C31.23 10.14 31.23 10.86 30.8 11.3L15.8 26.3C15.36 26.73 14.64 26.73 14.2 26.3L6.7 18.8C6.27 18.36 6.27 17.64 6.7 17.2C7.14 16.77 7.86 16.77 8.3 17.2L15 23.91L29.2 9.7Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>Approve selected</button>
-          <button class="pf-button" data-type="Negative" type="button"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path d="M19.13 18C19.13 17.38 18.62 16.88 18 16.88C17.38 16.88 16.88 17.38 16.88 18V18.02C16.88 18.64 17.38 19.14 18 19.14C18.62 19.14 19.13 18.64 19.13 18.02V18Z"/><path d="M12 16.88C12.62 16.88 13.13 17.38 13.13 18V18.02C13.13 18.64 12.62 19.14 12 19.14C11.38 19.14 10.88 18.64 10.88 18.02V18C10.88 17.38 11.38 16.88 12 16.88Z"/><path d="M25.13 18C25.13 17.38 24.62 16.88 24 16.88C23.38 16.88 22.88 17.38 22.88 18V18.02C22.88 18.64 23.38 19.14 24 19.14C24.62 19.14 25.13 18.64 25.13 18.02V18Z"/><path fill-rule="evenodd" d="M4.75 31.1C4.65 31.12 4.54 31.13 4.44 31.12C4.3 31.12 4.17 31.08 4.04 31.03C3.89 30.96 3.76 30.87 3.66 30.75C3.56 30.63 3.48 30.5 3.43 30.34C3.39 30.21 3.37 30.08 3.38 29.94C3.38 29.83 3.4 29.73 3.44 29.63L5.21 24.31C3.6 21.67 3.03 18.61 3.63 15.62C4.27 12.46 6.18 9.64 8.95 7.67C11.72 5.71 15.18 4.71 18.68 4.86C22.19 5 25.53 6.27 28.1 8.45C30.66 10.64 32.28 13.61 32.59 16.82C32.9 20.03 31.89 23.21 29.78 25.78C27.67 28.34 24.6 30.11 21.18 30.78C17.88 31.44 14.43 31.05 11.41 29.68L4.75 31.1ZM10.25 9.51C12.6 7.84 15.56 6.98 18.59 7.1C21.62 7.23 24.48 8.33 26.64 10.17C28.79 12 30.1 14.45 30.35 17.04C30.6 19.62 29.8 22.22 28.04 24.35C26.29 26.48 23.7 27.99 20.74 28.58C17.78 29.16 14.69 28.77 12.04 27.49C11.82 27.38 11.56 27.35 11.32 27.4L6.19 28.49L7.52 24.51C7.63 24.17 7.58 23.81 7.38 23.52C5.86 21.27 5.32 18.62 5.84 16.07C6.36 13.51 7.91 11.17 10.25 9.51Z"/></g></svg>Query selected</button>
+          <button class="pf-button" data-type="Positive" type="button" data-pf-id="button-approve-selected"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M29.2 9.7C29.64 9.27 30.36 9.27 30.8 9.7C31.23 10.14 31.23 10.86 30.8 11.3L15.8 26.3C15.36 26.73 14.64 26.73 14.2 26.3L6.7 18.8C6.27 18.36 6.27 17.64 6.7 17.2C7.14 16.77 7.86 16.77 8.3 17.2L15 23.91L29.2 9.7Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>Approve selected</button>
+          <button class="pf-button" data-type="Negative" type="button" data-pf-id="button-query-selected"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path d="M19.13 18C19.13 17.38 18.62 16.88 18 16.88C17.38 16.88 16.88 17.38 16.88 18V18.02C16.88 18.64 17.38 19.14 18 19.14C18.62 19.14 19.13 18.64 19.13 18.02V18Z"/><path d="M12 16.88C12.62 16.88 13.13 17.38 13.13 18V18.02C13.13 18.64 12.62 19.14 12 19.14C11.38 19.14 10.88 18.64 10.88 18.02V18C10.88 17.38 11.38 16.88 12 16.88Z"/><path d="M25.13 18C25.13 17.38 24.62 16.88 24 16.88C23.38 16.88 22.88 17.38 22.88 18V18.02C22.88 18.64 23.38 19.14 24 19.14C24.62 19.14 25.13 18.64 25.13 18.02V18Z"/><path fill-rule="evenodd" d="M4.75 31.1C4.65 31.12 4.54 31.13 4.44 31.12C4.3 31.12 4.17 31.08 4.04 31.03C3.89 30.96 3.76 30.87 3.66 30.75C3.56 30.63 3.48 30.5 3.43 30.34C3.39 30.21 3.37 30.08 3.38 29.94C3.38 29.83 3.4 29.73 3.44 29.63L5.21 24.31C3.6 21.67 3.03 18.61 3.63 15.62C4.27 12.46 6.18 9.64 8.95 7.67C11.72 5.71 15.18 4.71 18.68 4.86C22.19 5 25.53 6.27 28.1 8.45C30.66 10.64 32.28 13.61 32.59 16.82C32.9 20.03 31.89 23.21 29.78 25.78C27.67 28.34 24.6 30.11 21.18 30.78C17.88 31.44 14.43 31.05 11.41 29.68L4.75 31.1ZM10.25 9.51C12.6 7.84 15.56 6.98 18.59 7.1C21.62 7.23 24.48 8.33 26.64 10.17C28.79 12 30.1 14.45 30.35 17.04C30.6 19.62 29.8 22.22 28.04 24.35C26.29 26.48 23.7 27.99 20.74 28.58C17.78 29.16 14.69 28.77 12.04 27.49C11.82 27.38 11.56 27.35 11.32 27.4L6.19 28.49L7.52 24.51C7.63 24.17 7.58 23.81 7.38 23.52C5.86 21.27 5.32 18.62 5.84 16.07C6.36 13.51 7.91 11.17 10.25 9.51Z"/></g></svg>Query selected</button>
         </div>
       </div>
 
       <!-- ============ Timesheet table ============ -->
-      <div class="pf-table-ag tablewrap" data-mobile="False">
+      <div class="pf-table-ag tablewrap" data-mobile="False" data-pf-id="table-ag-submitted-timesheets-week">
         <div class="tablescroll">
           <table>
             <caption class="small muted" style="text-align:left;padding:var(--pf-space-medium) var(--pf-space-medium) 0">
@@ -411,126 +445,126 @@ select.pf-field { background-image:
             </caption>
             <thead>
               <tr>
-                <th class="pf-table-header-ag col-sel" data-alignment="Checkbox" scope="col">
+                <th class="pf-table-header-ag col-sel" data-alignment="Checkbox" scope="col" data-pf-id="table-header-ag-checkbox">
                   <span class="pf-multi-select-checkbox" data-state="Mixed selection" role="img"
-                        aria-label="Some rows on this page selected"></span>
+                        aria-label="Some rows on this page selected" data-pf-id="multi-select-checkbox-some-rows"></span>
                 </th>
-                <th class="pf-table-header-ag col-emp" data-alignment="Left" scope="col">Employee
+                <th class="pf-table-header-ag col-emp" data-alignment="Left" scope="col" data-pf-id="table-header-ag-employee">Employee
                   <span class="pf-table-header-icons" data-variant="Sort" data-state="Ascending"
-                        role="img" aria-label="Sorted ascending"><svg width="12" height="12" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M7.96 15.43C7.79 15.01 7.88 14.53 8.2 14.2L17.2 5.2C17.64 4.76 18.36 4.76 18.8 5.2L27.8 14.2C28.12 14.53 28.21 15.01 28.04 15.43C27.86 15.85 27.45 16.13 27 16.13L9 16.13C8.55 16.13 8.14 15.85 7.96 15.43ZM24.28 13.88L18 7.59L11.72 13.88L24.28 13.88Z"/><path d="M8.2 21.8C7.88 21.47 7.79 20.99 7.96 20.57C8.14 20.15 8.55 19.88 9 19.88L27 19.88C27.45 19.88 27.86 20.15 28.04 20.57C28.21 20.99 28.12 21.47 27.8 21.8L18.8 30.8C18.36 31.24 17.64 31.24 17.2 30.8L8.2 21.8ZM18 28.41L24.28 22.13L11.72 22.13L18 28.41Z"/></svg></span>
+                        role="img" aria-label="Sorted ascending" data-pf-id="table-header-icons-sorted-ascending"><svg width="12" height="12" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M7.96 15.43C7.79 15.01 7.88 14.53 8.2 14.2L17.2 5.2C17.64 4.76 18.36 4.76 18.8 5.2L27.8 14.2C28.12 14.53 28.21 15.01 28.04 15.43C27.86 15.85 27.45 16.13 27 16.13L9 16.13C8.55 16.13 8.14 15.85 7.96 15.43ZM24.28 13.88L18 7.59L11.72 13.88L24.28 13.88Z"/><path d="M8.2 21.8C7.88 21.47 7.79 20.99 7.96 20.57C8.14 20.15 8.55 19.88 9 19.88L27 19.88C27.45 19.88 27.86 20.15 28.04 20.57C28.21 20.99 28.12 21.47 27.8 21.8L18.8 30.8C18.36 31.24 17.64 31.24 17.2 30.8L8.2 21.8ZM18 28.41L24.28 22.13L11.72 22.13L18 28.41Z"/></svg></span>
                 </th>
-                <th class="pf-table-header-ag col-period" data-alignment="Left" scope="col">Period</th>
-                <th class="pf-table-header-ag num col-hrs" data-alignment="Right" scope="col">Contracted</th>
-                <th class="pf-table-header-ag num col-hrs" data-alignment="Right" scope="col">Submitted</th>
-                <th class="pf-table-header-ag num col-ot" data-alignment="Right" scope="col">Overtime</th>
-                <th class="pf-table-header-ag num col-var" data-alignment="Right" scope="col">Variance</th>
-                <th class="pf-table-header-ag col-status" data-alignment="Left" scope="col">Status
+                <th class="pf-table-header-ag col-period" data-alignment="Left" scope="col" data-pf-id="table-header-ag-period">Period</th>
+                <th class="pf-table-header-ag num col-hrs" data-alignment="Right" scope="col" data-pf-id="table-header-ag-contracted">Contracted</th>
+                <th class="pf-table-header-ag num col-hrs" data-alignment="Right" scope="col" data-pf-id="table-header-ag-submitted">Submitted</th>
+                <th class="pf-table-header-ag num col-ot" data-alignment="Right" scope="col" data-pf-id="table-header-ag-overtime">Overtime</th>
+                <th class="pf-table-header-ag num col-var" data-alignment="Right" scope="col" data-pf-id="table-header-ag-variance">Variance</th>
+                <th class="pf-table-header-ag col-status" data-alignment="Left" scope="col" data-pf-id="table-header-ag-status">Status
                   <span class="pf-table-header-icons" data-variant="Filter" data-state="Filtered"
-                        role="img" aria-label="Filtered"><svg width="11" height="11" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M7.04 6.64C7.02 6.7 7.02 6.77 7.03 6.84C7.03 6.88 7.04 6.92 7.05 6.95L15.3 16.9C15.79 17.49 16.05 18.21 16.05 18.96V28.13L19.47 29.35V18.96C19.47 18.21 19.73 17.49 20.22 16.9L28.47 6.95C28.48 6.92 28.49 6.88 28.49 6.84C28.5 6.77 28.5 6.7 28.48 6.64H7.04ZM28.78 6.64L28.78 6.64L28.78 6.64ZM29.99 7.84C30.14 7.6 30.24 7.32 30.27 7.03C30.31 6.74 30.28 6.45 30.2 6.17C30.11 5.89 29.97 5.64 29.79 5.43C29.68 5.31 29.56 5.21 29.43 5.12C29.24 5 29 4.97 28.77 4.97H6.75C6.52 4.97 6.28 5 6.09 5.12C5.96 5.21 5.84 5.31 5.73 5.43C5.55 5.64 5.41 5.89 5.32 6.17C5.24 6.45 5.21 6.74 5.25 7.03C5.28 7.32 5.38 7.6 5.53 7.84L13.89 17.93C14.13 18.22 14.26 18.58 14.26 18.96V28.13C14.26 28.82 14.72 29.44 15.41 29.69L18.82 30.92C20 31.34 21.26 30.53 21.26 29.35V18.96C21.26 18.58 21.39 18.22 21.63 17.93L29.99 7.84ZM6.74 6.64L6.74 6.64L6.74 6.64Z"/><path fill-rule="evenodd" d="M6.75 5.18C6.54 5.18 6.36 5.22 6.22 5.3C6.11 5.38 6.01 5.47 5.91 5.57C5.75 5.75 5.62 5.98 5.54 6.23C5.47 6.48 5.45 6.74 5.48 7.01C5.51 7.26 5.59 7.51 5.72 7.72L14.07 17.79C14.35 18.13 14.5 18.53 14.5 18.96V28.13C14.5 28.73 14.89 29.27 15.5 29.49L18.91 30.72C19.93 31.08 21.02 30.38 21.02 29.35V18.96C21.02 18.53 21.17 18.13 21.45 17.79L29.8 7.72C29.93 7.51 30.01 7.26 30.04 7.01C30.07 6.74 30.05 6.48 29.98 6.23C29.9 5.98 29.77 5.75 29.61 5.57C29.51 5.47 29.41 5.38 29.3 5.3C29.16 5.22 28.98 5.18 28.77 5.18H6.75ZM5.96 4.95C6.21 4.79 6.5 4.75 6.75 4.75H28.77C29.02 4.75 29.31 4.79 29.56 4.95C29.71 5.04 29.84 5.16 29.96 5.29C30.17 5.52 30.33 5.8 30.42 6.11C30.51 6.42 30.54 6.74 30.5 7.06C30.46 7.37 30.36 7.68 30.19 7.95C30.19 7.96 30.18 7.97 30.18 7.97L21.81 18.06C21.6 18.32 21.49 18.63 21.49 18.96V29.35C21.49 30.68 20.06 31.6 18.74 31.12L15.33 29.9C14.55 29.61 14.03 28.91 14.03 28.13V18.96C14.03 18.63 13.92 18.32 13.71 18.06L5.34 7.97C5.34 7.97 5.33 7.96 5.33 7.95C5.16 7.68 5.06 7.37 5.02 7.06C4.98 6.74 5.01 6.42 5.1 6.11C5.19 5.8 5.35 5.52 5.56 5.29C5.68 5.16 5.81 5.04 5.96 4.95ZM6.89 6.48C6.93 6.45 6.98 6.43 7.04 6.43H28.48C28.54 6.43 28.59 6.45 28.63 6.48C28.67 6.44 28.73 6.42 28.79 6.43L28.79 6.43L28.78 6.43C28.78 6.43 28.77 6.43 28.77 6.43C28.76 6.43 28.76 6.43 28.75 6.43C28.75 6.43 28.74 6.43 28.73 6.43C28.72 6.43 28.71 6.44 28.71 6.44C28.7 6.44 28.68 6.45 28.67 6.45L28.78 6.64L28.79 6.43L28.79 6.43C28.9 6.43 28.98 6.5 29.01 6.6C29.03 6.69 28.98 6.79 28.89 6.83C28.86 6.85 28.84 6.85 28.83 6.86C28.82 6.86 28.81 6.86 28.81 6.86C28.8 6.86 28.79 6.86 28.79 6.86C28.79 6.86 28.78 6.86 28.78 6.86L28.77 6.86L28.77 6.86L28.76 6.86L28.76 6.86C28.75 6.86 28.74 6.86 28.73 6.86C28.73 6.86 28.73 6.86 28.72 6.86C28.72 6.92 28.71 6.97 28.69 7.02C28.68 7.04 28.67 7.06 28.65 7.08L20.4 17.03C19.94 17.58 19.7 18.26 19.7 18.96V29.35C19.7 29.43 19.66 29.49 19.6 29.53C19.53 29.57 19.45 29.58 19.38 29.56L15.97 28.33C15.88 28.3 15.82 28.22 15.82 28.13V18.96C15.82 18.26 15.58 17.58 15.12 17.03L6.87 7.08C6.85 7.06 6.84 7.04 6.83 7.02C6.82 6.97 6.8 6.92 6.8 6.86C6.79 6.86 6.79 6.86 6.79 6.86C6.78 6.86 6.77 6.86 6.76 6.86L6.76 6.86L6.77 6.86C6.77 6.86 6.78 6.86 6.79 6.86C6.79 6.86 6.79 6.86 6.79 6.86C6.78 6.76 6.79 6.67 6.81 6.59C6.82 6.58 6.82 6.57 6.82 6.57L6.74 6.64L6.74 6.64L6.75 6.86L6.75 6.86C6.69 6.86 6.63 6.84 6.58 6.8C6.55 6.77 6.51 6.72 6.51 6.65C6.51 6.57 6.55 6.52 6.57 6.5C6.61 6.46 6.65 6.45 6.65 6.44C6.67 6.44 6.69 6.43 6.69 6.43C6.7 6.43 6.71 6.43 6.71 6.43L6.72 6.43L6.73 6.43L6.73 6.43M6.73 6.43L6.73 6.43C6.79 6.42 6.85 6.44 6.89 6.48M8.34 6.86C7.91 6.86 7.68 7.35 7.95 7.68L15.49 16.77C16 17.39 16.29 18.16 16.29 18.96V27.63C16.29 27.84 16.42 28.03 16.62 28.1L18.56 28.8C18.89 28.91 19.23 28.67 19.23 28.33V18.96C19.23 18.16 19.52 17.39 20.03 16.77L27.57 7.68C27.84 7.35 27.61 6.86 27.18 6.86H8.34Z"/></svg></span>
+                        role="img" aria-label="Filtered" data-pf-id="table-header-icons-filtered"><svg width="11" height="11" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M7.04 6.64C7.02 6.7 7.02 6.77 7.03 6.84C7.03 6.88 7.04 6.92 7.05 6.95L15.3 16.9C15.79 17.49 16.05 18.21 16.05 18.96V28.13L19.47 29.35V18.96C19.47 18.21 19.73 17.49 20.22 16.9L28.47 6.95C28.48 6.92 28.49 6.88 28.49 6.84C28.5 6.77 28.5 6.7 28.48 6.64H7.04ZM28.78 6.64L28.78 6.64L28.78 6.64ZM29.99 7.84C30.14 7.6 30.24 7.32 30.27 7.03C30.31 6.74 30.28 6.45 30.2 6.17C30.11 5.89 29.97 5.64 29.79 5.43C29.68 5.31 29.56 5.21 29.43 5.12C29.24 5 29 4.97 28.77 4.97H6.75C6.52 4.97 6.28 5 6.09 5.12C5.96 5.21 5.84 5.31 5.73 5.43C5.55 5.64 5.41 5.89 5.32 6.17C5.24 6.45 5.21 6.74 5.25 7.03C5.28 7.32 5.38 7.6 5.53 7.84L13.89 17.93C14.13 18.22 14.26 18.58 14.26 18.96V28.13C14.26 28.82 14.72 29.44 15.41 29.69L18.82 30.92C20 31.34 21.26 30.53 21.26 29.35V18.96C21.26 18.58 21.39 18.22 21.63 17.93L29.99 7.84ZM6.74 6.64L6.74 6.64L6.74 6.64Z"/><path fill-rule="evenodd" d="M6.75 5.18C6.54 5.18 6.36 5.22 6.22 5.3C6.11 5.38 6.01 5.47 5.91 5.57C5.75 5.75 5.62 5.98 5.54 6.23C5.47 6.48 5.45 6.74 5.48 7.01C5.51 7.26 5.59 7.51 5.72 7.72L14.07 17.79C14.35 18.13 14.5 18.53 14.5 18.96V28.13C14.5 28.73 14.89 29.27 15.5 29.49L18.91 30.72C19.93 31.08 21.02 30.38 21.02 29.35V18.96C21.02 18.53 21.17 18.13 21.45 17.79L29.8 7.72C29.93 7.51 30.01 7.26 30.04 7.01C30.07 6.74 30.05 6.48 29.98 6.23C29.9 5.98 29.77 5.75 29.61 5.57C29.51 5.47 29.41 5.38 29.3 5.3C29.16 5.22 28.98 5.18 28.77 5.18H6.75ZM5.96 4.95C6.21 4.79 6.5 4.75 6.75 4.75H28.77C29.02 4.75 29.31 4.79 29.56 4.95C29.71 5.04 29.84 5.16 29.96 5.29C30.17 5.52 30.33 5.8 30.42 6.11C30.51 6.42 30.54 6.74 30.5 7.06C30.46 7.37 30.36 7.68 30.19 7.95C30.19 7.96 30.18 7.97 30.18 7.97L21.81 18.06C21.6 18.32 21.49 18.63 21.49 18.96V29.35C21.49 30.68 20.06 31.6 18.74 31.12L15.33 29.9C14.55 29.61 14.03 28.91 14.03 28.13V18.96C14.03 18.63 13.92 18.32 13.71 18.06L5.34 7.97C5.34 7.97 5.33 7.96 5.33 7.95C5.16 7.68 5.06 7.37 5.02 7.06C4.98 6.74 5.01 6.42 5.1 6.11C5.19 5.8 5.35 5.52 5.56 5.29C5.68 5.16 5.81 5.04 5.96 4.95ZM6.89 6.48C6.93 6.45 6.98 6.43 7.04 6.43H28.48C28.54 6.43 28.59 6.45 28.63 6.48C28.67 6.44 28.73 6.42 28.79 6.43L28.79 6.43L28.78 6.43C28.78 6.43 28.77 6.43 28.77 6.43C28.76 6.43 28.76 6.43 28.75 6.43C28.75 6.43 28.74 6.43 28.73 6.43C28.72 6.43 28.71 6.44 28.71 6.44C28.7 6.44 28.68 6.45 28.67 6.45L28.78 6.64L28.79 6.43L28.79 6.43C28.9 6.43 28.98 6.5 29.01 6.6C29.03 6.69 28.98 6.79 28.89 6.83C28.86 6.85 28.84 6.85 28.83 6.86C28.82 6.86 28.81 6.86 28.81 6.86C28.8 6.86 28.79 6.86 28.79 6.86C28.79 6.86 28.78 6.86 28.78 6.86L28.77 6.86L28.77 6.86L28.76 6.86L28.76 6.86C28.75 6.86 28.74 6.86 28.73 6.86C28.73 6.86 28.73 6.86 28.72 6.86C28.72 6.92 28.71 6.97 28.69 7.02C28.68 7.04 28.67 7.06 28.65 7.08L20.4 17.03C19.94 17.58 19.7 18.26 19.7 18.96V29.35C19.7 29.43 19.66 29.49 19.6 29.53C19.53 29.57 19.45 29.58 19.38 29.56L15.97 28.33C15.88 28.3 15.82 28.22 15.82 28.13V18.96C15.82 18.26 15.58 17.58 15.12 17.03L6.87 7.08C6.85 7.06 6.84 7.04 6.83 7.02C6.82 6.97 6.8 6.92 6.8 6.86C6.79 6.86 6.79 6.86 6.79 6.86C6.78 6.86 6.77 6.86 6.76 6.86L6.76 6.86L6.77 6.86C6.77 6.86 6.78 6.86 6.79 6.86C6.79 6.86 6.79 6.86 6.79 6.86C6.78 6.76 6.79 6.67 6.81 6.59C6.82 6.58 6.82 6.57 6.82 6.57L6.74 6.64L6.74 6.64L6.75 6.86L6.75 6.86C6.69 6.86 6.63 6.84 6.58 6.8C6.55 6.77 6.51 6.72 6.51 6.65C6.51 6.57 6.55 6.52 6.57 6.5C6.61 6.46 6.65 6.45 6.65 6.44C6.67 6.44 6.69 6.43 6.69 6.43C6.7 6.43 6.71 6.43 6.71 6.43L6.72 6.43L6.73 6.43L6.73 6.43M6.73 6.43L6.73 6.43C6.79 6.42 6.85 6.44 6.89 6.48M8.34 6.86C7.91 6.86 7.68 7.35 7.95 7.68L15.49 16.77C16 17.39 16.29 18.16 16.29 18.96V27.63C16.29 27.84 16.42 28.03 16.62 28.1L18.56 28.8C18.89 28.91 19.23 28.67 19.23 28.33V18.96C19.23 18.16 19.52 17.39 20.03 16.77L27.57 7.68C27.84 7.35 27.61 6.86 27.18 6.86H8.34Z"/></svg></span>
                 </th>
-                <th class="pf-table-header-ag col-menu" data-alignment="Left" scope="col"><span class="muted">&nbsp;</span></th>
+                <th class="pf-table-header-ag col-menu" data-alignment="Left" scope="col" data-pf-id="table-header-ag-left"><span class="muted">&nbsp;</span></th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td class="pf-table-cell-ag" data-type="Checkbox" data-style="Default"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="Selected"></span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="name">Aisha Bello</span><span class="sub">Shift Supervisor &middot; 100482</span></td>
-                <td class="pf-table-cell-ag plain" data-type="Default" data-style="Default"><span class="plain">31/08 &ndash; 06/09</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default"><span class="plain">37.50</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default"><span class="plain">41.00</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default"><span class="plain">3.50</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default"><span class="plain">+3.50</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-tags" data-type="Warning">Pending</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><button class="pf-button pf-button--icon-only" data-type="Hollow" type="button" aria-label="Actions for Aisha Bello"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button></td>
+                <td class="pf-table-cell-ag" data-type="Checkbox" data-style="Default" data-pf-id="table-cell-ag-r1c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="Selected" data-pf-id="table-cell-ag-r1c1-multi-select-checkbox" data-pf-repeat="row"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r1c2" data-pf-repeat="row"><span class="name">Aisha Bello</span><span class="sub">Shift Supervisor &middot; 100482</span></td>
+                <td class="pf-table-cell-ag plain" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r1c3" data-pf-repeat="row"><span class="plain">31/08 &ndash; 06/09</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r1c4" data-pf-repeat="row"><span class="plain">37.50</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r1c5" data-pf-repeat="row"><span class="plain">41.00</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r1c6" data-pf-repeat="row"><span class="plain">3.50</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r1c7" data-pf-repeat="row"><span class="plain">+3.50</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r1c8" data-pf-repeat="row"><span class="pf-tags" data-type="Warning" data-pf-id="table-cell-ag-r1c8-tags" data-pf-repeat="row">Pending</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r1c9" data-pf-repeat="row"><button class="pf-button pf-button--icon-only" data-type="Hollow" type="button" aria-label="Actions for Aisha Bello" data-pf-id="table-cell-ag-r1c9-button" data-pf-repeat="row"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button></td>
               </tr>
               <tr>
-                <td class="pf-table-cell-ag" data-type="Checkbox" data-style="Stripe"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="name">Danny Okonkwo</span><span class="sub">Customer Adviser &middot; 100517</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="plain">31/08 &ndash; 06/09</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe"><span class="plain">30.00</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe"><span class="plain">28.50</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe"><span class="muted">&mdash;</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe"><span class="plain">&minus;1.50</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-tags" data-type="Neutral">Missing entries</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><button class="pf-button pf-button--icon-only" data-type="Hollow" type="button" aria-label="Actions for Danny Okonkwo"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button></td>
+                <td class="pf-table-cell-ag" data-type="Checkbox" data-style="Stripe" data-pf-id="table-cell-ag-r2c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected" data-pf-id="table-cell-ag-r2c1-multi-select-checkbox" data-pf-repeat="row"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r2c2" data-pf-repeat="row"><span class="name">Danny Okonkwo</span><span class="sub">Customer Adviser &middot; 100517</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r2c3" data-pf-repeat="row"><span class="plain">31/08 &ndash; 06/09</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r2c4" data-pf-repeat="row"><span class="plain">30.00</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r2c5" data-pf-repeat="row"><span class="plain">28.50</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r2c6" data-pf-repeat="row"><span class="muted">&mdash;</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r2c7" data-pf-repeat="row"><span class="plain">&minus;1.50</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r2c8" data-pf-repeat="row"><span class="pf-tags" data-type="Neutral" data-pf-id="table-cell-ag-r2c8-tags" data-pf-repeat="row">Missing entries</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r2c9" data-pf-repeat="row"><button class="pf-button pf-button--icon-only" data-type="Hollow" type="button" aria-label="Actions for Danny Okonkwo" data-pf-id="table-cell-ag-r2c9-button" data-pf-repeat="row"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button></td>
               </tr>
               <tr>
-                <td class="pf-table-cell-ag" data-type="Checkbox" data-style="Default"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="name">Elin Prydderch</span><span class="sub">Store Manager &middot; 100238</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="plain">31/08 &ndash; 06/09</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default"><span class="plain">37.50</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default"><span class="plain">37.50</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default"><span class="muted">&mdash;</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default"><span class="muted">&mdash;</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-tags" data-type="Positive">Approved</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><button class="pf-button pf-button--icon-only" data-type="Hollow" type="button" aria-label="Actions for Elin Prydderch"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button></td>
+                <td class="pf-table-cell-ag" data-type="Checkbox" data-style="Default" data-pf-id="table-cell-ag-r3c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected" data-pf-id="table-cell-ag-r3c1-multi-select-checkbox" data-pf-repeat="row"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r3c2" data-pf-repeat="row"><span class="name">Elin Prydderch</span><span class="sub">Store Manager &middot; 100238</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r3c3" data-pf-repeat="row"><span class="plain">31/08 &ndash; 06/09</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r3c4" data-pf-repeat="row"><span class="plain">37.50</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r3c5" data-pf-repeat="row"><span class="plain">37.50</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r3c6" data-pf-repeat="row"><span class="muted">&mdash;</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r3c7" data-pf-repeat="row"><span class="muted">&mdash;</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r3c8" data-pf-repeat="row"><span class="pf-tags" data-type="Positive" data-pf-id="table-cell-ag-r3c8-tags" data-pf-repeat="row">Approved</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r3c9" data-pf-repeat="row"><button class="pf-button pf-button--icon-only" data-type="Hollow" type="button" aria-label="Actions for Elin Prydderch" data-pf-id="table-cell-ag-r3c9-button" data-pf-repeat="row"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button></td>
               </tr>
               <tr>
-                <td class="pf-table-cell-ag" data-type="Checkbox" data-style="Stripe"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="Selected"></span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="name">Nadia Hussain</span><span class="sub">Nurse Practitioner &middot; 100355</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="plain">31/08 &ndash; 06/09</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe"><span class="plain">37.50</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe"><span class="plain">49.75</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe"><span class="plain">12.25</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe"><span class="plain">+12.25</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-tags" data-type="Negative">Over 48 hrs</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><button class="pf-button pf-button--icon-only" data-type="Hollow" type="button" aria-label="Actions for Nadia Hussain"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button></td>
+                <td class="pf-table-cell-ag" data-type="Checkbox" data-style="Stripe" data-pf-id="table-cell-ag-r4c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="Selected" data-pf-id="table-cell-ag-r4c1-multi-select-checkbox" data-pf-repeat="row"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r4c2" data-pf-repeat="row"><span class="name">Nadia Hussain</span><span class="sub">Nurse Practitioner &middot; 100355</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r4c3" data-pf-repeat="row"><span class="plain">31/08 &ndash; 06/09</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r4c4" data-pf-repeat="row"><span class="plain">37.50</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r4c5" data-pf-repeat="row"><span class="plain">49.75</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r4c6" data-pf-repeat="row"><span class="plain">12.25</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r4c7" data-pf-repeat="row"><span class="plain">+12.25</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r4c8" data-pf-repeat="row"><span class="pf-tags" data-type="Negative" data-pf-id="table-cell-ag-r4c8-tags" data-pf-repeat="row">Over 48 hrs</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r4c9" data-pf-repeat="row"><button class="pf-button pf-button--icon-only" data-type="Hollow" type="button" aria-label="Actions for Nadia Hussain" data-pf-id="table-cell-ag-r4c9-button" data-pf-repeat="row"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button></td>
               </tr>
               <tr>
-                <td class="pf-table-cell-ag" data-type="Checkbox" data-style="Default"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="Selected"></span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="name">Priya Raghunathan</span><span class="sub">Logistics Coordinator &middot; 100011</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="plain">31/08 &ndash; 06/09</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default"><span class="plain">37.50</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default"><span class="plain">47.25</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default"><span class="plain">9.75</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default"><span class="plain">+9.75</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-tags" data-type="Negative">Over 48 hrs</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><button class="pf-button pf-button--icon-only" data-type="Hollow" type="button" aria-label="Actions for Priya Raghunathan"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button></td>
+                <td class="pf-table-cell-ag" data-type="Checkbox" data-style="Default" data-pf-id="table-cell-ag-r5c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Selected" role="img" aria-label="Selected" data-pf-id="table-cell-ag-r5c1-multi-select-checkbox" data-pf-repeat="row"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r5c2" data-pf-repeat="row"><span class="name">Priya Raghunathan</span><span class="sub">Logistics Coordinator &middot; 100011</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r5c3" data-pf-repeat="row"><span class="plain">31/08 &ndash; 06/09</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r5c4" data-pf-repeat="row"><span class="plain">37.50</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r5c5" data-pf-repeat="row"><span class="plain">47.25</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r5c6" data-pf-repeat="row"><span class="plain">9.75</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r5c7" data-pf-repeat="row"><span class="plain">+9.75</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r5c8" data-pf-repeat="row"><span class="pf-tags" data-type="Negative" data-pf-id="table-cell-ag-r5c8-tags" data-pf-repeat="row">Over 48 hrs</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r5c9" data-pf-repeat="row"><button class="pf-button pf-button--icon-only" data-type="Hollow" type="button" aria-label="Actions for Priya Raghunathan" data-pf-id="table-cell-ag-r5c9-button" data-pf-repeat="row"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button></td>
               </tr>
               <tr>
-                <td class="pf-table-cell-ag" data-type="Checkbox" data-style="Stripe"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="name">Owen Whitlock</span><span class="sub">Warehouse Operative &middot; 100803</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="plain">31/08 &ndash; 06/09</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe"><span class="plain">40.00</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe"><span class="plain">44.00</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe"><span class="plain">4.00</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe"><span class="plain">+4.00</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-tags" data-type="Other">Query raised</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><button class="pf-button pf-button--icon-only" data-type="Hollow" type="button" aria-label="Actions for Owen Whitlock"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button></td>
+                <td class="pf-table-cell-ag" data-type="Checkbox" data-style="Stripe" data-pf-id="table-cell-ag-r6c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected" data-pf-id="table-cell-ag-r6c1-multi-select-checkbox" data-pf-repeat="row"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r6c2" data-pf-repeat="row"><span class="name">Owen Whitlock</span><span class="sub">Warehouse Operative &middot; 100803</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r6c3" data-pf-repeat="row"><span class="plain">31/08 &ndash; 06/09</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r6c4" data-pf-repeat="row"><span class="plain">40.00</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r6c5" data-pf-repeat="row"><span class="plain">44.00</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r6c6" data-pf-repeat="row"><span class="plain">4.00</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r6c7" data-pf-repeat="row"><span class="plain">+4.00</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r6c8" data-pf-repeat="row"><span class="pf-tags" data-type="Other" data-pf-id="table-cell-ag-r6c8-tags" data-pf-repeat="row">Query raised</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r6c9" data-pf-repeat="row"><button class="pf-button pf-button--icon-only" data-type="Hollow" type="button" aria-label="Actions for Owen Whitlock" data-pf-id="table-cell-ag-r6c9-button" data-pf-repeat="row"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button></td>
               </tr>
               <tr>
-                <td class="pf-table-cell-ag" data-type="Checkbox" data-style="Default"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="name">Samuel Adeyemi</span><span class="sub">Driver &middot; 100147</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="plain">24/08 &ndash; 30/08</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default"><span class="plain">37.50</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default"><span class="plain">37.50</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default"><span class="muted">&mdash;</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default"><span class="muted">&mdash;</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><span class="pf-tags" data-type="Expired">Lapsed</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Default"><button class="pf-button pf-button--icon-only" data-type="Hollow" type="button" aria-label="Actions for Samuel Adeyemi"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button></td>
+                <td class="pf-table-cell-ag" data-type="Checkbox" data-style="Default" data-pf-id="table-cell-ag-r7c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected" data-pf-id="table-cell-ag-r7c1-multi-select-checkbox" data-pf-repeat="row"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r7c2" data-pf-repeat="row"><span class="name">Samuel Adeyemi</span><span class="sub">Driver &middot; 100147</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r7c3" data-pf-repeat="row"><span class="plain">24/08 &ndash; 30/08</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r7c4" data-pf-repeat="row"><span class="plain">37.50</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r7c5" data-pf-repeat="row"><span class="plain">37.50</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r7c6" data-pf-repeat="row"><span class="muted">&mdash;</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r7c7" data-pf-repeat="row"><span class="muted">&mdash;</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r7c8" data-pf-repeat="row"><span class="pf-tags" data-type="Expired" data-pf-id="table-cell-ag-r7c8-tags" data-pf-repeat="row">Lapsed</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Default" data-pf-id="table-cell-ag-r7c9" data-pf-repeat="row"><button class="pf-button pf-button--icon-only" data-type="Hollow" type="button" aria-label="Actions for Samuel Adeyemi" data-pf-id="table-cell-ag-r7c9-button" data-pf-repeat="row"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button></td>
               </tr>
               <tr>
-                <td class="pf-table-cell-ag" data-type="Checkbox" data-style="Stripe"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected"></span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="name">Tomasz Kowalczyk</span><span class="sub">Delivery Driver &middot; 100729</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="plain">31/08 &ndash; 06/09</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe"><span class="plain">40.00</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe"><span class="plain">52.50</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe"><span class="plain">12.50</span></td>
-                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe"><span class="plain">+12.50</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><span class="pf-tags" data-type="Negative">Over 48 hrs</span></td>
-                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe"><button class="pf-button pf-button--icon-only" data-type="Hollow" type="button" aria-label="Actions for Tomasz Kowalczyk"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button></td>
+                <td class="pf-table-cell-ag" data-type="Checkbox" data-style="Stripe" data-pf-id="table-cell-ag-r8c1" data-pf-repeat="row"><span class="pf-multi-select-checkbox" data-state="Default" role="img" aria-label="Not selected" data-pf-id="table-cell-ag-r8c1-multi-select-checkbox" data-pf-repeat="row"></span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r8c2" data-pf-repeat="row"><span class="name">Tomasz Kowalczyk</span><span class="sub">Delivery Driver &middot; 100729</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r8c3" data-pf-repeat="row"><span class="plain">31/08 &ndash; 06/09</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r8c4" data-pf-repeat="row"><span class="plain">40.00</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r8c5" data-pf-repeat="row"><span class="plain">52.50</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r8c6" data-pf-repeat="row"><span class="plain">12.50</span></td>
+                <td class="pf-table-cell-ag num" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r8c7" data-pf-repeat="row"><span class="plain">+12.50</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r8c8" data-pf-repeat="row"><span class="pf-tags" data-type="Negative" data-pf-id="table-cell-ag-r8c8-tags" data-pf-repeat="row">Over 48 hrs</span></td>
+                <td class="pf-table-cell-ag" data-type="Default" data-style="Stripe" data-pf-id="table-cell-ag-r8c9" data-pf-repeat="row"><button class="pf-button pf-button--icon-only" data-type="Hollow" type="button" aria-label="Actions for Tomasz Kowalczyk" data-pf-id="table-cell-ag-r8c9-button" data-pf-repeat="row"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M18 19.5C18.83 19.5 19.5 18.83 19.5 18C19.5 17.17 18.83 16.5 18 16.5C17.17 16.5 16.5 17.17 16.5 18C16.5 18.83 17.17 19.5 18 19.5Z"/><path d="M18 30C18.83 30 19.5 29.33 19.5 28.5C19.5 27.67 18.83 27 18 27C17.17 27 16.5 27.67 16.5 28.5C16.5 29.33 17.17 30 18 30Z"/><path d="M18 9C18.83 9 19.5 8.33 19.5 7.5C19.5 6.67 18.83 6 18 6C17.17 6 16.5 6.67 16.5 7.5C16.5 8.33 17.17 9 18 9Z"/><path fill-rule="evenodd" d="M18 17.63C17.79 17.63 17.63 17.79 17.63 18C17.63 18.21 17.79 18.38 18 18.38C18.21 18.38 18.38 18.21 18.38 18C18.38 17.79 18.21 17.63 18 17.63ZM15.38 18C15.38 16.55 16.55 15.38 18 15.38C19.45 15.38 20.63 16.55 20.63 18C20.63 19.45 19.45 20.63 18 20.63C16.55 20.63 15.38 19.45 15.38 18Z"/><path fill-rule="evenodd" d="M18 28.13C17.79 28.13 17.63 28.29 17.63 28.5C17.63 28.71 17.79 28.88 18 28.88C18.21 28.88 18.38 28.71 18.38 28.5C18.38 28.29 18.21 28.13 18 28.13ZM15.38 28.5C15.38 27.05 16.55 25.88 18 25.88C19.45 25.88 20.63 27.05 20.63 28.5C20.63 29.95 19.45 31.13 18 31.13C16.55 31.13 15.38 29.95 15.38 28.5Z"/><path fill-rule="evenodd" d="M18 7.13C17.79 7.13 17.63 7.29 17.63 7.5C17.63 7.71 17.79 7.88 18 7.88C18.21 7.88 18.38 7.71 18.38 7.5C18.38 7.29 18.21 7.13 18 7.13ZM15.38 7.5C15.38 6.05 16.55 4.88 18 4.88C19.45 4.88 20.63 6.05 20.63 7.5C20.63 8.95 19.45 10.13 18 10.13C16.55 10.13 15.38 8.95 15.38 7.5Z"/></svg></button></td>
               </tr>
             </tbody>
           </table>
         </div>
-        <div class="pf-footer-ag tablefoot" data-mobile="False">
+        <div class="pf-footer-ag tablefoot" data-mobile="False" data-pf-id="footer-ag-showing">
           <span>Showing 8 of 12 timesheets &middot; sorted by employee name</span>
           <span>Hours are decimal and exclude unpaid breaks</span>
         </div>
       </div>
 
       <!-- ============ Variant states — verification surface, not part of the screen ============ -->
-      <section class="pf-card pf-card--raised" data-property-1="Default" aria-labelledby="states">
+      <section class="pf-card pf-card--raised" data-property-1="Default" aria-labelledby="states" data-pf-ignore>
         <h2 id="states">Variant states</h2>
         <p class="muted small" style="align-self:flex-start;margin:-12px 0 0">
           Reference block for <code>verify-geometry</code> and <code>verify-rendered</code>. Hover states
@@ -634,13 +668,13 @@ select.pf-field { background-image:
   </div>
 
   <!-- ============ Detail panel: review one submission ============ -->
-  <aside class="pf-side-panel sidepanel" data-mobile="No" data-size="Medium" aria-labelledby="sp-title">
+  <aside class="pf-side-panel sidepanel" data-mobile="No" data-size="Medium" aria-labelledby="sp-title" data-pf-id="side-panel-priya-raghunathan-pr">
    <div class="sp-inner">
 
-    <div class="pf-side-panel-header" data-size="Default">
+    <div class="pf-side-panel-header" data-size="Default" data-pf-id="side-panel-header-priya-raghunathan">
       <span class="grow" id="sp-title">Priya Raghunathan</span>
       <button class="pf-button pf-button--icon-only" data-type="Hollow" type="button"
-              aria-label="Close panel"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M27.8 8.2C28.23 8.64 28.23 9.36 27.8 9.8L9.8 27.8C9.36 28.23 8.64 28.23 8.2 27.8C7.77 27.36 7.77 26.64 8.2 26.2L26.2 8.2C26.64 7.77 27.36 7.77 27.8 8.2Z"/><path fill-rule="evenodd" d="M8.2 8.2C8.64 7.77 9.36 7.77 9.8 8.2L27.8 26.2C28.23 26.64 28.23 27.36 27.8 27.8C27.36 28.23 26.64 28.23 26.2 27.8L8.2 9.8C7.77 9.36 7.77 8.64 8.2 8.2Z"/></svg></button>
+              aria-label="Close panel" data-pf-id="button-close-panel"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M27.8 8.2C28.23 8.64 28.23 9.36 27.8 9.8L9.8 27.8C9.36 28.23 8.64 28.23 8.2 27.8C7.77 27.36 7.77 26.64 8.2 26.2L26.2 8.2C26.64 7.77 27.36 7.77 27.8 8.2Z"/><path fill-rule="evenodd" d="M8.2 8.2C8.64 7.77 9.36 7.77 9.8 8.2L27.8 26.2C28.23 26.64 28.23 27.36 27.8 27.8C27.36 28.23 26.64 28.23 26.2 27.8L8.2 9.8C7.77 9.36 7.77 8.64 8.2 8.2Z"/></svg></button>
     </div>
 
     <div class="sp-body">
@@ -655,11 +689,11 @@ select.pf-field { background-image:
       </div>
 
       <div class="mrow">
-        <span class="pf-tags" data-type="Negative">Over 48 hrs</span>
-        <span class="pf-tags" data-type="Theme">Overtime 9.75</span>
+        <span class="pf-tags" data-type="Negative" data-pf-id="tags-over-48-hrs">Over 48 hrs</span>
+        <span class="pf-tags" data-type="Theme" data-pf-id="tags-overtime">Overtime 9.75</span>
       </div>
 
-      <div class="pf-information-box" data-type="Error">
+      <div class="pf-information-box" data-type="Error" data-pf-id="information-box-17-week-average">
         <span style="color:var(--pf-icon-negative);flex:none"><svg width="18" height="18" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M18 11.88C18.62 11.88 19.13 12.38 19.13 13V19.5C19.13 20.12 18.62 20.63 18 20.63C17.38 20.63 16.88 20.12 16.88 19.5V13C16.88 12.38 17.38 11.88 18 11.88ZM18 22.38C18.62 22.38 19.13 22.88 19.13 23.5V23.52C19.13 24.14 18.62 24.64 18 24.64C17.38 24.64 16.88 24.14 16.88 23.52V23.5C16.88 22.88 17.38 22.38 18 22.38Z"/><path fill-rule="evenodd" d="M15.89 4.45C16.52 4.07 17.25 3.88 17.99 3.88C18.72 3.88 19.45 4.07 20.08 4.45C20.71 4.82 21.23 5.35 21.59 5.99L32.23 24.36C32.26 24.4 32.28 24.45 32.3 24.5C32.56 25.12 32.65 25.8 32.58 26.47C32.51 27.14 32.28 27.78 31.91 28.34C31.53 28.9 31.03 29.36 30.44 29.68C29.84 30 29.18 30.17 28.51 30.17L28.5 30.17H7.5C7.47 30.17 7.45 30.17 7.42 30.17C7.37 30.17 7.32 30.17 7.28 30.17C6.62 30.14 5.98 29.95 5.41 29.62C4.84 29.28 4.36 28.82 4.01 28.27C3.66 27.71 3.44 27.08 3.38 26.42C3.32 25.77 3.42 25.11 3.67 24.5C3.69 24.45 3.71 24.4 3.74 24.36L14.38 5.99C14.74 5.35 15.26 4.82 15.89 4.45ZM7.42 27.93C7.44 27.92 7.47 27.92 7.5 27.92H28.5C28.8 27.92 29.1 27.84 29.37 27.7C29.64 27.55 29.87 27.34 30.04 27.09C30.21 26.84 30.31 26.54 30.34 26.24C30.37 25.96 30.34 25.68 30.24 25.41L19.64 7.11L19.63 7.09C19.46 6.8 19.23 6.55 18.94 6.38C18.65 6.21 18.32 6.13 17.99 6.13C17.65 6.13 17.32 6.21 17.03 6.38C16.74 6.55 16.51 6.8 16.34 7.09L16.33 7.11L5.73 25.41C5.63 25.67 5.6 25.95 5.62 26.22C5.65 26.52 5.75 26.81 5.91 27.06C6.07 27.31 6.29 27.52 6.55 27.67C6.8 27.82 7.09 27.91 7.39 27.92C7.4 27.92 7.41 27.93 7.42 27.93Z"/></svg></span>
         <span class="small">17-week average is 49.4 hours. No working-time opt-out on file &mdash;
         approving these hours breaches the Working Time Regulations.</span>
@@ -669,33 +703,33 @@ select.pf-field { background-image:
       <div class="sp-sec">
         <div class="hdr">
           <h3>Daily hours</h3>
-          <button class="pf-button" data-type="Hollow" type="button"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M20.95 7.45C21.96 6.45 23.33 5.88 24.75 5.88C26.17 5.88 27.54 6.45 28.55 7.45C29.55 8.46 30.12 9.83 30.12 11.25C30.12 12.67 29.55 14.04 28.55 15.05L12.8 30.8C12.58 31.01 12.3 31.13 12 31.13H6C5.38 31.13 4.88 30.62 4.88 30V24C4.88 23.7 4.99 23.42 5.2 23.2L20.95 7.45ZM24.75 8.13C23.92 8.13 23.13 8.46 22.55 9.05L7.13 24.47V28.88H11.53L26.95 13.45C27.54 12.87 27.87 12.08 27.87 11.25C27.87 10.42 27.54 9.63 26.95 9.05C26.37 8.46 25.58 8.13 24.75 8.13Z"/><path fill-rule="evenodd" d="M19.45 8.95C19.89 8.52 20.61 8.52 21.05 8.95L27.05 14.95C27.48 15.39 27.48 16.11 27.05 16.55C26.61 16.98 25.89 16.98 25.45 16.55L19.45 10.55C19.02 10.11 19.02 9.39 19.45 8.95Z"/><path fill-rule="evenodd" d="M12.2 28.8L6.2 22.8L7.8 21.2L13.8 27.2L12.2 28.8Z"/></svg>Adjust</button>
+          <button class="pf-button" data-type="Hollow" type="button" data-pf-id="button-adjust"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M20.95 7.45C21.96 6.45 23.33 5.88 24.75 5.88C26.17 5.88 27.54 6.45 28.55 7.45C29.55 8.46 30.12 9.83 30.12 11.25C30.12 12.67 29.55 14.04 28.55 15.05L12.8 30.8C12.58 31.01 12.3 31.13 12 31.13H6C5.38 31.13 4.88 30.62 4.88 30V24C4.88 23.7 4.99 23.42 5.2 23.2L20.95 7.45ZM24.75 8.13C23.92 8.13 23.13 8.46 22.55 9.05L7.13 24.47V28.88H11.53L26.95 13.45C27.54 12.87 27.87 12.08 27.87 11.25C27.87 10.42 27.54 9.63 26.95 9.05C26.37 8.46 25.58 8.13 24.75 8.13Z"/><path fill-rule="evenodd" d="M19.45 8.95C19.89 8.52 20.61 8.52 21.05 8.95L27.05 14.95C27.48 15.39 27.48 16.11 27.05 16.55C26.61 16.98 25.89 16.98 25.45 16.55L19.45 10.55C19.02 10.11 19.02 9.39 19.45 8.95Z"/><path fill-rule="evenodd" d="M12.2 28.8L6.2 22.8L7.8 21.2L13.8 27.2L12.2 28.8Z"/></svg>Adjust</button>
         </div>
-        <div class="pf-draggable-card" data-state="Default">
+        <div class="pf-draggable-card" data-state="Default" data-pf-id="draggable-card-mon">
           <span class="day"><span style="color:var(--pf-icon-secondary)"><svg width="16" height="16" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M18 5.63C11.17 5.63 5.63 11.17 5.63 18C5.63 24.83 11.17 30.38 18 30.38C24.83 30.38 30.38 24.83 30.38 18C30.38 11.17 24.83 5.63 18 5.63ZM3.38 18C3.38 9.92 9.92 3.38 18 3.38C26.08 3.38 32.63 9.92 32.63 18C32.63 26.08 26.08 32.63 18 32.63C9.92 32.63 3.38 26.08 3.38 18Z"/><path fill-rule="evenodd" d="M18 9.38C18.62 9.38 19.13 9.88 19.13 10.5V17.53L23.3 21.7C23.73 22.14 23.73 22.86 23.3 23.3C22.86 23.73 22.14 23.73 21.7 23.3L17.2 18.8C16.99 18.58 16.88 18.3 16.88 18V10.5C16.88 9.88 17.38 9.38 18 9.38Z"/></svg></span> Mon 31/08</span>
           <span class="hrs">7.50</span>
         </div>
-        <div class="pf-draggable-card" data-state="Default">
+        <div class="pf-draggable-card" data-state="Default" data-pf-id="draggable-card-tue">
           <span class="day"><span style="color:var(--pf-icon-secondary)"><svg width="16" height="16" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M18 5.63C11.17 5.63 5.63 11.17 5.63 18C5.63 24.83 11.17 30.38 18 30.38C24.83 30.38 30.38 24.83 30.38 18C30.38 11.17 24.83 5.63 18 5.63ZM3.38 18C3.38 9.92 9.92 3.38 18 3.38C26.08 3.38 32.63 9.92 32.63 18C32.63 26.08 26.08 32.63 18 32.63C9.92 32.63 3.38 26.08 3.38 18Z"/><path fill-rule="evenodd" d="M18 9.38C18.62 9.38 19.13 9.88 19.13 10.5V17.53L23.3 21.7C23.73 22.14 23.73 22.86 23.3 23.3C22.86 23.73 22.14 23.73 21.7 23.3L17.2 18.8C16.99 18.58 16.88 18.3 16.88 18V10.5C16.88 9.88 17.38 9.38 18 9.38Z"/></svg></span> Tue 01/09</span>
           <span class="hrs">8.00</span>
         </div>
-        <div class="pf-draggable-card" data-state="Default">
+        <div class="pf-draggable-card" data-state="Default" data-pf-id="draggable-card-wed">
           <span class="day"><span style="color:var(--pf-icon-warning)"><svg width="16" height="16" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M18 11.88C17.38 11.88 16.88 12.38 16.88 13V18.53L14.2 21.2C13.77 21.64 13.77 22.36 14.2 22.8C14.64 23.23 15.36 23.23 15.8 22.8L18.8 19.8C19.01 19.58 19.13 19.3 19.13 19V13C19.13 12.38 18.62 11.88 18 11.88Z"/><path fill-rule="evenodd" d="M9.94 27.19C12.23 29.19 15.18 30.28 18.22 30.24C21.26 30.21 24.18 29.05 26.42 27C28.67 24.95 30.08 22.15 30.39 19.12C30.45 18.5 31 18.05 31.62 18.12C32.24 18.18 32.69 18.73 32.62 19.35C32.26 22.93 30.59 26.24 27.94 28.66C25.29 31.09 21.84 32.45 18.24 32.49C14.65 32.53 11.17 31.25 8.46 28.89C5.75 26.52 4.01 23.25 3.56 19.68C3.12 16.12 4 12.51 6.04 9.56C8.08 6.6 11.14 4.5 14.64 3.65C18.13 2.81 21.81 3.28 24.98 4.98C27.19 6.16 29.04 7.88 30.38 9.96V5.74C30.38 5.11 30.88 4.61 31.51 4.61C32.13 4.61 32.63 5.11 32.63 5.74V13.24C32.63 13.86 32.13 14.36 31.51 14.36H30.78C30.76 14.36 30.75 14.36 30.73 14.36H24.01C23.38 14.36 22.88 13.86 22.88 13.24C22.88 12.61 23.38 12.11 24.01 12.11H29.03C27.88 9.93 26.11 8.13 23.92 6.96C21.24 5.52 18.12 5.13 15.17 5.84C12.21 6.55 9.62 8.33 7.89 10.83C6.17 13.34 5.42 16.39 5.8 19.4C6.17 22.42 7.65 25.19 9.94 27.19Z"/></svg></span> Wed 02/09</span>
           <span class="hrs">9.25</span>
         </div>
-        <div class="pf-draggable-card" data-state="Default">
+        <div class="pf-draggable-card" data-state="Default" data-pf-id="draggable-card-thu">
           <span class="day"><span style="color:var(--pf-icon-secondary)"><svg width="16" height="16" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M18 5.63C11.17 5.63 5.63 11.17 5.63 18C5.63 24.83 11.17 30.38 18 30.38C24.83 30.38 30.38 24.83 30.38 18C30.38 11.17 24.83 5.63 18 5.63ZM3.38 18C3.38 9.92 9.92 3.38 18 3.38C26.08 3.38 32.63 9.92 32.63 18C32.63 26.08 26.08 32.63 18 32.63C9.92 32.63 3.38 26.08 3.38 18Z"/><path fill-rule="evenodd" d="M18 9.38C18.62 9.38 19.13 9.88 19.13 10.5V17.53L23.3 21.7C23.73 22.14 23.73 22.86 23.3 23.3C22.86 23.73 22.14 23.73 21.7 23.3L17.2 18.8C16.99 18.58 16.88 18.3 16.88 18V10.5C16.88 9.88 17.38 9.38 18 9.38Z"/></svg></span> Thu 03/09</span>
           <span class="hrs">8.00</span>
         </div>
-        <div class="pf-draggable-card" data-state="Default">
+        <div class="pf-draggable-card" data-state="Default" data-pf-id="draggable-card-fri">
           <span class="day"><span style="color:var(--pf-icon-warning)"><svg width="16" height="16" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M18 11.88C17.38 11.88 16.88 12.38 16.88 13V18.53L14.2 21.2C13.77 21.64 13.77 22.36 14.2 22.8C14.64 23.23 15.36 23.23 15.8 22.8L18.8 19.8C19.01 19.58 19.13 19.3 19.13 19V13C19.13 12.38 18.62 11.88 18 11.88Z"/><path fill-rule="evenodd" d="M9.94 27.19C12.23 29.19 15.18 30.28 18.22 30.24C21.26 30.21 24.18 29.05 26.42 27C28.67 24.95 30.08 22.15 30.39 19.12C30.45 18.5 31 18.05 31.62 18.12C32.24 18.18 32.69 18.73 32.62 19.35C32.26 22.93 30.59 26.24 27.94 28.66C25.29 31.09 21.84 32.45 18.24 32.49C14.65 32.53 11.17 31.25 8.46 28.89C5.75 26.52 4.01 23.25 3.56 19.68C3.12 16.12 4 12.51 6.04 9.56C8.08 6.6 11.14 4.5 14.64 3.65C18.13 2.81 21.81 3.28 24.98 4.98C27.19 6.16 29.04 7.88 30.38 9.96V5.74C30.38 5.11 30.88 4.61 31.51 4.61C32.13 4.61 32.63 5.11 32.63 5.74V13.24C32.63 13.86 32.13 14.36 31.51 14.36H30.78C30.76 14.36 30.75 14.36 30.73 14.36H24.01C23.38 14.36 22.88 13.86 22.88 13.24C22.88 12.61 23.38 12.11 24.01 12.11H29.03C27.88 9.93 26.11 8.13 23.92 6.96C21.24 5.52 18.12 5.13 15.17 5.84C12.21 6.55 9.62 8.33 7.89 10.83C6.17 13.34 5.42 16.39 5.8 19.4C6.17 22.42 7.65 25.19 9.94 27.19Z"/></svg></span> Fri 04/09</span>
           <span class="hrs">10.50</span>
         </div>
-        <div class="pf-draggable-card" data-state="Default">
+        <div class="pf-draggable-card" data-state="Default" data-pf-id="draggable-card-sat">
           <span class="day"><span style="color:var(--pf-icon-warning)"><svg width="16" height="16" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path fill-rule="evenodd" d="M18 11.88C17.38 11.88 16.88 12.38 16.88 13V18.53L14.2 21.2C13.77 21.64 13.77 22.36 14.2 22.8C14.64 23.23 15.36 23.23 15.8 22.8L18.8 19.8C19.01 19.58 19.13 19.3 19.13 19V13C19.13 12.38 18.62 11.88 18 11.88Z"/><path fill-rule="evenodd" d="M9.94 27.19C12.23 29.19 15.18 30.28 18.22 30.24C21.26 30.21 24.18 29.05 26.42 27C28.67 24.95 30.08 22.15 30.39 19.12C30.45 18.5 31 18.05 31.62 18.12C32.24 18.18 32.69 18.73 32.62 19.35C32.26 22.93 30.59 26.24 27.94 28.66C25.29 31.09 21.84 32.45 18.24 32.49C14.65 32.53 11.17 31.25 8.46 28.89C5.75 26.52 4.01 23.25 3.56 19.68C3.12 16.12 4 12.51 6.04 9.56C8.08 6.6 11.14 4.5 14.64 3.65C18.13 2.81 21.81 3.28 24.98 4.98C27.19 6.16 29.04 7.88 30.38 9.96V5.74C30.38 5.11 30.88 4.61 31.51 4.61C32.13 4.61 32.63 5.11 32.63 5.74V13.24C32.63 13.86 32.13 14.36 31.51 14.36H30.78C30.76 14.36 30.75 14.36 30.73 14.36H24.01C23.38 14.36 22.88 13.86 22.88 13.24C22.88 12.61 23.38 12.11 24.01 12.11H29.03C27.88 9.93 26.11 8.13 23.92 6.96C21.24 5.52 18.12 5.13 15.17 5.84C12.21 6.55 9.62 8.33 7.89 10.83C6.17 13.34 5.42 16.39 5.8 19.4C6.17 22.42 7.65 25.19 9.94 27.19Z"/></svg></span> Sat 05/09</span>
           <span class="hrs">4.00</span>
         </div>
-        <div class="pf-draggable-card" data-state="Default">
+        <div class="pf-draggable-card" data-state="Default" data-pf-id="draggable-card-sun-06-09-not">
           <span class="day"><span style="color:var(--pf-icon-disabled)"><svg width="16" height="16" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path d="M12 21.38C11.38 21.38 10.88 21.88 10.88 22.5V25.5C10.88 26.12 11.38 26.63 12 26.63H15C15.62 26.63 16.13 26.12 16.13 25.5V22.5C16.13 21.88 15.62 21.38 15 21.38H12Z"/><path fill-rule="evenodd" d="M24 3.38C24.62 3.38 25.13 3.88 25.13 4.5V6.38H27C29.28 6.38 31.13 8.22 31.13 10.5V28.5C31.13 30.78 29.28 32.63 27 32.63H9C6.72 32.63 4.88 30.78 4.88 28.5V10.5C4.88 8.22 6.72 6.38 9 6.38H10.88V4.5C10.88 3.88 11.38 3.38 12 3.38C12.62 3.38 13.13 3.88 13.13 4.5V6.38H22.88V4.5C22.88 3.88 23.38 3.38 24 3.38ZM28.88 10.5V15.38H7.13V10.5C7.13 9.46 7.96 8.63 9 8.63H10.88V10.5C10.88 11.12 11.38 11.63 12 11.63C12.62 11.63 13.13 11.12 13.13 10.5V8.63H22.88V10.5C22.88 11.12 23.38 11.63 24 11.63C24.62 11.63 25.13 11.12 25.13 10.5V8.63H27C28.04 8.63 28.88 9.46 28.88 10.5ZM28.88 17.63H7.13V28.5C7.13 29.54 7.96 30.38 9 30.38H27C28.04 30.38 28.88 29.54 28.88 28.5V17.63Z"/></g></svg></span> Sun 06/09</span>
           <span class="hrs muted">Not worked</span>
         </div>
@@ -714,9 +748,9 @@ select.pf-field { background-image:
       <div class="sp-sec" style="gap:var(--pf-space-medium)">
         <h3>Your decision</h3>
 
-        <div class="pf-form-field" data-input-type="Dropdown" data-state="Selected">
+        <div class="pf-form-field" data-input-type="Dropdown" data-state="Selected" data-pf-id="form-field-outcome-approve">
           <label class="lbl" for="sp-decision">Outcome</label>
-          <select class="pf-field" data-right-aligned="No" data-filled="Yes" id="sp-decision">
+          <select class="pf-field" data-right-aligned="No" data-filled="Yes" id="sp-decision" data-pf-id="field-approve-with-adjustment">
             <option>Approve with adjustment</option>
             <option>Approve as submitted</option>
             <option>Return to employee</option>
@@ -724,35 +758,35 @@ select.pf-field { background-image:
           <span class="hint">Payroll is notified as soon as you approve</span>
         </div>
 
-        <div class="pf-form-field" data-input-type="Text" data-state="Error">
+        <div class="pf-form-field" data-input-type="Text" data-state="Error" data-pf-id="form-field-adjusted-overtime-hours">
           <label class="lbl" for="sp-adj">Adjusted overtime hours <span style="color:var(--pf-icon-required-field)" aria-hidden="true">*</span></label>
           <input class="pf-field" data-right-aligned="No" data-filled="Yes" id="sp-adj"
-                 value="12.00" aria-invalid="true" aria-describedby="sp-adj-err">
+                 value="12.00" aria-invalid="true" aria-describedby="sp-adj-err" data-pf-id="field-cannot-exceed">
           <span class="hint" id="sp-adj-err">Cannot exceed the 9.75 hours submitted</span>
         </div>
 
-        <div class="pf-form-field" data-input-type="Text" data-state="Disabled">
+        <div class="pf-form-field" data-input-type="Text" data-state="Disabled" data-pf-id="form-field-cost-centre-set">
           <label class="lbl" for="sp-cc">Cost centre</label>
           <input class="pf-field" data-right-aligned="No" data-filled="Yes" id="sp-cc"
-                 value="OPS-4120 &middot; Logistics" disabled>
+                 value="OPS-4120 &middot; Logistics" disabled data-pf-id="field-set">
           <span class="hint">Set by the employee&rsquo;s position</span>
         </div>
 
-        <div class="pf-form-field" data-input-type="Text" data-state="Default">
+        <div class="pf-form-field" data-input-type="Text" data-state="Default" data-pf-id="form-field-note-to-employee">
           <label class="lbl" for="sp-note">Note to employee</label>
           <textarea class="pf-field" data-right-aligned="No" data-filled="No" id="sp-note"
-                    placeholder="Visible to the employee and to payroll"></textarea>
+                    placeholder="Visible to the employee and to payroll" data-pf-id="field-no"></textarea>
         </div>
 
         <div style="display:flex;flex-direction:column;gap:var(--pf-space-small)">
-          <label class="pf-checkbox-radio-item" data-state="Selected"><span class="box"></span> Notify the employee by email</label>
-          <label class="pf-checkbox-radio-item" data-state="Default"><span class="box"></span> Send to the September payroll run</label>
-          <label class="pf-checkbox-radio-item" data-state="Error"><span class="box"></span> Confirm the overtime was authorised in advance</label>
-          <label class="pf-checkbox-radio-item" data-state="Disabled"><span class="box"></span> Escalate to HR (locked &mdash; no opt-out on file)</label>
+          <label class="pf-checkbox-radio-item" data-state="Selected" data-pf-id="checkbox-radio-item-notify-the-employee"><span class="box"></span> Notify the employee by email</label>
+          <label class="pf-checkbox-radio-item" data-state="Default" data-pf-id="checkbox-radio-item-send"><span class="box"></span> Send to the September payroll run</label>
+          <label class="pf-checkbox-radio-item" data-state="Error" data-pf-id="checkbox-radio-item-confirm-the-overtime"><span class="box"></span> Confirm the overtime was authorised in advance</label>
+          <label class="pf-checkbox-radio-item" data-state="Disabled" data-pf-id="checkbox-radio-item-escalate-to-hr"><span class="box"></span> Escalate to HR (locked &mdash; no opt-out on file)</label>
         </div>
 
         <label class="togglelab" style="height:auto">
-          <span class="pf-toggle" data-on="Yes" data-locked="No" role="switch" aria-checked="true" tabindex="0"></span>
+          <span class="pf-toggle" data-on="Yes" data-locked="No" role="switch" aria-checked="true" tabindex="0" data-pf-id="toggle-yes"></span>
           Pay the overtime in this month&rsquo;s run
         </label>
       </div>
@@ -763,9 +797,9 @@ select.pf-field { background-image:
       </p>
     </div>
 
-    <div class="pf-sticky-footer" data-default="Stepper">
-      <button class="pf-button" data-type="Positive" type="button"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M29.2 9.7C29.64 9.27 30.36 9.27 30.8 9.7C31.23 10.14 31.23 10.86 30.8 11.3L15.8 26.3C15.36 26.73 14.64 26.73 14.2 26.3L6.7 18.8C6.27 18.36 6.27 17.64 6.7 17.2C7.14 16.77 7.86 16.77 8.3 17.2L15 23.91L29.2 9.7Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>Approve</button>
-      <button class="pf-button" data-type="Negative" type="button"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path d="M19.13 18C19.13 17.38 18.62 16.88 18 16.88C17.38 16.88 16.88 17.38 16.88 18V18.02C16.88 18.64 17.38 19.14 18 19.14C18.62 19.14 19.13 18.64 19.13 18.02V18Z"/><path d="M12 16.88C12.62 16.88 13.13 17.38 13.13 18V18.02C13.13 18.64 12.62 19.14 12 19.14C11.38 19.14 10.88 18.64 10.88 18.02V18C10.88 17.38 11.38 16.88 12 16.88Z"/><path d="M25.13 18C25.13 17.38 24.62 16.88 24 16.88C23.38 16.88 22.88 17.38 22.88 18V18.02C22.88 18.64 23.38 19.14 24 19.14C24.62 19.14 25.13 18.64 25.13 18.02V18Z"/><path fill-rule="evenodd" d="M4.75 31.1C4.65 31.12 4.54 31.13 4.44 31.12C4.3 31.12 4.17 31.08 4.04 31.03C3.89 30.96 3.76 30.87 3.66 30.75C3.56 30.63 3.48 30.5 3.43 30.34C3.39 30.21 3.37 30.08 3.38 29.94C3.38 29.83 3.4 29.73 3.44 29.63L5.21 24.31C3.6 21.67 3.03 18.61 3.63 15.62C4.27 12.46 6.18 9.64 8.95 7.67C11.72 5.71 15.18 4.71 18.68 4.86C22.19 5 25.53 6.27 28.1 8.45C30.66 10.64 32.28 13.61 32.59 16.82C32.9 20.03 31.89 23.21 29.78 25.78C27.67 28.34 24.6 30.11 21.18 30.78C17.88 31.44 14.43 31.05 11.41 29.68L4.75 31.1ZM10.25 9.51C12.6 7.84 15.56 6.98 18.59 7.1C21.62 7.23 24.48 8.33 26.64 10.17C28.79 12 30.1 14.45 30.35 17.04C30.6 19.62 29.8 22.22 28.04 24.35C26.29 26.48 23.7 27.99 20.74 28.58C17.78 29.16 14.69 28.77 12.04 27.49C11.82 27.38 11.56 27.35 11.32 27.4L6.19 28.49L7.52 24.51C7.63 24.17 7.58 23.81 7.38 23.52C5.86 21.27 5.32 18.62 5.84 16.07C6.36 13.51 7.91 11.17 10.25 9.51Z"/></g></svg>Raise query</button>
+    <div class="pf-sticky-footer" data-default="Stepper" data-pf-id="sticky-footer-approve-raise-query">
+      <button class="pf-button" data-type="Positive" type="button" data-pf-id="button-approve"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><path d="M29.2 9.7C29.64 9.27 30.36 9.27 30.8 9.7C31.23 10.14 31.23 10.86 30.8 11.3L15.8 26.3C15.36 26.73 14.64 26.73 14.2 26.3L6.7 18.8C6.27 18.36 6.27 17.64 6.7 17.2C7.14 16.77 7.86 16.77 8.3 17.2L15 23.91L29.2 9.7Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>Approve</button>
+      <button class="pf-button" data-type="Negative" type="button" data-pf-id="button-raise-query"><svg width="14" height="14" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path d="M19.13 18C19.13 17.38 18.62 16.88 18 16.88C17.38 16.88 16.88 17.38 16.88 18V18.02C16.88 18.64 17.38 19.14 18 19.14C18.62 19.14 19.13 18.64 19.13 18.02V18Z"/><path d="M12 16.88C12.62 16.88 13.13 17.38 13.13 18V18.02C13.13 18.64 12.62 19.14 12 19.14C11.38 19.14 10.88 18.64 10.88 18.02V18C10.88 17.38 11.38 16.88 12 16.88Z"/><path d="M25.13 18C25.13 17.38 24.62 16.88 24 16.88C23.38 16.88 22.88 17.38 22.88 18V18.02C22.88 18.64 23.38 19.14 24 19.14C24.62 19.14 25.13 18.64 25.13 18.02V18Z"/><path fill-rule="evenodd" d="M4.75 31.1C4.65 31.12 4.54 31.13 4.44 31.12C4.3 31.12 4.17 31.08 4.04 31.03C3.89 30.96 3.76 30.87 3.66 30.75C3.56 30.63 3.48 30.5 3.43 30.34C3.39 30.21 3.37 30.08 3.38 29.94C3.38 29.83 3.4 29.73 3.44 29.63L5.21 24.31C3.6 21.67 3.03 18.61 3.63 15.62C4.27 12.46 6.18 9.64 8.95 7.67C11.72 5.71 15.18 4.71 18.68 4.86C22.19 5 25.53 6.27 28.1 8.45C30.66 10.64 32.28 13.61 32.59 16.82C32.9 20.03 31.89 23.21 29.78 25.78C27.67 28.34 24.6 30.11 21.18 30.78C17.88 31.44 14.43 31.05 11.41 29.68L4.75 31.1ZM10.25 9.51C12.6 7.84 15.56 6.98 18.59 7.1C21.62 7.23 24.48 8.33 26.64 10.17C28.79 12 30.1 14.45 30.35 17.04C30.6 19.62 29.8 22.22 28.04 24.35C26.29 26.48 23.7 27.99 20.74 28.58C17.78 29.16 14.69 28.77 12.04 27.49C11.82 27.38 11.56 27.35 11.32 27.4L6.19 28.49L7.52 24.51C7.63 24.17 7.58 23.81 7.38 23.52C5.86 21.27 5.32 18.62 5.84 16.07C6.36 13.51 7.91 11.17 10.25 9.51Z"/></g></svg>Raise query</button>
     </div>
    </div>
   </aside>

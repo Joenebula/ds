@@ -55,6 +55,13 @@ Report findings in this order, because it matches the effort required to fix the
 
 Give the specific token to use, never "use a token" — the report already names it.
 
+**Text on artwork** is listed separately and is neither passed nor failed. Where the thing
+behind the glyph is an image — the header band is a crimson swoosh in light and charcoal in
+dark — the contrast depends on which pixel the letter lands over, and no single number
+describes it. This used to be reported as a failure at 1.04:1, because the walk looked
+straight through the artwork to the page behind it. A nonsense failure is worse than none:
+at 1.04:1 it reads as the most urgent thing on the page.
+
 ## What it does NOT check
 
 Be explicit about this when reporting, so nobody reads a pass as more than it is:
@@ -63,15 +70,28 @@ Be explicit about this when reporting, so nobody reads a pass as more than it is
   `scripts/verify-geometry.mjs`. A page can be 100% on-palette and still look nothing
   like People First, which is exactly how an earlier build shipped square buttons where
   Figma has pills.
+- **Whether the page uses the library at all.** `scripts/check-off-system.mjs` catches the
+  three ways a page goes off-system — an invented class, a hand-written component, and an
+  override of a property a component owns.
+- **Whether a component was used as a shell.** `scripts/check-template-fidelity.mjs`. A
+  page can score 100% coverage while hand-building the INSIDE of every component it uses,
+  because the outer class is real and the colours are tokens. That is hand-writing a
+  component one level in, and this audit cannot see it.
+- **Whether every element can be addressed by name.** `scripts/tag-elements.mjs`.
 - **Layout, spacing rhythm, or whether the right component was chosen** — a human call.
 - **Content and tone.**
 
+All of the above run together as `npm run verify`, which covers `working/` and
+`prototypes/` on six axes each. Reach for that before reporting a page as done; this audit
+alone answers two of the six.
+
 When a page passes, say what passed: *"100% token coverage in both modes, no contrast
-failures — colours are correct. Shape is a separate check."*
+failures — colours are correct. Shape, library use and naming are separate checks."*
 
 ## Fixing what it finds
 
-Load the `people-first` skill for the token tables and `references/geometry.md` for
+Load the `people-first` skill for the token tables and
+`.claude/skills/people-first/references/geometry.md` for
 shape. The usual root causes:
 
 - Raw hex where a token exists → swap for the named token.

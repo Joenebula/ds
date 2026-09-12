@@ -84,7 +84,7 @@ for (const s of specs) {
 const fails = results.filter(r => !r.ok);
 for (const r of fails.slice(0, 30))
   console.log(`FAIL ${r.name}\n       ${r.prop}: expected ${r.want}, got ${r.got}`);
-console.log(`\n${results.length - fails.length} of ${results.length} type checks match Figma, ${fails.length} off`);
+console.log(`\n${results.length - fails.length} of ${results.length} type checks match the extract, ${fails.length} off`);
 // Counted and named every run, like the placeholder and `pending:` counts. These classes PASS —
 // they correctly inherit 400 — so without this line the fact that Figma still holds a weight the
 // system refuses to ship would be invisible in a green result.

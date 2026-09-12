@@ -168,6 +168,17 @@
           }
         }
       },
+      "dark-violet": {
+        "$type": "color",
+        "$value": "#412562",
+        "$extensions": {
+          "com.mhr.pf": {
+            "figmaName": "Base colours/Dark Violet",
+            "cssVar": "--pf-base-dark-violet",
+            "tier": "primitive"
+          }
+        }
+      },
       "default-pink": {
         "$type": "color",
         "$value": "#cd2359",
@@ -175,6 +186,17 @@
           "com.mhr.pf": {
             "figmaName": "Base colours/Default Pink",
             "cssVar": "--pf-base-default-pink",
+            "tier": "primitive"
+          }
+        }
+      },
+      "electric-violet": {
+        "$type": "color",
+        "$value": "#7a0ff9",
+        "$extensions": {
+          "com.mhr.pf": {
+            "figmaName": "Base colours/Electric Violet",
+            "cssVar": "--pf-base-electric-violet",
             "tier": "primitive"
           }
         }
@@ -311,6 +333,17 @@
           }
         }
       },
+      "light-violet": {
+        "$type": "color",
+        "$value": "#bf89ff",
+        "$extensions": {
+          "com.mhr.pf": {
+            "figmaName": "Base colours/Light Violet",
+            "cssVar": "--pf-base-light-violet",
+            "tier": "primitive"
+          }
+        }
+      },
       "negative-hover": {
         "$type": "color",
         "$value": "#a41c22",
@@ -340,6 +373,17 @@
           "com.mhr.pf": {
             "figmaName": "Base colours/Pale Pink Theme",
             "cssVar": "--pf-base-pale-pink-theme",
+            "tier": "primitive"
+          }
+        }
+      },
+      "pale-violet": {
+        "$type": "color",
+        "$value": "#f2e7fe",
+        "$extensions": {
+          "com.mhr.pf": {
+            "figmaName": "Base colours/Pale Violet",
+            "cssVar": "--pf-base-pale-violet",
             "tier": "primitive"
           }
         }
@@ -580,6 +624,52 @@
     },
     "semantic": {
       "bg": {
+        "configr-light-theme": {
+          "$type": "color",
+          "$value": "{color.base.pale-violet}",
+          "$extensions": {
+            "com.mhr.pf": {
+              "figmaName": "Background/Configr Light Theme",
+              "cssVar": "--pf-bg-configr-light-theme",
+              "tier": "semantic",
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ],
+              "modes": {
+                "light": "{color.base.pale-violet}",
+                "dark": "{color.base.dark-violet}"
+              },
+              "cssRef": {
+                "light": "--pf-base-pale-violet",
+                "dark": "--pf-base-dark-violet"
+              }
+            }
+          }
+        },
+        "configr-theme": {
+          "$type": "color",
+          "$value": "{color.base.electric-violet}",
+          "$extensions": {
+            "com.mhr.pf": {
+              "figmaName": "Background/Configr Theme",
+              "cssVar": "--pf-bg-configr-theme",
+              "tier": "semantic",
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ],
+              "modes": {
+                "light": "{color.base.electric-violet}",
+                "dark": "{color.base.light-violet}"
+              },
+              "cssRef": {
+                "light": "--pf-base-electric-violet",
+                "dark": "--pf-base-light-violet"
+              }
+            }
+          }
+        },
         "highlight": {
           "$type": "color",
           "$value": "{color.base.white-lilac}",
@@ -599,6 +689,29 @@
               "cssRef": {
                 "light": "--pf-base-white-lilac",
                 "dark": "--pf-base-blue-oxford"
+              }
+            }
+          }
+        },
+        "light-theme": {
+          "$type": "color",
+          "$value": "{color.base.pale-pink-theme}",
+          "$extensions": {
+            "com.mhr.pf": {
+              "figmaName": "Background/Light Theme",
+              "cssVar": "--pf-bg-light-theme",
+              "tier": "semantic",
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ],
+              "modes": {
+                "light": "{color.base.pale-pink-theme}",
+                "dark": "#3d475a"
+              },
+              "cssRef": {
+                "light": "--pf-base-pale-pink-theme",
+                "dark": null
               }
             }
           }
@@ -881,34 +994,11 @@
         },
         "theme": {
           "$type": "color",
-          "$value": "{color.base.pale-pink-theme}",
+          "$value": "{color.base.default-pink}",
           "$extensions": {
             "com.mhr.pf": {
               "figmaName": "Background/Theme",
               "cssVar": "--pf-bg-theme",
-              "tier": "semantic",
-              "scopes": [
-                "FRAME_FILL",
-                "SHAPE_FILL"
-              ],
-              "modes": {
-                "light": "{color.base.pale-pink-theme}",
-                "dark": "#2c3844"
-              },
-              "cssRef": {
-                "light": "--pf-base-pale-pink-theme",
-                "dark": null
-              }
-            }
-          }
-        },
-        "theme-full": {
-          "$type": "color",
-          "$value": "{color.base.default-pink}",
-          "$extensions": {
-            "com.mhr.pf": {
-              "figmaName": "Background/Theme full",
-              "cssVar": "--pf-bg-theme-full",
               "tier": "semantic",
               "scopes": [
                 "FRAME_FILL",
@@ -973,24 +1063,72 @@
             }
           }
         },
-        "default": {
+        "configr": {
           "$type": "color",
-          "$value": "{color.base.grey-steel}",
+          "$value": "{color.base.electric-violet}",
           "$extensions": {
             "com.mhr.pf": {
-              "figmaName": "Border/Default",
-              "cssVar": "--pf-border-default",
+              "figmaName": "Border/Configr",
+              "cssVar": "--pf-border-configr",
               "tier": "semantic",
               "scopes": [
                 "STROKE_COLOR"
               ],
               "modes": {
+                "light": "{color.base.electric-violet}",
+                "dark": "{color.base.light-violet}"
+              },
+              "cssRef": {
+                "light": "--pf-base-electric-violet",
+                "dark": "--pf-base-light-violet"
+              }
+            }
+          }
+        },
+        "default-full": {
+          "$type": "color",
+          "$value": "{color.base.grey-steel}",
+          "$extensions": {
+            "com.mhr.pf": {
+              "figmaName": "Border/Default full",
+              "cssVar": "--pf-border-default-full",
+              "tier": "semantic",
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL",
+                "STROKE_COLOR"
+              ],
+              "modes": {
                 "light": "{color.base.grey-steel}",
-                "dark": "{color.base.white}"
+                "dark": "{color.base.grey-fog}"
               },
               "cssRef": {
                 "light": "--pf-base-grey-steel",
-                "dark": "--pf-base-white"
+                "dark": "--pf-base-grey-fog"
+              }
+            }
+          }
+        },
+        "default-hidden": {
+          "$type": "color",
+          "$value": "{color.base.grey-steel}",
+          "$extensions": {
+            "com.mhr.pf": {
+              "figmaName": "Border/Default hidden",
+              "cssVar": "--pf-border-default-hidden",
+              "tier": "semantic",
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL",
+                "STROKE_COLOR"
+              ],
+              "modes": {
+                "light": "{color.base.grey-steel}",
+                "dark": "rgba(255,255,255,0)"
+              },
+              "cssRef": {
+                "light": "--pf-base-grey-steel",
+                "dark": null
               }
             }
           }
@@ -1578,6 +1716,29 @@
             }
           }
         },
+        "configr": {
+          "$type": "color",
+          "$value": "{color.base.electric-violet}",
+          "$extensions": {
+            "com.mhr.pf": {
+              "figmaName": "Icons/Icon - Configr",
+              "cssVar": "--pf-icon-configr",
+              "tier": "semantic",
+              "scopes": [
+                "SHAPE_FILL",
+                "STROKE_COLOR"
+              ],
+              "modes": {
+                "light": "{color.base.electric-violet}",
+                "dark": "{color.base.light-violet}"
+              },
+              "cssRef": {
+                "light": "--pf-base-electric-violet",
+                "dark": "--pf-base-light-violet"
+              }
+            }
+          }
+        },
         "disabled": {
           "$type": "color",
           "$value": "{color.base.grey}",
@@ -1855,6 +2016,192 @@
           }
         }
       },
+      "navigation": {
+        "configr-hover": {
+          "$type": "color",
+          "$value": "{color.base.electric-violet}",
+          "$extensions": {
+            "com.mhr.pf": {
+              "figmaName": "Navigation/Configr hover",
+              "cssVar": "--pf-navigation-configr-hover",
+              "tier": "semantic",
+              "scopes": [
+                "ALL_FILLS",
+                "STROKE_COLOR"
+              ],
+              "modes": {
+                "light": "{color.base.electric-violet}",
+                "dark": "{color.base.light-violet}"
+              },
+              "cssRef": {
+                "light": "--pf-base-electric-violet",
+                "dark": "--pf-base-light-violet"
+              }
+            }
+          }
+        },
+        "configr-nav": {
+          "$type": "color",
+          "$value": "{color.base.grey-fog}",
+          "$extensions": {
+            "com.mhr.pf": {
+              "figmaName": "Navigation/Configr nav",
+              "cssVar": "--pf-navigation-configr-nav",
+              "tier": "semantic",
+              "scopes": [
+                "ALL_FILLS",
+                "STROKE_COLOR"
+              ],
+              "modes": {
+                "light": "{color.base.grey-fog}",
+                "dark": "{color.base.white}"
+              },
+              "cssRef": {
+                "light": "--pf-base-grey-fog",
+                "dark": "--pf-base-white"
+              }
+            }
+          }
+        },
+        "nav-bg-left": {
+          "$type": "color",
+          "$value": "{color.base.white}",
+          "$extensions": {
+            "com.mhr.pf": {
+              "figmaName": "Navigation/Nav bg left",
+              "cssVar": "--pf-navigation-nav-bg-left",
+              "tier": "semantic",
+              "scopes": [
+                "ALL_FILLS",
+                "STROKE_COLOR"
+              ],
+              "modes": {
+                "light": "{color.base.white}",
+                "dark": "{color.semantic.bg.secondary}"
+              },
+              "cssRef": {
+                "light": "--pf-base-white",
+                "dark": "--pf-bg-secondary"
+              }
+            }
+          }
+        },
+        "nav-bg-top": {
+          "$type": "color",
+          "$value": "{color.base.white}",
+          "$extensions": {
+            "com.mhr.pf": {
+              "figmaName": "Navigation/Nav bg top",
+              "cssVar": "--pf-navigation-nav-bg-top",
+              "tier": "semantic",
+              "scopes": [
+                "ALL_FILLS",
+                "STROKE_COLOR"
+              ],
+              "modes": {
+                "light": "{color.base.white}",
+                "dark": "#23252e"
+              },
+              "cssRef": {
+                "light": "--pf-base-white",
+                "dark": null
+              }
+            }
+          }
+        },
+        "nav-hover": {
+          "$type": "color",
+          "$value": "{color.base.default-pink}",
+          "$extensions": {
+            "com.mhr.pf": {
+              "figmaName": "Navigation/Nav hover",
+              "cssVar": "--pf-navigation-nav-hover",
+              "tier": "semantic",
+              "scopes": [
+                "ALL_FILLS",
+                "STROKE_COLOR"
+              ],
+              "modes": {
+                "light": "{color.base.default-pink}",
+                "dark": "{color.base.blue-sky}"
+              },
+              "cssRef": {
+                "light": "--pf-base-default-pink",
+                "dark": "--pf-base-blue-sky"
+              }
+            }
+          }
+        },
+        "nav-items": {
+          "$type": "color",
+          "$value": "{color.base.grey-fog}",
+          "$extensions": {
+            "com.mhr.pf": {
+              "figmaName": "Navigation/Nav items",
+              "cssVar": "--pf-navigation-nav-items",
+              "tier": "semantic",
+              "scopes": [
+                "ALL_FILLS",
+                "STROKE_COLOR"
+              ],
+              "modes": {
+                "light": "{color.base.grey-fog}",
+                "dark": "{color.base.white}"
+              },
+              "cssRef": {
+                "light": "--pf-base-grey-fog",
+                "dark": "--pf-base-white"
+              }
+            }
+          }
+        },
+        "notification-selected": {
+          "$type": "color",
+          "$value": "{color.base.default-pink}",
+          "$extensions": {
+            "com.mhr.pf": {
+              "figmaName": "Navigation/Notification selected",
+              "cssVar": "--pf-navigation-notification-selected",
+              "tier": "semantic",
+              "scopes": [
+                "ALL_FILLS",
+                "STROKE_COLOR"
+              ],
+              "modes": {
+                "light": "{color.base.default-pink}",
+                "dark": "{color.base.white}"
+              },
+              "cssRef": {
+                "light": "--pf-base-default-pink",
+                "dark": "--pf-base-white"
+              }
+            }
+          }
+        },
+        "search-bg": {
+          "$type": "color",
+          "$value": "rgba(255,255,255,0.9)",
+          "$extensions": {
+            "com.mhr.pf": {
+              "figmaName": "Navigation/Search bg",
+              "cssVar": "--pf-navigation-search-bg",
+              "tier": "semantic",
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ],
+              "modes": {
+                "light": "rgba(255,255,255,0.9)",
+                "dark": "{color.semantic.bg.secondary}"
+              },
+              "cssRef": {
+                "light": null,
+                "dark": "--pf-bg-secondary"
+              }
+            }
+          }
+        }
+      },
       "org-card": {
         "bg-dark": {
           "$type": "color",
@@ -1930,7 +2277,7 @@
       "progress-bar": {
         "border": {
           "$type": "color",
-          "$value": "{color.semantic.border.default}",
+          "$value": "{color.semantic.border.default-full}",
           "$extensions": {
             "com.mhr.pf": {
               "figmaName": "Progress bar/Border",
@@ -1940,11 +2287,11 @@
                 "STROKE_COLOR"
               ],
               "modes": {
-                "light": "{color.semantic.border.default}",
+                "light": "{color.semantic.border.default-full}",
                 "dark": "{color.semantic.table.border}"
               },
               "cssRef": {
-                "light": "--pf-border-default",
+                "light": "--pf-border-default-full",
                 "dark": "--pf-table-border"
               }
             }
@@ -2595,6 +2942,28 @@
               "cssRef": {
                 "light": "--pf-base-grey-slate",
                 "dark": "--pf-base-grey-slate"
+              }
+            }
+          }
+        },
+        "configr-theme": {
+          "$type": "color",
+          "$value": "{color.base.electric-violet}",
+          "$extensions": {
+            "com.mhr.pf": {
+              "figmaName": "Text/Configr Theme",
+              "cssVar": "--pf-text-configr-theme",
+              "tier": "semantic",
+              "scopes": [
+                "TEXT_FILL"
+              ],
+              "modes": {
+                "light": "{color.base.electric-violet}",
+                "dark": "{color.base.light-violet}"
+              },
+              "cssRef": {
+                "light": "--pf-base-electric-violet",
+                "dark": "--pf-base-light-violet"
               }
             }
           }

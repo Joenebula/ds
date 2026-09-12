@@ -12,12 +12,24 @@
 import { readdirSync, existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 
-const dir = 'prototypes';
-const screens = readdirSync(dir)
+// BOTH DIRECTORIES, and `working/` matters more.
+//
+// This checked `prototypes/` alone for most of the project's life, which is precisely
+// backwards. CLAUDE.md is explicit that the prototypes are rough test fixtures and not
+// reference implementations, and that "the thing that must be correct is the other
+// direction: when asked to build something FROM a Figma design, the output must match
+// that design" — and the pages that do that live in `working/`. So the six axes ran in
+// full against the pages that are allowed to be wrong, and never once against the page
+// that is not. Pointing it at `working/` immediately found a shape check that could not
+// run anywhere but the screen it was written for, and 35 untagged elements on the page
+// built from Figma.
+const DIRS = ['working', 'prototypes'];
+const screens = DIRS.flatMap(d => !existsSync(d) ? [] : readdirSync(d)
   .filter(f => f.endsWith('.html') && !f.endsWith('.src.html'))
-  .sort();
+  .sort()
+  .map(f => `${d}/${f}`));
 
-if (!screens.length) { console.error('no built screens in prototypes/'); process.exit(1); }
+if (!screens.length) { console.error('no built screens in working/ or prototypes/'); process.exit(1); }
 
 const CHECKS = [
   // FIRST, and a gate rather than one axis among nine. Every other check reads the built
@@ -31,9 +43,18 @@ const CHECKS = [
   ['icons', 'scripts/check-icon-fidelity.mjs'],
   ['audit', 'scripts/pf-audit.mjs'],
   ['fonts', 'scripts/verify-fonts.mjs'],
+  // Do things that should line up actually line up? Compares INK, not boxes.
   ['layout', 'scripts/verify-layout.mjs'],
+  // Can the element be SEEN at all — is anything cut off or escaping its container? Both
+  // branches wrote a `verify-layout.mjs` and they ask different questions, so the merge kept
+  // both and this one took a name that says what it measures. Five checks passed on a screen
+  // that was slicing 126px off its own table.
+  ['clipped', 'scripts/verify-clipped.mjs'],
   ['frame', 'scripts/verify-frame.mjs'],
   ['content', 'scripts/verify-content.mjs'],
+  // Every design-system element must be addressable by name, or the screen cannot be
+  // handed to a developer or a pipeline that assigns elements by name.
+  ['tagging', 'scripts/tag-elements.mjs'],
   // "as long as there is an image when one is required" — the user, in one line, naming an
   // axis nothing measured. dist/avatars.css degrades a missing photograph to a monogram,
   // which is a good failure mode and an invisible one. See F-026.
@@ -51,7 +72,7 @@ const CHECKS = [
 // it was pointed at. It gets its own mark and its own tally.
 let failed = 0, unmeasured = 0, stale = 0;
 for (const screen of screens) {
-  const path = `${dir}/${screen}`;
+  const path = screen;
   // A built screen with no source is a stale artefact; say so rather than checking it.
   const src = path.replace(/\.html$/, '.src.html');
   const note = existsSync(src) ? '' : '  (no .src.html — built by hand?)';

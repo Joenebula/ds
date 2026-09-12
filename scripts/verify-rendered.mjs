@@ -69,10 +69,22 @@ const CHECKS = [
   [".pf-filter-chip[data-state='Selected']",'color',         'Filter chip', 'State=Selected, Active=True', 5],
   // The sidebar row is node 22973:20747 (268x48, horizontal). `Navigation item` is a
   // 90x86 rail item with the icon ABOVE the label — a different component entirely.
-  // Figma RENAMED this component `Side navigation tab` -> `Notification tabs` (seen in the
-  // 2026-09-11 inventory). Same node id, same rules; only the name and so the class moved.
-  // Worth a designer's eye: the screens use it as a sidebar row, and the new name says tabs.
-  [".pf-notification-tabs[data-selected='true']", 'color', 'Notification tabs', 'Selected=true', 5],
+  //
+  // THE RENAME IS REAL, AND I BRIEFLY RECORDED THE OPPOSITE HERE. Mid-merge this comment read
+  // "asserted a rename that did not happen", because the other branch's extract carries BOTH
+  // `Side navigation tab` and `Notification tabs` as separate components with different variant
+  // axes. `sync:check` settled it the way this repo always settles a rename — BY NODE ID. All five
+  // rows, under both names, are node 22973:20747, and components.json lists that one id twice.
+  //
+  // So it is one component captured twice under an old and a new name, which is precisely the
+  // "update the extracts rather than capturing it twice" case sync:check exists to report. Both
+  // classes therefore ship, the pages use the older one, and this checks the class the pages use.
+  // The duplicate is left for a re-extract rather than resolved here: dropping the old rows would
+  // delete a class three screens depend on.
+  //
+  // Worth keeping as a lesson: a name-only comparison could not tell a rename from two components,
+  // and it fooled me in both directions inside one afternoon.
+  [".pf-side-navigation-tab[data-selected='true']", 'color', 'Side navigation tab', 'Selected=true', 5],
 ];
 
 const file = 'file://' + resolve(process.argv[2]);
@@ -113,7 +125,7 @@ const absent = failures.filter(f => /not in DOM/.test(f));
 const wrong = failures.filter(f => !/not in DOM/.test(f));
 if (wrong.length) { console.log('\nFAILURES:'); wrong.forEach(f => console.log('  ' + f)); }
 if (absent.length) console.log(`\n${absent.length} binding(s) not on this page — skipped`);
-console.log(`\n${pass} rendered colours match Figma, ${wrong.length} mismatched`);
+console.log(`\n${pass} rendered colours match the extract, ${wrong.length} mismatched`);
 if (pass === 0) {
   console.log('nothing was checked — this page uses none of the bindings, which is not a pass');
   process.exit(2);

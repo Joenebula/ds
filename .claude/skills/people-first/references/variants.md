@@ -54,7 +54,7 @@ Figma component actually binds.
 |---|---|---|---|
 | State=Default, Active=False | `var(--pf-bg-primary)` | `var(--pf-border-hollow-button)` | `var(--pf-text-primary)` |
 | State=Selected, Active=True | `var(--pf-bg-primary)` | `var(--pf-border-theme)` | `var(--pf-text-theme)` |
-| State=Hover, Active=False | `var(--pf-bg-theme)` | `var(--pf-border-theme)` | `var(--pf-text-theme)` |
+| State=Hover, Active=False | `var(--pf-bg-light-theme)` | `var(--pf-border-theme)` | `var(--pf-text-theme)` |
 
 ### Add attachment
 
@@ -85,7 +85,7 @@ Figma component actually binds.
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
-|  | — | — | `var(--pf-text-primary)` |
+|  | — | — | `Grey-slate` ⚠️ |
 
 ### Action menu
 
@@ -239,15 +239,15 @@ Figma component actually binds.
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
-| State=Default | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-primary)` |
-| State=Hover | `var(--pf-bg-theme)` | `var(--pf-border-theme)` | `var(--pf-text-theme)` |
+| State=Default | `var(--pf-bg-primary)` | `var(--pf-border-default-full)` | `var(--pf-text-primary)` |
+| State=Hover | `var(--pf-bg-light-theme)` | `var(--pf-border-theme)` | `var(--pf-text-theme)` |
 
 ### Radio card
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
-| State=Enabled, Selected=No | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-primary)` |
-| State=Enabled, Selected=Yes | `var(--pf-bg-theme)` | `var(--pf-border-theme)` | `var(--pf-text-theme)` |
+| State=Enabled, Selected=No | `var(--pf-bg-primary)` | `var(--pf-border-default-full)` | `var(--pf-text-primary)` |
+| State=Enabled, Selected=Yes | `var(--pf-bg-light-theme)` | `var(--pf-border-theme)` | `var(--pf-text-theme)` |
 | State=Disabled, Selected=No | `var(--pf-bg-tertiary)` | `var(--pf-border-disabled)` | `var(--pf-text-disabled)` |
 | State=Disabled, Selected=Yes | `var(--pf-bg-tertiary)` | `var(--pf-border-disabled)` | `var(--pf-text-disabled)` |
 
@@ -281,15 +281,15 @@ Figma component actually binds.
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
-| Property 1=Default | `var(--pf-border-form-input)` | — | — |
+| Property 1=Default | — | `var(--pf-border-form-input)` | — |
 
 ### Document previewer
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
-| Device=Mobile | — | `var(--pf-border-default)` | `var(--pf-text-primary)` |
-| Device=Tablet | — | `var(--pf-border-default)` | `var(--pf-text-primary)` |
-| Device=Desktop | — | `var(--pf-border-default)` | `var(--pf-text-primary)` |
+| Device=Mobile | — | `var(--pf-border-default-full)` | `var(--pf-text-primary)` |
+| Device=Tablet | — | `var(--pf-border-default-full)` | `var(--pf-text-primary)` |
+| Device=Desktop | — | `var(--pf-border-default-full)` | `var(--pf-text-primary)` |
 
 ### Date picker period
 
@@ -315,20 +315,20 @@ Figma component actually binds.
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
-| Alignment=Left | `var(--pf-table-header-cell)` | `var(--pf-border-default)` | `var(--pf-text-primary)` |
-| Alignment=Right | `var(--pf-table-header-cell)` | `var(--pf-border-default)` | `var(--pf-text-primary)` |
+| Alignment=Left | `var(--pf-table-header-cell)` | `var(--pf-border-default-full)` | `var(--pf-text-primary)` |
+| Alignment=Right | `var(--pf-table-header-cell)` | `var(--pf-border-default-full)` | `var(--pf-text-primary)` |
 | Alignment=Checkbox | `var(--pf-table-header-cell)` | — | — |
 
 ### Table cell (AG)
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
-| Type=Default, Style=Default | `var(--pf-table-primary-cell)` | `var(--pf-border-default)` | `var(--pf-text-link)` |
-| Type=Default, Style=Stripe | `var(--pf-table-stripe-cell)` | `var(--pf-border-default)` | `var(--pf-text-link)` |
-| Type=Default, Style=Hover | `var(--pf-bg-theme)` | `var(--pf-border-default)` | — |
-| Type=Checkbox, Style=Default | `var(--pf-table-primary-cell)` | `var(--pf-border-default)` | — |
-| Type=Checkbox, Style=Stripe | `var(--pf-table-stripe-cell)` | `var(--pf-border-default)` | — |
-| Type=Checkbox, Style=Hover | `var(--pf-bg-theme)` | `var(--pf-border-default)` | — |
+| Type=Default, Style=Default | `var(--pf-table-primary-cell)` | `var(--pf-border-default-full)` | `var(--pf-text-link)` |
+| Type=Default, Style=Stripe | `var(--pf-table-stripe-cell)` | `var(--pf-border-default-full)` | `var(--pf-text-link)` |
+| Type=Default, Style=Hover | `var(--pf-bg-light-theme)` | `var(--pf-border-default-full)` | — |
+| Type=Checkbox, Style=Default | `var(--pf-table-primary-cell)` | `var(--pf-border-default-full)` | — |
+| Type=Checkbox, Style=Stripe | `var(--pf-table-stripe-cell)` | `var(--pf-border-default-full)` | — |
+| Type=Checkbox, Style=Hover | `var(--pf-bg-light-theme)` | `var(--pf-border-default-full)` | — |
 
 ### Table (AG)
 
@@ -353,7 +353,7 @@ Figma component actually binds.
 | Variant | Background | Border | Text |
 |---|---|---|---|
 | State=Default | `var(--pf-bg-primary)` | `var(--pf-icon-disabled)` | — |
-| State=Hover | `var(--pf-bg-theme)` | `var(--pf-icon-theme)` | — |
+| State=Hover | `var(--pf-bg-light-theme)` | `var(--pf-icon-theme)` | — |
 | State=Selected | `var(--pf-icon-theme)` | — | — |
 | State=Mixed selection | `var(--pf-icon-theme)` | — | — |
 
@@ -362,18 +362,18 @@ Figma component actually binds.
 | Variant | Background | Border | Text |
 |---|---|---|---|
 | Variant=Sort, State=Default | — | — | — |
-| Variant=Sort, State=Ascending | `var(--pf-bg-theme)` | `var(--pf-icon-theme)` | — |
-| Variant=Sort, State=Descending | `var(--pf-bg-theme)` | `var(--pf-icon-theme)` | — |
-| Variant=Filter, State=Filtered | `var(--pf-bg-theme)` | `var(--pf-icon-theme)` | — |
-| Variant=Context menu, State=Active | `var(--pf-bg-theme)` | `var(--pf-icon-theme)` | — |
+| Variant=Sort, State=Ascending | `var(--pf-bg-light-theme)` | `var(--pf-icon-theme)` | — |
+| Variant=Sort, State=Descending | `var(--pf-bg-light-theme)` | `var(--pf-icon-theme)` | — |
+| Variant=Filter, State=Filtered | `var(--pf-bg-light-theme)` | `var(--pf-icon-theme)` | — |
+| Variant=Context menu, State=Active | `var(--pf-bg-light-theme)` | `var(--pf-icon-theme)` | — |
 
 ### AG sort item
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
 | State=Default | — | — | `var(--pf-text-primary)` |
-| State=Hover | `var(--pf-bg-theme)` | — | `var(--pf-text-primary)` |
-| State=Active | `var(--pf-bg-theme)` | — | `var(--pf-text-primary)` |
+| State=Hover | `var(--pf-bg-light-theme)` | — | `var(--pf-text-primary)` |
+| State=Active | `var(--pf-bg-light-theme)` | — | `var(--pf-text-primary)` |
 
 ### AG Filter menus
 
@@ -450,31 +450,31 @@ Figma component actually binds.
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
-| Type=Information | — | `var(--pf-border-info)` | `var(--pf-text-primary)` |
-| Type=Warning | — | `var(--pf-border-warning)` | `var(--pf-text-primary)` |
-| Type=Error | — | `var(--pf-border-negative)` | `var(--pf-text-primary)` |
-| Type=Success | — | `var(--pf-border-positive)` | `var(--pf-text-primary)` |
+| Type=Information | — | — | `var(--pf-text-primary)` |
+| Type=Warning | — | — | `var(--pf-text-primary)` |
+| Type=Error | — | — | `var(--pf-text-primary)` |
+| Type=Success | — | — | `var(--pf-text-primary)` |
 
 ### Notification card
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
-| Mobile=False | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-primary)` |
+| Mobile=False | `var(--pf-bg-primary)` | `var(--pf-border-default-full)` | `var(--pf-text-primary)` |
 
 ### Confirmation modal
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
-| Type=Confirmation | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-primary)` |
-| Type=Success | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-primary)` |
-| Type=Information | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-primary)` |
+| Type=Confirmation | `var(--pf-bg-primary)` | `var(--pf-border-default-full)` | `var(--pf-text-primary)` |
+| Type=Success | `var(--pf-bg-primary)` | `var(--pf-border-default-full)` | `var(--pf-text-primary)` |
+| Type=Information | `var(--pf-bg-primary)` | `var(--pf-border-default-full)` | `var(--pf-text-primary)` |
 
 ### Next actions modal
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
-| Type=Warning | `var(--pf-bg-primary)` | `var(--pf-border-default)` | — |
-| Type=Success | `var(--pf-bg-primary)` | `var(--pf-border-default)` | — |
+| Type=Warning | `var(--pf-bg-primary)` | `var(--pf-border-default-full)` | — |
+| Type=Success | `var(--pf-bg-primary)` | `var(--pf-border-default-full)` | — |
 
 ### Status
 
@@ -503,28 +503,20 @@ Figma component actually binds.
 | State=Hover | — | — | `var(--pf-text-theme)` |
 | State=Selected | — | — | `var(--pf-text-theme)` |
 
-### Notification tabs
+### Side navigation tab
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
 | Selected=false | — | — | `var(--pf-text-primary)` |
-| Selected=true | `var(--pf-bg-theme)` | — | `var(--pf-text-theme)` |
+| Selected=true | `var(--pf-bg-light-theme)` | — | `var(--pf-text-theme)` |
 
 ### Filter tab single
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
-| Selected=False, State=Default | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-secondary)` |
-| Selected=False, State=Hover | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-theme)` |
-| Selected=True, State=Default | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-theme)` |
-
-### Nav tabs
-
-| Variant | Background | Border | Text |
-|---|---|---|---|
-| Status=Unselected | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-primary)` |
-| Status=Hover | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-theme)` |
-| Status=Selected | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-theme)` |
+| Selected=False, State=Default | `var(--pf-bg-primary)` | `var(--pf-border-default-full)` | `var(--pf-text-secondary)` |
+| Selected=False, State=Hover | `var(--pf-bg-primary)` | `var(--pf-border-default-full)` | `var(--pf-text-theme)` |
+| Selected=True, State=Default | `var(--pf-bg-primary)` | `var(--pf-border-default-full)` | `var(--pf-text-theme)` |
 
 ### Config child menu
 
@@ -538,15 +530,8 @@ Figma component actually binds.
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
-| Type=Standard | — | `var(--pf-border-default)` | `var(--pf-text-inverted-primary)` |
-| Type=Hover | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-theme)` |
-
-### Tertiary nav
-
-| Variant | Background | Border | Text |
-|---|---|---|---|
-| Navigation type=Chips | — | — | `var(--pf-text-theme)` |
-| Navigation type=Page | `var(--pf-bg-primary)` | — | `var(--pf-text-primary)` |
+| Type=Standard | — | `var(--pf-border-default-full)` | `var(--pf-text-inverted-primary)` |
+| Type=Hover | `var(--pf-bg-primary)` | `var(--pf-border-default-full)` | `var(--pf-text-theme)` |
 
 ### Side navigation
 
@@ -565,7 +550,7 @@ Figma component actually binds.
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
-|  | — | `var(--pf-border-default)` | `var(--pf-text-primary)` |
+|  | — | `var(--pf-border-default-full)` | `var(--pf-text-primary)` |
 
 ### Navigation tabs
 
@@ -587,40 +572,11 @@ Figma component actually binds.
 |---|---|---|---|
 |  | — | — | `var(--pf-text-secondary)` |
 
-### Header navigation
-
-| Variant | Background | Border | Text |
-|---|---|---|---|
-| Breakpoint=Desktop | — | — | `var(--pf-text-secondary)` |
-| Breakpoint=Tablet | — | — | `var(--pf-base-white)` |
-| Breakpoint=Mobile | — | — | `var(--pf-base-white)` |
-
-### Secondary nav
-
-| Variant | Background | Border | Text |
-|---|---|---|---|
-|  | `var(--pf-bg-primary)` | — | `var(--pf-text-theme)` |
-
 ### Top bar app context
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
 |  | — | — | `var(--pf-base-white)` |
-
-### Search navigation
-
-| Variant | Background | Border | Text |
-|---|---|---|---|
-| Mobile=False | — | — | `var(--pf-text-secondary)` |
-| Mobile=Mobile3 | — | — | `var(--pf-text-theme)` |
-
-### Full page
-
-| Variant | Background | Border | Text |
-|---|---|---|---|
-| Breakpoint=Desktop | — | — | `var(--pf-text-secondary)` |
-| Breakpoint=Mobile | — | — | `var(--pf-base-white)` |
-| Breakpoint=Tablet | — | — | `var(--pf-base-white)` |
 
 ### Filter tabs
 
@@ -640,11 +596,107 @@ Figma component actually binds.
 |---|---|---|---|
 |  | — | — | `var(--pf-text-primary)` |
 
-### Counter
+### Notification panel
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
-|  | `var(--pf-icon-theme)` | — | `var(--pf-text-inverted-primary)` |
+|  | `var(--pf-bg-primary)` | — | `var(--pf-text-primary)` |
+
+### Notification list
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| Mobile=No | `var(--pf-bg-primary)` | — | `var(--pf-text-primary)` |
+| Mobile=Yes | — | — | `var(--pf-text-theme)` |
+
+### Notification categories
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| Mobile=No | `var(--pf-bg-primary)` | — | `var(--pf-navigation-notification-selected)` |
+| Mobile=Yes | `var(--pf-bg-primary)` | — | `var(--pf-text-primary)` |
+
+### Pagination buttons
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-base-white)` |
+
+### Steps
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| State=Completed | — | — | `var(--pf-text-positive)` |
+| State=Selected | — | — | `var(--pf-navigation-nav-bg-top)` |
+| State=Default enabled | — | — | `var(--pf-text-secondary)` |
+| State=Default disabled | — | — | `var(--pf-text-inverted-secondary)` |
+| State=Hover, System=People First | — | — | `var(--pf-text-theme)` |
+| State=Hover, System=Configr | — | — | `var(--pf-text-configr-theme)` |
+
+### Stepper
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-text-positive)` |
+
+### Full page/Header navigation/Yes/No
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | — | — | `var(--pf-base-white)` |
+
+### Header navigation
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| Mobile=No, Tablet=No | — | — | `var(--pf-text-secondary)` |
+| Mobile=Yes, Tablet=No | — | — | `var(--pf-base-white)` |
+| Mobile=No, Tablet=Yes | — | — | `var(--pf-base-white)` |
+
+### Nav tabs
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| Status=Unselected | `var(--pf-navigation-nav-bg-top)` | `var(--pf-border-default-full)` | `var(--pf-text-primary)` |
+| Status=Hover | `var(--pf-navigation-nav-bg-top)` | `var(--pf-border-default-full)` | `var(--pf-text-theme)` |
+| Status=Selected | `var(--pf-navigation-nav-bg-top)` | `var(--pf-border-default-full)` | `var(--pf-text-theme)` |
+
+### Secondary nav
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | `var(--pf-navigation-nav-bg-top)` | — | `var(--pf-text-theme)` |
+
+### Tertiary nav
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| Page=No | `var(--pf-navigation-nav-bg-top)` | — | `var(--pf-text-theme)` |
+| Page=Yes | `var(--pf-navigation-nav-bg-top)` | — | `var(--pf-text-primary)` |
+
+### Search navigation
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| Mobile=False | `var(--pf-navigation-search-bg)` | — | `var(--pf-text-secondary)` |
+
+### Full page
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| System=People First, Darkmode=No | — | — | `var(--pf-navigation-nav-items)` |
+| System=Configr, Darkmode=No | `var(--pf-bg-secondary)` | — | `var(--pf-navigation-configr-nav)` |
+| System=People First, Darkmode=Yes | — | — | `var(--pf-navigation-nav-items)` |
+| System=People First, Mobile=Yes | — | — | `var(--pf-base-white)` |
+| System=People First, Tablet=Yes | — | — | `var(--pf-base-white)` |
+
+### Notification tabs
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| State=Default, Selected=No | — | `var(--pf-border-default-full)` | `var(--pf-text-primary)` |
+| State=Hover, Selected=No | — | `var(--pf-border-default-full)` | `var(--pf-text-theme)` |
+| State=Selected, Selected=Yes | `var(--pf-bg-primary)` | `var(--pf-border-default-full)` | `var(--pf-navigation-notification-selected)` |
 
 ## Cards and panels
 
@@ -652,18 +704,18 @@ Figma component actually binds.
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
-| State=Default | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-primary)` |
+| State=Default | `var(--pf-bg-primary)` | `var(--pf-border-default-full)` | `var(--pf-text-primary)` |
 | State=Hover | `var(--pf-bg-secondary)` | `var(--pf-border-secondary)` | `var(--pf-text-primary)` |
 | State=Click | `var(--pf-bg-primary)` | `var(--pf-border-theme)` | `var(--pf-text-primary)` |
 | State=Drag | `var(--pf-bg-primary)` | `var(--pf-border-theme)` | `var(--pf-text-primary)` |
-| State=Drop | `var(--pf-bg-theme)` | `var(--pf-border-theme)` | — |
+| State=Drop | `var(--pf-bg-light-theme)` | `var(--pf-border-theme)` | — |
 
 ### Accordion
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
-| Expanded=False | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-primary)` |
-| Expanded=True | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-primary)` |
+| Expanded=False | `var(--pf-bg-primary)` | `var(--pf-border-default-full)` | `var(--pf-text-primary)` |
+| Expanded=True | `var(--pf-bg-primary)` | `var(--pf-border-default-full)` | `var(--pf-text-primary)` |
 
 ### Card
 
@@ -675,25 +727,25 @@ Figma component actually binds.
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
-| Mobile=false | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-primary)` |
+| Mobile=false | `var(--pf-bg-primary)` | `var(--pf-border-default-full)` | `var(--pf-text-primary)` |
 
 ### Spotlight Card
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
-| Horizontal=False | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-primary)` |
+| Horizontal=False | `var(--pf-bg-primary)` | `var(--pf-border-default-full)` | `var(--pf-text-primary)` |
 
 ### single layout card
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
-| Mobile=false | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-primary)` |
+| Mobile=false | `var(--pf-bg-primary)` | `var(--pf-border-default-full)` | `var(--pf-text-primary)` |
 
 ### Editable list card
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
-| Property 1=Default | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-text-secondary)` |
+| Property 1=Default | `var(--pf-bg-primary)` | `var(--pf-border-default-full)` | `var(--pf-text-secondary)` |
 
 ### Settings card
 
@@ -739,7 +791,7 @@ Figma component actually binds.
 | Variant | Background | Border | Text |
 |---|---|---|---|
 | Row colour=False | `var(--pf-bg-primary)` | — | `var(--pf-text-primary)` |
-| Row colour=True | `var(--pf-bg-theme)` | — | `var(--pf-text-primary)` |
+| Row colour=True | `var(--pf-bg-light-theme)` | — | `var(--pf-text-primary)` |
 
 ### Org chart
 
@@ -753,7 +805,7 @@ Figma component actually binds.
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
-| Property 1=Default | — | `var(--pf-border-default)` | `var(--pf-text-primary)` |
+| Property 1=Default | — | `var(--pf-border-default-full)` | `var(--pf-text-primary)` |
 
 ### Side filter
 
@@ -771,7 +823,7 @@ Figma component actually binds.
 
 | Variant | Background | Border | Text |
 |---|---|---|---|
-|  | — | `var(--pf-border-default)` | `var(--pf-text-primary)` |
+|  | — | `var(--pf-border-default-full)` | `var(--pf-text-primary)` |
 
 ### Configuration panel
 
@@ -833,6 +885,13 @@ Figma component actually binds.
 |---|---|---|---|
 |  | — | — | `var(--pf-text-primary)` |
 
+### Component 1
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+| Property 1=Frame 6270951 | — | `var(--pf-border-default-full)` | `var(--pf-text-secondary)` |
+| Property 1=Frame 6270952 | `var(--pf-bg-tertiary)` | `var(--pf-border-default-full)` | `var(--pf-text-secondary)` |
+
 ## AI
 
 ### AI button
@@ -849,7 +908,7 @@ Figma component actually binds.
 | Variant | Background | Border | Text |
 |---|---|---|---|
 | Type=Default | `var(--pf-bg-primary)` | — | `var(--pf-base-default-pink)` |
-| Type=Active chat | `var(--pf-bg-primary)` | `var(--pf-border-default)` | `var(--pf-base-default-pink)` |
+| Type=Active chat | `var(--pf-bg-primary)` | `var(--pf-border-default-full)` | `var(--pf-base-default-pink)` |
 | Type=Expanded | `var(--pf-bg-primary)` | — | `var(--pf-text-primary)` |
 
 ### AI banner
@@ -1009,6 +1068,14 @@ Figma component actually binds.
 | Page=Menu | `var(--pf-bg-secondary)` | — | `var(--pf-text-theme)` |
 | Page=Search | `var(--pf-bg-secondary)` | — | `var(--pf-text-primary)` |
 | Page=Settings | `var(--pf-bg-secondary)` | — | `var(--pf-text-primary)` |
+
+## Icons
+
+### Circle icons
+
+| Variant | Background | Border | Text |
+|---|---|---|---|
+|  | `var(--pf-bg-light-theme)` | `var(--pf-border-theme)` | — |
 
 ## Notes and quirks
 

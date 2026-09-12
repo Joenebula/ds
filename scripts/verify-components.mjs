@@ -10,6 +10,17 @@
 import { readFileSync, writeFileSync, unlinkSync } from 'node:fs';
 import { chromium } from 'playwright-core';
 
+// Mirrors build-components-css.mjs: a component-level text colour that is really one
+// child's, identified by the child tree binding more than one label colour.
+const labelColours = new Map();
+for (const line of readFileSync('tokens/_raw/component-tree.tsv', 'utf8').trim().split('\n').slice(1)) {
+  const c = line.split('\t');
+  if (!c[1] || c[2] !== 'TEXT' || !c[12]) continue;
+  if (!labelColours.has(c[0])) labelColours.set(c[0], new Set());
+  labelColours.get(c[0]).add(c[12]);
+}
+const colourIsOneChilds = (component) => (labelColours.get(component) || new Set()).size > 1;
+
 const selfTest = process.argv.includes('--self-test');
 
 const tsv = (p) => {
@@ -18,7 +29,30 @@ const tsv = (p) => {
   return rows.map(r => Object.fromEntries(r.split('\t').map((v, i) => [keys[i], v ?? ''])));
 };
 
-const geometry = new Map(tsv('tokens/_raw/component-geometry.tsv').map(r => [r.component, r]));
+const geometryRows = tsv('tokens/_raw/component-geometry.tsv');
+const geometry = new Map(geometryRows.filter(r => !r.component.includes('|')).map(r => [r.component, r]));
+// Per-variant rows. This file used to hold one row per component, so every variant was
+// checked against the same expectation — which was the fault, not the check. Now a
+// variant with its own row must be checked against THAT row: Information box is 56px in
+// its default Type=Information and 74px in Warning, Error and Success, and comparing all
+// four to the base reported four failures that were the checker's, not the library's.
+// Key these exactly the way the generator builds its selectors. selectorsFor() drops the
+// State and Hover axes — they become CSS states, not attributes — so the rule for
+// "AG Filter menus|Variant=Sort, State=Default" is emitted as [data-variant="Sort"].
+// Looking the colour row "Variant=Sort" up by its literal key therefore missed, fell
+// back to the base row, and reported the 252px default against a correctly rendered
+// 176px. Later rows win, as they do in the cascade.
+const dropStateAxes = v => String(v).split(',').map(x => x.trim()).filter(Boolean)
+  .filter(a => !/^(State|Hover)=/.test(a)).join(', ');
+const geometryVariant = new Map();
+for (const r of geometryRows) {
+  if (!r.component.includes('|')) continue;
+  const i = r.component.indexOf('|');
+  geometryVariant.set(r.component, r);                                   // literal key
+  const collapsed = `${r.component.slice(0, i)}|${dropStateAxes(r.component.slice(i + 1))}`;
+  if (collapsed !== r.component && dropStateAxes(r.component.slice(i + 1)))
+    geometryVariant.set(collapsed, r);
+}
 const variants = tsv('tokens/_raw/component-variants.tsv');
 
 const tokenVar = new Map();
@@ -42,7 +76,7 @@ const parseVariant = v => v.split(',').map(p => p.trim()).filter(Boolean).map(p 
 // ---- expectations + specimen markup -----------------------------------------
 const specs = [];
 variants.forEach((r, i) => {
-  const g = geometry.get(r.component);
+  const g = geometryVariant.get(`${r.component}|${r.variant}`) || geometry.get(r.component);
   const base = 'pf-' + kebab(r.component);
   const attrs = parseVariant(r.variant).map(([k, v]) => ` data-${kebab(k)}="${esc(v)}"`).join('');
   const id = 's' + i;
@@ -134,7 +168,15 @@ for (const theme of ['light', 'dark']) {
     if (e.flexDirection) add('flex-direction', e.flexDirection, f.flexDirection, f.flexDirection === e.flexDirection);
 
     if (f.want.fill) add('background', f.want.fill, f.bg, f.bg === f.want.fill);
-    if (f.want.text) add('color', f.want.text, f.color, f.color === f.want.text);
+    // THE GENERATOR DELIBERATELY DROPS SOME TEXT COLOURS, so asserting them all would fail
+    // the library on values it is right not to emit. The colour extract gives a component
+    // ONE text colour; for a composite one that is whichever label Figma happened to record,
+    // and painting it on the class paints every descendant — `.pf-calendar-picker` rendered
+    // its whole calendar white on white. The generator drops such a colour when the child
+    // tree shows more than one label colour, and this mirrors that rule. Mirroring rather
+    // than exempting by name: the same reasoning, read from the same file, so the two cannot
+    // drift the way the State/Hover axis collapsing once did.
+    if (f.want.text && !colourIsOneChilds(s.component)) add('color', f.want.text, f.color, f.color === f.want.text);
     if (f.want.stroke) add('border-color', f.want.stroke, f.borderColor, f.borderColor === f.want.stroke);
   }
   await ctx.close();
@@ -148,7 +190,12 @@ for (const r of fails.slice(0, 40)) {
 }
 if (fails.length > 40) console.log(`... and ${fails.length - 40} more`);
 
-console.log(`\n${results.length - fails.length} of ${results.length} checks match Figma, ${fails.length} off`);
+// NOT "match Figma". This renders dist/components.css and compares it to
+// component-geometry.tsv and component-variants.tsv — the two files the stylesheet is
+// GENERATED FROM. It measures internal consistency, which is worth having and is not the
+// same claim. verify-against-figma.mjs is the one with an independent source.
+console.log(`\n${results.length - fails.length} of ${results.length} rendered values match the extract they were built from, ${fails.length} off`);
+console.log('  (internal consistency — see verify-against-figma.mjs for the check with an independent source)');
 if (selfTest) {
   const caught = fails.filter(f => f.component === 'Button' && /height|radius/.test(f.prop)).length;
   console.log(caught ? `self-test OK — the deliberate break was caught (${caught} failures)`

@@ -22,11 +22,30 @@ const components = readFileSync('dist/components.css', 'utf8');
 const type = readFileSync('dist/type.css', 'utf8');
 let html = readFileSync(src, 'utf8');
 if (!html.includes('/*__TOKENS__*/')) { console.error('no /*__TOKENS__*/ placeholder'); process.exit(1); }
-if (!html.includes('/*__FONTS__*/')) { console.error('no /*__FONTS__*/ placeholder — the page has no font layer'); process.exit(1); }
-html = html.replace('/*__FONTS__*/', fonts + '\n' + avatars + '\n' + images + '\n' + placeholders);
-html = html.replace('/*__TOKENS__*/', tokens);
+// TWO TEMPLATE SHAPES, because the branches used different placeholders and both are live.
+// This one injects the font layer plus avatars, images and placeholders at /*__FONTS__*/ when the
+// template has it; a template that only has /*__TOKENS__*/ gets the fonts ahead of the tokens, the
+// other branch's arrangement. Hard-failing on the missing placeholder would have broken every
+// screen written against the other template, which is the kind of silent breakage a merge is most
+// likely to ship.
+if (html.includes('/*__FONTS__*/')) {
+  html = html.replace('/*__FONTS__*/', fonts + '\n' + avatars + '\n' + images + '\n' + placeholders);
+  html = html.replace('/*__TOKENS__*/', tokens);
+} else {
+  html = html.replace('/*__TOKENS__*/', fonts + '\n' + avatars + '\n' + images + '\n' + placeholders + '\n' + tokens);
+}
 if (html.includes('/*__COMPONENTS__*/')) html = html.replace('/*__COMPONENTS__*/', components);
-if (html.includes('/*__TYPE__*/')) html = html.replace('/*__TYPE__*/', type);
+// NOT OPTIONAL, AND IT USED TO BE. This read `if (html.includes(...))`, so a source without the
+// placeholder was built with NO TYPE LAYER and said nothing. timesheet-approvals.src.html had
+// been in that state — its `<strong>` rendered the UA's synthesised 700 while the other screens
+// took the system's 600, and the only reason it surfaced is that the 2026-09-12 merge brought in
+// a font check that reads rendered weights. A silently skipped layer is the same failure as a
+// silently skipped check.
+if (!html.includes('/*__TYPE__*/')) {
+  console.error(`${src}: no /*__TYPE__*/ placeholder — the page would ship with no type layer`);
+  process.exit(1);
+}
+html = html.replace('/*__TYPE__*/', type);
 
 // ---- icon references -------------------------------------------------------
 // Using a real Figma icon used to mean opening assets/icons/<name>.svg and pasting its

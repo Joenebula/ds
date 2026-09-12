@@ -79,20 +79,40 @@ for (const s of styles) {
     // Italic is a STYLE, not a weight, and sits in the weight column. It is in-system: 400 italic.
     d.push('font-weight: 400', 'font-style: italic');
   } else if (OFF_RAMP.has(s.weight)) {
-    // Outside 400/600 — record it, do not ship it.
+    // Outside 400/600 — recorded, and NOT shipped at the weight Figma holds.
+    //
+    // BUT IT STILL EMITS 400, AND THAT CORRECTION CAME OUT OF THE 2026-09-12 MERGE. This branch
+    // emitted nothing here and said the class "inherits 400". It does not: emitting nothing means
+    // the browser's UA stylesheet decides, and on an <h2> that is 700 — a weight this system does
+    // not ship, so it is SYNTHESISED, and no check could see it. The other branch had found that
+    // for the no-weight case and fixed it; the same argument applies to this one, because the
+    // failure is in emitting nothing rather than in which styles do it.
     offSystem.push(`${s.name} (${s.weight} ${WEIGHT[s.weight]})`);
+    d.push('font-weight: 400');
   } else if (s.weight) {
     d.push(`font-weight: ${WEIGHT[s.weight] || '400'}`);
-  } else noWeight.push(s.name);
+  } else {
+    // Figma records no weight on ten styles. Emitting nothing does NOT mean "inherit the
+    // design system's default" — it means the browser's UA stylesheet decides, and on an
+    // <h2> that is 700. Open Sans here ships 400 and 600 only, so 700 was synthesised:
+    // `.pf-text-sub-heading` on a heading rendered a weight the design system does not
+    // have, and no check could see it.
+    //
+    // 400 is not a guess. Every unweighted style has a "(semi bold, 600)" sibling —
+    // `Sub heading` next to `Sub heading (semi bold, 600)`, `Label text` next to
+    // `Label text (semibold)`. The pair only makes sense if the plain one is Regular.
+    d.push('font-weight: 400');
+    noWeight.push(s.name);
+  }
   const ls = parseFloat(s.letterSpacing);
   if (Number.isFinite(ls) && ls !== 0) d.push(`letter-spacing: ${ls / 100}em`);
   if (s.textCase === 'UPPER') d.push('text-transform: uppercase');
   d.push('line-height: normal');
   d.push('font-family: var(--pf-font-body)');
 
-  out.push(`/* ${s.name}${s.weight ? '' : '  — NO WEIGHT SET IN FIGMA; inherits'}${
+  out.push(`/* ${s.name}${s.weight ? '' : '  — NO WEIGHT SET IN FIGMA; 400 emitted, see the note in the generator'}${
     OFF_RAMP.has(s.weight) ? `  — Figma says ${s.weight} (${WEIGHT[s.weight]}), OUTSIDE the system's `
-      + `400/600 rule, so no font-weight is emitted and this inherits 400` : ''} */`);
+      + `400/600 rule, so 400 is emitted instead` : ''} */`);
   out.push(`.${cls} {`);
   for (const x of d) out.push(`  ${x};`);
   out.push('}');
@@ -100,14 +120,27 @@ for (const s of styles) {
   count++;
 }
 
+// THE SAME FAULT AS AN UNWEIGHTED STYLE, one layer out: `<strong>`, `<b>` and `<th>` are 700 in
+// every UA stylesheet, and this system ships 400 and 600 only — so the browser SYNTHESISES a bold
+// that the design system does not have. The type layer declared nothing for them, which meant the
+// non-negotiable "Open Sans only, weights 400 and 600" was true of the classes and false of the
+// page. Base's font check found it on all three prototypes the moment the merge put the two halves
+// together. 600 is the system's bold; the token already resolves to it.
+out.push('/* Plain HTML bold. The UA stylesheet says 700 and this system has 400 and 600, so without');
+out.push(' * this the browser synthesises a weight the design system does not ship. See build-type-css.mjs. */');
+out.push('strong, b, th {');
+out.push('  font-weight: var(--pf-font-weight-bold);');
+out.push('}');
+out.push('');
+
 mkdirSync('dist', { recursive: true });
 writeFileSync('dist/type.css', out.join('\n'));
 console.log(`type.css written — ${count} type classes`);
 console.log(`  line height    : normal on all (Figma uses automatic throughout)`);
-if (noWeight.length) console.log(`  no weight in Figma: ${noWeight.length} (left to inherit, listed in the CSS)`);
+if (noWeight.length) console.log(`  no weight in Figma: ${noWeight.length} (400 emitted; see the generator note)`);
 // Counted and named every run. Never delete this to tidy the output — it is the only thing keeping
 // a weight removed from the stylesheet from becoming a weight nobody remembers Figma still has.
 if (offSystem.length) {
-  console.log(`  OUTSIDE 400/600   : ${offSystem.length} weight(s) in Figma, NOT emitted — inherits 400`);
+  console.log(`  OUTSIDE 400/600   : ${offSystem.length} weight(s) in Figma, NOT shipped — 400 emitted instead`);
   for (const n of offSystem) console.log(`      ${n}`);
 }

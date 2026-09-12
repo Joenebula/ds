@@ -53,7 +53,7 @@ const PAIRS = [
   ['btn Negative hover',   'Base colours/White',      'Background/Negative Button Hover'],
   ['btn Hollow',           'Text/Primary',            'Background/Primary'],
   ['chip selected',        'Text/Theme',              'Background/Primary'],
-  ['chip hover',           'Text/Theme',              'Background/Theme'],
+  ['chip hover',           'Text/Theme',              'Background/Light Theme'],
   ['tag positive',         'Tags/Content/Positive',   'Tags/Fills/Positive'],
   ['tag negative',         'Tags/Content/Negative',   'Tags/Fills/Negative'],
   ['tag warning',          'Tags/Content/Warning',    'Tags/Fills/Warning'],

@@ -1,0 +1,1199 @@
+component	path	type	name	main	variant	kids	size	layout	padding	gap	radius	fill	stroke	textStyle	font	text
+50/50 layout container		COMPONENT	Row colour=false, Mobile=false			2	1600x368	HORIZONTAL MIN MIN	0 0 0 0	0	0					
+50/50 layout container	0	INSTANCE	single layout card	single layout card	Mobile=false	3	800x368	VERTICAL CENTER MIN	30 30 30 30	20	0	Background/Primary	Border/Default full			
+50/50 layout container	1	INSTANCE	single layout card	single layout card	Mobile=false	2	800x368	VERTICAL CENTER MIN	30 30 30 30	20	0	Background/Primary	Border/Default full			
+AG Filter menus		COMPONENT	Variant=Multi & search, State=Default			2	208x252	VERTICAL CENTER MIN	16 16 16 16	20	4	Filter menu/Background	Filter menu/Border			
+AG Filter menus	0	INSTANCE	AG field	AG field	State=Selected	1	176x43	VERTICAL CENTER CENTER	2 4 2 4	10	8		Icons/Icon - Primary			
+AG Filter menus	1	FRAME	Checklist			2	160x80	VERTICAL MIN MIN	0 0 0 0	10	0					
+AG Filter menus	1.0	FRAME	Checkbox/radio			2	160x20	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+AG Filter menus	1.0.0	INSTANCE	Multi-select checkbox	Multi-select checkbox	State=Mixed selection, Darkmode=False	1	20x20	HORIZONTAL CENTER CENTER	5 5 5 5	10	4	Icons/Icon - Theme				
+AG Filter menus	1.0.1	TEXT	(Select All)			0	62x18	NONE			0	Text/Primary		Desktop text/Label text	13px	(Select All)
+AG Filter menus	1.1	SLOT	Checklist content			2	160x50	VERTICAL MIN MIN	0 0 0 0	10	0					
+AG Filter menus	1.1.0	FRAME	Checkbox/radio			2	160x20	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+AG Filter menus	1.1.0.0	INSTANCE	Multi-select checkbox	Multi-select checkbox	State=Selected, Darkmode=False	1	20x20	HORIZONTAL CENTER CENTER	5 5 5 5	10	4	Icons/Icon - Theme				
+AG Filter menus	1.1.0.1	TEXT	Option A			0	54x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Option A
+AG Filter menus	1.1.1	FRAME	Checkbox/radio			2	160x20	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+AG Filter menus	1.1.1.0	INSTANCE	Multi-select checkbox	Multi-select checkbox	State=Default, Darkmode=False	0	20x20	NONE			4	Background/Primary	Icons/Icon - Disabled			
+AG Filter menus	1.1.1.1	TEXT	Option B			0	54x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Option B
+AG field		COMPONENT	State=Selected			1	140x43	VERTICAL CENTER CENTER	2 4 2 4	10	8		Icons/Icon - Primary			
+AG field	0	FRAME	Field			3	132x36	HORIZONTAL CENTER MIN	10 4 10 8	6	4	Background/Primary	Icons/Icon - Theme			
+AG field	0.0	INSTANCE	Search	Search		1	12x12	NONE			0					
+AG field	0.1	FRAME	Text area			1	102x16	NONE			0					
+AG field	0.1.0	TEXT	Search			0	102x16	NONE			0	Text/Disabled			12px	Search
+AG field	0.2	INSTANCE	Calendar	Calendar		0	28x28	NONE			0					
+AG sort item		COMPONENT	State=Default			2	199x52	HORIZONTAL CENTER MIN	16 20 16 20	20	0					
+AG sort item	0	INSTANCE	Up arrow	Up arrow		1	20x20	NONE			0					
+AG sort item	1	TEXT	Sort Ascending			0	91x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Sort Ascendi
+AI Assistant		COMPONENT	Mobile=False, Darkmode=False, Type=Expanded			2	1628x1080	HORIZONTAL CENTER SPACE_BETWEEN	0 0 0 0	0	0	Background/Primary				
+AI Assistant	0	FRAME	Main content			2	1108x1080	NONE			0					
+AI Assistant	0.0	INSTANCE	Minimize	Minimize		8	30x30	NONE			0					
+AI Assistant	0.1	SLOT	Slot			0	1108x1020	HORIZONTAL CENTER CENTER	20 20 20 20	10	0					
+AI Assistant	1	INSTANCE	AI Assistant side panel	AI Assistant side panel	Darkmode=False, Type=Chat	2	520x1080	VERTICAL CENTER MIN	0 0 0 0	0	0		Border/Default full			
+AI Gradient component		COMPONENT	Property 1=Frame 62710147			3	408x408	NONE			0					
+AI Gradient component	0	ELLIPSE	Ellipse 10807			0	408x408	NONE			0	GRADIENT				
+AI Gradient component	1	ELLIPSE	Ellipse 10808			0	261x261	NONE			0	Background/Primary				
+AI Gradient component	2	TEXT	How can I help you today?			0	179x66	NONE			0	Text/Primary			24px SemiBold	How can I he
+AI banner		COMPONENT	Darkmode=True, mobile=False			2	1315x94	HORIZONTAL MIN MIN	20 20 20 20	10	8	Background/Primary	GRADIENT			
+AI banner	0	FRAME	Container			2	1071x54	VERTICAL MIN MIN	0 0 0 0	5	0					
+AI banner	0.0	FRAME	AI Header			1	1071x27	HORIZONTAL CENTER SPACE_BETWEEN	0 0 0 0	15	0					
+AI banner	0.0.0	FRAME	Heading + icon			2	1071x27	HORIZONTAL MIN MIN	0 0 0 0	10	0					
+AI banner	0.0.0.0	FRAME	Frame 86621			1	25x25	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+AI banner	0.0.0.0.0	INSTANCE	AI Sparkles	AI Sparkles		1	25x25	NONE			0					
+AI banner	0.0.0.1	TEXT	AI Banner			0	92x27	NONE			0	Text/Primary		Desktop text/Sub heading	20px	AI Banner
+AI banner	0.1	FRAME	AI Information			2	1071x22	HORIZONTAL CENTER MIN	0 0 0 35	10	0					
+AI banner	0.1.0	INSTANCE	Warning	Warning		0	24x24	NONE			0					
+AI banner	0.1.1	TEXT	AI suggested/generated information to go here			0	1036x22	NONE			0	Text/Secondary		Desktop text/Body text	16px	AI suggested
+AI banner	1	FRAME	Button container			2	194x32	HORIZONTAL CENTER MAX	0 0 0 0	20	0					
+AI banner	1.0	INSTANCE	AI button	AI button	Style=Light mode, Hover=False, Mobile=False	2	146x32	HORIZONTAL CENTER CENTER	3 15 3 10	10	55		GRADIENT			
+AI banner	1.1	INSTANCE	Close x cancel	Close x cancel		1	28x28	NONE			0					
+AI button		COMPONENT	Style=Light mode, Hover=False, Mobile=False			2	146x32	HORIZONTAL CENTER CENTER	3 15 3 10	10	55		GRADIENT			
+AI button	0	INSTANCE	AI Sparkles	AI Sparkles		1	22x22	NONE			0					
+AI button	1	TEXT	AI button label			0	89x18	NONE			0	Text/Primary			13px Regular	AI button la
+AI card modal		COMPONENT	Property 1=Default			2	440x505	VERTICAL MIN MIN	20 20 20 20	10	8	GRADIENT	GRADIENT			
+AI card modal	0	FRAME	Header			3	400x28	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+AI card modal	0.0	INSTANCE	AI Sparkles	AI Sparkles		1	24x24	NONE			0					
+AI card modal	0.1	TEXT	Heading			0	328x27	NONE			0	Text/Primary		Desktop text/Sub heading	20px	Heading
+AI card modal	0.2	INSTANCE	Close x cancel	Close x cancel		1	28x28	NONE			0					
+AI card modal	1	SLOT	Slot			0	400x427	NONE			0					
+AI message bubble		COMPONENT	Type=AI chat			2	455x149	VERTICAL MIN MIN	0 0 0 0	5	0					
+AI message bubble	0	TEXT	8:26 AM			0	46x16	NONE			0	Text/Secondary			12px	8:26 AM
+AI message bubble	1	FRAME	Frame 62710141			1	455x128	VERTICAL MIN MIN	20 20 20 20	10	8	Background/Primary	GRADIENT			
+AI message bubble	1.0	TEXT	AI chat bubble Lorem ipsum dolor sit amet consectetur. Nisl mauris felis sit arcu morbi pharetra. Condimentum dolor felis pellentesque feugiat sagittis id quisque.			0	415x88	NONE			0	Text/Primary		Desktop text/Body text	16px	AI chat bubb
+Accordion		COMPONENT	Expanded=False, Mobile=False			2	1200x84	HORIZONTAL CENTER SPACE_BETWEEN	20 20 20 20	689	8	Background/Primary	Border/Default full			
+Accordion	0	FRAME	Frame 79901			3	1080x44	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Accordion	0.0	INSTANCE	Right chevron	Right chevron		1	22x22	NONE			0					
+Accordion	0.1	INSTANCE	Circle icons	Circle icons	Size=M - 44px	1	44x44	NONE			36	Background/Light Theme	Border/Theme			
+Accordion	0.2	TEXT	Text here			0	994x34	NONE			0	Text/Primary		Desktop text/Sub heading	20px	Text here
+Accordion	1	FRAME	Frame 79903			3	80x28	HORIZONTAL CENTER MAX	0 0 0 0	20	0					
+Accordion	1.0	INSTANCE	Tags	Tags	Type=Positive, Small=No	0	58x28	HORIZONTAL CENTER CENTER	5 10 5 10	5	4	Tags/Fills/Positive	Tags/Borders/Positive			
+Accordion	1.1	INSTANCE	Button	Button	Type=Action, State=Default, Label=Yes	0	107x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20	Background/Secondary Button				
+Accordion	1.2	INSTANCE	Tick in circle	Tick in circle		2	36x36	NONE			0					
+Action menu button		COMPONENT	Circle=false			2	60x28	HORIZONTAL CENTER CENTER	0 0 0 0	0	0					
+Action menu button	0	TEXT	Text			0	32x22	NONE			0	Text/Primary		Desktop text/Body text	16px	Text
+Action menu button	1	INSTANCE	Context	Context		3	28x28	NONE			0					
+Action menu		COMPONENT	Action menu			2	199x136	VERTICAL MIN MIN	4 5 4 5	0	4	Background/Primary				
+Action menu	0	SLOT	Options			4	189x128	VERTICAL CENTER MIN	0 0 0 0	0	0					
+Action menu	0.0	FRAME	Option			1	189x32	VERTICAL CENTER MIN	7 0 7 0	7	0		Border/Default full			
+Action menu	0.0.0	TEXT	As of now			0	60x18	NONE			0	Text/Primary		Desktop text/Label text	13px	As of now
+Action menu	0.1	FRAME	Option			1	189x32	VERTICAL CENTER MIN	7 0 7 0	7	0		Border/Default full			
+Action menu	0.1.0	TEXT	Last 30 days			0	75x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Last 30 days
+Action menu	0.2	FRAME	Option			1	189x32	VERTICAL CENTER MIN	7 0 7 0	7	0		Border/Default full			
+Action menu	0.2.0	TEXT	Last 3 months			0	86x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Last 3 month
+Action menu	0.3	FRAME	Option			1	189x32	VERTICAL CENTER MIN	7 0 7 0	7	0					
+Action menu	0.3.0	TEXT	Last 6 months			0	86x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Last 6 month
+Action menu	1	RECTANGLE	Rectangle 32819			0	14x14	NONE			0	Background/Primary				
+Adaptive card		COMPONENT	Mobile=False			2	478x389	VERTICAL MIN MIN	0 0 0 0	5	0					
+Adaptive card	0	TEXT	8:26 AM			0	46x16	NONE			0	Text/Secondary			12px	8:26 AM
+Adaptive card	1	FRAME	Adaptive card base/False/False			1	478x368	VERTICAL MIN MIN	20 20 20 20	20	8	Background/Primary	GRADIENT			
+Adaptive card	1.0	FRAME	Frame 2018776636			3	438x328	VERTICAL MIN MIN	0 0 0 0	20	0					
+Adaptive card	1.0.0	FRAME	Frame 2018776635			3	438x276	VERTICAL MIN MIN	0 0 0 0	10	0					
+Adaptive card	1.0.0.0	FRAME	Top text			2	438x40	VERTICAL MIN MIN	0 0 0 0	0	0					
+Adaptive card	1.0.0.0.0	TEXT	Title for the card			0	438x22	NONE			0	Text/Primary		Desktop text/Body text (semi bold, 600)	16px SemiBold	Title for th
+Adaptive card	1.0.0.0.1	TEXT	Message			0	438x18	NONE			0	Text/Secondary			13px	Sub heading 
+Adaptive card	1.0.0.1	FRAME	Frame 2018776637			0	438x180	NONE			4	Background/Tertiary				
+Adaptive card	1.0.0.2	FRAME	Frame 2018776634			1	438x36	VERTICAL MIN MIN	0 0 0 0	8	0					
+Adaptive card	1.0.0.2.0	FRAME	Body			1	438x36	VERTICAL MIN MIN	0 0 0 0	4	0					
+Adaptive card	1.0.1	FRAME	Buttons			2	175x32	HORIZONTAL MIN MIN	0 0 0 0	8	0					
+Adaptive card	1.0.1.0	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=Yes	1	84x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
+Adaptive card	1.0.1.1	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=Yes	1	83x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
+Adaptive card	1.0.2	INSTANCE	Full screen expand	Full screen expand		8	24x24	NONE			0					
+Add attachment		COMPONENT	Property 1=Default			3	440x466	VERTICAL CENTER MIN	0 0 0 0	20	0					
+Add attachment	0	FRAME	Frame 82618			2	440x184	VERTICAL CENTER MIN	0 0 0 0	10	0					
+Add attachment	0.0	FRAME	Frame 82619			2	440x32	HORIZONTAL MIN MIN	0 0 0 0	10	0					
+Add attachment	0.0.0	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=Yes	2	215x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
+Add attachment	0.0.1	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=Yes	2	215x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
+Add attachment	0.1	FRAME	Frame 83382			2	440x142	VERTICAL CENTER MIN	30 20 30 20	10	8		Border/Tertiary			
+Add attachment	0.1.0	INSTANCE	Upload	Upload		1	36x36	NONE			0					
+Add attachment	0.1.1	TEXT	You can also drag and drop attachments here			0	244x36	NONE			0	Text/Secondary		Desktop text/Label text (semi bold, 600)	13px SemiBold	You can also
+Add attachment	1	INSTANCE	Attachment with person	Attachment with person	Property 1=Default	3	440x112	VERTICAL CENTER MIN	0 0 0 0	0	8		Border/Default full			
+Add attachment	2	INSTANCE	Note	Note	Property 1=Default	3	440x130	VERTICAL CENTER MIN	0 0 0 0	0	8		Border/Default full			
+Attachment with person		COMPONENT	Property 1=Default			3	440x112	VERTICAL CENTER MIN	0 0 0 0	0	8		Border/Default full			
+Attachment with person	0	FRAME	Frame 82615			2	440x56	HORIZONTAL CENTER MIN	10 20 10 20	10	0					
+Attachment with person	0.0	INSTANCE	People	People	Who?=CEO - Nolan George	1	28x28	NONE			0					
+Attachment with person	0.1	FRAME	Frame 80206			2	220x36	VERTICAL MIN CENTER	0 0 0 0	0	0					
+Attachment with person	0.1.0	TEXT	Nolan George			0	84x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Nolan George
+Attachment with person	0.1.1	TEXT	Wednesday 01/01/2022			0	220x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Wednesday 01
+Attachment with person	1	FRAME	Frame 82616			1	440x0	VERTICAL CENTER CENTER	0 20 0 20	0	0					
+Attachment with person	1.0	LINE	Line 2762			0	400x0	NONE			0		Border/Secondary			
+Attachment with person	2	INSTANCE	Attachments	Attachments	Actions=Context menu	1	440x56	HORIZONTAL MIN MIN	0 0 0 0	0	0					
+Attachments		COMPONENT	Actions=Remove			1	440x56	HORIZONTAL MIN MIN	0 0 0 0	0	0					
+Attachments	0	INSTANCE	[S] Attachment	[S] Attachment		2	440x56	HORIZONTAL CENTER MIN	10 20 10 20	0	8		Border/Default full			
+Bar chart with axis		COMPONENT	Breakpoint=Mobile, Darkmode=False			2	326x221	NONE			0					
+Bar chart with axis	0	INSTANCE	Graph axis	Graph axis	Breakpoint=Mobile	2	326x179	HORIZONTAL MIN MIN	0 0 0 0	10	0					
+Bar chart with axis	1	INSTANCE	Bar chart	Bar chart	Breakpoint=Mobile, Darkmode=False	12	277x222	HORIZONTAL MAX MIN	0 0 0 0	5	0					
+Bar chart		COMPONENT	Breakpoint=Desktop, Darkmode=False			12	415x193	HORIZONTAL MAX MIN	0 0 0 0	10	0					
+Bar chart	0	INSTANCE	Bar	Bar	Label=Horizontal	2	25x118	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Bar chart	1	INSTANCE	Bar	Bar	Label=Horizontal	2	25x193	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Bar chart	2	INSTANCE	Bar	Bar	Label=Horizontal	2	25x160	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Bar chart	3	INSTANCE	Bar	Bar	Label=Horizontal	2	25x153	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Bar chart	4	INSTANCE	Bar	Bar	Label=Horizontal	2	25x134	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Bar chart	5	INSTANCE	Bar	Bar	Label=Horizontal	2	25x108	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Bar chart	6	INSTANCE	Bar	Bar	Label=Horizontal	2	25x125	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Bar chart	7	INSTANCE	Bar	Bar	Label=Horizontal	2	25x76	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Bar chart	8	INSTANCE	Bar	Bar	Label=Horizontal	2	25x94	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Bar chart	9	INSTANCE	Bar	Bar	Label=Horizontal	2	25x58	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Bar chart	10	INSTANCE	Bar	Bar	Label=Horizontal	2	25x118	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Bar chart	11	INSTANCE	Bar	Bar	Label=Horizontal	2	25x125	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Bar		COMPONENT	Label=Horizontal			2	29x90	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Bar	0	RECTANGLE	Data line			0	29x67	NONE			mixed	Charts/Chart 1				
+Bar	1	TEXT	Label			0	33x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Label
+Browser drop down		COMPONENT	Browser drop down			1	440x222	VERTICAL MIN MIN	5 5 5 5	5	8	Background/Secondary				
+Browser drop down	0	SLOT	Slot			7	430x212	VERTICAL MIN MIN	0 0 0 0	5	0					
+Browser drop down	0.0	INSTANCE	Option	Option	Selected=Yes	1	430x26	HORIZONTAL CENTER MIN	2 10 2 20	5	4	LITERAL				
+Browser drop down	0.1	INSTANCE	Option	Option	Selected=No	1	430x26	HORIZONTAL CENTER MIN	2 10 2 20	5	4					
+Browser drop down	0.2	INSTANCE	Option	Option	Selected=No	1	430x26	HORIZONTAL CENTER MIN	2 10 2 20	5	4					
+Browser drop down	0.3	INSTANCE	Option	Option	Selected=No	1	430x26	HORIZONTAL CENTER MIN	2 10 2 20	5	4					
+Browser drop down	0.4	INSTANCE	Option	Option	Selected=No	1	430x26	HORIZONTAL CENTER MIN	2 10 2 20	5	4					
+Browser drop down	0.5	INSTANCE	Option	Option	Selected=No	1	430x26	HORIZONTAL CENTER MIN	2 10 2 20	5	4					
+Browser drop down	0.6	INSTANCE	Option	Option	Selected=No	1	430x26	HORIZONTAL CENTER MIN	2 10 2 20	5	4					
+Button		COMPONENT	Type=Action, State=Default, Label=Yes			3	107x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20	Background/Secondary Button				
+Button	0	INSTANCE	Add plus	Add plus		1	16x16	NONE			0					
+Button	1	TEXT	Action			0	41x18	NONE			0	Text/Inverted primary			13px SemiBold	Action
+Button	2	INSTANCE	Add plus	Add plus		0	16x16	NONE			0					
+Calendar picker		COMPONENT	Calendar picker			1	298x323	VERTICAL MIN MIN	0 0 0 0	0	0					
+Calendar picker	0	FRAME	Calendar picker			4	298x323	VERTICAL MIN MIN	0 0 0 0	0	4					
+Calendar picker	0.0	FRAME	Frame 85552			3	298x42	HORIZONTAL CENTER SPACE_BETWEEN	10 15 10 15	64	mixed	Base colours/Blue Charade				
+Calendar picker	0.0.0	INSTANCE	Left chevron	Left chevron		1	19x19	NONE			0					
+Calendar picker	0.0.1	TEXT	December 2023			0	117x22	NONE			0	Base colours/White		EXTERNAL	16px	December 202
+Calendar picker	0.0.2	INSTANCE	Left chevron	Left chevron		1	19x19	NONE			0					
+Calendar picker	0.1	FRAME	Frame 85560			7	298x26	HORIZONTAL MIN MIN	0 0 0 0	0	0					
+Calendar picker	0.1.0	FRAME	Frame 85553			1	43x26	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary				
+Calendar picker	0.1.0.0	TEXT	Mon			0	28x18	NONE			0	Text/Secondary		EXTERNAL	13px Regular	Mon
+Calendar picker	0.1.1	FRAME	Frame 85554			1	43x26	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary				
+Calendar picker	0.1.1.0	TEXT	Tue			0	23x18	NONE			0	Text/Secondary		EXTERNAL	13px Regular	Tue
+Calendar picker	0.2	FRAME	Frame 85563			6	298x207	VERTICAL MIN MIN	0 0 0 0	0	0					
+Calendar picker	0.2.0	FRAME	Frame 85560			7	298x35	HORIZONTAL MIN MIN	0 0 0 0	0	0					
+Calendar picker	0.2.0.0	FRAME	Frame 85553			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
+Calendar picker	0.2.0.0.0	TEXT	27			0	15x18	NONE			0	Text/Disabled		EXTERNAL	13px Regular	27
+Calendar picker	0.2.0.1	FRAME	Frame 85554			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
+Calendar picker	0.2.0.1.0	TEXT	28			0	15x18	NONE			0	Text/Disabled		EXTERNAL	13px Regular	28
+Calendar picker	0.2.1	FRAME	Frame 85562			7	298x35	HORIZONTAL MIN MIN	0 0 0 0	0	0					
+Calendar picker	0.2.1.0	FRAME	Frame 85553			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
+Calendar picker	0.2.1.0.0	TEXT	04			0	15x18	NONE			0	Text/Primary		EXTERNAL	13px Regular	04
+Calendar picker	0.2.1.1	FRAME	Frame 85553			1	43x35	HORIZONTAL CENTER CENTER	4 0 4 0	10	0	Background/Tertiary	Border/Secondary			
+Calendar picker	0.2.1.1.0	FRAME	Frame 85564			1	37x26	HORIZONTAL CENTER CENTER	4 11 4 11	10	4	Base colours/Blue Charade				
+Calendar picker	0.3	FRAME	Frame 85566			2	298x48	HORIZONTAL MIN SPACE_BETWEEN	8 9 8 9	116	mixed	Background/Tertiary				
+Calendar picker	0.3.0	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=Yes	1	80x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
+Calendar picker	0.3.1	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=Yes	1	84x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
+Card		COMPONENT	Property 1=Default			2	520x358	VERTICAL CENTER MIN	20 20 20 20	20	8	Background/Primary	Border/Default full			
+Card	0	FRAME	Card title & top [S]			2	480x28	VERTICAL MIN CENTER	0 0 0 0	10	mixed					
+Card	0.0	FRAME	Frame 80088			2	480x28	HORIZONTAL CENTER SPACE_BETWEEN	0 0 0 0	13	0					
+Card	0.0.0	TEXT	Title			0	419x27	NONE			0	Text/Primary		Desktop text/Sub heading	20px	Title
+Card	0.0.1	FRAME	Frame 80136			2	61x28	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Card	0.0.1.0	INSTANCE	History	History		1	28x28	NONE			0					
+Card	0.0.1.1	INSTANCE	Add plus	Add plus		1	28x28	NONE			0					
+Card	0.1	LINE	Line 14			0	480x0	NONE			0		Base colours/Default Pink			
+Card	1	SLOT	Slot			0	480x270	HORIZONTAL MIN MIN	10 10 10 10	10	0					
+Checkbox/Radio item		COMPONENT	State=Default, Radio=No, Filled=No			3	81x22	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Checkbox/Radio item	0	INSTANCE	Control	Control	Radio=No	0	20x20	VERTICAL CENTER CENTER	10 10 10 10	10	4	Background/Primary	Icons/Icon - Disabled			
+Checkbox/Radio item	1	FRAME	Label			2	51x22	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Checkbox/Radio item	1.0	TEXT	Option			0	51x22	NONE			0	Text/Primary		Desktop text/Body text	16px	Option
+Checkbox/Radio item	1.1	FRAME	Frame 86765			1	6x22	HORIZONTAL MIN MIN	0 0 0 0	10	0					
+Checkbox/Radio item	1.1.0	ELLIPSE	Ellipse 1			0	6x6	NONE			0	Icons/Icon - Required field				
+Checkbox/Radio item	2	INSTANCE	Tooltip question	Tooltip question		0	18x18	NONE			0					
+Checkbox/Radio list		COMPONENT	State=Default			3	194x81	VERTICAL MIN MIN	0 0 0 0	5	0					
+Checkbox/Radio list	0	INSTANCE	Field label	Field label		1	194x22	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Checkbox/Radio list	1	SLOT	Checkbox slot			2	194x54	VERTICAL MIN MIN	0 0 0 0	10	0					
+Checkbox/Radio list	1.0	INSTANCE	Checkbox/Radio item	Checkbox/Radio item	State=Default, Radio=No, Filled=Yes	2	194x22	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Checkbox/Radio list	1.1	INSTANCE	Checkbox/Radio item	Checkbox/Radio item	State=Default, Radio=No, Filled=No	2	194x22	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Checkbox/Radio list	2	SLOT	Radio slot			2	194x54	VERTICAL MIN MIN	0 0 0 0	10	0					
+Checkbox/Radio list	2.0	INSTANCE	Checkbox/Radio item	Checkbox/Radio item	State=Default, Radio=Yes, Filled=Yes	2	194x22	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Checkbox/Radio list	2.1	INSTANCE	Checkbox/Radio item	Checkbox/Radio item	State=Default, Radio=Yes, Filled=No	2	194x22	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Clickable AI element		COMPONENT	State=default			1	382x38	HORIZONTAL CENTER MIN	10 10 10 20	10	8		GRADIENT			
+Clickable AI element	0	TEXT	What can I ask the AI Assistant?			0	352x18	NONE			0	Text/Primary		Desktop text/Label text	13px	What can I a
+Clock in		COMPONENT	Type=Standard, Darkmode=False			2	107x32	HORIZONTAL CENTER CENTER	7 20 7 10	5	20		Border/Default full			
+Clock in	0	INSTANCE	Clock	Clock		3	22x22	NONE			0					
+Clock in	1	TEXT	Clock-in			0	58x22	NONE			0	Text/Inverted primary		Desktop text/Body text	16px	Clock-in
+Component 1		COMPONENT	Property 1=Frame 6270952			2	432x48	HORIZONTAL CENTER MIN	10 10 10 10	10	8	Background/Tertiary	Border/Default full			
+Component 1	0	TEXT	Apples			0	374x27	NONE			0	Text/Secondary		Desktop text/Sub heading	20px	Apples
+Component 1	1	INSTANCE	Remove	Remove		1	28x28	NONE			0					
+Config child menu		COMPONENT	Type=Child			1	381x42	VERTICAL MIN MIN	0 0 0 0	0	0					
+Config child menu	0	INSTANCE	[S] Config child menu	[S] Config child menu		2	381x42	VERTICAL MIN MIN	10 0 0 11	10	0					
+Config menu items		COMPONENT	Kind=Child			2	381x74	VERTICAL MIN MIN	0 0 0 0	0	0					
+Config menu items	0	INSTANCE	Config parent menu	Config parent menu	open=false	1	98x32	HORIZONTAL CENTER MIN	5 20 5 0	5	0		Border/Default full			
+Config menu items	1	INSTANCE	Config child menu	Config child menu	Type=Child	1	381x42	VERTICAL MIN MIN	0 0 0 0	0	0					
+Config parent menu		COMPONENT	open=false			1	98x32	HORIZONTAL CENTER MIN	5 20 5 0	5	0		Border/Default full			
+Config parent menu	0	FRAME	Frame 80179			2	78x22	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Config parent menu	0.0	VECTOR	Vector			0	14x7	NONE			0	Icons/Icon - Primary				
+Config parent menu	0.1	TEXT	parent			0	61x22	NONE			0	Text/Primary			16px	parent
+Config side menu		COMPONENT	Config side menu			2	325x980	VERTICAL MIN MIN	0 0 0 0	0	8	Background/Primary				
+Config side menu	0	FRAME	Parent line			0	325x0	VERTICAL CENTER CENTER	0 0 0 0	10	0					
+Config side menu	1	FRAME	Parent frame			10	325x465	VERTICAL MIN MIN	20 20 0 20	5	0					
+Config side menu	1.0	INSTANCE	Config parent menu	Config parent menu	open=false	1	285x32	HORIZONTAL CENTER MIN	5 20 5 0	5	0		Border/Default full			
+Config side menu	1.1	INSTANCE	Config child menu	Config child menu	Type=Child + sub	1	285x42	VERTICAL MIN MIN	0 0 0 0	0	0					
+Config side menu	1.2	INSTANCE	Config child menu	Config child menu	Type=Child + sub	1	285x42	VERTICAL MIN MIN	0 0 0 0	0	0					
+Config side menu	1.3	INSTANCE	Config child menu	Config child menu	Type=Child + sub	1	285x42	VERTICAL MIN MIN	0 0 0 0	0	0					
+Config side menu	1.4	INSTANCE	Config child menu	Config child menu	Type=Child + sub	1	285x42	VERTICAL MIN MIN	0 0 0 0	0	0					
+Config side menu	1.5	INSTANCE	Config parent menu	Config parent menu	open=true	1	285x32	HORIZONTAL CENTER MIN	5 20 5 0	5	0		Border/Default full			
+Config side menu	1.6	INSTANCE	Config child menu	Config child menu	Type=Child	1	285x42	VERTICAL MIN MIN	0 0 0 0	0	0					
+Config side menu	1.7	INSTANCE	Config child menu	Config child menu	Type=Child	1	285x42	VERTICAL MIN MIN	0 0 0 0	0	0					
+Config side menu	1.8	INSTANCE	Config child menu	Config child menu	Type=Child	1	285x42	VERTICAL MIN MIN	0 0 0 0	0	0					
+Config side menu	1.9	INSTANCE	Config child menu	Config child menu	Type=Selected	1	285x42	VERTICAL MIN MIN	0 0 0 0	0	4	Base colours/Blue Ocean				
+Configuration panel		COMPONENT	Property 1=Default			2	1600x189	VERTICAL CENTER MIN	0 0 0 0	0	mixed					
+Configuration panel	0	FRAME	Config header			1	1600x189	HORIZONTAL CENTER CENTER	20 0 20 0	10	8	Background/Primary				
+Configuration panel	0.0	FRAME	Config header			2	668x149	HORIZONTAL CENTER CENTER	0 0 0 0	30	0					
+Configuration panel	0.0.0	FRAME	Settings_Monochromatic (1) 1			30	197x149	NONE			0					
+Configuration panel	0.0.1	FRAME	Frame 82644			2	441x105	VERTICAL MIN CENTER	0 0 0 0	10	0					
+Configuration panel	0.0.1.0	TEXT	Configuration			0	128x27	NONE			0	Text/Theme		Desktop text/Sub heading	20px	Configuratio
+Configuration panel	0.0.1.1	TEXT	Define and manage your system to be tailored to your organisation's requirements. Any changes to this area will be reflected across the system.			0	441x68	NONE			0	Text/Primary		Desktop text/Label text	13px	Define and m
+Configuration panel	1	LINE	Line 2734			0	1600x0	NONE			0		Border/Default full			
+Configuration tile		COMPONENT	Device=Desktop			3	360x260	VERTICAL CENTER CENTER	40 20 40 20	10	8	Background/Secondary				
+Configuration tile	0	INSTANCE	Circle icons	Circle icons	Size=L - 52px	1	52x52	NONE			36	Background/Light Theme	Border/Theme			
+Configuration tile	1	GROUP	Group 82303			1	320x36	NONE			0					
+Configuration tile	1.0	GROUP	Group 33878			1	320x36	NONE			0					
+Configuration tile	1.0.0	GROUP	Group 52474			1	320x36	NONE			0					
+Configuration tile	1.0.0.0	TEXT	Title			0	320x36	NONE			0	Text/Primary		Desktop text/Large heading (light)	24px	Title
+Configuration tile	2	GROUP	Group 82306			1	320x65	NONE			0					
+Configuration tile	2.0	TEXT	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.			0	320x65	NONE			0	Text/Primary		Desktop text/Body text	16px	Lorem ipsum 
+Configuration		COMPONENT	Mobile=False			2	1600x809	NONE			8					
+Configuration	0	FRAME	Frame 83925			2	1600x620	VERTICAL CENTER MIN	40 240 40 240	20	0	Background/Primary				
+Configuration	0.0	FRAME	Row 1			3	1120x260	HORIZONTAL MIN MIN	0 0 0 0	20	0					
+Configuration	0.0.0	INSTANCE	Configuration tile	Configuration tile	Device=Desktop	3	360x260	VERTICAL CENTER CENTER	40 20 40 20	10	8	Background/Secondary				
+Configuration	0.0.1	INSTANCE	Configuration tile	Configuration tile	Device=Desktop	3	360x260	VERTICAL CENTER CENTER	40 20 40 20	10	8	Background/Secondary				
+Configuration	0.1	FRAME	Row 3			3	1120x260	HORIZONTAL MIN MIN	0 0 0 0	20	0					
+Configuration	0.1.0	INSTANCE	Configuration tile	Configuration tile	Device=Desktop	3	360x260	VERTICAL CENTER CENTER	40 20 40 20	10	8	Background/Secondary				
+Configuration	0.1.1	INSTANCE	Configuration tile	Configuration tile	Device=Desktop	3	360x260	VERTICAL CENTER CENTER	40 20 40 20	10	8	Background/Secondary				
+Configuration	1	FRAME	Config header			1	1600x189	HORIZONTAL CENTER CENTER	20 0 20 0	10	0	Background/Primary				
+Configuration	1.0	FRAME	Config header			2	668x149	HORIZONTAL CENTER CENTER	0 0 0 0	30	0					
+Configuration	1.0.0	FRAME	Settings_Monochromatic (1) 1			30	197x149	NONE			0					
+Configuration	1.0.1	GROUP	Group 82307			1	441x105	NONE			0					
+Configuration	1.0.1.0	GROUP	Group 82306			2	441x105	NONE			0					
+Configuration	1.0.1.0.0	TEXT	Configuration			0	128x27	NONE			0	Text/Theme		Desktop text/Sub heading	20px	Configuratio
+Configuration	1.0.1.0.1	TEXT	Define and manage your system to be tailored to your organisation's requirements. Any changes to this area will be reflected across the system.			0	441x68	NONE			0	Text/Primary		Desktop text/Label text	13px	Define and m
+Confirmation modal		COMPONENT	Mobile=false, Type=Confirmation, Dark mode=False			2	400x413	VERTICAL CENTER MIN	60 10 60 10	36	8	Background/Primary	Border/Default full			
+Confirmation modal	0	FRAME	Frame 82044			3	340x293	VERTICAL CENTER MIN	0 0 0 0	25	0					
+Confirmation modal	0.0	FRAME	Frame			4	124x124	NONE			0					
+Confirmation modal	0.0.0	VECTOR	Vector			0	124x124	NONE			0					
+Confirmation modal	0.0.1	VECTOR	Vector (Stroke)			0	101x101	NONE			0	Icons/Icon - Warning				
+Confirmation modal	0.0.2	VECTOR	Vector (Stroke)			0	8x28	NONE			0	Icons/Icon - Warning				
+Confirmation modal	0.0.3	VECTOR	Vector (Stroke)			0	8x8	NONE			0	Icons/Icon - Warning				
+Confirmation modal	0.1	FRAME	Frame 82044			2	340x87	VERTICAL CENTER CENTER	0 0 0 0	10	0					
+Confirmation modal	0.1.0	TEXT	Are you sure?			0	340x33	NONE			0	Text/Primary		Desktop text/Large heading	24px Regular	Are you sure
+Confirmation modal	0.1.1	TEXT	Once closed no attendees will be able to add any further comments or attachments.			0	340x44	NONE			0	Text/Primary		Desktop text/Body text	16px	Once closed 
+Confirmation modal	0.2	FRAME	Frame 82044			2	225x32	HORIZONTAL MIN MIN	0 0 0 0	25	0					
+Confirmation modal	0.2.0	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=Yes	1	100x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
+Confirmation modal	0.2.1	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=Yes	1	100x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
+Confirmation modal	1	INSTANCE	Close x	Close x		2	36x36	NONE			0					
+Content cards		COMPONENT	Mobile=false			2	363x366	VERTICAL MIN MIN	20 20 20 20	20	8	Background/Primary	Border/Default full			
+Content cards	0	FRAME	Frame 86408			2	323x36	HORIZONTAL MIN SPACE_BETWEEN	0 0 0 0	20	0					
+Content cards	0.0	FRAME	Frame 84893			2	77x36	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Content cards	0.0.0	INSTANCE	Circle icons	Circle icons	Size=S - 36px	1	36x36	NONE			36	Background/Light Theme	Border/Theme			
+Content cards	0.0.1	TEXT	Title			0	31x22	NONE			0	Text/Primary		Desktop text/Body text	16px	Title
+Content cards	0.1	INSTANCE	Context menu	Context menu		1	28x28	NONE			0					
+Content cards	1	FRAME	Frame 84894			5	323x270	HORIZONTAL MIN MIN	0 0 0 0	20	0					
+Content cards	1.0	INSTANCE	Field	Field	Property 1=Default	2	323x42	VERTICAL MIN MIN	0 0 0 0	2	0					
+Content cards	1.1	INSTANCE	Field	Field	Property 1=Default	2	323x42	VERTICAL MIN MIN	0 0 0 0	2	0					
+Content cards	1.2	INSTANCE	Field	Field	Property 1=Default	2	323x42	VERTICAL MIN MIN	0 0 0 0	2	0					
+Content cards	1.3	INSTANCE	Field	Field	Property 1=Default	2	323x42	VERTICAL MIN MIN	0 0 0 0	2	0					
+Content cards	1.4	INSTANCE	Field	Field	Property 1=Default	2	323x42	VERTICAL MIN MIN	0 0 0 0	2	0					
+Content		COMPONENT	Content			2	375x74	VERTICAL MIN MIN	0 0 0 0	10	0					
+Content	0	SLOT	Slot			0	375x43	NONE			0					
+Content	1	FRAME	Prefilled content			5	375x74	VERTICAL MIN MIN	10 10 10 10	10	0					
+Content	1.0	TEXT	Description			0	355x54	NONE			0	Text/Primary		Desktop text/Label text	13px	Change is a 
+Content	1.1	INSTANCE	Details	Details	Layout=Horizontal	0	355x102	HORIZONTAL MIN MIN	0 0 0 0	10	0					
+Content	1.2	INSTANCE	Tags	Tags	Type=Neutral, Small=No	0	61x28	HORIZONTAL CENTER CENTER	5 10 5 10	5	4	Tags/Fills/Neutral	Tags/Borders/Neutral			
+Content	1.3	INSTANCE	Table progress bar	Table progress bar	Completion=50%, Dark cell background=No	0	355x18	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Content	1.4	INSTANCE	Links	Links	Link type=Primary, Hover=False, Icon position=Left	0	178x22	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Control		COMPONENT	Radio=No			2	20x20	VERTICAL CENTER CENTER	10 10 10 10	10	4	Background/Primary	Icons/Icon - Disabled			
+Control	0	INSTANCE	Tick	Tick		1	18x18	NONE			0					
+Control	1	VECTOR	Mixed selector (Stroke)			0	14x3	NONE			0	Icons/Icon - Primary				
+Data variance alternative		COMPONENT	Property 1=Default			4	104x27	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Data variance alternative	0	TEXT	0			0	12x27	NONE			0	Text/Primary			20px	0
+Data variance alternative	1	TEXT	DOWN BY			0	57x16	NONE			0	Text/Primary			12px	DOWN BY
+Data variance alternative	2	FRAME	Frame			1	16x13	NONE			0					
+Data variance alternative	3	TEXT	1			0	7x16	NONE			0	Text/Theme			12px	1
+Data variance		COMPONENT	Data change=Up, Mobile=False			2	41x45	VERTICAL MIN MIN	0 0 0 0	0	0					
+Data variance	0	TEXT	UP BY			0	37x18	NONE			0	Text/Primary		Desktop text/Label text	13px	UP BY
+Data variance	1	FRAME	Frame 84175			2	41x27	HORIZONTAL CENTER MIN	0 0 0 0	0	0					
+Data variance	1.0	TEXT	10			0	23x27	NONE			0	Text/Positive		Desktop text/Sub heading	20px	10
+Data variance	1.1	INSTANCE	Right arrow	Right arrow		1	18x18	NONE			0					
+Date picker period		COMPONENT	Type=Date			3	274x27	HORIZONTAL CENTER CENTER	0 0 0 0	10	0					
+Date picker period	0	INSTANCE	Up chevron	Up chevron		1	22x22	NONE			0					
+Date picker period	1	TEXT	1 Jan 2021 - 7 Jan 2021			0	210x27	NONE			0	Text/Primary		Desktop text/Sub heading	20px	1 Jan 2021 -
+Date picker period	2	INSTANCE	Up chevron	Up chevron		1	22x22	NONE			0					
+Date range visual		COMPONENT	Property 1=Default			3	371x42	HORIZONTAL CENTER MIN	0 0 0 0	20	0					
+Date range visual	0	FRAME	Frame 83670			2	91x41	VERTICAL CENTER CENTER	0 0 0 0	1	0					
+Date range visual	0.0	TEXT	01 Dec 2022			0	90x22	NONE			0	Text/Primary		Desktop text/Body text	16px	01 Dec 2022
+Date range visual	0.1	TEXT	Secondary text			0	91x18	NONE			0	Text/Secondary		Desktop text/Label text	13px	Secondary te
+Date range visual	1	FRAME	Frame 83797			3	148x14	HORIZONTAL CENTER CENTER	0 0 0 0	-7	0					
+Date range visual	1.0	ELLIPSE	Ellipse 30			0	14x14	NONE			0	Icons/Icon - Theme				
+Date range visual	1.1	LINE	Line 5058			0	134x0	NONE			0		Icons/Icon - Theme			
+Date range visual	1.2	ELLIPSE	Ellipse 31			0	14x14	NONE			0	Icons/Icon - Theme				
+Date range visual	2	FRAME	Frame 83799			2	91x41	VERTICAL CENTER CENTER	0 0 0 0	1	0					
+Date range visual	2.0	TEXT	01 Dec 2022			0	90x22	NONE			0	Text/Primary		Desktop text/Body text	16px	01 Dec 2022
+Date range visual	2.1	TEXT	Secondary text			0	91x18	NONE			0	Text/Secondary		Desktop text/Label text	13px	Secondary te
+Detail item		COMPONENT	Detail item			2	162x18	HORIZONTAL MIN MIN	0 0 0 0	5	0					
+Detail item	0	INSTANCE	Icon	Computer laptop device		1	18x18	NONE			0					
+Detail item	1	FRAME	Text			2	139x18	HORIZONTAL MIN MIN	0 0 0 0	5	0					
+Detail item	1.0	TEXT	Pathway text			0	65x18	NONE			0	Text/Primary		Desktop text/Label text	13px	E-learning:
+Detail item	1.1	TEXT	Pathway text			0	69x18	NONE			0	Text/Primary		Desktop text/Label text	13px	30 minutes
+Details		COMPONENT	Layout=Horizontal			2	355x102	HORIZONTAL MIN MIN	0 0 0 0	10	0					
+Details	0	SLOT	Slot			4	355x102	VERTICAL MIN MIN	0 0 0 0	10	0					
+Details	0.0	INSTANCE	Detail item	Detail item		2	355x18	HORIZONTAL MIN MIN	0 0 0 0	5	0					
+Details	0.1	INSTANCE	Detail item	Detail item		2	355x18	HORIZONTAL MIN MIN	0 0 0 0	5	0					
+Details	0.2	INSTANCE	Detail item	Detail item		2	355x18	HORIZONTAL MIN MIN	0 0 0 0	5	0					
+Details	0.3	INSTANCE	Detail item	Detail item		2	355x18	HORIZONTAL MIN MIN	0 0 0 0	5	0					
+Details	1	SLOT	Slot			3	173x102	VERTICAL MIN MIN	0 0 0 0	10	0					
+Details	1.0	INSTANCE	Detail item	Detail item		0	173x18	HORIZONTAL MIN MIN	0 0 0 0	5	0					
+Details	1.1	INSTANCE	Detail item	Detail item		0	173x18	HORIZONTAL MIN MIN	0 0 0 0	5	0					
+Details	1.2	INSTANCE	Detail item	Detail item		0	173x36	HORIZONTAL MIN MIN	0 0 0 0	5	0					
+Document previewer		COMPONENT	Device=Mobile			3	375x642	VERTICAL MIN MIN	0 0 0 0	0	0		Border/Default full			
+Document previewer	0	FRAME	Frame 86754			2	375x44	HORIZONTAL CENTER MIN	10 10 10 10	10	0	Background/Tertiary	Border/Default full			
+Document previewer	0.0	FRAME	Frame 86748			1	312x24	HORIZONTAL CENTER CENTER	0 0 0 0	10	0					
+Document previewer	0.0.0	TEXT	Example of the heading being long10.pdf...			0	312x22	NONE			0	Text/Primary		Desktop text/Body text	16px	Example of t
+Document previewer	0.1	INSTANCE	Download	Download		1	24x24	NONE			0					
+Document previewer	1	FRAME	Frame 86764			1	375x550	HORIZONTAL MIN CENTER	20 20 20 20	10	0	Background/Primary				
+Document previewer	2	FRAME	Frame 86755			2	375x48	HORIZONTAL CENTER SPACE_BETWEEN	10 10 10 10	307	0	Background/Tertiary	Border/Default full			
+Document previewer	2.0	FRAME	Frame 86762			1	58x24	HORIZONTAL CENTER MIN	0 0 0 0	0	0					
+Document previewer	2.0.0	FRAME	Frame 86314			1	58x24	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Document previewer	2.0.0.0	FRAME	Frame 86759			2	58x24	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Document previewer	2.0.0.0.0	INSTANCE	Zoom out	Zoom out		1	24x24	NONE			0					
+Document previewer	2.0.0.0.1	INSTANCE	Zoom in	Zoom in		1	24x24	NONE			0					
+Document previewer	2.1	INSTANCE	Switcher	Switcher	Property 1=Default	3	135x28	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Donut chart with ledger		COMPONENT	Darkmode=False, Mobile=False			2	329x200	HORIZONTAL CENTER MIN	0 0 0 0	21	0					
+Donut chart with ledger	0	INSTANCE	Donut pie chart	Donut pie chart	Segments=4, Icon=False	9	200x200	NONE			0					
+Donut chart with ledger	1	FRAME	Frame 84169			4	108x192	VERTICAL MIN MIN	0 0 0 0	20	0					
+Donut chart with ledger	1.0	INSTANCE	Graph legend	Graph legend	Mobile=False, Key type=Donut graph	2	108x33	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Donut chart with ledger	1.1	INSTANCE	Graph legend	Graph legend	Mobile=False, Key type=Donut graph	2	108x33	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Donut chart with ledger	1.2	INSTANCE	Graph legend	Graph legend	Mobile=False, Key type=Donut graph	2	108x33	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Donut chart with ledger	1.3	INSTANCE	Graph legend	Graph legend	Mobile=False, Key type=Donut graph	2	108x33	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Donut pie chart		COMPONENT	Segments=2, Icon=False			5	200x200	NONE			0					
+Donut pie chart	0	ELLIPSE	Ellipse 10780			0	200x200	NONE			0	Charts/Chart 2				
+Donut pie chart	1	ELLIPSE	Ellipse 10781			0	200x200	NONE			0	Charts/Chart 1				
+Donut pie chart	2	TEXT	000			0	104x82	NONE			0	Text/Primary			60px Medium	000
+Donut pie chart	3	LINE	Line 23			0	25x0	NONE			0		Background/Primary			
+Donut pie chart	4	LINE	Line 19			0	25x0	NONE			0		Background/Primary			
+Draggable card		COMPONENT	State=Default			6	480x50	HORIZONTAL CENTER MIN	10 15 10 15	20	8	Background/Primary	Border/Default hidden			
+Draggable card	0	INSTANCE	Right chevron	Right chevron		0	28x28	NONE			0					
+Draggable card	1	INSTANCE	Plus circle	Plus circle		0	28x28	NONE			0					
+Draggable card	2	INSTANCE	Control button	Control button	Radio=No, State=Default	0	20x20	VERTICAL CENTER CENTER	10 10 10 10	10	4	Background/Primary	Border/Form input			
+Draggable card	3	FRAME	Frame 86406			1	30x30	HORIZONTAL CENTER CENTER	0 0 0 0	10	5	Background/Secondary	Border/Default hidden			
+Draggable card	4	TEXT	Placeholder			0	314x22	NONE			0	Text/Primary		Desktop text/Body text	16px	Placeholder
+Draggable card	5	FRAME	Frame 86311			2	66x28	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Draggable card	5.0	INSTANCE	Context menu	Context menu		1	28x28	NONE			0					
+Draggable card	5.1	INSTANCE	Close x cancel	Close x cancel		1	28x28	NONE			0					
+Drop down button		COMPONENT	Hover=False			2	192x32	HORIZONTAL CENTER MIN	7 10 7 20	0	48		Border/Form input			
+Drop down button	0	TEXT	Drop down			0	144x18	NONE			0	Text/Primary			13px Regular	Drop down
+Drop down button	1	INSTANCE	Down chevron	Down chevron		1	18x18	NONE			0					
+Editable list card		COMPONENT	Property 1=Default			2	564x82	HORIZONTAL MIN MIN	0 0 0 0	0	4	Background/Primary	Border/Default full			
+Editable list card	0	FRAME	Frame 82605			1	506x82	VERTICAL MIN CENTER	20 20 20 20	10	0	Background/Primary	Border/Default hidden			
+Editable list card	0.0	FRAME	Frame 82606			2	466x42	VERTICAL MIN MIN	0 0 0 0	2	0					
+Editable list card	0.0.0	TEXT	Title			0	466x18	NONE			0	Text/Secondary		Desktop text/Label text	13px	Title
+Editable list card	0.0.1	TEXT	Content here			0	466x22	NONE			0	Text/Primary		Desktop text/Body text	16px	Content here
+Editable list card	1	FRAME	Frame 82605			1	58x82	HORIZONTAL CENTER CENTER	0 0 0 0	16	0					
+Editable list card	1.0	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=No	1	32x32	HORIZONTAL CENTER CENTER	0 20 0 20	5	20		Border/Hollow Button			
+Empty section		COMPONENT	Mobile=False			2	587x212	HORIZONTAL CENTER MIN	0 0 0 0	35	0					
+Empty section	0	FRAME	Frame 82409			2	260x212	NONE			0					
+Empty section	1	FRAME	Frame 82406			2	292x121	VERTICAL MIN MIN	0 0 0 0	30	0					
+Empty section	1.0	FRAME	Frame 82407			2	292x59	VERTICAL MIN MIN	0 0 0 0	10	0					
+Empty section	1.0.0	TEXT	You don’t have any items here			0	292x27	NONE			0	Text/Theme		Desktop text/Sub heading (semi bold, 600)	20px SemiBold	You don’t ha
+Empty section	1.0.1	TEXT	Add an item to get started			0	191x22	NONE			0	Text/Primary		Desktop text/Body text	16px	Add an item 
+Empty section	1.1	INSTANCE	Button	Button	Type=Action, State=Default, Label=Yes	2	107x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20	Background/Secondary Button				
+Field (second component)		COMPONENT	Property 1=Default			2	95x42	VERTICAL MIN MIN	0 0 0 0	2	0					
+Field (second component)	0	TEXT	Field name			0	67x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Field name
+Field (second component)	1	TEXT	Field content			0	95x22	NONE			0	Text/Primary		Desktop text/Body text	16px	Field conten
+Field icons		COMPONENT	State=Empty			4	121x28	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Field icons	0	FRAME	Search icons			1	28x28	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Field icons	0.0	INSTANCE	Search	Search		1	28x28	NONE			0					
+Field icons	1	FRAME	Dropdown			1	22x22	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Field icons	1.0	INSTANCE	Down chevron	Down chevron		1	22x22	NONE			0					
+Field icons	2	FRAME	Calendar			1	28x28	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Field icons	2.0	INSTANCE	Calendar	Calendar		1	28x28	NONE			0					
+Field icons	3	FRAME	Clock			1	28x28	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Field icons	3.0	INSTANCE	Clock	Clock		1	28x28	NONE			0					
+Field label		COMPONENT	Field label			2	152x22	HORIZONTAL CENTER SPACE_BETWEEN	0 0 0 0	42	0					
+Field label	0	FRAME	Label frame			2	152x22	HORIZONTAL MIN MIN	0 0 0 0	5	0					
+Field label	0.0	TEXT	Field name			0	81x22	NONE			0	Text/Primary		Desktop text/Body text	16px	Field name
+Field label	0.1	ELLIPSE	Ellipse 1			0	6x6	NONE			0	Icons/Icon - Required field				
+Field label	1	INSTANCE	Tooltip question	Tooltip question		1	18x18	NONE			0					
+Field		COMPONENT	Right aligned=No, Filled=No			3	300x42	HORIZONTAL CENTER MAX	10 10 10 20	10	8	Background/Primary	Border/Form input			
+Field	0	TEXT	Placeholder			0	139x22	NONE			0	Text/Secondary		Desktop text/Body text (italic)	16px Italic	Placeholder
+Field	1	INSTANCE	Field icons	Field icons	State=Empty	4	121x28	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Field	2	FRAME	Selector			0	306x47	NONE			10		Icons/Icon - Primary			
+Filter chip		COMPONENT	State=Selected, Active=True, Mobile=False			2	147x42	HORIZONTAL CENTER CENTER	10 20 10 20	10	76	Background/Primary	Border/Theme			
+Filter chip	0	INSTANCE	Tick	Tick		1	22x22	NONE			0					
+Filter chip	1	FRAME	Content			2	75x22	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Filter chip	1.0	TEXT	Label			0	42x22	NONE			0	Text/Theme		Desktop text/Body text (semi bold, 600)	16px SemiBold	Label
+Filter chip	1.1	TEXT	(99)			0	28x22	NONE			0	Text/Theme		Desktop text/Body text (semi bold, 600)	16px SemiBold	(99)
+Filter tab single		COMPONENT	Selected=False, Breakpoint=Desktop, State=Default			2	224x100	VERTICAL MIN CENTER	20 20 20 20	5	0	Background/Primary	Border/Default full			
+Filter tab single	0	TEXT	10			0	184x33	NONE			0	Text/Secondary		Desktop text/Large heading	24px Regular	10
+Filter tab single	1	TEXT	Tab name			0	184x22	NONE			0	Text/Secondary		Desktop text/Body text	16px	Tab name
+Filter tabs		COMPONENT	Breakpoints=Desktop			8	1600x100	HORIZONTAL MIN MIN	0 0 0 0	0	0					
+Filter tabs	0	INSTANCE	Filter tab single	Filter tab single	Selected=True, Breakpoint=Desktop, State=Default	3	200x100	VERTICAL MIN CENTER	20 20 20 20	5	0	Background/Primary	Border/Default full			
+Filter tabs	1	INSTANCE	Filter tab single	Filter tab single	Selected=False, Breakpoint=Desktop, State=Default	2	200x100	VERTICAL MIN CENTER	20 20 20 20	5	0	Background/Primary	Border/Default full			
+Filter tabs	2	INSTANCE	Filter tab single	Filter tab single	Selected=False, Breakpoint=Desktop, State=Default	2	200x100	VERTICAL MIN CENTER	20 20 20 20	5	0	Background/Primary	Border/Default full			
+Filter tabs	3	INSTANCE	Filter tab single	Filter tab single	Selected=False, Breakpoint=Desktop, State=Default	2	200x100	VERTICAL MIN CENTER	20 20 20 20	5	0	Background/Primary	Border/Default full			
+Filter tabs	4	INSTANCE	Filter tab single	Filter tab single	Selected=False, Breakpoint=Desktop, State=Default	2	200x100	VERTICAL MIN CENTER	20 20 20 20	5	0	Background/Primary	Border/Default full			
+Filter tabs	5	INSTANCE	Filter tab single	Filter tab single	Selected=False, Breakpoint=Desktop, State=Default	2	200x100	VERTICAL MIN CENTER	20 20 20 20	5	0	Background/Primary	Border/Default full			
+Filter tabs	6	INSTANCE	Filter tab single	Filter tab single	Selected=False, Breakpoint=Desktop, State=Default	2	200x100	VERTICAL MIN CENTER	20 20 20 20	5	0	Background/Primary	Border/Default full			
+Filter tabs	7	INSTANCE	Filter tab single	Filter tab single	Selected=False, Breakpoint=Desktop, State=Default	2	200x100	VERTICAL MIN CENTER	20 20 20 20	5	0	Background/Primary	Border/Default full			
+Floaters		COMPONENT	Floaters			2	85x40	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Floaters	0	FRAME	Icon			1	40x40	VERTICAL CENTER CENTER	0 0 0 0	10	50	Background/Primary				
+Floaters	0.0	INSTANCE	Certificates	Certificates		1	30x30	NONE			0					
+Floaters	1	FRAME	Avatar			0	40x40	VERTICAL CENTER CENTER	10 10 10 10	0	50	Background/Primary				
+Footer (AG)		COMPONENT	Mobile=False			2	1560x48	VERTICAL MIN MIN	0 0 0 0	0	0	Table/Card				
+Footer (AG)	0	FRAME	Grid-Parts/Pagination			2	1560x48	HORIZONTAL CENTER SPACE_BETWEEN	0 20 0 20	20	0		Table/Border			
+Footer (AG)	0.0	FRAME	Average			3	61x18	HORIZONTAL CENTER MIN	0 0 0 0	2	0					
+Footer (AG)	0.0.0	TEXT	Rows:			0	36x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Rows:
+Footer (AG)	0.0.1	TEXT	: 			0	7x20	NONE			0	color/foregroundColor			13px Regular	: 
+Footer (AG)	0.0.2	TEXT	100			0	23x18	NONE			0	Text/Primary		Desktop text/Label text (semi bold, 600)	13px SemiBold	100
+Footer (AG)	0.1	FRAME	Frame 84627			1	1459x18	HORIZONTAL CENTER MAX	0 0 0 0	20	0					
+Footer (AG)	0.1.0	FRAME	Frame 86418			2	135x18	HORIZONTAL CENTER MIN	0 0 0 0	20	0					
+Footer (AG)	0.1.0.0	FRAME	Average			3	56x18	HORIZONTAL CENTER MIN	0 0 0 0	2	0					
+Footer (AG)	0.1.0.0.0	TEXT	Sum:			0	31x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Sum:
+Footer (AG)	0.1.0.0.1	TEXT	: 			0	7x20	NONE			0	color/foregroundColor			13px Regular	: 
+Footer (AG)	0.1.0.0.2	TEXT	100			0	23x18	NONE			0	Text/Primary		Desktop text/Label text (semi bold, 600)	13px SemiBold	100
+Footer (AG)	0.1.0.1	FRAME	Average			3	59x18	HORIZONTAL CENTER MIN	0 0 0 0	2	0					
+Footer (AG)	0.1.0.1.0	TEXT	Total:			0	34x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Total:
+Footer (AG)	0.1.0.1.1	TEXT	: 			0	7x20	NONE			0	color/foregroundColor			13px Regular	: 
+Footer (AG)	0.1.0.1.2	TEXT	100			0	23x18	NONE			0	Text/Primary		Desktop text/Label text (semi bold, 600)	13px SemiBold	100
+Footer (AG)	1	FRAME	Grid-Parts/Pagination			2	1560x48	HORIZONTAL CENTER SPACE_BETWEEN	0 20 0 20	0	0		Table/Border			
+Footer (AG)	1.0	FRAME	Grid-Parts/Pagination Control			1	99x18	HORIZONTAL CENTER MAX	0 0 0 0	40	0					
+Footer (AG)	1.0.0	FRAME	Counter			5	99x18	HORIZONTAL CENTER MAX	0 0 0 0	4	0					
+Footer (AG)	1.0.0.0	TEXT	1			0	8x18	NONE			0	Text/Primary		Desktop text/Label text (semi bold, 600)	13px SemiBold	1
+Footer (AG)	1.0.0.1	TEXT	to			0	13x18	NONE			0	Text/Primary		Desktop text/Label text	13px	to
+Footer (AG)	1.0.0.2	TEXT	20			0	15x18	NONE			0	Text/Primary		Desktop text/Label text (semi bold, 600)	13px SemiBold	20
+Footer (AG)	1.0.0.3	TEXT	of			0	13x18	NONE			0	Text/Primary		Desktop text/Label text	13px	of
+Footer (AG)	1.0.0.4	TEXT	8,618			0	34x18	NONE			0	Text/Primary		Desktop text/Label text (semi bold, 600)	13px SemiBold	8,618
+Footer (AG)	1.1	FRAME	Pagination			4	214x22	HORIZONTAL CENTER MAX	0 0 0 0	10	0					
+Footer (AG)	1.1.0	FRAME	Controls			2	54x22	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Footer (AG)	1.1.1	FRAME	Numbers			4	86x18	HORIZONTAL MIN MAX	0 0 0 0	4	0					
+Footer (AG)	1.1.1.0	TEXT	Page			0	30x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Page
+Footer (AG)	1.1.1.1	TEXT	1			0	8x18	NONE			0	Text/Primary		Desktop text/Label text (semi bold, 600)	13px SemiBold	1
+Footer (AG)	1.1.1.2	TEXT	of			0	13x18	NONE			0	Text/Primary		Desktop text/Label text	13px	of
+Footer (AG)	1.1.1.3	TEXT	431			0	23x18	NONE			0	Text/Primary		Desktop text/Label text (semi bold, 600)	13px SemiBold	431
+Footer (AG)	1.1.2	INSTANCE	Icon-Left	small-down-theme-alpine		0	16x16	NONE			0					
+Footer (AG)	1.1.3	FRAME	Controls			2	54x22	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Footer		COMPONENT	Footer			2	375x28	VERTICAL MIN MIN	0 10 0 10	10	0					
+Footer	0	FRAME	Prefilled content			2	355x28	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Footer	0.0	FRAME	Tags			2	254x28	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Footer	0.0.0	INSTANCE	Tags	Tags	Type=Negative, Small=No	1	58x28	HORIZONTAL CENTER CENTER	5 10 5 10	5	4	Tags/Fills/Negative	Tags/Borders/Negative			
+Footer	0.0.1	INSTANCE	Tags	Tags	Type=Theme, Small=No	0	58x28	HORIZONTAL CENTER CENTER	5 10 5 10	5	4	Tags/Fills/Info	Tags/Borders/Info			
+Footer	0.1	INSTANCE	Links	Links	Link type=Primary, Hover=False, Icon position=Left	1	91x22	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Footer	1	SLOT	Slot			0	355x28	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Form field		COMPONENT	Input type=Text, State=Default, Full width=Yes			2	564x69	VERTICAL MIN MIN	0 0 0 0	5	0					
+Form field	0	INSTANCE	Field label	Field label		1	564x22	HORIZONTAL CENTER SPACE_BETWEEN	0 0 0 0	42	0					
+Form field	1	FRAME	Field with help text			1	564x42	VERTICAL MIN MIN	0 0 0 0	8	0					
+Form field	1.0	INSTANCE	Field	Field	Right aligned=No, Filled=No	1	564x42	HORIZONTAL CENTER MAX	10 10 10 20	10	8	Background/Primary	Border/Form input			
+Form		COMPONENT	Mobile=True			3	355x1046	VERTICAL CENTER MIN	20 10 20 10	30	8	Background/Primary				
+Form	0	TEXT	Subheading			0	335x25	NONE			0	Text/Primary		Mobile text/Sub heading	18px	Subheading
+Form	1	SLOT	Form2			7	335x805	VERTICAL MIN MIN	0 0 0 0	30	0					
+Form	1.0	INSTANCE	Required field	Required field		2	335x22	HORIZONTAL CENTER MIN	0 0 0 0	8	0					
+Form	1.1	INSTANCE	Form field	Form field	Input type=Text, State=Default, Full width=Yes	2	335x69	VERTICAL MIN MIN	0 0 0 0	5	0					
+Form	1.2	INSTANCE	Checkbox/Radio list	Checkbox/Radio list	State=Default	2	335x81	VERTICAL MIN MIN	0 0 0 0	5	0					
+Form	1.3	FRAME	Frame 83931			2	335x57	VERTICAL MIN MIN	0 0 0 0	10	0					
+Form	1.3.0	INSTANCE	Field label	Field label		1	152x22	HORIZONTAL CENTER SPACE_BETWEEN	0 0 0 0	42	0					
+Form	1.3.1	INSTANCE	Toggle	Toggle	On=No, Locked=No	2	55x25	HORIZONTAL CENTER SPACE_BETWEEN	0 7 0 2	0	13	Background/Tertiary	Base colours/Grey Dolphin			
+Form	1.4	INSTANCE	Form field	Form field	Input type=Date picker, State=Default, Full width=Yes	2	335x69	VERTICAL MIN MIN	0 0 0 0	5	0					
+Form	1.5	INSTANCE	Text template format editor 	Text template format editor 	Type=Modal	4	335x246	VERTICAL MIN MIN	0 0 0 0	5	0					
+Form	1.6	INSTANCE	Checkbox/Radio list	Checkbox/Radio list	State=Default	2	335x81	VERTICAL MIN MIN	0 0 0 0	5	0					
+Form	2	FRAME	Buttons			3	335x116	VERTICAL MIN CENTER	0 0 0 0	10	0					
+Form	2.0	INSTANCE	Button	Button	Type=Positive, State=Default, Label=Yes	1	335x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20	Background/Primary Button				
+Form	2.1	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=Yes	1	335x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
+Form	2.2	INSTANCE	Button	Button	Type=Negative, State=Default, Label=Yes	1	335x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20	Background/Negative Button				
+Full page		COMPONENT	System=People First, Tablet=No, Mobile=No, Darkmode=No			3	1920x1080	NONE			0	IMAGE				
+Full page	0	INSTANCE	Side navigation	Side navigation	System=People First	8	90x1080	VERTICAL MIN MIN	0 0 0 0	0	0	Navigation/Nav bg left				
+Full page	1	FRAME	Content			0	1830x906	HORIZONTAL MIN MIN	20 20 20 20	10	0					
+Full page	2	INSTANCE	Header navigation	Header navigation	Mobile=No, Tablet=No	2	1830x130	VERTICAL MIN MIN	0 0 0 0	0	0					
+Full page/Header navigation/Yes/No		COMPONENT	Full page/Header navigation/Yes/No			3	375x138	VERTICAL MIN MIN	0 0 0 0	0	0					
+Full page/Header navigation/Yes/No	0	INSTANCE	Header	Header	Theme=Default - Cranberry red, Mobile=Yes	2	375x62	VERTICAL MIN SPACE_BETWEEN	0 10 0 10	10	0	LITERAL				
+Full page/Header navigation/Yes/No	1	INSTANCE	Secondary nav	Secondary nav	Mobile=False	3	375x44	HORIZONTAL MAX CENTER	0 0 0 0	0	0	Navigation/Nav bg top				
+Full page/Header navigation/Yes/No	2	INSTANCE	Tertiary nav	Tertiary nav	Mobile=Yes, Page=No	1	375x32	HORIZONTAL CENTER CENTER	0 10 0 10	30	0	Navigation/Nav bg top				
+Graph axis		COMPONENT	Breakpoint=Desktop			2	492x232	HORIZONTAL MIN MIN	0 0 0 0	10	0					
+Graph axis	0	FRAME	Frame 82802			5	47x232	VERTICAL MIN SPACE_BETWEEN	0 0 0 0	0	0					
+Graph axis	0.0	TEXT	400			0	47x18	NONE			0	Text/Primary		Desktop text/Label text	13px	400
+Graph axis	0.1	TEXT	300			0	47x18	NONE			0	Text/Primary		Desktop text/Label text	13px	300
+Graph axis	0.2	TEXT	200			0	47x18	NONE			0	Text/Primary		Desktop text/Label text	13px	200
+Graph axis	0.3	TEXT	100			0	47x18	NONE			0	Text/Primary		Desktop text/Label text	13px	100
+Graph axis	0.4	TEXT	0			0	47x18	NONE			0	Text/Primary		Desktop text/Label text	13px	0
+Graph axis	1	FRAME	Frame 82801			5	435x232	VERTICAL MIN SPACE_BETWEEN	0 0 0 1	10	0		Border/Form input			
+Graph axis	1.0	LINE	Line 10			0	434x0	NONE			0		Border/Default full			
+Graph axis	1.1	LINE	Line 13			0	434x0	NONE			0		Border/Default full			
+Graph axis	1.2	LINE	Line 15			0	434x0	NONE			0		Border/Default full			
+Graph axis	1.3	LINE	Line 14			0	434x0	NONE			0		Border/Default full			
+Graph axis	1.4	LINE	Line 12			0	434x0	NONE			0		Border/Default full			
+Graph legend		COMPONENT	Mobile=False, Key type=Donut graph			2	108x33	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Graph legend	0	ELLIPSE	Ellipse 10566			0	8x8	NONE			0	Charts/Chart 1				
+Graph legend	1	FRAME	Frame 84168			2	95x33	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Graph legend	1.0	TEXT	9			0	14x33	NONE			0	Text/Primary		Desktop text/Large heading	24px Regular	9
+Graph legend	1.1	TEXT	Label name			0	71x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Label name
+Header navigation		COMPONENT	Mobile=No, Tablet=No			3	1830x130	VERTICAL MIN MIN	0 0 0 0	0	0					
+Header navigation	0	INSTANCE	Header	Header	Theme=Default - Cranberry red, Mobile=No	4	1830x86	HORIZONTAL CENTER SPACE_BETWEEN	10 20 10 20	10	0	LITERAL				
+Header navigation	1	INSTANCE	Secondary nav	Secondary nav	Mobile=False	3	1830x44	HORIZONTAL MAX CENTER	0 0 0 0	0	0	Navigation/Nav bg top				
+Header navigation	2	INSTANCE	Tertiary nav	Tertiary nav	Mobile=No, Page=No	1	1830x36	HORIZONTAL CENTER CENTER	0 20 0 20	40	0	Navigation/Nav bg top				
+Header		COMPONENT	Theme=Configr, Mobile=No			4	1830x86	HORIZONTAL CENTER SPACE_BETWEEN	10 20 10 20	10	0	LITERAL				
+Header	0	VECTOR	Vector			0	1830x86	NONE			0					
+Header	1	FRAME	SC logo			1	44x30	VERTICAL MIN MIN	6.149281978607178 6.149281978607178 6.149281978607178 6.149281978607178	8	0					
+Header	2	FRAME	Title			1	166x66	HORIZONTAL CENTER CENTER	0 0 0 0	5	0					
+Header	2.0	INSTANCE	Top bar app context	Top bar app context	Area=Administration, Mobile=False	2	166x66	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Header	3	FRAME	User			1	44x44	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Header	3.0	INSTANCE	People	People	Who?=CEO - Nolan George	1	44x44	NONE			0					
+Hemisphere chart		COMPONENT	Status=None			3	200x146	VERTICAL MIN MIN	0 0 0 0	5	0					
+Hemisphere chart	0	FRAME	Top metric			1	200x18	NONE			0					
+Hemisphere chart	0.0	TEXT	50			0	200x18	NONE			0	Text/Primary		Desktop text/Label text	13px	50
+Hemisphere chart	1	FRAME	Chart			3	200x100	NONE			0					
+Hemisphere chart	1.0	ELLIPSE	Right elipse			0	200x200	NONE			0	Charts/Chart 7				
+Hemisphere chart	1.1	ELLIPSE	Left elipse			0	200x200	NONE			0	Charts/Chart 7				
+Hemisphere chart	1.2	TEXT	0			0	14x33	NONE			0	Text/Primary		Desktop text/Large heading	24px Regular	0
+Hemisphere chart	2	FRAME	Bottom metric			2	200x18	NONE			0					
+Hemisphere chart	2.0	TEXT	0			0	8x18	NONE			0	Text/Primary		Desktop text/Label text	13px	0
+Hemisphere chart	2.1	TEXT	100			0	23x18	NONE			0	Text/Primary		Desktop text/Label text	13px	100
+Horizontal scroll		COMPONENT	Page=First			2	1160x32	HORIZONTAL CENTER CENTER	0 0 0 0	390	0					
+Horizontal scroll	0	SLOT	Slider			2	120x5	HORIZONTAL CENTER MIN	0 0 0 0	0	100	LITERAL				
+Horizontal scroll	0.0	RECTANGLE	Slider			0	60x5	NONE			170	Border/Theme				
+Horizontal scroll	0.1	RECTANGLE	Spacer			0	60x5	NONE			170					
+Horizontal scroll	1	FRAME	Actions			2	74x32	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Horizontal scroll	1.0	INSTANCE	Button	Button	Type=Hollow, State=Disabled, Label=No	1	32x32	HORIZONTAL CENTER CENTER	0 20 0 20	5	20		Border/Disabled			
+Horizontal scroll	1.1	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=No	1	32x32	HORIZONTAL CENTER CENTER	0 20 0 20	5	20		Border/Hollow Button			
+Image picker		COMPONENT	Property 1=Default			2	440x220	NONE			0	Border/Form input				
+Image picker	0	FRAME	Frame 82476			2	440x46	HORIZONTAL CENTER MAX	5 5 5 5	5	0					
+Image picker	0.0	FRAME	Camera			1	36x36	NONE			38	Icons/Icon - Secondary				
+Image picker	0.0.0	INSTANCE	Camera	Camera		1	30x30	NONE			0					
+Image picker	0.1	FRAME	Bin			1	36x36	NONE			38	Icons/Icon - Secondary				
+Image picker	0.1.0	INSTANCE	Bin delete	Bin delete		1	30x30	NONE			0					
+Image picker	1	FRAME	Frame			5	184x184	NONE			0					
+Information box		COMPONENT	Type=Information			1	440x56	HORIZONTAL MIN MIN	0 0 0 0	0	0					
+Information box	0	INSTANCE	Information box	Information box	Type=Message, Mobile=False	2	440x56	HORIZONTAL CENTER MIN	10 10 10 4	10	8		Border/Info			
+Inline search		COMPONENT	Filled=False			2	400x130	VERTICAL MIN MIN	0 0 0 0	6	0					
+Inline search	0	INSTANCE	Field label	Field label		1	400x22	HORIZONTAL CENTER SPACE_BETWEEN	0 0 0 0	42	0					
+Inline search	1	FRAME	Container			2	400x102	VERTICAL MIN MIN	12 20 12 20	12	0	Background/Secondary				
+Inline search	1.0	TEXT	No items added			0	97x24	NONE			0	Text/Primary		Desktop text/Label text	13px	No items add
+Inline search	1.1	INSTANCE	Form field	Form field	Input type=Search, State=Default, Full width=Yes	1	360x42	VERTICAL MIN MIN	0 0 0 0	5	0					
+Layout container (magazine style)		COMPONENT	Row colour=False, Mobile=False			5	1600x667	VERTICAL MIN MIN	30 30 30 30	20	0	Background/Primary				
+Layout container (magazine style)	0	INSTANCE	Layout container title	Layout container title	Property 1=Default	2	1540x44	HORIZONTAL CENTER SPACE_BETWEEN	0 0 0 0	464	0					
+Layout container (magazine style)	1	TEXT	Summary content will be featured here, try to keep it concise, clear and informative.			0	1540x49	NONE			0	Text/Primary		Desktop text/XL heading	36px	Summary cont
+Layout container (magazine style)	2	INSTANCE	Layout container tabs	Layout container tabs	Property 1=Default	2	1540x36	HORIZONTAL CENTER SPACE_BETWEEN	0 0 0 0	204	0					
+Layout container (magazine style)	3	FRAME	Frame 84881			4	1540x366	HORIZONTAL MIN MIN	0 0 0 0	20	0					
+Layout container (magazine style)	3.0	INSTANCE	Content cards	Content cards	Mobile=false	2	363x366	VERTICAL MIN MIN	20 20 20 20	20	8	Background/Primary	Border/Default full			
+Layout container (magazine style)	3.1	INSTANCE	Content cards	Content cards	Mobile=false	2	363x366	VERTICAL MIN MIN	20 20 20 20	20	8	Background/Primary	Border/Default full			
+Layout container (magazine style)	3.2	INSTANCE	Content cards	Content cards	Mobile=false	2	363x366	VERTICAL MIN MIN	20 20 20 20	20	8	Background/Primary	Border/Default full			
+Layout container (magazine style)	3.3	INSTANCE	Content cards	Content cards	Mobile=false	2	363x366	VERTICAL MIN MIN	20 20 20 20	20	8	Background/Primary	Border/Default full			
+Layout container (magazine style)	4	INSTANCE	Horizontal scroll	Horizontal scroll	Page=First	2	1540x32	HORIZONTAL CENTER CENTER	0 0 0 0	390	0					
+Layout container tabs		COMPONENT	Property 1=Default			2	1160x36	HORIZONTAL CENTER SPACE_BETWEEN	0 0 0 0	204	0					
+Layout container tabs	0	FRAME	Frame 84869			6	596x36	HORIZONTAL MAX MIN	0 0 0 0	30	0					
+Layout container tabs	0.0	INSTANCE	Tab	Tab	System=People First, State=Selected, Mobile=No, Selected=Yes	2	76x36	VERTICAL CENTER MIN	6 0 6 0	2	0					
+Layout container tabs	0.1	INSTANCE	Tab	Tab	System=People First, State=Default, Mobile=No, Selected=No	1	74x34	VERTICAL CENTER MIN	6 0 6 0	10	0					
+Layout container tabs	0.2	INSTANCE	Tab	Tab	System=People First, State=Default, Mobile=No, Selected=No	1	74x34	VERTICAL CENTER MIN	6 0 6 0	10	0					
+Layout container tabs	0.3	INSTANCE	Tab	Tab	System=People First, State=Default, Mobile=No, Selected=No	1	74x34	VERTICAL CENTER MIN	6 0 6 0	10	0					
+Layout container tabs	0.4	INSTANCE	Tab	Tab	System=People First, State=Default, Mobile=No, Selected=No	1	74x34	VERTICAL CENTER MIN	6 0 6 0	10	0					
+Layout container tabs	0.5	INSTANCE	Tab	Tab	System=People First, State=Default, Mobile=No, Selected=No	1	74x34	VERTICAL CENTER MIN	6 0 6 0	10	0					
+Layout container tabs	1	FRAME	Frame 84870			3	266x32	HORIZONTAL MIN MIN	0 0 0 0	10	0					
+Layout container tabs	1.0	INSTANCE	Button	Button	Type=Action, State=Default, Label=Yes	2	107x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20	Background/Secondary Button				
+Layout container tabs	1.1	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=Yes	2	107x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
+Layout container tabs	1.2	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=No	1	32x32	HORIZONTAL CENTER CENTER	0 20 0 20	5	20		Border/Hollow Button			
+Layout container title		COMPONENT	Property 1=Default			2	1160x44	HORIZONTAL CENTER SPACE_BETWEEN	0 0 0 0	464	0					
+Layout container title	0	FRAME	Frame 84872			2	94x44	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Layout container title	0.0	INSTANCE	Circle icons	Circle icons	Size=M - 44px	1	44x44	NONE			36	Background/Light Theme	Border/Theme			
+Layout container title	0.1	TEXT	Title			0	40x27	NONE			0	Text/Primary		Desktop text/Sub heading	20px	Title
+Layout container title	1	FRAME	Frame 84870			4	391x32	HORIZONTAL CENTER MAX	0 0 0 0	10	0					
+Layout container title	1.0	INSTANCE	Button	Button	Type=Action, State=Default, Label=Yes	2	107x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20	Background/Secondary Button				
+Layout container title	1.1	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=Yes	1	81x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
+Layout container title	1.2	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=No	1	32x32	HORIZONTAL CENTER CENTER	0 20 0 20	5	20		Border/Hollow Button			
+Layout container title	1.3	INSTANCE	Pop up button/ context menu	Pop up button/ context menu	Darkmode=False, Circle=false	2	141x28	HORIZONTAL CENTER CENTER	0 0 0 0	0	0					
+Links		COMPONENT	Link type=Primary, Hover=False, Icon position=Left			2	58x22	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Links	0	INSTANCE	Edit	Edit		1	22x22	NONE			0					
+Links	1	TEXT	Link label			0	31x22	NONE			0	Text/Link		Desktop text/Body text	16px	Link
+Manage columns		COMPONENT	Mobile=False, Darkmode=False			4	520x1078	VERTICAL MIN MIN	0 0 0 0	0	0	Background/Primary				
+Manage columns	0	INSTANCE	Side panel header	Side panel header/Small		3	520x58	HORIZONTAL CENTER MIN	15 15 15 15	10	0	Background/Primary	Border/Secondary			
+Manage columns	1	FRAME	Side panel sizes			1	520x968	VERTICAL CENTER MIN	20 20 20 20	35	0	Background/Primary				
+Manage columns	1.0	SLOT	Column list			5	480x290	VERTICAL CENTER MIN	0 0 0 0	10	0					
+Manage columns	1.0.0	INSTANCE	Draggable card	Draggable card	State=Default	3	480x50	HORIZONTAL CENTER MIN	10 15 10 15	20	8	Background/Primary	Border/Default hidden			
+Manage columns	1.0.1	INSTANCE	Draggable card	Draggable card	State=Default	3	480x50	HORIZONTAL CENTER MIN	10 15 10 15	20	8	Background/Primary	Border/Default hidden			
+Manage columns	1.0.2	INSTANCE	Draggable card	Draggable card	State=Default	3	480x50	HORIZONTAL CENTER MIN	10 15 10 15	20	8	Background/Primary	Border/Default hidden			
+Manage columns	1.0.3	INSTANCE	Draggable card	Draggable card	State=Default	3	480x50	HORIZONTAL CENTER MIN	10 15 10 15	20	8	Background/Primary	Border/Default hidden			
+Manage columns	1.0.4	INSTANCE	Draggable card	Draggable card	State=Default	3	480x50	HORIZONTAL CENTER MIN	10 15 10 15	20	8	Background/Primary	Border/Default hidden			
+Manage columns	2	INSTANCE	Sticky footer	Sticky footer	Default=Default	1	520x52	HORIZONTAL CENTER MIN	10 15 10 15	20	0	Background/Primary	Border/Secondary			
+Manage columns	3	INSTANCE	Side panel footer	Side panel footer		0	520x60	HORIZONTAL CENTER MIN	15 15 15 15	10	0	LITERAL	LITERAL			
+Map		COMPONENT	Map			1	480x200	NONE			8					
+Map	0	RECTANGLE	Map			0	480x200	NONE			0	IMAGE				
+Menu		COMPONENT	Size=Large			2	50x73	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Menu	0	FRAME	Frame 80044			1	50x50	NONE			25	LITERAL				
+Menu	0.0	INSTANCE	Home	Home		1	36x36	NONE			0					
+Menu	1	TEXT	Label			0	33x18	NONE			0	LITERAL		Desktop text/Label text	13px	Label
+Menu-search-settings		COMPONENT	Page=Menu, Darkmode=False			12	1920x1080	VERTICAL CENTER MIN	20 20 20 20	30	0	Background/Secondary				
+Menu-search-settings	0	FRAME	Frame 80055			3	1880x66	HORIZONTAL CENTER CENTER	0 0 0 0	0	0					
+Menu-search-settings	0.0	RECTANGLE	Rectangle 124			0	66x66	NONE			0					
+Menu-search-settings	0.1	FRAME	Frame 80042			1	1748x66	VERTICAL CENTER SPACE_BETWEEN	0 0 0 0	10	0					
+Menu-search-settings	0.1.0	FRAME	Context selector			3	283x53	HORIZONTAL MIN MIN	0 0 0 0	0	0					
+Menu-search-settings	0.1.0.0	INSTANCE	Menu	Menu	Active=True, Darkmode=False	2	83x53	VERTICAL CENTER SPACE_BETWEEN	0 0 0 0	10	0					
+Menu-search-settings	0.1.0.1	INSTANCE	Menu	Menu	Active=False, Darkmode=False	2	94x53	VERTICAL CENTER SPACE_BETWEEN	0 0 0 0	10	0					
+Menu-search-settings	0.1.0.2	INSTANCE	Menu	Menu	Active=False, Darkmode=False	2	106x53	VERTICAL CENTER SPACE_BETWEEN	0 0 0 0	10	0					
+Menu-search-settings	0.2	INSTANCE	Close x	Close x		2	66x66	NONE			0					
+Menu-search-settings	1	FRAME	Frame 80049			1	560x59	HORIZONTAL MIN SPACE_BETWEEN	0 80 0 80	10	0					
+Menu-search-settings	1.0	INSTANCE	Menu	Menu	Size=Large	2	50x73	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Menu-search-settings	2	INSTANCE	Logo	Logo	Name=People First	1	134x35	NONE			0					
+Menu-search-settings	3	FRAME	Frame 80050			4	950x73	HORIZONTAL CENTER SPACE_BETWEEN	0 150 0 150	10	0					
+Menu-search-settings	3.0	INSTANCE	Menu	Menu	Size=Large	2	50x73	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Menu-search-settings	3.1	INSTANCE	Menu	Menu	Size=Large	2	50x73	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Menu-search-settings	3.2	INSTANCE	Menu	Menu	Size=Large	2	50x73	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Menu-search-settings	3.3	INSTANCE	Menu	Menu	Size=Large	2	50x73	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Menu-search-settings	4	FRAME	Frame 80051			1	1880x20	VERTICAL CENTER CENTER	10 465 10 465	10	0					
+Menu-search-settings	4.0	LINE	Line 12			0	950x0	NONE			0		Border/Theme			
+Menu-search-settings	5	TEXT	My apps			0	66x22	NONE			0	Text/Theme			16px	My apps
+Menu-search-settings	6	FRAME	Frame 80052			4	950x73	HORIZONTAL CENTER SPACE_BETWEEN	0 150 0 150	10	0					
+Menu-search-settings	6.0	INSTANCE	Menu	Menu	Size=Large	2	50x73	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Menu-search-settings	6.1	INSTANCE	Menu	Menu	Size=Large	2	50x73	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Menu-search-settings	6.2	INSTANCE	Menu	Menu	Size=Large	2	50x73	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Menu-search-settings	6.3	INSTANCE	Menu	Menu	Size=Large	2	50x73	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Menu-search-settings	7	FRAME	Frame 80053			4	950x73	HORIZONTAL CENTER SPACE_BETWEEN	0 150 0 150	10	0					
+Menu-search-settings	7.0	INSTANCE	Menu	Menu	Size=Large	2	50x73	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Menu-search-settings	7.1	INSTANCE	Menu	Menu	Size=Large	2	50x73	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Menu-search-settings	7.2	INSTANCE	Menu	Menu	Size=Large	2	50x73	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Menu-search-settings	7.3	INSTANCE	Menu	Menu	Size=Large	2	50x73	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Menu-search-settings	8	FRAME	Frame 80106			3	950x73	HORIZONTAL CENTER MIN	0 150 0 150	150	0					
+Menu-search-settings	8.0	INSTANCE	Menu	Menu	Size=Large	2	50x73	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Menu-search-settings	8.1	INSTANCE	Menu	Menu	Size=Large	2	50x73	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Menu-search-settings	8.2	INSTANCE	Menu	Menu	Size=Large	2	50x73	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Menu-search-settings	9	FRAME	Frame 80058			1	1880x20	VERTICAL CENTER CENTER	10 465 10 465	10	0					
+Menu-search-settings	9.0	LINE	Line 12			0	950x0	NONE			0		Border/Theme			
+Menu-search-settings	10	TEXT	External links			0	124x22	NONE			0	Text/Theme			16px	External lin
+Menu-search-settings	11	FRAME	Frame 80105			3	950x98	VERTICAL MIN MIN	0 0 0 0	10	0					
+Menu-search-settings	11.0	FRAME	Frame 80057			3	950x26	HORIZONTAL CENTER SPACE_BETWEEN	0 0 0 0	10	0					
+Menu-search-settings	11.0.0	INSTANCE	Menu	Menu	Size=Small	2	317x26	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Menu-search-settings	11.0.1	INSTANCE	Menu	Menu	Size=Small	2	317x26	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Menu-search-settings	11.0.2	INSTANCE	Menu	Menu	Size=Small	2	317x26	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Menu-search-settings	11.1	FRAME	Frame 80059			3	950x26	HORIZONTAL CENTER SPACE_BETWEEN	0 0 0 0	10	0					
+Menu-search-settings	11.1.0	INSTANCE	Menu	Menu	Size=Small	2	317x26	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Menu-search-settings	11.1.1	INSTANCE	Menu	Menu	Size=Small	2	317x26	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Menu-search-settings	11.1.2	INSTANCE	Menu	Menu	Size=Small	2	317x26	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Menu-search-settings	11.2	FRAME	Frame 80060			3	950x26	HORIZONTAL CENTER SPACE_BETWEEN	0 0 0 0	10	0					
+Menu-search-settings	11.2.0	INSTANCE	Menu	Menu	Size=Small	2	317x26	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Menu-search-settings	11.2.1	INSTANCE	Menu	Menu	Size=Small	2	317x26	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Menu-search-settings	11.2.2	INSTANCE	Menu	Menu	Size=Small	2	317x26	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Message box		COMPONENT	Property 1=Default			3	455x138	VERTICAL MIN MIN	15 15 15 15	10	8	Background/Primary	Border/Form input			
+Message box	0	TEXT	Type here...			0	425x22	NONE			0	Text/Secondary		Desktop text/Body text	16px	Type here...
+Message box	1	TEXT	Lorem ipsum dolor sit amet consectetur. Mauris semper faucibus proin faucibus. Aliquet urna commodo fermentum molestie nisl. Gravida non mattis libero ut leo.			0	425x66	NONE			0	Text/Primary		Desktop text/Body text	16px	Lorem ipsum 
+Message box	2	FRAME	Frame 62710154			2	425x32	HORIZONTAL CENTER MAX	0 0 0 0	10	0					
+Message box	2.0	FRAME	Frame 62710155			3	383x24	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Message box	2.0.0	INSTANCE	Like thumbs up	Like thumbs up		1	24x24	NONE			0					
+Message box	2.0.1	INSTANCE	Like thumbs up	Like thumbs up		1	24x24	NONE			0					
+Message box	2.0.2	INSTANCE	Add plus	Add plus		1	24x24	NONE			0					
+Message box	2.1	INSTANCE	Button	Button	Type=Positive, State=Default, Label=No	1	32x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20	Background/Primary Button				
+Metric card		COMPONENT	Mobile=False			2	392x89	HORIZONTAL CENTER SPACE_BETWEEN	20 20 20 20	165	8	Background/Tertiary				
+Metric card	0	FRAME	Frame 84177			2	142x49	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Metric card	0.0	TEXT	10%			0	71x49	NONE			0	Text/Primary		Desktop text/XL heading	36px	10%
+Metric card	0.1	INSTANCE	Data variance	Data variance	Data change=Down, Mobile=False	2	61x45	VERTICAL MIN MIN	0 0 0 0	0	0					
+Metric card	1	TEXT	More details			0	76x18	NONE			0	Text/Link			13px	More details
+Mobile bottom navigation		COMPONENT	Tablet=No			6	375x76	HORIZONTAL MIN MIN	0 0 0 0	0	0	Navigation/Nav bg left	LITERAL			
+Mobile bottom navigation	0	INSTANCE	Navigation item	Navigation item	System=People First, State=Default, Device=Mobile, Selected=No	1	58x76	HORIZONTAL CENTER CENTER	0 25 0 25	10	0	Navigation/Nav bg left				
+Mobile bottom navigation	1	INSTANCE	Navigation item	Navigation item	System=People First, State=Default, Device=Mobile, Selected=No	1	58x76	HORIZONTAL CENTER CENTER	0 25 0 25	10	0	Navigation/Nav bg left				
+Mobile bottom navigation	2	INSTANCE	Navigation item	Navigation item	System=People First, State=Default, Device=Mobile, Selected=No	1	58x76	HORIZONTAL CENTER CENTER	0 25 0 25	10	0	Navigation/Nav bg left				
+Mobile bottom navigation	3	INSTANCE	Navigation item	Navigation item	System=People First, State=Default, Device=Mobile, Selected=No	1	58x76	HORIZONTAL CENTER CENTER	0 25 0 25	10	0	Navigation/Nav bg left				
+Mobile bottom navigation	4	INSTANCE	Navigation item	Navigation item	System=People First, State=Default, Device=Mobile, Selected=No	1	58x76	HORIZONTAL CENTER CENTER	0 25 0 25	10	0	Navigation/Nav bg left				
+Mobile bottom navigation	5	INSTANCE	Navigation item	Navigation item	System=People First, State=Default, Device=Mobile, Selected=No	2	86x76	HORIZONTAL CENTER CENTER	0 25 0 25	10	0	Navigation/Nav bg left				
+Mobile key actions		COMPONENT	Link=Key actions			1	126x103	NONE			0					
+Mobile key actions	0	INSTANCE	Key actions	[S] Mobile top cards		1	126x103	NONE			5	LITERAL				
+Multiselect tag		COMPONENT	Multiselect tag			4	100x24	HORIZONTAL CENTER MIN	0 0 0 0	0	4	Base colours/Blue Ocean				
+Multiselect tag	0	FRAME	Icon			1	22x17	HORIZONTAL CENTER MIN	0 0 0 5	0	0					
+Multiselect tag	0.0	INSTANCE	Department	Department		1	17x17	NONE			0					
+Multiselect tag	1	INSTANCE	People	People	Who?=S -  Nicholas Smudge	0	24x24	NONE			0					
+Multiselect tag	2	FRAME	Text			2	59x24	VERTICAL MIN CENTER	3 5 3 5	0	0					
+Multiselect tag	2.0	TEXT	Tag text			0	49x18	NONE			0	Base colours/White		Desktop text/Label text	13px	Tag text
+Multiselect tag	2.1	TEXT	Tag text			0	49x18	NONE			0	Base colours/White		Desktop text/Label text	13px	Tag text
+Multiselect tag	3	FRAME	Close			1	19x14	HORIZONTAL CENTER MAX	0 5 0 0	0	0					
+Multiselect tag	3.0	INSTANCE	Close x cancel	Close x cancel		1	14x14	NONE			0					
+Nav tabs		COMPONENT	Status=Unselected, Mobile=False			1	80x40	VERTICAL CENTER CENTER	0 20 0 20	10	mixed	Navigation/Nav bg top	Border/Default full			
+Nav tabs	0	FRAME	Frame 80113			1	40x22	HORIZONTAL CENTER CENTER	0 0 0 0	5	0					
+Nav tabs	0.0	TEXT	Label			0	40x22	NONE			0	Text/Primary		Desktop text/Body text	16px	Label
+Navigation item		COMPONENT	System=People First, State=Selected, Device=Desktop, Selected=Yes			3	90x86	HORIZONTAL CENTER CENTER	0 0 0 0	22	0	Navigation/Nav bg left				
+Navigation item	0	FRAME	Frame 84862			2	32x55	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Navigation item	0.0	INSTANCE	Home	Home		1	32x32	NONE			0					
+Navigation item	0.1	TEXT	Text			0	28x18	NONE			0	Text/Theme		Desktop text/Label text (semi bold, 600)	13px SemiBold	Text
+Navigation item	1	RECTANGLE	Highlighted tab			0	3x132	NONE			0	Border/Theme				
+Navigation item	2	INSTANCE	Header	Header	System=People First	0	20x20	VERTICAL CENTER CENTER	0 4 0 4	10	38	Icons/Icon - Theme				
+Navigation tabs		COMPONENT	System=People First, Mobile=No			1	202x36	HORIZONTAL CENTER MIN	0 0 0 0	40	0					
+Navigation tabs	0	SLOT	Content			3	202x36	HORIZONTAL CENTER MIN	0 0 0 0	40	0					
+Navigation tabs	0.0	INSTANCE	Tab	Tab	System=People First, State=Selected, Mobile=No, Selected=Yes	2	42x36	VERTICAL CENTER MIN	6 0 6 0	2	0					
+Navigation tabs	0.1	INSTANCE	Tab	Tab	System=People First, State=Default, Mobile=No, Selected=No	1	40x34	VERTICAL CENTER MIN	6 0 6 0	10	0					
+Navigation tabs	0.2	INSTANCE	Tab	Tab	System=People First, State=Default, Mobile=No, Selected=No	1	40x34	VERTICAL CENTER MIN	6 0 6 0	10	0					
+Next actions modal		COMPONENT	Mobile=false, Type=Warning			5	400x565	VERTICAL CENTER MIN	0 0 30 0	30	8	Background/Primary	Border/Default full			
+Next actions modal	0	FRAME	Icon and headline message			2	400x126	VERTICAL CENTER MIN	20 0 20 0	5	mixed	Background/Light Theme	Border/Default full			
+Next actions modal	0.0	INSTANCE	Icon	Warning		1	48x48	NONE			0					
+Next actions modal	0.1	TEXT	Headline message			0	340x33	NONE			0	LITERAL		Desktop text/Large heading	24px Regular	Headline mes
+Next actions modal	1	FRAME	Information text			1	400x44	HORIZONTAL CENTER CENTER	0 30 0 30	10	0					
+Next actions modal	1.0	TEXT	Short description text that will be used to support a headline message			0	340x44	NONE			0	Text/Primary		Desktop text/Body text	16px	Short descri
+Next actions modal	2	INSTANCE	Information box	Information box	Type=Information	1	400x56	HORIZONTAL MIN MIN	0 30 0 30	0	0					
+Next actions modal	3	FRAME	Navigate to section			4	400x115	VERTICAL MIN MIN	0 0 0 0	10	0					
+Next actions modal	3.0	FRAME	Line 1			1	400x0	HORIZONTAL CENTER CENTER	0 30 0 30	10	0					
+Next actions modal	3.0.0	LINE	Line 1			0	340x0	NONE			0		Border/Tertiary			
+Next actions modal	3.1	TEXT	NAVIGATE TO			0	400x22	NONE			0	Text/Primary		Desktop text/Body text	16px	NAVIGATE TO
+Next actions modal	3.2	FRAME	Link			2	400x63	VERTICAL CENTER MIN	0 30 0 30	5	0					
+Next actions modal	3.2.0	INSTANCE	Circle icons	Circle icons	Size=S - 36px	1	36x36	NONE			36	Background/Light Theme	Border/Theme			
+Next actions modal	3.2.1	TEXT	Name of link			0	340x22	NONE			0	Text/Primary		Desktop text/Body text	16px	Name of link
+Next actions modal	3.3	FRAME	Line 2			1	400x0	HORIZONTAL CENTER CENTER	0 30 0 30	10	0					
+Next actions modal	3.3.0	LINE	Line 1			0	340x0	NONE			0		Border/Tertiary			
+Next actions modal	4	FRAME	Buttons			2	400x74	VERTICAL MIN MIN	0 30 0 30	10	0					
+Next actions modal	4.0	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=Yes	1	340x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
+Next actions modal	4.1	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=Yes	1	340x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
+Note		COMPONENT	Property 1=Default			3	440x130	VERTICAL CENTER MIN	0 0 0 0	0	8		Border/Default full			
+Note	0	FRAME	Frame 82615			2	440x56	HORIZONTAL CENTER MIN	10 20 10 20	10	0					
+Note	0.0	INSTANCE	People	People	Who?=CEO - Nolan George	1	28x28	NONE			0					
+Note	0.1	FRAME	Frame 80206			2	220x36	VERTICAL MIN CENTER	0 0 0 0	0	0					
+Note	0.1.0	TEXT	Nolan George			0	84x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Nolan George
+Note	0.1.1	TEXT	Wednesday 01/01/2022			0	220x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Wednesday 01
+Note	1	FRAME	Frame 82616			1	440x0	VERTICAL CENTER CENTER	0 20 0 20	0	0					
+Note	1.0	LINE	Line 2762			0	400x0	NONE			0		Border/Secondary			
+Note	2	FRAME	Note			1	440x74	HORIZONTAL CENTER MIN	10 20 10 20	0	4					
+Note	2.0	FRAME	Frame 80207			2	400x54	HORIZONTAL MIN MIN	0 0 0 0	5	0					
+Note	2.0.0	FRAME	Frame 80206			2	359x54	VERTICAL MIN CENTER	0 0 0 0	0	0					
+Note	2.0.0.0	TEXT	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit purus dapibus odio et ac gravida aenean.			0	359x36	NONE			0	Text/Primary			13px	Lorem ipsum 
+Note	2.0.0.1	TEXT	• 12:31			0	359x18	NONE			0	Text/Primary			13px	• 12:31
+Note	2.0.1	INSTANCE	Context	Context		3	36x36	NONE			0					
+Notification card		COMPONENT	Mobile=No			5	1160x117	HORIZONTAL CENTER MIN	15 20 15 20	10	8	Navigation/Nav bg top	Border/Default hidden			
+Notification card	0	INSTANCE	Notification image	Notification image	Type=Person, With status?=True, Mobile=False, Status position=High	0	44x44	NONE			0					
+Notification card	1	INSTANCE	Checkbox/Radio item	Checkbox/Radio item	State=Default, Radio=No, Filled=No	1	23x23	HORIZONTAL CENTER MIN	0 0 0 0	12	0					
+Notification card	2	FRAME	Notification icon			1	44x44	HORIZONTAL CENTER CENTER	10 10 10 10	10	100	Background/Negative Button				
+Notification card	2.0	INSTANCE	Warning	Warning		1	34x34	NONE			0					
+Notification card	3	FRAME	Notification text			2	943x87	VERTICAL MIN MIN	0 0 0 0	10	0					
+Notification card	3.0	FRAME	Frame 80252			2	943x49	VERTICAL MIN MIN	0 0 0 0	5	0					
+Notification card	3.0.0	FRAME	Frame 80251			3	84x22	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Notification card	3.0.0.0	TEXT	Title			0	33x22	NONE			0	Text/Primary		Desktop text/Body text (semi bold, 600)	16px SemiBold	Title
+Notification card	3.0.0.1	TEXT	8 Sep			0	41x22	NONE			0	Text/Secondary		Desktop text/Body text	16px	8 Sep
+Notification card	3.0.0.2	TEXT	10:03			0	41x22	NONE			0	Text/Secondary		Desktop text/Body text	16px	10:03
+Notification card	3.0.1	TEXT	Example notification text example notification text			0	943x22	NONE			0	Text/Primary		Desktop text/Body text	16px	Example noti
+Notification card	3.1	INSTANCE	Tags	Tags	Type=Warning, Small=No	1	82x28	HORIZONTAL CENTER CENTER	5 10 5 10	5	4	Tags/Fills/Warning	Tags/Borders/Warning			
+Notification card	4	FRAME	Notification actions			2	80x36	HORIZONTAL MIN MIN	0 0 0 0	8	0					
+Notification card	4.0	GROUP	Group 81918			2	36x36	NONE			0					
+Notification card	4.0.0	ELLIPSE	Ellipse 29			0	32x32	NONE			0		Icons/Icon - Secondary			
+Notification card	4.0.1	INSTANCE	Up_arrow	Up_arrow		1	36x36	NONE			0					
+Notification card	4.1	GROUP	Group 81918			2	36x36	NONE			0					
+Notification card	4.1.0	ELLIPSE	Ellipse 29			0	32x32	NONE			0		Icons/Icon - Secondary			
+Notification card	4.1.1	INSTANCE	Close x	Close x		2	36x36	NONE			0					
+Notification categories		COMPONENT	Mobile=No			1	300x1020	VERTICAL MIN MIN	5 10 5 10	0	0	Background/Primary				
+Notification categories	0	SLOT	Content			4	280x1010	VERTICAL MIN MIN	0 0 0 0	0	0					
+Notification categories	0.0	INSTANCE	Notification tabs	Notification tabs	State=Selected, Selected=Yes	4	280x65	HORIZONTAL CENTER MIN	18.5 15 18.5 15	20	0	Background/Primary	Border/Default full			
+Notification categories	0.1	INSTANCE	Notification tabs	Notification tabs	State=Default, Selected=No	3	280x65	HORIZONTAL CENTER MIN	18.5 15 18.5 15	20	0		Border/Default full			
+Notification categories	0.2	INSTANCE	Notification tabs	Notification tabs	State=Default, Selected=No	3	280x65	HORIZONTAL CENTER MIN	18.5 15 18.5 15	20	0		Border/Default full			
+Notification categories	0.3	INSTANCE	Notification tabs	Notification tabs	State=Default, Selected=No	2	280x65	HORIZONTAL CENTER MIN	18.5 15 18.5 15	20	0					
+Notification image		COMPONENT	Type=Person, With status?=False, Mobile=False, Status position=High			1	44x44	NONE			0					
+Notification image	0	INSTANCE	People	People	Who?=S -  Alice Robinson	1	44x44	NONE			0					
+Notification list		COMPONENT	Mobile=No			1	1117x730	VERTICAL MIN MIN	0 0 0 0	0	0	Background/Primary				
+Notification list	0	FRAME	Content			2	1117x730	VERTICAL MIN MIN	0 0 0 0	0	0					
+Notification list	0.0	FRAME	Actions			2	1117x52	HORIZONTAL CENTER SPACE_BETWEEN	20 20 0 40	10	0					
+Notification list	0.0.0	FRAME	Checkbox/Radio item			3	97x22	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Notification list	0.0.0.0	INSTANCE	Control	Control	Radio=No	0	23x23	VERTICAL CENTER CENTER	11.5 11.5 11.5 11.5	12	5	Background/Primary	Icons/Icon - Disabled			
+Notification list	0.0.0.1	FRAME	Label			2	64x22	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Notification list	0.0.0.1.0	TEXT	Option			0	64x22	NONE			0	Text/Primary		Desktop text/Body text	16px	Select all
+Notification list	0.0.0.1.1	FRAME	Frame 86765			1	6x22	HORIZONTAL MIN MIN	0 0 0 0	10	0					
+Notification list	0.0.0.2	INSTANCE	Tooltip question	Tooltip question		0	18x18	NONE			0					
+Notification list	0.0.1	INSTANCE	Button	Button	Type=Filter, State=Default, Label=Yes	2	89x32	HORIZONTAL CENTER CENTER	0 15 0 15	10	20		Border/Hollow Button			
+Notification list	0.1	SLOT	Cards			2	1117x678	VERTICAL MIN MIN	20 20 20 20	15	0					
+Notification list	0.1.0	INSTANCE	Notification card	Notification card	Mobile=No	4	1077x117	HORIZONTAL CENTER MIN	15 20 15 20	10	8	Navigation/Nav bg top	Border/Default hidden			
+Notification list	0.1.1	INSTANCE	Notification card	Notification card	Mobile=No	4	1077x117	HORIZONTAL CENTER MIN	15 20 15 20	10	8	Navigation/Nav bg top	Border/Default hidden			
+Notification panel		COMPONENT	Mobile=No			2	1500x1080	VERTICAL MIN MIN	0 0 0 0	0	0	Background/Primary				
+Notification panel	0	INSTANCE	Side panel header	Side panel header	Size=Default	3	1500x60	HORIZONTAL CENTER MAX	10 15 10 15	10	0	Background/Primary	Border/Secondary			
+Notification panel	1	FRAME	Content			2	1500x1020	HORIZONTAL MIN MIN	0 0 0 0	0	0					
+Notification panel	1.0	INSTANCE	Notification categories	Notification categories	Mobile=No	1	300x1020	VERTICAL MIN MIN	5 10 5 10	0	0	Background/Primary				
+Notification panel	1.1	INSTANCE	Notification list	Notification list	Mobile=No	1	1200x1020	VERTICAL MIN MIN	0 0 0 0	0	0	Background/Primary				
+Notification tabs		COMPONENT	State=Default, Selected=No			3	279x65	HORIZONTAL CENTER MIN	18.5 15 18.5 15	20	0		Border/Default full			
+Notification tabs	0	INSTANCE	Home	Home		1	28x28	NONE			0					
+Notification tabs	1	TEXT	Label			0	161x22	NONE			0	Text/Primary		EXTERNAL	16px	Label
+Notification tabs	2	INSTANCE	Header	Header	System=People First	1	20x20	VERTICAL CENTER CENTER	0 4 0 4	10	38	Icons/Icon - Theme				
+Option		COMPONENT	Selected=No			2	250x26	HORIZONTAL CENTER MIN	2 10 2 20	5	4					
+Option	0	TEXT	Label			0	220x22	NONE			0	Text/Primary			16px	Label
+Option	1	INSTANCE	Tick	Tick		0	14x14	NONE			0					
+Org chart		COMPONENT	Type=Org			2	293x48	HORIZONTAL CENTER MIN	0 0 0 0	0	8	Background/Primary				
+Org chart	0	FRAME	Content			2	267x48	VERTICAL MIN MIN	0 0 0 0	0	0					
+Org chart	0.0	FRAME	Main			3	267x48	HORIZONTAL CENTER MIN	0 0 0 0	0	0	Org cards/Fills/BG Main				
+Org chart	0.0.0	FRAME	Icon			1	54x48	HORIZONTAL CENTER MIN	2 5 2 5	10	0	Org cards/Fills/BG Light				
+Org chart	0.0.0.0	INSTANCE	Organisation company	Organisation company		1	44x44	NONE			0					
+Org chart	0.0.1	FRAME	Avatar			1	60x55	HORIZONTAL CENTER CENTER	0 5 0 0	10	0					
+Org chart	0.0.1.0	FRAME	Avatar			0	55x55	NONE			0	LITERAL				
+Org chart	0.0.2	FRAME	Text			2	50x22	VERTICAL MIN CENTER	0 0 0 5	0	0					
+Org chart	0.0.2.0	TEXT	Name			0	45x22	NONE			0	Text/Primary		Desktop text/Body text	16px	Name
+Org chart	0.0.2.1	TEXT	Role			0	25x18	NONE			0	Text/Secondary		Desktop text/Label text	13px	Role
+Org chart	0.1	FRAME	Department			1	267x42	HORIZONTAL CENTER MIN	10 0 10 10	10	0	LITERAL				
+Org chart	0.1.0	TEXT	Department			0	93x22	NONE			0	Text/Primary		Desktop text/Body text (semi bold, 600)	16px SemiBold	Department
+Org chart	1	FRAME	Action			1	26x48	HORIZONTAL CENTER CENTER	5 3 5 3	10	0	Org cards/Fills/BG Dark				
+Org chart	1.0	INSTANCE	Add plus	Add plus		1	20x20	NONE			0					
+Pagination buttons		COMPONENT	Pagination buttons			2	358x32	HORIZONTAL CENTER SPACE_BETWEEN	0 0 0 0	30	0					
+Pagination buttons	0	FRAME	Container			1	228x32	VERTICAL MIN CENTER	0 0 0 0	10	0					
+Pagination buttons	0.0	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=Yes	0	121x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
+Pagination buttons	1	FRAME	Container			1	358x32	VERTICAL MAX CENTER	0 0 0 0	10	0					
+Pagination buttons	1.0	INSTANCE	Button	Button	Type=Positive, State=Default, Label=Yes	2	96x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20	Background/Primary Button				
+People (second component)		COMPONENT	Item=Nolan George, Type=Table, Mobile=True			1	166x91	VERTICAL MIN MIN	0 0 0 0	0	0					
+People (second component)	0	INSTANCE	[S] People	[S] People	Property 1=Table, Mobile=True	2	166x91	VERTICAL CENTER CENTER	0 0 0 0	5	0					
+People and department drop down		COMPONENT	People and department drop down			2	440x320	HORIZONTAL MIN CENTER	10 5 10 10	10	0	Background/Primary				
+People and department drop down	0	SLOT	Slot			9	411x300	VERTICAL MIN MIN	0 0 0 0	0	0					
+People and department drop down	0.0	INSTANCE	People	People	Item=Nolan George, Type=Inline search, Mobile=False	1	411x60	HORIZONTAL MIN MIN	10 10 10 10	0	0	Base colours/Blue Ocean				
+People and department drop down	0.1	LINE	Line 2771			0	411x0	NONE			0		Border/Default full			
+People and department drop down	0.2	INSTANCE	People	People	Item=Davina Jones, Type=Inline search, Mobile=False	1	411x60	HORIZONTAL MIN MIN	10 10 10 10	0	0					
+People and department drop down	0.3	LINE	Line 2772			0	411x0	NONE			0		Border/Default full			
+People and department drop down	0.4	INSTANCE	People	People	Item=Abram Carter, Type=Inline search, Mobile=False	1	411x60	HORIZONTAL MIN MIN	10 10 10 10	0	0					
+People and department drop down	0.5	LINE	Line 2773			0	411x0	NONE			0		Border/Default full			
+People and department drop down	0.6	INSTANCE	People	People	Item=Department, Type=Inline search, Mobile=False	1	411x60	HORIZONTAL MIN MIN	10 10 10 10	0	0					
+People and department drop down	0.7	LINE	Line 2774			0	411x0	NONE			0		Border/Default full			
+People and department drop down	0.8	INSTANCE	People	People	Item=Department, Type=Inline search, Mobile=False	1	411x60	HORIZONTAL MIN MIN	10 10 10 10	0	0					
+People and department drop down	1	FRAME	Frame 83371			1	4x300	VERTICAL CENTER MIN	5 0 5 0	10	0	Background/Tertiary				
+People and department drop down	1.0	FRAME	Frame 83372			0	4x23	NONE			21	Background/Primary				
+People		COMPONENT	Who?=S -  Marley Westervelt			1	91x91	NONE			0					
+People	0	RECTANGLE	Marley Westervelt			0	91x91	NONE			46	IMAGE				
+Percentage bar		COMPONENT	Percentage=0			2	343x37	VERTICAL MIN MIN	0 0 0 0	5	0					
+Percentage bar	0	FRAME	Frame 85309			2	343x18	HORIZONTAL MIN SPACE_BETWEEN	0 0 0 0	370	0					
+Percentage bar	0.0	FRAME	Label			2	146x18	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Percentage bar	0.0.0	TEXT	Percentage bar label			0	125x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Percentage b
+Percentage bar	0.0.1	INSTANCE	Dashboard star	Dashboard star		1	16x16	NONE			0					
+Percentage bar	0.1	FRAME	Percentage			2	35x18	HORIZONTAL CENTER MAX	0 0 0 0	0	0					
+Percentage bar	0.1.0	TEXT	0			0	23x18	NONE			0	Text/Primary		Desktop text/Label text (semi bold, 600)	13px SemiBold	0
+Percentage bar	0.1.1	TEXT	%			0	12x18	NONE			0	Text/Primary		Desktop text/Label text (semi bold, 600)	13px SemiBold	%
+Percentage bar	1	FRAME	Bar			1	343x14	VERTICAL MIN CENTER	0 0 0 0	10	100	Background/Tertiary				
+Percentage bar	1.0	RECTANGLE	Progress			0	0x14	NONE			100	Charts/Chart 1				
+Primary search		COMPONENT	Darkmode=False, Icon only=False			2	300x38	HORIZONTAL CENTER MIN	0 10 0 10	10	20	Background/Primary	Border/Secondary			
+Primary search	0	INSTANCE	Search	Search		1	22x22	NONE			0					
+Primary search	1	TEXT	Search...			0	49x18	NONE			0	Text/Secondary		Desktop text/Label text	13px	Search...
+Profile image		COMPONENT	Size=Extra large			2	93x93	NONE			47					
+Profile image	0	RECTANGLE	Screenshot 2020-11-27 at 16.11 1			0	93x93	NONE			0	IMAGE				
+Profile image	1	INSTANCE	People	People	Who?=CEO - Nolan George	1	93x93	NONE			0					
+Radio card		COMPONENT	State=Enabled, Selected=No			3	235x152	VERTICAL CENTER MIN	25 0 25 0	10	4	Background/Primary	Border/Default full			
+Radio card	0	INSTANCE	Circle icons	Circle icons	Size=L - 52px	1	52x52	NONE			36	Background/Primary	Border/Tertiary			
+Radio card	1	FRAME	Content			2	97x40	VERTICAL CENTER MIN	0 0 0 0	0	0					
+Radio card	1.0	TEXT	Title			0	67x22	NONE			0	Text/Primary		Desktop text/Body text (semi bold, 600)	16px SemiBold	Title text
+Radio card	1.1	TEXT	Description			0	97x18	NONE			0	Text/Secondary		Desktop text/Label text	13px	Description 
+Radio card	2	FRAME	Selector			1	22x22	HORIZONTAL CENTER CENTER	3 3 3 3	10	50	Icons/Icon - Theme				
+Radio card	2.0	INSTANCE	Tick	Tick		0	16x16	NONE			0					
+Radio tile		COMPONENT	State=Default			3	235x152	VERTICAL CENTER MIN	25 0 25 0	10	4	Background/Primary	Border/Default full			
+Radio tile	0	INSTANCE	Circle icons	Circle icons	Size=L - 52px	1	52x52	NONE			36	Background/Primary	Border/Tertiary			
+Radio tile	1	FRAME	Content			2	97x40	VERTICAL CENTER MIN	0 0 0 0	0	0					
+Radio tile	1.0	TEXT	Title			0	67x22	NONE			0	Text/Primary		Desktop text/Body text (semi bold, 600)	16px SemiBold	Title text
+Radio tile	1.1	TEXT	Description			0	97x18	NONE			0	Text/Secondary		Desktop text/Label text	13px	Description 
+Radio tile	2	FRAME	Selector			1	22x22	HORIZONTAL CENTER CENTER	3 3 3 3	10	50	Icons/Icon - Theme				
+Radio tile	2.0	INSTANCE	Tick	Tick		0	16x16	NONE			0					
+Repeating group		COMPONENT	Repeating group			5	480x258	VERTICAL MIN MIN	0 0 0 0	20	0					
+Repeating group	0	FRAME	Context			2	480x22	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Repeating group	0.0	ELLIPSE	Ellipse 2			0	6x6	NONE			0	Red				
+Repeating group	0.1	TEXT	Denotes a required field			0	166x22	NONE			0	Grey-slate		EXTERNAL	16px Italic	Denotes a re
+Repeating group	1	TEXT	Item 1			0	480x22	NONE			0	Text/Primary		EXTERNAL	16px SemiBold	Item 1
+Repeating group	2	SLOT	Content			2	480x178	VERTICAL MIN MIN	10 10 10 10	20	0					
+Repeating group	2.0	INSTANCE	Form field	Form field	Input type=Text, State=Default, Full width=Yes	2	460x69	VERTICAL MIN MIN	0 0 0 0	5	0					
+Repeating group	2.1	INSTANCE	Form field	Form field	Input type=Text, State=Default, Full width=Yes	2	460x69	VERTICAL MIN MIN	0 0 0 0	5	0					
+Repeating group	3	FRAME	Actions			2	480x18	HORIZONTAL CENTER SPACE_BETWEEN	0 0 0 0	5	0					
+Repeating group	3.0	TEXT	Link label			0	240x18	NONE			0	Text/Link		EXTERNAL	13px Regular	Add another
+Repeating group	3.1	TEXT	Link label			0	240x18	NONE			0	Text/Negative		EXTERNAL	13px Regular	Remove
+Repeating group	4	FRAME	Aprovers			2	480x166	VERTICAL MIN MIN	0 0 0 0	20	0					
+Repeating group	4.0	FRAME	Inline search			2	480x126	VERTICAL MIN MIN	0 0 0 0	6	0					
+Repeating group	4.0.0	INSTANCE	Label text	Label text	Darkmode=False, Type=Standard	0	480x22	NONE			0					
+Repeating group	4.0.1	FRAME	Frame 83368			2	480x98	VERTICAL MIN MIN	12 20 12 20	12	0	LITERAL				
+Repeating group	4.0.1.0	TEXT	No items added			0	97x18	NONE			0	Grey-slate		EXTERNAL	13px Regular	No items add
+Repeating group	4.0.1.1	INSTANCE	Inline search box	Inline search box	Mobile=False, Darkmode=False	0	440x42	HORIZONTAL CENTER MAX	8.5 10 8.5 20	20	8	LITERAL	LITERAL			
+Repeating group	4.1	INSTANCE	Links	Links	State=Add	0	480x20	HORIZONTAL CENTER MIN	2 0 0 0	5	0					
+Required field		COMPONENT	Required field			2	180x22	HORIZONTAL CENTER MIN	0 0 0 0	8	0					
+Required field	0	ELLIPSE	Ellipse 1			0	6x6	NONE			0	Icons/Icon - Required field				
+Required field	1	TEXT	Denotes a required field			0	166x22	NONE			0	Text/Primary		Desktop text/Body text (italic)	16px Italic	Denotes a re
+Search navigation		COMPONENT	Mobile=False			1	150x32	NONE			50	Navigation/Search bg				
+Search navigation	0	FRAME	[S] Search button			2	150x32	NONE			0					
+Search navigation	0.0	TEXT	Search			0	115x22	NONE			0	Text/Secondary		EXTERNAL	16px	Search
+Search navigation	0.1	INSTANCE	Search	Search		3	22x22	NONE			0					
+Secondary nav		COMPONENT	Mobile=False			3	562x44	HORIZONTAL MAX CENTER	0 0 0 0	0	0	Navigation/Nav bg top				
+Secondary nav	0	LINE	Line 15			0	80x0	NONE			0		Border/Default full			
+Secondary nav	1	SLOT	Content			5	402x40	HORIZONTAL CENTER CENTER	0 0 0 0	0	0					
+Secondary nav	1.0	INSTANCE	Nav tabs	Nav tabs	Status=Selected, Mobile=False	1	82x40	VERTICAL CENTER CENTER	0 20 0 20	5	mixed	Navigation/Nav bg top	Border/Default full			
+Secondary nav	1.1	INSTANCE	Nav tabs	Nav tabs	Status=Unselected, Mobile=False	1	80x40	VERTICAL CENTER CENTER	0 20 0 20	10	mixed	Navigation/Nav bg top	Border/Default full			
+Secondary nav	1.2	INSTANCE	Nav tabs	Nav tabs	Status=Unselected, Mobile=False	1	80x40	VERTICAL CENTER CENTER	0 20 0 20	10	mixed	Navigation/Nav bg top	Border/Default full			
+Secondary nav	1.3	INSTANCE	Nav tabs	Nav tabs	Status=Unselected, Mobile=False	1	80x40	VERTICAL CENTER CENTER	0 20 0 20	10	mixed	Navigation/Nav bg top	Border/Default full			
+Secondary nav	1.4	INSTANCE	Nav tabs	Nav tabs	Status=Unselected, Mobile=False	1	80x40	VERTICAL CENTER CENTER	0 20 0 20	10	mixed	Navigation/Nav bg top	Border/Default full			
+Secondary nav	2	LINE	Line 14			0	80x0	NONE			0		Border/Default full			
+Selected action banner		COMPONENT	Darkmode=False, Mobile=False			2	1560x48	HORIZONTAL CENTER SPACE_BETWEEN	8 20 8 20	899	8	Background/Tertiary				
+Selected action banner	0	FRAME	Frame 84089			1	151x22	HORIZONTAL CENTER MIN	0 0 0 0	20	0					
+Selected action banner	0.0	TEXT	Category title			0	151x22	NONE			0	Text/Primary			16px	2 of 7 items
+Selected action banner	1	FRAME	Frame 84090			5	364x32	HORIZONTAL CENTER MAX	0 0 0 0	10	0					
+Selected action banner	1.0	INSTANCE	Button	Button	Type=Action, State=Default, Label=Yes	1	81x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20	Background/Secondary Button				
+Selected action banner	1.1	INSTANCE	Button	Button	Type=Positive, State=Default, Label=Yes	1	81x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20	Background/Primary Button				
+Selected action banner	1.2	INSTANCE	Button	Button	Type=Negative, State=Default, Label=Yes	1	81x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20	Background/Negative Button				
+Selected action banner	1.3	LINE	Line			0	24x0	NONE			0		Text/Primary			
+Selected action banner	1.4	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=Yes	1	81x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
+Settings card		COMPONENT	Property 1=Default			2	300x255	VERTICAL MIN MIN	20 20 20 20	10	8	Background/Secondary				
+Settings card	0	TEXT	TITLE			0	260x25	NONE			0	Text/Theme		Desktop text/Label text (semi bold, 600)	13px SemiBold	TITLE
+Settings card	1	INSTANCE	Control list item	Checkbox/Radio option/Checkbox/Default		2	81x22	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Side filter		COMPONENT	Mobile=False			3	400x885	VERTICAL CENTER MIN	0 0 0 0	0	mixed	Background/Primary				
+Side filter	0	FRAME	Filter header			2	400x48	HORIZONTAL CENTER CENTER	10 15 10 15	134	mixed	Background/Primary	Border/Default full			
+Side filter	0.0	TEXT	Filter			0	47x28	NONE			0	Text/Primary		Desktop text/Sub heading	20px	Filter
+Side filter	0.1	FRAME	Close icon			3	28x28	NONE			0					
+Side filter	1	FRAME	Frame 84868			1	400x785	VERTICAL CENTER MIN	20 20 20 20	30	0	Background/Primary				
+Side filter	1.0	TEXT	Content here!			0	94x22	NONE			0	Text/Secondary			16px Italic	Content here
+Side filter	2	FRAME	Frame 84852			2	400x52	HORIZONTAL MIN MIN	10 15 10 15	10	0	Background/Primary				
+Side filter	2.0	INSTANCE	Button	Button	Type=Positive, State=Default, Label=Yes	1	180x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20	Background/Primary Button				
+Side filter	2.1	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=Yes	1	180x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
+Side navigation		COMPONENT	System=People First			8	90x1080	VERTICAL MIN MIN	0 0 0 0	0	0	Navigation/Nav bg left				
+Side navigation	0	INSTANCE	Waffle	Waffle	Theme=Default - Cranberry red	1	90x86	NONE			0	LITERAL				
+Side navigation	1	INSTANCE	Navigation item	Navigation item	System=People First, State=Default, Device=Desktop, Selected=No	1	90x86	HORIZONTAL CENTER CENTER	15.5 25 15.5 25	10	0	Navigation/Nav bg left				
+Side navigation	2	INSTANCE	Navigation item	Navigation item	System=People First, State=Default, Device=Desktop, Selected=No	1	90x86	HORIZONTAL CENTER CENTER	0 25 0 25	10	0	Navigation/Nav bg left				
+Side navigation	3	INSTANCE	Navigation item	Navigation item	System=People First, State=Default, Device=Desktop, Selected=No	1	90x86	HORIZONTAL CENTER CENTER	0 25 0 25	10	0	Navigation/Nav bg left				
+Side navigation	4	INSTANCE	Navigation item	Navigation item	System=People First, State=Default, Device=Desktop, Selected=No	1	90x86	HORIZONTAL CENTER CENTER	0 25 0 25	10	0	Navigation/Nav bg left				
+Side navigation	5	INSTANCE	Navigation item	Navigation item	System=People First, State=Default, Device=Desktop, Selected=No	2	90x86	HORIZONTAL CENTER CENTER	0 25 0 25	10	0	Navigation/Nav bg left				
+Side navigation	6	INSTANCE	Navigation item	Navigation item	System=People First, State=Default, Device=Desktop, Selected=No	1	90x86	HORIZONTAL CENTER CENTER	0 25 0 25	10	0	Navigation/Nav bg left				
+Side navigation	7	INSTANCE	Navigation item	Navigation item	System=People First, State=Default, Device=Desktop, Selected=No	1	90x86	HORIZONTAL CENTER CENTER	0 25 0 25	10	0	Navigation/Nav bg left				
+Side panel header		COMPONENT	Size=Default			5	449x60	HORIZONTAL CENTER MAX	10 15 10 15	10	0	Background/Primary	Border/Secondary			
+Side panel header	0	FRAME	Container			1	28x28	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Side panel header	0.0	INSTANCE	Left chevron	Left chevron		1	28x28	NONE			0					
+Side panel header	1	TEXT	Header			0	343x28	NONE			0	Text/Primary		Desktop text/Sub heading	20px	Header
+Side panel header	2	FRAME	Container			1	28x28	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Side panel header	2.0	INSTANCE	Close x cancel	Close x cancel		1	28x28	NONE			0					
+Side panel header	3	INSTANCE	Context menu	Context menu		0	28x28	NONE			0					
+Side panel header	4	INSTANCE	Switcher	Switcher	Property 1=Default	0	135x28	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Side panel		COMPONENT	Mobile=Yes, Size=Medium			3	375x726	VERTICAL MIN MIN	0 0 0 0	0	mixed	Background/Primary				
+Side panel	0	INSTANCE	Side panel header	Side panel header	Size=Default	3	375x60	HORIZONTAL CENTER MAX	10 15 10 15	10	0	Background/Primary	Border/Secondary			
+Side panel	1	SLOT	Side panel sizes			0	375x614	VERTICAL MIN MIN	10 10 10 10	25	0					
+Side panel	2	INSTANCE	Sticky footer	Sticky footer	Default=Default	2	375x52	HORIZONTAL CENTER MIN	10 15 10 15	20	0	Background/Primary	Border/Secondary			
+Signature		COMPONENT	Mandatory=False, State=Default			1	749x384	VERTICAL MIN MIN	0 0 0 0	0	0					
+Signature	0	INSTANCE	[S] Signature	[S] Signature		2	749x384	VERTICAL MIN MIN	0 0 0 0	22	0					
+Slider		COMPONENT	Property 1=Default			3	600x81	VERTICAL MIN CENTER	0 0 0 0	20	0					
+Slider	0	FRAME	Range numbers			11	600x18	HORIZONTAL CENTER SPACE_BETWEEN	0 0 0 0	51	0					
+Slider	0.0	TEXT	0			0	8x18	NONE			0	Text/Primary		Desktop text/Label text	13px	0
+Slider	0.1	TEXT	1			0	8x18	NONE			0	Text/Primary		Desktop text/Label text	13px	1
+Slider	0.2	TEXT	2			0	8x18	NONE			0	Text/Primary		Desktop text/Label text	13px	2
+Slider	0.3	TEXT	3			0	8x18	NONE			0	Text/Primary		Desktop text/Label text	13px	3
+Slider	0.4	TEXT	4			0	8x18	NONE			0	Text/Primary		Desktop text/Label text	13px	4
+Slider	0.5	TEXT	5			0	8x18	NONE			0	Text/Primary		Desktop text/Label text	13px	5
+Slider	0.6	TEXT	6			0	8x18	NONE			0	Text/Primary		Desktop text/Label text	13px	6
+Slider	0.7	TEXT	7			0	8x18	NONE			0	Text/Primary		Desktop text/Label text	13px	7
+Slider	0.8	TEXT	8			0	8x18	NONE			0	Text/Primary		Desktop text/Label text	13px	8
+Slider	0.9	TEXT	9			0	8x18	NONE			0	Text/Primary		Desktop text/Label text	13px	9
+Slider	0.10	TEXT	10			0	15x18	NONE			0	Text/Primary		Desktop text/Label text	13px	10
+Slider	1	FRAME	Slider			11	600x5	HORIZONTAL CENTER SPACE_BETWEEN	0 0 0 0	47	100	GRADIENT				
+Slider	1.0	ELLIPSE	Ellipse 10708			0	11x11	NONE			0	Icons/Icon - Link				
+Slider	1.1	ELLIPSE	Ellipse 10711			0	11x11	NONE			0	Icons/Icon - Link				
+Slider	1.2	ELLIPSE	Ellipse 10712			0	11x11	NONE			0	Icons/Icon - Link				
+Slider	1.3	ELLIPSE	Ellipse 10713			0	11x11	NONE			0	Icons/Icon - Link				
+Slider	1.4	ELLIPSE	Ellipse 10714			0	11x11	NONE			0	Icons/Icon - Link				
+Slider	1.5	GROUP	Group 1			2	32x32	NONE			0					
+Slider	1.5.0	ELLIPSE	Ellipse 10721			0	32x32	NONE			0	Icons/Icon - Link				
+Slider	1.5.1	ELLIPSE	Ellipse 10722			0	24x24	NONE			0	Icons/Icon - Link				
+Slider	1.6	ELLIPSE	Ellipse 10716			0	11x11	NONE			0	Border/Secondary				
+Slider	1.7	ELLIPSE	Ellipse 10717			0	11x11	NONE			0	Border/Secondary				
+Slider	1.8	ELLIPSE	Ellipse 10718			0	11x11	NONE			0	Border/Secondary				
+Slider	1.9	ELLIPSE	Ellipse 10719			0	11x11	NONE			0	Border/Secondary				
+Slider	1.10	ELLIPSE	Ellipse 10720			0	11x11	NONE			0	Border/Secondary				
+Slider	2	FRAME	Range labels			2	600x18	HORIZONTAL CENTER SPACE_BETWEEN	0 0 0 0	421	0					
+Slider	2.0	TEXT	NOT AT ALL LIKELY			0	89x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Not likely a
+Slider	2.1	TEXT	NOT AT ALL LIKELY			0	95x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Extremely li
+Spotlight Card		COMPONENT	Horizontal=False, Mobile=False			2	375x302	VERTICAL MIN MIN	0 0 10 0	10	8	Background/Primary	Border/Default hidden			
+Spotlight Card	0	FRAME	Main			3	375x244	VERTICAL MIN MIN	0 0 0 0	10	0					
+Spotlight Card	0.0	RECTANGLE	Image			0	375x170	NONE			0	Background/Theme				
+Spotlight Card	0.1	INSTANCE	Content	Content		1	375x64	VERTICAL MIN MIN	10 10 0 10	10	0					
+Spotlight Card	0.2	INSTANCE	Floaters	Floaters		0	85x40	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Spotlight Card	1	INSTANCE	Footer	Footer		1	375x38	VERTICAL MIN MIN	10 10 0 10	10	0					
+Square progress bar		COMPONENT	Variant=Default, Progress=0%			2	177x34	HORIZONTAL CENTER CENTER	0 0 0 0	10	0					
+Square progress bar	0	FRAME	Bar			1	148x34	HORIZONTAL CENTER MIN	0 0 0 0	0	5	LITERAL	LITERAL			
+Square progress bar	0.0	RECTANGLE	Progress			0	1x34	NONE			0	LITERAL				
+Square progress bar	1	TEXT	0%			0	19x18	NONE			0	Text/Primary		Desktop text/Label text	13px	0%
+Star rating		COMPONENT	Rating=0, State=Default, Read only=No			3	133x24	VERTICAL CENTER CENTER	0 0 0 0	0	0					
+Star rating	0	FRAME	Stars			5	133x24	HORIZONTAL MIN MIN	0 0 0 0	2	0					
+Star rating	0.0	INSTANCE	Stars	Stars	Active=No	1	25x24	NONE			0					
+Star rating	0.1	INSTANCE	Stars	Stars	Active=No	1	25x24	NONE			0					
+Star rating	0.2	INSTANCE	Stars	Stars	Active=No	1	25x24	NONE			0					
+Star rating	0.3	INSTANCE	Stars	Stars	Active=No	1	25x24	NONE			0					
+Star rating	0.4	INSTANCE	Stars	Stars	Active=No	1	25x24	NONE			0					
+Star rating	1	TEXT	Currently you are			0	133x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Currently yo
+Star rating	2	TEXT	Rating label			0	106x22	NONE			0	Text/Primary			16px	Rating label
+Stars		COMPONENT	Active=No			1	25x24	NONE			0					
+Stars	0	INSTANCE	Dashboard star	Dashboard star		1	25x25	NONE			0					
+Status		COMPONENT	Status type=Like			1	22x22	NONE			100	Icons/Icon - Info				
+Status	0	INSTANCE	Like thumbs up	Like thumbs up		1	16x16	NONE			0					
+Stepper		COMPONENT	System=People First			3	330x160	VERTICAL CENTER CENTER	0 0 0 0	0	0					
+Stepper	0	SLOT	Steps			3	330x48	HORIZONTAL CENTER CENTER	0 0 0 0	0	0					
+Stepper	0.0	INSTANCE	Steps	Steps	System=People First, State=Completed, Position=First, Current step=No, Completed step=Yes	2	110x48	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Stepper	0.1	INSTANCE	Steps	Steps	System=People First, State=Selected, Position=Middle, Current step=Yes, Completed step=No	2	110x48	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Stepper	0.2	INSTANCE	Steps	Steps	System=People First, State=Default enabled, Position=Last, Current step=No, Completed step=No	2	110x48	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Stepper	1	SLOT	Content			0	330x80	VERTICAL CENTER MIN	40 0 40 0	20	0					
+Stepper	2	INSTANCE	Pagination buttons	Pagination buttons		1	330x32	HORIZONTAL CENTER SPACE_BETWEEN	0 0 0 0	30	0					
+Steps		COMPONENT	System=People First, State=Completed, Position=Middle, Current step=No, Completed step=Yes			2	110x48	VERTICAL CENTER MIN	0 0 0 0	5	0					
+Steps	0	FRAME	Indicator			3	110x25	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Steps	0.0	RECTANGLE	Line			0	38x1	NONE			mixed	Border/Positive				
+Steps	0.1	FRAME	Step			1	25x25	VERTICAL CENTER CENTER	0 0 0 0	0	50	Border/Positive				
+Steps	0.1.0	INSTANCE	Tick	Tick		1	16x16	NONE			0					
+Steps	0.2	RECTANGLE	Line			0	38x1	NONE			mixed	Border/Positive				
+Steps	1	TEXT	Step label			0	110x18	NONE			0	Text/Positive		Desktop text/Label text	13px	Step label
+Sticky footer		COMPONENT	Default=Default			4	446x52	HORIZONTAL CENTER MIN	10 15 10 15	20	0	Background/Primary	Border/Secondary			
+Sticky footer	0	INSTANCE	Button	Button	Type=Positive, State=Default, Label=Yes	1	81x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20	Background/Primary Button				
+Sticky footer	1	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=Yes	1	81x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
+Sticky footer	2	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=Yes	0	88x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
+Sticky footer	3	INSTANCE	Context menu	Context menu		0	28x28	NONE			0					
+Switcher		COMPONENT	Property 1=Default			3	135x28	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Switcher	0	INSTANCE	Right arrow	Right arrow		2	28x28	NONE			0					
+Switcher	1	TEXT	1 of 200			0	59x22	NONE			0	Text/Primary		Desktop text/Body text	16px	1 of 200
+Switcher	2	INSTANCE	Right arrow	Right arrow		2	28x28	NONE			0					
+Tab		COMPONENT	System=People First, State=Default, Mobile=No, Selected=No			1	40x34	VERTICAL CENTER MIN	6 0 6 0	10	0					
+Tab	0	TEXT	Label			0	40x22	NONE			0	Text/Primary		Desktop text/Body text	16px	Label
+Table (AG)		COMPONENT	Mobile=False			2	1705x856	VERTICAL MIN MIN	0 0 0 0	0	8		Table/Border			
+Table (AG)	0	FRAME	Columns			2	1705x808	HORIZONTAL MIN MIN	0 0 0 0	0	0					
+Table (AG)	0.0	FRAME	Fixed columns			2	321x808	HORIZONTAL CENTER MIN	0 0 0 0	0	0					
+Table (AG)	0.0.0	FRAME	Selector			2	50x808	VERTICAL MIN MIN	0 0 0 0	0	0					
+Table (AG)	0.0.0.0	INSTANCE	Table header (AG)	Table header (AG)	Alignment=Checkbox	1	50x54	HORIZONTAL CENTER MIN	15 15 15 15	47	0	Table/Header cell				
+Table (AG)	0.0.0.1	FRAME	Checkbox column			13	50x754	VERTICAL MIN MIN	0 0 0 0	0	0					
+Table (AG)	0.0.0.1.0	INSTANCE	Table cell (AG)	Table cell (AG)	Type=Checkbox, Style=Default	1	50x58	HORIZONTAL CENTER MIN	10 15 10 15	10	0	Table/Primary cell				
+Table (AG)	0.0.0.1.1	INSTANCE	Table cell (AG)	Table cell (AG)	Type=Checkbox, Style=Stripe	1	50x58	HORIZONTAL CENTER MIN	10 15 10 15	10	0	Table/Stripe cell				
+Table (AG)	0.0.1	FRAME	Column			2	271x808	VERTICAL MIN MIN	0 0 0 0	0	0					
+Table (AG)	0.0.1.0	INSTANCE	Table header (AG)	Table header (AG)	Alignment=Left	2	271x54	HORIZONTAL CENTER SPACE_BETWEEN	15 15 15 15	47	0	Table/Header cell				
+Table (AG)	0.0.1.1	SLOT	Fixed column rows			13	271x754	VERTICAL MIN MIN	0 0 0 0	0	0					
+Table (AG)	0.0.1.1.0	INSTANCE	Table cell (AG)	Table cell (AG)	Type=Default, Style=Default	2	271x58	HORIZONTAL CENTER MIN	10 15 10 15	10	0	Table/Primary cell				
+Table (AG)	0.0.1.1.1	INSTANCE	Table cell (AG)	Table cell (AG)	Type=Default, Style=Stripe	2	271x58	HORIZONTAL CENTER MIN	10 15 10 15	10	0	Table/Stripe cell				
+Table (AG)	0.1	SLOT	Unfixed columns			7	1384x808	HORIZONTAL CENTER MIN	0 0 0 0	0	0					
+Table (AG)	0.1.0	FRAME	Column			2	198x808	VERTICAL MIN MIN	0 0 0 0	0	0					
+Table (AG)	0.1.0.0	INSTANCE	Table header (AG)	Table header (AG)	Alignment=Left	3	198x54	HORIZONTAL CENTER SPACE_BETWEEN	15 15 15 15	47	0	Table/Header cell				
+Table (AG)	0.1.0.1	FRAME	Content			13	198x754	VERTICAL MIN MIN	0 0 0 0	0	0					
+Table (AG)	0.1.0.1.0	INSTANCE	Table cell (AG)	Table cell (AG)	Type=Default, Style=Default	1	198x58	HORIZONTAL CENTER MIN	10 15 10 15	10	0	Table/Primary cell				
+Table (AG)	0.1.0.1.1	INSTANCE	Table cell (AG)	Table cell (AG)	Type=Default, Style=Stripe	1	198x58	HORIZONTAL CENTER MIN	10 15 10 15	10	0	Table/Stripe cell				
+Table (AG)	0.1.1	FRAME	Column			2	198x808	VERTICAL MIN MIN	0 0 0 0	0	0					
+Table (AG)	0.1.1.0	INSTANCE	Table header (AG)	Table header (AG)	Alignment=Left	3	198x54	HORIZONTAL CENTER SPACE_BETWEEN	15 15 15 15	47	0	Table/Header cell				
+Table (AG)	0.1.1.1	FRAME	Content			13	198x754	VERTICAL MIN MIN	0 0 0 0	0	0					
+Table (AG)	0.1.1.1.0	INSTANCE	Table cell (AG)	Table cell (AG)	Type=Default, Style=Default	1	198x58	HORIZONTAL CENTER MIN	10 15 10 15	10	0	Table/Primary cell				
+Table (AG)	0.1.1.1.1	INSTANCE	Table cell (AG)	Table cell (AG)	Type=Default, Style=Stripe	1	198x58	HORIZONTAL CENTER MIN	10 15 10 15	10	0	Table/Stripe cell				
+Table (AG)	1	INSTANCE	Footer (AG)	Footer (AG)	Mobile=False	1	1705x48	VERTICAL MIN MIN	0 0 0 0	0	0	Table/Card				
+Table action bar		COMPONENT	Mobile=False			2	1654x98	VERTICAL MIN CENTER	0 0 0 0	20	0					
+Table action bar	0	SLOT	Filter content			3	413x42	HORIZONTAL CENTER MIN	0 0 0 0	20	0					
+Table action bar	0.0	INSTANCE	Filter chip	Filter chip	State=Selected, Active=True, Mobile=False	2	147x42	HORIZONTAL CENTER CENTER	10 20 10 20	10	76	Background/Primary	Border/Theme			
+Table action bar	0.1	INSTANCE	Filter chip	Filter chip	State=Default, Active=False, Mobile=False	1	113x42	HORIZONTAL CENTER CENTER	10 20 10 20	5	78	Background/Primary	Border/Hollow Button			
+Table action bar	0.2	INSTANCE	Filter chip	Filter chip	State=Default, Active=False, Mobile=False	1	113x42	HORIZONTAL CENTER CENTER	10 20 10 20	5	78	Background/Primary	Border/Hollow Button			
+Table action bar	1	FRAME	Top level actions			2	1654x36	HORIZONTAL CENTER MIN	0 0 0 0	20	0					
+Table action bar	1.0	FRAME	Frame 86417			2	1527x38	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Table action bar	1.0.0	INSTANCE	Primary search	Primary search	Darkmode=False, Icon only=False	2	300x38	HORIZONTAL CENTER MIN	0 10 0 10	10	20	Background/Primary	Border/Secondary			
+Table action bar	1.0.1	FRAME	Refreshed			3	225x18	HORIZONTAL CENTER CENTER	0 0 0 0	5	0					
+Table action bar	1.0.1.0	TEXT	Category title			0	95x18	NONE			0	Text/Primary		Desktop text/Label text (semi bold, 600)	13px SemiBold	Last refresh
+Table action bar	1.0.1.1	TEXT	Category title			0	44x18	NONE			0	Text/Primary		Desktop text/Label text	13px	hh:mm
+Table action bar	1.0.1.2	TEXT	Category title			0	76x18	NONE			0	Text/Primary		Desktop text/Label text	13px	dd/mm/yyyy
+Table action bar	1.1	FRAME	Actions			2	107x36	HORIZONTAL CENTER MAX	0 0 0 0	10	0					
+Table action bar	1.1.0	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=Yes	0	114x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
+Table action bar	1.1.1	INSTANCE	Button	Button	Type=Action, State=Default, Label=Yes	2	107x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20	Background/Secondary Button				
+Table card (AG)		COMPONENT	Mobile=False			3	1600x1014	VERTICAL CENTER MIN	20 20 20 20	20	8	Table/Card				
+Table card (AG)	0	INSTANCE	Table action bar	Table action bar	Mobile=False	2	1560x98	VERTICAL MIN CENTER	0 0 0 0	20	0					
+Table card (AG)	1	INSTANCE	Selected action banner	Selected action banner	Darkmode=False, Mobile=False	0	1560x48	HORIZONTAL CENTER SPACE_BETWEEN	8 20 8 20	899	8	Background/Tertiary				
+Table card (AG)	2	INSTANCE	Table (AG)	Table (AG)	Mobile=False	2	1560x856	VERTICAL MIN MIN	0 0 0 0	0	8		Table/Border			
+Table cell (AG)		COMPONENT	Type=Default, Style=Default			2	300x58	HORIZONTAL CENTER MIN	10 15 10 15	10	0	Table/Primary cell				
+Table cell (AG)	0	FRAME	Content			11	270x18	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Table cell (AG)	0.0	INSTANCE	Profile image	Profile image	Size=Extra large	2	36x36	NONE			47					
+Table cell (AG)	0.1	INSTANCE	Home	Home		1	36x36	NONE			0					
+Table cell (AG)	0.2	INSTANCE	Links	Links	Link type=Secondary, Hover=False, Icon position=Left	1	25x18	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Table cell (AG)	0.3	INSTANCE	Tags	Tags	Type=Expired, Small=No	1	58x28	HORIZONTAL CENTER CENTER	5 10 5 10	5	4	Tags/Fills/Expired	Tags/Borders/Expired			
+Table cell (AG)	0.4	INSTANCE	Toggle	Toggle	On=Yes, Locked=No	2	55x25	HORIZONTAL CENTER SPACE_BETWEEN	0 2 0 7	0	13	Background/Primary Button				
+Table cell (AG)	0.5	INSTANCE	Table progress bar	Table progress bar	Completion=50%, Dark cell background=No	2	107x18	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Table cell (AG)	0.6	TEXT	Blank			0	32x18	NONE			0	LITERAL		Desktop text/Label text (italic)	13px Italic	Blank
+Table cell (AG)	0.7	FRAME	Radio icon			0	28x28	NONE			50	Background/Primary	Border/Form input			
+Table cell (AG)	0.8	TEXT	Text			0	270x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Text
+Table cell (AG)	0.9	FRAME	List			2	130x18	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Table cell (AG)	0.9.0	TEXT	Option 1, Option 2, Option 3			0	172x18	NONE			0	Text/Primary		Desktop text/Label text	13px	Option 1, Op
+Table cell (AG)	0.9.1	TEXT	+4			0	15x18	NONE			0	Text/Link		Desktop text/Label text	13px	+4
+Table cell (AG)	0.10	TEXT	Cell label			0	130x18	NONE			0	LITERAL		Desktop text/Label text	13px	Cell label
+Table cell (AG)	1	INSTANCE	Context menu	Context menu		1	20x20	NONE			0					
+Table header (AG)		COMPONENT	Alignment=Left			3	300x54	HORIZONTAL CENTER SPACE_BETWEEN	15 15 15 15	47	0	Table/Header cell				
+Table header (AG)	0	FRAME	Content			2	246x24	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Table header (AG)	0.0	TEXT	Header			0	47x18	NONE			0	Text/Primary		Desktop text/Label text (semi bold, 600)	13px SemiBold	Header
+Table header (AG)	0.1	INSTANCE	Table header icons	Table header icons	Variant=Sort, State=Default	1	24x24	HORIZONTAL CENTER CENTER	10 10 10 10	10	4					
+Table header (AG)	1	FRAME	Icons			2	24x24	HORIZONTAL CENTER MAX	0 0 0 0	10	0					
+Table header (AG)	1.0	INSTANCE	Table header icons	Table header icons	Variant=Filter, State=Default	1	24x24	HORIZONTAL CENTER CENTER	10 10 10 10	10	4					
+Table header (AG)	1.1	INSTANCE	Table header icons	Table header icons	Variant=Context menu, State=Default	0	24x24	HORIZONTAL CENTER CENTER	10 10 10 10	10	4					
+Table header (AG)	2	LINE	Divider			0	15x0	NONE			0		Border/Default full			
+Table header icons		COMPONENT	Variant=Sort, State=Default			1	24x24	HORIZONTAL CENTER CENTER	10 10 10 10	10	4					
+Table header icons	0	INSTANCE	Sort arrow (AG Grid)	Sort arrow (AG Grid)		1	20x20	NONE			0					
+Table progress bar		COMPONENT	Completion=0%, Dark cell background=No			2	246x14	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+Table progress bar	0	FRAME	Bar			1	208x14	HORIZONTAL MIN CENTER	0 0 0 0	0	50	Background/Secondary	Progress bar/Border			
+Table progress bar	0.0	RECTANGLE	Progress			0	0x14	NONE			mixed	Charts/Chart 4				
+Table progress bar	1	FRAME	Percentage			2	33x14	HORIZONTAL CENTER MAX	0 0 0 0	0	0					
+Table progress bar	1.0	TEXT	amount %			0	8x14	NONE			0	Text/Primary		Desktop text/Label text	13px	0
+Table progress bar	1.1	TEXT	%			0	11x14	NONE			0	Text/Primary		Desktop text/Label text	13px	%
+Tags		COMPONENT	Type=Neutral, Small=No			3	58x28	HORIZONTAL CENTER CENTER	5 10 5 10	5	4	Tags/Fills/Neutral	Tags/Borders/Neutral			
+Tags	0	INSTANCE	Information	Information		0	17x17	NONE			0					
+Tags	1	TEXT	Tag label			0	38x18	NONE			0	Tags/Content/Neutral		EXTERNAL	13px Regular	Status
+Tags	2	INSTANCE	Information	Information		0	17x17	NONE			0					
+Tertiary nav		COMPONENT	Mobile=No, Page=No			1	562x55	HORIZONTAL CENTER CENTER	0 20 0 20	40	0	Navigation/Nav bg top				
+Tertiary nav	0	SLOT	Content			7	522x36	HORIZONTAL CENTER CENTER	0 0 0 0	40	0					
+Tertiary nav	0.0	INSTANCE	Tab	Tab	System=People First, State=Selected, Mobile=No, Selected=Yes	2	42x36	VERTICAL CENTER MIN	6 0 6 0	2	0					
+Tertiary nav	0.1	INSTANCE	Tab	Tab	System=People First, State=Default, Mobile=No, Selected=No	1	40x34	VERTICAL CENTER MIN	6 0 6 0	10	0					
+Tertiary nav	0.2	INSTANCE	Tab	Tab	System=People First, State=Default, Mobile=No, Selected=No	1	40x34	VERTICAL CENTER MIN	6 0 6 0	10	0					
+Tertiary nav	0.3	INSTANCE	Tab	Tab	System=People First, State=Default, Mobile=No, Selected=No	1	40x34	VERTICAL CENTER MIN	6 0 6 0	10	0					
+Tertiary nav	0.4	INSTANCE	Tab	Tab	System=People First, State=Default, Mobile=No, Selected=No	1	40x34	VERTICAL CENTER MIN	6 0 6 0	10	0					
+Tertiary nav	0.5	INSTANCE	Tab	Tab	System=People First, State=Default, Mobile=No, Selected=No	1	40x34	VERTICAL CENTER MIN	6 0 6 0	10	0					
+Tertiary nav	0.6	INSTANCE	Tab	Tab	System=People First, State=Default, Mobile=No, Selected=No	1	40x34	VERTICAL CENTER MIN	6 0 6 0	10	0					
+Text area		COMPONENT	Type=Standard			2	300x267	VERTICAL MIN MIN	0 0 0 0	5	0					
+Text area	0	INSTANCE	Field label	Field label		1	300x22	HORIZONTAL CENTER SPACE_BETWEEN	0 0 0 0	42	0					
+Text area	1	INSTANCE	[S] Text area	[S] Text area	Property 1=Default	1	300x240	VERTICAL MIN MIN	0 0 0 0	5	8					
+Text template format editor 		COMPONENT	Type=Modal			4	440x246	VERTICAL MIN MIN	0 0 0 0	5	0					
+Text template format editor 	0	INSTANCE	Field label	Field label		1	152x22	HORIZONTAL CENTER SPACE_BETWEEN	0 0 0 0	42	0					
+Text template format editor 	1	INSTANCE	Text template tool bar	Text template tool bar	Darkmode=False	5	376x28	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Text template format editor 	2	INSTANCE	[S] Form field	[S] Form field	Type=STnadard	1	440x163	HORIZONTAL CENTER MAX	10 10 10 20	10	8	Background/Primary	Border/Form input			
+Text template format editor 	3	TEXT	0 characters out of 1000			0	147x18	NONE			0	Text/Primary		Desktop text/Label text	13px	0 characters
+Time picker		COMPONENT	Time picker			1	300x269	VERTICAL MIN MIN	0 0 0 0	0	0					
+Time picker	0	FRAME	Time select			3	300x269	VERTICAL MIN MIN	0 0 0 0	0	4					
+Time picker	0.0	FRAME	Frame 85944			1	300x41	HORIZONTAL CENTER CENTER	9 10 9 10	10	0	Base colours/Blue Charade				
+Time picker	0.0.0	TEXT	Time			0	37x22	NONE			0	Base colours/White		EXTERNAL	16px	Time
+Time picker	0.1	FRAME	Frame 85943			1	300x176	HORIZONTAL CENTER CENTER	10 10 10 10	10	0	Background/Tertiary				
+Time picker	0.1.0	FRAME	Frame 85948			3	64x110	HORIZONTAL CENTER MIN	0 0 0 0	6	0					
+Time picker	0.1.0.0	FRAME	Frame 85946			3	23x110	VERTICAL CENTER SPACE_BETWEEN	0 0 0 0	6	0					
+Time picker	0.1.0.0.0	INSTANCE	Up chevron	Up chevron		1	22x22	NONE			0					
+Time picker	0.1.0.0.1	TEXT	10			0	23x27	NONE			0	Text/Primary		EXTERNAL	20px Regular	10
+Time picker	0.1.0.0.2	INSTANCE	Up chevron	Up chevron		1	22x22	NONE			0					
+Time picker	0.1.0.1	TEXT	:			0	6x27	NONE			0	Text/Primary		EXTERNAL	20px Regular	:
+Time picker	0.1.0.2	FRAME	Frame 85947			3	23x110	VERTICAL CENTER SPACE_BETWEEN	0 0 0 0	6	0					
+Time picker	0.1.0.2.0	INSTANCE	Up chevron	Up chevron		1	22x22	NONE			0					
+Time picker	0.1.0.2.1	TEXT	56			0	23x27	NONE			0	Text/Primary		EXTERNAL	20px Regular	56
+Time picker	0.1.0.2.2	INSTANCE	Up chevron	Up chevron		1	22x22	NONE			0					
+Time picker	0.2	FRAME	Frame 85945			1	300x52	VERTICAL MAX MIN	10 10 10 10	10	0	Background/Tertiary	Border/Secondary			
+Time picker	0.2.0	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=Yes	1	80x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
+Title panel		COMPONENT	Mobile=true			2	375x135	VERTICAL CENTER CENTER	40 20 40 20	10	0	Background/Tertiary				
+Title panel	0	TEXT	Title text			0	335x25	NONE			0	Text/Primary		Mobile text/Sub heading	18px	Title text
+Title panel	1	TEXT	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Neque sed in dignissim mauris aliquam quam sed nunc. Volutpat at accumsan sit pellentesque.			0	335x48	NONE			0	Text/Primary			12px	Lorem ipsum 
+Toast message		COMPONENT	Message type=Success			4	350x114	HORIZONTAL CENTER MIN	30 0 30 25	15	4	Base colours/White				
+Toast message	0	INSTANCE	Tick in circle	Tick in circle		2	44x44	NONE			0					
+Toast message	1	FRAME	Frame 80250			1	212x54	VERTICAL MIN MIN	0 0 0 0	10	0					
+Toast message	1.0	TEXT	Example text: You have successfully liked the following post “Happy Anniversary!”			0	212x54	NONE			0	Base colours/Grey Slate		Desktop text/Label text	13px	Example text
+Toast message	2	INSTANCE	Close x	Close x		2	36x36	NONE			0					
+Toast message	3	RECTANGLE	Rectangle 24166			0	10x312	NONE			0	Border/Positive				
+Toggle		COMPONENT	On=No, Locked=No			2	55x25	HORIZONTAL CENTER SPACE_BETWEEN	0 7 0 2	0	13	Background/Tertiary	Base colours/Grey Dolphin			
+Toggle	0	ELLIPSE	Ellipse 1			0	21x21	NONE			0	Base colours/White				
+Toggle	1	TEXT	No			0	18x18	NONE			0	Text/Secondary		Desktop text/Label text	13px	No
+Tool tip		COMPONENT	Property 1=Default			1	255x92	VERTICAL MIN MIN	10 10 10 10	0	4	Background/Tertiary				
+Tool tip	0	TEXT	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Porttitor habitant nunc aenean elementum tortor, dignissim.			0	235x72	NONE			0	Text/Primary		Desktop text/Label text	13px	Lorem ipsum 
+Tooltip		COMPONENT	Hover=False			2	28x28	NONE			0					
+Top bar app context		COMPONENT	Area=Administration, Mobile=False			2	242x66	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+Top bar app context	0	INSTANCE	top bar app icon	top bar app icon	Area=Administration	2	66x66	NONE			0					
+Top bar app context	1	TEXT	App			0	166x33	NONE			0	Base colours/White			24px	Administrati
+Waffle		COMPONENT	Theme=Dark mode			1	90x86	NONE			0	LITERAL				
+Waffle	0	INSTANCE	App menu	App menu		19	32x32	NONE			0					
+[S] Attachment		COMPONENT	[S] Attachment			2	440x56	HORIZONTAL CENTER MIN	10 20 10 20	0	8		Border/Secondary			
+[S] Attachment	0	FRAME	Frame 80207			2	308x36	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+[S] Attachment	0.0	INSTANCE	Doc	Doc		5	36x36	NONE			0					
+[S] Attachment	0.1	FRAME	Frame 80206			2	267x36	VERTICAL MIN CENTER	0 0 0 0	0	0					
+[S] Attachment	0.1.0	TEXT	Text top			0	52x18	NONE			0	Text/Primary		Desktop text/Label text (semi bold, 600)	13px SemiBold	Text top
+[S] Attachment	0.1.1	TEXT	Date/ size/ file type			0	267x18	NONE			0	Text/Secondary		Desktop text/Label text	13px	Date/ size/ 
+[S] Attachment	1	FRAME	Frame 82613			3	92x36	HORIZONTAL CENTER MAX	0 0 0 0	0	0					
+[S] Attachment	1.0	INSTANCE	Download	Download		1	28x28	NONE			0					
+[S] Attachment	1.1	INSTANCE	Context	Context		3	36x36	NONE			0					
+[S] Attachment	1.2	INSTANCE	Close x cancel	Close x cancel		1	28x28	NONE			0					
+[S] Config child menu		COMPONENT	[S] Config child menu			2	381x42	VERTICAL MIN MIN	10 0 0 11	10	0					
+[S] Config child menu	0	FRAME	Frame 80190			2	51x22	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+[S] Config child menu	0.0	VECTOR	Vector			0	14x7	NONE			0	LITERAL				
+[S] Config child menu	0.1	TEXT	Child			0	51x22	NONE			0	Text/Primary			16px	Child 1
+[S] Config child menu	1	LINE	Line 17			0	370x0	NONE			0		Border/Default full			
+[S] People		COMPONENT	Property 1=Inline, Mobile=False			3	380x40	HORIZONTAL CENTER CENTER	0 0 0 0	10	0					
+[S] People	0	INSTANCE	People	People	Who?=CEO - Nolan George	1	36x36	NONE			0					
+[S] People	1	FRAME	Frame 79897			2	226x40	VERTICAL MIN MIN	0 0 0 0	0	0					
+[S] People	1.0	TEXT	#Name			0	226x22	NONE			0	Text/Primary		Desktop text/Body text	16px	Nolan George
+[S] People	1.1	TEXT	#Role			0	226x18	NONE			0	Text/Secondary		Desktop text/Label text	13px	Chief Execut
+[S] People	2	GROUP	Group 79898			1	98x40	NONE			0					
+[S] People	2.0	TEXT	#Department			0	98x40	NONE			0	Text/Secondary			13px	CEO
+[S] Post content		COMPONENT	[S] Post content			3	520x198	VERTICAL MIN MIN	0 20 10 73	2	0					
+[S] Post content	0	FRAME	Title of post			1	427x30	VERTICAL MIN CENTER	0 0 3 0	10	0					
+[S] Post content	0.0	TEXT	Title of post			0	110x27	NONE			0	Text/Primary		Desktop text/Sub heading	20px	Title of pos
+[S] Post content	1	TEXT	Body text			0	427x132	NONE			0	Text/Primary		Desktop text/Body text	16px	Lorem ipsum 
+[S] Post content	2	INSTANCE	Links	Links	Link type=Primary, Hover=False, Icon position=Left	1	81x22	HORIZONTAL CENTER MIN	0 0 0 0	5	0					
+[S] Text area		COMPONENT	Property 1=Default			2	300x240	VERTICAL MIN MIN	0 0 0 0	5	8					
+[S] Text area	0	FRAME	Frame 80011			1	300x213	NONE			8		Border/Form input			
+[S] Text area	0.0	TEXT	Aperiam dicta cum earum occaecati repellendus minus cumque illo. Mollitia modi iste in consequatur temporibus esse voluptas. Fugit alias excepturi omnis.			0	260x173	NONE			0	Text/Primary		Desktop text/Body text	16px	Aperiam dict
+[S] Text area	1	TEXT	200 characters out of 255			0	272x22	NONE			0	Text/Secondary			16px	200 characte
+single layout card		COMPONENT	Mobile=false			4	800x368	VERTICAL CENTER MIN	30 30 30 30	20	0	Background/Primary	Border/Default full			
+single layout card	0	FRAME	Frame 86408			2	740x36	HORIZONTAL CENTER SPACE_BETWEEN	0 0 0 0	20	0					
+single layout card	0.0	FRAME	Frame 84893			2	478x36	HORIZONTAL CENTER MIN	0 0 0 0	10	0					
+single layout card	0.0.0	INSTANCE	Circle icons	Circle icons	Size=S - 36px	1	36x36	NONE			36	Background/Light Theme	Border/Theme			
+single layout card	0.0.1	TEXT	Title			0	40x27	NONE			0	Text/Primary		Desktop text/Sub heading	20px	Title
+single layout card	0.1	FRAME	Frame 84870			3	262x32	HORIZONTAL CENTER MAX	0 0 0 0	10	0					
+single layout card	0.1.0	INSTANCE	Button	Button	Type=Action, State=Default, Label=Yes	2	107x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20	Background/Secondary Button				
+single layout card	0.1.1	INSTANCE	Button	Button	Type=Hollow, State=Default, Label=Yes	2	107x32	HORIZONTAL CENTER CENTER	0 20 0 20	10	20		Border/Hollow Button			
+single layout card	0.1.2	INSTANCE	Context menu	Context menu		1	28x28	NONE			0					
+single layout card	1	FRAME	Frame 84869			6	740x36	HORIZONTAL MAX MIN	0 0 0 0	30	0					
+single layout card	1.0	INSTANCE	Tab	Tab	System=People First, State=Selected, Mobile=No, Selected=Yes	2	76x36	VERTICAL CENTER MIN	6 0 6 0	2	0					
+single layout card	1.1	INSTANCE	Tab	Tab	System=People First, State=Default, Mobile=No, Selected=No	1	74x34	VERTICAL CENTER MIN	6 0 6 0	10	0					
+single layout card	1.2	INSTANCE	Tab	Tab	System=People First, State=Default, Mobile=No, Selected=No	1	74x34	VERTICAL CENTER MIN	6 0 6 0	10	0					
+single layout card	1.3	INSTANCE	Tab	Tab	System=People First, State=Default, Mobile=No, Selected=No	1	74x34	VERTICAL CENTER MIN	6 0 6 0	10	0					
+single layout card	1.4	INSTANCE	Tab	Tab	System=People First, State=Default, Mobile=No, Selected=No	1	74x34	VERTICAL CENTER MIN	6 0 6 0	10	0					
+single layout card	1.5	INSTANCE	Tab	Tab	System=People First, State=Default, Mobile=No, Selected=No	1	74x34	VERTICAL CENTER MIN	6 0 6 0	10	0					
+single layout card	2	INSTANCE	Content cards	Content cards	Mobile=false	1	740x196	VERTICAL MIN MIN	20 20 20 20	20	8	Background/Primary	Border/Default full			
+single layout card	3	INSTANCE	Empty section	Empty section	Mobile=False	2	587x212	HORIZONTAL CENTER MIN	0 0 0 0	35	0					

@@ -1,0 +1,349 @@
+component	variant	w	h	padding	radius	gap	fontSize	fontStyle
+50/50 layout container	Row colour=false, Mobile=false	1600	368	0 0 0 0	0	0	20	
+50/50 layout container	Row colour=false, Mobile=true	355	774	0 0 0 0	0	0	18	
+AG Filter menus	Variant=Date, State=Default	477	260	20 20 20 20	4	30	16	
+AG Filter menus	Variant=Multi & search, State=Default	208	252	16 16 16 16	4	20	12	
+AG Filter menus	Variant=Sort, State=Default	208	176	10 0 10 0	4	0	13	
+AG field	State=Selected	140	43	2 4 2 4	8	10	12	
+AG field	State=Unselected	140	36	10 4 10 8	4	6	12	
+AG sort item	State=Default	199	52	16 20 16 20	0	20	13	
+AI Assistant	Mobile=False, Darkmode=False, Type=Default	520	1080	0 0 0 0	0	0	24	SemiBold
+AI Assistant	Mobile=False, Darkmode=False, Type=Expanded	1628	1080	0 0 0 0	0	0	20	
+AI Assistant	Mobile=True, Darkmode=False, Type=Default	375	770	0 0 0 0	15 15 0 0	0	24	SemiBold
+AI Assistant	Mobile=True, Darkmode=False, Type=Expanded	376	770	0 0 0 0	15 15 0 0	0	16	
+AI Gradient component	Property 1=Frame 62710147	408	408	0 0 0 0	0	0	24	SemiBold
+AI banner	Darkmode=False, mobile=True	385	159	15 15 15 15	8	20	20	
+AI banner	Darkmode=True, mobile=False	1315	94	20 20 20 20	8	10	20	
+AI button	Style=Inverted, Hover=False, Mobile=False	146	32	3 15 3 10	55	10	13	
+AI button	Style=Light mode, Hover=False, Mobile=False	146	32	3 15 3 10	55	10	13	Regular
+AI button	Style=Light mode, Hover=False, Mobile=True	32	32	3 6 3 6	55	10		
+AI card modal	Property 1=Default	440	505	20 20 20 20	8	10	20	
+AI message bubble	Type=AI chat	455	149	0 0 0 0	0	5	12	
+AI message bubble	Type=User chat	328	62	0 0 0 0	0	4	12	
+Accordion	Expanded=False, Mobile=False	1200	84	20 20 20 20	8	689	20	
+Accordion	Expanded=False, Mobile=True	355	56	10 10 10 10	8	689	18	
+Accordion	Expanded=True, Mobile=False	1200	428	0 0 0 0	8	0	20	
+Accordion	Expanded=True, Mobile=True	355	428	0 0 0 0	8	0	18	
+Action menu		199	136	4 5 4 5	4	0	13	
+Action menu button	Circle=false	60	28	0 0 0 0	0	0	16	
+Action menu button	Circle=true	65	28	0 0 0 0	0	5	16	
+Adaptive card	Mobile=False	478	389	0 0 0 0	0	5	12	
+Adaptive card	Mobile=True	355	374	0 0 0 0	0	5	12	
+Add attachment	Property 1=Default	440	466	0 0 0 0	0	20	13	SemiBold
+Attachment with person	Property 1=Default	440	112	0 0 0 0	8	0	13	
+Attachments	Actions=Remove	440	56	0 0 0 0	0	0	13	SemiBold
+Bar	Label=Horizontal	29	90	0 0 0 0	0	5	13	
+Bar	Label=Vertical	29	137	0 0 0 0	0	10	13	
+Bar chart	Breakpoint=Desktop, Darkmode=False	415	193	0 0 0 0	0	10	13	
+Bar chart	Breakpoint=Mobile, Darkmode=False	283	222	0 0 0 0	0	5	13	
+Bar chart with axis	Breakpoint=Desktop, Darkmode=False	492	250	0 0 0 0	0	0	13	
+Bar chart with axis	Breakpoint=Mobile, Darkmode=False	326	221	0 0 0 0	0	0	13	Regular
+Browser drop down		440	222	5 5 5 5	8	5	16	
+Button	Type=Action, State=Default, Label=No	32	32	0 20 0 20	20	10		
+Button	Type=Action, State=Default, Label=Yes	107	32	0 20 0 20	20	10	13	SemiBold
+Button	Type=Filter, State=Default, Label=No	32	32	0 8 0 8	20	5		
+Button	Type=Filter, State=Default, Label=Yes	89	32	0 15 0 15	20	10	13	SemiBold
+Button	Type=Hollow, State=Default, Label=No	32	32	0 20 0 20	20	5		
+Button	Type=Sort, State=Default, Label=Yes	82	32	0 15 0 15	20	10	13	SemiBold
+Calendar picker		298	323	0 0 0 0	0	0	16	
+Card	Property 1=Default	520	358	20 20 20 20	8	20	20	
+Checkbox/Radio item	State=Default, Radio=No, Filled=No	81	22	0 0 0 0	0	10	16	
+Checkbox/Radio list	State=Default	194	81	0 0 0 0	0	5	16	
+Checkbox/Radio list	State=Error	194	101	0 0 0 0	0	5	16	
+Clickable AI element	State=default	382	38	10 10 10 20	8	10	13	
+Clock in	Type=Standard, Darkmode=False	107	32	7 20 7 10	20	5	16	
+Component 1	Property 1=Frame 6270952	432	48	10 10 10 10	8	10	20	
+Config child menu	Type=Child	381	42	0 0 0 0	0	0	16	
+Config child menu	Type=Selected	352	42	0 0 0 0	4	0	16	
+Config menu items	Kind=Child	381	74	0 0 0 0	0	0	16	
+Config parent menu	open=false	98	32	5 20 5 0	0	5	16	
+Config parent menu	open=true	105	32	5 20 5 0	0	5	16	
+Config side menu		325	980	0 0 0 0	8	0	16	
+Configuration	Mobile=False	1600	809	0 0 0 0	8	0	24	
+Configuration	Mobile=True	355	809	0 0 0 0	8	0	24	
+Configuration panel	Property 1=Default	1600	189	0 0 0 0	8 8 0 0	0	20	
+Configuration tile	Device=Desktop	360	260	40 20 40 20	8	10	24	
+Configuration tile	Device=Mobile	360	230	30 20 30 20	8	10	24	
+Confirmation modal	Mobile=True, Type=Confirmation, Dark mode=False	375	695	0 0 0 0	0	71	24	Regular
+Confirmation modal	Mobile=false, Type=Confirmation, Dark mode=False	400	413	60 10 60 10	8	36	24	Regular
+Confirmation modal	Mobile=false, Type=Information, Dark mode=False	400	550	60 10 60 10	8	65	24	Regular
+Confirmation modal	Mobile=false, Type=Success, Dark mode=False	400	413	60 10 60 10	8	65	24	Regular
+Content		375	74	0 0 0 0	0	10	13	
+Content cards	Mobile=false	363	366	20 20 20 20	8	20	16	
+Content cards	Mobile=true	343	333	10 10 10 10	8	15	16	
+Control	Radio=No	20	20	10 10 10 10	4	10		
+Control	Radio=Yes	20	20	0 0 0 0	50	0		
+Data variance	Data change=Down, Mobile=False	61	45	0 0 0 0	0	0	13	
+Data variance	Data change=No change, Mobile=False	76	45	0 0 0 0	0	0	13	
+Data variance	Data change=Up, Mobile=False	41	45	0 0 0 0	0	0	13	
+Data variance alternative	Property 1=Default	104	27	0 0 0 0	0	5	20	
+Date picker period	Type=Date	274	27	0 0 0 0	0	10	20	
+Date picker period	Type=Record	128	27	0 0 0 0	0	10	20	
+Date range visual	Property 1=Default	371	42	0 0 0 0	0	20	16	
+Default header background	Breakpoint=Desktop, Darkmode=False	1920	86	0 0 0 0	0	0		
+Default header background	Breakpoint=Desktop, Darkmode=True	1920	86	0 0 0 0	0	0		
+Default header background	Breakpoint=Mobile, Darkmode=False	390	62	0 0 0 0	0	0		
+Default header background	Breakpoint=Mobile, Darkmode=True	390	62	0 0 0 0	0	0		
+Default header background	Breakpoint=Tablet, Darkmode=False	768	74	0 0 0 0	0	0		
+Default header background	Breakpoint=Tablet, Darkmode=True	768	74	0 0 0 0	0	0		
+Detail item		162	18	0 0 0 0	0	5	13	
+Details	Layout=Horizontal	355	102	0 0 0 0	0	10	13	
+Document previewer	Device=Desktop	960	1433	0 0 0 0	0	0	16	
+Document previewer	Device=Mobile	375	642	0 0 0 0	0	0	16	
+Document previewer	Device=Tablet	801	1049	0 0 0 0	0	0	16	
+Donut chart with ledger	Darkmode=False, Mobile=False	329	200	0 0 0 0	0	21	60	
+Donut chart with ledger	Darkmode=False, Mobile=True	200	388	0 0 0 0	0	20	60	
+Donut pie chart	Segments=2, Icon=False	200	200	0 0 0 0	0	0	60	Medium
+Donut pie chart	Segments=2, Icon=True	200	200	0 0 0 0	0	0		
+Donut pie chart	Segments=4, Icon=False	200	200	0 0 0 0	0	0	60	
+Draggable card	State=Default	480	50	10 15 10 15	8	20	16	
+Draggable card	State=Drop	480	50	10 15 10 15	8	20		
+Drop down button	Hover=False	192	32	7 10 7 20	48	0	13	Regular
+Editable list card	Property 1=Default	564	82	0 0 0 0	4	0	13	
+Empty section	Mobile=False	587	212	0 0 0 0	0	35	20	SemiBold
+Empty section	Mobile=True	263	351	0 0 0 0	0	20	18	SemiBold
+Field	Property 1=Default	95	42	0 0 0 0	0	2	13	
+Field	Right aligned=No, Filled=No	300	42	10 10 10 20	8	10	16	Italic
+Field	Right aligned=No, Filled=Yes	300	42	10 10 10 20	8	10	16	
+Field icons	State=Empty	121	28	0 0 0 0	0	5		
+Field icons	State=Filled	115	28	0 0 0 0	0	5		
+Field label		152	22	0 0 0 0	0	42	16	
+Filter chip	State=Default, Active=False, Mobile=False	113	42	10 20 10 20	78	5	16	
+Filter chip	State=Default, Active=False, Mobile=True	91	34	8 15 8 15	78	5	13	
+Filter chip	State=Selected, Active=True, Mobile=False	147	42	10 20 10 20	76	10	16	SemiBold
+Filter chip	State=Selected, Active=True, Mobile=True	121	34	8 15 8 15	76	10	13	SemiBold
+Filter tab single	Selected=False, Breakpoint=Desktop, State=Default	224	100	20 20 20 20	0	5	24	Regular
+Filter tab single	Selected=False, Breakpoint=Mobile, State=Default	172	70	10 10 10 10	0	5	20	
+Filter tab single	Selected=False, Breakpoint=Tablet, State=Default	224	74	10 10 10 10	0	5	20	
+Filter tab single	Selected=True, Breakpoint=Desktop, State=Default	224	100	20 20 20 20	0	5	24	SemiBold
+Filter tab single	Selected=True, Breakpoint=Mobile, State=Default	172	70	10 10 10 10	0	5	20	SemiBold
+Filter tab single	Selected=True, Breakpoint=Tablet, State=Default	224	74	10 10 10 10	0	5	20	SemiBold
+Filter tabs	Breakpoints=Desktop	1600	100	0 0 0 0	0	0	24	SemiBold
+Filter tabs	Breakpoints=Mobile	375	70	0 0 0 0	0	0	20	SemiBold
+Filter tabs	Breakpoints=Tablet	761	74	0 0 0 0	0	0	20	SemiBold
+Floaters		85	40	0 0 0 0	0	5		
+Footer		375	28	0 10 0 10	0	10	13	Regular
+Footer (AG)	Mobile=False	1560	48	0 0 0 0	0	0	13	
+Footer (AG)	Mobile=True	355	48	0 0 0 0	0	0	13	
+Form	Mobile=False	1200	1004	40 318 40 318	8	30	20	
+Form	Mobile=True	355	1046	20 10 20 10	8	30	18	
+Form field	Input type=Text, State=Default, Full width=No	267	69	0 0 0 0	0	5	16	
+Form field	Input type=Text, State=Default, Full width=Yes	564	69	0 0 0 0	0	5	16	
+Form field	Input type=Text, State=Error, Full width=No	267	92	0 0 0 0	0	5	16	
+Form field	Input type=Text, State=Error, Full width=Yes	564	92	0 0 0 0	0	5	16	
+Full page	System=People First, Tablet=No, Mobile=No, Darkmode=No	1920	1080	0 0 0 0	0	0	13	
+Full page	System=People First, Tablet=No, Mobile=Yes, Darkmode=Yes	375	667	0 0 0 0	0	0	13	
+Full page	System=People First, Tablet=Yes, Mobile=No, Darkmode=No	768	1057	0 0 0 0	0	0	13	
+Full page/Header navigation/Yes/No		375	138	0 0 0 0	0	0	13	
+Graph axis	Breakpoint=Desktop	492	232	0 0 0 0	0	10	13	
+Graph axis	Breakpoint=Mobile	326	179	0 0 0 0	0	10	13	Regular
+Graph legend	Mobile=False, Key type=Donut graph	108	33	0 0 0 0	0	5	24	Regular
+Graph legend	Mobile=False, Key type=Line graph	92	18	0 0 0 0	0	5	13	
+Graph legend	Mobile=True, Key type=Donut graph	106	27	0 0 0 0	0	5	20	Regular
+Header	System=People First	20	20	0 4 0 4	38	10	11	SemiBold
+Header	Theme=Configr, Mobile=No	1830	86	10 20 10 20	0	10	24	
+Header	Theme=Configr, Mobile=Yes	390	62	0 10 0 10	0	10	16	SemiBold
+Header	Theme=Default - Cranberry red, Mobile=No	1830	86	10 20 10 20	0	10	16	
+Header	Theme=Default - Cranberry red, Mobile=Yes	390	62	0 10 0 10	0	10	13	
+Header navigation	Mobile=No, Tablet=No	1830	130	0 0 0 0	0	0	16	
+Header navigation	Mobile=No, Tablet=Yes	768	118	0 0 0 0	0	0	13	
+Header navigation	Mobile=Yes, Tablet=No	390	106	0 0 0 0	0	0	13	
+Hemisphere chart	Status=None	200	146	0 0 0 0	0	5	13	
+Horizontal scroll	Page=First	1160	32	0 0 0 0	0	390		
+Image picker	Property 1=Default	440	220	0 0 0 0	0	10		
+Information box	Type=Information	440	56	0 0 0 0	0	0	13	
+Information box	Type=Warning	440	74	0 0 0 0	0	0	13	
+Inline search	Filled=False	400	130	0 0 0 0	0	6	16	
+Layout container (magazine style)	Row colour=False, Mobile=False	1600	667	30 30 30 30	0	20	20	
+Layout container (magazine style)	Row colour=False, Mobile=True	375	646	20 20 20 20	0	20	20	
+Layout container (magazine style)	Row colour=True, Mobile=True	375	646	20 10 20 10	0	20	20	
+Layout container tabs	Property 1=Default	1160	36	0 0 0 0	0	204	16	SemiBold
+Layout container title	Property 1=Default	1160	44	0 0 0 0	0	464	20	
+Links	Link type=Primary, Hover=False, Icon position=Left	58	22	0 0 0 0	0	5	16	
+Links	Link type=Secondary, Hover=False, Icon position=Left	48	18	0 0 0 0	0	5	13	
+Manage columns	Mobile=False, Darkmode=False	520	1078	0 0 0 0	0	0	20	
+Manage columns	Mobile=True, Darkmode=False	375	726	0 0 0 0	15 15 0 0	0	20	
+Map		480	200	0 0 0 0	8	0		
+Menu	Size=Large	50	73	0 0 0 0	0	5	13	
+Menu	Size=Small	317	26	0 0 0 0	0	5	13	
+Menu-search-settings	Page=Menu, Darkmode=False	1920	1080	20 20 20 20	0	30	24	
+Message box	Property 1=Default	455	138	15 15 15 15	8	10	16	
+Metric card	Mobile=False	392	89	20 20 20 20	8	165	36	
+Metric card	Mobile=True	392	65	10 10 10 10	8	165	30	Regular
+Mobile bottom navigation	Tablet=No	375	76	0 0 0 0	0	0	11	
+Mobile bottom navigation	Tablet=Yes	768	56	0 0 0 0	0	0	11	
+Mobile key actions	Link=Key actions	126	103	0 0 0 0	0	0	16	
+Mobile key actions	Link=MHR	126	103	0 0 0 0	0	0	15	
+Mobile key actions	Link=Social activity	132	103	0 0 0 0	0	0	16	
+Multi-select checkbox	State=Default, Darkmode=False	20	20	0 0 0 0	4	0		
+Multi-select checkbox	State=Selected, Darkmode=False	20	20	5 5 5 5	4	10		
+Multiselect tag		100	24	0 0 0 0	4	0	13	
+Nav tabs	Status=Selected, Mobile=False	82	40	0 20 0 20	8 8 0 0	5	16	SemiBold
+Nav tabs	Status=Selected, Mobile=True	54	42	0 10 0 10	8 8 0 0	5	13	SemiBold
+Nav tabs	Status=Unselected, Mobile=False	80	40	0 20 0 20	8 8 0 0	10	16	
+Nav tabs	Status=Unselected, Mobile=True	53	42	0 10 0 10	8 8 0 0	10	13	
+Navigation item	System=People First, State=Default, Device=Desktop, Selected=No	90	86	0 25 0 25	0	10	13	
+Navigation item	System=People First, State=Default, Device=Mobile, Selected=No	86	76	0 25 0 25	0	10	11	
+Navigation item	System=People First, State=Default, Device=Tablet, Selected=No	86	56	0 25 0 25	0	10	11	
+Navigation item	System=People First, State=Selected, Device=Desktop, Selected=Yes	90	86	0 0 0 0	0	22	13	SemiBold
+Navigation item	System=People First, State=Selected, Device=Mobile, Selected=No	86	76	0 25 0 25	0	10	11	Regular
+Navigation item	System=People First, State=Selected, Device=Tablet, Selected=No	86	56	0 25 0 25	0	10	11	Regular
+Navigation tabs	System=People First, Mobile=No	202	36	0 0 0 0	0	40	16	SemiBold
+Navigation tabs	System=People First, Mobile=Yes	202	32	0 0 0 0	0	25	13	SemiBold
+Next actions modal	Mobile=false, Type=Warning	400	565	0 0 30 0	8	30	24	Regular
+Note	Property 1=Default	440	130	0 0 0 0	8	0	13	
+Notification card	Mobile=No	1160	117	15 20 15 20	8	10	16	SemiBold
+Notification card	Mobile=Yes	355	153	15 15 15 15	8	10	16	SemiBold
+Notification categories	Mobile=No	300	1020	5 10 5 10	0	0	16	
+Notification categories	Mobile=Yes	390	824	0 0 0 0	16 16 0 0	0	18	
+Notification image	Type=Person, With status?=False, Mobile=False, Status position=High	44	44	0 0 0 0	0	0		
+Notification image	Type=Person, With status?=False, Mobile=True, Status position=High	36	36	0 0 0 0	0	0		
+Notification list	Mobile=No	1117	730	0 0 0 0	0	0	16	
+Notification list	Mobile=Yes	390	779	0 0 0 0	0	0	16	
+Notification panel	Mobile=No	1500	1080	0 0 0 0	0	0	20	
+Notification panel	Mobile=Yes	390	824	0 0 0 0	16 16 0 0	0	18	
+Notification tabs	State=Default, Selected=No	279	65	18.5 15 18.5 15	0	20	16	
+Notification tabs	State=Hover, Selected=No	279	65	18.5 15 18.5 15	0	20	16	
+Notification tabs	State=Selected, Selected=Yes	279	65	18.5 15 18.5 15	0	20	16	
+Option	Selected=No	250	26	2 10 2 20	4	5	16	
+Org chart	Type=Manager	293	97	0 0 0 0	8	0	16	
+Org chart	Type=Org	293	48	0 0 0 0	8	0	16	
+Org chart	Type=Reportee	293	55	0 0 0 0	8	0	16	
+Pagination buttons		358	32	0 0 0 0	0	30	13	SemiBold
+People	Who?=D - Chance Siphron	91	91	0 0 0 0	78	0		
+People	Who?=Department	64	64	0 0 0 0	40	0		
+People	Who?=S -  Marley Westervelt	91	91	0 0 0 0	0	0		
+People and department drop down		440	320	10 5 10 10	0	10	16	
+Percentage bar	Percentage=0	343	37	0 0 0 0	0	5	13	
+Primary search	Darkmode=False, Icon only=False	300	38	0 10 0 10	20	10	13	
+Primary search	Darkmode=False, Icon only=True	36	36	0 10 0 10	20	0		
+Profile image	Size=Extra large	93	93	0 0 0 0	47	0		
+Profile image	Size=Extra small	22	22	0 0 0 0	47	0		
+Profile image	Size=Large	76	76	0 0 0 0	47	0		
+Profile image	Size=Medium	43	43	0 0 0 0	47	0		
+Profile image	Size=Medium plus	54	54	0 0 0 0	47	0		
+Profile image	Size=Small	28	28	0 0 0 0	47	0		
+Radio card	State=Enabled, Selected=No	235	152	25 0 25 0	4	10	16	SemiBold
+Radio tile	State=Default	235	152	25 0 25 0	4	10	16	SemiBold
+Repeating group		480	258	0 0 0 0	0	20	16	Italic
+Required field		180	22	0 0 0 0	0	8	16	Italic
+Search navigation	Mobile=False	150	32	0 0 0 0	50	0	16	
+Search navigation	Mobile=True	32	32	0 0 0 0	0	0		
+Secondary nav	Mobile=False	562	44	0 0 0 0	0	0	16	SemiBold
+Secondary nav	Mobile=True	375	40	2 0 0 0	0	0	13	SemiBold
+Selected action banner	Darkmode=False, Mobile=False	1560	48	8 20 8 20	8	899	16	
+Selected action banner	Darkmode=False, Mobile=True	335	48	8 20 8 20	4	899	16	
+Settings card	Property 1=Default	300	255	20 20 20 20	8	10	13	SemiBold
+Side filter	Mobile=False	400	885	0 0 0 0	8 0 0 0	0	20	
+Side filter	Mobile=True	375	667	0 0 0 0	0	0	18	
+Side navigation	System=People First	90	1080	0 0 0 0	0	0	13	
+Side panel	Mobile=No, Size=Large	1500	1080	0 0 0 0	0	0	20	
+Side panel	Mobile=No, Size=Medium	960	1080	0 0 0 0	0	0	20	
+Side panel	Mobile=No, Size=Small	520	1080	0 0 0 0	0	0	20	
+Side panel	Mobile=Yes, Size=Medium	375	726	0 0 0 0	15 15 0 0	0	20	
+Side panel header	Size=Default	449	60	10 15 10 15	0	10	20	
+Signature	Mandatory=False, State=Default	749	384	0 0 0 0	0	0	16	
+Slider	Property 1=Default	600	81	0 0 0 0	0	20	13	
+Spotlight Card	Horizontal=False, Mobile=False	375	302	0 0 10 0	8	10	13	
+Spotlight Card	Horizontal=True, Mobile=False	585	218	10 10 10 10	8	10	13	
+Spotlight Card	Horizontal=True, Mobile=True	375	168	10 10 10 10	8	10	13	
+Square progress bar	Variant=Bottom label, Progress=0%	198	38	0 0 0 0	0	0	13	
+Square progress bar	Variant=Default, Progress=0%	177	34	0 0 0 0	0	10	13	
+Square progress bar	Variant=Default, Progress=100%	192	34	0 0 0 0	0	10	13	
+Square progress bar	Variant=Default, Progress=25%	184	34	0 0 0 0	0	10	13	
+Square progress bar	Variant=Inline, Progress=0%	173	18	0 0 0 0	0	10	13	
+Square progress bar	Variant=Inline, Progress=100%	188	18	0 0 0 0	0	10	13	
+Square progress bar	Variant=Inline, Progress=25%	180	18	0 0 0 0	0	10	13	
+Star rating	Rating=0, State=Default, Read only=No	133	24	0 0 0 0	0	0	13	
+Stars	Active=No	25	24	0 0 0 0	0	0		
+Status	Status type=Custom	22	22	0 0 0 0	100	0	13	
+Status	Status type=Like	22	22	0 0 0 0	100	0		
+Stepper	System=People First	330	160	0 0 0 0	0	0	13	
+Steps	System=People First, State=Completed, Position=Middle, Current step=No, Completed step=Yes	110	48	0 0 0 0	0	5	13	
+Steps	System=People First, State=Selected, Position=Middle, Current step=Yes, Completed step=No	110	48	0 0 0 0	0	5	13	SemiBold
+Sticky footer	Default=Default	446	52	10 15 10 15	0	20	13	SemiBold
+Switcher	Property 1=Default	135	28	0 0 0 0	0	10	16	
+Tab	System=People First, State=Default, Mobile=No, Selected=No	40	34	6 0 6 0	0	10	16	
+Tab	System=People First, State=Default, Mobile=Yes, Selected=No	33	30	6 0 6 0	0	10	13	
+Tab	System=People First, State=Selected, Mobile=No, Selected=Yes	42	36	6 0 6 0	0	2	16	SemiBold
+Tab	System=People First, State=Selected, Mobile=Yes, Selected=Yes	34	32	6 0 6 0	0	2	13	SemiBold
+Table (AG)	Mobile=False	1705	856	0 0 0 0	8	0	13	SemiBold
+Table (AG)	Mobile=True	370	576	0 0 0 0	8	0	13	SemiBold
+Table action bar	Mobile=False	1654	98	0 0 0 0	0	20	16	SemiBold
+Table action bar	Mobile=True	335	90	0 0 0 0	0	20	13	SemiBold
+Table card (AG)	Mobile=False	1600	1014	20 20 20 20	8	20	16	SemiBold
+Table card (AG)	Mobile=True	370	726	20 20 20 20	0	20	13	SemiBold
+Table cell (AG)	Type=Checkbox, Style=Default	50	58	10 15 10 15	0	10		
+Table cell (AG)	Type=Default, Style=Default	300	58	10 15 10 15	0	10	13	
+Table cell (AG)	Type=Default, Style=Hover	300	58	10 15 10 15	0	10	13	Italic
+Table header (AG)	Alignment=Checkbox	50	54	15 15 15 15	0	47		
+Table header (AG)	Alignment=Left	300	54	15 15 15 15	0	47	13	SemiBold
+Table header icons	Variant=Sort, State=Default	24	24	10 10 10 10	4	10		
+Table progress bar	Completion=0%, Dark cell background=No	246	14	0 0 0 0	0	5	13	
+Tags	Type=Neutral, Small=No	58	28	5 10 5 10	4	5	13	Regular
+Tags	Type=Neutral, Small=Yes	48	22	2 5 2 5	4	5	13	Regular
+Tertiary nav	Mobile=No, Page=No	562	55	0 20 0 20	0	40	16	SemiBold
+Tertiary nav	Mobile=No, Page=Yes	562	45	0 20 0 20	0	10	20	
+Tertiary nav	Mobile=Yes, Page=No	375	39	0 10 0 10	0	30	13	SemiBold
+Tertiary nav	Mobile=Yes, Page=Yes	375	41	0 10 0 10	0	0	16	SemiBold
+Text area	Type=Standard	300	267	0 0 0 0	0	5	16	
+Text template format editor 	Type=Correspondence	760	366	0 0 0 0	0	5	16	
+Text template format editor 	Type=Modal	440	246	0 0 0 0	0	5	16	
+Time picker		300	269	0 0 0 0	0	0	16	
+Title panel	Mobile=false	1130	135	40 207 40 207	0	10	20	
+Title panel	Mobile=true	375	135	40 20 40 20	0	10	18	
+Toast message	Message type=Success	350	114	30 0 30 25	4	15	13	
+Toggle	On=No, Locked=No	55	25	0 7 0 2	13	0	13	
+Toggle	On=No, Locked=Yes	55	25	0 5 0 2	13	6		
+Toggle	On=Yes, Locked=No	55	25	0 2 0 7	13	0	13	
+Toggle	On=Yes, Locked=Yes	55	25	0 2 0 7	13	0		
+Tool tip	Property 1=Default	255	92	10 10 10 10	4	0	13	
+Tooltip	Hover=False	28	28	0 0 0 0	0	0		
+Top bar app context	Area=Absence, Mobile=False	171	66	0 0 0 0	0	10	24	
+Top bar app context	Area=Absence, Mobile=True	114	40	0 0 0 0	0	10	16	SemiBold
+Top bar app context	Area=Accounts payable, Mobile=False	272	66	0 0 0 0	0	10	24	
+Top bar app context	Area=Accounts payable, Mobile=True	184	40	0 0 0 0	0	10	16	SemiBold
+Top bar app context	Area=Accounts receivable, Mobile=False	299	66	0 0 0 0	0	10	24	
+Top bar app context	Area=Accounts receivable, Mobile=True	202	40	0 0 0 0	0	10	16	SemiBold
+Top bar app context	Area=Administration, Mobile=False	242	66	0 0 0 0	0	10	24	
+Top bar app context	Area=Administration, Mobile=True	164	40	0 0 0 0	0	10	16	SemiBold
+Top bar app context	Area=Audit, Mobile=False	136	66	0 0 0 0	0	10	24	
+Top bar app context	Area=Audit, Mobile=True	91	40	0 0 0 0	0	10	16	SemiBold
+Top bar app context	Area=Available jobs, Mobile=False	230	66	0 0 0 0	0	10	24	
+Top bar app context	Area=Available jobs, Mobile=True	155	40	0 0 0 0	0	10	16	SemiBold
+Top bar app context	Area=Case Management, Mobile=False	285	66	0 0 0 0	0	10	24	
+Top bar app context	Area=Case Management, Mobile=True	191	40	0 0 0 0	0	10	16	SemiBold
+Top bar app context	Area=Data explorer, Mobile=True	154	40	0 0 0 0	0	10	16	SemiBold
+Top bar app context	Area=General ledger, Mobile=True	162	40	0 0 0 0	0	10	16	SemiBold
+Top bar app context	Area=Goals, Mobile=False	139	66	0 0 0 0	0	10	24	
+Top bar app context	Area=HRM, Mobile=False	131	66	0 0 0 0	0	10	24	
+Top bar app context	Area=HRM, Mobile=True	87	40	0 0 0 0	0	10	16	SemiBold
+Top bar app context	Area=Insights, Mobile=False	163	66	0 0 0 0	0	10	24	
+Top bar app context	Area=Insights, Mobile=True	110	40	0 0 0 0	0	10	16	SemiBold
+Top bar app context	Area=Learning, Mobile=False	174	66	0 0 0 0	0	10	24	
+Top bar app context	Area=Learning, Mobile=True	117	40	0 0 0 0	0	10	16	SemiBold
+Top bar app context	Area=News, Mobile=False	138	66	0 0 0 0	0	10	24	
+Top bar app context	Area=News, Mobile=True	93	40	0 0 0 0	0	10	16	SemiBold
+Top bar app context	Area=Onboarding, Mobile=False	211	66	0 0 0 0	0	10	24	
+Top bar app context	Area=Onboarding, Mobile=True	141	40	0 0 0 0	0	10	16	SemiBold
+Top bar app context	Area=Payroll, Mobile=False	153	66	0 0 0 0	0	10	24	
+Top bar app context	Area=Payroll, Mobile=True	103	40	0 0 0 0	0	10	16	SemiBold
+Top bar app context	Area=Recruitment, Mobile=False	214	66	0 0 0 0	0	10	24	
+Top bar app context	Area=Recruitment, Mobile=True	145	40	0 0 0 0	0	10	16	SemiBold
+Top bar app context	Area=Taxes, Mobile=False	141	66	0 0 0 0	0	10	24	
+Top bar app context	Area=Taxes, Mobile=True	94	40	0 0 0 0	0	10	16	SemiBold
+Waffle	Theme=Dark mode	90	86	0 0 0 0	0	0		
+[S] Attachment		440	56	10 20 10 20	8	0	13	SemiBold
+[S] Config child menu		381	42	10 0 0 11	0	10	16	
+[S] People	Property 1=Header, Mobile=False	295	64	0 10 0 0	0	10	13	
+[S] People	Property 1=Header, Mobile=True	219	58	0 0 0 0	0	10	13	
+[S] People	Property 1=Inline, Mobile=False	380	40	0 0 0 0	0	10	16	
+[S] People	Property 1=Large card, Mobile=False	211	54	0 10 0 0	0	10	20	
+[S] People	Property 1=Large card, Mobile=True	195	43	0 10 0 0	0	10	18	
+[S] People	Property 1=Small card, Mobile=False	183	36	0 0 0 0	0	10	13	
+[S] People	Property 1=Table, Mobile=False	179	54	0 0 0 0	0	10	13	
+[S] People	Property 1=Table, Mobile=True	166	91	0 0 0 0	0	5	13	
+[S] Post content		520	198	0 20 10 73	0	2	20	
+[S] Text area	Property 1=Default	300	240	0 0 0 0	8	5	16	
+single layout card	Mobile=false	800	368	30 30 30 30	0	20	20	
+single layout card	Mobile=true	355	347	10 10 10 10	0	15	18	

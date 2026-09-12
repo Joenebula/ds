@@ -1,0 +1,57 @@
+component	variant	top	right	bottom	left	visible
+AG field	State=Selected	2	2	2	2	yes
+AI banner	Darkmode=False, mobile=True	2	2	2	2	yes
+AI banner	Darkmode=True, mobile=False	2	2	2	2	yes
+AI button	Style=Inverted, Hover=True, Mobile=False	2	2	2	2	yes
+AI button	Style=Inverted, Hover=True, Mobile=True	2	2	2	2	yes
+AI button	Style=Light mode, Hover=False, Mobile=False	2	2	2	2	yes
+AI button	Style=Light mode, Hover=False, Mobile=True	2	2	2	2	yes
+AI card modal	Property 1=Default	2	2	2	2	yes
+Clock in	Type=Hover, Darkmode=False	1.5	1.5	1.5	1.5	yes
+Clock in	Type=Standard, Darkmode=False	1.5	1.5	1.5	1.5	yes
+Config parent menu	open=false	0	0	1	0	yes
+Draggable card	State=Click	2	2	2	2	yes
+Draggable card	State=Drag	2	2	2	2	yes
+Filter tab single	Selected=False, Breakpoint=Desktop, State=Default	0	1	1	0	yes
+Filter tab single	Selected=False, Breakpoint=Desktop, State=Hover	0	1	1	0	yes
+Filter tab single	Selected=False, Breakpoint=Mobile, State=Default	0	1	1	0	yes
+Filter tab single	Selected=False, Breakpoint=Mobile, State=Hover	0	1	1	0	yes
+Filter tab single	Selected=False, Breakpoint=Tablet, State=Default	0	1	1	0	yes
+Filter tab single	Selected=False, Breakpoint=Tablet, State=Hover	0	1	1	0	yes
+Filter tab single	Selected=True, Breakpoint=Desktop, State=Default	0	1	0	0	yes
+Filter tab single	Selected=True, Breakpoint=Mobile, State=Default	0	1	0	0	yes
+Filter tab single	Selected=True, Breakpoint=Tablet, State=Default	0	1	0	0	yes
+Mobile bottom navigation	Tablet=No	1	0	0	0	yes
+Mobile bottom navigation	Tablet=Yes	1	0	0	0	yes
+Nav tabs	Status=Hover, Mobile=False	0	0	1	0	yes
+Nav tabs	Status=Hover, Mobile=True	0	0	1	0	yes
+Nav tabs	Status=Selected, Mobile=False	1	1	0	1	yes
+Nav tabs	Status=Selected, Mobile=True	1	1	0	1	yes
+Nav tabs	Status=Unselected, Mobile=False	0	0	1	0	yes
+Nav tabs	Status=Unselected, Mobile=True	0	0	1	0	yes
+Notification tabs	State=Default, Selected=No	0	0	1	0	yes
+Notification tabs	State=Hover, Selected=No	0	0	1	0	yes
+Notification tabs	State=Selected, Selected=Yes	0	0	1	0	yes
+Side panel header	Size=Default	0	0	1	0	yes
+single layout card	Mobile=false	0	1	0	0	yes
+single layout card	Mobile=true	0	0	1	0	yes
+Status	Status type=Absence	2	2	2	2	no
+Status	Status type=Comment	2	2	2	2	no
+Status	Status type=Custom	2	2	2	2	no
+Status	Status type=Like	2	2	2	2	no
+Status	Status type=New social group	2	2	2	2	no
+Status	Status type=Recognition	2	2	2	2	no
+Sticky footer	Default=Default	1	0	0	0	yes
+Sticky footer	Default=Stepper	1	0	0	0	yes
+Table cell (AG)	Type=Checkbox, Style=Default	0	0	1	0	no
+Table cell (AG)	Type=Checkbox, Style=Hover	0	0	1	0	no
+Table cell (AG)	Type=Checkbox, Style=Stripe	0	0	1	0	no
+Table cell (AG)	Type=Default, Style=Default	0	0	1	0	no
+Table cell (AG)	Type=Default, Style=Hover	0	0	1	0	no
+Table cell (AG)	Type=Default, Style=Stripe	0	0	1	0	no
+Table header (AG)	Alignment=Left	0	0	1	0	no
+Table header (AG)	Alignment=Right	0	0	1	0	no
+Table header icons	Variant=Context menu, State=Active	1	1	1	1	no
+Table header icons	Variant=Filter, State=Filtered	1	1	1	1	no
+Table header icons	Variant=Sort, State=Ascending	1	1	1	1	no
+Table header icons	Variant=Sort, State=Descending	1	1	1	1	no

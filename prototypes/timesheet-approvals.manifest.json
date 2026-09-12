@@ -1,0 +1,2231 @@
+{
+  "screen": "timesheet-approvals",
+  "generated": "scripts/tag-elements.mjs — do not hand-edit",
+  "about": "Every design-system element on this screen, addressable by name. Regenerate with: node scripts/tag-elements.mjs <screen>.html --write",
+  "fields": {
+    "id": "Stable name for this ONE element. The only authored value; everything else is derived. Address elements by this, never by CSS selector — a selector changes every time the layout does.",
+    "component": "Figma component name, exactly as it appears in the Figma library (e.g. 'Side navigation tab').",
+    "cls": "CSS class in dist/components.css that renders it (e.g. 'pf-button'). Component and class are two names for the same thing.",
+    "variant": "Figma's variant properties for this instance, as an object: {\"type\": \"Positive\"} means Figma's Type property is set to Positive. Keys are only ever properties the component really has.",
+    "parent": "id of the nearest enclosing element in this list, or null if it is a top-level one. Gives you the component tree, not just a flat list.",
+    "tag": "HTML element it was rendered as.",
+    "repeat": "'row' if it is part of a repeating template rather than a distinct element — the cells of a table body are one row rendered N times, which is what an *ngFor consumes. null otherwise.",
+    "text": "Visible text, first 60 characters. Sample content, not a label to build against."
+  },
+  "counts": {
+    "elements": 176,
+    "roots": 24,
+    "repeating": 96
+  },
+  "elements": [
+    {
+      "id": "side-navigation-main",
+      "component": "Side navigation",
+      "cls": "pf-side-navigation",
+      "variant": {
+        "variant": "Default"
+      },
+      "parent": null,
+      "tag": "nav",
+      "repeat": null,
+      "text": "People First Dashboard My team Absence Timesheets Payroll Re"
+    },
+    {
+      "id": "side-navigation-tab-dashboard",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": {
+        "selected": "false"
+      },
+      "parent": "side-navigation-main",
+      "tag": "a",
+      "repeat": null,
+      "text": "Dashboard"
+    },
+    {
+      "id": "side-navigation-tab-my-team",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": {
+        "selected": "false"
+      },
+      "parent": "side-navigation-main",
+      "tag": "a",
+      "repeat": null,
+      "text": "My team"
+    },
+    {
+      "id": "side-navigation-tab-absence",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": {
+        "selected": "false"
+      },
+      "parent": "side-navigation-main",
+      "tag": "a",
+      "repeat": null,
+      "text": "Absence"
+    },
+    {
+      "id": "side-navigation-tab-timesheets",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": {
+        "selected": "true"
+      },
+      "parent": "side-navigation-main",
+      "tag": "a",
+      "repeat": null,
+      "text": "Timesheets"
+    },
+    {
+      "id": "side-navigation-tab-payroll",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": {
+        "selected": "false"
+      },
+      "parent": "side-navigation-main",
+      "tag": "a",
+      "repeat": null,
+      "text": "Payroll"
+    },
+    {
+      "id": "side-navigation-tab-recruitment",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": {
+        "selected": "false"
+      },
+      "parent": "side-navigation-main",
+      "tag": "a",
+      "repeat": null,
+      "text": "Recruitment"
+    },
+    {
+      "id": "side-navigation-tab-learning",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": {
+        "selected": "false"
+      },
+      "parent": "side-navigation-main",
+      "tag": "a",
+      "repeat": null,
+      "text": "Learning"
+    },
+    {
+      "id": "side-navigation-tab-reports",
+      "component": "Side navigation tab",
+      "cls": "pf-side-navigation-tab",
+      "variant": {
+        "selected": "false"
+      },
+      "parent": "side-navigation-main",
+      "tag": "a",
+      "repeat": null,
+      "text": "Reports"
+    },
+    {
+      "id": "button-send-reminder",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Hollow"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Send reminder"
+    },
+    {
+      "id": "button-export",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Hollow"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Export"
+    },
+    {
+      "id": "button-approve-all-valid",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Action"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Approve all valid"
+    },
+    {
+      "id": "card-awaiting-approval",
+      "component": "Card",
+      "cls": "pf-card",
+      "variant": {
+        "property-1": "Default"
+      },
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "Awaiting approval 8 of 12 in your team"
+    },
+    {
+      "id": "card-hours-submitted",
+      "component": "Card",
+      "cls": "pf-card",
+      "variant": {
+        "property-1": "Default"
+      },
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "Hours submitted 312.50 Against 300.00 contracted"
+    },
+    {
+      "id": "card-overtime-hours",
+      "component": "Card",
+      "cls": "pf-card",
+      "variant": {
+        "property-1": "Default"
+      },
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "Overtime hours 27.75 3 above the 48-hour average"
+    },
+    {
+      "id": "card-open-queries",
+      "component": "Card",
+      "cls": "pf-card",
+      "variant": {
+        "property-1": "Default"
+      },
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "Open queries 1 Raised with Owen Whitlock"
+    },
+    {
+      "id": "card-3-timesheets-take",
+      "component": "Card",
+      "cls": "pf-card",
+      "variant": {
+        "property-1": "Default"
+      },
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "3 timesheets take the 17-week average above 48 hours a week."
+    },
+    {
+      "id": "information-box-3-timesheets-take",
+      "component": "Information box",
+      "cls": "pf-information-box",
+      "variant": {
+        "type": "Warning"
+      },
+      "parent": "card-3-timesheets-take",
+      "tag": "div",
+      "repeat": null,
+      "text": "3 timesheets take the 17-week average above 48 hours a week."
+    },
+    {
+      "id": "filter-chip-awaiting-approval",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": {
+        "state": "Selected",
+        "active": "True"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Awaiting approval 8"
+    },
+    {
+      "id": "filter-chip-all",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": {
+        "state": "Default",
+        "active": "False"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "All 12"
+    },
+    {
+      "id": "filter-chip-approved",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": {
+        "state": "Default",
+        "active": "False"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Approved 3"
+    },
+    {
+      "id": "filter-chip-queried",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": {
+        "state": "Default",
+        "active": "False"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Queried 1"
+    },
+    {
+      "id": "filter-chip-overtime-flagged",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": {
+        "state": "Default",
+        "active": "False"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Overtime flagged 3"
+    },
+    {
+      "id": "filter-chip-missing-entries",
+      "component": "Filter chip",
+      "cls": "pf-filter-chip",
+      "variant": {
+        "state": "Default",
+        "active": "False"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Missing entries 2"
+    },
+    {
+      "id": "form-field-search",
+      "component": "Form field",
+      "cls": "pf-form-field",
+      "variant": {
+        "input-type": "Search",
+        "state": "Default"
+      },
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "Search"
+    },
+    {
+      "id": "field-period-week-ending",
+      "component": "Field",
+      "cls": "pf-field",
+      "variant": {
+        "right-aligned": "No",
+        "filled": "No"
+      },
+      "parent": "form-field-search",
+      "tag": "input",
+      "repeat": null,
+      "text": ""
+    },
+    {
+      "id": "form-field-period-week-ending",
+      "component": "Form field",
+      "cls": "pf-form-field",
+      "variant": {
+        "input-type": "Date picker",
+        "state": "Default"
+      },
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "Period Week ending 06/09/2026 Week ending 30/08/2026 Week en"
+    },
+    {
+      "id": "field-week-ending",
+      "component": "Field",
+      "cls": "pf-field",
+      "variant": {
+        "right-aligned": "No",
+        "filled": "Yes"
+      },
+      "parent": "form-field-period-week-ending",
+      "tag": "select",
+      "repeat": null,
+      "text": "Week ending 06/09/2026 Week ending 30/08/2026 Week ending 23"
+    },
+    {
+      "id": "form-field-team-all",
+      "component": "Form field",
+      "cls": "pf-form-field",
+      "variant": {
+        "input-type": "Dropdown",
+        "state": "Default"
+      },
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "Team All my direct reports Logistics Warehouse Clinical"
+    },
+    {
+      "id": "field-all-my-direct",
+      "component": "Field",
+      "cls": "pf-field",
+      "variant": {
+        "right-aligned": "No",
+        "filled": "Yes"
+      },
+      "parent": "form-field-team-all",
+      "tag": "select",
+      "repeat": null,
+      "text": "All my direct reports Logistics Warehouse Clinical"
+    },
+    {
+      "id": "button-sort",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Sort"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "Sort"
+    },
+    {
+      "id": "button-more-filters",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Filter"
+      },
+      "parent": null,
+      "tag": "button",
+      "repeat": null,
+      "text": "More filters"
+    },
+    {
+      "id": "toggle-no",
+      "component": "Toggle",
+      "cls": "pf-toggle",
+      "variant": {
+        "on": "No",
+        "locked": "No"
+      },
+      "parent": null,
+      "tag": "span",
+      "repeat": null,
+      "text": ""
+    },
+    {
+      "id": "selected-action-banner-3-timesheets-selected",
+      "component": "Selected action banner",
+      "cls": "pf-selected-action-banner",
+      "variant": {
+        "mobile": "False"
+      },
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "3 timesheets selected · 118.25 hours Approve selected Query "
+    },
+    {
+      "id": "button-approve-selected",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Positive"
+      },
+      "parent": "selected-action-banner-3-timesheets-selected",
+      "tag": "button",
+      "repeat": null,
+      "text": "Approve selected"
+    },
+    {
+      "id": "button-query-selected",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Negative"
+      },
+      "parent": "selected-action-banner-3-timesheets-selected",
+      "tag": "button",
+      "repeat": null,
+      "text": "Query selected"
+    },
+    {
+      "id": "table-ag-submitted-timesheets-week",
+      "component": "Table (AG)",
+      "cls": "pf-table-ag",
+      "variant": {
+        "mobile": "False"
+      },
+      "parent": null,
+      "tag": "div",
+      "repeat": null,
+      "text": "Submitted timesheets — week commencing 31/08/2026, ending 06"
+    },
+    {
+      "id": "table-header-ag-checkbox",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": {
+        "alignment": "Checkbox"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "th",
+      "repeat": null,
+      "text": ""
+    },
+    {
+      "id": "multi-select-checkbox-some-rows",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Mixed selection"
+      },
+      "parent": "table-header-ag-checkbox",
+      "tag": "span",
+      "repeat": null,
+      "text": ""
+    },
+    {
+      "id": "table-header-ag-employee",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": {
+        "alignment": "Left"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "th",
+      "repeat": null,
+      "text": "Employee"
+    },
+    {
+      "id": "table-header-icons-sorted-ascending",
+      "component": "Table header icons",
+      "cls": "pf-table-header-icons",
+      "variant": {
+        "variant": "Sort",
+        "state": "Ascending"
+      },
+      "parent": "table-header-ag-employee",
+      "tag": "span",
+      "repeat": null,
+      "text": ""
+    },
+    {
+      "id": "table-header-ag-period",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": {
+        "alignment": "Left"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "th",
+      "repeat": null,
+      "text": "Period"
+    },
+    {
+      "id": "table-header-ag-contracted",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": {
+        "alignment": "Right"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "th",
+      "repeat": null,
+      "text": "Contracted"
+    },
+    {
+      "id": "table-header-ag-submitted",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": {
+        "alignment": "Right"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "th",
+      "repeat": null,
+      "text": "Submitted"
+    },
+    {
+      "id": "table-header-ag-overtime",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": {
+        "alignment": "Right"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "th",
+      "repeat": null,
+      "text": "Overtime"
+    },
+    {
+      "id": "table-header-ag-variance",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": {
+        "alignment": "Right"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "th",
+      "repeat": null,
+      "text": "Variance"
+    },
+    {
+      "id": "table-header-ag-status",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": {
+        "alignment": "Left"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "th",
+      "repeat": null,
+      "text": "Status"
+    },
+    {
+      "id": "table-header-icons-filtered",
+      "component": "Table header icons",
+      "cls": "pf-table-header-icons",
+      "variant": {
+        "variant": "Filter",
+        "state": "Filtered"
+      },
+      "parent": "table-header-ag-status",
+      "tag": "span",
+      "repeat": null,
+      "text": ""
+    },
+    {
+      "id": "table-header-ag-left",
+      "component": "Table header (AG)",
+      "cls": "pf-table-header-ag",
+      "variant": {
+        "alignment": "Left"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "th",
+      "repeat": null,
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r1c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Checkbox",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r1c1-multi-select-checkbox",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Selected"
+      },
+      "parent": "table-cell-ag-r1c1",
+      "tag": "span",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r1c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Aisha BelloShift Supervisor · 100482"
+    },
+    {
+      "id": "table-cell-ag-r1c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "31/08 – 06/09"
+    },
+    {
+      "id": "table-cell-ag-r1c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "37.50"
+    },
+    {
+      "id": "table-cell-ag-r1c5",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "41.00"
+    },
+    {
+      "id": "table-cell-ag-r1c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "3.50"
+    },
+    {
+      "id": "table-cell-ag-r1c7",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "+3.50"
+    },
+    {
+      "id": "table-cell-ag-r1c8",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Pending"
+    },
+    {
+      "id": "table-cell-ag-r1c8-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Warning"
+      },
+      "parent": "table-cell-ag-r1c8",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Pending"
+    },
+    {
+      "id": "table-cell-ag-r1c9",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r1c9-button",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Hollow"
+      },
+      "parent": "table-cell-ag-r1c9",
+      "tag": "button",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r2c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Checkbox",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r2c1-multi-select-checkbox",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": "table-cell-ag-r2c1",
+      "tag": "span",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r2c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Danny OkonkwoCustomer Adviser · 100517"
+    },
+    {
+      "id": "table-cell-ag-r2c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "31/08 – 06/09"
+    },
+    {
+      "id": "table-cell-ag-r2c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "30.00"
+    },
+    {
+      "id": "table-cell-ag-r2c5",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "28.50"
+    },
+    {
+      "id": "table-cell-ag-r2c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "—"
+    },
+    {
+      "id": "table-cell-ag-r2c7",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "−1.50"
+    },
+    {
+      "id": "table-cell-ag-r2c8",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Missing entries"
+    },
+    {
+      "id": "table-cell-ag-r2c8-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Neutral"
+      },
+      "parent": "table-cell-ag-r2c8",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Missing entries"
+    },
+    {
+      "id": "table-cell-ag-r2c9",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r2c9-button",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Hollow"
+      },
+      "parent": "table-cell-ag-r2c9",
+      "tag": "button",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r3c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Checkbox",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r3c1-multi-select-checkbox",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": "table-cell-ag-r3c1",
+      "tag": "span",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r3c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Elin PrydderchStore Manager · 100238"
+    },
+    {
+      "id": "table-cell-ag-r3c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "31/08 – 06/09"
+    },
+    {
+      "id": "table-cell-ag-r3c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "37.50"
+    },
+    {
+      "id": "table-cell-ag-r3c5",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "37.50"
+    },
+    {
+      "id": "table-cell-ag-r3c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "—"
+    },
+    {
+      "id": "table-cell-ag-r3c7",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "—"
+    },
+    {
+      "id": "table-cell-ag-r3c8",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Approved"
+    },
+    {
+      "id": "table-cell-ag-r3c8-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Positive"
+      },
+      "parent": "table-cell-ag-r3c8",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Approved"
+    },
+    {
+      "id": "table-cell-ag-r3c9",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r3c9-button",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Hollow"
+      },
+      "parent": "table-cell-ag-r3c9",
+      "tag": "button",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r4c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Checkbox",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r4c1-multi-select-checkbox",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Selected"
+      },
+      "parent": "table-cell-ag-r4c1",
+      "tag": "span",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r4c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Nadia HussainNurse Practitioner · 100355"
+    },
+    {
+      "id": "table-cell-ag-r4c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "31/08 – 06/09"
+    },
+    {
+      "id": "table-cell-ag-r4c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "37.50"
+    },
+    {
+      "id": "table-cell-ag-r4c5",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "49.75"
+    },
+    {
+      "id": "table-cell-ag-r4c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "12.25"
+    },
+    {
+      "id": "table-cell-ag-r4c7",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "+12.25"
+    },
+    {
+      "id": "table-cell-ag-r4c8",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Over 48 hrs"
+    },
+    {
+      "id": "table-cell-ag-r4c8-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Negative"
+      },
+      "parent": "table-cell-ag-r4c8",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Over 48 hrs"
+    },
+    {
+      "id": "table-cell-ag-r4c9",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r4c9-button",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Hollow"
+      },
+      "parent": "table-cell-ag-r4c9",
+      "tag": "button",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r5c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Checkbox",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r5c1-multi-select-checkbox",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Selected"
+      },
+      "parent": "table-cell-ag-r5c1",
+      "tag": "span",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r5c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Priya RaghunathanLogistics Coordinator · 100011"
+    },
+    {
+      "id": "table-cell-ag-r5c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "31/08 – 06/09"
+    },
+    {
+      "id": "table-cell-ag-r5c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "37.50"
+    },
+    {
+      "id": "table-cell-ag-r5c5",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "47.25"
+    },
+    {
+      "id": "table-cell-ag-r5c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "9.75"
+    },
+    {
+      "id": "table-cell-ag-r5c7",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "+9.75"
+    },
+    {
+      "id": "table-cell-ag-r5c8",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Over 48 hrs"
+    },
+    {
+      "id": "table-cell-ag-r5c8-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Negative"
+      },
+      "parent": "table-cell-ag-r5c8",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Over 48 hrs"
+    },
+    {
+      "id": "table-cell-ag-r5c9",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r5c9-button",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Hollow"
+      },
+      "parent": "table-cell-ag-r5c9",
+      "tag": "button",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r6c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Checkbox",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r6c1-multi-select-checkbox",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": "table-cell-ag-r6c1",
+      "tag": "span",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r6c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Owen WhitlockWarehouse Operative · 100803"
+    },
+    {
+      "id": "table-cell-ag-r6c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "31/08 – 06/09"
+    },
+    {
+      "id": "table-cell-ag-r6c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "40.00"
+    },
+    {
+      "id": "table-cell-ag-r6c5",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "44.00"
+    },
+    {
+      "id": "table-cell-ag-r6c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "4.00"
+    },
+    {
+      "id": "table-cell-ag-r6c7",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "+4.00"
+    },
+    {
+      "id": "table-cell-ag-r6c8",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Query raised"
+    },
+    {
+      "id": "table-cell-ag-r6c8-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Other"
+      },
+      "parent": "table-cell-ag-r6c8",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Query raised"
+    },
+    {
+      "id": "table-cell-ag-r6c9",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r6c9-button",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Hollow"
+      },
+      "parent": "table-cell-ag-r6c9",
+      "tag": "button",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r7c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Checkbox",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r7c1-multi-select-checkbox",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": "table-cell-ag-r7c1",
+      "tag": "span",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r7c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Samuel AdeyemiDriver · 100147"
+    },
+    {
+      "id": "table-cell-ag-r7c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "24/08 – 30/08"
+    },
+    {
+      "id": "table-cell-ag-r7c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "37.50"
+    },
+    {
+      "id": "table-cell-ag-r7c5",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "37.50"
+    },
+    {
+      "id": "table-cell-ag-r7c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "—"
+    },
+    {
+      "id": "table-cell-ag-r7c7",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "—"
+    },
+    {
+      "id": "table-cell-ag-r7c8",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Lapsed"
+    },
+    {
+      "id": "table-cell-ag-r7c8-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Expired"
+      },
+      "parent": "table-cell-ag-r7c8",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Lapsed"
+    },
+    {
+      "id": "table-cell-ag-r7c9",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Default"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r7c9-button",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Hollow"
+      },
+      "parent": "table-cell-ag-r7c9",
+      "tag": "button",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r8c1",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Checkbox",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r8c1-multi-select-checkbox",
+      "component": "Multi-select checkbox",
+      "cls": "pf-multi-select-checkbox",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": "table-cell-ag-r8c1",
+      "tag": "span",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r8c2",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Tomasz KowalczykDelivery Driver · 100729"
+    },
+    {
+      "id": "table-cell-ag-r8c3",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "31/08 – 06/09"
+    },
+    {
+      "id": "table-cell-ag-r8c4",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "40.00"
+    },
+    {
+      "id": "table-cell-ag-r8c5",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "52.50"
+    },
+    {
+      "id": "table-cell-ag-r8c6",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "12.50"
+    },
+    {
+      "id": "table-cell-ag-r8c7",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "+12.50"
+    },
+    {
+      "id": "table-cell-ag-r8c8",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": "Over 48 hrs"
+    },
+    {
+      "id": "table-cell-ag-r8c8-tags",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Negative"
+      },
+      "parent": "table-cell-ag-r8c8",
+      "tag": "span",
+      "repeat": "row",
+      "text": "Over 48 hrs"
+    },
+    {
+      "id": "table-cell-ag-r8c9",
+      "component": "Table cell (AG)",
+      "cls": "pf-table-cell-ag",
+      "variant": {
+        "type": "Default",
+        "style": "Stripe"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "td",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "table-cell-ag-r8c9-button",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Hollow"
+      },
+      "parent": "table-cell-ag-r8c9",
+      "tag": "button",
+      "repeat": "row",
+      "text": ""
+    },
+    {
+      "id": "footer-ag-showing",
+      "component": "Footer (AG)",
+      "cls": "pf-footer-ag",
+      "variant": {
+        "mobile": "False"
+      },
+      "parent": "table-ag-submitted-timesheets-week",
+      "tag": "div",
+      "repeat": null,
+      "text": "Showing 8 of 12 timesheets · sorted by employee name Hours a"
+    },
+    {
+      "id": "side-panel-priya-raghunathan-pr",
+      "component": "Side panel",
+      "cls": "pf-side-panel",
+      "variant": {
+        "mobile": "No",
+        "size": "Medium"
+      },
+      "parent": null,
+      "tag": "aside",
+      "repeat": null,
+      "text": "Priya Raghunathan PR Logistics Coordinator Operations · payr"
+    },
+    {
+      "id": "side-panel-header-priya-raghunathan",
+      "component": "Side panel header",
+      "cls": "pf-side-panel-header",
+      "variant": {
+        "size": "Default"
+      },
+      "parent": "side-panel-priya-raghunathan-pr",
+      "tag": "div",
+      "repeat": null,
+      "text": "Priya Raghunathan"
+    },
+    {
+      "id": "button-close-panel",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Hollow"
+      },
+      "parent": "side-panel-header-priya-raghunathan",
+      "tag": "button",
+      "repeat": null,
+      "text": ""
+    },
+    {
+      "id": "tags-over-48-hrs",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Negative"
+      },
+      "parent": "side-panel-priya-raghunathan-pr",
+      "tag": "span",
+      "repeat": null,
+      "text": "Over 48 hrs"
+    },
+    {
+      "id": "tags-overtime",
+      "component": "Tags",
+      "cls": "pf-tags",
+      "variant": {
+        "type": "Theme"
+      },
+      "parent": "side-panel-priya-raghunathan-pr",
+      "tag": "span",
+      "repeat": null,
+      "text": "Overtime 9.75"
+    },
+    {
+      "id": "information-box-17-week-average",
+      "component": "Information box",
+      "cls": "pf-information-box",
+      "variant": {
+        "type": "Error"
+      },
+      "parent": "side-panel-priya-raghunathan-pr",
+      "tag": "div",
+      "repeat": null,
+      "text": "17-week average is 49.4 hours. No working-time opt-out on fi"
+    },
+    {
+      "id": "button-adjust",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Hollow"
+      },
+      "parent": "side-panel-priya-raghunathan-pr",
+      "tag": "button",
+      "repeat": null,
+      "text": "Adjust"
+    },
+    {
+      "id": "draggable-card-mon",
+      "component": "Draggable card",
+      "cls": "pf-draggable-card",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": "side-panel-priya-raghunathan-pr",
+      "tag": "div",
+      "repeat": null,
+      "text": "Mon 31/08 7.50"
+    },
+    {
+      "id": "draggable-card-tue",
+      "component": "Draggable card",
+      "cls": "pf-draggable-card",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": "side-panel-priya-raghunathan-pr",
+      "tag": "div",
+      "repeat": null,
+      "text": "Tue 01/09 8.00"
+    },
+    {
+      "id": "draggable-card-wed",
+      "component": "Draggable card",
+      "cls": "pf-draggable-card",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": "side-panel-priya-raghunathan-pr",
+      "tag": "div",
+      "repeat": null,
+      "text": "Wed 02/09 9.25"
+    },
+    {
+      "id": "draggable-card-thu",
+      "component": "Draggable card",
+      "cls": "pf-draggable-card",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": "side-panel-priya-raghunathan-pr",
+      "tag": "div",
+      "repeat": null,
+      "text": "Thu 03/09 8.00"
+    },
+    {
+      "id": "draggable-card-fri",
+      "component": "Draggable card",
+      "cls": "pf-draggable-card",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": "side-panel-priya-raghunathan-pr",
+      "tag": "div",
+      "repeat": null,
+      "text": "Fri 04/09 10.50"
+    },
+    {
+      "id": "draggable-card-sat",
+      "component": "Draggable card",
+      "cls": "pf-draggable-card",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": "side-panel-priya-raghunathan-pr",
+      "tag": "div",
+      "repeat": null,
+      "text": "Sat 05/09 4.00"
+    },
+    {
+      "id": "draggable-card-sun-06-09-not",
+      "component": "Draggable card",
+      "cls": "pf-draggable-card",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": "side-panel-priya-raghunathan-pr",
+      "tag": "div",
+      "repeat": null,
+      "text": "Sun 06/09 Not worked"
+    },
+    {
+      "id": "form-field-outcome-approve",
+      "component": "Form field",
+      "cls": "pf-form-field",
+      "variant": {
+        "input-type": "Dropdown",
+        "state": "Selected"
+      },
+      "parent": "side-panel-priya-raghunathan-pr",
+      "tag": "div",
+      "repeat": null,
+      "text": "Outcome Approve with adjustment Approve as submitted Return "
+    },
+    {
+      "id": "field-approve-with-adjustment",
+      "component": "Field",
+      "cls": "pf-field",
+      "variant": {
+        "right-aligned": "No",
+        "filled": "Yes"
+      },
+      "parent": "form-field-outcome-approve",
+      "tag": "select",
+      "repeat": null,
+      "text": "Approve with adjustment Approve as submitted Return to emplo"
+    },
+    {
+      "id": "form-field-adjusted-overtime-hours",
+      "component": "Form field",
+      "cls": "pf-form-field",
+      "variant": {
+        "input-type": "Text",
+        "state": "Error"
+      },
+      "parent": "side-panel-priya-raghunathan-pr",
+      "tag": "div",
+      "repeat": null,
+      "text": "Adjusted overtime hours * Cannot exceed the 9.75 hours submi"
+    },
+    {
+      "id": "field-cannot-exceed",
+      "component": "Field",
+      "cls": "pf-field",
+      "variant": {
+        "right-aligned": "No",
+        "filled": "Yes"
+      },
+      "parent": "form-field-adjusted-overtime-hours",
+      "tag": "input",
+      "repeat": null,
+      "text": ""
+    },
+    {
+      "id": "form-field-cost-centre-set",
+      "component": "Form field",
+      "cls": "pf-form-field",
+      "variant": {
+        "input-type": "Text",
+        "state": "Disabled"
+      },
+      "parent": "side-panel-priya-raghunathan-pr",
+      "tag": "div",
+      "repeat": null,
+      "text": "Cost centre Set by the employee’s position"
+    },
+    {
+      "id": "field-set",
+      "component": "Field",
+      "cls": "pf-field",
+      "variant": {
+        "right-aligned": "No",
+        "filled": "Yes"
+      },
+      "parent": "form-field-cost-centre-set",
+      "tag": "input",
+      "repeat": null,
+      "text": ""
+    },
+    {
+      "id": "form-field-note-to-employee",
+      "component": "Form field",
+      "cls": "pf-form-field",
+      "variant": {
+        "input-type": "Text",
+        "state": "Default"
+      },
+      "parent": "side-panel-priya-raghunathan-pr",
+      "tag": "div",
+      "repeat": null,
+      "text": "Note to employee"
+    },
+    {
+      "id": "field-no",
+      "component": "Field",
+      "cls": "pf-field",
+      "variant": {
+        "right-aligned": "No",
+        "filled": "No"
+      },
+      "parent": "form-field-note-to-employee",
+      "tag": "textarea",
+      "repeat": null,
+      "text": ""
+    },
+    {
+      "id": "checkbox-radio-item-notify-the-employee",
+      "component": "Checkbox/Radio item",
+      "cls": "pf-checkbox-radio-item",
+      "variant": {
+        "state": "Selected"
+      },
+      "parent": "side-panel-priya-raghunathan-pr",
+      "tag": "label",
+      "repeat": null,
+      "text": "Notify the employee by email"
+    },
+    {
+      "id": "checkbox-radio-item-send",
+      "component": "Checkbox/Radio item",
+      "cls": "pf-checkbox-radio-item",
+      "variant": {
+        "state": "Default"
+      },
+      "parent": "side-panel-priya-raghunathan-pr",
+      "tag": "label",
+      "repeat": null,
+      "text": "Send to the September payroll run"
+    },
+    {
+      "id": "checkbox-radio-item-confirm-the-overtime",
+      "component": "Checkbox/Radio item",
+      "cls": "pf-checkbox-radio-item",
+      "variant": {
+        "state": "Error"
+      },
+      "parent": "side-panel-priya-raghunathan-pr",
+      "tag": "label",
+      "repeat": null,
+      "text": "Confirm the overtime was authorised in advance"
+    },
+    {
+      "id": "checkbox-radio-item-escalate-to-hr",
+      "component": "Checkbox/Radio item",
+      "cls": "pf-checkbox-radio-item",
+      "variant": {
+        "state": "Disabled"
+      },
+      "parent": "side-panel-priya-raghunathan-pr",
+      "tag": "label",
+      "repeat": null,
+      "text": "Escalate to HR (locked — no opt-out on file)"
+    },
+    {
+      "id": "toggle-yes",
+      "component": "Toggle",
+      "cls": "pf-toggle",
+      "variant": {
+        "on": "Yes",
+        "locked": "No"
+      },
+      "parent": "side-panel-priya-raghunathan-pr",
+      "tag": "span",
+      "repeat": null,
+      "text": ""
+    },
+    {
+      "id": "sticky-footer-approve-raise-query",
+      "component": "Sticky footer",
+      "cls": "pf-sticky-footer",
+      "variant": {
+        "default": "Stepper"
+      },
+      "parent": "side-panel-priya-raghunathan-pr",
+      "tag": "div",
+      "repeat": null,
+      "text": "Approve Raise query"
+    },
+    {
+      "id": "button-approve",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Positive"
+      },
+      "parent": "sticky-footer-approve-raise-query",
+      "tag": "button",
+      "repeat": null,
+      "text": "Approve"
+    },
+    {
+      "id": "button-raise-query",
+      "component": "Button",
+      "cls": "pf-button",
+      "variant": {
+        "type": "Negative"
+      },
+      "parent": "sticky-footer-approve-raise-query",
+      "tag": "button",
+      "repeat": null,
+      "text": "Raise query"
+    }
+  ]
+}
