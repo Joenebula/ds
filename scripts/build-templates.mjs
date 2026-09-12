@@ -40,7 +40,59 @@ const kebab = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g,
 const cls = name => 'pf-' + kebab(name);
 
 const tree = tsv('tokens/_raw/component-tree.tsv');
+
 const css = readFileSync('dist/components.css', 'utf8');
+
+// WHERE A CHILD SITS WHEN THE PARENT DOES NOT LAY OUT.
+//
+// For an auto-layout parent, order is enough: the template writes the same direction, gap
+// and padding and the children land where Figma put them. For a parent laid out NONE there
+// is nothing to copy, and flowing the children is not merely imprecise — it is a different
+// picture. `Profile image` is 93x93 holding a photo and a `People` instance BOTH at 0,0 at
+// 93x93: overlaid in Figma, stacked by the template, 93px tall becoming 184.
+//
+// Two guards, because a position applied to the wrong node is worse than none:
+//   - the tree must carry that exact component and path, and
+//   - it must AGREE on the child's size. Two rotated LINE nodes in `Donut pie chart` report
+//     a rotated bounding box (0x25) against the tree's unrotated size (25x0); they are
+//     refused by this and rendered as before.
+const posRows = existsSync('tokens/_raw/component-child-pos.tsv')
+  ? tsv('tokens/_raw/component-child-pos.tsv') : [];
+const treeByKey = new Map(tree.map(r => [r.component + '|' + r.path, r]));
+const ABS = new Map();   // component|path -> the style to apply
+const REL = new Set();   // component|path of every parent that must become the origin
+//
+// THIRD GUARD: THE CLASS MUST CARRY THE WHOLE BOX. A pixel offset is meaningless unless the
+// element it is measured inside is the size Figma measured it in. The stylesheet drops a
+// width above 120px on purpose — that is the artboard the component was drawn at, not a
+// rule — so `.pf-full-page` has no 1920px width to hold a child placed at x=1830. Applying
+// the offsets anyway pushed five components' children straight out of their box and the
+// overflow count went UP: `Full page`, `Configuration`, `AI Assistant`, `AI Gradient
+// component` and `Image picker`, every one of them a component whose width the class drops.
+// They are skipped and counted. (Proportional placement would reach them, but a percentage
+// height inside a box sized by `min-height` resolves to auto and collapses the child — a
+// second silent wrongness to fix the first. That is a deliberate piece of work, not a
+// shortcut taken here.)
+const bareBox = (base) => {
+  const m = new RegExp(`(?<![-\\w])\\.${base} \\{([^}]*)\\}`).exec(css);
+  if (!m) return null;
+  const w = /(?:^|;|\s)width:\s*(\d+)px/.exec(m[1]);
+  const h = /(?:^|;|\s)height:\s*(\d+)px/.exec(m[1]);
+  return w && h ? `${w[1]}x${h[1]}` : null;
+};
+const posSkipped = new Set();
+for (const p of posRows) {
+  const row = treeByKey.get(p.component + '|' + p.path);
+  if (!row || row.size !== `${p.w}x${p.h}`) continue;
+  const parentPath = p.path.includes('.') ? p.path.slice(0, p.path.lastIndexOf('.')) : '';
+  const parent = treeByKey.get(p.component + '|' + parentPath);
+  if (!parent || (parent.layout && parent.layout !== 'NONE')) continue;
+  const rootSize = (treeByKey.get(p.component + '|') || {}).size;
+  if (!rootSize || bareBox(cls(p.component)) !== rootSize) { posSkipped.add(p.component); continue; }
+  ABS.set(p.component + '|' + p.path,
+    `position:absolute;left:${p.dx}px;top:${p.dy}px;width:${p.w}px;height:${p.h}px`);
+  REL.add(p.component + '|' + parentPath);
+}
 const libClasses = new Set([...css.matchAll(/\.(pf-[a-z0-9-]+)/g)].map(m => m[1]));
 const typeClasses = new Set([...readFileSync('dist/type.css', 'utf8')
   .matchAll(/\.(pf-text-[a-z0-9-]+)/g)].map(m => m[1]));
@@ -106,8 +158,29 @@ function typeClassFor(component, row) {
   return typeClasses.has(c) ? c : null;
 }
 
+// The measured box for a node, or ''. Placement is applied wherever a node is emitted —
+// not only through styleFor — because the IMAGE and INSTANCE branches return their own
+// markup and would otherwise flow while their siblings were positioned, which is worse
+// than all of them flowing together.
+const absStyle = (component, path) => ABS.get(component + '|' + path) || '';
+
 function styleFor(component, row) {
   const s = [];
+  // Absolute placement comes FIRST, so a later `align-self:stretch` or `width` from the
+  // decorative-box rule below cannot quietly override the measured box.
+  const abs = absStyle(component, row.path);
+  if (abs) s.push(abs);
+  if (REL.has(component + '|' + row.path)) {
+    s.push('position:relative');
+    // AN ORIGIN WHOSE CHILDREN ARE ALL ABSOLUTE HOLDS NOTHING IN FLOW, so it collapses to
+    // zero and everything after it slides up. `Menu`'s inner frame did exactly that and the
+    // component's other five children ended up outside its box. The measured size is what
+    // the frame is, so it is stated. Not needed on the root — the class carries that box,
+    // and the gate above required it to.
+    const [rw, rh] = (row.size || '').split('x').map(Number);
+    if (row.path && Number.isFinite(rw) && Number.isFinite(rh))
+      s.push(`width:${rw}px`, `height:${rh}px`);
+  }
   if (row.layout && row.layout !== 'NONE') {
     const [mode, counter, primary] = row.layout.split(/\s+/);
     s.push('display:flex', `flex-direction:${mode === 'VERTICAL' ? 'column' : 'row'}`);
@@ -212,14 +285,22 @@ function render(component, rows, path, depth) {
       // and over the option beside it. Below 44px — Figma's own smallest control size —
       // the class paints the box and the name goes in a comment instead.
       const [iw] = (row.size || '').split('x').map(Number);
+      const iabs = absStyle(component, row.path);
+      const istyle = iabs ? ` style="${iabs}"` : '';
       if (Number.isFinite(iw) && iw > 0 && iw < 44)
-        return `${pad}<div class="${c}"${attrs}></div><!-- ${esc(source)} -->`;
-      return `${pad}<div class="${c}"${attrs}>${esc(source)}</div>`;
+        return `${pad}<div class="${c}"${attrs}${istyle}></div><!-- ${esc(source)} -->`;
+      return `${pad}<div class="${c}"${attrs}${istyle}>${esc(source)}</div>`;
     }
     const icon = iconFor(source);
     if (icon) {
       const px = parseInt(row.size, 10);
-      return `${pad}<!--pf-icon:${icon}${Number.isFinite(px) && px !== 18 ? ' ' + px : ''}-->`;
+      const marker = `<!--pf-icon:${icon}${Number.isFinite(px) && px !== 18 ? ' ' + px : ''}-->`;
+      // AN ICON MARKER IS A COMMENT, and a comment cannot carry a style. Where Figma places
+      // this icon by hand the placement has nowhere to go, and it was being dropped while
+      // the build counted it as applied — a number that flattered itself. Wrapped in a span
+      // so the measurement survives; build-prototype expands the marker inside it either way.
+      const iabs = absStyle(component, row.path);
+      return iabs ? `${pad}<span style="${iabs}">${marker}</span>` : `${pad}${marker}`;
     }
     // Not a class and not an icon. Every one of these so far has turned out to be a
     // DETACHED component — one the file uses but that sits on no page, so no walk could
@@ -313,7 +394,8 @@ function render(component, rows, path, depth) {
   // with an image fill, so without this the template was an empty div.
   if (row.fill === 'IMAGE') {
     const [w, h] = (row.size || '').split('x').map(Number);
-    return `${pad}<div style="width:100%;${Number.isFinite(h) ? `height:${h}px;` : ''}`
+    const abs = absStyle(component, row.path);
+    return `${pad}<div style="${abs ? abs + ';' : `width:100%;${Number.isFinite(h) ? `height:${h}px;` : ''}`}`
       + `background:var(--pf-bg-tertiary)">`
       + `<!-- artwork: Figma fills this with an IMAGE. Export it through the `
       + `component-art pipeline (see CLAUDE.md) — a placeholder stands in until then. --></div>`;
@@ -414,10 +496,16 @@ for (const [component, rows] of [...byComponent.entries()].sort()) {
   const kids = [...rows.keys()].filter(p => p && !p.includes('.'))
     .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
   const body = kids.map(k => render(component, rows, k, 1)).join('\n');
+  // THE OUTER ELEMENT IS THE POSITIONING ORIGIN when Figma places this component's own
+  // children by hand. Without it they resolve against whatever ancestor on the page happens
+  // to be positioned — which is not the component, and on a plain page is the document
+  // itself, so every one of them flies to the top-left corner. The first run of this put
+  // position:relative on every parent EXCEPT the root, and the overflow count went up.
+  const rootRel = REL.has(component + '|') ? ' style="position:relative"' : '';
   const html = `<!-- ${component} — generated from Figma by scripts/build-templates.mjs.\n`
     + `     The outer element is the component's own class; everything inside is its Figma\n`
     + `     child tree. Do not hand-edit: regenerate with npm run build. -->\n`
-    + `<div class="${base}">\n${body}\n</div>\n`;
+    + `<div class="${base}"${rootRel}>\n${body}\n</div>\n`;
   writeFileSync(`dist/templates/${base}.html`, html);
   made.push({ component, base, nodes: rows.size, html });
 }
@@ -480,6 +568,19 @@ g.push('</div>');
 writeFileSync('docs/templates.html', g.join('\n'));
 
 console.log(`${made.length} component template(s) written to dist/templates/, gallery in docs/templates.html`);
+// COUNT WHAT REACHED THE PAGE, not what was intended. Reported straight from the written
+// templates rather than from the ABS map: the two differed, because a placement on an icon
+// marker had nowhere to go and the map did not know that.
+const placed = made.filter(m => m.html.includes('position:absolute'));
+if (ABS.size) {
+  const n = placed.reduce((t, m) => t + (m.html.match(/position:absolute/g) || []).length, 0);
+  console.log(`  ${n} child(ren) placed at Figma's own offsets in ${placed.length} component(s) `
+    + `whose parent has no auto-layout — without this they flow, and Figma overlays them`);
+}
+if (posSkipped.size)
+  console.log(`  ${posSkipped.size} component(s) have measured child offsets that are NOT applied, `
+    + `because the class drops their artboard width so a pixel offset has no box to be `
+    + `measured inside: ${[...posSkipped].sort().join(', ')}`);
 if (noClass.length) {
   console.log(`  ${noClass.length} walked but NOT written — the stylesheet has no class to hang them on:`);
   for (const n of noClass) console.log(`    ${n.component} (would be .${n.base})`);

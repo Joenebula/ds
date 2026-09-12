@@ -1367,7 +1367,40 @@ latch measured rather than the question re-litigated.
 5, which is how many of the eighteen components I had sampled overflowed. Run against all
 154 it is 28, and it failed on its first honest run. Measure the population you are pinning.
 
-**Suggestion for the user, not done — the question section J raises.** 28 classes draw a box
+## K. Place the children of a parent Figma does not lay out — `done`
+
+Started as the min-height job from section J. **That hypothesis was wrong and the
+measurement said so before any code changed**: all 28 overflowing components have a FIXED
+height in Figma, not one hugs its content, so `min-height` would have made the CSS disagree
+with Figma rather than agree with it.
+
+The real cause, found by reading three of the templates: for a parent laid out NONE the
+template stacked the children in normal flow, and Figma positions them by hand. `Profile
+image` is 93x93 holding a photo and a `People` instance BOTH at 0,0 at 93x93 — overlaid in
+Figma, stacked by the template, 93 becoming 184.
+
+**Done when:** met. Positions measured into `component-child-pos.tsv`, applied by
+`build-templates.mjs` behind three guards, no template worse than before, and the overflow
+count down 28 -> 27.
+
+Kept as a separate file rather than a column on the tree deliberately: a column changes the
+tree's block header, which invalidates every older block, and a re-walk of 158 components
+through a connection dropping between calls would have left the file holding only the few
+that got through — wiping the templates of the rest.
+
+**It got worse twice before it got better, and both were caught by the measurement:**
+
+- Positions applied everywhere pushed FIVE components' children clean out of their box
+  (28 -> 33), because the class drops an artboard width above 120px so there is no 1920px
+  box for a child at x=1830 to sit in. Now gated on the class carrying the whole measured
+  box; nine components are measured and deliberately not placed, and the build names them.
+- `position: relative` on every parent EXCEPT the root sent the children to the top-left of
+  the page. The root is the origin.
+- A placement on an icon was silently dropped — an icon is an HTML comment and cannot carry
+  a style — while the build counted it as applied. Wrapped in a span, and the build now
+  counts what reached the written template rather than what it intended.
+
+**Suggestion for the user, not done — the question section J raises.** 27 classes draw a box
 their own contents do not fit. Some components already emit `min-height` ("content decides
 the real height"); these 28 emit a fixed `height` from the artboard. Emitting `min-height`
 for a component whose template overflows would make the box honest and would take the

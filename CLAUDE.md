@@ -204,7 +204,7 @@ Figma clips the contents of **34 of the 62 components** on Cards and panels, 22 
 a corner radius, and `dist/components.css` sets `overflow` once. After the border and the
 shadow this looked like the obvious next thing to carry, and it is the one that must not be.
 
-The measurement that settled it: **28 of the 154 templates already render outside the box
+The measurement that settled it: **27 of the 154 templates already render outside the box
 their own class draws** — `pf-hemisphere-chart` by 333px, `pf-donut-pie-chart` by 284px,
 `pf-content` by 180px. `overflow: hidden` would not have reproduced the design on those; it
 would have deleted part of the component's own generated contents from view. And nothing
@@ -219,6 +219,42 @@ never promised to agree.
 
 `npm run verify` runs `check-template-overflow.mjs`, which reports and pins the count. It is
 the precondition: **clipping can only ever be carried once that number is zero.**
+
+## Children a parent does not lay out
+
+For an auto-layout parent, the order of the children is enough: the template writes the same
+direction, gap and padding, and they land where Figma put them. For a parent laid out
+**NONE** there is nothing to copy, and flowing them is not merely imprecise — it is a
+different picture. `Profile image` is 93x93 and holds two children, a photo and a `People`
+instance, **both at 0,0 at 93x93**: overlaid in Figma, stacked by the template, 93px tall
+becoming 184.
+
+`tokens/_raw/component-child-pos.tsv` records where each child sits inside a parent Figma
+does not lay out, and the template places it there. Three guards, because a position applied
+to the wrong node is worse than none:
+
+1. the tree must carry that exact component and path;
+2. it must **agree on the child's size** — two rotated `LINE` nodes in `Donut pie chart`
+   report a rotated bounding box against the tree's unrotated size, and are refused;
+3. **the class must carry the whole box.** A pixel offset means nothing unless the element
+   it is measured inside is the size Figma measured it in, and the stylesheet drops a width
+   above 120px on purpose. Nine components are measured and deliberately not placed for this
+   reason — `Full page`, `Configuration`, `AI Assistant`, the three charts and others — and
+   the build names them. Applying the offsets to them anyway pushed their children straight
+   out of the box and the overflow count went UP, which is how the guard was found.
+
+Two more things this cost, both worth knowing before touching it:
+
+- **The outer element is the positioning origin.** Put `position: relative` on every parent
+  except the root and the children resolve against whatever ancestor on the page happens to
+  be positioned — on a plain page, the document, so they fly to the top-left corner.
+- **An origin whose children are all absolute holds nothing in flow**, so it collapses to
+  zero and everything after it slides up. It is given its measured size.
+
+An icon is emitted as an HTML comment (`<!--pf-icon:home-->`), which cannot carry a style,
+so a placement on one is wrapped in a positioned span. Before that it was silently dropped
+while the build counted it as applied — which is why the build now counts what reached the
+written template rather than what it intended.
 
 ## What the component classes do and do not carry
 

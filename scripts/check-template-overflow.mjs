@@ -29,7 +29,7 @@ import { chromium } from 'playwright-core';
 // It was first set to 5 from a sample of eighteen components, which is how many of THOSE
 // overflowed; run across all 154 it is 28. A baseline taken from a subset is a baseline
 // that fails the moment it meets the whole set — measure the population you are pinning.
-const OVERFLOW_BASELINE = 28;
+const OVERFLOW_BASELINE = 27;
 
 const expand = h => h.replace(/<!--pf-icon:([a-z0-9-]+)(?:\s+(\d+))?-->/g, (m, n, s) => {
   const f = `assets/icons/${n}.svg`;
