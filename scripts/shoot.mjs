@@ -28,13 +28,34 @@ if (!file) { console.error('usage: node scripts/shoot.mjs <built>.html [outDir]'
 mkdirSync(outDir, { recursive: true });
 const name = basename(file).replace(/\.html$/, '');
 
+// THE THEME IS SET BEFORE THE FIRST PAINT, AND THE OS IS SET TO MATCH.
+//
+// This used to `goto` and then set `data-theme` on an already-rendered page. Chromium does
+// not fully invalidate that: the custom property on an element reads the dark value, the
+// only rule matching it is `color: var(--pf-text-primary)`, and the computed colour stays
+// at the LIGHT one — a `cloneNode` of the same element resolves correctly, which is what
+// says it is invalidation rather than cascade. Measured on four of the five screens in this
+// repo: the Hollow button, the side-navigation tabs and the selected filter chip all shot
+// in their light-mode colours on a dark page. Every dark screenshot here was wrong that way.
+//
+// `check-theme-paths.mjs` toggles the attribute the same way and is green, because it does
+// it on a flat synthetic page of bare divs where the bug does not appear. It cannot see this.
+//
+// Two changes, and both are needed: `colorScheme` makes the browser paint its own surfaces
+// for the right mode, and `addInitScript` puts the attribute on before anything renders, so
+// there is no restyle to get wrong.
 const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
 for (const theme of ['light', 'dark']) {
-  const page = await (await browser.newContext({ viewport: { width: VW, height: 1080 } })).newPage();
+  const ctx = await browser.newContext({ viewport: { width: VW, height: 1080 }, colorScheme: theme });
+  const page = await ctx.newPage();
+  await page.addInitScript(t => {
+    document.addEventListener('DOMContentLoaded',
+      () => document.documentElement.setAttribute('data-theme', t));
+  }, theme);
   await page.goto('file://' + resolve(file));
-  await page.evaluate(t => document.documentElement.setAttribute('data-theme', t), theme);
   const out = `${outDir}/${name}.${theme}${full ? '.full' : ''}.png`;
   await page.screenshot({ path: out, fullPage: full });
   console.log(out);
+  await ctx.close();
 }
 await browser.close();

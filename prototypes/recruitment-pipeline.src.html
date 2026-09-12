@@ -108,12 +108,14 @@ svg { display: block; }
   .topbar, .content { padding-left: var(--pf-space-large); padding-right: var(--pf-space-large); }
 }
 
-.pf-circle-icons { display: flex; align-items: center; justify-content: center; flex: none; }
-.pf-information-box { display: flex; align-items: center; gap: var(--pf-space-small); }
+.pf-circle-icons { flex: none; }
+.pf-information-box { display: flex; gap: var(--pf-space-small); }
 
 /* ---------- the vacancies table ---------- */
-.pf-table-card-ag { width: 100%; align-items: stretch; }
-.pf-table-action-bar { width: 100%; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.pf-table-card-ag { width: 100%; }
+.pf-table-card-ag > * { align-self: stretch; }
+.pf-table-action-bar { width: 100%; }
+.pf-table-action-bar > * { align-self: stretch; }
 .chiprow { display: flex; align-items: center; gap: var(--pf-space-large); flex-wrap: wrap; }
 .barright { display: flex; align-items: center; gap: var(--pf-space-small); flex-wrap: wrap; justify-content: flex-end; }
 .refresh { display: flex; align-items: center; justify-content: center; gap: var(--pf-space-xsmall); }
@@ -130,7 +132,7 @@ table { width: 100%; border-collapse: collapse; min-width: 1000px; }
    cell treats its Figma height as a minimum, so an icon or a second line grows it. */
 thead th { text-align: left; white-space: nowrap; line-height: normal; }
 tbody td { line-height: normal; vertical-align: middle; }
-/* A component used AS a table cell has to stay a table cell. components.css ships this
+/* pf-new: a component used AS a table cell has to stay a table cell. components.css ships this
    fix-up as `td.pf-table-cell-ag, th.pf-table-header-ag` (0,1,1), which every variant rule
    out-specifies: `.pf-table-header-ag[data-alignment="Checkbox"]` (0,2,0) puts the header
    back to inline-flex, the checkbox inside becomes a flex item and shrinks 20px -> 14px.
@@ -139,7 +141,6 @@ tbody td { line-height: normal; vertical-align: middle; }
 .pf-table-header-ag, .pf-table-cell-ag,
 th.pf-table-header-ag[data-alignment],
 td.pf-table-cell-ag[data-type][data-style] { display: table-cell; vertical-align: middle; }
-.pf-table-header-ag { justify-content: flex-start; }
 .headcell { display: flex; align-items: center; gap: var(--pf-space-small); }
 .cellstack { display: flex; flex-direction: column; }
 .cellrow { display: flex; align-items: center; gap: var(--pf-space-small); }
@@ -158,7 +159,7 @@ td.pf-table-cell-ag[data-type][data-style] { display: table-cell; vertical-align
 }
 
 /* ---------- department activity panel ---------- */
-.pf-card { width: 100%; align-items: stretch; }
+.pf-card { width: 100%; }
 .cardhead { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; align-self: stretch; }
 .pf-card > div { align-self: stretch; }
 .cardslot { align-items: stretch; }
