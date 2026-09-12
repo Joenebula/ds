@@ -35,7 +35,14 @@ const FREE = new Set(['display', 'position', 'top', 'right', 'bottom', 'left', '
   'margin', 'margin-top', 'margin-right', 'margin-bottom', 'margin-left',
   'overflow', 'overflow-x', 'overflow-y', 'cursor', 'z-index', 'opacity', 'content',
   'white-space', 'text-align', 'text-decoration', 'list-style', 'place-items',
-  'visibility', 'pointer-events', 'transition', 'aspect-ratio', 'object-fit']);
+  'visibility', 'pointer-events', 'transition', 'aspect-ratio', 'object-fit',
+  // TABLE LAYOUT IS NOT A BORDER. `border-collapse` and `border-spacing` are caught by the
+  // `border-\w+` arm of OWNED above, and they are nothing to do with the border a component
+  // paints — Figma has no tables, so no component can own either. A page rendering a real
+  // <table> has to set border-collapse or its cell borders double, and it was being told to
+  // justify that with a pf-new marker explaining a checker quirk rather than a design
+  // decision, which is the kind of marker that teaches people to ignore markers.
+  'border-collapse', 'border-spacing', 'table-layout', 'vertical-align']);
 
 // width/max-width are owned in general, but a page legitimately says "fill the row".
 const FULL_BLEED = /^(100%|auto|0|none|min-content|max-content|fit-content|100vh|100vw)$/;

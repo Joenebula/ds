@@ -544,8 +544,8 @@ From `node scripts/pf-audit.mjs prototypes/timesheet-approvals.html`:
   `--pf-text-disabled` is 3.64:1 by design. Acceptable — but **never use that token for
   live text.**
 
-Known margin to watch, confirmed by `node scripts/check-contrast.mjs` (27/28 pass AA in
-both modes): `--pf-text-positive` on `--pf-bg-primary` is **4.43:1 in dark mode**
+Known margin to watch, confirmed by `node scripts/check-contrast.mjs` (29/33 pass AA in
+light, 32/33 in dark): `--pf-text-positive` on `--pf-bg-primary` is **4.43:1 in dark mode**
 (`#00ad60` on `#2c313c`), marginally under 4.5. Fine at 18px+ or SemiBold; for small
 success text pair it with an icon or `--pf-bg-positive` rather than relying on colour
 alone.

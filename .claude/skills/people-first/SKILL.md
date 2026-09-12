@@ -10,21 +10,32 @@ Everything below is generated from that file — not invented.
 
 ## Setup
 
-Three stylesheets. Link all three:
+Four stylesheets. Link all four, **`fonts.css` first**:
 
 ```html
+<link rel="stylesheet" href="dist/fonts.css">       <!-- the typeface — load FIRST -->
 <link rel="stylesheet" href="dist/tokens.css">      <!-- the colours -->
 <link rel="stylesheet" href="dist/components.css">  <!-- the components -->
 <link rel="stylesheet" href="dist/type.css">        <!-- the type -->
 ```
+
+**This page said "three stylesheets" and did not mention `fonts.css` at all**, which is how
+a screen built from this skill silently renders in the wrong typeface. `fonts.css` ships
+Open Sans 400 and 600 vendored and inlined as data: URIs, and it has to come first: a face
+declared after the rules that use it means the first paint borrows a fallback, and on a
+screenshot that IS the result. Never link Google Fonts instead — the request fails behind an
+egress policy and inside an artifact, and the page falls back to DejaVu Sans with weight 600
+synthesised as Bold, which is what this project shipped for its entire life while every
+check was green. `npm run verify` runs `check-fonts.mjs`, which asks the one question no
+other check asks: which face actually rendered.
 
 `tokens.css` gives you `var(--pf-*)`. `components.css` gives you the components
 themselves as ready classes — see **Component classes** below, and reach for it before
 you write any CSS of your own. `type.css` gives you a class per Figma text style, so a
 heading is a class rather than three hand-written declarations.
 
-For a self-contained artifact or canvas, inline all three into a `<style>` block instead.
-Never paste hex values in place of tokens.
+For a self-contained artifact or canvas, inline all four into a `<style>` block instead —
+in that order, for the same reason. Never paste hex values in place of tokens.
 
 ## Hard rules
 
@@ -591,13 +602,22 @@ Handled entirely by `dist/tokens.css`. Build once with tokens and both modes wor
 ## Accessibility
 
 Verified with `node scripts/check-contrast.mjs` against the pairings the components
-actually use: **27 of 28 pass WCAG AA in both modes.** Two things to know:
+actually use: **29 of 33 pass WCAG AA in light, 32 of 33 in dark.** Four things to know:
 
+- **`--pf-bg-tertiary` is the one to watch.** It is what `Metric card` and `Title panel`
+  paint, and three tokens miss AA on it in light mode: `--pf-text-link` 4.37:1,
+  `--pf-text-positive` 4.48:1, `--pf-text-warning` 4.22:1. All three are fine in dark.
+  `Metric card`'s own template puts `--pf-text-link` on it, so pasting that template as
+  generated ships a 4.37:1 label — see `docs/FIGMA-ISSUES.md` §16. At 20px SemiBold these
+  are WCAG large text and pass at 3:1; at 13px Regular they do not.
 - `--pf-text-disabled` on `--pf-bg-primary` is 3.64:1 in light mode. WCAG exempts
   disabled controls, so this is acceptable — but never use that token for live text.
 - `--pf-text-positive` on `--pf-bg-primary` is 4.43:1 in dark mode, marginally under
   4.5. Fine at 18px+ or semibold; for small success text prefer pairing it with an
   icon or `--pf-bg-positive` rather than relying on colour alone.
+- **The count moved from 27 of 28 because the check grew, not because anything regressed.**
+  Every status token was only ever paired with `--pf-bg-primary`, so the recessed surface
+  the components sit on was untested. Five tertiary pairings were added; three of them fail.
 
 Re-run that script after any token change.
 

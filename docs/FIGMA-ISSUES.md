@@ -557,6 +557,41 @@ minimum — so `Radio card` and arguably `AG field` may be deliberate. The rest 
 They are pinned **by name** in `check-component-contrast.mjs` so the set cannot grow, and cannot
 have one quietly substituted for another while someone decides.
 
+## 16. Three status colours miss AA on the recessed surface
+
+`Background/Tertiary` is what `Metric card` and `Title panel` paint, and three text tokens
+land on it below 4.5:1 in **light mode**:
+
+| Pairing | Light | Where it happens |
+|---|---|---|
+| `Text/Link` on `Background/Tertiary` | **4.37:1** | `Metric card`'s own generated template — the "More details" child |
+| `Text/Positive` on `Background/Tertiary` | **4.48:1** | `Data variance`, which sits inside `Metric card` |
+| `Text/Warning` on `Background/Tertiary` | **4.22:1** | any warning text on a metric tile or title panel |
+
+Dark mode is fine on all three (7.18, 4.87, 5.32).
+
+**This is the library failing AA, not a page.** `dist/templates/pf-metric-card.html` ships
+`color: var(--pf-text-link)` on a card the class paints `--pf-bg-tertiary`, so pasting the
+template as generated puts a 4.37:1 label on the page — `pf-audit` then fails the screen for
+something the page did not write. `prototypes/recruitment-pipeline` leaves that child out for
+exactly this reason, and states so where it does it.
+
+`Text/Positive` at 4.48 is the same near-miss §11 describes in dark mode, one surface over: at
+20px Regular it fails, at 20px SemiBold it is WCAG large text and passes at 3:1, which is what
+that prototype's `Data variance` does.
+
+**Nothing could see any of this until now.** `check-contrast.mjs` paired every status token
+with `Background/Primary` and nothing else, and paired `Background/Tertiary` with
+`Text/Primary` alone — so "27 of 28 pass AA" was true of a set that left out the surface these
+components actually sit on. The five tertiary pairings are in the table now (33 pairs), which
+is what turned three invisible failures into three listed ones. A pairing the library creates
+is a pairing the check has to test.
+
+**What would clear it:** darken the three tokens for light mode, or give `Background/Tertiary`
+a lighter value than `#f2f2f2`. Either is a Figma decision — the pipeline will not substitute
+a colour, for the reason §1c gives.
+
+
 ## What happens after you fix any of this
 
 Re-extract and rebuild, and the stylesheet, the component list and the example screens all

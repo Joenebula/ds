@@ -2,6 +2,9 @@
 // WCAG contrast check for the foreground/background pairs the components actually use.
 // Pairings verified against the Figma component sets, not assumed.
 import { readFileSync } from 'node:fs';
+// `resolve` is already this file's token resolver, so the path one comes in aliased.
+import { resolve as resolve_ } from 'node:path';
+import { fileURLToPath } from 'node:url';
 const t = JSON.parse(readFileSync('tokens/design-tokens.json', 'utf8'));
 
 const flat = new Map();
@@ -44,6 +47,19 @@ const PAIRS = [
   ['error text',           'Text/Negative',           'Background/Primary'],
   ['success text',         'Text/Positive',           'Background/Primary'],
   ['warning text',         'Text/Warning',            'Background/Primary'],
+  // EVERY STATUS COLOUR IS ALSO USED ON THE RECESSED SURFACE, and only Text/Primary was
+  // tested there. `Metric card` paints `Background/Tertiary` and its own generated template
+  // puts `Text/Link` on it for the "More details" child — 4.37:1 in light mode, an AA
+  // failure shipped by the library rather than by a page. The `Data variance` inside the
+  // same card puts `Text/Positive` on it at 4.48. Neither was visible here, because the
+  // table paired those tokens with `Background/Primary` and nothing else, so "27 of 28 pass"
+  // was a true statement about a set that left out the surface where the components in
+  // question actually sit. A pairing the library creates is a pairing this has to test.
+  ['link on tertiary bg',    'Text/Link',     'Background/Tertiary'],
+  ['success on tertiary bg', 'Text/Positive', 'Background/Tertiary'],
+  ['error on tertiary bg',   'Text/Negative', 'Background/Tertiary'],
+  ['warning on tertiary bg', 'Text/Warning',  'Background/Tertiary'],
+  ['secondary on tertiary bg', 'Text/Secondary', 'Background/Tertiary'],
   ['disabled text',        'Text/Disabled',           'Background/Primary'],
   ['btn Action',           'Text/Inverted primary',   'Background/Secondary Button'],
   ['btn Action hover',     'Text/Inverted primary',   'Background/Secondary Button Hover'],
@@ -66,24 +82,36 @@ const PAIRS = [
   ['table header',         'Text/Primary',            'Table/Header cell']
 ];
 
-let fails = 0;
-const results = [];
-for (const mode of ['light', 'dark']) {
-  for (const [label, fg, bg] of PAIRS) {
-    const a = resolve(fg, mode), b = resolve(bg, mode);
-    const r = ratio(a, b);
-    const verdict = r >= 4.5 ? 'AA' : r >= 3 ? 'AA-large-only' : 'FAIL';
-    if (verdict !== 'AA') fails++;
-    results.push({ mode, label, fg, bg, fgHex: a, bgHex: b, ratio: +r.toFixed(2), verdict });
+// EXPORTED so the counts quoted in the docs come from here rather than from someone's
+// memory of a run. "27 of 28 pass AA" survived in three files after the pair table grew to
+// 33, which is the same drift this repo keeps finding: a figure in prose that no check
+// reaches. `check-skill-classes.mjs` imports this and pins both counts.
+export function contrast() {
+  const results = [];
+  for (const mode of ['light', 'dark']) {
+    for (const [label, fg, bg] of PAIRS) {
+      const a = resolve(fg, mode), b = resolve(bg, mode);
+      const r = ratio(a, b);
+      const verdict = r >= 4.5 ? 'AA' : r >= 3 ? 'AA-large-only' : 'FAIL';
+      results.push({ mode, label, fg, bg, fgHex: a, bgHex: b, ratio: +r.toFixed(2), verdict });
+    }
   }
+  return { results, pairs: PAIRS.length,
+    passing: Object.fromEntries(['light', 'dark'].map(m =>
+      [m, results.filter(x => x.mode === m && x.verdict === 'AA').length])) };
 }
 
-if (process.argv.includes('--json')) { console.log(JSON.stringify(results, null, 2)); process.exit(0); }
-for (const mode of ['light', 'dark']) {
-  console.log(`\n=== ${mode.toUpperCase()} ===`);
-  for (const r of results.filter(x => x.mode === mode && x.verdict !== 'AA'))
-    console.log(`  ${r.verdict.padEnd(14)} ${String(r.ratio).padStart(5)}  ${r.label}  —  ${r.fg} on ${r.bg}  (${r.fgHex} / ${r.bgHex})`);
-  const ok = results.filter(x => x.mode === mode && x.verdict === 'AA').length;
-  console.log(`  ${ok}/${PAIRS.length} pass AA`);
+// Run as a script, report; imported, just export the function above. Without this guard the
+// top-level `process.exit(0)` below would kill any importer the moment it required this file.
+if (process.argv[1] && resolve_(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const { results } = contrast();
+  if (process.argv.includes('--json')) { console.log(JSON.stringify(results, null, 2)); process.exit(0); }
+  for (const mode of ['light', 'dark']) {
+    console.log(`\n=== ${mode.toUpperCase()} ===`);
+    for (const r of results.filter(x => x.mode === mode && x.verdict !== 'AA'))
+      console.log(`  ${r.verdict.padEnd(14)} ${String(r.ratio).padStart(5)}  ${r.label}  —  ${r.fg} on ${r.bg}  (${r.fgHex} / ${r.bgHex})`);
+    const ok = results.filter(x => x.mode === mode && x.verdict === 'AA').length;
+    console.log(`  ${ok}/${PAIRS.length} pass AA`);
+  }
+  process.exit(0);
 }
-process.exit(0);
