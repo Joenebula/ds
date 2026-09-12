@@ -138,10 +138,25 @@ svg { display: block; }
 /* ---------- filter bar ---------- */
 .filterbar { display: flex; flex-direction: column; gap: var(--pf-space-medium); }
 .filterbar .line { display: flex; gap: var(--pf-space-small); align-items: center; flex-wrap: wrap; }
-.searchwrap { position: relative; flex: 0 1 300px; min-width: 220px; }
-.searchwrap .icn { position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
-                   color: var(--pf-icon-secondary); pointer-events: none; }
-.searchwrap .pf-field { padding-left: 42px; }
+/* Layout only — how wide the search sits in the filter row. WHERE THE MAGNIFIER GOES is the
+   component's business: Figma lays `Field` out as HORIZONTAL CENTER MAX, so its children sit
+   at the RIGHT, vertically centred, with the field's own 10px right padding as the margin.
+   This used to absolutely position the icon at left:15px and override the component's
+   padding-left — the wrong side, and centred on the label-plus-input block rather than on
+   the input, which is why the glass sat up in the top corner. */
+.searchwrap { flex: 0 1 300px; min-width: 220px; }
+/* pf-new: a bare control inside the field. Figma's `Field` holds a TEXT node; HTML needs a
+   real <input>, so its UA chrome is reset and the component's own box, border, background
+   and type show through. */
+.fieldinput { flex: 1 1 auto; min-width: 0; border: 0; background: transparent;
+              font: inherit; color: inherit; padding: 0; }
+.searchwrap .icn { display: flex; color: var(--pf-icon-secondary); pointer-events: none; }
+/* Layout only. `Selected action banner` is 1560x48 in Figma — one row at full desktop
+   width. This page is narrower, so without being allowed to wrap, its buttons ran 367px
+   outside their own banner. verify-layout caught it the moment the page was rebuilt against
+   a current stylesheet; it had been passing on a six-commit-old copy. */
+.pf-selected-action-banner { display: flex; width: 100%; flex-wrap: wrap;
+                             gap: var(--pf-space-large); }
 .togglelab { display: inline-flex; align-items: center; gap: var(--pf-space-small);
              font-size: var(--pf-font-size-xs); color: var(--pf-text-primary); cursor: pointer; }
 
@@ -377,9 +392,9 @@ select.control { appearance: none; background-image:
           <button class="pf-filter-chip" data-state="Default" data-active="False" type="button" aria-pressed="false" data-pf-id="filter-chip-leavers">Leavers <span class="count">2</span></button>
         </div>
         <div class="line">
-          <div class="searchwrap">
+          <div class="pf-field searchwrap" data-right-aligned="No" data-filled="No" data-pf-id="field-search-employees">
+            <input class="fieldinput" type="search" aria-label="Search employees" placeholder="Search name or payroll number" data-pf-id="field-search-employees-input">
             <span class="icn"><!--pf-icon:search 16--></span>
-            <input class="pf-field" data-right-aligned="No" data-filled="No" type="search" aria-label="Search employees" placeholder="Search name or payroll number" data-pf-id="field-search-employees">
           </div>
           <select class="pf-field" data-right-aligned="No" data-filled="No" aria-label="Department" style="width:auto;min-width:180px" data-pf-id="field-department">
             <option>All departments</option>

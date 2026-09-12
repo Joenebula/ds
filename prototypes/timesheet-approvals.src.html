@@ -121,10 +121,19 @@ svg { display: block; }
 
 /* ---------- filters ---------- */
 .filterline { display: flex; gap: var(--pf-space-small); align-items: flex-end; flex-wrap: wrap; }
-.searchwrap { position: relative; flex: 0 1 320px; min-width: 240px; }
-.searchwrap .icn { position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
-                   color: var(--pf-icon-secondary); pointer-events: none; }
-.searchwrap .pf-field { padding-left: 44px; }
+/* Layout only — how wide the search sits in the filter row. WHERE THE MAGNIFIER GOES is the
+   component's business: Figma lays `Field` out as HORIZONTAL CENTER MAX, so its children sit
+   at the RIGHT, vertically centred, with the field's own 10px right padding as the margin.
+   This used to absolutely position the icon at left:15px and override the component's
+   padding-left — the wrong side, and centred on the label-plus-input block rather than on
+   the input, which is why the glass sat up in the top corner. */
+.searchwrap { flex: 0 1 320px; min-width: 240px; }
+/* pf-new: a bare control inside the field. Figma's `Field` holds a TEXT node; HTML needs a
+   real <input>, so its UA chrome is reset and the component's own box, border, background
+   and type show through. */
+.fieldinput { flex: 1 1 auto; min-width: 0; border: 0; background: transparent;
+              font: inherit; color: inherit; padding: 0; }
+.searchwrap .icn { display: flex; color: var(--pf-icon-secondary); pointer-events: none; }
 .togglelab { display: inline-flex; align-items: center; gap: var(--pf-space-small);
              font-size: var(--pf-font-size-xs); cursor: pointer; height: 42px; }
 .pf-selected-action-banner { display: flex; width: 100%; flex-wrap: wrap; gap: var(--pf-space-large); }
@@ -181,7 +190,10 @@ td .plain { color: var(--pf-text-primary); }
              font-size: var(--pf-font-size-xs); color: var(--pf-text-secondary); flex-wrap: wrap; }
 
 /* the tick inside a selected checkbox is drawn art, not a token */
-.pf-multi-select-checkbox { position: relative; cursor: pointer; }
+/* Layout and behaviour only — the SIZE is the component's (20x20). It sits in a table cell
+   that is inline-flex, and a flex child shrinks by default, so it was rendering 12px wide.
+   `flex-shrink` is layout, not one of the properties the component owns. */
+.pf-multi-select-checkbox { position: relative; cursor: pointer; flex: 0 0 auto; }
 .pf-multi-select-checkbox[data-state="Selected"]::after {
   content: ""; position: absolute; left: 6.5px; top: 2.5px; width: 5px; height: 9px;
   border: solid var(--pf-icon-always-white); border-width: 0 2px 2px 0; transform: rotate(45deg);
@@ -382,9 +394,13 @@ select.pf-field { background-image:
         <div class="filterline">
           <div class="pf-form-field searchwrap" data-input-type="Search" data-state="Default" data-pf-id="form-field-search">
             <label class="lbl" for="f-search">Search</label>
-            <span class="icn"><svg width="16" height="16" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path fill-rule="evenodd" d="M15 3.38C8.58 3.38 3.38 8.58 3.38 15C3.38 21.42 8.58 26.63 15 26.63C17.81 26.63 20.38 25.63 22.39 23.98L30.7 32.3C31.14 32.73 31.86 32.73 32.3 32.3C32.73 31.86 32.73 31.14 32.3 30.7L23.98 22.39C25.63 20.38 26.63 17.81 26.63 15C26.63 8.58 21.42 3.38 15 3.38ZM5.63 15C5.63 9.82 9.82 5.63 15 5.63C20.18 5.63 24.38 9.82 24.38 15C24.38 20.18 20.18 24.38 15 24.38C9.82 24.38 5.63 20.18 5.63 15Z"/></g></svg></span>
-            <input class="pf-field" data-right-aligned="No" data-filled="No" id="f-search"
-                   type="search" placeholder="Employee name or payroll number" data-pf-id="field-period-week-ending">
+            <div class="pf-field" data-right-aligned="No" data-filled="No" data-pf-id="field-search">
+
+              <input class="fieldinput" id="f-search" type="search" placeholder="Employee name or payroll number" data-pf-id="field-search-input">
+
+              <span class="icn"><svg width="16" height="16" aria-hidden="true" focusable="false" viewBox="0 0 36 36" fill="currentColor"><g><path fill-rule="evenodd" d="M15 3.38C8.58 3.38 3.38 8.58 3.38 15C3.38 21.42 8.58 26.63 15 26.63C17.81 26.63 20.38 25.63 22.39 23.98L30.7 32.3C31.14 32.73 31.86 32.73 32.3 32.3C32.73 31.86 32.73 31.14 32.3 30.7L23.98 22.39C25.63 20.38 26.63 17.81 26.63 15C26.63 8.58 21.42 3.38 15 3.38ZM5.63 15C5.63 9.82 9.82 5.63 15 5.63C20.18 5.63 24.38 9.82 24.38 15C24.38 20.18 20.18 24.38 15 24.38C9.82 24.38 5.63 20.18 5.63 15Z"/></g></svg></span>
+
+            </div>
           </div>
 
           <div class="pf-form-field" data-input-type="Date picker" data-state="Default" style="width:auto" data-pf-id="form-field-period-week-ending">
