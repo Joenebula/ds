@@ -148,6 +148,34 @@ const treeKeys = new Set(readFileSync('tokens/_raw/component-tree.tsv', 'utf8')
 const nChildPos = childPosRows.length;
 const nChildPosNoNode = childPosRows.filter(c => !treeKeys.has(c[0] + '|' + c[1])).length;
 
+// HOW MANY CLASSES CARRY A FILL EVERY ONE OF THEIR VARIANTS AGREES ON — recomputed from the
+// variant table and the token map, the same two raw inputs the generator reads, so the
+// documented figure is answerable without trusting either the generator or check-hoisted-fills.
+const figmaToVar = new Map();
+(function walkTok(o) {
+  for (const v of Object.values(o)) {
+    if (!v || typeof v !== 'object') continue;
+    if (v.$value !== undefined) {
+      const e = (v.$extensions || {})['com.mhr.pf'] || {};
+      if (e.figmaName && e.cssVar) figmaToVar.set(e.figmaName, e.cssVar);
+    } else walkTok(v);
+  }
+})(JSON.parse(readFileSync('tokens/design-tokens.json', 'utf8')));
+const variantFills = new Map();
+for (const l of readFileSync('tokens/_raw/component-variants.tsv', 'utf8').trim().split('\n').slice(1)) {
+  const c = l.split('\t');
+  if (!variantFills.has(c[1])) variantFills.set(c[1], new Set());
+  variantFills.get(c[1]).add(c[3] || '');
+}
+const nHoisted = [...variantFills].filter(([comp, fills]) => {
+  if (fills.size !== 1) return false;
+  const only = [...fills][0];
+  if (!only) return false;
+  const v = figmaToVar.get(only);
+  return !!v && !v.startsWith('--pf-base-') && classes.has('pf-' + comp.toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));
+}).length;
+
 // The centred-child measurement: how many variants, and how many components they span.
 // Both are quoted in CLAUDE.md and the people-first skill, and both are the kind of figure
 // that goes stale the moment another layout-NONE component qualifies.
@@ -333,6 +361,7 @@ const figures = [
   ['containers behind the walk depth limit', nCapped, /\*\*(One|Two|Three|Four|Five|\d+)\*\*\s+are\s+left,\s+each\s+holding/g],
   ['composite uses rebuilt by hand', nHandBuilt, /\*\*(One|Two|Three|Four|Five|Six|\d+)\s+(?:is|are)\s+outstanding\*\*/g],
   ['classes with no paint', shellCount, /\*\*(\d+) classes with no paint\*\*/g],
+  ['classes carrying a fill all their variants agree on', nHoisted, /\*\*(\d+) classes there is\s*\n?one\*\*/g],
   ['measured child offsets in the file', nChildPos, /the file holds \*\*(\d+)\*\*/g],
   ['offsets measured deeper than the walk', nChildPosNoNode, /\*\*(\d+) measured\s+deeper than the tree walk reaches\*\*/g],
   [`children placed at Figma's offsets`, nPlacedChildren, /\*\*(\d+) children across \d+ components?\*\*/g],

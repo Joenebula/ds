@@ -73,7 +73,7 @@
   line-height: normal;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-filter-menu-background);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -208,7 +208,7 @@
   justify-content: space-between;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -325,7 +325,7 @@
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -491,7 +491,7 @@
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -559,7 +559,7 @@
   gap: 689px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -655,7 +655,7 @@
   justify-content: flex-start;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -889,7 +889,7 @@
   line-height: normal;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-secondary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -1359,7 +1359,7 @@
   gap: 20px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -1460,7 +1460,7 @@
   border-radius: 999px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-light-theme);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -1703,7 +1703,7 @@
   line-height: normal;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -1751,7 +1751,7 @@
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-secondary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -1815,7 +1815,7 @@
   gap: 36px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -1907,7 +1907,7 @@
   gap: 20px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -1969,7 +1969,7 @@
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -2512,7 +2512,7 @@
   justify-content: flex-start;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -2619,7 +2619,7 @@
   line-height: normal;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -2777,7 +2777,7 @@
   gap: 5px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -2961,7 +2961,7 @@
   justify-content: flex-start;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-table-card);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -3376,7 +3376,7 @@
   gap: 30px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -4382,7 +4382,7 @@
   justify-content: flex-start;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -4468,7 +4468,7 @@
   gap: 30px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-secondary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -4502,7 +4502,7 @@
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -4530,7 +4530,7 @@
   gap: 165px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-tertiary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -4721,7 +4721,7 @@
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-navigation-nav-bg-top);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -4800,7 +4800,7 @@
   gap: 22px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -4989,7 +4989,7 @@
   gap: 30px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -5047,7 +5047,7 @@
   line-height: normal;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -5084,7 +5084,7 @@
   justify-content: flex-start;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -5213,7 +5213,7 @@
   justify-content: flex-start;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -5312,7 +5312,7 @@
   justify-content: flex-start;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -5392,7 +5392,7 @@
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -5660,7 +5660,7 @@
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -5891,7 +5891,7 @@
   display: inline-block;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-navigation-search-bg);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -5922,7 +5922,7 @@
   justify-content: center;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-navigation-nav-bg-top);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -5959,7 +5959,7 @@
   gap: 899px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-tertiary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -5997,7 +5997,7 @@
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-secondary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -6022,7 +6022,7 @@
   justify-content: flex-start;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -6087,7 +6087,7 @@
   justify-content: flex-start;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -6116,7 +6116,7 @@
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -6142,7 +6142,7 @@
   justify-content: flex-start;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -6252,7 +6252,7 @@
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -6726,7 +6726,7 @@
   gap: 20px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -6983,7 +6983,7 @@
   gap: 20px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-table-card);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -7112,7 +7112,7 @@
   gap: 47px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-table-header-cell);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;
@@ -7351,7 +7351,7 @@
   gap: 40px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-navigation-nav-bg-top);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -7505,7 +7505,7 @@
   gap: 10px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-tertiary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -7664,7 +7664,7 @@
   justify-content: flex-start;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-tertiary);
   margin: 0;
   border: 0;
   box-sizing: border-box;
@@ -8166,7 +8166,7 @@
   gap: 20px;
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  background: var(--pf-bg-primary);
   margin: 0;
   border: 1px solid transparent;
   box-sizing: border-box;

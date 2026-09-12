@@ -198,6 +198,41 @@ That is a gap in the design system rather than in the pipeline, recorded in §12
 already has a mode-aware `Border/Border - Drop shadow` colour that the shadow tokens do not
 use.
 
+## A fill every variant agrees on belongs on the bare class
+
+The colour rules are emitted per variant, so a class painted **nothing** until a page wrote
+a data attribute — and the component's own template writes none. `<div class="pf-side-panel">`,
+which is exactly what `dist/templates/pf-side-panel.html` hands you, rendered a transparent
+panel. **38 of the 154 templates** did this.
+
+For a component whose variants genuinely differ that is right: `Button` binds eight fills and
+`Tags` seven, there is no single value, and the page must choose. For **48 classes there is
+one** — every `Side panel` variant binds `Background/Primary`, every `Nav tabs` variant binds
+`Navigation/Nav bg top` — and the stylesheet was throwing an unambiguous fact away. Those 48
+now carry the fill on the bare class, and **19 templates still need a variant attribute to
+paint**, which is the honest remainder.
+
+Two things this is careful about:
+
+- **`background: transparent` on a bare class is a reset, not a default.** Its reason is a
+  variant Figma gives NO fill — `Button Type=Hollow` — falling through to the browser's grey
+  buttonface. Where every variant binds a fill, nothing needs resetting, so the shared value
+  takes its place instead.
+- **A primitive is never hoisted.** `var(...)` is not the test, because a primitive resolves
+  to a var too; the first version of the guard duly put `var(--pf-base-white)` on
+  `.pf-toast-message`. The test is `--pf-base-*`, the same one used everywhere else. Where a
+  semantic alias exists the substituted token hoists fine; where none does, the primitive
+  stays on the variant rules it was already on rather than being spread further.
+
+`npm run verify` runs `check-hoisted-fills.mjs`, which reads the RENDERED colour and asserts
+both directions: a component whose variants agree must paint it bare, and one whose variants
+differ must not paint a colour **none of its own variants binds**. The negative was first
+written as "must paint nothing bare" and was wrong within a minute — the generator
+deliberately collapses a `Default` state onto the bare class, so `.pf-radio-tile` carries
+`State=Default`'s own fill by design. The check also fails if either side matches no
+component at all, which is how the first version was caught resolving no tokens and calling
+every component a deliberate skip.
+
 ## Clipping — measured, and deliberately NOT carried
 
 Figma clips the contents of **34 of the 62 components** on Cards and panels, 22 of them with

@@ -239,6 +239,16 @@ All use a 20px gutter and 47px column width, centre-aligned.
 `references/variants.md` carries **147 components and 302 variants**, each with the
 exact tokens that variant binds in Figma, already translated to CSS vars.
 
+**Some classes need a variant attribute before they paint anything.** The colour rules are
+written per variant, so where a component's variants bind *different* fills — `Button` has
+eight, `Tags` seven — the bare class carries shape and no colour, and `<button class="pf-button">`
+renders an unpainted box. Write the variant: `<button class="pf-button" data-type="Action">`.
+19 classes are like this, and `docs/components.html` shows the axes each one takes.
+
+Where every variant binds the *same* fill the bare class carries it, so `<div class="pf-side-panel">`
+paints correctly on its own. You never need to know which group a class is in: paste the
+component's template from `dist/templates/`, which writes whatever the component needs.
+
 Read it when you need to know *why* a variant looks the way it does, or to check
 whether the class is doing the right thing. Never guess a variant's colours from its
 name — the bindings are frequently counter-intuitive (the Action button uses

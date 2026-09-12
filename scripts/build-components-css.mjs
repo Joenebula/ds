@@ -412,6 +412,7 @@ function colourDecls(row) {
 }
 
 // ---- build ------------------------------------------------------------------
+const hoistedFills = new Map();   // component -> the fill every one of its variants binds
 const byComponent = new Map();
 for (const r of variants) {
   if (!byComponent.has(r.component)) byComponent.set(r.component, []);
@@ -486,7 +487,46 @@ for (const [component, rows] of [...byComponent.entries()].sort()) {
     // buttonface and renders as a filled pill, which is the opposite of hollow.
     out.push('  appearance: none;');
     out.push('  -webkit-appearance: none;');
-    out.push('  background: transparent;');
+    // A FILL EVERY VARIANT AGREES ON BELONGS ON THE BARE CLASS.
+    //
+    // The colour rules are emitted per variant, so a class painted nothing until a page
+    // wrote a data attribute. For a component whose variants genuinely differ — `Button`
+    // has eight fills, `Tags` seven — that is right: there is no single value, and the
+    // page must choose. For 19 of them there IS one. Every `Side panel` variant binds
+    // `Background/Primary`; every `Nav tabs` variant binds `Navigation/Nav bg top`. The
+    // fact is unambiguous in Figma and the stylesheet was throwing it away, so
+    // `<div class="pf-side-panel">` — which is exactly what that component's own template
+    // writes — rendered a transparent panel.
+    //
+    // The `background: transparent` below is not a default; it is a reset, and its reason
+    // is a variant Figma gives NO fill (`Button Type=Hollow`) falling through to the UA's
+    // grey buttonface. Where every variant binds a fill, no variant lacks one, so there is
+    // nothing for the reset to protect against and the shared value takes its place.
+    const fills = new Set(rows.map(r => r.fill || ''));
+    const sharedFill = rows.length && fills.size === 1 && [...fills][0] ? [...fills][0] : null;
+    const sharedDecls = sharedFill
+      ? colourDecls({ component, fill: sharedFill, stroke: '', text: '' })
+      : [];
+    // Only a real background survives. A primitive with no semantic equivalent comes back
+    // as a comment, or as a value that cannot change between modes — hoisting that would
+    // put the one thing this repo forbids on 19 bare classes at once.
+    // `var(...)` is not the test — a PRIMITIVE resolves to a var too, and the first version
+    // of this guard duly hoisted `var(--pf-base-white)` onto `.pf-toast-message`. The test
+    // is the one this repo states everywhere else: a `--pf-base-*` token is a fixed hex that
+    // cannot change between modes. Where colourDecls substitutes a semantic alias for a
+    // primitive the result is semantic and hoists fine; where no alias exists it emits the
+    // primitive itself, and that stays on the variant rules where it already was rather
+    // than being spread to the bare class as well.
+    const semanticBg = sharedDecls.some(d => /^background:\s*var\(--pf-(?!base-)/.test(d));
+    const hoisted = semanticBg
+      ? sharedDecls.filter(d => /^background:/.test(d) || d.startsWith('/*') || d.startsWith('   '))
+      : [];
+    if (hoisted.length) {
+      hoistedFills.set(component, sharedFill);
+      for (const d of hoisted) out.push(d.startsWith('/*') || d.startsWith('   ') ? `  ${d}` : `  ${d};`);
+    } else {
+      out.push('  background: transparent;');
+    }
     out.push('  margin: 0;');
     out.push(rows.some(r => r.stroke)
       ? '  border: 1px solid transparent;'
@@ -950,6 +990,8 @@ if (shapeOnly.length) {
   console.log(`    ${shapeOnly.sort().join(', ')}`);
 }
 console.log(`  with measured geometry : ${[...byComponent.keys()].filter(c => geometry.has(c)).length}`);
+console.log(`  ${hoistedFills.size} class(es) carry a fill on the bare class because every one of their `
+  + `variants binds it — without this the class painted nothing until a page wrote a data attribute`);
 if (sourceIssues.size) {
   const affected = new Set([...sourceIssues.keys()].map(k => k.split(' — ')[0])).size;
   console.log(`  Figma SOURCE ISSUES    : ${sourceIssues.size} bindings across ${affected} components  (primitive bound where a semantic token belongs)`);
