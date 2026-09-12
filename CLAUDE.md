@@ -575,6 +575,15 @@ mode to `:root[data-theme="dark"]`, so a `data-theme="Classic"` on a header cann
 geometry rows were captured against variant axes with nothing in common — counted and named on
 every run. `Header` is the only one in the system, which is the reassuring half of the finding.
 
+It compares axis NAMES and never values, and that is the line between a report anyone reads and one
+nobody does: a re-capture that adds a variant, renames a value or reorders them changes the values
+and nothing else, so comparing those would fire on every ordinary Figma edit. Only a re-AUTHORED
+component changes the axis names. A side with no axes at all is an ABSENCE rather than a
+disagreement — a component with one unvaried shape is the ordinary case — and a PARTIAL overlap is
+agreement, since one half measuring an extra axis is what a deeper read looks like.
+
+`scripts/lib/axis-split.mjs`, ten mutants, in `npm run selftest`.
+
 **Decided 2026-09-12: LEAVE IT, until the themes are settled.** The class keeps working, the debt is
 recorded here and named by the build on every run. What a re-capture would need is unchanged:
 `component-variants.tsv` re-read on `Theme` × `Mobile` from `32488:24634`, and a person saying which
@@ -2060,6 +2069,7 @@ here.
   of those three and never all of them, so a deprecation in only one is a deprecation half the
   readers never see. The build FAILS on a row naming a component with no rules, or a `supersededBy`
   with no rules — a notice pointing at a class that does not exist is worse than no notice.
+  Five mutants, in `npm run selftest`.
 - **The six untagged avatars — LEAVE.** The screen keeps its eighteen default avatars and the six
   missing photographs stay uncounted. This was answered on the understanding that tagging them
   changes nothing visible, which is true — `build-placeholders.mjs` marks a person slot without
@@ -2068,6 +2078,34 @@ here.
   such on every run.
 
 The fifth, the two merged class names, is still open.
+
+### Two mechanisms that shipped without a test, and what writing one found
+
+The deprecation guard and AXIS DISAGREEMENT both went into `build-components-css.mjs` as inline
+code with nothing able to run them. They were checked by hand — breaking the TSV and watching the
+build exit 1 — which proves the code worked that afternoon and nothing about tomorrow. This file
+says a guard nothing can falsify is a line nobody can trust; these were two of them, written the
+same week the sentence was.
+
+Both are libs now with a `--self-test` in `npm run selftest`, and moving them found three things a
+hand-check could not:
+
+**The build had a SECOND copy of the deprecation parser.** The gallery and the skill reference
+imported `scripts/lib/deprecated-classes.mjs`; the build kept its own inline five lines doing the
+same split. A change to the parse would have reached two of the three consumers and the third would
+have gone on producing the old answer in silence — the hand-copied-rule failure this file already
+records about the Figma driver, reintroduced within days of writing it down.
+
+**A mutant CRASHED instead of missing.** Splitting the TSV on spaces rather than tabs made a test's
+`.get()` return undefined, and the assertion died of a `TypeError`. The harness rule caught it: *a
+mutant must die of a recorded MISS, never of a crash*, because a crash proves the test ran and
+nothing about whether it can see. One `?.` and the mutant dies properly.
+
+**And a fixture a broken implementation also satisfied.** The ordering case used two components,
+`[Zed, Alpha]` — where `reverse()` happens to produce name order, so a mutant replacing the sort
+with a reverse SURVIVED. Three components in an order neither leaving alone nor reversing would
+sort kills it. Same trap as the rebind rule's `#FEFEFE` near-miss colour, and the same fix: a
+fixture has to be one only the correct implementation passes.
 
 ### The suite runs against `working/` too, and that is the direction that matters
 

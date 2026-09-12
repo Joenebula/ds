@@ -68,6 +68,9 @@ const tokenVar = new Map();
 // background is three heights of the same bar; both bind identical colours across those
 // variants, so the colour layer collapses them correctly and the SIZE is the only thing
 // that distinguishes them. Without this they would all render at one size.
+import { readDeprecated, validateDeprecated } from './lib/deprecated-classes.mjs';
+import { findAxisSplits } from './lib/axis-split.mjs';
+
 const geometryRows = tsv('tokens/_raw/component-geometry.tsv');
 const geometry = new Map(geometryRows.filter(r => !r.component.includes('|'))
   .map(r => [r.component, r]));
@@ -487,23 +490,9 @@ for (const comp of geometry.keys()) {
 //
 // A row pointing at nothing is worse than no row, so both ends must be real components in
 // this build. That is checked below, after every class is known.
-const deprecated = new Map();
-if (existsSync('tokens/_raw/deprecated-classes.tsv')) {
-  for (const line of readFileSync('tokens/_raw/deprecated-classes.tsv', 'utf8').split('\n')) {
-    if (!line.trim() || line.startsWith('#')) continue;
-    const [component, supersededBy, nodeId, decided, decidedBy, why] = line.split('\t');
-    deprecated.set(component, { supersededBy, nodeId, decided, decidedBy, why });
-  }
-}
-for (const [component, d] of deprecated) {
-  for (const [what, name] of [['component', component], ['supersededBy', d.supersededBy]]) {
-    if (!byComponent.has(name)) {
-      console.error(`deprecated-classes.tsv: ${what} "${name}" has no rules in this build — a `
-        + 'deprecation notice pointing at a class that does not exist is worse than none');
-      process.exit(1);
-    }
-  }
-}
+const deprecated = readDeprecated();
+const depProblems = validateDeprecated(deprecated, new Set(byComponent.keys()));
+if (depProblems.length) { for (const m of depProblems) console.error(m); process.exit(1); }
 
 for (const [component, rows] of [...byComponent.entries()].sort()) {
   const base = cls(component);
@@ -1064,17 +1053,11 @@ console.log(`  with measured geometry : ${[...byComponent.keys()].filter(c => ge
 // looks wrong. This counts and names them rather than failing, because the fix is a re-capture
 // in Figma and the decision on the header is to leave it for now — but an unnamed one is
 // exactly the "forgotten gap" this repo keeps finding.
-const axisSplit = [];
-for (const [component, rows] of byComponent) {
-  const colourAxes = new Set();
-  for (const r of rows) for (const k of Object.keys(parseVariant(r.variant || ''))) colourAxes.add(k);
-  const geoAxes = new Set();
-  for (const g of geometryByVariant.get(component) || [])
-    for (const k of Object.keys(parseVariant(g.variant || ''))) geoAxes.add(k);
-  if (!colourAxes.size || !geoAxes.size) continue;
-  const shared = [...colourAxes].filter((a) => geoAxes.has(a));
-  if (!shared.length) axisSplit.push({ component, colourAxes: [...colourAxes], geoAxes: [...geoAxes] });
-}
+const axisSplit = findAxisSplits([...byComponent].map(([component, rows]) => ({
+  component,
+  colourVariants: rows.map((r) => r.variant || ''),
+  geoVariants: (geometryByVariant.get(component) || []).map((g) => g.variant || ''),
+})));
 if (axisSplit.length) {
   console.log(`  AXIS DISAGREEMENT      : ${axisSplit.length} component(s) whose colour and geometry `
     + 'were captured against variant axes with nothing in common — no element can carry both');
