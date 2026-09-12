@@ -14,14 +14,14 @@ keep Figma's own spelling:
 
 | | |
 |---|---|
-| **Components** | **160** |
+| **Components** | **159** |
 | — with colour rules | 147 |
-| — shape only (Figma binds no colour variable) | 13 |
+| — shape only (Figma binds no colour variable) | 12 |
 | Captured variants | 302 |
-| Figma pages | 13 |
+| Figma pages | 14 |
 | Binding a primitive instead of a semantic token | 19 |
 
-Contents: [Buttons and links](#buttons-and-links) · [Forms](#forms) · [Controls](#controls) · [Tables](#tables) · [Cards and panels](#cards-and-panels) · [Navigation](#navigation) · [Tags and ratings](#tags-and-ratings) · [System messages](#system-messages) · [Analytics and charts](#analytics-and-charts) · [People](#people) · [Pages and Layouts](#pages-and-layouts) · [AI](#ai) · [Icons](#icons)
+Contents: [Buttons and links](#buttons-and-links) · [Forms](#forms) · [Controls](#controls) · [Tables](#tables) · [Cards and panels](#cards-and-panels) · [Navigation](#navigation) · [Tags and ratings](#tags-and-ratings) · [System messages](#system-messages) · [Analytics and charts](#analytics-and-charts) · [People](#people) · [Pages and Layouts](#pages-and-layouts) · [AI](#ai) · [Icons](#icons) · [Unfiled](#unfiled)
 
 ## Buttons and links
 
@@ -232,7 +232,7 @@ Contents: [Buttons and links](#buttons-and-links) · [Forms](#forms) · [Control
 
 ## Navigation
 
-33 components.
+31 components.
 
 | Component | Class | Variants in Figma | Size | Radius | Type |
 |---|---|---|---|---|---|
@@ -242,31 +242,29 @@ Contents: [Buttons and links](#buttons-and-links) · [Forms](#forms) · [Control
 | Config menu items | `.pf-config-menu-items` | Kind: Child | auto x 74 | 0 | 16px |
 | Config parent menu | `.pf-config-parent-menu` | open: false · true | auto x 32 | 0 | 16px |
 | Config side menu | `.pf-config-side-menu` | — | 325 x 980 | 8 | 16px |
-| Default header background | `.pf-default-header-background` | Breakpoint: Tablet · Desktop · Mobile<br>Darkmode: False · True | auto x 86 | 0 | — |
 | Filter tab single | `.pf-filter-tab-single` | Selected: True · False<br>Breakpoint: Desktop · Tablet · Mobile<br>State: Default · Hover | 224 x 100 | 0 | 24px Regular |
 | Filter tabs | `.pf-filter-tabs` | Breakpoints: Desktop · Tablet · Mobile | 1600 x 100 | 0 | 24px SemiBold |
-| Full page | `.pf-full-page` | Darkmode: False · True<br>Breakpoint: Desktop · Tablet · Mobile | 1920 x 1080 | 0 | 13px |
+| Full page | `.pf-full-page` | System: People First · Configr<br>Tablet: No · Yes<br>Mobile: Yes · No<br>Darkmode: No · Yes | 1920 x 1080 | 0 | 13px |
 | Full page/Header navigation/Yes/No | `.pf-full-page-header-navigation-yes-no` | — | 375 x 138 | 0 | 13px |
 | Header | `.pf-header` | — | 1830 x 86 | 0 | 24px |
-| Header navigation | `.pf-header-navigation` | Darkmode: True · False<br>Levels of navigation: 0 · 1 · 2<br>Breakpoint: Desktop · Mobile · Tablet | 1830 x 130 | 0 | 16px |
+| Header navigation | `.pf-header-navigation` | Mobile: No · Yes<br>Tablet: No · Yes | 1830 x 130 | 0 | 16px |
 | Menu | `.pf-menu` | Size: Large · Small | 50 x 73 | 0 | 13px |
-| Mobile bottom navigation | `.pf-mobile-bottom-navigation` | Darkmode: False · True<br>Breakpoint: Tablet · Mobile | 375 x 76 | 0 | 11px |
+| Mobile bottom navigation | `.pf-mobile-bottom-navigation` | Tablet: No · Yes | 375 x 76 | 0 | 11px |
 | Nav tabs | `.pf-nav-tabs` | Status: Selected · Unselected · Hover<br>Mobile: True · False | auto x 40 | 8 8 0 0 | 16px |
-| Navigation item | `.pf-navigation-item` | State: Hover · Selected · Unselected<br>Device: Desktop · Mobile · Tablet | 90 x 86 | 0 | 13px SemiBold |
-| Navigation tabs | `.pf-navigation-tabs` | Mobile: No · Yes | 202 x 36 | 0 | 16px SemiBold |
+| Navigation item | `.pf-navigation-item` | System: People First · Configr<br>State: Default · Hover · Selected<br>Device: Desktop · Mobile · Tablet<br>Selected: No · Yes | 90 x 86 | 0 | 13px SemiBold |
+| Navigation tabs | `.pf-navigation-tabs` | System: People First · Configr<br>Mobile: No · Yes | 202 x 36 | 0 | 16px SemiBold |
 | Notification categories | `.pf-notification-categories` | Mobile: No · Yes | 300 x 1020 | 0 | 16px |
 | Notification list | `.pf-notification-list` | Mobile: No · Yes | 1117 x 730 | 0 | 16px |
 | Notification panel | `.pf-notification-panel` | Mobile: Yes · No | 1500 x 1080 | 0 | 20px |
 | Notification tabs | `.pf-notification-tabs` | State: Default · Hover · Selected<br>Selected: No · Yes | 279 x 65 | 0 | 16px |
 | Pagination buttons | `.pf-pagination-buttons` | — | 358 x 32 | 0 | 13px SemiBold |
-| Search navigation | `.pf-search-navigation` | Mobile: True · False · Mobile3 · Mobile4<br>Darkmode: False | 150 x 32 | 50 | 16px |
+| Search navigation | `.pf-search-navigation` | Mobile: True · False | 150 x 32 | 50 | 16px |
 | Secondary nav | `.pf-secondary-nav` | Mobile: False · True | 562 x 44 | 0 | 16px SemiBold |
-| Side navigation | `.pf-side-navigation` | Darkmode: True · False<br>Variant: Default · Finance | auto x 1080 | 0 | 13px |
-| Side navigation tab | `.pf-side-navigation-tab` | Selected: false · true | 268 x 48 | 8 | 16px |
+| Side navigation | `.pf-side-navigation` | System: People First · Finance · Configr | auto x 1080 | 0 | 13px |
 | Stepper | `.pf-stepper` | System: People First · Configr | auto x 160 | 0 | 13px |
 | Steps | `.pf-steps` | System: People First · Configr<br>State: Hover · Completed · Selected · Default enabled · Default disabled<br>Position: Middle · First · Last<br>Current step: No · Yes<br>Completed step: No · Yes | 110 x 48 | 0 | 13px |
-| Tab | `.pf-tab` | State: Default · Selected · Hover | auto x 34 | 0 | 16px |
-| Tertiary nav | `.pf-tertiary-nav` | Mobile: True · False<br>Navigation type: Chips · Page | 562 x 55 | 0 | 16px SemiBold |
+| Tab | `.pf-tab` | System: People First · Configr<br>State: Default · Hover · Selected<br>Mobile: No · Yes<br>Selected: No · Yes | auto x 34 | 0 | 16px |
+| Tertiary nav | `.pf-tertiary-nav` | Mobile: Yes · No<br>Page: Yes · No | 562 x 55 | 0 | 16px SemiBold |
 | Top bar app context | `.pf-top-bar-app-context` | Area: Administration · Insights · Recruitment · Goals · Payroll · Audit · Available jobs · Learning · Onboarding · HRM · General ledger · Accounts payable · Accounts receivable · Taxes · News · Data explorer · Case Management · Absence<br>Mobile: False · True | auto x 66 | 0 | 24px |
 | Waffle | `.pf-waffle` | Theme: Dark mode · Default - Cranberry red · Classic · Fern green · Teal ocean · Cool grey · Blue lagoon · Cobalt blue · Orange flame · Striking red · Velvet red · Royal purple · Purple iris · Berry pink · Purple orchid | 90 x 86 | 0 | — |
 
@@ -275,31 +273,29 @@ Contents: [Buttons and links](#buttons-and-links) · [Forms](#forms) · [Control
 - **Clock in** — PILL. CLIP — fixed 107 wide with clipsContent on. Icon 22 at x=6, label 58 at x=33, so the label overruns the right padding by 4px and Figma cuts it off.
 - **Config child menu** — **binds a primitive** — Base colours/Blue Ocean (background) — so this will not adapt between light and dark until Figma binds a semantic token. per-variant sizes: `Type=Selected` 352 x 42
 - **Config parent menu** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `open`
-- **Default header background** — **shape only** — no variant of this binds a colour variable in Figma, so the class carries its measured geometry and leaves colour to the page. node 13658:7639 exists in Figma and reads fine — 6 variants across Breakpoint x Darkmode — but it is not among the Navigation page's components, so which page it lives on is unconfirmed. Kept: a live node is not a gap.. Full-bleed header bar; height varies by Breakpoint (see size rows). Fill is a raw colour in Figma, not a variable.. per-variant sizes: `Breakpoint=Desktop` auto x 86, `Breakpoint=Tablet` auto x 74, `Breakpoint=Mobile` auto x 62
 - **Filter tab single** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Breakpoint`. per-variant sizes: `Selected=False, Breakpoint=Tablet, State=Default` 224 x 74, `Selected=False, Breakpoint=Tablet, State=Hover` 224 x 74, `Selected=False, Breakpoint=Mobile, State=Default` 172 x 70, `Selected=False, Breakpoint=Mobile, State=Hover` 172 x 70, `Selected=True, Breakpoint=Desktop, State=Default` 224 x 100, `Selected=True, Breakpoint=Tablet, State=Default` 224 x 74, `Selected=True, Breakpoint=Mobile, State=Default` 172 x 70
 - **Filter tabs** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Breakpoints`. per-variant sizes: `Breakpoints=Tablet` 761 x 74, `Breakpoints=Mobile` 375 x 70
-- **Full page** — Figma renamed this from `Full page navigation`. **binds a primitive** — Base colours/White (text) — so this will not adapt between light and dark until Figma binds a semantic token. 7 variants. Figma draws it 1920x1080 — a whole page frame, not a component box.. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Breakpoint`. per-variant sizes: `System=People First, Tablet=No, Mobile=Yes, Darkmode=Yes` 375 x 667, `System=People First, Tablet=No, Mobile=Yes, Darkmode=No` 375 x 667, `System=People First, Tablet=Yes, Mobile=No, Darkmode=No` 768 x 1057, `System=People First, Tablet=Yes, Mobile=No, Darkmode=Yes` 768 x 1057
+- **Full page** — **binds a primitive** — Base colours/White (text) — so this will not adapt between light and dark until Figma binds a semantic token. 7 variants. Figma draws it 1920x1080 — a whole page frame, not a component box.. per-variant sizes: `System=People First, Tablet=No, Mobile=Yes, Darkmode=Yes` 375 x 667, `System=People First, Tablet=No, Mobile=Yes, Darkmode=No` 375 x 667, `System=People First, Tablet=Yes, Mobile=No, Darkmode=No` 768 x 1057, `System=People First, Tablet=Yes, Mobile=No, Darkmode=Yes` 768 x 1057
 - **Full page/Header navigation/Yes/No** — **binds a primitive** — Base colours/White (text) — so this will not adapt between light and dark until Figma binds a semantic token. Single component, mobile width.
 - **Header** — **binds a primitive** — Base colours/White (text) — so this will not adapt between light and dark until Figma binds a semantic token. per-variant sizes: `Theme=Configr, Mobile=Yes` 390 x 62, `Theme=Default - Cranberry red, Mobile=No` 1830 x 86, `Theme=Default - Cranberry red, Mobile=Yes` 390 x 62, `Theme=Dark mode, Mobile=No` 1830 x 86, `Theme=Dark mode, Mobile=Yes` 390 x 62, `Theme=Purple orchid, Mobile=No` 1830 x 86, `Theme=Purple orchid, Mobile=Yes` 390 x 62, `Theme=Berry pink, Mobile=No` 1830 x 86, `Theme=Berry pink, Mobile=Yes` 390 x 62, `Theme=Purple iris, Mobile=No` 1830 x 86, `Theme=Purple iris, Mobile=Yes` 390 x 62, `Theme=Royal purple, Mobile=No` 1830 x 86, `Theme=Royal purple, Mobile=Yes` 390 x 62, `Theme=Velvet red, Mobile=No` 1830 x 86, `Theme=Velvet red, Mobile=Yes` 390 x 62, `Theme=Striking red, Mobile=No` 1830 x 86, `Theme=Striking red, Mobile=Yes` 390 x 62, `Theme=Orange flame, Mobile=No` 1830 x 86, `Theme=Orange flame, Mobile=Yes` 390 x 62, `Theme=Cobalt blue, Mobile=No` 1830 x 86, `Theme=Cobalt blue, Mobile=Yes` 390 x 62, `Theme=Blue lagoon, Mobile=No` 1830 x 86, `Theme=Blue lagoon, Mobile=Yes` 390 x 62, `Theme=Cool grey, Mobile=No` 1830 x 86, `Theme=Cool grey, Mobile=Yes` 390 x 62, `Theme=Teal ocean, Mobile=No` 1830 x 86, `Theme=Teal ocean, Mobile=Yes` 390 x 62, `Theme=Fern green, Mobile=No` 1830 x 86, `Theme=Fern green, Mobile=Yes` 390 x 62, `Theme=Classic, Mobile=No` 1830 x 86, `Theme=Classic, Mobile=Yes` 390 x 62, `System=People First` 20 x 20, `System=Configr` 20 x 20
-- **Header navigation** — Figma renamed this from `Header top navigation`. **binds a primitive** — Base colours/White (text) — so this will not adapt between light and dark until Figma binds a semantic token. 3 variants (Mobile x Tablet). Figma draws it 1830x130 — the artboard, not a rule.. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Darkmode`, `Levels of navigation`, `Breakpoint`. per-variant sizes: `Mobile=Yes, Tablet=No` 390 x 106, `Mobile=No, Tablet=Yes` 768 x 118
+- **Header navigation** — **binds a primitive** — Base colours/White (text) — so this will not adapt between light and dark until Figma binds a semantic token. 3 variants (Mobile x Tablet). Figma draws it 1830x130 — the artboard, not a rule.. per-variant sizes: `Mobile=Yes, Tablet=No` 390 x 106, `Mobile=No, Tablet=Yes` 768 x 118
 - **Menu** — **shape only** — no variant of this binds a colour variable in Figma, so the class carries its measured geometry and leaves colour to the page. 2 variants (Size). No colour variable bound in Figma.. per-variant sizes: `Size=Small` 317 x 26
-- **Mobile bottom navigation** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Darkmode`, `Breakpoint`. per-variant sizes: `Tablet=Yes` 768 x 56
-- **Nav tabs** — Figma renamed this from `[S] Navigation/main tabs`. 6 variants (Status x Mobile); Mobile does not change the colours.. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`. per-variant sizes: `Status=Unselected, Mobile=True` auto x 42, `Status=Hover, Mobile=True` auto x 42, `Status=Selected, Mobile=False` auto x 40, `Status=Selected, Mobile=True` auto x 42
-- **Navigation item** — the selected rail item: no side padding, wider gap, and the only SemiBold state. per-variant sizes: `System=People First, State=Default, Device=Desktop, Selected=No` 90 x 86, `System=Configr, State=Default, Device=Desktop, Selected=No` 90 x 86, `System=People First, State=Default, Device=Mobile, Selected=No` 86 x 76, `System=People First, State=Default, Device=Tablet, Selected=No` 86 x 56, `System=People First, State=Hover, Device=Desktop, Selected=No` 90 x 86, `System=Configr, State=Hover, Device=Desktop, Selected=No` 90 x 86, `System=People First, State=Selected, Device=Mobile, Selected=No` 86 x 76, `System=People First, State=Selected, Device=Tablet, Selected=No` 86 x 56
-- **Navigation tabs** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`. per-variant sizes: `System=People First, Mobile=Yes` 202 x 32, `System=Configr, Mobile=Yes` 202 x 32
+- **Mobile bottom navigation** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Tablet`. per-variant sizes: `Tablet=Yes` 768 x 56
+- **Nav tabs** — 6 variants (Status x Mobile); Mobile does not change the colours.. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`. per-variant sizes: `Status=Unselected, Mobile=True` auto x 42, `Status=Hover, Mobile=True` auto x 42, `Status=Selected, Mobile=False` auto x 40, `Status=Selected, Mobile=True` auto x 42
+- **Navigation item** — the selected rail item: no side padding, wider gap, and the only SemiBold state. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `System`, `Selected`. per-variant sizes: `System=People First, State=Default, Device=Desktop, Selected=No` 90 x 86, `System=Configr, State=Default, Device=Desktop, Selected=No` 90 x 86, `System=People First, State=Default, Device=Mobile, Selected=No` 86 x 76, `System=People First, State=Default, Device=Tablet, Selected=No` 86 x 56, `System=People First, State=Hover, Device=Desktop, Selected=No` 90 x 86, `System=Configr, State=Hover, Device=Desktop, Selected=No` 90 x 86, `System=People First, State=Selected, Device=Mobile, Selected=No` 86 x 76, `System=People First, State=Selected, Device=Tablet, Selected=No` 86 x 56
+- **Navigation tabs** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `System`, `Mobile`. per-variant sizes: `System=People First, Mobile=Yes` 202 x 32, `System=Configr, Mobile=Yes` 202 x 32
 - **Notification categories** — 2 variants (Mobile). Figma draws it 1020px tall — the artboard, not a rule.. per-variant sizes: `Mobile=Yes` 390 x 824
 - **Notification list** — 2 variants (Mobile). Figma draws it 1117x730 — the artboard, not a rule.. per-variant sizes: `Mobile=Yes` 390 x 779
 - **Notification panel** — 2 variants (Mobile). Figma draws it 1500x1080 — the artboard, not a rule.. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`. per-variant sizes: `Mobile=Yes` 390 x 824
 - **Notification tabs** — 3 variants (State x Selected). Node 22973:20747, which this extract previously held as "Side navigation tab" with a different variant structure.
 - **Pagination buttons** — **binds a primitive** — Base colours/White (text) — so this will not adapt between light and dark until Figma binds a semantic token. Single component. Binds a primitive for its text — see source issues.
-- **Search navigation** — Figma renamed this from `Search home button`. 2 variants (Mobile). PILL.. per-variant sizes: `Mobile=True` 32 x 32
-- **Secondary nav** — Figma renamed this from `[S] Main nav context`. 2 variants (Mobile); both bind the same colours. Mobile=True sets 13px text.. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`. per-variant sizes: `Mobile=True` 375 x 40
-- **Side navigation** — collapsed rail. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Darkmode`
-- **Side navigation tab** — node 22973:20747 is called "Notification tabs" in Figma today and has a different variant structure (State x Selected, not Selected). These rows are a legacy snapshot kept because three prototypes use .pf-side-navigation-tab; the current component is captured separately as Notification tabs.
+- **Search navigation** — 2 variants (Mobile). PILL.. per-variant sizes: `Mobile=True` 32 x 32
+- **Secondary nav** — 2 variants (Mobile); both bind the same colours. Mobile=True sets 13px text.. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`. per-variant sizes: `Mobile=True` 375 x 40
+- **Side navigation** — collapsed rail. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `System`
 - **Stepper** — 2 variants (System); both bind the same colours.. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `System`
 - **Steps** — 26 variants across System x State x Position; 6 distinct colour bindings, keyed on State.. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Position`, `Current step`, `Completed step`. per-variant sizes: `System=People First, State=Selected, Position=Middle, Current step=Yes, Completed step=No` 110 x 48, `System=People First, State=Selected, Position=First, Current step=Yes, Completed step=No` 110 x 48, `System=People First, State=Selected, Position=Last, Current step=Yes, Completed step=No` 110 x 48, `System=Configr, State=Selected, Position=Middle, Current step=Yes, Completed step=No` 110 x 48, `System=Configr, State=Selected, Position=First, Current step=Yes, Completed step=No` 110 x 48, `System=Configr, State=Selected, Position=Last, Current step=Yes, Completed step=No` 110 x 48, `System=People First, State=Hover, Position=Middle, Current step=No, Completed step=No` 110 x 48, `System=People First, State=Hover, Position=First, Current step=No, Completed step=No` 110 x 48, `System=People First, State=Hover, Position=Last, Current step=No, Completed step=No` 110 x 48, `System=Configr, State=Hover, Position=Middle, Current step=No, Completed step=No` 110 x 48, `System=Configr, State=Hover, Position=First, Current step=No, Completed step=No` 110 x 48, `System=Configr, State=Hover, Position=Last, Current step=No, Completed step=No` 110 x 48
-- **Tab** — per-variant sizes: `System=People First, State=Default, Mobile=Yes, Selected=No` auto x 30, `System=Configr, State=Default, Mobile=Yes, Selected=No` auto x 30, `System=People First, State=Hover, Mobile=Yes, Selected=No` auto x 30, `System=Configr, State=Hover, Mobile=Yes, Selected=No` auto x 30, `System=People First, State=Selected, Mobile=No, Selected=Yes` auto x 36, `System=People First, State=Selected, Mobile=Yes, Selected=Yes` auto x 32, `System=Configr, State=Selected, Mobile=No, Selected=Yes` auto x 36, `System=Configr, State=Selected, Mobile=Yes, Selected=Yes` auto x 32
-- **Tertiary nav** — Figma renamed this from `Secondary nav`. 4 variants (Mobile x Page); Mobile does not change the colours.. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`, `Navigation type`. per-variant sizes: `Mobile=Yes, Page=No` 375 x 39, `Mobile=No, Page=Yes` 562 x 45, `Mobile=Yes, Page=Yes` 375 x 41
+- **Tab** — axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `System`, `Mobile`, `Selected`. per-variant sizes: `System=People First, State=Default, Mobile=Yes, Selected=No` auto x 30, `System=Configr, State=Default, Mobile=Yes, Selected=No` auto x 30, `System=People First, State=Hover, Mobile=Yes, Selected=No` auto x 30, `System=Configr, State=Hover, Mobile=Yes, Selected=No` auto x 30, `System=People First, State=Selected, Mobile=No, Selected=Yes` auto x 36, `System=People First, State=Selected, Mobile=Yes, Selected=Yes` auto x 32, `System=Configr, State=Selected, Mobile=No, Selected=Yes` auto x 36, `System=Configr, State=Selected, Mobile=Yes, Selected=Yes` auto x 32
+- **Tertiary nav** — 4 variants (Mobile x Page); Mobile does not change the colours.. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Mobile`. per-variant sizes: `Mobile=Yes, Page=No` 375 x 39, `Mobile=No, Page=Yes` 562 x 45, `Mobile=Yes, Page=Yes` 375 x 41
 - **Top bar app context** — **binds a primitive** — Base colours/White (text) — so this will not adapt between light and dark until Figma binds a semantic token. axes Figma defines that bind no new colours, so they carry as geometry or content rather than CSS: `Area`, `Mobile`. per-variant sizes: `Area=Administration, Mobile=True` auto x 40, `Area=Payroll, Mobile=True` auto x 40, `Area=Audit, Mobile=True` auto x 40, `Area=Onboarding, Mobile=True` auto x 40, `Area=Learning, Mobile=True` auto x 40, `Area=Available jobs, Mobile=True` auto x 40, `Area=HRM, Mobile=True` auto x 40, `Area=General ledger, Mobile=True` auto x 40, `Area=Accounts payable, Mobile=True` auto x 40, `Area=Accounts receivable, Mobile=True` auto x 40, `Area=Taxes, Mobile=True` auto x 40, `Area=News, Mobile=True` auto x 40, `Area=Data explorer, Mobile=True` auto x 40, `Area=Case Management, Mobile=True` auto x 40, `Area=Absence, Mobile=True` auto x 40, `Area=Goals, Mobile=True` auto x 40, `Area=Insights, Mobile=True` auto x 40, `Area=Recruitment, Mobile=True` auto x 40
 - **Waffle** — **shape only** — no variant of this binds a colour variable in Figma, so the class carries its measured geometry and leaves colour to the page. 15 variants (Theme). No colour variable bound in Figma.
 
@@ -334,7 +330,7 @@ Contents: [Buttons and links](#buttons-and-links) · [Forms](#forms) · [Control
 | Confirmation modal | `.pf-confirmation-modal` | Mobile: false · True<br>Type: Confirmation · Success · Information<br>Dark mode: False | 400 x 413 | 8 | 24px Regular |
 | Information box | `.pf-information-box` | Type: Success · Information · Warning · Error | 440 x 56 | 0 | 13px |
 | Next actions modal | `.pf-next-actions-modal` | Mobile: false<br>Type: Success · Warning | 400 x 565 | 8 | 24px Regular |
-| Notification card | `.pf-notification-card` | Mobile: False · True | 1160 x 117 | 8 | 16px SemiBold |
+| Notification card | `.pf-notification-card` | Mobile: No · Yes | 1160 x 117 | 8 | 16px SemiBold |
 | Notification image | `.pf-notification-image` | Type: Person · Custom<br>With status?: False · True<br>Mobile: False · True<br>Status position: High · Low | 44 x 44 | 0 | — |
 | Status | `.pf-status` | Status type: Like · Recognition · Comment · New social group · Custom · Absence | 22 x 22 | 100 | — |
 | Toast message | `.pf-toast-message` | Message type: Success · Info · Warning · Error | 350 x 114 | 4 | 13px |
@@ -467,6 +463,14 @@ Contents: [Buttons and links](#buttons-and-links) · [Forms](#forms) · [Control
 - **Org chart** — per-variant sizes: `Type=Manager` 293 x 97, `Type=Reportee` 293 x 55
 
 </details>
+
+## Unfiled
+
+1 component.
+
+| Component | Class | Variants in Figma | Size | Radius | Type |
+|---|---|---|---|---|---|
+| Side navigation tab | `.pf-side-navigation-tab` | — | 268 x 48 | 8 | 16px |
 
 ## Not in the library
 

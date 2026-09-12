@@ -311,11 +311,22 @@ template, if a template renders an empty box, or if a template's outer class is 
 class in `components.css`. It also reports how many of them render NOTHING from the bare
 class — currently **all 154 of them**, which is exactly why this exists.
 
-**Coverage: 158 of the 161 product-page components are walked, and 154 have templates.**
-The three unwalked ones are each unwalkable rather than skipped: `Multi-select checkbox`
-has no children in Figma, `Side navigation tab` is the old name of `Notification tabs`, and
-`Default header background` is detached from the page tree (it is artwork, and has its own
-section above). Of the walked ones, four are not composite — `Tooltip` is drawn from vector
+**Coverage: 156 of the 157 product-page components are walked, and 154 have templates.**
+The one unwalked is unwalkable rather than skipped: `Multi-select checkbox` has no children
+in Figma.
+
+**It read "158 of 161, three unwalked" until the 2026-09-12 inventory refresh, and BOTH
+halves of that moved for reasons worth separating.** The denominator is a count of component
+NAMES, because the sentence enumerates the ones it excludes — but `check-skill-classes` was
+counting inventory ROWS, three higher because `Header`, `Field` and `People` are each
+published more than once. That is the rows-versus-distinct confusion this file records the
+off-ramp census making, found for the third time. And two of the three unwalked ones left
+the inventory rather than being walked: the refreshed listing does not publish
+`Default header background` `13658:7639` at all, and publishes `22973:20747` once as
+`Notification tabs` where the older copy carried it twice, under that name AND
+`Side navigation tab`. Both still have a CLASS — they are captured components the listing no
+longer names, which is a question for a person and not an error, and `check-skill-classes`
+names all three such classes rather than excusing them as one. Of the walked ones, four are not composite — `Tooltip` is drawn from vector
 paths, `Information box` wraps an instance of itself — and two have no class to hang a
 template on: Figma has two components called `Field` and two called `People`, and only the
 first of each pair has rules.
@@ -2004,7 +2015,43 @@ rebuilding:
   against 159 and 14 classes with no paint against 15.
 
 So it is a library change wearing a data refresh's clothes, and it goes to the design lead rather
-than into a commit. **Not applied.**
+than into a commit.
+
+### Applied on 2026-09-12, and it broke two things nothing else could have found
+
+The design lead said **refresh it**, so `components.json` now holds the current listing and the two
+copies are deep-equal. Doing it found two faults, and neither is in the data.
+
+**The refresh re-opened the empty-transparent-box bug this file has a whole section about.**
+`build-components-css.mjs` admits a geometry-only component only if Figma's inventory names it —
+and the refreshed listing does not publish `13658:7639`, so `.pf-default-header-background` went
+from 17 rules to 1 and measured `bg: "none"`. That is exactly the state the *Component artwork*
+section exists to describe: an empty box where the header band should be, with every check green.
+The gate is right to exist and its test was too narrow. **Artwork is evidence a component ships**,
+independent of whether today's listing names it, so a geometry-only component is admitted if the
+inventory names it **or** `component-art.tsv` measures artwork for it. Band restored to its 1190×86
+data-URI swoosh and 17 rules; `Button (icon only)`, `Table (AG) container` and
+`Field (second component)` are still refused, which is the half that proves the gate still gates.
+
+**And `check-skill-classes`'s own reconciliation broke, on the rows-versus-distinct confusion
+again.** Its identity subtracted `sharedNames.length` — a count of NAMES — where the arithmetic
+needs EXTRA ROWS. The two are equal only while every shared name has exactly two rows, which was
+true until the refresh brought Figma's two newer `Header`s in and made that name span three. It is
+`coveredRows.length - distinctCovered` now. The same unit error, three times in this file: the
+off-ramp census, my `{nodeId: name}` diff, and a reconciliation written to stop figures diverging.
+`walked` and `productPage` had it too, and are distinct names now — see the coverage sentence above.
+
+**Nine documented figures moved, not eleven, and two of the predictions were wrong in opposite
+directions.** `14 classes with no paint` did not move at all, because the artwork fix kept the band
+painting; and CLAUDE.md's walked figure moved from 158 to **156** rather than 159, because fixing
+the unit changed the denominator as well as the count. A prediction made by reading a diff is not a
+measurement, which is the third time on this one task.
+
+**One thing the refresh made VISIBLE rather than broke.** `sync:check` now reports
+`RENAMED "Side navigation tab" is now called "Notification tabs" (22973:20747)` — one line, exactly
+what the nodeId column exists to produce. The older copy carried that id under both names, so the
+rename was invisible on both sides of the gate. The design lead's decision stands (keep both, old
+one deprecated); what changed is that the gate can now see what it is being asked about.
 
 **Two things I got wrong on the way there, both the same shape.** I predicted the refresh would
 break `check-catalogue-drift` by removing `Side navigation tab`; it exits 0 — measured, and the
@@ -2202,6 +2249,20 @@ comes back *"node ID was not found in the file"*. So it is not egress, and it is
 moved — the reachable copy under that key holds **no design at all**. That distinction matters for
 the same reason every other one in this file does: an egress wall is worth re-testing later, and an
 empty file is worth asking a person about.
+
+**Asked, and answered on 2026-09-12: the Case Management file was just a test.** `kuX4KDIN0u4axsKTELYlzW`
+was supplied to exercise the Figma-to-output path once, and it is not a design this repo tracks. So
+the empty read is the file being what it is rather than something having gone wrong, and
+`working/case-mgmt-my-team` will never have a `.figma.json` or `.figma.xml`. **That closes the
+question rather than parking it**, and it changes what the three axes mean on that screen: `frame`,
+`content` and `source` report `--` there permanently, and that `--` is a fact about the input, not a
+missing net. It joins the three prototypes, which leaves `working/button` as the only screen in this
+repo any of those three axes can ever measure — **1 of 5, by design, and none of the other four is
+waiting on anything.**
+
+Keep the standing rule in view: that file is **read-only input**, so none of this licenses extracting
+it into `tokens/_raw/`, `dist/`, the skills or the docs. A test file being confirmed a test file is
+a reason to stop expecting a design from it, never a reason to import one.
 
 **`working/button.figma.json` and `.figma.xml` are the first screen extract this repo has ever
 had**, and two faults surfaced the moment the axes had something real to measure. Both would have

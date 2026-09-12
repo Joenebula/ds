@@ -473,12 +473,25 @@ let componentCount = 0, ruleCount = 0, unmapped = new Set();
 // only)`, `Field (second component)`, `Table (AG) container`. Those are measurement
 // notes, not components, and emitting `.pf-button-icon-only` would invent a component
 // this design system does not have. Figma's own inventory is the arbiter.
+//
+// ...OR IT HAS MEASURED ARTWORK, which is the second kind of evidence and was learned the
+// hard way. `Default header background` is DETACHED in Figma — `uncaptured-reasons.tsv`
+// says so — so the published listing does not name it, and on the 2026-09-12 inventory
+// refresh the inventory-only gate dropped it: seventeen rules became one, the band on
+// `working/case-mgmt-my-team` measured 1190x86 with `background-image: none`, and the class
+// was an empty transparent box again. That is precisely the state the artwork section of
+// CLAUDE.md exists to describe the fix for, re-created by a data refresh.
+//
+// Six rows in `component-art.tsv` are an EXPORT from Figma by node id. A hand-written
+// measurement note — `Button (icon only)`, `Table (AG) container` — has no artwork, so this
+// does not re-open the hole the inventory gate closes; it adds the one other way a
+// component can prove it exists.
 const figmaComponents = new Set(
   JSON.parse(readFileSync('tokens/_raw/components.json', 'utf8')).map(c => c.name));
 const shapeOnly = [];
 for (const comp of geometry.keys()) {
   if (byComponent.has(comp)) continue;
-  if (!figmaComponents.has(comp)) continue;
+  if (!figmaComponents.has(comp) && !artByComponent.has(comp)) continue;
   byComponent.set(comp, []);
   shapeOnly.push(comp);
 }

@@ -32,7 +32,7 @@ packaged so Claude Design — and any HTML/CSS output — generates on-brand UI.
 - **13 dimensions** — spacing (5/10/15/20/40), radius (4/8), icon sizes (18–44)
 - **9 typography variables** — Open Sans, sizes 13–36, weights Regular/SemiBold
 - **23 text styles**, 2 shadows, 4 layout grids, 1 AI gradient
-- **477 published components** inventoried across 16 pages
+- **475 published components** inventoried across 16 pages
 
 Alias chains are preserved rather than flattened, so `Table/Card` → `Background/Primary`
 → `Base colours/White` survives as `var(--pf-bg-primary)` in the CSS. Change a

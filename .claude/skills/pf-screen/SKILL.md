@@ -63,7 +63,7 @@ Writing your own contents for a composite component is the same mistake as writi
 CSS for a simple one, and it is the one this project made most often.
 
 If a component you need is under **Not in the library** in `docs/components.html`, say so
-rather than approximating it — that section names each one and why it is missing. All 25
+rather than approximating it — that section names each one and why it is missing. All 23
 are documentation about the design system; nothing on a product page is missing.
 
 **3. Verify before handing over.** All of them, every time. On a fresh clone run

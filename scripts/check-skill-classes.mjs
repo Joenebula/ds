@@ -217,13 +217,27 @@ let nDtcg = 0;
 })(JSON.parse(readFileSync('tokens/design-tokens.json', 'utf8')));
 
 // The two derivations must reconcile exactly, or one of them is measuring the wrong thing.
-// `pf-circle-icons` is the one class whose component lives on the Icons page, which the
-// non-icon list deliberately excludes.
-const iconPageClasses = classes.size - new Set(coveredRows.map(c => 'pf-' + kebab(c.name))).size;
-if (coveredRows.length - sharedNames.length + iconPageClasses !== classes.size)
+// THREE classes have no non-icon inventory row of their own, and they are three different
+// reasons rather than one: `pf-circle-icons` lives on the Icons page, which the non-icon
+// list deliberately excludes; `pf-default-header-background` and `pf-side-navigation-tab`
+// are captured components the 2026-09-12 listing no longer publishes under those names
+// (`13658:7639` is gone, and `22973:20747` is published once as `Notification tabs`).
+// A class with no inventory row is a question, not an error — the id is what settles it.
+// EXTRA ROWS, NOT SHARED NAMES — two different units, and the difference only shows when a
+// name is shared by MORE than two rows. `sharedNames.length` counts NAMES; collapsing them
+// removes one row per DUPLICATE. While every shared name had exactly two rows those numbers
+// were equal and the identity held by coincidence. The 2026-09-12 inventory refresh made
+// `Header` a name over THREE rows — Figma publishes two more under it — and the identity
+// broke by exactly one. Same unit confusion as the off-ramp census in CLAUDE.md, which
+// counted deduplicated labels where it meant rows.
+const distinctCovered = new Set(coveredRows.map(c => 'pf-' + kebab(c.name))).size;
+const sharedExtras = coveredRows.length - distinctCovered;
+const iconPageClasses = classes.size - distinctCovered;
+if (coveredRows.length - sharedExtras + iconPageClasses !== classes.size)
   problems.push(`the two component counts do not reconcile: ${classes.size} classes vs `
-    + `${coveredRows.length} covered rows with ${sharedNames.length} shared names `
-    + `and ${iconPageClasses} on the Icons page`);
+    + `${coveredRows.length} covered rows with ${sharedExtras} extra row(s) across `
+    + `${sharedNames.length} shared name(s) (${sharedNames.join(', ')}) `
+    + `and ${iconPageClasses} class(es) with no inventory row of their own`);
 
 // CLAUDE.md and README.md carry the same figures and drifted the same way — README said
 // "147 components ... plus 12 shape-only" and CLAUDE.md still quoted a shell count of 2
@@ -239,10 +253,15 @@ const docs = [
 // Figures only these two quote.
 const shapeOnly = classes.size - nComponents;
 const DOC_PAGE = /WIKI|STYLE GUIDE|DOCUMENT MANAGEMENT/;
-const productPage = nonIcon.filter(c => !DOC_PAGE.test(c.pageName || ''));
+// DISTINCT NAMES, not inventory rows — the same unit correction as `sharedExtras` above.
+// CLAUDE.md's coverage sentence NAMES the components that are not walked, so the thing it
+// is counting is a component name; three names are published more than once, so the row
+// count is three higher and the sentence would claim a denominator nobody can enumerate.
+const productPage = [...new Set(nonIcon
+  .filter(c => !DOC_PAGE.test(c.pageName || '')).map(c => c.name))];
 const treeNames = new Set(readFileSync('tokens/_raw/component-tree.tsv', 'utf8')
   .trim().split('\n').slice(1).map(l => l.split('\t')[0]));
-const walked = productPage.filter(c => treeNames.has(c.name)).length;
+const walked = productPage.filter(n => treeNames.has(n)).length;
 
 const figures = [
   ['templates', templateCount, /\b(\d+) (?:composite components have one|of them render NOTHING|rendered, light and dark)/g],
