@@ -22,6 +22,12 @@
 //             Visually just as wrong, and this check passed it silently: no ancestor
 //             clips, so the walk found nothing to report.
 //
+// There is a THIRD, and it lives in `check-text-overlap.mjs` rather than here because it needs
+// a count pinned across every screen at once: text printed ON TOP of other text. Both elements
+// sit correctly inside their own boxes, so neither is clipped and neither has escaped — they
+// are simply on the same pixels. Found by looking at a screenshot of `timesheet-approvals`,
+// where the side panel's working-time warning runs underneath the "Daily hours" heading.
+//
 // The second is the harder question, because escaping is sometimes correct — a dropdown,
 // a tooltip and a notification badge are all supposed to leave their parent. Those are
 // out of flow, so the test is scoped to in-flow elements against the nearest ancestor

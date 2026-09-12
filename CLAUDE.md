@@ -953,6 +953,28 @@ Five of the six measure an element in isolation. `verify-layout` is the one that
 whether an element can be SEEN at all — the other five passed on a screen slicing 126px
 off its own table.
 
+It names two ways that fails — **CLIPPED**, where an ancestor hides the overflow and there is
+no way to scroll to it, and **ESCAPED**, where nothing hides it so the content spills out of
+the box it belongs to. There is a **third**, and nothing asked it until a re-shot dark
+screenshot was looked at: **text printed ON TOP of other text**. Both elements sit correctly
+inside their own boxes, so neither is clipped and neither has escaped; they are simply on the
+same pixels. On `timesheet-approvals` the side panel's working-time warning runs straight
+underneath the "Daily hours" heading and the "Adjust" button, and every check on that screen
+was green.
+
+`npm run verify` runs `check-text-overlap.mjs`. **The test is glyphs against glyphs, not box
+against box** — boxes overlap constantly and legitimately, a card inside a panel, a badge
+lapping its parent's corner, so the rect comes from a Range over each element's OWN direct text
+nodes and a parent is never compared against the child whose text it holds. Out-of-flow
+elements are excluded for the same reason `verify-layout` excludes them: a dropdown open over
+the page is text over text on purpose. **8 pairs outstanding, all on the two oldest fixtures in
+`prototypes/`; `working/` is held at zero and is at zero**, as is the newest prototype.
+
+It measures at 1440px only, and the reason is named rather than left implicit: every screen here
+is drawn for a desktop and pins its components to Desktop, so at 390px they squeeze and overlap
+in ways that are the pinning rather than the layout — measuring there would report the known
+thing loudly and bury this one.
+
 **Always screenshot the result in light and dark and look at it** before saying a screen
 is done:
 
