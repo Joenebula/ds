@@ -21,6 +21,16 @@
 //
 // It asserts the negative too. A run where NO specimen carried text at all would pass while
 // measuring nothing, which is how several checks on this project were green for months.
+//
+// A NOTE ON CLIPPING, because the sibling check was caught by it. `check-text-overlap` compared
+// rects without noticing that a run scrolled out of an `overflow: auto` ancestor still has full
+// coordinates, and reported six invisible overlaps. This check is not exposed to that today and
+// the reason is specific rather than lucky: it measures a text run against ITS OWN element, and
+// the gallery's `.row` — which does clip, since it was given `overflow-x: auto` to stop the page
+// scrolling sideways — is an ancestor of both, so it cannot make one escape the other. What
+// WOULD expose it is a specimen near the row's right edge whose label escapes past the row as
+// well: that overflow is invisible and would be reported as a fault. No specimen overflows at
+// all right now, so the case does not exist; if one ever does, intersect with the clip first.
 import { chromium } from 'playwright-core';
 import { existsSync } from 'node:fs';
 

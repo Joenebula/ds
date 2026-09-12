@@ -1733,3 +1733,39 @@ The three left are pinned; one is a chart, which the design owner is reworking.
 
 **Still open for the user:** FIGMA-ISSUES §14 (button weight by state) and §15 (four colour
 bindings, three of them invisible text in light mode). Both are Figma-file changes.
+
+### P17. A clipped run is not on the page — DONE, and it corrected P10
+
+`check-text-overlap` reported 8 pairs on the screens and 3 on the docs pages. **Six of the eight
+and all three docs ones were invisible** — `getBoundingClientRect` says where a box WOULD be, so
+a child scrolled out of an `overflow: auto` ancestor still has full coordinates. That is the
+property CLAUDE.md already names in the clipping section, walked into by the check written after
+it. What gave it away: every element reported as escaping came back `position: static`, which is
+impossible for a real spill out of a scroll container.
+
+Honest figures: **2 on the screens, 0 on the docs.** The `Circle icons` label fix in P16 stands
+on its own — those overlaps were inside the stage and visible, and the label was wrong in the
+template markup regardless.
+
+**Done when:** met. Runs are intersected with every clipping ancestor; the docs half asserts it
+found ≥500 runs of text so zero cannot pass vacuously (it finds 1956).
+
+### P18. Two report lines that said the wrong thing — DONE
+
+The build said three BACKGROUND_BLUR effects "have no box-shadow form", which is true and
+invites someone to add `backdrop-filter`. They all sit on a class painting an OPAQUE fill, where
+a backdrop filter changes nothing. Now says so. `check-docs-specimens` records why the gallery's
+row clip does not expose it to P17's fault, and what would.
+
+---
+
+## Suggestions for the user — NOT started
+
+- **The 24 components with a genuinely fixed width over 120px.** The stylesheet drops any width
+  above 120px as "the artboard, not a rule"; measured, that is right for 31 and wrong for 24,
+  and it is also what blocks 16 measured child offsets. Distinguishing a fixed component width
+  from the artboard it was drawn on needs a rule nobody has agreed yet, so this is a judgement
+  call rather than a fix. Flagged twice, never taken up.
+- **`check-variant-coverage.mjs` is a generator wearing a check's name.** It never fails, runs
+  only in the build, and writes `collapsed-axes.tsv` into `tokens/_raw/` — the directory this
+  project calls "the input". Renaming it and moving its output would make that honest.

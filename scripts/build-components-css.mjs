@@ -1423,8 +1423,18 @@ if (shadowUnmatched.size)
     + `colour, frozen across both modes)`)
   || [...shadowUnmatched].sort().forEach(([k, v]) => console.log(`    ${k} — ${v}`));
 if (shadowNotAShadow.size)
-  console.log(`  ${shadowNotAShadow.size} effect(s) are not a shadow and have no box-shadow form: `
-    + `${[...shadowNotAShadow].sort().map(([k, v]) => `${k} (${v})`).join(', ')}`);
+  // "no box-shadow form" is true and misleading: a BACKGROUND_BLUR has no box-shadow form and
+  // does have a CSS one, `backdrop-filter: blur()`. The reason nothing is emitted is different
+  // and worth saying, because "we cannot express it" invites someone to add it. All three are
+  // `Menu-search-settings`, whose class paints an OPAQUE `--pf-bg-secondary` — a backdrop
+  // filter behind an opaque fill changes not one pixel, so emitting it would add a declaration
+  // that does nothing and imply a frosted surface the token does not give.
+  console.log(`  ${shadowNotAShadow.size} effect(s) are not a drop shadow, so no box-shadow is `
+    + `emitted: ${[...shadowNotAShadow].sort().map(([k, v]) => `${k} (${v})`).join(', ')}`)
+  || console.log(`    a BACKGROUND_BLUR does have a CSS form — backdrop-filter: blur() — and is `
+    + `deliberately not emitted: every one of these is on a class that paints an OPAQUE fill, `
+    + `where a backdrop filter changes nothing and would imply a frosted surface the token `
+    + `does not give`);
 if (sideClashes.size)
   console.log(`  border width NOT emitted for ${sideClashes.size} variant(s) — the stylesheet `
     + `collapses the axis that tells them apart, so no rule can distinguish them: `
