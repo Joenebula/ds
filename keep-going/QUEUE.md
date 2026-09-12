@@ -1709,3 +1709,27 @@ three worse ones nobody had reported — `Sticky footer`, `People and department
 
 **Open for the user:** §14 (button weight by state) and §15 (the four colour bindings) are both
 changes to the Figma file. The pipeline carries them through on the next extract.
+
+### P14. Each component measured against its OWN contrast threshold — DONE
+
+§15c left eight findings open on "some may hold a glyph rather than a label". WCAG asks 4.5:1 of
+text and 3:1 of a graphic, so measuring a 20x20 tick against the text threshold is the wrong
+question. Counting TEXT nodes is the wrong reading — the walk is depth-limited, and it claims
+`Sticky footer` holds no text. The geometry's `font` column is the right one. Clears exactly one.
+
+### P15. `check-contrast` can fail now — DONE
+
+It ended in `process.exit(0)`, so five token pairs had sat below AA forever with nothing forcing
+a decision. Pinned by name, added to `npm run verify`. A sweep found it was the ONLY check in
+the suite that could never report a failure, apart from `check-variant-coverage`, which is a
+generator wearing a check's name.
+
+### P16. Templates printed text over text — DONE
+
+Asking the overlap question of `docs/templates.html` found seven pairs, from the same
+invented-label fault the gallery had — written as a 44px size threshold, and `Circle icons` is
+exactly 44. Reads the `font` column now. 18 labels across 14 templates; seven pairs to three.
+The three left are pinned; one is a chart, which the design owner is reworking.
+
+**Still open for the user:** FIGMA-ISSUES §14 (button weight by state) and §15 (four colour
+bindings, three of them invisible text in light mode). Both are Figma-file changes.
