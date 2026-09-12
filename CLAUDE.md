@@ -444,6 +444,25 @@ real improvement the count alone could not see, because it still overflows by so
 Both numbers are the precondition: **clipping can only ever be carried once they reach
 zero.**
 
+**And part of that number is Figma's own drawing, which the precondition could not tell.**
+Working it down, the offenders stopped being pipeline faults and started being the file:
+`Navigation item` holds a `Highlighted tab` RECTANGLE measured **3x132 inside an 86px
+component**, `Field` a `Selector` frame at **306x47 inside 300x42**, `Org chart` a 60x55 avatar
+inside a 48px row. Figma draws those children outside their parents and clips them — so a
+template that reproduces the measurement reproduces the overflow, which is the faithful answer
+and was being counted against the pipeline all the same. Measured, **50 such nodes** sit in
+**20 of the components**.
+
+So the number is split rather than chased: **at least 6 of the 15 desktop templates (8 of 20 at
+390px) overflow because Figma does**, and the pipeline's own share is at most 9 (12 at mobile).
+That share is the half that can reach zero. **The reading is deliberately the narrow one** — a
+single child measured against its parent's content box, no summing, no gap, no assumption about
+which children stretch — so Figma's side is a LOWER BOUND and says so. The wider question is the
+same arithmetic `hugs()` does, and `hugs()` already refuses to trust it in this direction:
+*"where the children sum to MORE than the stated height the sum is not trustworthy"*. A reading
+this repo already calls unreliable is not one to pin a number on. The check fails if the split
+matches nothing, which is the state in which it would look like good news.
+
 **And both are measured at two widths now.** They were desktop-only for as long as a class was
 the same size at every width; making components follow the viewport ended that, and the pinned
 pair described half the library. A class box shrinks to its mobile artboard while the template's

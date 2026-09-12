@@ -377,3 +377,61 @@ export function instanceSize() {
   }
   return out;
 }
+
+
+// SOME OF THE OVERFLOW IS FIGMA'S OWN DRAWING, AND THE PINNED NUMBER CANNOT TELL.
+//
+// `check-template-overflow` pins how far the templates render outside the box their class
+// draws, and CLAUDE.md makes reaching ZERO the precondition for ever carrying Figma's
+// clipping. Working that number down, the remaining offenders stopped being pipeline faults
+// and started being the file: `Navigation item` holds a `Highlighted tab` RECTANGLE measured
+// **3x132 inside an 86px component**, `Field` a `Selector` frame at **306x47 inside 300x42**,
+// `Org chart` a 60x55 `Avatar` inside a 48px row. Figma draws those children outside their
+// parents and clips them. A template that reproduces the measurement reproduces the overflow,
+// which is the faithful answer — and it is counted against the pipeline all the same.
+//
+// So the number is split rather than chased. **50 children across 20 components** are drawn
+// larger than the content box of the parent Figma measured, and the templates that overflow
+// for that reason are a different problem from the ones that overflow because the pipeline
+// put something in the wrong place. Only the second can reach zero.
+//
+// THE READING IS DELIBERATELY THE NARROW ONE. A single child measured against its parent's
+// content box needs no layout simulation: no summing, no gap, no assumption about which
+// children stretch or wrap. The wider question — do a frame's children, laid out at Figma's
+// own numbers, fit — is the same arithmetic `hugs()` does, and `hugs()` already refuses to
+// trust it in this direction: "where the children sum to MORE than the stated height the sum
+// is not trustworthy — absolute or nested children the top-level walk does not add up". A
+// reading this file already calls unreliable is not one to build a pinned number on. So this
+// is a LOWER BOUND and is reported as one.
+//
+// Returns component -> the largest px by which one of its children exceeds its parent.
+export function figmaOwnOverflow() {
+  const lines = readFileSync('tokens/_raw/component-tree.tsv', 'utf8').trim().split('\n').slice(1);
+  const byComp = new Map();
+  for (const l of lines) {
+    const c = l.split('\t');
+    if (!byComp.has(c[0])) byComp.set(c[0], new Map());
+    byComp.get(c[0]).set(c[1], c);
+  }
+  const dim = (v, i) => {
+    const m = /^(auto|[\d.]+)\s*x\s*(auto|[\d.]+)$/.exec((v || '').trim());
+    return (!m || m[i] === 'auto') ? null : +m[i];
+  };
+  const out = new Map();
+  for (const [comp, nodes] of byComp) {
+    for (const [path, c] of nodes) {
+      if (!path) continue;
+      const parent = nodes.get(path.includes('.') ? path.slice(0, path.lastIndexOf('.')) : '');
+      if (!parent) continue;
+      const pad = (parent[9] || '0').trim().split(/\s+/).map(Number);
+      const at = i => pad[i] ?? pad[i - 2] ?? pad[0] ?? 0;
+      for (const i of [1, 2]) {
+        const k = dim(c[7], i), p = dim(parent[7], i);
+        if (k === null || p === null) continue;
+        const inner = p - (i === 1 ? (pad.length >= 4 ? pad[3] : at(1)) + at(1) : at(0) + at(2));
+        if (k - inner > 1) out.set(comp, Math.max(out.get(comp) || 0, k - inner));
+      }
+    }
+  }
+  return out;
+}

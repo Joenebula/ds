@@ -21,6 +21,7 @@
 // number is the precondition: clipping can only ever be carried once it is zero.
 import { readFileSync, readdirSync, existsSync, writeFileSync, unlinkSync } from 'node:fs';
 import { chromium } from 'playwright-core';
+import { figmaOwnOverflow } from './hugs.mjs';
 
 // The count at the time this was written. It may fall freely — that is the class box and
 // its contents coming into agreement. It may not rise without somebody deciding to raise
@@ -72,6 +73,10 @@ const expand = h => h.replace(/<!--pf-icon:([a-z0-9-]+)(?:\s+(\d+))?-->/g, (m, n
 
 const specs = readdirSync('dist/templates').filter(f => f.endsWith('.html')).sort().map(f => ({
   base: f.replace(/\.html$/, ''),
+  // The COMPONENT's Figma name, which the class name cannot be turned back into —
+  // `pf-checkbox-radio-list` is `Checkbox/Radio list` and the slash is gone. The generator
+  // writes it into the template's own header comment, so it is read from there.
+  component: (/^<!--\s*(.+?)\s+—/.exec(readFileSync('dist/templates/' + f, 'utf8')) || [, ''])[1],
   html: expand(readFileSync('dist/templates/' + f, 'utf8').replace(/^<!--[\s\S]*?-->\n/, '')),
 }));
 
@@ -182,6 +187,42 @@ console.log('  overflow:hidden, because on these it would hide the template rath
 console.log('  reproduce the design. See CLAUDE.md, "Clipping".');
 
 let failed = 0;
+// SOME OF THIS IS FIGMA'S OWN DRAWING, AND THE PINNED NUMBER CANNOT TELL.
+//
+// Working the number down, the offenders stopped being pipeline faults and started being the
+// file. `Navigation item` holds a `Highlighted tab` RECTANGLE measured 3x132 inside an 86px
+// component; `Field` a `Selector` frame at 306x47 inside 300x42; `Org chart` a 60x55 avatar
+// inside a 48px row. Figma draws those children outside their parents and clips them, so a
+// template that reproduces the measurement reproduces the overflow — which is the faithful
+// answer, and was being counted against the pipeline all the same.
+//
+// That matters because CLAUDE.md makes ZERO the precondition for ever carrying Figma's
+// clipping. Zero is not reachable for the templates in this list, and a target nobody can
+// act on is worse than a smaller one that is real. So the number is split. The reading is
+// deliberately the narrow one — a single child against its parent's content box, no summing,
+// no gap, no assumption about which children stretch — so it is a LOWER BOUND, and the
+// remainder is the share that can still reach zero.
+{
+  const figma = figmaOwnOverflow();
+  const nameOf = new Map(specs.map(s => [s.base, s.component]));
+  const split = list => {
+    const f = list.filter(o => figma.has(nameOf.get(o.split(' — ')[0])));
+    return [f.length, list.length - f.length, f.map(o => o.split(' — ')[0])];
+  };
+  const [fD, pD, namesD] = split(over);
+  const [fM, pM] = split(mobileOver);
+  console.log(`  of those, at least ${fD} of ${over.length} overflow because FIGMA ITSELF draws a `
+    + `child outside its parent (${fM} of ${mobileOver.length} at 390px), so a faithful template `
+    + `reproduces it: ${namesD.join(', ')}`);
+  console.log(`  the pipeline's own share is at most ${pD} template(s) (${pM} at 390px) — a lower `
+    + `bound on Figma's side, because a single child is the only reading that needs no layout `
+    + `arithmetic, and that is the half of this number that can still reach zero`);
+  if (!fD) {
+    console.log('  FAIL  no overflowing template matched the Figma-side reading, so the split '
+      + 'measured nothing');
+    failed = 1;
+  }
+}
 if (mixed.length) {
   console.log(`  FAIL  ${mixed.length} container(s) place some children at Figma's measured `
     + `offsets and leave the rest in flow, so they render on top of each other:`);

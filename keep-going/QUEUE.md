@@ -1890,3 +1890,39 @@ The assertion is textual, the same deliberate exception `check-space-between-gap
 fault is a declaration that must never be written, and rendered it is two pixels no assertion
 about a single frame would think to ask about. It is scoped to TEMPLATE frames — a component
 class's border is measured per edge and per width in `components.css` and is a real border.
+
+### P23. A nested instance is drawn at a size, and the bare class is the artboard — DONE
+
+`Notification image` is 44x91 holding one `People` that Figma draws at **44x44**; `.pf-people`
+states 91x91, its own artboard, so the child hung **47px** out of its parent. `Multiselect tag`
+draws the same component at 24x24 and got the same 91x91. The measurement was in
+`component-tree.tsv` all along — every INSTANCE row carries its size as drawn IN THIS PARENT —
+and the generator had nowhere to put it. **262 instances** are drawn at a size their class does
+not state; three guards cut that to the **188** that are facts (hug, definiteness, stretch).
+
+Template overflow: **854 → 756** desktop, **1212 → 1063** mobile.
+
+**Two wrong answers, both recorded in the source.** `align-self: stretch` is a cross-axis rule
+and loses to the class's own `width`, so the first version left the child rendering 91 wide
+inside 44 — fixed-looking and unchanged. And stating a width takes the placeholder label with
+it: the name only ever fitted because the box GREW to hold it, so pinned, six pairs of
+"Navigation item" printed over each other on `docs/templates.html`. Narrowing that rule to
+"smaller than its own artboard" left `Data variance` still printing over "More details".
+
+### P24. The overflow precondition could not tell Figma's drawing from the pipeline's — DONE
+
+Working the number down, the offenders stopped being pipeline faults and became the file.
+`Navigation item` holds a 3x132 rectangle inside an 86px component; `Field` a 306x47 frame
+inside 300x42. Figma draws those outside their parents and clips them, so a faithful template
+reproduces the overflow — and it was counted against the pipeline all the same, against a
+pinned target of ZERO.
+
+The number is split now: **at least 6 of the 15** desktop templates (8 of 20 at 390px) overflow
+because Figma does; the pipeline's share is at most 9 (12 mobile), and that is the half that can
+reach zero. The reading is deliberately the narrow one — a single child against its parent's
+content box, no summing — because the wider arithmetic is the one `hugs()` already refuses to
+trust in this direction. Reported as a lower bound, and the check fails if the split matches
+nothing, which is the state in which it would read as good news.
+
+**This changes the engineering target.** "Get template overflow to zero" is not reachable; "get
+the pipeline's share to zero" is. The remaining nine desktop templates are the list.
