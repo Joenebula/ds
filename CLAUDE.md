@@ -1063,8 +1063,12 @@ wait that quietly was not long enough is the same failure one layer up. (The ani
 capped at 2s so an infinite animation cannot hang the shot — a page with a 3s transition is
 shot mid-fade and warned about, which is the honest answer rather than a hang.)
 
-**The other screens' dark screenshots in `screenshots/` predate the pre-paint fix and are still
-the wrong ones.** Re-shoot before trusting any of them.
+**Every committed screenshot has been re-shot since.** That sentence read "the other screens'
+dark screenshots predate the pre-paint fix and are still the wrong ones" when the fix landed,
+and it stayed there after they were re-taken — a caveat nobody re-checked is the same drift as
+a figure nobody re-measured. The test is cheap and exact: re-run `shoot.mjs` over every screen
+and ask git whether anything changed. Rendering is deterministic, so **a clean `git status`
+means the committed image is what the current shooter produces**; a diff means it is stale.
 
 A full-page capture (`--full`) flattens `position: sticky`, so a pinned sidebar looks
 like it stops halfway down and a sticky footer looks like it is clipping the panel above
