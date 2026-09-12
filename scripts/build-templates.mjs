@@ -80,13 +80,31 @@ const bareBox = (base) => {
   const h = /(?:^|;|\s)height:\s*(\d+)px/.exec(m[1]);
   return w && h ? `${w[1]}x${h[1]}` : null;
 };
-const posSkipped = [];
+// EVERY MEASURED OFFSET IS ACCOUNTED FOR, not just the ones with a tidy reason.
+//
+// The first version of this loop reported one of its three refusals and dropped the other
+// two with a bare `continue`. It said "16 measured offset(s) NOT applied", which reads as
+// the whole shortfall; the file held 71 and only 12 were being applied. 38 of them were
+// leaving no trace at all — the same silent-discard fault this pipeline keeps finding,
+// here in the code that fixes it elsewhere. Each refusal now carries a reason and the
+// counts are asserted to add up to the file, so a new refusal cannot be added silently.
+const posSkipped = [];            // the origin has no definite size — the reportable one
+const posNoNode = [];             // measured deeper than the tree walk reaches
+const posSizeDisagrees = [];      // the tree and the measurement disagree on the child
+const posParentLaysOut = [];      // the parent auto-lays out, so order already places it
 for (const p of posRows) {
   const row = treeByKey.get(p.component + '|' + p.path);
-  if (!row || row.size !== `${p.w}x${p.h}`) continue;
+  if (!row) { posNoNode.push(p.component + '|' + p.path); continue; }
+  if (row.size !== `${p.w}x${p.h}`) {
+    posSizeDisagrees.push(`${p.component} ${p.path} — measured ${p.w}x${p.h}, tree says ${row.size}`);
+    continue;
+  }
   const parentPath = p.path.includes('.') ? p.path.slice(0, p.path.lastIndexOf('.')) : '';
   const parent = treeByKey.get(p.component + '|' + parentPath);
-  if (!parent || (parent.layout && parent.layout !== 'NONE')) continue;
+  if (!parent) { posNoNode.push(p.component + '|' + p.path); continue; }
+  if (parent.layout && parent.layout !== 'NONE') {
+    posParentLaysOut.push(p.component + '|' + p.path); continue;
+  }
   // THE ORIGIN MUST HAVE A DEFINITE SIZE — and the origin is the PARENT, not the component.
   //
   // An offset is measured inside a box, so the box has to exist. Measured empirically: a
@@ -606,11 +624,39 @@ if (ABS.size) {
 // COUNT THE PLACEMENTS, NOT THE COMPONENTS. A component can have some placements applied
 // and others refused — `Image picker` and `Search navigation` do — and listing it as "not
 // applied" said something false about the ones that were.
-if (posSkipped.length) {
-  const comps = [...new Set(posSkipped.map(x => x.split('|')[0]))].sort();
-  console.log(`  ${posSkipped.length} measured offset(s) across ${comps.length} component(s) NOT `
-    + `applied: the box they are measured inside has no definite size, because the class drops `
-    + `the artboard width — ${comps.join(', ')}`);
+// THE ACCOUNTING MUST ADD UP TO THE FILE. A count that is merely printed can quietly stop
+// covering everything; one that is checked against the row count cannot.
+{
+  const comps = list => [...new Set(list.map(x => x.split('|')[0]))].sort();
+  const total = posRows.length;
+  const seen = ABS.size + posSkipped.length + posNoNode.length
+    + posSizeDisagrees.length + posParentLaysOut.length;
+  console.log(`  ${total} measured child offset(s) in component-child-pos.tsv: `
+    + `${ABS.size} applied, ${total - ABS.size} refused`);
+  if (posSkipped.length) {
+    console.log(`    ${posSkipped.length} across ${comps(posSkipped).length} component(s) — the box they are `
+      + `measured inside has no definite size, because the class drops the artboard width: `
+      + `${comps(posSkipped).join(', ')}`);
+  }
+  if (posNoNode.length) {
+    console.log(`    ${posNoNode.length} across ${comps(posNoNode).length} component(s) — measured deeper than `
+      + `the tree walk reaches (WALK_DEPTH ${WALK_DEPTH}), so there is no node to place: `
+      + `${comps(posNoNode).join(', ')}`);
+  }
+  if (posSizeDisagrees.length) {
+    console.log(`    ${posSizeDisagrees.length} — the tree and the measurement disagree on the child's own `
+      + `size, so the offset may belong to a different node:`);
+    for (const x of posSizeDisagrees) console.log(`      ${x}`);
+  }
+  if (posParentLaysOut.length) {
+    console.log(`    ${posParentLaysOut.length} across ${comps(posParentLaysOut).length} component(s) — the parent `
+      + `auto-lays out, so writing the same direction and gap already places them: `
+      + `${comps(posParentLaysOut).join(', ')}`);
+  }
+  if (seen !== total) {
+    console.error(`  child offsets do not add up: ${seen} accounted for, ${total} in the file`);
+    process.exitCode = 1;
+  }
 }
 if (noClass.length) {
   console.log(`  ${noClass.length} walked but NOT written — the stylesheet has no class to hang them on:`);

@@ -124,6 +124,30 @@ const sharedNames = [...coveredRows.reduce((m, c) => {
 }, new Map())].filter(([, n]) => n > 1).map(([k]) => k);
 const templateCount = readdirSync('dist/templates').filter(f => f.endsWith('.html')).length;
 
+// CHILDREN PLACED AT FIGMA'S OWN OFFSETS — counted off the RENDERED templates, not by
+// re-deriving the gate build-templates.mjs applies. Re-deriving it would make this check
+// agree with the generator by construction and catch nothing; counting the output makes
+// the documented figure answerable by the files a reader can open. CLAUDE.md said 12 for
+// the whole life of the origin-is-the-parent fix, which raised it to 17, and nothing could
+// see the difference because no pattern covered the sentence.
+const placedFiles = readdirSync('dist/templates').filter(f => f.endsWith('.html'))
+  .map(f => readFileSync(`dist/templates/${f}`, 'utf8'))
+  .map(t => (t.match(/position:absolute/g) || []).length)
+  .filter(n => n > 0);
+const nPlacedChildren = placedFiles.reduce((a, b) => a + b, 0);
+const nPlacedComponents = placedFiles.length;
+
+// THE CHILD-OFFSET LEDGER, read from the two raw files rather than from the generator.
+// Asking build-templates.mjs how many it refused would only confirm it agrees with itself.
+// These two are facts about the inputs: how many offsets were measured, and how many name
+// a node the tree walk never reached.
+const childPosRows = readFileSync('tokens/_raw/component-child-pos.tsv', 'utf8')
+  .trim().split('\n').slice(1).map(l => l.split('\t'));
+const treeKeys = new Set(readFileSync('tokens/_raw/component-tree.tsv', 'utf8')
+  .trim().split('\n').slice(1).map(l => { const c = l.split('\t'); return c[0] + '|' + (c[1] || ''); }));
+const nChildPos = childPosRows.length;
+const nChildPosNoNode = childPosRows.filter(c => !treeKeys.has(c[0] + '|' + c[1])).length;
+
 // The centred-child measurement: how many variants, and how many components they span.
 // Both are quoted in CLAUDE.md and the people-first skill, and both are the kind of figure
 // that goes stale the moment another layout-NONE component qualifies.
@@ -309,6 +333,10 @@ const figures = [
   ['containers behind the walk depth limit', nCapped, /\*\*(One|Two|Three|Four|Five|\d+)\*\*\s+are\s+left,\s+each\s+holding/g],
   ['composite uses rebuilt by hand', nHandBuilt, /\*\*(One|Two|Three|Four|Five|Six|\d+)\s+(?:is|are)\s+outstanding\*\*/g],
   ['classes with no paint', shellCount, /\*\*(\d+) classes with no paint\*\*/g],
+  ['measured child offsets in the file', nChildPos, /the file holds \*\*(\d+)\*\*/g],
+  ['offsets measured deeper than the walk', nChildPosNoNode, /\*\*(\d+) measured\s+deeper than the tree walk reaches\*\*/g],
+  [`children placed at Figma's offsets`, nPlacedChildren, /\*\*(\d+) children across \d+ components?\*\*/g],
+  ['components with a placed child', nPlacedComponents, /\*\*\d+ children across (\d+) components?\*\*/g],
   ['centred-child variants', nInnerVariants, /\*\*(\d+) variants across \d+ components?\*\*/g],
   ['components with a centred child', nInnerComponents, /\*\*\d+ variants across (\d+) components?\*\*/g],
 ];

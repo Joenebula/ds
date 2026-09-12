@@ -234,7 +234,7 @@ instance, **both at 0,0 at 93x93**: overlaid in Figma, stacked by the template, 
 becoming 184.
 
 `tokens/_raw/component-child-pos.tsv` records where each child sits inside a parent Figma
-does not lay out, and the template places it there — **12 children across 8 components**.
+does not lay out, and the template places it there — **17 children across 8 components**.
 Three guards, because a position applied to the wrong node is worse than none:
 
 1. the tree must carry that exact component and path;
@@ -249,6 +249,21 @@ Three guards, because a position applied to the wrong node is worse than none:
    components are measured and deliberately not applied** for that reason — `Donut pie
    chart`, `Bar chart with axis`, `Full page`, `Configuration` and others — and the build
    names them.
+
+**Every refused offset is named, and the counts are asserted to add up to the file.** The
+first version of the loop reported guard 3 and dropped guards 1 and 2 with a bare
+`continue`, so the build's "16 measured offsets NOT applied" read as the whole shortfall
+when the file holds **71** — 17 applied, 54 refused, and **38 of those were leaving no
+trace at all**. That is the silent-discard fault this pipeline keeps finding, sitting in
+the code that fixes it elsewhere. The refusals are now 16 for the origin, **36 measured
+deeper than the tree walk reaches** (`WALK_DEPTH` is 4, and `Configuration`, `Image picker`
+and `Data variance alternative` were measured past it, so there is no node to place), and
+2 where the tree and the measurement disagree — the two rotated `Donut pie chart` lines.
+The build fails if those four numbers and the applied count do not sum to the row count,
+so a fifth refusal cannot be added quietly.
+
+That 36 is the only honest measure of what deepening the walk would buy, and it was
+invisible until the accounting was closed.
 
 Asking that question of the component root instead of the parent refused every placement
 inside a component whose class drops its width, including ones on inner containers that had
