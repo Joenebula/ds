@@ -1,0 +1,8 @@
+<!-- Saved get_metadata response. Figma file aRWjBnTvdLiG50xtwodGwH, node 10730:115188,
+     read 2026-09-12. This is the design working/button.html copies: the Button component
+     set's `Type=Action, State=Default, Label=Yes` variant. Do not hand-edit — re-read it. -->
+<symbol id="10730:115188" name="Type=Action, State=Default, Label=Yes" x="57" y="50" width="107" height="32">
+  <instance id="25552:8061" name="Add plus" x="20" y="8" width="16" height="16" />
+  <text id="25552:8062" name="Action" x="46" y="7" width="41" height="18" />
+  <instance id="32559:60594" name="Add plus" x="97" y="8" width="16" height="16" hidden="true" />
+</symbol>

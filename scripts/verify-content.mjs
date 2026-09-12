@@ -40,6 +40,40 @@ if (!existsSync(extractPath)) {
 }
 const design = JSON.parse(readFileSync(extractPath, 'utf8'));
 
+// THE PAGE WALK, as a named function so `--self-test` can actually run it. It used to be an
+// anonymous callback inline in `page.evaluate`, which meant the one piece of this check that
+// decides WHAT COUNTS AS TEXT was the one piece no test could reach — and that is exactly
+// where the blind spot below was hiding.
+export function collectText() {
+  const out = [];
+  for (const el of document.querySelectorAll('body *')) {
+    // Decorative text is not design content: avatar initials and icon glyphs are aria-hidden,
+    // and the page's own provenance footnote describes the page rather than the design.
+    if (el.closest('[aria-hidden="true"]')) continue;
+    if (el.closest('[data-provenance="note"]')) continue;
+    // EACH ELEMENT'S OWN TEXT, not its subtree's. This used to skip any element with an
+    // element child and read `textContent` on the rest — leaf-only, to stop an ancestor
+    // reporting its children's words as its own. It also made a label beside an icon
+    // INVISIBLE: `<button class="pf-button"><svg/>Action</button>` has an element child, so
+    // the design string "Action" was reported MISSING from a page that renders it, and an
+    // INVENTED one in the same position could never have been seen at all. Taking only the
+    // element's direct text children fixes both and still cannot double-count, since every
+    // text node belongs to exactly one element.
+    const t = [...el.childNodes]
+      .filter((n) => n.nodeType === 3)
+      .map((n) => n.textContent)
+      .join(' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+    if (!t) continue;
+    const cs = getComputedStyle(el);
+    if (cs.display === 'none' || cs.visibility === 'hidden') continue;
+    out.push({ text: t, fontSize: Math.round(parseFloat(cs.fontSize)), fontWeight: Number(cs.fontWeight),
+      transform: cs.textTransform, tag: el.tagName.toLowerCase() });
+  }
+  return out;
+}
+
 const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
 const ctx = await browser.newContext({ colorScheme: 'light' });
 const page = await ctx.newPage();
@@ -48,24 +82,7 @@ await page.waitForLoadState('networkidle').catch(() => {});
 
 // Every visible run of text on the page, with the type actually computed for it. Leaf nodes
 // only — an ancestor would report its children's text as its own and the counts would inflate.
-const onPage = await page.evaluate(() => {
-  const out = [];
-  for (const el of document.querySelectorAll('body *')) {
-    // Decorative text is not design content: avatar initials and icon glyphs are aria-hidden,
-    // and the page's own provenance footnote describes the page rather than the design.
-    if (el.closest('[aria-hidden="true"]')) continue;
-    if (el.closest('[data-provenance="note"]')) continue;
-    const hasElementChild = [...el.children].length > 0;
-    if (hasElementChild) continue;
-    const t = (el.textContent || '').replace(/\s+/g, ' ').trim();
-    if (!t) continue;
-    const cs = getComputedStyle(el);
-    if (cs.display === 'none' || cs.visibility === 'hidden') continue;
-    out.push({ text: t, fontSize: Math.round(parseFloat(cs.fontSize)), fontWeight: Number(cs.fontWeight),
-      transform: cs.textTransform, tag: el.tagName.toLowerCase() });
-  }
-  return out;
-});
+const onPage = await page.evaluate(collectText);
 // Counted in the page, not from the text above: avatars are aria-hidden, so they are
 // deliberately absent from `onPage`.
 const gotPeople = await page.evaluate(() => document.querySelectorAll('[data-person]').length);
@@ -164,12 +181,58 @@ if (!r.expectedSize) {
 }
 process.exit(r.problems.length ? 1 : 0);
 
+
+// ---------------------------------------------------------------------------
+// The WALK, tested in a real browser rather than against a fixture of its output. Everything
+// else here drives `compare()` with hand-written `onPage` arrays, which cannot catch a walk
+// that never produced the row in the first place — and that is precisely what was wrong:
+// `.pf-button` holds an icon element and a text node, so the leaf-only rule skipped it and
+// the design string "Action" was reported MISSING from a page that plainly renders it.
+async function walkTest() {
+  const html = `<!doctype html><meta charset="utf-8"><body>
+    <button style="font-size:13px;font-weight:600"><svg width="16" height="16"></svg>Action</button>
+    <p style="font-size:16px">Plain leaf</p>
+    <div style="font-size:16px">Own words <em style="font-size:16px">and a child's</em></div>
+    <span aria-hidden="true">Decoration</span>
+    <p style="display:none">Hidden</p>
+  </body>`;
+  const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
+  const page = await browser.newPage();
+  await page.setContent(html);
+  const got = await page.evaluate(collectText);
+  await browser.close();
+
+  const texts = got.map((g) => g.text);
+  const cases = [
+    ['a label beside an icon is SEEN', () => texts.includes('Action')],
+    ['and carries its own type', () => {
+      const a = got.find((g) => g.text === 'Action');
+      return a && a.fontSize === 13 && a.fontWeight === 600;
+    }],
+    ['a plain leaf still counts once', () => texts.filter((t) => t === 'Plain leaf').length === 1],
+    ["a parent reports its OWN words, not its child's", () => texts.includes('Own words')],
+    ['and the child reports its own, separately', () => texts.includes("and a child's")],
+    ['no element reports the whole subtree', () => !texts.some((t) => t.includes('Own words and'))],
+    ['aria-hidden decoration stays out', () => !texts.includes('Decoration')],
+    ['display:none stays out', () => !texts.includes('Hidden')],
+  ];
+  let bad = 0;
+  for (const [name, fn] of cases) {
+    const ok = fn();
+    if (!ok) { bad++; console.log(`  MISS  walk: ${name}`); }
+  }
+  if (bad) { console.log(`self-test FAILED — ${bad} walk case(s)`); process.exit(1); }
+  console.log(`  walk: ${cases.length} case(s) pass in a real browser`);
+}
+
 // ---------------------------------------------------------------------------
 // --self-test. Every mutation below is a real defect that shipped in the first
 // build of prototypes/absence-requests.html and passed all four existing checks. The
 // test breaks a correct fixture one way at a time and asserts the break is seen.
 // A check that has only ever been observed to pass is not evidence.
-function selfTest() {
+async function selfTest() {
+  await walkTest();
+
   const design = {
     text: [
       { node: 'a', content: 'Nicholas Smudge', fontSize: 16, fontWeight: 400 },

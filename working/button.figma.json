@@ -1,0 +1,30 @@
+{
+  "comment": "The Figma design working/button.html copies, read 2026-09-12. This is the FIRST screen extract in this repo: four axes (frame, content, source, images) had never measured anything on any screen because no screen had this file.",
+
+  "source": {
+    "file": "aRWjBnTvdLiG50xtwodGwH",
+    "node": "10730:115188",
+    "name": "Button / Type=Action, State=Default, Label=Yes",
+    "read": "2026-09-12",
+    "how": "get_metadata for the box and its children (saved verbatim in button.figma.xml); get_design_context with disableCodeConnect for padding, radius, gap and type. Code Connect had to be disabled: with it on, the response is an Angular snippet carrying no geometry at all, and D-019 bars Code Connect as a source anyway."
+  },
+
+  "frame": [
+    {
+      "selector": ".pf-button",
+      "name": "Button Type=Action, State=Default, Label=Yes",
+      "height": 32,
+      "padding": "0px 20px",
+      "radius": 20,
+      "gap": 10
+    }
+  ],
+
+  "widthNotDeclared": "107px in Figma, and it is a HUG width: 20 + 16 icon + 10 gap + 41 label + 20 = 107. Declaring it would assert that our Open Sans renders the word 'Action' to Figma's exact 41px, which is a font-metrics claim and not a design one — check-fonts.mjs is the check that asks whether the right face rendered. verify-against-figma.mjs drops width for the same reason.",
+
+  "radiusNote": "Figma says 20 on a 32px-tall box; the generator emits `border-radius: 999px` because a radius at or past half the height IS a pill. Both clamp to 16px when painted, so verify-frame compares the CLAMPED radius rather than the declared one.",
+
+  "text": [
+    { "node": "25552:8062", "content": "Action", "fontSize": 13, "fontWeight": 600 }
+  ]
+}

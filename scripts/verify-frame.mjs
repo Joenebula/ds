@@ -30,6 +30,16 @@ import { viewportFor } from './lib/screen-viewport.mjs';
 const TOLERANCE = 1;
 
 const px = (v) => Math.round(parseFloat(v) || 0);
+// What a border-radius actually PAINTS at on a box this size. CSS scales every corner by one
+// factor f = min over each side of side / (sum of the two radii on it), capped at 1. With the
+// same radius on all four corners that is min(1, w/2r, h/2r) — so anything at or past half the
+// shorter side paints at exactly half the shorter side.
+export function clampRadius(r, w, h) {
+  if (!(r > 0)) return 0;
+  const sides = [w, h].filter((s) => Number.isFinite(s) && s > 0);
+  if (!sides.length) return r;                    // no box measured; compare as declared
+  return Math.min(r, Math.min(...sides) / 2);
+}
 // Chromium collapses `padding: 14px 12px 14px 12px` to `14px 12px`. Compare 4-tuples so the
 // shorthand a human wrote and the shorthand the browser reports cannot disagree spuriously.
 export function pad4(s) {
@@ -106,7 +116,16 @@ export function judge(decls, got) {
 
     if (d.width != null) cmp('width', d.width, g.width);
     if (d.height != null) cmp('height', d.height, g.height);
-    if (d.radius != null) cmp('radius', d.radius, px(g.radius));
+    // RADIUS IS COMPARED AS PAINTED, NOT AS DECLARED. CSS clamps border-radius so adjacent
+    // radii cannot exceed the side they share: on a 107x32 box, a declared 20 and the
+    // generator's 999 both paint at 16 — identical pixels, two different computed strings.
+    // The generator emits 999 deliberately (a radius at or past half the height IS a pill,
+    // see build-components-css.mjs), so comparing the declared value would have reported a
+    // difference that does not exist on every pill in the system, which is the false positive
+    // that keeps a check from being read. A real drift — 8 where Figma says 10 — is unaffected,
+    // because neither is clamped.
+    if (d.radius != null) cmp('radius', clampRadius(d.radius, g.width, g.height),
+      clampRadius(px(g.radius), g.width, g.height));
     if (d.gap != null) cmp('gap', d.gap, px(g.gap));
     if (d.columnGap != null) cmp('column gap', d.columnGap, px(g.colGap));
     if (d.padding != null) {
@@ -171,6 +190,18 @@ function selfTest() {
     ['a card built to Figma passes', [decl], with_({}), null],
     ['a card 19px too tall', [decl], with_({ height: 93 }), /height is 93px, Figma says 74px/],
     ['the design system radius instead of the design', [decl], with_({ radius: '8px' }), /radius is 8px, Figma says 10px/],
+
+    // The pill. `.pf-button` is 32px tall, Figma says radius 20, the generator says 999, and
+    // both paint at 16. Before this the axis could not run on any screen holding a button.
+    ['a pill: 999 emitted where Figma says 20, on a 32px box',
+      [{ selector: '.pf-button', name: 'Button', height: 32, radius: 20 }],
+      [{ sel: '.pf-button', width: 107, height: 32, radius: '999px', padding: '0px', gap: '0px', colGap: '0px' }],
+      null],
+    // ...and the clamp must not forgive a real difference on a box big enough to show one.
+    ['a 40px radius where Figma says 10, on a box tall enough for both',
+      [{ selector: '.stage', name: 'Clickable card', height: 74, radius: 10 }],
+      [{ sel: '.stage', width: 476, height: 74, radius: '40px', padding: '0px', gap: '0px', colGap: '0px' }],
+      /radius is 37px, Figma says 10px/],
     ['20px padding where Figma says 14 and 12', [decl], with_({ padding: '20px' }), /padding is 20 20 20 20px/],
     ['a wrong gap', [decl], with_({ gap: '20px' }), /gap is 20px, Figma says 12px/],
     ['a declared element missing from the page', [decl], [{ sel: '.stage', missing: true }], /MISSING/],
