@@ -16,7 +16,7 @@
 //      class alone cannot be the whole component, and there must be a template.
 //   2. Does the template render something? A template that produces an empty box is no
 //      better than the class it replaces.
-import { nodeOpacity, railHeight, unfalsifiablePacking } from './hugs.mjs';
+import { nodeOpacity, railHeight, unfalsifiablePacking, hiddenNodes } from './hugs.mjs';
 import { readFileSync, readdirSync, existsSync, writeFileSync, unlinkSync } from 'node:fs';
 import { chromium } from 'playwright-core';
 
@@ -128,10 +128,28 @@ unlinkSync('tmp-templates-check.html');
 
 let failures = 0;
 const emptyTemplates = [];
+// A COMPONENT WHOSE EVERY CHILD FIGMA SWITCHES OFF IS AN EMPTY BOX, and that is the design
+// rather than a template that failed to fill. `Control` is the 20x20 checkbox box: its two
+// children are a `Tick` and a `Mixed selector` bar, and Figma hides BOTH in both of its
+// variants — an unchecked checkbox is an empty square, and the states are drawn beside it and
+// turned off. It began failing this assertion the moment the templates stopped rendering
+// hidden nodes, which is the new reading being right and the older one not knowing yet.
+const allHidden = (() => {
+  const hidden = hiddenNodes(), kids = new Map();
+  for (const line of readFileSync('tokens/_raw/component-tree.tsv', 'utf8').trim().split('\n').slice(1)) {
+    const c = line.split('\t');
+    if (!c[1] || c[1].includes('.')) continue;          // direct children only
+    if (!kids.has(c[0])) kids.set(c[0], []);
+    kids.get(c[0]).push(`${c[0]}|${c[1]}`);
+  }
+  return new Set([...kids].filter(([, k]) => k.length && k.every(x => hidden.has(x))).map(([c]) => c));
+})();
+const emptyByDesign = [];
 // The bare class contributes 1 for its own div. Anything at or below that is an empty box.
 for (const [i, s] of specs.entries()) {
   if (!s.template) continue;
   if (got[i].tpl > got[i].bare) continue;               // renders something; fine
+  if (allHidden.has(s.component)) { emptyByDesign.push(s.component); continue; }
   if (mentionsDetached.has(s.component)) { blocked.push(s.component); continue; }
   emptyTemplates.push(s.component); failures++;
 }
@@ -146,6 +164,10 @@ if (emptyTemplates.length) {
 }
 if (blocked.length) {
   console.log(`  ${blocked.length} blocked by a detached component, so nothing can fill them: ${blocked.join(', ')}`);
+}
+if (emptyByDesign.length) {
+  console.log(`  ${emptyByDesign.length} EMPTY IN FIGMA — every child switched off, so the empty box `
+    + `is the design: ${emptyByDesign.join(', ')}`);
 }
 if (!failures) console.log('  every one has a template, and every template renders its contents');
 
@@ -423,11 +445,24 @@ if (!sized) {
 // the tree gives that component — where the template contains them at all. A template that
 // carries fewer is one where the walk collapsed a run, so the test is "no more than, and not
 // zero where the tree has some", which is the property that holds file-locally.
+//
+// AN ELLIPSE FIGMA HAS SWITCHED OFF IS NOT DRAWN, so it does not count here either. Three
+// components were failing this the moment the templates stopped rendering hidden nodes —
+// `Field label`'s asterisk dot, `Checkbox/Radio item`'s radio, `Repeating group`'s — because
+// the only ellipse each of them has is one Figma does not show. An expectation read from the
+// tree has to subtract everything the tree carries and Figma does not paint, or the two
+// readings contradict each other and the newer one looks like the bug.
 {
+  const hidden = [...hiddenNodes()];
+  const isHidden = (comp, path) => {
+    const seg = path.split('.');
+    for (let i = 1; i <= seg.length; i++) if (hidden.includes(`${comp}|${seg.slice(0, i).join('.')}`)) return true;
+    return false;
+  };
   const tree = new Map();
   for (const line of readFileSync('tokens/_raw/component-tree.tsv', 'utf8').trim().split('\n').slice(1)) {
     const c = line.split('\t');
-    if (c[2] === 'ELLIPSE') tree.set(c[0], (tree.get(c[0]) || 0) + 1);
+    if (c[2] === 'ELLIPSE' && !isHidden(c[0], c[1])) tree.set(c[0], (tree.get(c[0]) || 0) + 1);
   }
   let rounded = 0, comps = 0;
   for (const f of readdirSync('dist/templates').filter(f => f.endsWith('.html'))) {
@@ -564,6 +599,75 @@ if (!sized) {
     + 'has no slot for — 63 across the library are not opaque and hugs.mjs counts why the rest cannot');
   if (!faded) {
     console.error('FAIL no node carries a measured opacity, so this checked nothing');
+    failures++;
+  }
+}
+
+
+// A NODE FIGMA DRAWS BUT DOES NOT SHOW.
+//
+// `visible === false` keeps a node's name, size, fill and place in the child order and paints
+// none of it. The tree walk records all of that and had no column for the one property that
+// says whether any of it is on screen, so every template rendered them — `Checkbox/Radio
+// list`'s hidden `Radio slot` was 59px of the template overflow this repo pins as the
+// precondition for clipping, and 59 is exactly 140 - 81, its two slots minus its one.
+//
+// THE EXPECTATION IS DERIVED, NOT COPIED FROM THE GENERATOR, and the derivation is the part
+// that had to be right. A hidden node is dropped WITH ITS SUBTREE, so a hidden node inside
+// another hidden node produces no comment of its own: `Footer (AG)` names three and carries
+// two, because `1.1.2` sits inside `1`. Comparing against the raw reading reports that
+// template as wrong — the same "the reading names it, therefore the file must carry it"
+// mistake the space-between assertion is written up for. Dropping any path with a hidden
+// ancestor first makes the count exact: 64 of the 65 are top-level, across 34 components.
+//
+// BOTH WAYS, and file-locally. A template for a component the reading names must leave out
+// exactly that many nodes, and a template must not leave out a node no measurement names —
+// deleting content nobody measured is invisible in review, which is the worse direction.
+{
+  const all = [...hiddenNodes()];
+  const top = all.filter(k => {
+    const [comp, path] = k.split('|');
+    const seg = path.split('.');
+    for (let i = 1; i < seg.length; i++) if (all.includes(`${comp}|${seg.slice(0, i).join('.')}`)) return false;
+    return true;
+  });
+  const per = new Map();
+  for (const k of top) {
+    const c = k.split('|')[0];
+    per.set(c, (per.get(c) || 0) + 1);
+  }
+  const byComponent = new Map();
+  for (const f of readdirSync('dist/templates').filter(f => f.endsWith('.html'))) {
+    const html = readFileSync(`dist/templates/${f}`, 'utf8');
+    byComponent.set((/^<!--\s*(.+?)\s+—/.exec(html) || [, ''])[1], { f, html });
+  }
+  const count = html => (html.match(/switched OFF/g) || []).length;
+  let omitted = 0;
+  for (const [comp, want] of per) {
+    const t = byComponent.get(comp);
+    if (!t) continue;                        // no template to hang them on; the build names those
+    const got = count(t.html);
+    if (got !== want) {
+      failures++;
+      console.error(`FAIL dist/templates/${t.f} leaves out ${got} node(s) Figma has switched off, `
+        + `where the measurement names ${want} — a hidden node rendered is invisible content taking `
+        + 'up space, and one dropped unmeasured is real content deleted');
+      continue;
+    }
+    omitted += got;
+  }
+  for (const [comp, { f, html }] of byComponent) {
+    if (!per.has(comp) && count(html)) {
+      failures++;
+      console.error(`FAIL dist/templates/${f} leaves out a node as "switched OFF" that no `
+        + 'measurement names — a template must not delete what nobody measured');
+    }
+  }
+  console.log(`  ${omitted} node(s) Figma draws and switches OFF are left out of ${per.size} `
+    + "template(s), each leaving a comment — 112 across the library are hidden in at least one "
+    + 'variant and hugs.mjs counts why the other 47 are kept');
+  if (!omitted) {
+    console.error('FAIL no template leaves out a hidden node, so this checked nothing');
     failures++;
   }
 }

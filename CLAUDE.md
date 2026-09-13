@@ -424,9 +424,9 @@ Figma clips the contents of **34 of the 62 components** on Cards and panels, 22 
 a corner radius, and `dist/components.css` sets `overflow` once. After the border and the
 shadow this looked like the obvious next thing to carry, and it is the one that must not be.
 
-The measurement that settled it: **14 of the 154 templates already render outside the box
-their own class draws** — `pf-hemisphere-chart` by 333px, `pf-donut-pie-chart` by 284px,
-`pf-content` by 180px. `overflow: hidden` would not have reproduced the design on those; it
+The measurement that settled it: **10 of the 154 templates already render outside the box
+their own class draws** — `pf-donut-pie-chart` by 284px, `pf-bar-chart-with-axis` by 166px,
+`pf-hemisphere-chart` by 77px. `overflow: hidden` would not have reproduced the design on those; it
 would have deleted part of the component's own generated contents from view. And nothing
 would have said so: a clipped child still has a bounding rect, so `check-templates` would
 have gone on reporting that every template renders its contents while a fifth of one was
@@ -438,7 +438,7 @@ the component at, and a template holds placeholder contents of their own size; t
 never promised to agree.
 
 `npm run verify` runs `check-template-overflow.mjs`, which reports and pins the count **and
-the magnitude — 749px of overflow in total**. How many is not how much: placing
+the magnitude — 611px of overflow in total**. How many is not how much: placing
 `Hemisphere chart`'s children at Figma's own offsets took it from 333px to 77px, a large
 real improvement the count alone could not see, because it still overflows by something.
 Both numbers are the precondition: **clipping can only ever be carried once they reach
@@ -453,8 +453,8 @@ template that reproduces the measurement reproduces the overflow, which is the f
 and was being counted against the pipeline all the same. Measured, **50 such nodes** sit in
 **20 of the components**.
 
-So the number is split rather than chased: **at least 5 of the 14 desktop templates (7 of 19 at
-390px) overflow because Figma does**, and the pipeline's own share is at most 9 (12 at mobile).
+So the number is split rather than chased: **at least 5 of the 10 desktop templates (7 of 15 at
+390px) overflow because Figma does**, and the pipeline's own share is at most 5 (8 at mobile).
 That share is the half that can reach zero. **The reading is deliberately the narrow one** — a
 single child measured against its parent's content box, no summing, no gap, no assumption about
 which children stretch — so Figma's side is a LOWER BOUND and says so. The wider question is the
@@ -466,9 +466,76 @@ matches nothing, which is the state in which it would look like good news.
 **And both are measured at two widths now.** They were desktop-only for as long as a class was
 the same size at every width; making components follow the viewport ended that, and the pinned
 pair described half the library. A class box shrinks to its mobile artboard while the template's
-placeholder contents do not, so at 390px it is **19 templates and 1056px**. Four templates
+placeholder contents do not, so at 390px it is **15 templates and 918px**. Five templates
 overflow *only* once the class shrinks — `pf-navigation-tabs`, `pf-search-navigation`,
 `pf-table-ag` — and no check could see them. A precondition checked at one width is not checked.
+
+### A node Figma draws and does not show
+
+`visible === false` on a Figma node keeps everything about it — its name, its size, its fill,
+its place in the child order — and paints none of it. The tree walk records all of that and had
+no column for the one property saying whether any of it is on screen, so every template
+rendered them: invisible content, taking up real space, in the markup this file tells you to
+paste.
+
+**Found by arithmetic before Figma was asked, and that is the part worth keeping.**
+`Checkbox/Radio list` measures 194x81 and holds two 54px slots. Padding plus BOTH is
+22 + 5 + 54 + 5 + 54 = **140**; plus ONE is 22 + 5 + 54 = **81**, the measured root exactly. And
+`check-template-overflow` was reporting that template overflowing by **59px**, which is 140 - 81
+to the pixel. A component whose own contents do not fit its own measured box is either
+mis-measured or holding something Figma is not showing, and the second was right.
+
+Swept with `use_figma` across **all ten component pages** — `Analytics and charts` is this
+repo's standing skip, the charts being parked — into `tokens/_raw/component-hidden.tsv`:
+**112 nodes across 48 components are hidden in at least one variant.** The file is
+**departures only**, so a node absent from it is taken as visible; that is why the sweep had to
+be finished rather than applied half-done, an unswept page reading exactly like a page with
+nothing hidden.
+
+**65 are hidden in EVERY measured variant** and are left out of the template, with a comment in
+their place so whoever pastes it knows Figma has a node there and is not showing it. The rest
+are counted rather than dropped quietly:
+
+- **30 depend on the VARIANT** — `Button`'s `Action` label is hidden on 3 of its 21, `Header`'s
+  `SC logo` on 15 of 32, `Navigation item`'s `Highlighted tab` on 8 of 10. A template holds ONE
+  markup for all of them, so omitting the node would delete what the other variants show. The
+  shared-fill rule again — and **it cuts the other way here**: the safe answer is to KEEP an
+  ambiguous node, because a template that renders too much is visibly wrong and one that renders
+  too little is invisibly wrong.
+- **17 name a node the tree does not carry** — inside a nested instance, which the walk stops at
+  on purpose, or past `WALK_DEPTH`.
+
+Template overflow fell at both widths, the largest single fall since the space-between gap:
+**749 to 611 desktop, 1056 to 918 mobile**, and four templates stopped overflowing at all.
+
+**Two other checks were reading the tree and had to learn the same thing**, and both began
+failing the moment the templates stopped rendering hidden nodes — which is the new reading being
+right and the older ones not knowing yet:
+
+- **An ellipse Figma has switched off is not drawn.** `check-templates` asserts a template rounds
+  as many nodes as the tree gives that component; three components have exactly one ellipse and
+  Figma hides it — `Field label`'s asterisk dot, `Checkbox/Radio item`'s radio, `Repeating
+  group`'s. An expectation read from the tree must subtract everything the tree carries and Figma
+  does not paint, or the two readings contradict each other.
+- **A component whose every child is switched off IS an empty box.** `Control` is the 20x20
+  checkbox: its two children are a `Tick` and a `Mixed selector` bar, and Figma hides **both** in
+  **both** of its variants. An unchecked checkbox is an empty square, and the states are drawn
+  beside it and turned off. That is the design, not a template that failed to fill, and the
+  assertion is read from the measurement rather than excused by name.
+
+`npm run verify` asserts it in `check-templates.mjs`, **both ways and file-locally**: a template
+must leave out exactly the nodes the measurement names for it, and must not leave out one no
+measurement names — deleting content nobody measured is the worse direction, being invisible in
+review. **The expectation is derived, not copied from the generator**, and the derivation had to
+be right: a hidden node is dropped WITH ITS SUBTREE, so a hidden node inside another produces no
+comment of its own. `Footer (AG)` names three and carries two, because `1.1.2` sits inside `1`.
+Compared against the raw reading it reports a template that is correct — the *"the reading names
+it, therefore the file must carry it"* mistake the space-between assertion is written up for.
+Dropping any path with a hidden ancestor first makes it exact: **64 of the 65 are top-level,
+across 34 components**. Both halves were broken on purpose.
+
+The extractor is a manual step like every other Figma extract, and deliberately not in
+`npm run verify`: it harvests from the session transcript, so a fresh clone has nothing to read.
 
 ### A Figma stroke takes no space, and a CSS border does
 

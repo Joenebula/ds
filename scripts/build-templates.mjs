@@ -32,7 +32,8 @@ import { unfalsifiablePacking as unfalsifiablePackingSet,
          spaceBetweenWidth as spaceBetweenWidthMap,
          instanceSize as instanceSizeMap,
          railHeight as railHeightMap,
-         nodeOpacity as nodeOpacityMap } from './hugs.mjs';
+         nodeOpacity as nodeOpacityMap,
+         hiddenNodes as hiddenNodesSet } from './hugs.mjs';
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync, existsSync } from 'node:fs';
 import { buildResolver } from './resolve-component-type.mjs';
 import { PRIMITIVE_ALIAS } from './primitive-alias.mjs';
@@ -155,6 +156,12 @@ const railHeight = railHeightMap();
 // bind the same token — the paleness is the outer one's own opacity. See hugs.mjs for the
 // sweep and the four reasons most of what it found cannot be stated in a template.
 const nodeOpacity = nodeOpacityMap();
+// A NODE FIGMA DRAWS BUT DOES NOT SHOW. The tree records a hidden node's name, size, fill and
+// place in the child order and has no column saying it paints nothing, so every template was
+// rendering them. See hugs.mjs for the arithmetic that found it and for why the 30 that depend
+// on the variant are deliberately KEPT.
+const hiddenNodes = hiddenNodesSet();
+const hiddenSeen = new Set();
 
 // WHAT TO PAINT WHERE FIGMA BINDS A GRADIENT ON A RAIL. Keyed `component|path`, one entry at a
 // time, and deliberately a table rather than a rule: a gradient carries no variable, so there is
@@ -452,6 +459,14 @@ function render(component, rows, path, depth) {
   const row = rows.get(path);
   if (!row) return '';
   const pad = '  '.repeat(depth);
+  // FIGMA HAS THIS NODE SWITCHED OFF. Returning here drops its whole subtree, because the
+  // children are only ever reached from inside this function. It leaves a comment rather than
+  // nothing: whoever pastes the template needs to know Figma has a node in that position and
+  // is not showing it, or the first thing they will do is wonder what is missing.
+  if (hiddenNodes.has(`${component}|${path}`)) {
+    hiddenSeen.add(`${component}|${path}`);
+    return `${pad}<!-- ${row.name} (${row.type}) is here in Figma and switched OFF -->`;
+  }
   const kids = [...rows.keys()].filter(p => p !== path
     && (path === '' ? !p.includes('.') : p.startsWith(path + '.') && p.split('.').length === path.split('.').length + 1))
     .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
@@ -907,6 +922,16 @@ g.push('</div>');
 writeFileSync('docs/templates.html', g.join('\n'));
 
 console.log(`${made.length} component template(s) written to dist/templates/, gallery in docs/templates.html`);
+// COUNT WHAT REACHED THE PAGE, not what was intended — the same rule as the placements below.
+// The reading names `component|path` pairs a template legitimately may not contain (a run the
+// walk collapsed, a node inside a nested instance), so the number that MATTERS is how many
+// were actually left out, not how many the reading names.
+if (hiddenNodes.size) {
+  console.log(`  ${hiddenSeen.size} of ${hiddenNodes.size} node(s) Figma hides in every variant `
+    + `were left out of a template, across ${[...hiddenSeen].map(k => k.split('|')[0])
+      .filter((v, i, a) => a.indexOf(v) === i).length} component(s) — each leaves a comment `
+    + 'saying Figma has a node there and is not showing it');
+}
 // COUNT WHAT REACHED THE PAGE, not what was intended. Reported straight from the written
 // templates rather than from the ABS map: the two differed, because a placement on an icon
 // marker had nowhere to go and the map did not know that.

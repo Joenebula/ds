@@ -2094,3 +2094,44 @@ bug, and the selector that causes it is one attribute away. Both halves broken o
 
 **Still open from the sweep:** the remaining per-variant rows are all PAINT opacity (the colour's
 alpha, already in the tokens) or sit deeper than the tree walk reaches.
+
+### P32. A node Figma draws and does not show — DONE
+
+`visible === false` keeps a node's name, size, fill and place in the child order and paints none
+of it. The tree walk records all of that and had no column for the one property saying whether
+any of it is on screen, so **every template rendered them** — invisible content taking up real
+space in the markup CLAUDE.md tells you to paste.
+
+**Found by arithmetic before Figma was asked.** `Checkbox/Radio list` is 194x81 holding two 54px
+slots: padding plus both is 140, plus one is 81 — the measured root exactly — and
+`check-template-overflow` reported that template overflowing by **59px**, which is 140 - 81 to
+the pixel.
+
+Swept with `use_figma` across **all ten component pages** (`Analytics and charts` is the standing
+skip) into `tokens/_raw/component-hidden.tsv`: **112 nodes across 48 components**. The sweep had
+to be finished rather than applied half-done — the file is departures only, so an unswept page
+reads exactly like a page with nothing hidden.
+
+**65 hidden in EVERY variant are left out**, each leaving a comment in its place. **30 depend on
+the variant and are KEPT** — the rule cuts the other way here, a template that renders too much
+being visibly wrong and one that renders too little invisibly wrong. **17 name a node the tree
+does not carry.**
+
+Template overflow fell at both widths, the largest fall since the space-between gap:
+**749 → 611 desktop, 1056 → 918 mobile**, four templates stopping entirely.
+
+**Two older checks were reading the tree and had to learn the same thing**, both failing the
+moment the templates stopped rendering hidden nodes: an ellipse Figma has switched off is not
+drawn (three components have exactly one ellipse and Figma hides it), and a component whose
+every child is switched off **is** an empty box — `Control` is the 20x20 unchecked checkbox and
+its `Tick` and `Mixed selector` are off in both variants.
+
+**The expectation is derived, not copied from the generator.** A hidden node is dropped with its
+subtree, so `Footer (AG)` names three and carries two; dropping any path with a hidden ancestor
+first makes it exact at 64 of 65. Both halves broken on purpose.
+
+**Noticed while looking at the result, NOT a regression:** `pf-star-rating` now renders as an
+empty box. Its five `pf-stars` children are real and correct — `Stars` is one of the nine
+shape-only classes CLAUDE.md already names as having no paint. The two hidden TEXT labels were
+all that was making the template look filled. Worth a queue item of its own: a shape-only class
+renders nothing, and every template built on one inherits that.

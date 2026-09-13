@@ -540,3 +540,55 @@ export function nodeOpacity() {
   }
   return out;
 }
+
+// A NODE FIGMA DRAWS BUT DOES NOT SHOW.
+//
+// `visible === false` on a Figma node keeps everything about it — its name, size, fill, and
+// its place in the child order — and paints none of it. The tree walk records all of that and
+// has no column for the one property that says whether any of it is on screen, so every
+// template rendered them.
+//
+// FOUND BY ARITHMETIC BEFORE FIGMA WAS ASKED, which is the part worth keeping.
+// `Checkbox/Radio list` measures 194x81 and holds two 54px slots: padding plus BOTH is
+// 22 + 5 + 54 + 5 + 54 = 140, plus ONE is 22 + 5 + 54 = 81 — the measured root exactly. And
+// `check-template-overflow` reported that template overflowing by 59px, which is 140 - 81 to
+// the pixel. A component whose own contents do not fit its own measured box is either
+// mis-measured or holding something Figma is not showing, and the second was right.
+//
+// Swept across all ten component pages (`Analytics and charts` is this repo's standing skip),
+// into `tokens/_raw/component-hidden.tsv`: **112 nodes across 48 components**. The file is
+// DEPARTURES ONLY, so a node absent from it is visible — which is why the sweep had to be
+// whole rather than partial, an unswept page reading exactly like a page with nothing hidden.
+//
+// **65 are hidden in EVERY measured variant** and are left out of the template. The rest are
+// counted rather than dropped quietly:
+//
+//   - **30 depend on the VARIANT** — `Button`'s `Action` label is hidden on 3 of its 21,
+//     `Header`'s `SC logo` on 15 of 32. A template holds ONE markup for all of them, so
+//     omitting the node would delete content the other variants show. The shared-fill rule
+//     again, and it cuts the other way here: the safe answer is to KEEP an ambiguous node,
+//     because a template that renders too much is visibly wrong and one that renders too
+//     little is invisibly wrong.
+//   - **17 name a node the tree does not carry** — inside a nested instance, which the walk
+//     stops at on purpose, or past `WALK_DEPTH`. There is no row to leave out.
+//
+// Returns the set of `component|path` a template should not render.
+export function hiddenNodes() {
+  const out = new Set();
+  let lines;
+  try { lines = readFileSync('tokens/_raw/component-hidden.tsv', 'utf8').trim().split('\n'); }
+  catch { return out; }
+  const tree = new Map();
+  for (const line of readFileSync('tokens/_raw/component-tree.tsv', 'utf8').trim().split('\n').slice(1)) {
+    const c = line.split('\t');
+    tree.set(c[0] + '|' + c[1], c[2]);
+  }
+  for (const line of lines.slice(1)) {
+    const [comp, path, type, , hidden, of] = line.split('\t');
+    if (!path) continue;                                  // the whole component being off
+    if (+hidden !== +of) continue;                        // the variant decides; keep it
+    if (tree.get(comp + '|' + path) !== type) continue;   // the tree must carry this exact node
+    out.add(`${comp}|${path}`);
+  }
+  return out;
+}
