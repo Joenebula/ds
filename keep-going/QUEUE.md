@@ -2065,3 +2065,32 @@ template must not state one no measurement names.
 
 **Open:** the 36 deep nodes need a deeper walk; the 18 per-variant and 5 root values need to reach
 `components.css` rather than a template.
+
+### P31. A disabled button that looked enabled — DONE
+
+The 18 opacity rows that "depend on the VARIANT" were not unreachable, they were in the wrong
+FILE. `component-opacity.tsv` is keyed by component and PATH and holds one value; a root whose
+opacity varies by variant belongs beside the variant's own fill.
+
+**`Button Type=Action, State=Disabled` binds exactly the tokens `State=Default` binds.** What
+makes it read as disabled is `opacity: 0.4` on the variant. Measured before the fix: the disabled
+rule rendered **pixel-identical** to the enabled one. Three of six button types are in that
+position — `Action`, `Negative`, `Positive`, the solid ones; the other three bind `Text/Disabled`
+and always did look disabled, which is why nobody spotted it. On `payroll-run-summary` the side
+panel's "Approve pay" was a full-strength green button indistinguishable from an enabled one.
+
+**The hover wash is deliberately NOT carried:** `Type=Hollow, State=Hover` reads a 20% PAINT
+opacity, and the token already resolves to `rgba(101,101,101,0.2)` — emitting it again would
+square it to 4%.
+
+**The variant is spelled the way the stylesheet spells it.** Figma's axes carry a `Label` the
+pipeline collapses; writing the full string would emit a selector no page can match, so the
+extractor refuses a variant string `component-variants.tsv` does not have. Proved by feeding it
+Figma's own string.
+
+`check-variant-opacity.mjs` renders every variant of every named component and reads opacity back.
+The negative is the half that matters — a fade spreading to enabled variants reads as a rendering
+bug, and the selector that causes it is one attribute away. Both halves broken on purpose.
+
+**Still open from the sweep:** the remaining per-variant rows are all PAINT opacity (the colour's
+alpha, already in the tokens) or sit deeper than the tree walk reaches.

@@ -9575,6 +9575,38 @@ td.pf-table-cell-ag, th.pf-table-header-ag, td.pf-table-header-ag {
   box-shadow: var(--pf-shadow-drop-shadow);
 }
 
+/* A variant's own opacity. Figma fades three of Button's disabled types to 0.4 and
+ * binds them the same colours as their enabled state, so without this a disabled
+ * Action button renders pixel-identical to an enabled one. Measured into
+ * tokens/_raw/component-variant-opacity.tsv. */
+.pf-button[data-type="Action"][data-state="Disabled"] {
+  opacity: 0.4;
+}
+.pf-button[data-type="Action"]:disabled {
+  opacity: 0.4;
+}
+.pf-button[data-type="Action"][aria-disabled="true"] {
+  opacity: 0.4;
+}
+.pf-button[data-type="Negative"][data-state="Disabled"] {
+  opacity: 0.4;
+}
+.pf-button[data-type="Negative"]:disabled {
+  opacity: 0.4;
+}
+.pf-button[data-type="Negative"][aria-disabled="true"] {
+  opacity: 0.4;
+}
+.pf-button[data-type="Positive"][data-state="Disabled"] {
+  opacity: 0.4;
+}
+.pf-button[data-type="Positive"]:disabled {
+  opacity: 0.4;
+}
+.pf-button[data-type="Positive"][aria-disabled="true"] {
+  opacity: 0.4;
+}
+
 
 /* ---- Responsive -----------------------------------------------------------
  * Figma draws these components at more than one width. Each mobile and tablet

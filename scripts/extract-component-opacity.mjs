@@ -38,19 +38,65 @@ import { join } from 'node:path';
 
 const HEADER = 'OPA1\tcomponent\tpath\ttype\tnode\tfill\tstroke\tvariants\tnvals';
 const OUT = 'tokens/_raw/component-opacity.tsv';
+// A SECOND BLOCK, FOR THE CASE THE FIRST ONE HAS TO REFUSE. `OPA1` is keyed by component and
+// PATH and carries one value, so a component whose root opacity depends on the VARIANT can only
+// be recorded as "varies" — which is exactly what `Button` is: 0.4 on three of its six disabled
+// variants and 1 everywhere else. That belongs in `components.css` beside the variant's own
+// fill, not in a template, so it is keyed the way the stylesheet keys things: by variant.
+//
+// The variant is spelled as `component-variants.tsv` spells it. Figma's own axes are
+// `Type=Action, State=Disabled, Label=Yes|No` and BOTH read 0.4, so the `Label` axis changes
+// nothing and the pipeline already collapses it. Writing Figma's full string would produce a
+// selector no page can match — the mistake `check-stroke-sides` made and this file names.
+const VHEADER = 'OPAV1\tcomponent\tvariant\topacity';
+const VOUT = 'tokens/_raw/component-variant-opacity.tsv';
 const dir = '/root/.claude/projects/-home-user-ds';
 const file = process.argv[2] ||
   readdirSync(dir).filter(f => f.endsWith('.jsonl')).map(f => join(dir, f)).sort().pop();
 
-const blocks = [];
+const blocks = [], vblocks = [];
 const walk = v => {
-  if (typeof v === 'string') { if (v.startsWith(HEADER + '\n')) blocks.push(v); }
+  if (typeof v === 'string') {
+    if (v.startsWith(HEADER + '\n')) blocks.push(v);
+    if (v.startsWith(VHEADER + '\n')) vblocks.push(v);
+  }
   else if (Array.isArray(v)) v.forEach(walk);
   else if (v && typeof v === 'object') Object.values(v).forEach(walk);
 };
 for (const line of readFileSync(file, 'utf8').split('\n')) {
   if (!line.trim()) continue;
   try { walk(JSON.parse(line)); } catch { /* partial trailing line */ }
+}
+
+// THE VARIANT FILE, AND IT MUST NAME A VARIANT THAT EXISTS. A row whose variant string does not
+// appear in `component-variants.tsv` would emit a rule matching nothing and sit in the file
+// looking correct, so it is refused here rather than shipped.
+const known = new Set();
+for (const line of readFileSync('tokens/_raw/component-variants.tsv', 'utf8').trim().split('\n').slice(1)) {
+  const c = line.split('\t');
+  known.add(c[1] + '|' + c[2]);
+}
+const vrows = new Map();
+const VWIDTH = VHEADER.split('\t').length - 1;
+for (const b of vblocks) {
+  for (const line of b.split('\n').slice(1)) {
+    if (!line.trim()) break;
+    const c = line.split('\t');
+    if (c.length !== VWIDTH) continue;
+    vrows.set(c[0] + '|' + c[1], line);
+  }
+}
+if (vrows.size) {
+  const bad = [...vrows.keys()].filter(k => !known.has(k));
+  if (bad.length) {
+    console.error('FAIL these rows name a variant component-variants.tsv does not have, so their '
+      + 'rule would match nothing:\n  ' + bad.join('\n  '));
+    process.exit(1);
+  }
+  const vout = [...vrows.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([, l]) => l);
+  writeFileSync(VOUT, VHEADER.replace(/^OPAV1\t/, '') + '\n' + vout.join('\n') + '\n');
+  console.log(`component-variant-opacity.tsv — ${vout.length} variant(s) across `
+    + `${new Set(vout.map(l => l.split('\t')[0])).size} component(s) carry their own opacity`);
 }
 
 const WIDTH = HEADER.split('\t').length - 1;

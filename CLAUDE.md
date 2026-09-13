@@ -632,6 +632,44 @@ invisible in review. Both halves were broken on purpose.
 The extractor is a manual step like every other Figma extract, and deliberately not in
 `npm run verify`: it harvests from the session transcript, so a fresh clone has nothing to read.
 
+### A disabled button that looked enabled
+
+The 18 that "depend on the VARIANT" are not all unreachable — they are in the wrong FILE.
+`component-opacity.tsv` is keyed by component and PATH and holds one value, so a root whose
+opacity varies by variant can only be recorded there as *varies*. That is a property of the
+variant, and it belongs beside the variant's own fill.
+
+**`Button Type=Action, State=Disabled` binds exactly the tokens its `State=Default` binds** —
+`Background/Secondary Button` and `Text/Inverted primary` — and what makes it read as disabled is
+`opacity: 0.4` on the variant itself. Measured in the browser before the fix: the disabled rule
+rendered **pixel-identical** to the enabled one, same background, same text, same everything.
+Three of the six button types are in that position — `Action`, `Negative` and `Positive`, the
+solid ones. `Hollow`, `Filter` and `Sort` bind `Text/Disabled` and `Border/Disabled` instead, so
+those three always did look disabled, which is why nobody spotted it.
+
+Recorded in `tokens/_raw/component-variant-opacity.tsv` and emitted beside the variant's colours.
+On `payroll-run-summary` the side panel's "Approve pay" was a full-strength green button that
+could not be told from an enabled one; it now reads as disabled.
+
+**The hover wash is deliberately NOT carried, and that is a measurement rather than a
+preference.** `Type=Hollow, State=Hover` reads a 20% PAINT opacity in Figma — and the token
+already resolves to `rgba(101,101,101,0.2)`, so the alpha is in the colour and emitting the 20%
+again would square it to 4%. A paint's opacity and a node's opacity are different properties and
+only one of them is CSS `opacity`.
+
+**The variant is spelled the way the STYLESHEET spells it.** Figma's axes are `Type=Action,
+State=Disabled, Label=Yes|No` and both read 0.4, so `Label` changes nothing and the pipeline
+already collapses it. Writing Figma's full string would emit a selector no page can match — the
+mistake `check-stroke-sides` made — so the extractor **refuses a variant string
+`component-variants.tsv` does not have**, and feeding it the full axis string fires that refusal.
+
+`npm run verify` runs `check-variant-opacity.mjs`, which renders every variant of every component
+the file names and reads the opacity back. **The negative is the half that matters**: a fade that
+spread to variants Figma does not fade — an enabled button at 40% — reads as a rendering bug
+rather than a stylesheet one, and the selector that would cause it is one attribute away from the
+correct one. It renders what a PAGE writes, with the axes read out of the stylesheet's own
+selectors. Both halves were broken on purpose.
+
 ### A painted frame smaller than its own children is a rail, not a container
 
 Reported next, on the same component: *"There should be a bar in the middle of it. Use the bar in

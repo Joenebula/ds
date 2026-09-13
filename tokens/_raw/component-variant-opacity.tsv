@@ -1,0 +1,4 @@
+component	variant	opacity
+Button	Type=Action, State=Disabled	0.4
+Button	Type=Negative, State=Disabled	0.4
+Button	Type=Positive, State=Disabled	0.4

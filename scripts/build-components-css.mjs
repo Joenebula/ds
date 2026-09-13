@@ -1140,6 +1140,46 @@ if (shadowRows.length) {
   }
 }
 
+// ---- a variant's own opacity ---------------------------------------------------------
+//
+// A DISABLED BUTTON THAT LOOKS ENABLED. Figma's `Button Type=Action, State=Disabled` binds
+// exactly the fill and text tokens its `State=Default` binds — `Background/Secondary Button`
+// and `Text/Inverted primary` — and what makes it read as disabled is `opacity: 0.4` on the
+// variant itself. The colour extract has no slot for that, so measured in the browser the
+// disabled rule rendered PIXEL-IDENTICAL to the enabled one: same background, same text, same
+// everything. Three of the six button types are in that position — `Action`, `Negative` and
+// `Positive`, the solid ones. `Hollow`, `Filter` and `Sort` bind `Text/Disabled` and
+// `Border/Disabled` instead, so those three always did look disabled.
+//
+// This is the OTHER half of the opacity sweep (see tokens/_raw/component-opacity.tsv). That
+// file is keyed by component and PATH and holds one value, so a root whose opacity depends on
+// the variant can only be recorded there as "varies". It belongs here, beside the variant's own
+// fill, because that is what it is: a property of the variant.
+//
+// **The hover wash is deliberately NOT carried.** `Type=Hollow, State=Hover` reads a 20% PAINT
+// opacity in Figma — and the token already resolves to `rgba(101,101,101,0.2)`, measured, so the
+// alpha is in the colour and emitting the 20% again would square it to 4%. A paint's opacity and
+// a node's opacity are different properties and only one of them is CSS `opacity`.
+const variantOpacity = existsSync('tokens/_raw/component-variant-opacity.tsv')
+  ? tsv('tokens/_raw/component-variant-opacity.tsv') : [];
+if (variantOpacity.length) {
+  out.push(`/* A variant's own opacity. Figma fades three of Button's disabled types to 0.4 and`);
+  out.push(` * binds them the same colours as their enabled state, so without this a disabled`);
+  out.push(` * Action button renders pixel-identical to an enabled one. Measured into`);
+  out.push(` * tokens/_raw/component-variant-opacity.tsv. */`);
+  for (const r of variantOpacity) {
+    const base = cls(r.component);
+    if (!byComponent.has(r.component)) continue;          // no class to hang it on
+    for (const sel of selectorsFor(base, parseVariant(r.variant))) {
+      out.push(`${sel} {`);
+      out.push(`  opacity: ${r.opacity};`);
+      out.push(`}`);
+      ruleCount++;
+    }
+  }
+  out.push(``);
+}
+
 mkdirSync('dist', { recursive: true });
 // ---- responsive: carry Figma's own mobile and tablet variants to the viewport ---------
 //
