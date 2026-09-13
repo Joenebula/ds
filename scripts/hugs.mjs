@@ -492,3 +492,51 @@ export function railHeight() {
   }
   return out;
 }
+
+
+// HOW TRANSPARENT A NODE IS — the one property the colour extract never had a slot for.
+//
+// `Slider`'s handle is a solid 24px circle inside a PALE 32px ring, and BOTH ellipses bind
+// `Icons/Icon - Link`. The paleness is `opacity: 0.4` on the outer one and nothing else, so
+// the template rendered them the same colour and the handle read as a single solid 32px dot
+// — which is why it looked oversized against the 11px scale dots.
+//
+// `tokens/_raw/component-opacity.tsv` is the sweep: **63 nodes across 22 components** are not
+// fully opaque. Only **one** of them can be stated in a template, and the four reasons the
+// rest cannot are the interesting part, each counted by the extractor rather than skipped:
+//
+//   - **18 depend on the VARIANT.** `Button`'s root reads three different values across its
+//     36 variants and `Steps`'s connector line is opacity 1 on some and 0 on others. A
+//     template holds ONE markup for every variant, so there is no value to state — the same
+//     shape as the shared-fill rule, where a value every variant agrees on is a fact and one
+//     they disagree about is the variant's business.
+//   - **5 are the component ROOT**, whose opacity belongs to its CLASS in `components.css`,
+//     not to the template's outer element — stating it here would be the second drifting copy.
+//   - **3 are a PAINT's opacity, not the node's**, which is the colour's alpha. Emitting one
+//     as CSS `opacity` would fade the component's own label along with its background.
+//   - **36 name a node deeper than the tree walk reaches** (`WALK_DEPTH` is 4) — the artwork
+//     inside `Configuration panel`, `single layout card` and `Empty section`. That is the same
+//     argument for deepening the walk that `component-child-pos.tsv` already makes, now with a
+//     second measurement behind it.
+//
+// Returns `component|path` -> the node's own opacity, for the rows a template can state.
+export function nodeOpacity() {
+  const out = new Map();
+  let lines;
+  try { lines = readFileSync('tokens/_raw/component-opacity.tsv', 'utf8').trim().split('\n'); }
+  catch { return out; }
+  const tree = new Map();
+  for (const line of readFileSync('tokens/_raw/component-tree.tsv', 'utf8').trim().split('\n').slice(1)) {
+    const c = line.split('\t');
+    tree.set(c[0] + '|' + c[1], c[2]);
+  }
+  for (const line of lines.slice(1)) {
+    const [comp, path, type, node, fill, , , nvals] = line.split('\t');
+    if (!path) continue;                       // the root's opacity is its class's business
+    if (+nvals > 1) continue;                  // varies by variant; a template has one markup
+    if (+node === 1) continue;                 // a paint's alpha is not the node's opacity
+    if (tree.get(comp + '|' + path) !== type) continue;   // the tree must carry this exact node
+    out.set(`${comp}|${path}`, +node);
+  }
+  return out;
+}

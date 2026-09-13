@@ -31,7 +31,8 @@ import { unfalsifiablePacking as unfalsifiablePackingSet,
          collapsesOnZeroChild as collapsesOnZeroChildMap,
          spaceBetweenWidth as spaceBetweenWidthMap,
          instanceSize as instanceSizeMap,
-         railHeight as railHeightMap } from './hugs.mjs';
+         railHeight as railHeightMap,
+         nodeOpacity as nodeOpacityMap } from './hugs.mjs';
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync, existsSync } from 'node:fs';
 import { buildResolver } from './resolve-component-type.mjs';
 import { PRIMITIVE_ALIAS } from './primitive-alias.mjs';
@@ -150,6 +151,10 @@ const instanceSize = instanceSizeMap();
 // A PAINTED FRAME SMALLER THAN ITS OWN CHILDREN IS A RAIL. `Slider`'s track is 600x5 holding
 // eleven 11px dots and a 32px handle; flowed, it grew to 32 and swallowed them. See hugs.mjs.
 const railHeight = railHeightMap();
+// HOW TRANSPARENT A NODE IS. `Slider`'s handle is a solid circle inside a PALE ring, and both
+// bind the same token — the paleness is the outer one's own opacity. See hugs.mjs for the
+// sweep and the four reasons most of what it found cannot be stated in a template.
+const nodeOpacity = nodeOpacityMap();
 
 // WHAT TO PAINT WHERE FIGMA BINDS A GRADIENT ON A RAIL. Keyed `component|path`, one entry at a
 // time, and deliberately a table rather than a rule: a gradient carries no variable, so there is
@@ -333,6 +338,11 @@ function styleFor(component, row) {
     s.push('flex:none');
     if (!s.includes('box-sizing:border-box')) s.push('box-sizing:border-box');
   }
+  // A NODE'S OWN OPACITY, where Figma gives it one and every variant agrees. This is CSS
+  // `opacity` exactly — it fades the node and its contents — which is why the reading refuses
+  // a PAINT's opacity, that being the colour's alpha and a different thing.
+  const op = nodeOpacity.get(`${component}|${row.path}`);
+  if (op !== undefined) s.push(`opacity:${op}`);
   const r = parseInt(row.radius, 10);
   if (Number.isFinite(r) && r > 0) s.push(`border-radius:${r}px`);
   // AN ELLIPSE IS ROUND BY ITS NODE TYPE, NOT BY A CORNER RADIUS.

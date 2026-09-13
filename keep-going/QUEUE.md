@@ -2038,3 +2038,30 @@ rule paints AND paints with tokens. A hex pair fires it; proved.
 dots. The design owner has said *"all the dots are the same size every state"* — whether that
 means "as Figma draws it, once opacity lands" or a genuine change from Figma is the open
 question; not guessed at.
+
+### P30. How transparent a node is — the property the colour extract had no slot for — DONE
+
+`Slider`'s handle is a solid 24px circle inside a PALE 32px ring, both binding the same token.
+The paleness is `opacity: 0.4` on the outer one, and the colour extract answers one question
+about a paint: which variable it binds. So the ring vanished and the handle read as one solid dot.
+
+**Neither read tool can answer this** — `get_metadata` does not report opacity, `get_design_context`
+bakes it into an exported image — but `use_figma` runs JavaScript in the file and reads it
+directly. Swept across the ten component pages (charts skipped, parked) into
+`tokens/_raw/component-opacity.tsv`: **63 nodes across 22 components are not fully opaque.**
+
+**Exactly ONE can be stated in a template, and the four reasons the rest cannot are the result** —
+18 depend on the variant, 5 are the component root (its class's business), 3 are a PAINT's alpha
+rather than the node's opacity, and **36 sit deeper than the tree walk reaches**. Every one is
+counted, not dropped. That last number is the second independent measurement arguing for
+deepening `WALK_DEPTH`; `component-child-pos.tsv` already made the same case.
+
+**Worth knowing:** the first version tested the paint and variant cases before the root one, so
+`root` could never fire and the build printed "0 are the component ROOT" when five are. A
+category that cannot be reached states a fact nobody measured.
+
+Asserted both ways and both halves broken on purpose: a named node must carry its opacity, and a
+template must not state one no measurement names.
+
+**Open:** the 36 deep nodes need a deeper walk; the 18 per-variant and 5 root values need to reach
+`components.css` rather than a template.

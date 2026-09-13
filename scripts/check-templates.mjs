@@ -16,7 +16,7 @@
 //      class alone cannot be the whole component, and there must be a template.
 //   2. Does the template render something? A template that produces an empty box is no
 //      better than the class it replaces.
-import { railHeight, unfalsifiablePacking } from './hugs.mjs';
+import { nodeOpacity, railHeight, unfalsifiablePacking } from './hugs.mjs';
 import { readFileSync, readdirSync, existsSync, writeFileSync, unlinkSync } from 'node:fs';
 import { chromium } from 'playwright-core';
 
@@ -516,6 +516,54 @@ if (!sized) {
     + 'rails — stated at their own size, painted, with the children standing on them');
   if (!drawn) {
     console.error('FAIL no rail was found, so this checked nothing');
+    failures++;
+  }
+}
+
+// HOW TRANSPARENT A NODE IS — the one property the colour extract never had a slot for.
+//
+// `Slider`'s handle is a solid 24px circle inside a PALE 32px ring, and both ellipses bind
+// `Icons/Icon - Link`. The paleness is `opacity: 0.4` on the outer one, so the template drew
+// them the same colour and the handle read as one solid 32px dot. 63 nodes across 22
+// components are not fully opaque; hugs.mjs explains why exactly one of them can be stated
+// here, and the extractor counts the rest rather than skipping them.
+//
+// BOTH WAYS. A node the reading names must carry that opacity, and a template must not state
+// an opacity the reading does NOT name — a fade nobody measured is exactly the hand-written
+// value this directory exists to prevent, and it would be invisible in review.
+{
+  const want = nodeOpacity();
+  const byComponent = new Map();
+  for (const f of readdirSync('dist/templates').filter(f => f.endsWith('.html'))) {
+    const html = readFileSync(`dist/templates/${f}`, 'utf8');
+    byComponent.set((/^<!--\s*(.+?)\s+—/.exec(html) || [, ''])[1], { f, html });
+  }
+  let faded = 0;
+  for (const [key, value] of want) {
+    const t = byComponent.get(key.split('|')[0]);
+    if (!t) continue;
+    if (!t.html.includes(`opacity:${value}`)) {
+      failures++;
+      console.error(`FAIL dist/templates/${t.f} holds a node Figma draws at opacity ${value} and `
+        + 'states none, so it renders at full strength');
+      continue;
+    }
+    faded++;
+  }
+  const allowed = new Set([...want.values()].map(v => `opacity:${v}`));
+  for (const [, { f, html }] of byComponent) {
+    for (const m of html.matchAll(/(?<![a-z-])opacity:[\d.]+/g)) {
+      if (!allowed.has(m[0])) {
+        failures++;
+        console.error(`FAIL dist/templates/${f} fades a node with "${m[0]}", which no measurement `
+          + 'names — an opacity nobody measured is a hand-written value');
+      }
+    }
+  }
+  console.log(`  ${faded} node(s) carry the opacity Figma draws them at, which the colour extract `
+    + 'has no slot for — 63 across the library are not opaque and hugs.mjs counts why the rest cannot');
+  if (!faded) {
+    console.error('FAIL no node carries a measured opacity, so this checked nothing');
     failures++;
   }
 }

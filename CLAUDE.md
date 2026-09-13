@@ -587,12 +587,50 @@ screenshot of the node shows the ring even on all four sides, which forces **4,4
 `component-child-pos.tsv` like any other offset, so it goes through the same three guards, and
 `check-template-overflow` renders it.
 
-**What is still missing is the OPACITY, and the tree has no column for it.** Figma's screenshot
-shows a solid 24px circle inside a PALE 32px ring — but both ellipses bind the same token,
-`Icons/Icon - Link`, and the paleness is an opacity on the outer one. The extract records which
-variable a paint binds and nothing about how transparent it is, so the two render the same colour
-and the handle reads as one solid 32px dot. That is closer to Figma than two stacked blobs and it
-is not yet right; it needs a new column on the tree walk, not a guess.
+### How transparent a node is
+
+Figma draws `Slider`'s handle as a solid 24px circle inside a **PALE** 32px ring, and both
+ellipses bind the same token, `Icons/Icon - Link`. The paleness is `opacity: 0.4` on the outer
+one and nothing else — and the colour extract answers exactly one question about a paint, which
+variable it binds. So the two rendered the same colour, the ring vanished, and the handle read as
+a single solid 32px dot, oversized against the 11px scale dots.
+
+**Swept with `use_figma` across the ten component pages** — `Analytics and charts` is deliberately
+skipped, because the charts are being redrawn — into `tokens/_raw/component-opacity.tsv`:
+**63 nodes across 22 components are not fully opaque**, which is 63 more than the pipeline could
+see. `get_metadata` does not report opacity and `get_design_context` bakes it into an exported
+image, so neither of the read tools can answer this; running JavaScript in the file can.
+
+**Exactly ONE of the 63 can be stated in a template, and the four reasons the rest cannot are the
+result.** Each is counted by the extractor rather than dropped, the same closed accounting the
+child-offset work needed:
+
+- **18 depend on the VARIANT.** `Button`'s root reads three different values across its 36
+  variants; `Steps`'s connector line is opacity 1 on some and **0** on others. A template holds
+  ONE markup for every variant, so there is no single value to state — the shared-fill rule again,
+  where a value every variant agrees on is a fact and one they disagree about is the variant's.
+- **5 are the component ROOT**, whose opacity belongs to its class in `components.css`. Stating it
+  in the template would be the second drifting copy.
+- **3 are a PAINT's opacity, not the node's.** That is the colour's alpha — a translucent
+  background under fully opaque text — and emitting it as CSS `opacity` would fade the
+  component's own label with it.
+- **36 name a node deeper than the tree walk reaches** (`WALK_DEPTH` is 4): the artwork inside
+  `Configuration panel`, `single layout card` and `Empty section`. That is the same argument for
+  deepening the walk that `component-child-pos.tsv` already makes, now with a second measurement
+  behind it.
+
+**A category that cannot be reached states a fact nobody measured.** The first version tested the
+paint and variant cases before the root one, so `root` could never fire and the build reported
+"0 are the component ROOT" when five are. The strongest reason goes first and every count now
+means what it says.
+
+`npm run verify` asserts it in `check-templates.mjs`, **both ways**: a node the reading names must
+carry that opacity, and a template must NOT state one the reading does not name — a fade nobody
+measured is precisely the hand-written value this directory exists to prevent, and it would be
+invisible in review. Both halves were broken on purpose.
+
+The extractor is a manual step like every other Figma extract, and deliberately not in
+`npm run verify`: it harvests from the session transcript, so a fresh clone has nothing to read.
 
 ### A painted frame smaller than its own children is a rail, not a container
 
