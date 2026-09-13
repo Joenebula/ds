@@ -470,6 +470,39 @@ placeholder contents do not, so at 390px it is **15 templates and 918px**. Five 
 overflow *only* once the class shrinks — `pf-navigation-tabs`, `pf-search-navigation`,
 `pf-table-ag` — and no check could see them. A precondition checked at one width is not checked.
 
+### An empty nested instance says where its own contents are
+
+A nested instance is written as its **class**, on purpose — that is what makes every class in a
+template a real library class, and inlining a second level would put a copy of another template
+inside this one, a second source that can drift. But a composite component's class is a size and
+nothing inside it, which is the whole reason the 154 templates exist. So where the generator
+emits a bare box with not even a placeholder label, whoever pastes it gets an invisible gap and
+nothing says so.
+
+Measured in the browser: **51 of the 440 nested library elements, across 17 of the 154
+templates, render with no contents AND no paint.** `Star rating` is five empty `pf-stars` and
+nothing else, which is why it renders as a blank strip — removing the two TEXT labels Figma has
+switched off made a standing gap visible rather than creating one.
+
+**A box that PAINTS is not a hole**, and that halves the number. `Bar` IS a rectangle — an empty
+div with a fill is the whole component — and a `pf-button` with its `data-type` is a button
+missing its label, not a missing button. Counting every contentless nested element says 110, and
+half of those are components doing exactly what they should.
+
+Each of those boxes now carries a pointer — `<!-- fill from dist/templates/pf-tab.html -->` —
+which is the same answer the depth-limited containers already give: say where the contents are
+rather than invent them. **119 of them**, naming 12 templates.
+
+`npm run verify` asserts it in `check-templates.mjs`, **both ways and file-locally**: an empty
+div whose class is a component with a template must carry the pointer, and every pointer must
+name a template that exists. Both halves were broken on purpose. The rendered hole count is
+pinned alongside and may only fall.
+
+**Whether a template should inline one level instead is a genuine fork and is NOT settled here.**
+It would make a paste render correctly with no further reading, and it would put `Tab`'s markup
+inside four other templates — generated from the same tree each build, so not a drifting copy,
+but four times the markup and a second answer to "what is a template". That is the user's call.
+
 ### A node Figma draws and does not show
 
 `visible === false` on a Figma node keeps everything about it — its name, its size, its fill,

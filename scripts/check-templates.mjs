@@ -123,6 +123,35 @@ const got = await p.evaluate(n => {
                tpl: content(document.getElementById('tpl' + i)) });
   return out;
 }, specs.length);
+// AND, ON THE SAME PAGE: how many nested library elements render as a box with NO contents
+// and NO paint. A nested instance is written as its class on purpose, and a composite class
+// is a size with nothing inside it — so this is the count of holes a paste actually leaves.
+// `Star rating` is five empty `pf-stars` and nothing else, which is why it renders blank.
+//
+// A BOX THAT PAINTS IS NOT A HOLE. `Bar` IS a rectangle; an empty div with a fill is the
+// whole component. Counting every contentless nested element says 110, and half of those are
+// components doing exactly what they should.
+const holes = await p.evaluate(n => {
+  let count = 0;
+  const seen = new Set();
+  for (let i = 0; i < n; i++) {
+    const root = document.getElementById('tpl' + i);
+    const outer = root && root.firstElementChild;
+    if (!outer) continue;
+    for (const k of outer.querySelectorAll('[class*="pf-"]')) {
+      if (k.children.length || k.textContent.trim()) continue;
+      const r = k.getBoundingClientRect();
+      if (r.width < 1 || r.height < 1) continue;
+      const cs = getComputedStyle(k);
+      if (cs.backgroundImage !== 'none') continue;
+      if (!/rgba\(0, 0, 0, 0\)|transparent/.test(cs.backgroundColor)) continue;
+      if (parseFloat(cs.borderTopWidth) + parseFloat(cs.borderLeftWidth) > 0) continue;
+      if (cs.boxShadow !== 'none') continue;
+      count++; seen.add(i);
+    }
+  }
+  return { count, templates: seen.size };
+}, specs.length);
 await browser.close();
 unlinkSync('tmp-templates-check.html');
 
@@ -668,6 +697,77 @@ if (!sized) {
     + 'variant and hugs.mjs counts why the other 47 are kept');
   if (!omitted) {
     console.error('FAIL no template leaves out a hidden node, so this checked nothing');
+    failures++;
+  }
+}
+
+
+// AN EMPTY NESTED INSTANCE SAYS WHERE ITS OWN CONTENTS ARE.
+//
+// A nested instance is written as its CLASS, on purpose — that is what makes every class in
+// a template a real library class, and inlining a second level would put a copy of another
+// template inside this one, which is a second source that can drift. But a COMPOSITE
+// component's class is a size and nothing inside it — the whole reason the 154 templates
+// exist — so where the generator emits a bare box with not even a placeholder label, whoever
+// pastes it gets an invisible gap with nothing saying so. `Star rating` is five empty
+// `pf-stars` and nothing else, which is why it renders as a blank strip; removing the two
+// TEXT labels Figma has switched off made a standing gap visible rather than creating one.
+//
+// The pointer, not the contents — the same answer the depth-limited containers already give,
+// which say how many children Figma has there rather than inventing them.
+//
+// BOTH WAYS, and file-locally. An empty div whose class is a component with a template must
+// carry the pointer, and every pointer must name a template that exists.
+{
+  const templates = new Set(readdirSync('dist/templates').filter(f => f.endsWith('.html')));
+  const byClass = new Map();
+  for (const f of templates) {
+    const html = readFileSync(`dist/templates/${f}`, 'utf8');
+    byClass.set(f.replace(/\.html$/, ''), html);
+  }
+  let pointed = 0;
+  for (const [, html] of byClass) {
+    // An empty div carrying a component class and nothing at all between its tags.
+    for (const m of html.matchAll(/<div class="(pf-[a-z0-9-]+)"[^>]*>(\s*)<\/div>/g)) {
+      if (!byClass.has(m[1])) continue;                 // not a component with a template
+      failures++;
+      console.error(`FAIL a template leaves <div class="${m[1]}"> empty and says nothing — `
+        + `${m[1]} is a composite class, so it renders a hole, and dist/templates/${m[1]}.html `
+        + 'is where its contents are');
+    }
+  }
+  for (const [name, html] of byClass) {
+    for (const m of html.matchAll(/fill from dist\/templates\/([a-z0-9-]+)\.html/g)) {
+      if (!templates.has(`${m[1]}.html`)) {
+        failures++;
+        console.error(`FAIL dist/templates/${name}.html points at dist/templates/${m[1]}.html, `
+          + 'which does not exist — a pointer to nothing is worse than no pointer');
+        continue;
+      }
+      pointed++;
+    }
+  }
+  console.log(`  ${pointed} empty nested instance(s) name the template their own contents are in `
+    + '— a nested instance is its class, and a composite class is a size with nothing inside it');
+  if (!pointed) {
+    console.error('FAIL no nested instance carries a pointer, so this checked nothing');
+    failures++;
+  }
+  // THE RENDERED COUNT, pinned. A box that PAINTS is not a hole — `Bar` IS a rectangle — so
+  // this is contentless AND unpainted, measured in the browser above. It may only fall.
+  const HOLES_BASELINE = 51;
+  console.log(`  ${holes.count} nested library element(s) across ${holes.templates} template(s) `
+    + `render with no contents and no paint (baseline ${HOLES_BASELINE})`);
+  if (holes.count > HOLES_BASELINE) {
+    failures++;
+    console.error(`FAIL ${holes.count} holes, up from ${HOLES_BASELINE} — a template that renders `
+      + 'a blank box is the thing templates exist to stop');
+  } else if (holes.count < HOLES_BASELINE) {
+    console.log(`  note  down ${HOLES_BASELINE - holes.count} — lower HOLES_BASELINE to `
+      + `${holes.count} to lock it in`);
+  }
+  if (!holes.count) {
+    console.error('FAIL nothing measured as a hole, so the measurement is not running');
     failures++;
   }
 }

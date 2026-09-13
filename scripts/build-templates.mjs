@@ -574,8 +574,23 @@ function render(component, rows, path, depth) {
       // version before that compared the drawn width against itself, which is false
       // everywhere while looking right.
       const shrunk = !!(isz && typeof isz.w === 'string' && isz.w.endsWith('px'));
+      // AN EMPTY DIV WITH NO LABEL AND NO CONTENTS IS A HOLE, AND IT SAYS WHERE ITS OWN
+      // CONTENTS ARE. A nested instance is written as its CLASS on purpose — that is what
+      // makes every class in a template a real library class, and inlining a second level
+      // would put a copy of another template inside this one. But a COMPOSITE component's
+      // class is a size and nothing inside it, which is the whole reason the 154 templates
+      // exist; so where this branch emits a bare box with not even a placeholder label,
+      // whoever pastes it gets an invisible gap with nothing saying so. Measured before this
+      // went in: **51 of the 440 nested library elements across 17 templates render as a box
+      // with no contents AND no paint** — five empty `pf-stars` are all `Star rating` has,
+      // which is why it renders as nothing at all.
+      //
+      // The pointer, not the contents. One source for `Tab`'s markup, named where it is
+      // needed — the same answer the depth-limited containers already give, which say how
+      // many children Figma has there rather than inventing them.
+      const fill = composites.has(source) ? `<!-- fill from dist/templates/${cls(source)}.html -->` : '';
       if (typeless.has(source) || shrunk || (Number.isFinite(iw) && iw > 0 && iw < 44))
-        return `${pad}<div class="${c}"${attrs}${istyle}></div>${inote}<!-- ${esc(source)} -->`;
+        return `${pad}<div class="${c}"${attrs}${istyle}>${fill}</div>${inote}<!-- ${esc(source)} -->`;
       return `${pad}<div class="${c}"${attrs}${istyle}>${esc(source)}</div>${inote}`;
     }
     const icon = iconFor(source);
@@ -842,6 +857,12 @@ const isComposite = (component, rows) => [...rows.entries()]
 // is recorded as content rather than a component. Writing a template for those produced
 // `<div class="pf-people-second-component">`, a class nothing defines: the contents render,
 // so the empty-box check passes, and the thing is still unpasteable. Named and skipped.
+// WHICH COMPONENTS WILL HAVE A TEMPLATE OF THEIR OWN — computed before any is rendered,
+// because a nested instance needs to name one and the loop below has not reached it yet. The
+// two conditions are exactly the loop's own: composite, and with a class to hang it on.
+const composites = new Set([...byComponent.entries()]
+  .filter(([c, r]) => isComposite(c, r) && libClasses.has(cls(c))).map(([c]) => c));
+
 const noClass = [];
 for (const [component, rows] of [...byComponent.entries()].sort()) {
   if (!isComposite(component, rows)) continue;         // the class alone is the component

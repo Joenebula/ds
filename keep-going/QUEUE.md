@@ -2130,8 +2130,36 @@ its `Tick` and `Mixed selector` are off in both variants.
 subtree, so `Footer (AG)` names three and carries two; dropping any path with a hidden ancestor
 first makes it exact at 64 of 65. Both halves broken on purpose.
 
-**Noticed while looking at the result, NOT a regression:** `pf-star-rating` now renders as an
-empty box. Its five `pf-stars` children are real and correct — `Stars` is one of the nine
-shape-only classes CLAUDE.md already names as having no paint. The two hidden TEXT labels were
-all that was making the template look filled. Worth a queue item of its own: a shape-only class
-renders nothing, and every template built on one inherits that.
+**Noticed while looking at the result, NOT a regression:** `pf-star-rating` renders five empty
+boxes. Its five `pf-stars` children are the right class in the right place — but a template nests
+an instance as a BARE CLASS, and CLAUDE.md already states that all 154 composite classes render
+nothing bare. `pf-stars`'s own template carries `<!--pf-icon:dashboard-star 25-->`; nesting the
+class does not pull it in. The two hidden TEXT labels were all that was making `Star rating` look
+filled, so removing them made a standing gap visible rather than creating one. Worth a queue item:
+**how much of each template is an empty nested instance**, and whether a one-level inline of a
+nested template is the answer or makes the markup unreadable.
+
+### P33. An empty nested instance says where its own contents are — DONE
+
+Followed straight from P32's `pf-star-rating` observation, and the first thing was to measure it
+rather than act on the one example.
+
+**51 of the 440 nested library elements, across 17 of the 154 templates, render with no contents
+AND no paint.** A nested instance is written as its class on purpose — that is what makes every
+class in a template a real library class — but a composite class is a size with nothing inside
+it, so a bare box with not even a placeholder label is an invisible gap.
+
+**A box that PAINTS is not a hole, and that halved the number.** `Bar` IS a rectangle; a
+`pf-button` with its `data-type` is a button missing its label, not a missing button. The naive
+count is 110 and half of it is components doing exactly what they should.
+
+Each such box now carries `<!-- fill from dist/templates/pf-tab.html -->` — **119 of them, naming
+12 templates** — the same answer the depth-limited containers already give: say where the contents
+are rather than invent them. Asserted both ways and file-locally in `check-templates.mjs`, with
+the rendered hole count pinned beside it. Both halves broken on purpose.
+
+**FOR THE USER — a genuine fork, deliberately not taken:** should a template inline ONE LEVEL of
+a nested composite's own markup instead of pointing at it? It would make a paste render correctly
+with no further reading. It would also put `Tab`'s markup inside four other templates — generated
+from the same tree each build, so not a drifting copy, but four times the markup and a second
+answer to "what is a template". Not a call to make unattended.
